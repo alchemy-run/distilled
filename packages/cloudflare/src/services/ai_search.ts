@@ -376,11 +376,14 @@ export type InstancesChatCompletionsRequestMessagesItemContentCase1Item =
   | InstancesChatCompletionsRequestMessagesItemContentCase1ItemCase2;
 export const InstancesChatCompletionsRequestMessagesItemContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type InstancesChatCompletionsRequestMessagesItemContentCase1List =
@@ -771,11 +774,14 @@ export type InstancesChatCompletionsResponseChoicesItemMessageContentCase1Item =
   | InstancesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase2;
 export const InstancesChatCompletionsResponseChoicesItemMessageContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type InstancesChatCompletionsResponseChoicesItemMessageContentCase1List =
@@ -1237,11 +1243,14 @@ export type NamespacesChatCompletionsRequestMessagesItemContentCase1Item =
   | NamespacesChatCompletionsRequestMessagesItemContentCase1ItemCase2;
 export const NamespacesChatCompletionsRequestMessagesItemContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type NamespacesChatCompletionsRequestMessagesItemContentCase1List =
@@ -1399,11 +1408,14 @@ export type NamespacesChatCompletionsResponseChoicesItemMessageContentCase1Item 
   | NamespacesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase2;
 export const NamespacesChatCompletionsResponseChoicesItemMessageContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type NamespacesChatCompletionsResponseChoicesItemMessageContentCase1List =
@@ -1661,11 +1673,14 @@ export type NamespacesInstancesChatCompletionsRequestMessagesItemContentCase1Ite
   | NamespacesInstancesChatCompletionsRequestMessagesItemContentCase1ItemCase2;
 export const NamespacesInstancesChatCompletionsRequestMessagesItemContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type NamespacesInstancesChatCompletionsRequestMessagesItemContentCase1List =
@@ -2030,11 +2045,14 @@ export type NamespacesInstancesChatCompletionsResponseChoicesItemMessageContentC
   | NamespacesInstancesChatCompletionsResponseChoicesItemMessageContentCase1ItemCase2;
 export const NamespacesInstancesChatCompletionsResponseChoicesItemMessageContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type NamespacesInstancesChatCompletionsResponseChoicesItemMessageContentCase1List =
@@ -10903,11 +10921,14 @@ export type InstancesSearchRequestMessagesItemContentCase1Item =
   | InstancesSearchRequestMessagesItemContentCase1ItemCase2;
 export const InstancesSearchRequestMessagesItemContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type InstancesSearchRequestMessagesItemContentCase1List =
@@ -11375,11 +11396,14 @@ export type NamespacesSearchRequestMessagesItemContentCase1Item =
   | NamespacesSearchRequestMessagesItemContentCase1ItemCase2;
 export const NamespacesSearchRequestMessagesItemContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type NamespacesSearchRequestMessagesItemContentCase1List =
@@ -11863,11 +11887,14 @@ export type NamespacesInstancesSearchRequestMessagesItemContentCase1Item =
   | NamespacesInstancesSearchRequestMessagesItemContentCase1ItemCase2;
 export const NamespacesInstancesSearchRequestMessagesItemContentCase1Item =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["text", "type"],
-      ["imageUrl", "type"],
-      ["file", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["text", "type"],
+        ["imageUrl", "type"],
+        ["file", "type"],
+      ],
+      { key: "type", values: ["text", "image_url", "file"] },
+    ),
   );
 
 export type NamespacesInstancesSearchRequestMessagesItemContentCase1List =
@@ -15297,10 +15324,19 @@ export type NamespacesInstancesItemsUploadResponseWarningsItem =
   | NamespacesInstancesItemsUploadResponseWarningsItemCase1;
 export const NamespacesInstancesItemsUploadResponseWarningsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["code", "expectedType", "field"],
-      ["code", "field"],
-    ]),
+    T.UnionCases(
+      [
+        ["code", "expectedType", "field"],
+        ["code", "field"],
+      ],
+      {
+        key: "code",
+        values: [
+          "custom_metadata_value_not_indexed",
+          "custom_metadata_field_not_filterable",
+        ],
+      },
+    ),
   );
 
 export type NamespacesInstancesItemsUploadResponseWarningsList =

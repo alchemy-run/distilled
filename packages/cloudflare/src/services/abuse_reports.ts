@@ -85,43 +85,11 @@ export const CreateRequestAct = S.String;
 export type CreateRequestAgree = 1;
 export const CreateRequestAgree = S.Number;
 
-export type CreateRequestHostNotificationEnum = "send";
-export const CreateRequestHostNotificationEnum = S.String;
+export type CreateRequestHostNotification = "send" | "send-anon";
+export const CreateRequestHostNotification = S.String;
 
-export type CreateRequestHostNotificationAbuseGeneral = "send" | "send-anon";
-export const CreateRequestHostNotificationAbuseGeneral = S.String;
-
-export type CreateRequestHostNotification =
-  | CreateRequestHostNotificationEnum
-  | (string & {})
-  | CreateRequestHostNotificationAbuseGeneral
-  | (string & {});
-export const CreateRequestHostNotification = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([[], []]),
-);
-
-export type CreateRequestOwnerNotificationEnum = "send";
-export const CreateRequestOwnerNotificationEnum = S.String;
-
-export type CreateRequestOwnerNotificationAbuseGeneral = "send" | "send-anon";
-export const CreateRequestOwnerNotificationAbuseGeneral = S.String;
-
-export type CreateRequestOwnerNotificationAbuseChildren =
-  | "send"
-  | "send-anon"
-  | "none";
-export const CreateRequestOwnerNotificationAbuseChildren = S.String;
-
-export type CreateRequestOwnerNotification =
-  | CreateRequestOwnerNotificationEnum
-  | (string & {})
-  | CreateRequestOwnerNotificationAbuseGeneral
-  | (string & {})
-  | CreateRequestOwnerNotificationAbuseChildren
-  | (string & {});
-export const CreateRequestOwnerNotification = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([[], [], []]),
-);
+export type CreateRequestOwnerNotification = "send" | "send-anon" | "none";
+export const CreateRequestOwnerNotification = S.String;
 
 export type CreateRequestNcmecNotification = "send" | "send-anon";
 export const CreateRequestNcmecNotification = S.String;
@@ -236,13 +204,13 @@ export interface CreateAbuseReportRequest {
   /** Should match the value provided in `email` */
   email2: string;
   /** Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. */
-  hostNotification?: CreateRequestHostNotification;
+  hostNotification?: CreateRequestHostNotification | (string & {});
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   name: string;
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   originalWork?: string;
   /** Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. */
-  ownerNotification: CreateRequestOwnerNotification;
+  ownerNotification: CreateRequestOwnerNotification | (string & {});
   /** Required for DMCA reports, should be same as Name. An affirmation that all information in the report is true and accurate while agreeing to the policies of Cloudflare's abuse reports */
   signature?: string;
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */

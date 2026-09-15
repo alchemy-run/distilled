@@ -1313,7 +1313,12 @@ export type VersionsGraphResponseGraphWorkflowNodesItemCase2Payload =
   | VersionsGraphResponseGraphWorkflowNodesItemCase2PayloadType
   | VersionsGraphResponseGraphWorkflowNodesItemCase2PayloadCase1;
 export const VersionsGraphResponseGraphWorkflowNodesItemCase2Payload =
-  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([["type"], ["fields", "type"]]));
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([["type"], ["fields", "type"]], {
+      key: "type",
+      values: ["unknown", "object"],
+    }),
+  );
 
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase2 {
   name: string;
@@ -1760,7 +1765,12 @@ export type VersionsGraphResponseGraphWorkflowNodesItemCase10Payload =
   | VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadType
   | VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadCase1;
 export const VersionsGraphResponseGraphWorkflowNodesItemCase10Payload =
-  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([["type"], ["fields", "type"]]));
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([["type"], ["fields", "type"]], {
+      key: "type",
+      values: ["unknown", "object"],
+    }),
+  );
 
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase10 {
   className: string;
@@ -1876,22 +1886,43 @@ export type VersionsGraphResponseGraphWorkflowNodesItem =
   | VersionsGraphResponseGraphWorkflowNodesItemCase13;
 export const VersionsGraphResponseGraphWorkflowNodesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["duration", "name", "type", "resolves", "starts"],
-      ["config", "name", "nodes", "type", "resolves", "starts"],
-      ["name", "options", "type", "payload", "resolves", "starts"],
-      ["name", "timestamp", "type", "resolves", "starts"],
-      ["nodes", "type"],
-      ["kind", "nodes", "type"],
-      ["catchBlock", "finallyBlock", "tryBlock", "type"],
-      ["nodes", "type"],
-      ["branches", "type"],
-      ["branches", "discriminant", "type"],
-      ["className", "functions", "nodes", "type", "payload"],
-      ["name", "type", "resolves", "starts"],
-      ["name", "nodes", "type"],
-      ["kind", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["duration", "name", "type", "resolves", "starts"],
+        ["config", "name", "nodes", "type", "resolves", "starts"],
+        ["name", "options", "type", "payload", "resolves", "starts"],
+        ["name", "timestamp", "type", "resolves", "starts"],
+        ["nodes", "type"],
+        ["kind", "nodes", "type"],
+        ["catchBlock", "finallyBlock", "tryBlock", "type"],
+        ["nodes", "type"],
+        ["branches", "type"],
+        ["branches", "discriminant", "type"],
+        ["className", "functions", "nodes", "type", "payload"],
+        ["name", "type", "resolves", "starts"],
+        ["name", "nodes", "type"],
+        ["kind", "type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "step_sleep",
+          "step_do",
+          "step_wait_for_event",
+          "step_sleep_until",
+          "loop",
+          "parallel",
+          "try",
+          "block",
+          "if",
+          "switch",
+          "start",
+          "function_call",
+          "function_def",
+          "break",
+        ],
+      },
+    ),
   );
 
 export type VersionsGraphResponseGraphWorkflowNodesList =
@@ -1947,7 +1978,12 @@ export type VersionsGraphResponseGraphWorkflowPayload =
   | VersionsGraphResponseGraphWorkflowPayloadType
   | VersionsGraphResponseGraphWorkflowPayloadCase1;
 export const VersionsGraphResponseGraphWorkflowPayload =
-  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([["type"], ["fields", "type"]]));
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([["type"], ["fields", "type"]], {
+      key: "type",
+      values: ["unknown", "object"],
+    }),
+  );
 
 export interface VersionsGraphResponseGraphWorkflow {
   className: string;

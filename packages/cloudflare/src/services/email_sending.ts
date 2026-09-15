@@ -939,10 +939,13 @@ export type SendRequestAttachmentsItem =
   | SendRequestAttachmentsItemInline
   | SendRequestAttachmentsItemAttachment;
 export const SendRequestAttachmentsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["content", "contentId", "disposition", "filename", "type"],
-    ["content", "disposition", "filename", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["content", "contentId", "disposition", "filename", "type"],
+      ["content", "disposition", "filename", "type"],
+    ],
+    { key: "disposition", values: ["inline", "attachment"] },
+  ),
 );
 
 export type SendRequestAttachmentsList = Array<SendRequestAttachmentsItem>;

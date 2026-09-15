@@ -630,11 +630,22 @@ export type SuperSlurperJobsCreateRequestSource =
   | SuperSlurperJobsCreateRequestSourceR2SlurperGcsSourceSchema
   | SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchema;
 export const SuperSlurperJobsCreateRequestSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["bucket", "secret", "vendor", "endpoint", "keys", "pathPrefix", "region"],
-    ["bucket", "secret", "vendor", "keys", "pathPrefix"],
-    ["bucket", "secret", "vendor", "jurisdiction", "keys", "pathPrefix"],
-  ]),
+  T.UnionCases(
+    [
+      [
+        "bucket",
+        "secret",
+        "vendor",
+        "endpoint",
+        "keys",
+        "pathPrefix",
+        "region",
+      ],
+      ["bucket", "secret", "vendor", "keys", "pathPrefix"],
+      ["bucket", "secret", "vendor", "jurisdiction", "keys", "pathPrefix"],
+    ],
+    { key: "vendor", values: ["s3", "gcs", "r2"] },
+  ),
 );
 
 export type SuperSlurperJobsCreateRequestTargetSecret =
@@ -1706,10 +1717,13 @@ export type BucketsLifecycleGetResponseRulesItemDeleteObjectsTransitionCondition
   | BucketsLifecycleGetResponseRulesItemDeleteObjectsTransitionConditionR2LifecycleDateCondition;
 export const BucketsLifecycleGetResponseRulesItemDeleteObjectsTransitionCondition =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["maxAge", "type"],
-      ["date", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["maxAge", "type"],
+        ["date", "type"],
+      ],
+      { key: "type", values: ["Age", "Date"] },
+    ),
   );
 
 export interface BucketsLifecycleGetResponseRulesItemDeleteObjectsTransition {
@@ -1774,10 +1788,13 @@ export type BucketsLifecycleGetResponseRulesItemStorageClassTransitionsItemCondi
   | BucketsLifecycleGetResponseRulesItemStorageClassTransitionsItemConditionR2LifecycleDateCondition;
 export const BucketsLifecycleGetResponseRulesItemStorageClassTransitionsItemCondition =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["maxAge", "type"],
-      ["date", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["maxAge", "type"],
+        ["date", "type"],
+      ],
+      { key: "type", values: ["Age", "Date"] },
+    ),
   );
 
 export type BucketsLifecycleGetResponseRulesItemStorageClassTransitionsItemStorageClass =
@@ -1968,7 +1985,10 @@ export type BucketsLocksGetResponseRulesItemCondition =
   | BucketsLocksGetResponseRulesItemConditionR2LockRuleIndefiniteCondition;
 export const BucketsLocksGetResponseRulesItemCondition =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([["maxAgeSeconds", "type"], ["date", "type"], ["type"]]),
+    T.UnionCases([["maxAgeSeconds", "type"], ["date", "type"], ["type"]], {
+      key: "type",
+      values: ["Age", "Date", "Indefinite"],
+    }),
   );
 
 export interface BucketsLocksGetResponseRulesItem {
@@ -2374,11 +2394,14 @@ export type SuperSlurperJobsGetResponseSource =
   | SuperSlurperJobsGetResponseSourceGcsSourceResponseSchema
   | SuperSlurperJobsGetResponseSourceR2SourceResponseSchema;
 export const SuperSlurperJobsGetResponseSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["bucket", "endpoint", "keys", "pathPrefix", "vendor"],
-    ["bucket", "keys", "pathPrefix", "vendor"],
-    ["bucket", "jurisdiction", "keys", "pathPrefix", "vendor"],
-  ]),
+  T.UnionCases(
+    [
+      ["bucket", "endpoint", "keys", "pathPrefix", "vendor"],
+      ["bucket", "keys", "pathPrefix", "vendor"],
+      ["bucket", "jurisdiction", "keys", "pathPrefix", "vendor"],
+    ],
+    { key: "vendor", values: ["s3", "gcs", "r2"] },
+  ),
 );
 
 export type SuperSlurperJobsGetResponseStatus =
@@ -3404,11 +3427,14 @@ export type SuperSlurperJobsListResultItemSource =
   | SuperSlurperJobsListResultItemSourceR2SourceResponseSchema;
 export const SuperSlurperJobsListResultItemSource =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["bucket", "endpoint", "keys", "pathPrefix", "vendor"],
-      ["bucket", "keys", "pathPrefix", "vendor"],
-      ["bucket", "jurisdiction", "keys", "pathPrefix", "vendor"],
-    ]),
+    T.UnionCases(
+      [
+        ["bucket", "endpoint", "keys", "pathPrefix", "vendor"],
+        ["bucket", "keys", "pathPrefix", "vendor"],
+        ["bucket", "jurisdiction", "keys", "pathPrefix", "vendor"],
+      ],
+      { key: "vendor", values: ["s3", "gcs", "r2"] },
+    ),
   );
 
 export type SuperSlurperJobsListResultItemStatus =
@@ -4041,10 +4067,13 @@ export type BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransitionConditi
   | BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransitionConditionR2LifecycleDateCondition;
 export const BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransitionCondition =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["maxAge", "type"],
-      ["date", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["maxAge", "type"],
+        ["date", "type"],
+      ],
+      { key: "type", values: ["Age", "Date"] },
+    ),
   );
 
 export interface BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransition {
@@ -4107,10 +4136,13 @@ export type BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsItemCon
   | BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsItemConditionR2LifecycleDateCondition;
 export const BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsItemCondition =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["maxAge", "type"],
-      ["date", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["maxAge", "type"],
+        ["date", "type"],
+      ],
+      { key: "type", values: ["Age", "Date"] },
+    ),
   );
 
 export type BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsItemStorageClass =
@@ -4296,7 +4328,10 @@ export type BucketsLocksUpdateRequestRulesItemCondition =
   | BucketsLocksUpdateRequestRulesItemConditionR2LockRuleIndefiniteCondition;
 export const BucketsLocksUpdateRequestRulesItemCondition =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([["maxAgeSeconds", "type"], ["date", "type"], ["type"]]),
+    T.UnionCases([["maxAgeSeconds", "type"], ["date", "type"], ["type"]], {
+      key: "type",
+      values: ["Age", "Date", "Indefinite"],
+    }),
   );
 
 export interface BucketsLocksUpdateRequestRulesItem {
@@ -4519,12 +4554,15 @@ export type BucketsSippyUpdateRequestSource =
   | BucketsSippyUpdateRequestSourceR2EnableSippyS3
   | BucketsSippyUpdateRequestSourceR2EnableSippyAzure;
 export const BucketsSippyUpdateRequestSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["accessKeyId", "bucket", "provider", "region", "secretAccessKey"],
-    ["bucket", "clientEmail", "privateKey", "provider"],
-    ["accessKeyId", "bucketUrl", "provider", "secretAccessKey"],
-    ["accountKey", "accountName", "container", "provider", "sasToken"],
-  ]),
+  T.UnionCases(
+    [
+      ["accessKeyId", "bucket", "provider", "region", "secretAccessKey"],
+      ["bucket", "clientEmail", "privateKey", "provider"],
+      ["accessKeyId", "bucketUrl", "provider", "secretAccessKey"],
+      ["accountKey", "accountName", "container", "provider", "sasToken"],
+    ],
+    { key: "provider", values: ["aws", "gcs", "s3", "azure"] },
+  ),
 );
 
 export type BucketsSippyUpdateRequestCfR2Jurisdiction =
@@ -4694,23 +4732,11 @@ export const SuperSlurperConnectivityPrecheckSourceRequestSecret =
     ]),
   );
 
-export type SuperSlurperConnectivityPrecheckSourceRequestVendorEnum =
-  | "s3"
-  | "gcs";
-export const SuperSlurperConnectivityPrecheckSourceRequestVendorEnum = S.String;
-
-export type SuperSlurperConnectivityPrecheckSourceRequestVendorR2SlurperR2SourceSchema =
-  "r2";
-export const SuperSlurperConnectivityPrecheckSourceRequestVendorR2SlurperR2SourceSchema =
-  S.String;
-
 export type SuperSlurperConnectivityPrecheckSourceRequestVendor =
-  | SuperSlurperConnectivityPrecheckSourceRequestVendorEnum
-  | (string & {})
-  | SuperSlurperConnectivityPrecheckSourceRequestVendorR2SlurperR2SourceSchema
-  | (string & {});
-export const SuperSlurperConnectivityPrecheckSourceRequestVendor =
-  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
+  | "s3"
+  | "gcs"
+  | "r2";
+export const SuperSlurperConnectivityPrecheckSourceRequestVendor = S.String;
 
 export type SuperSlurperConnectivityPrecheckSourceRequestKeysList =
   Array<string>;
@@ -4731,7 +4757,7 @@ export interface SourceSuperSlurperConnectivityPrecheckRequest {
   accountId: string;
   bucket: string;
   secret: SuperSlurperConnectivityPrecheckSourceRequestSecret;
-  vendor: SuperSlurperConnectivityPrecheckSourceRequestVendor;
+  vendor: SuperSlurperConnectivityPrecheckSourceRequestVendor | (string & {});
   /** Custom S3-compatible endpoint that must use https://. */
   endpoint?: string;
   keys?: SuperSlurperConnectivityPrecheckSourceRequestKeysList;

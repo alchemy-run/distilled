@@ -4757,11 +4757,14 @@ export type AppsFlagsChangelogListResultItem =
   | AppsFlagsChangelogListResultItemCase1
   | AppsFlagsChangelogListResultItemCase2;
 export const AppsFlagsChangelogListResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["after", "event", "flagKey"],
-    ["after", "event", "flagKey"],
-    ["after", "diff", "event", "flagKey"],
-  ]),
+  T.UnionCases(
+    [
+      ["after", "event", "flagKey"],
+      ["after", "event", "flagKey"],
+      ["after", "diff", "event", "flagKey"],
+    ],
+    { key: "event", values: ["create", "delete", "update"] },
+  ),
 );
 
 export type AppsFlagsChangelogListResultList =

@@ -147,13 +147,19 @@
       }
     },
     "com.cloudflare.abuse_reports#CreateRequestHostNotification": {
-      "type": "union",
+      "type": "enum",
       "members": {
-        "CreateRequestHostNotificationEnum": {
-          "target": "com.cloudflare.abuse_reports#CreateRequestHostNotificationEnum"
+        "SEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send"
+          }
         },
-        "AbuseGeneral": {
-          "target": "com.cloudflare.abuse_reports#CreateRequestHostNotificationAbuseGeneral"
+        "SEND_ANON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send-anon"
+          }
         }
       }
     },
@@ -209,16 +215,25 @@
       }
     },
     "com.cloudflare.abuse_reports#CreateRequestOwnerNotification": {
-      "type": "union",
+      "type": "enum",
       "members": {
-        "CreateRequestOwnerNotificationEnum": {
-          "target": "com.cloudflare.abuse_reports#CreateRequestOwnerNotificationEnum"
+        "SEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send"
+          }
         },
-        "AbuseGeneral": {
-          "target": "com.cloudflare.abuse_reports#CreateRequestOwnerNotificationAbuseGeneral"
+        "SEND_ANON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send-anon"
+          }
         },
-        "AbuseChildren": {
-          "target": "com.cloudflare.abuse_reports#CreateRequestOwnerNotificationAbuseChildren"
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
         }
       }
     },

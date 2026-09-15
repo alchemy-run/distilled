@@ -626,13 +626,16 @@ export type AccessRulesCreateRequestConfiguration =
   | AccessRulesCreateRequestConfigurationCountryConfiguration;
 export const AccessRulesCreateRequestConfiguration =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+      ],
+      { key: "target", values: ["ip", "ip6", "ip_range", "asn", "country"] },
+    ),
   );
 
 export type AccessRulesCreateRequestMode =
@@ -817,13 +820,16 @@ export type AccessRulesCreateResponseConfiguration =
   | AccessRulesCreateResponseConfigurationCountryConfiguration;
 export const AccessRulesCreateResponseConfiguration =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+      ],
+      { key: "target", values: ["ip", "ip6", "ip_range", "asn", "country"] },
+    ),
   );
 
 export type AccessRulesCreateResponseMode =
@@ -981,10 +987,13 @@ export type LockdownsCreateRequestConfigurations =
   | LockdownsCreateRequestConfigurationsLockdownCIDRConfiguration;
 export const LockdownsCreateRequestConfigurations =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["target", "value"],
-      ["target", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["target", "value"],
+        ["target", "value"],
+      ],
+      { key: "target", values: ["ip", "ip_range"] },
+    ),
   );
 
 export type LockdownConfigurationsList =
@@ -1977,13 +1986,16 @@ export type AccessRulesGetResponseConfiguration =
   | AccessRulesGetResponseConfigurationASNConfiguration
   | AccessRulesGetResponseConfigurationCountryConfiguration;
 export const AccessRulesGetResponseConfiguration = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+    ],
+    { key: "target", values: ["ip", "ip6", "ip_range", "asn", "country"] },
+  ),
 );
 
 export type AccessRulesGetResponseMode =
@@ -2778,13 +2790,16 @@ export type AccessRulesListResultItemConfiguration =
   | AccessRulesListResultItemConfigurationCountryConfiguration;
 export const AccessRulesListResultItemConfiguration =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+      ],
+      { key: "target", values: ["ip", "ip6", "ip_range", "asn", "country"] },
+    ),
   );
 
 export type AccessRulesListResultItemMode =
@@ -4080,13 +4095,16 @@ export type AccessRulesEditRequestConfiguration =
   | AccessRulesEditRequestConfigurationASNConfiguration
   | AccessRulesEditRequestConfigurationCountryConfiguration;
 export const AccessRulesEditRequestConfiguration = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+    ],
+    { key: "target", values: ["ip", "ip6", "ip_range", "asn", "country"] },
+  ),
 );
 
 export type AccessRulesEditRequestMode =
@@ -4271,13 +4289,16 @@ export type AccessRulesEditResponseConfiguration =
   | AccessRulesEditResponseConfigurationCountryConfiguration;
 export const AccessRulesEditResponseConfiguration =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-      ["target", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+        ["target", "value"],
+      ],
+      { key: "target", values: ["ip", "ip6", "ip_range", "asn", "country"] },
+    ),
   );
 
 export type AccessRulesEditResponseMode =
@@ -5166,13 +5187,16 @@ export type UaRulesUpdateRequestConfiguration =
   | UaRulesUpdateRequestConfigurationASNConfiguration
   | UaRulesUpdateRequestConfigurationCountryConfiguration;
 export const UaRulesUpdateRequestConfiguration = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-    ["target", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+      ["target", "value"],
+    ],
+    { key: "target", values: ["ip", "ip6", "ip_range", "asn", "country"] },
+  ),
 );
 
 export type UaRulesUpdateRequestMode =

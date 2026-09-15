@@ -391,10 +391,13 @@ export type MessagesBulkPushRequestMessagesItem =
   | MessagesBulkPushRequestMessagesItemMqQueueMessageText
   | MessagesBulkPushRequestMessagesItemMqQueueMessageJson;
 export const MessagesBulkPushRequestMessagesItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["body", "contentType", "delaySeconds"],
-    ["body", "contentType", "delaySeconds"],
-  ]),
+  T.UnionCases(
+    [
+      ["body", "contentType", "delaySeconds"],
+      ["body", "contentType", "delaySeconds"],
+    ],
+    { key: "contentType", values: ["text", "json"] },
+  ),
 );
 
 export type MessagesBulkPushRequestMessagesList =
@@ -691,25 +694,28 @@ export type ConsumersCreateResult =
   | ConsumersCreateResultWorker
   | ConsumersCreateResultHTTPPull;
 export const ConsumersCreateResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type CreateConsumerResponse = ConsumersCreateResult;
@@ -822,25 +828,28 @@ export type CreateResponseConsumersItem =
   | CreateResponseConsumersItemWorker
   | CreateResponseConsumersItemHTTPPull;
 export const CreateResponseConsumersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type CreateResponseConsumersList = Array<CreateResponseConsumersItem>;
@@ -891,10 +900,13 @@ export type CreateResponseProducersItem =
   | CreateResponseProducersItemMqWorkerProducer
   | CreateResponseProducersItemMqR2Producer;
 export const CreateResponseProducersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "scriptName"],
-    ["bucketName", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "scriptName"],
+      ["bucketName", "type"],
+    ],
+    { key: "type", values: ["worker", "r2_bucket"] },
+  ),
 );
 
 export type CreateResponseProducersList = Array<CreateResponseProducersItem>;
@@ -1191,17 +1203,33 @@ export type SubscriptionsCreateRequestSource =
   | SubscriptionsCreateRequestSourceMqEventSourceWorkersScript
   | SubscriptionsCreateRequestSourceMqEventSourceWorkflowsWorkflow;
 export const SubscriptionsCreateRequestSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["modelName", "type"],
-    ["type", "workerName"],
-    ["scriptTag", "type"],
-    ["type", "workflowName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["modelName", "type"],
+      ["type", "workerName"],
+      ["scriptTag", "type"],
+      ["type", "workflowName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "images",
+        "kv",
+        "r2",
+        "superSlurper",
+        "vectorize",
+        "workersAi.model",
+        "workersBuilds.worker",
+        "workers.script",
+        "workflows.workflow",
+      ],
+    },
+  ),
 );
 
 export interface CreateSubscriptionRequest {
@@ -1475,17 +1503,33 @@ export type SubscriptionsCreateResponseSource =
   | SubscriptionsCreateResponseSourceMqEventSourceWorkersScript
   | SubscriptionsCreateResponseSourceMqEventSourceWorkflowsWorkflow;
 export const SubscriptionsCreateResponseSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["modelName", "type"],
-    ["type", "workerName"],
-    ["scriptTag", "type"],
-    ["type", "workflowName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["modelName", "type"],
+      ["type", "workerName"],
+      ["scriptTag", "type"],
+      ["type", "workflowName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "images",
+        "kv",
+        "r2",
+        "superSlurper",
+        "vectorize",
+        "workersAi.model",
+        "workersBuilds.worker",
+        "workers.script",
+        "workflows.workflow",
+      ],
+    },
+  ),
 );
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1844,17 +1888,33 @@ export type SubscriptionsDeleteResponseSource =
   | SubscriptionsDeleteResponseSourceMqEventSourceWorkersScript
   | SubscriptionsDeleteResponseSourceMqEventSourceWorkflowsWorkflow;
 export const SubscriptionsDeleteResponseSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["modelName", "type"],
-    ["type", "workerName"],
-    ["scriptTag", "type"],
-    ["type", "workflowName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["modelName", "type"],
+      ["type", "workerName"],
+      ["scriptTag", "type"],
+      ["type", "workflowName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "images",
+        "kv",
+        "r2",
+        "superSlurper",
+        "vectorize",
+        "workersAi.model",
+        "workersBuilds.worker",
+        "workers.script",
+        "workflows.workflow",
+      ],
+    },
+  ),
 );
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1990,25 +2050,28 @@ export type ConsumersGetResult =
   | ConsumersGetResultWorker
   | ConsumersGetResultHTTPPull;
 export const ConsumersGetResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type GetConsumerResponse = ConsumersGetResult;
@@ -2161,25 +2224,28 @@ export type GetResponseConsumersItem =
   | GetResponseConsumersItemWorker
   | GetResponseConsumersItemHTTPPull;
 export const GetResponseConsumersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type GetResponseConsumersList = Array<GetResponseConsumersItem>;
@@ -2228,10 +2294,13 @@ export type GetResponseProducersItem =
   | GetResponseProducersItemMqWorkerProducer
   | GetResponseProducersItemMqR2Producer;
 export const GetResponseProducersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "scriptName"],
-    ["bucketName", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "scriptName"],
+      ["bucketName", "type"],
+    ],
+    { key: "type", values: ["worker", "r2_bucket"] },
+  ),
 );
 
 export type GetResponseProducersList = Array<GetResponseProducersItem>;
@@ -2526,17 +2595,33 @@ export type SubscriptionsGetResponseSource =
   | SubscriptionsGetResponseSourceMqEventSourceWorkersScript
   | SubscriptionsGetResponseSourceMqEventSourceWorkflowsWorkflow;
 export const SubscriptionsGetResponseSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["modelName", "type"],
-    ["type", "workerName"],
-    ["scriptTag", "type"],
-    ["type", "workflowName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["modelName", "type"],
+      ["type", "workerName"],
+      ["scriptTag", "type"],
+      ["type", "workflowName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "images",
+        "kv",
+        "r2",
+        "superSlurper",
+        "vectorize",
+        "workersAi.model",
+        "workersBuilds.worker",
+        "workers.script",
+        "workflows.workflow",
+      ],
+    },
+  ),
 );
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -2669,25 +2754,28 @@ export type ConsumersListResultItem =
   | ConsumersListResultItemWorker
   | ConsumersListResultItemHTTPPull;
 export const ConsumersListResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type ConsumersListResultList = Array<ConsumersListResultItem>;
@@ -2803,25 +2891,28 @@ export type ListResultItemConsumersItem =
   | ListResultItemConsumersItemWorker
   | ListResultItemConsumersItemHTTPPull;
 export const ListResultItemConsumersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type ListResultItemConsumersList = Array<ListResultItemConsumersItem>;
@@ -2872,10 +2963,13 @@ export type ListResultItemProducersItem =
   | ListResultItemProducersItemMqWorkerProducer
   | ListResultItemProducersItemMqR2Producer;
 export const ListResultItemProducersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "scriptName"],
-    ["bucketName", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "scriptName"],
+      ["bucketName", "type"],
+    ],
+    { key: "type", values: ["worker", "r2_bucket"] },
+  ),
 );
 
 export type ListResultItemProducersList = Array<ListResultItemProducersItem>;
@@ -3215,17 +3309,33 @@ export type SubscriptionsListResultItemSource =
   | SubscriptionsListResultItemSourceMqEventSourceWorkersScript
   | SubscriptionsListResultItemSourceMqEventSourceWorkflowsWorkflow;
 export const SubscriptionsListResultItemSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["modelName", "type"],
-    ["type", "workerName"],
-    ["scriptTag", "type"],
-    ["type", "workflowName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["modelName", "type"],
+      ["type", "workerName"],
+      ["scriptTag", "type"],
+      ["type", "workflowName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "images",
+        "kv",
+        "r2",
+        "superSlurper",
+        "vectorize",
+        "workersAi.model",
+        "workersBuilds.worker",
+        "workers.script",
+        "workflows.workflow",
+      ],
+    },
+  ),
 );
 
 export interface SubscriptionsListResultItem {
@@ -3472,25 +3582,28 @@ export type EditResponseConsumersItem =
   | EditResponseConsumersItemWorker
   | EditResponseConsumersItemHTTPPull;
 export const EditResponseConsumersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type EditResponseConsumersList = Array<EditResponseConsumersItem>;
@@ -3539,10 +3652,13 @@ export type EditResponseProducersItem =
   | EditResponseProducersItemMqWorkerProducer
   | EditResponseProducersItemMqR2Producer;
 export const EditResponseProducersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "scriptName"],
-    ["bucketName", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "scriptName"],
+      ["bucketName", "type"],
+    ],
+    { key: "type", values: ["worker", "r2_bucket"] },
+  ),
 );
 
 export type EditResponseProducersList = Array<EditResponseProducersItem>;
@@ -3882,17 +3998,33 @@ export type SubscriptionsUpdateResponseSource =
   | SubscriptionsUpdateResponseSourceMqEventSourceWorkersScript
   | SubscriptionsUpdateResponseSourceMqEventSourceWorkflowsWorkflow;
 export const SubscriptionsUpdateResponseSource = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["type"],
-    ["modelName", "type"],
-    ["type", "workerName"],
-    ["scriptTag", "type"],
-    ["type", "workflowName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["type"],
+      ["modelName", "type"],
+      ["type", "workerName"],
+      ["scriptTag", "type"],
+      ["type", "workflowName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "images",
+        "kv",
+        "r2",
+        "superSlurper",
+        "vectorize",
+        "workersAi.model",
+        "workersBuilds.worker",
+        "workers.script",
+        "workflows.workflow",
+      ],
+    },
+  ),
 );
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -4295,25 +4427,28 @@ export type PurgeStartResponseConsumersItem =
   | PurgeStartResponseConsumersItemWorker
   | PurgeStartResponseConsumersItemHTTPPull;
 export const PurgeStartResponseConsumersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type PurgeStartResponseConsumersList =
@@ -4367,10 +4502,13 @@ export type PurgeStartResponseProducersItem =
   | PurgeStartResponseProducersItemMqWorkerProducer
   | PurgeStartResponseProducersItemMqR2Producer;
 export const PurgeStartResponseProducersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "scriptName"],
-    ["bucketName", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "scriptName"],
+      ["bucketName", "type"],
+    ],
+    { key: "type", values: ["worker", "r2_bucket"] },
+  ),
 );
 
 export type PurgeStartResponseProducersList =
@@ -4553,25 +4691,28 @@ export type ConsumersUpdateResult =
   | ConsumersUpdateResultWorker
   | ConsumersUpdateResultHTTPPull;
 export const ConsumersUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type UpdateConsumerResponse = ConsumersUpdateResult;
@@ -4692,25 +4833,28 @@ export type UpdateResponseConsumersItem =
   | UpdateResponseConsumersItemWorker
   | UpdateResponseConsumersItemHTTPPull;
 export const UpdateResponseConsumersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "scriptName",
-      "settings",
-      "type",
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "scriptName",
+        "settings",
+        "type",
+      ],
+      [
+        "consumerId",
+        "createdOn",
+        "deadLetterQueue",
+        "queueName",
+        "settings",
+        "type",
+      ],
     ],
-    [
-      "consumerId",
-      "createdOn",
-      "deadLetterQueue",
-      "queueName",
-      "settings",
-      "type",
-    ],
-  ]),
+    { key: "type", values: ["worker", "http_pull"] },
+  ),
 );
 
 export type UpdateResponseConsumersList = Array<UpdateResponseConsumersItem>;
@@ -4761,10 +4905,13 @@ export type UpdateResponseProducersItem =
   | UpdateResponseProducersItemMqWorkerProducer
   | UpdateResponseProducersItemMqR2Producer;
 export const UpdateResponseProducersItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "scriptName"],
-    ["bucketName", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "scriptName"],
+      ["bucketName", "type"],
+    ],
+    { key: "type", values: ["worker", "r2_bucket"] },
+  ),
 );
 
 export type UpdateResponseProducersList = Array<UpdateResponseProducersItem>;

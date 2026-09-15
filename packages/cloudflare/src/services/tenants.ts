@@ -186,11 +186,14 @@ export type EntitlementsGetResponseCustomEntitlementsItemAllocation =
   | EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocation;
 export const EntitlementsGetResponseCustomEntitlementsItemAllocation =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "value"],
-      ["type", "value"],
-      ["type", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "value"],
+        ["type", "value"],
+        ["type", "value"],
+      ],
+      { key: "type", values: ["max_count", "bool", ""] },
+    ),
   );
 
 export interface EntitlementsGetResponseCustomEntitlementsItemFeature {

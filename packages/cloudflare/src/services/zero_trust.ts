@@ -4678,50 +4678,22 @@ export const CreateAccessApplicationCaForZoneRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateAccessApplicationCaForZoneRequest",
 }) as any as S.Schema<CreateAccessApplicationCaForZoneRequest>;
 
-export type AccessApplicationsCreateRequestTypeSelfHostedApplication =
-  | "self_hosted"
-  | "saas"
-  | "ssh"
-  | "vnc"
-  | "app_launcher"
-  | "warp"
-  | "biso"
-  | "bookmark"
-  | "dash_sso"
-  | "infrastructure"
-  | "rdp"
-  | "mcp"
-  | "mcp_portal"
-  | "proxy_endpoint";
-export const AccessApplicationsCreateRequestTypeSelfHostedApplication =
-  S.String;
-
-export type AccessApplicationsCreateRequestTypeBrowserSSHApplication =
-  | "self_hosted"
-  | "saas"
-  | "ssh"
-  | "vnc"
-  | "app_launcher"
-  | "warp"
-  | "biso"
-  | "bookmark"
-  | "dash_sso"
-  | "infrastructure"
-  | "rdp"
-  | "mcp"
-  | "mcp_portal"
-  | "proxy_endpoint";
-export const AccessApplicationsCreateRequestTypeBrowserSSHApplication =
-  S.String;
-
 export type AccessApplicationsCreateRequestType =
-  | AccessApplicationsCreateRequestTypeSelfHostedApplication
-  | (string & {})
-  | AccessApplicationsCreateRequestTypeBrowserSSHApplication
-  | (string & {});
-export const AccessApplicationsCreateRequestType = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([[], []]),
-);
+  | "self_hosted"
+  | "saas"
+  | "ssh"
+  | "vnc"
+  | "app_launcher"
+  | "warp"
+  | "biso"
+  | "bookmark"
+  | "dash_sso"
+  | "infrastructure"
+  | "rdp"
+  | "mcp"
+  | "mcp_portal"
+  | "proxy_endpoint";
+export const AccessApplicationsCreateRequestType = S.String;
 
 export type AccessApplicationsCreateRequestAllowedIdpsList = Array<unknown>;
 export const AccessApplicationsCreateRequestAllowedIdpsList =
@@ -5004,15 +4976,29 @@ export type AccessApplicationsCreateRequestDestinationsItem =
   | AccessApplicationsCreateRequestDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsCreateRequestDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateRequestDestinationsList =
@@ -8502,19 +8488,30 @@ export type AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMCon
   | AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -9697,7 +9694,7 @@ export interface CreateAccessApplicationForAccountRequest {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
   domain?: string;
   /** The application type. */
-  type?: AccessApplicationsCreateRequestType;
+  type?: AccessApplicationsCreateRequestType | (string & {});
   /** When set to true, users can authenticate to this application using their WARP session. When set to false this application will always require direct IdP authentication. This setting always overrides the organization setting for WARP authentication. */
   allowAuthenticateViaWarp?: boolean;
   /** Enables loading application content in an iFrame. */
@@ -10200,15 +10197,29 @@ export type AccessApplicationsCreateResultSelfHostedApplicationDestinationsItem 
   | AccessApplicationsCreateResultSelfHostedApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsCreateResultSelfHostedApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultSelfHostedApplicationDestinationsList =
@@ -11974,19 +11985,30 @@ export type AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthent
   | AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -14352,19 +14374,30 @@ export type AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticatio
   | AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -14895,15 +14928,29 @@ export type AccessApplicationsCreateResultBrowserSSHApplicationDestinationsItem 
   | AccessApplicationsCreateResultBrowserSSHApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsCreateResultBrowserSSHApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultBrowserSSHApplicationDestinationsList =
@@ -16584,19 +16631,30 @@ export type AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthent
   | AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -17226,15 +17284,29 @@ export type AccessApplicationsCreateResultBrowserVNCApplicationDestinationsItem 
   | AccessApplicationsCreateResultBrowserVNCApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsCreateResultBrowserVNCApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultBrowserVNCApplicationDestinationsList =
@@ -18915,19 +18987,30 @@ export type AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthent
   | AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -28515,15 +28598,29 @@ export type AccessApplicationsCreateResultBrowserRDPApplicationDestinationsItem 
   | AccessApplicationsCreateResultBrowserRDPApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsCreateResultBrowserRDPApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultBrowserRDPApplicationDestinationsList =
@@ -30204,19 +30301,30 @@ export type AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthent
   | AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -30762,15 +30870,29 @@ export type AccessApplicationsCreateResultMcpServerApplicationDestinationsItem =
   | AccessApplicationsCreateResultMcpServerApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsCreateResultMcpServerApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultMcpServerApplicationDestinationsList =
@@ -32412,19 +32534,30 @@ export type AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenti
   | AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -32893,15 +33026,29 @@ export type AccessApplicationsCreateResultMcpServerPortalApplicationDestinations
   | AccessApplicationsCreateResultMcpServerPortalApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsCreateResultMcpServerPortalApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultMcpServerPortalApplicationDestinationsList =
@@ -34543,19 +34690,30 @@ export type AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAu
   | AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -35182,7 +35340,7 @@ export interface CreateAccessApplicationForZoneRequest {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
   domain?: string;
   /** The application type. */
-  type?: AccessApplicationsCreateRequestType;
+  type?: AccessApplicationsCreateRequestType | (string & {});
   /** When set to true, users can authenticate to this application using their WARP session. When set to false this application will always require direct IdP authentication. This setting always overrides the organization setting for WARP authentication. */
   allowAuthenticateViaWarp?: boolean;
   /** Enables loading application content in an iFrame. */
@@ -50103,7 +50261,10 @@ export type DlpEmailAccountMappingCreateRequestAuthRequirements =
   | DlpEmailAccountMappingCreateRequestAuthRequirementsType;
 export const DlpEmailAccountMappingCreateRequestAuthRequirements =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([["allowedMicrosoftOrganizations", "type"], ["type"]]),
+    T.UnionCases([["allowedMicrosoftOrganizations", "type"], ["type"]], {
+      key: "type",
+      values: ["Org", "NoAuth"],
+    }),
   );
 
 export interface CreateDlpEmailAccountMappingRequest {
@@ -50180,7 +50341,10 @@ export type DlpEmailAccountMappingCreateResponseAuthRequirements =
   | DlpEmailAccountMappingCreateResponseAuthRequirementsType;
 export const DlpEmailAccountMappingCreateResponseAuthRequirements =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([["allowedMicrosoftOrganizations", "type"], ["type"]]),
+    T.UnionCases([["allowedMicrosoftOrganizations", "type"], ["type"]], {
+      key: "type",
+      values: ["Org", "NoAuth"],
+    }),
   );
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -50615,10 +50779,13 @@ export type DlpEntriesPredefinedCreateResponseVariant =
   | DlpEntriesPredefinedCreateResponseVariantCase1;
 export const DlpEntriesPredefinedCreateResponseVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -51067,10 +51234,13 @@ export type DlpProfilesCustomCreateResultCustomProfileEntriesItemPredefinedEntry
   | DlpProfilesCustomCreateResultCustomProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomCreateResultCustomProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomCreateResultCustomProfileEntriesItemPredefinedEntry {
@@ -51245,69 +51415,91 @@ export type DlpProfilesCustomCreateResultCustomProfileEntriesItem =
   | DlpProfilesCustomCreateResultCustomProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomCreateResultCustomProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomCreateResultCustomProfileEntriesList =
@@ -51487,10 +51679,13 @@ export type DlpProfilesCustomCreateResultCustomProfileSharedEntriesItemPredefine
   | DlpProfilesCustomCreateResultCustomProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomCreateResultCustomProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomCreateResultCustomProfileSharedEntriesItemPredefinedEntry {
@@ -51665,69 +51860,91 @@ export type DlpProfilesCustomCreateResultCustomProfileSharedEntriesItem =
   | DlpProfilesCustomCreateResultCustomProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesCustomCreateResultCustomProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomCreateResultCustomProfileSharedEntriesList =
@@ -51975,10 +52192,13 @@ export type DlpProfilesCustomCreateResultPredefinedProfileEntriesItemPredefinedE
   | DlpProfilesCustomCreateResultPredefinedProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomCreateResultPredefinedProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomCreateResultPredefinedProfileEntriesItemPredefinedEntry {
@@ -52153,69 +52373,91 @@ export type DlpProfilesCustomCreateResultPredefinedProfileEntriesItem =
   | DlpProfilesCustomCreateResultPredefinedProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomCreateResultPredefinedProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomCreateResultPredefinedProfileEntriesList =
@@ -52448,10 +52690,13 @@ export type DlpProfilesCustomCreateResultIntegrationProfileEntriesItemPredefined
   | DlpProfilesCustomCreateResultIntegrationProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomCreateResultIntegrationProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomCreateResultIntegrationProfileEntriesItemPredefinedEntry {
@@ -52626,69 +52871,91 @@ export type DlpProfilesCustomCreateResultIntegrationProfileEntriesItem =
   | DlpProfilesCustomCreateResultIntegrationProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomCreateResultIntegrationProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomCreateResultIntegrationProfileEntriesList =
@@ -52856,10 +53123,13 @@ export type DlpProfilesCustomCreateResultIntegrationProfileSharedEntriesItemPred
   | DlpProfilesCustomCreateResultIntegrationProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomCreateResultIntegrationProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomCreateResultIntegrationProfileSharedEntriesItemPredefinedEntry {
@@ -53034,69 +53304,91 @@ export type DlpProfilesCustomCreateResultIntegrationProfileSharedEntriesItem =
   | DlpProfilesCustomCreateResultIntegrationProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesCustomCreateResultIntegrationProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomCreateResultIntegrationProfileSharedEntriesList =
@@ -53144,48 +53436,51 @@ export type DlpProfilesCustomCreateResult =
   | DlpProfilesCustomCreateResultPredefinedProfile
   | DlpProfilesCustomCreateResultIntegrationProfile;
 export const DlpProfilesCustomCreateResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "allowedMatchCount",
-      "createdAt",
-      "name",
-      "ocrEnabled",
-      "type",
-      "updatedAt",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "dataClasses",
-      "dataTags",
-      "description",
-      "entries",
-      "sensitivityLevels",
-      "sharedEntries",
+      [
+        "id",
+        "allowedMatchCount",
+        "createdAt",
+        "name",
+        "ocrEnabled",
+        "type",
+        "updatedAt",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "dataClasses",
+        "dataTags",
+        "description",
+        "entries",
+        "sensitivityLevels",
+        "sharedEntries",
+      ],
+      [
+        "id",
+        "allowedMatchCount",
+        "entries",
+        "name",
+        "type",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "ocrEnabled",
+        "openAccess",
+      ],
+      [
+        "id",
+        "createdAt",
+        "entries",
+        "name",
+        "sharedEntries",
+        "type",
+        "updatedAt",
+        "description",
+      ],
     ],
-    [
-      "id",
-      "allowedMatchCount",
-      "entries",
-      "name",
-      "type",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "ocrEnabled",
-      "openAccess",
-    ],
-    [
-      "id",
-      "createdAt",
-      "entries",
-      "name",
-      "sharedEntries",
-      "type",
-      "updatedAt",
-      "description",
-    ],
-  ]),
+    { key: "type", values: ["custom", "predefined", "integration"] },
+  ),
 );
 
 export type CreateDlpProfileCustomResponse = DlpProfilesCustomCreateResult;
@@ -54181,10 +54476,13 @@ export type GatewayProxyEndpointsCreateResult =
   | GatewayProxyEndpointsCreateResultIP
   | GatewayProxyEndpointsCreateResultIdentity;
 export const GatewayProxyEndpointsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["ips", "name", "id", "createdAt", "kind", "subdomain", "updatedAt"],
-    ["kind", "name", "id", "createdAt", "subdomain", "updatedAt"],
-  ]),
+  T.UnionCases(
+    [
+      ["ips", "name", "id", "createdAt", "kind", "subdomain", "updatedAt"],
+      ["kind", "name", "id", "createdAt", "subdomain", "updatedAt"],
+    ],
+    { key: "kind", values: ["ip", "identity"] },
+  ),
 );
 
 export type CreateGatewayProxyEndpointResponse =
@@ -65525,15 +65823,29 @@ export type AccessApplicationsGetResultSelfHostedApplicationDestinationsItem =
   | AccessApplicationsGetResultSelfHostedApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsGetResultSelfHostedApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultSelfHostedApplicationDestinationsList =
@@ -67213,19 +67525,30 @@ export type AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthentica
   | AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -69531,19 +69854,30 @@ export type AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAc
   | AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -70072,15 +70406,29 @@ export type AccessApplicationsGetResultBrowserSSHApplicationDestinationsItem =
   | AccessApplicationsGetResultBrowserSSHApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsGetResultBrowserSSHApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultBrowserSSHApplicationDestinationsList =
@@ -71760,19 +72108,30 @@ export type AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthentica
   | AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -72399,15 +72758,29 @@ export type AccessApplicationsGetResultBrowserVNCApplicationDestinationsItem =
   | AccessApplicationsGetResultBrowserVNCApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsGetResultBrowserVNCApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultBrowserVNCApplicationDestinationsList =
@@ -74087,19 +74460,30 @@ export type AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthentica
   | AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -83656,15 +84040,29 @@ export type AccessApplicationsGetResultBrowserRDPApplicationDestinationsItem =
   | AccessApplicationsGetResultBrowserRDPApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsGetResultBrowserRDPApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultBrowserRDPApplicationDestinationsList =
@@ -85344,19 +85742,30 @@ export type AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthentica
   | AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -85900,15 +86309,29 @@ export type AccessApplicationsGetResultMcpServerApplicationDestinationsItem =
   | AccessApplicationsGetResultMcpServerApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsGetResultMcpServerApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultMcpServerApplicationDestinationsList =
@@ -87549,19 +87972,30 @@ export type AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticat
   | AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -88028,15 +88462,29 @@ export type AccessApplicationsGetResultMcpServerPortalApplicationDestinationsIte
   | AccessApplicationsGetResultMcpServerPortalApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsGetResultMcpServerPortalApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultMcpServerPortalApplicationDestinationsList =
@@ -89678,19 +90126,30 @@ export type AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthe
   | AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -103119,10 +103578,13 @@ export type GetDlpCustomEntryResultCase2Variant =
   | GetDlpCustomEntryResultCase2VariantCase0
   | GetDlpCustomEntryResultCase2VariantCase1;
 export const GetDlpCustomEntryResultCase2Variant = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["topicType", "type", "description"],
-    ["type", "description"],
-  ]),
+  T.UnionCases(
+    [
+      ["topicType", "type", "description"],
+      ["type", "description"],
+    ],
+    { key: "type", values: ["PromptTopic", "General"] },
+  ),
 );
 
 export interface GetDlpCustomEntryResultCase2 {
@@ -103394,91 +103856,105 @@ export type GetDlpCustomEntryResult =
   | GetDlpCustomEntryResultCase5
   | GetDlpCustomEntryResultCase6;
 export const GetDlpCustomEntryResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
-      "profiles",
-      "uploadStatus",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+        "variant",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
     ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-      "variant",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type GetDlpCustomEntryResponse = GetDlpCustomEntryResult;
@@ -103905,7 +104381,10 @@ export type DlpEmailAccountMappingGetResponseAuthRequirements =
   | DlpEmailAccountMappingGetResponseAuthRequirementsType;
 export const DlpEmailAccountMappingGetResponseAuthRequirements =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([["allowedMicrosoftOrganizations", "type"], ["type"]]),
+    T.UnionCases([["allowedMicrosoftOrganizations", "type"], ["type"]], {
+      key: "type",
+      values: ["Org", "NoAuth"],
+    }),
   );
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -104277,10 +104756,13 @@ export type GetDlpEntriesIntegrationResultCase2Variant =
   | GetDlpEntriesIntegrationResultCase2VariantCase1;
 export const GetDlpEntriesIntegrationResultCase2Variant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface GetDlpEntriesIntegrationResultCase2 {
@@ -104566,91 +105048,105 @@ export type GetDlpEntriesIntegrationResult =
   | GetDlpEntriesIntegrationResultCase5
   | GetDlpEntriesIntegrationResultCase6;
 export const GetDlpEntriesIntegrationResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
-      "profiles",
-      "uploadStatus",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+        "variant",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
     ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-      "variant",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type GetDlpEntriesIntegrationResponse = GetDlpEntriesIntegrationResult;
@@ -104901,10 +105397,13 @@ export type GetDlpEntriesPredefinedResultCase2Variant =
   | GetDlpEntriesPredefinedResultCase2VariantCase1;
 export const GetDlpEntriesPredefinedResultCase2Variant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface GetDlpEntriesPredefinedResultCase2 {
@@ -105190,91 +105689,105 @@ export type GetDlpEntriesPredefinedResult =
   | GetDlpEntriesPredefinedResultCase5
   | GetDlpEntriesPredefinedResultCase6;
 export const GetDlpEntriesPredefinedResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
-      "profiles",
-      "uploadStatus",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+        "variant",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
     ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-      "variant",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type GetDlpEntriesPredefinedResponse = GetDlpEntriesPredefinedResult;
@@ -105514,10 +106027,13 @@ export type DlpEntriesGetResultCase2Variant =
   | DlpEntriesGetResultCase2VariantCase0
   | DlpEntriesGetResultCase2VariantCase1;
 export const DlpEntriesGetResultCase2Variant = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["topicType", "type", "description"],
-    ["type", "description"],
-  ]),
+  T.UnionCases(
+    [
+      ["topicType", "type", "description"],
+      ["type", "description"],
+    ],
+    { key: "type", values: ["PromptTopic", "General"] },
+  ),
 );
 
 export interface DlpEntriesGetResultCase2 {
@@ -105789,91 +106305,105 @@ export type DlpEntriesGetResult =
   | DlpEntriesGetResultCase5
   | DlpEntriesGetResultCase6;
 export const DlpEntriesGetResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
-      "profiles",
-      "uploadStatus",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+        "variant",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "profiles",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+        "profiles",
+        "uploadStatus",
+      ],
     ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-      "variant",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "profiles",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-      "profiles",
-      "uploadStatus",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type GetDlpEntryResponse = DlpEntriesGetResult;
@@ -106143,10 +106673,13 @@ export type DlpProfilesGetResultCustomProfileEntriesItemPredefinedEntryVariant =
   | DlpProfilesGetResultCustomProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesGetResultCustomProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesGetResultCustomProfileEntriesItemPredefinedEntry {
@@ -106317,69 +106850,91 @@ export type DlpProfilesGetResultCustomProfileEntriesItem =
   | DlpProfilesGetResultCustomProfileEntriesItemWordListEntry;
 export const DlpProfilesGetResultCustomProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesGetResultCustomProfileEntriesList =
@@ -106558,10 +107113,13 @@ export type DlpProfilesGetResultCustomProfileSharedEntriesItemPredefinedEntryVar
   | DlpProfilesGetResultCustomProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesGetResultCustomProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesGetResultCustomProfileSharedEntriesItemPredefinedEntry {
@@ -106736,69 +107294,91 @@ export type DlpProfilesGetResultCustomProfileSharedEntriesItem =
   | DlpProfilesGetResultCustomProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesGetResultCustomProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesGetResultCustomProfileSharedEntriesList =
@@ -107042,10 +107622,13 @@ export type DlpProfilesGetResultPredefinedProfileEntriesItemPredefinedEntryVaria
   | DlpProfilesGetResultPredefinedProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesGetResultPredefinedProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesGetResultPredefinedProfileEntriesItemPredefinedEntry {
@@ -107219,69 +107802,91 @@ export type DlpProfilesGetResultPredefinedProfileEntriesItem =
   | DlpProfilesGetResultPredefinedProfileEntriesItemWordListEntry;
 export const DlpProfilesGetResultPredefinedProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesGetResultPredefinedProfileEntriesList =
@@ -107513,10 +108118,13 @@ export type DlpProfilesGetResultIntegrationProfileEntriesItemPredefinedEntryVari
   | DlpProfilesGetResultIntegrationProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesGetResultIntegrationProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesGetResultIntegrationProfileEntriesItemPredefinedEntry {
@@ -107691,69 +108299,91 @@ export type DlpProfilesGetResultIntegrationProfileEntriesItem =
   | DlpProfilesGetResultIntegrationProfileEntriesItemWordListEntry;
 export const DlpProfilesGetResultIntegrationProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesGetResultIntegrationProfileEntriesList =
@@ -107921,10 +108551,13 @@ export type DlpProfilesGetResultIntegrationProfileSharedEntriesItemPredefinedEnt
   | DlpProfilesGetResultIntegrationProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesGetResultIntegrationProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesGetResultIntegrationProfileSharedEntriesItemPredefinedEntry {
@@ -108099,69 +108732,91 @@ export type DlpProfilesGetResultIntegrationProfileSharedEntriesItem =
   | DlpProfilesGetResultIntegrationProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesGetResultIntegrationProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesGetResultIntegrationProfileSharedEntriesList =
@@ -108209,48 +108864,51 @@ export type DlpProfilesGetResult =
   | DlpProfilesGetResultPredefinedProfile
   | DlpProfilesGetResultIntegrationProfile;
 export const DlpProfilesGetResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "allowedMatchCount",
-      "createdAt",
-      "name",
-      "ocrEnabled",
-      "type",
-      "updatedAt",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "dataClasses",
-      "dataTags",
-      "description",
-      "entries",
-      "sensitivityLevels",
-      "sharedEntries",
+      [
+        "id",
+        "allowedMatchCount",
+        "createdAt",
+        "name",
+        "ocrEnabled",
+        "type",
+        "updatedAt",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "dataClasses",
+        "dataTags",
+        "description",
+        "entries",
+        "sensitivityLevels",
+        "sharedEntries",
+      ],
+      [
+        "id",
+        "allowedMatchCount",
+        "entries",
+        "name",
+        "type",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "ocrEnabled",
+        "openAccess",
+      ],
+      [
+        "id",
+        "createdAt",
+        "entries",
+        "name",
+        "sharedEntries",
+        "type",
+        "updatedAt",
+        "description",
+      ],
     ],
-    [
-      "id",
-      "allowedMatchCount",
-      "entries",
-      "name",
-      "type",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "ocrEnabled",
-      "openAccess",
-    ],
-    [
-      "id",
-      "createdAt",
-      "entries",
-      "name",
-      "sharedEntries",
-      "type",
-      "updatedAt",
-      "description",
-    ],
-  ]),
+    { key: "type", values: ["custom", "predefined", "integration"] },
+  ),
 );
 
 export type GetDlpProfileResponse = DlpProfilesGetResult;
@@ -108475,10 +109133,13 @@ export type DlpProfilesCustomGetResultCustomProfileEntriesItemPredefinedEntryVar
   | DlpProfilesCustomGetResultCustomProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomGetResultCustomProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomGetResultCustomProfileEntriesItemPredefinedEntry {
@@ -108653,69 +109314,91 @@ export type DlpProfilesCustomGetResultCustomProfileEntriesItem =
   | DlpProfilesCustomGetResultCustomProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomGetResultCustomProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomGetResultCustomProfileEntriesList =
@@ -108895,10 +109578,13 @@ export type DlpProfilesCustomGetResultCustomProfileSharedEntriesItemPredefinedEn
   | DlpProfilesCustomGetResultCustomProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomGetResultCustomProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomGetResultCustomProfileSharedEntriesItemPredefinedEntry {
@@ -109073,69 +109759,91 @@ export type DlpProfilesCustomGetResultCustomProfileSharedEntriesItem =
   | DlpProfilesCustomGetResultCustomProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesCustomGetResultCustomProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomGetResultCustomProfileSharedEntriesList =
@@ -109383,10 +110091,13 @@ export type DlpProfilesCustomGetResultPredefinedProfileEntriesItemPredefinedEntr
   | DlpProfilesCustomGetResultPredefinedProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomGetResultPredefinedProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomGetResultPredefinedProfileEntriesItemPredefinedEntry {
@@ -109561,69 +110272,91 @@ export type DlpProfilesCustomGetResultPredefinedProfileEntriesItem =
   | DlpProfilesCustomGetResultPredefinedProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomGetResultPredefinedProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomGetResultPredefinedProfileEntriesList =
@@ -109856,10 +110589,13 @@ export type DlpProfilesCustomGetResultIntegrationProfileEntriesItemPredefinedEnt
   | DlpProfilesCustomGetResultIntegrationProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomGetResultIntegrationProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomGetResultIntegrationProfileEntriesItemPredefinedEntry {
@@ -110034,69 +110770,91 @@ export type DlpProfilesCustomGetResultIntegrationProfileEntriesItem =
   | DlpProfilesCustomGetResultIntegrationProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomGetResultIntegrationProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomGetResultIntegrationProfileEntriesList =
@@ -110264,10 +111022,13 @@ export type DlpProfilesCustomGetResultIntegrationProfileSharedEntriesItemPredefi
   | DlpProfilesCustomGetResultIntegrationProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomGetResultIntegrationProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomGetResultIntegrationProfileSharedEntriesItemPredefinedEntry {
@@ -110442,69 +111203,91 @@ export type DlpProfilesCustomGetResultIntegrationProfileSharedEntriesItem =
   | DlpProfilesCustomGetResultIntegrationProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesCustomGetResultIntegrationProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomGetResultIntegrationProfileSharedEntriesList =
@@ -110552,48 +111335,51 @@ export type DlpProfilesCustomGetResult =
   | DlpProfilesCustomGetResultPredefinedProfile
   | DlpProfilesCustomGetResultIntegrationProfile;
 export const DlpProfilesCustomGetResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "allowedMatchCount",
-      "createdAt",
-      "name",
-      "ocrEnabled",
-      "type",
-      "updatedAt",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "dataClasses",
-      "dataTags",
-      "description",
-      "entries",
-      "sensitivityLevels",
-      "sharedEntries",
+      [
+        "id",
+        "allowedMatchCount",
+        "createdAt",
+        "name",
+        "ocrEnabled",
+        "type",
+        "updatedAt",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "dataClasses",
+        "dataTags",
+        "description",
+        "entries",
+        "sensitivityLevels",
+        "sharedEntries",
+      ],
+      [
+        "id",
+        "allowedMatchCount",
+        "entries",
+        "name",
+        "type",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "ocrEnabled",
+        "openAccess",
+      ],
+      [
+        "id",
+        "createdAt",
+        "entries",
+        "name",
+        "sharedEntries",
+        "type",
+        "updatedAt",
+        "description",
+      ],
     ],
-    [
-      "id",
-      "allowedMatchCount",
-      "entries",
-      "name",
-      "type",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "ocrEnabled",
-      "openAccess",
-    ],
-    [
-      "id",
-      "createdAt",
-      "entries",
-      "name",
-      "sharedEntries",
-      "type",
-      "updatedAt",
-      "description",
-    ],
-  ]),
+    { key: "type", values: ["custom", "predefined", "integration"] },
+  ),
 );
 
 export type GetDlpProfileCustomResponse = DlpProfilesCustomGetResult;
@@ -110788,10 +111574,13 @@ export type DlpProfilesPredefinedGetResponseEntriesItemPredefinedEntryVariant =
   | DlpProfilesPredefinedGetResponseEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesPredefinedGetResponseEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesPredefinedGetResponseEntriesItemPredefinedEntry {
@@ -110962,69 +111751,91 @@ export type DlpProfilesPredefinedGetResponseEntriesItem =
   | DlpProfilesPredefinedGetResponseEntriesItemWordListEntry;
 export const DlpProfilesPredefinedGetResponseEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesPredefinedGetResponseEntriesList =
@@ -112445,10 +113256,13 @@ export type GatewayProxyEndpointsGetResult =
   | GatewayProxyEndpointsGetResultIP
   | GatewayProxyEndpointsGetResultIdentity;
 export const GatewayProxyEndpointsGetResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["ips", "name", "id", "createdAt", "kind", "subdomain", "updatedAt"],
-    ["kind", "name", "id", "createdAt", "subdomain", "updatedAt"],
-  ]),
+  T.UnionCases(
+    [
+      ["ips", "name", "id", "createdAt", "kind", "subdomain", "updatedAt"],
+      ["kind", "name", "id", "createdAt", "subdomain", "updatedAt"],
+    ],
+    { key: "kind", values: ["ip", "identity"] },
+  ),
 );
 
 export type GetGatewayProxyEndpointResponse = GatewayProxyEndpointsGetResult;
@@ -121611,15 +122425,29 @@ export type AccessApplicationsListResultItemSelfHostedApplicationDestinationsIte
   | AccessApplicationsListResultItemSelfHostedApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsListResultItemSelfHostedApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemSelfHostedApplicationDestinationsList =
@@ -123301,19 +124129,30 @@ export type AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthe
   | AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -125624,19 +126463,30 @@ export type AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticat
   | AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -126168,15 +127018,29 @@ export type AccessApplicationsListResultItemBrowserSSHApplicationDestinationsIte
   | AccessApplicationsListResultItemBrowserSSHApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsListResultItemBrowserSSHApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemBrowserSSHApplicationDestinationsList =
@@ -127858,19 +128722,30 @@ export type AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthe
   | AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -128502,15 +129377,29 @@ export type AccessApplicationsListResultItemBrowserVNCApplicationDestinationsIte
   | AccessApplicationsListResultItemBrowserVNCApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsListResultItemBrowserVNCApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemBrowserVNCApplicationDestinationsList =
@@ -130192,19 +131081,30 @@ export type AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthe
   | AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -139774,15 +140674,29 @@ export type AccessApplicationsListResultItemBrowserRDPApplicationDestinationsIte
   | AccessApplicationsListResultItemBrowserRDPApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsListResultItemBrowserRDPApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemBrowserRDPApplicationDestinationsList =
@@ -141464,19 +142378,30 @@ export type AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthe
   | AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -142024,15 +142949,29 @@ export type AccessApplicationsListResultItemMcpServerApplicationDestinationsItem
   | AccessApplicationsListResultItemMcpServerApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsListResultItemMcpServerApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemMcpServerApplicationDestinationsList =
@@ -143674,19 +144613,30 @@ export type AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthen
   | AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -144156,15 +145106,29 @@ export type AccessApplicationsListResultItemMcpServerPortalApplicationDestinatio
   | AccessApplicationsListResultItemMcpServerPortalApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsListResultItemMcpServerPortalApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemMcpServerPortalApplicationDestinationsList =
@@ -145806,19 +146770,30 @@ export type AccessApplicationsListResultItemMcpServerPortalApplicationScimConfig
   | AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -157813,10 +158788,13 @@ export type ListDlpCustomEntriesResultItemCase2Variant =
   | ListDlpCustomEntriesResultItemCase2VariantCase1;
 export const ListDlpCustomEntriesResultItemCase2Variant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface ListDlpCustomEntriesResultItemCase2 {
@@ -158034,84 +159012,98 @@ export type ListDlpCustomEntriesResultItem =
   | ListDlpCustomEntriesResultItemCase5
   | ListDlpCustomEntriesResultItemCase6;
 export const ListDlpCustomEntriesResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
-      "uploadStatus",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "uploadStatus",
+        "variant",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "profileId",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+        "uploadStatus",
+      ],
     ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "uploadStatus",
-      "variant",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "profileId",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-      "uploadStatus",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type ListDlpCustomEntriesResultList =
@@ -158863,10 +159855,13 @@ export type DlpEntriesListResultItemCase2Variant =
   | DlpEntriesListResultItemCase2VariantCase1;
 export const DlpEntriesListResultItemCase2Variant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpEntriesListResultItemCase2 {
@@ -159084,84 +160079,98 @@ export type DlpEntriesListResultItem =
   | DlpEntriesListResultItemCase5
   | DlpEntriesListResultItemCase6;
 export const DlpEntriesListResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
-      "uploadStatus",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "uploadStatus",
+        "variant",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "profileId",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+        "uploadStatus",
+      ],
     ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "uploadStatus",
-      "variant",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "profileId",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-      "uploadStatus",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type DlpEntriesListResultList = Array<DlpEntriesListResultItem>;
@@ -159386,10 +160395,13 @@ export type ListDlpEntriesIntegrationResultItemCase2Variant =
   | ListDlpEntriesIntegrationResultItemCase2VariantCase1;
 export const ListDlpEntriesIntegrationResultItemCase2Variant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface ListDlpEntriesIntegrationResultItemCase2 {
@@ -159615,84 +160627,98 @@ export type ListDlpEntriesIntegrationResultItem =
   | ListDlpEntriesIntegrationResultItemCase5
   | ListDlpEntriesIntegrationResultItemCase6;
 export const ListDlpEntriesIntegrationResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
-      "uploadStatus",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "uploadStatus",
+        "variant",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "profileId",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+        "uploadStatus",
+      ],
     ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "uploadStatus",
-      "variant",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "profileId",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-      "uploadStatus",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type ListDlpEntriesIntegrationResultList =
@@ -159914,10 +160940,13 @@ export type ListDlpEntriesPredefinedResultItemCase2Variant =
   | ListDlpEntriesPredefinedResultItemCase2VariantCase1;
 export const ListDlpEntriesPredefinedResultItemCase2Variant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface ListDlpEntriesPredefinedResultItemCase2 {
@@ -160143,84 +161172,98 @@ export type ListDlpEntriesPredefinedResultItem =
   | ListDlpEntriesPredefinedResultItemCase5
   | ListDlpEntriesPredefinedResultItemCase6;
 export const ListDlpEntriesPredefinedResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
-      "uploadStatus",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "uploadStatus",
+        "variant",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "profileId",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+        "uploadStatus",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+        "uploadStatus",
+      ],
     ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "uploadStatus",
-      "variant",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "profileId",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "description",
-      "uploadStatus",
-    ],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-      "uploadStatus",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type ListDlpEntriesPredefinedResultList =
@@ -160506,10 +161549,13 @@ export type DlpProfilesListResultItemCustomProfileEntriesItemPredefinedEntryVari
   | DlpProfilesListResultItemCustomProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesListResultItemCustomProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesListResultItemCustomProfileEntriesItemPredefinedEntry {
@@ -160684,69 +161730,91 @@ export type DlpProfilesListResultItemCustomProfileEntriesItem =
   | DlpProfilesListResultItemCustomProfileEntriesItemWordListEntry;
 export const DlpProfilesListResultItemCustomProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesListResultItemCustomProfileEntriesList =
@@ -160926,10 +161994,13 @@ export type DlpProfilesListResultItemCustomProfileSharedEntriesItemPredefinedEnt
   | DlpProfilesListResultItemCustomProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesListResultItemCustomProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesListResultItemCustomProfileSharedEntriesItemPredefinedEntry {
@@ -161104,69 +162175,91 @@ export type DlpProfilesListResultItemCustomProfileSharedEntriesItem =
   | DlpProfilesListResultItemCustomProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesListResultItemCustomProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesListResultItemCustomProfileSharedEntriesList =
@@ -161414,10 +162507,13 @@ export type DlpProfilesListResultItemPredefinedProfileEntriesItemPredefinedEntry
   | DlpProfilesListResultItemPredefinedProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesListResultItemPredefinedProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesListResultItemPredefinedProfileEntriesItemPredefinedEntry {
@@ -161592,69 +162688,91 @@ export type DlpProfilesListResultItemPredefinedProfileEntriesItem =
   | DlpProfilesListResultItemPredefinedProfileEntriesItemWordListEntry;
 export const DlpProfilesListResultItemPredefinedProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesListResultItemPredefinedProfileEntriesList =
@@ -161887,10 +163005,13 @@ export type DlpProfilesListResultItemIntegrationProfileEntriesItemPredefinedEntr
   | DlpProfilesListResultItemIntegrationProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesListResultItemIntegrationProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesListResultItemIntegrationProfileEntriesItemPredefinedEntry {
@@ -162065,69 +163186,91 @@ export type DlpProfilesListResultItemIntegrationProfileEntriesItem =
   | DlpProfilesListResultItemIntegrationProfileEntriesItemWordListEntry;
 export const DlpProfilesListResultItemIntegrationProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesListResultItemIntegrationProfileEntriesList =
@@ -162295,10 +163438,13 @@ export type DlpProfilesListResultItemIntegrationProfileSharedEntriesItemPredefin
   | DlpProfilesListResultItemIntegrationProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesListResultItemIntegrationProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesListResultItemIntegrationProfileSharedEntriesItemPredefinedEntry {
@@ -162473,69 +163619,91 @@ export type DlpProfilesListResultItemIntegrationProfileSharedEntriesItem =
   | DlpProfilesListResultItemIntegrationProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesListResultItemIntegrationProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesListResultItemIntegrationProfileSharedEntriesList =
@@ -162583,48 +163751,51 @@ export type DlpProfilesListResultItem =
   | DlpProfilesListResultItemPredefinedProfile
   | DlpProfilesListResultItemIntegrationProfile;
 export const DlpProfilesListResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "allowedMatchCount",
-      "createdAt",
-      "name",
-      "ocrEnabled",
-      "type",
-      "updatedAt",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "dataClasses",
-      "dataTags",
-      "description",
-      "entries",
-      "sensitivityLevels",
-      "sharedEntries",
+      [
+        "id",
+        "allowedMatchCount",
+        "createdAt",
+        "name",
+        "ocrEnabled",
+        "type",
+        "updatedAt",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "dataClasses",
+        "dataTags",
+        "description",
+        "entries",
+        "sensitivityLevels",
+        "sharedEntries",
+      ],
+      [
+        "id",
+        "allowedMatchCount",
+        "entries",
+        "name",
+        "type",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "ocrEnabled",
+        "openAccess",
+      ],
+      [
+        "id",
+        "createdAt",
+        "entries",
+        "name",
+        "sharedEntries",
+        "type",
+        "updatedAt",
+        "description",
+      ],
     ],
-    [
-      "id",
-      "allowedMatchCount",
-      "entries",
-      "name",
-      "type",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "ocrEnabled",
-      "openAccess",
-    ],
-    [
-      "id",
-      "createdAt",
-      "entries",
-      "name",
-      "sharedEntries",
-      "type",
-      "updatedAt",
-      "description",
-    ],
-  ]),
+    { key: "type", values: ["custom", "predefined", "integration"] },
+  ),
 );
 
 export type DlpProfilesListResultList = Array<DlpProfilesListResultItem>;
@@ -163739,10 +164910,13 @@ export type GatewayProxyEndpointsListResultItem =
   | GatewayProxyEndpointsListResultItemIP
   | GatewayProxyEndpointsListResultItemIdentity;
 export const GatewayProxyEndpointsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["ips", "name", "id", "createdAt", "kind", "subdomain", "updatedAt"],
-    ["kind", "name", "id", "createdAt", "subdomain", "updatedAt"],
-  ]),
+  T.UnionCases(
+    [
+      ["ips", "name", "id", "createdAt", "kind", "subdomain", "updatedAt"],
+      ["kind", "name", "id", "createdAt", "subdomain", "updatedAt"],
+    ],
+    { key: "kind", values: ["ip", "identity"] },
+  ),
 );
 
 export type GatewayProxyEndpointsListResultList =
@@ -172913,10 +174087,13 @@ export type GatewayProxyEndpointsEditResult =
   | GatewayProxyEndpointsEditResultIP
   | GatewayProxyEndpointsEditResultIdentity;
 export const GatewayProxyEndpointsEditResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["ips", "name", "id", "createdAt", "kind", "subdomain", "updatedAt"],
-    ["kind", "name", "id", "createdAt", "subdomain", "updatedAt"],
-  ]),
+  T.UnionCases(
+    [
+      ["ips", "name", "id", "createdAt", "kind", "subdomain", "updatedAt"],
+      ["kind", "name", "id", "createdAt", "subdomain", "updatedAt"],
+    ],
+    { key: "kind", values: ["ip", "identity"] },
+  ),
 );
 
 export type PatchGatewayProxyEndpointResponse = GatewayProxyEndpointsEditResult;
@@ -175102,10 +176279,13 @@ export type DlpProfilesPredefinedUpdateResponseEntriesItemPredefinedEntryVariant
   | DlpProfilesPredefinedUpdateResponseEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesPredefinedUpdateResponseEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesPredefinedUpdateResponseEntriesItemPredefinedEntry {
@@ -175277,69 +176457,91 @@ export type DlpProfilesPredefinedUpdateResponseEntriesItem =
   | DlpProfilesPredefinedUpdateResponseEntriesItemWordListEntry;
 export const DlpProfilesPredefinedUpdateResponseEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesPredefinedUpdateResponseEntriesList =
@@ -180524,50 +181726,22 @@ export const UpdateAccessAiControlMcpServerResponse = /*@__PURE__*/ S.suspend(
   identifier: "UpdateAccessAiControlMcpServerResponse",
 }) as any as S.Schema<UpdateAccessAiControlMcpServerResponse>;
 
-export type AccessApplicationsUpdateRequestTypeSelfHostedApplication =
-  | "self_hosted"
-  | "saas"
-  | "ssh"
-  | "vnc"
-  | "app_launcher"
-  | "warp"
-  | "biso"
-  | "bookmark"
-  | "dash_sso"
-  | "infrastructure"
-  | "rdp"
-  | "mcp"
-  | "mcp_portal"
-  | "proxy_endpoint";
-export const AccessApplicationsUpdateRequestTypeSelfHostedApplication =
-  S.String;
-
-export type AccessApplicationsUpdateRequestTypeBrowserSSHApplication =
-  | "self_hosted"
-  | "saas"
-  | "ssh"
-  | "vnc"
-  | "app_launcher"
-  | "warp"
-  | "biso"
-  | "bookmark"
-  | "dash_sso"
-  | "infrastructure"
-  | "rdp"
-  | "mcp"
-  | "mcp_portal"
-  | "proxy_endpoint";
-export const AccessApplicationsUpdateRequestTypeBrowserSSHApplication =
-  S.String;
-
 export type AccessApplicationsUpdateRequestType =
-  | AccessApplicationsUpdateRequestTypeSelfHostedApplication
-  | (string & {})
-  | AccessApplicationsUpdateRequestTypeBrowserSSHApplication
-  | (string & {});
-export const AccessApplicationsUpdateRequestType = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([[], []]),
-);
+  | "self_hosted"
+  | "saas"
+  | "ssh"
+  | "vnc"
+  | "app_launcher"
+  | "warp"
+  | "biso"
+  | "bookmark"
+  | "dash_sso"
+  | "infrastructure"
+  | "rdp"
+  | "mcp"
+  | "mcp_portal"
+  | "proxy_endpoint";
+export const AccessApplicationsUpdateRequestType = S.String;
 
 export type AccessApplicationsUpdateRequestAllowedIdpsList = Array<unknown>;
 export const AccessApplicationsUpdateRequestAllowedIdpsList =
@@ -180850,15 +182024,29 @@ export type AccessApplicationsUpdateRequestDestinationsItem =
   | AccessApplicationsUpdateRequestDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsUpdateRequestDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateRequestDestinationsList =
@@ -182739,19 +183927,30 @@ export type AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMCon
   | AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -183851,7 +185050,7 @@ export interface UpdateAccessApplicationForAccountRequest {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
   domain?: string;
   /** The application type. */
-  type?: AccessApplicationsUpdateRequestType;
+  type?: AccessApplicationsUpdateRequestType | (string & {});
   /** When set to true, users can authenticate to this application using their WARP session. When set to false this application will always require direct IdP authentication. This setting always overrides the organization setting for WARP authentication. */
   allowAuthenticateViaWarp?: boolean;
   /** Enables loading application content in an iFrame. */
@@ -184355,15 +185554,29 @@ export type AccessApplicationsUpdateResultSelfHostedApplicationDestinationsItem 
   | AccessApplicationsUpdateResultSelfHostedApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsUpdateResultSelfHostedApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultSelfHostedApplicationDestinationsList =
@@ -186044,19 +187257,30 @@ export type AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthent
   | AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -188366,19 +189590,30 @@ export type AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticatio
   | AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -188909,15 +190144,29 @@ export type AccessApplicationsUpdateResultBrowserSSHApplicationDestinationsItem 
   | AccessApplicationsUpdateResultBrowserSSHApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsUpdateResultBrowserSSHApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultBrowserSSHApplicationDestinationsList =
@@ -190598,19 +191847,30 @@ export type AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthent
   | AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -191240,15 +192500,29 @@ export type AccessApplicationsUpdateResultBrowserVNCApplicationDestinationsItem 
   | AccessApplicationsUpdateResultBrowserVNCApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsUpdateResultBrowserVNCApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultBrowserVNCApplicationDestinationsList =
@@ -192929,19 +194203,30 @@ export type AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthent
   | AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -202506,15 +203791,29 @@ export type AccessApplicationsUpdateResultBrowserRDPApplicationDestinationsItem 
   | AccessApplicationsUpdateResultBrowserRDPApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsUpdateResultBrowserRDPApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultBrowserRDPApplicationDestinationsList =
@@ -204195,19 +205494,30 @@ export type AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthent
   | AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -204753,15 +206063,29 @@ export type AccessApplicationsUpdateResultMcpServerApplicationDestinationsItem =
   | AccessApplicationsUpdateResultMcpServerApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsUpdateResultMcpServerApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultMcpServerApplicationDestinationsList =
@@ -206403,19 +207727,30 @@ export type AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenti
   | AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -206884,15 +208219,29 @@ export type AccessApplicationsUpdateResultMcpServerPortalApplicationDestinations
   | AccessApplicationsUpdateResultMcpServerPortalApplicationDestinationsItemAllPreviewWorkersDestination;
 export const AccessApplicationsUpdateResultMcpServerPortalApplicationDestinationsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "uri"],
-      ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
-      ["mcpServerId", "type"],
-      ["type", "workerId"],
-      ["type", "workerId"],
-      ["type"],
-      ["type"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "uri"],
+        ["cidr", "hostname", "l4Protocol", "portRange", "type", "vnetId"],
+        ["mcpServerId", "type"],
+        ["type", "workerId"],
+        ["type", "workerId"],
+        ["type"],
+        ["type"],
+      ],
+      {
+        key: "type",
+        values: [
+          "public",
+          "private",
+          "via_mcp_server_portal",
+          "worker",
+          "preview_worker",
+          "all_workers",
+          "all_preview_workers",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultMcpServerPortalApplicationDestinationsList =
@@ -208534,19 +209883,30 @@ export type AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAu
   | AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceToken;
 export const AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["password", "scheme", "user"],
-      ["token", "scheme"],
+    T.UnionCases(
       [
-        "authorizationUrl",
-        "clientId",
-        "clientSecret",
-        "scheme",
-        "tokenUrl",
-        "scopes",
+        ["password", "scheme", "user"],
+        ["token", "scheme"],
+        [
+          "authorizationUrl",
+          "clientId",
+          "clientSecret",
+          "scheme",
+          "tokenUrl",
+          "scopes",
+        ],
+        ["clientId", "clientSecret", "scheme"],
       ],
-      ["clientId", "clientSecret", "scheme"],
-    ]),
+      {
+        key: "scheme",
+        values: [
+          "httpbasic",
+          "oauthbearertoken",
+          "oauth2",
+          "access_service_token",
+        ],
+      },
+    ),
   );
 
 export type AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationList =
@@ -209175,7 +210535,7 @@ export interface UpdateAccessApplicationForZoneRequest {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
   domain?: string;
   /** The application type. */
-  type?: AccessApplicationsUpdateRequestType;
+  type?: AccessApplicationsUpdateRequestType | (string & {});
   /** When set to true, users can authenticate to this application using their WARP session. When set to false this application will always require direct IdP authentication. This setting always overrides the organization setting for WARP authentication. */
   allowAuthenticateViaWarp?: boolean;
   /** Enables loading application content in an iFrame. */
@@ -220894,10 +222254,13 @@ export type DlpEntriesUpdateResultPredefinedEntryVariant =
   | DlpEntriesUpdateResultPredefinedEntryVariantCase1;
 export const DlpEntriesUpdateResultPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpEntriesUpdateResultPredefinedEntry {
@@ -221056,53 +222419,83 @@ export type DlpEntriesUpdateResult =
   | DlpEntriesUpdateResultDocumentFingerprintEntry
   | DlpEntriesUpdateResultWordListEntry;
 export const DlpEntriesUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "pattern",
-      "type",
-      "updatedAt",
-      "description",
-      "profileId",
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "pattern",
+        "type",
+        "updatedAt",
+        "description",
+        "profileId",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+      ],
+      [
+        "id",
+        "confidence",
+        "enabled",
+        "name",
+        "type",
+        "deprecated",
+        "profileId",
+        "variant",
+      ],
+      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
+      [
+        "id",
+        "caseSensitive",
+        "createdAt",
+        "enabled",
+        "name",
+        "secret",
+        "type",
+        "updatedAt",
+        "description",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "description",
+      ],
+      [
+        "id",
+        "createdAt",
+        "enabled",
+        "name",
+        "type",
+        "updatedAt",
+        "wordList",
+        "profileId",
+      ],
     ],
-    ["id", "createdAt", "enabled", "name", "type", "updatedAt", "description"],
-    [
-      "id",
-      "confidence",
-      "enabled",
-      "name",
-      "type",
-      "deprecated",
-      "profileId",
-      "variant",
-    ],
-    ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-    [
-      "id",
-      "caseSensitive",
-      "createdAt",
-      "enabled",
-      "name",
-      "secret",
-      "type",
-      "updatedAt",
-      "description",
-    ],
-    ["id", "createdAt", "enabled", "name", "type", "updatedAt", "description"],
-    [
-      "id",
-      "createdAt",
-      "enabled",
-      "name",
-      "type",
-      "updatedAt",
-      "wordList",
-      "profileId",
-    ],
-  ]),
+    {
+      key: "type",
+      values: [
+        "custom",
+        "custom_prompt_topic",
+        "predefined",
+        "integration",
+        "exact_data",
+        "document_fingerprint",
+        "word_list",
+      ],
+    },
+  ),
 );
 
 export type UpdateDlpEntryResponse = DlpEntriesUpdateResult;
@@ -221329,10 +222722,13 @@ export type DlpEntriesPredefinedUpdateResponseVariant =
   | DlpEntriesPredefinedUpdateResponseVariantCase1;
 export const DlpEntriesPredefinedUpdateResponseVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -221777,10 +223173,13 @@ export type DlpProfilesCustomUpdateResultCustomProfileEntriesItemPredefinedEntry
   | DlpProfilesCustomUpdateResultCustomProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomUpdateResultCustomProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomUpdateResultCustomProfileEntriesItemPredefinedEntry {
@@ -221955,69 +223354,91 @@ export type DlpProfilesCustomUpdateResultCustomProfileEntriesItem =
   | DlpProfilesCustomUpdateResultCustomProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomUpdateResultCustomProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomUpdateResultCustomProfileEntriesList =
@@ -222197,10 +223618,13 @@ export type DlpProfilesCustomUpdateResultCustomProfileSharedEntriesItemPredefine
   | DlpProfilesCustomUpdateResultCustomProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomUpdateResultCustomProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomUpdateResultCustomProfileSharedEntriesItemPredefinedEntry {
@@ -222375,69 +223799,91 @@ export type DlpProfilesCustomUpdateResultCustomProfileSharedEntriesItem =
   | DlpProfilesCustomUpdateResultCustomProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesCustomUpdateResultCustomProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomUpdateResultCustomProfileSharedEntriesList =
@@ -222685,10 +224131,13 @@ export type DlpProfilesCustomUpdateResultPredefinedProfileEntriesItemPredefinedE
   | DlpProfilesCustomUpdateResultPredefinedProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomUpdateResultPredefinedProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomUpdateResultPredefinedProfileEntriesItemPredefinedEntry {
@@ -222863,69 +224312,91 @@ export type DlpProfilesCustomUpdateResultPredefinedProfileEntriesItem =
   | DlpProfilesCustomUpdateResultPredefinedProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomUpdateResultPredefinedProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomUpdateResultPredefinedProfileEntriesList =
@@ -223158,10 +224629,13 @@ export type DlpProfilesCustomUpdateResultIntegrationProfileEntriesItemPredefined
   | DlpProfilesCustomUpdateResultIntegrationProfileEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomUpdateResultIntegrationProfileEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomUpdateResultIntegrationProfileEntriesItemPredefinedEntry {
@@ -223336,69 +224810,91 @@ export type DlpProfilesCustomUpdateResultIntegrationProfileEntriesItem =
   | DlpProfilesCustomUpdateResultIntegrationProfileEntriesItemWordListEntry;
 export const DlpProfilesCustomUpdateResultIntegrationProfileEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomUpdateResultIntegrationProfileEntriesList =
@@ -223566,10 +225062,13 @@ export type DlpProfilesCustomUpdateResultIntegrationProfileSharedEntriesItemPred
   | DlpProfilesCustomUpdateResultIntegrationProfileSharedEntriesItemPredefinedEntryVariantCase1;
 export const DlpProfilesCustomUpdateResultIntegrationProfileSharedEntriesItemPredefinedEntryVariant =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["topicType", "type", "description"],
-      ["type", "description"],
-    ]),
+    T.UnionCases(
+      [
+        ["topicType", "type", "description"],
+        ["type", "description"],
+      ],
+      { key: "type", values: ["PromptTopic", "General"] },
+    ),
   );
 
 export interface DlpProfilesCustomUpdateResultIntegrationProfileSharedEntriesItemPredefinedEntry {
@@ -223744,69 +225243,91 @@ export type DlpProfilesCustomUpdateResultIntegrationProfileSharedEntriesItem =
   | DlpProfilesCustomUpdateResultIntegrationProfileSharedEntriesItemWordListEntry;
 export const DlpProfilesCustomUpdateResultIntegrationProfileSharedEntriesItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
+    T.UnionCases(
       [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "pattern",
-        "type",
-        "updatedAt",
-        "description",
-        "profileId",
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "pattern",
+          "type",
+          "updatedAt",
+          "description",
+          "profileId",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "confidence",
+          "enabled",
+          "name",
+          "type",
+          "deprecated",
+          "profileId",
+          "variant",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "profileId",
+        ],
+        [
+          "id",
+          "caseSensitive",
+          "createdAt",
+          "enabled",
+          "name",
+          "secret",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "description",
+        ],
+        [
+          "id",
+          "createdAt",
+          "enabled",
+          "name",
+          "type",
+          "updatedAt",
+          "wordList",
+          "profileId",
+        ],
       ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "confidence",
-        "enabled",
-        "name",
-        "type",
-        "deprecated",
-        "profileId",
-        "variant",
-      ],
-      ["id", "createdAt", "enabled", "name", "type", "updatedAt", "profileId"],
-      [
-        "id",
-        "caseSensitive",
-        "createdAt",
-        "enabled",
-        "name",
-        "secret",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "description",
-      ],
-      [
-        "id",
-        "createdAt",
-        "enabled",
-        "name",
-        "type",
-        "updatedAt",
-        "wordList",
-        "profileId",
-      ],
-    ]),
+      {
+        key: "type",
+        values: [
+          "custom",
+          "custom_prompt_topic",
+          "predefined",
+          "integration",
+          "exact_data",
+          "document_fingerprint",
+          "word_list",
+        ],
+      },
+    ),
   );
 
 export type DlpProfilesCustomUpdateResultIntegrationProfileSharedEntriesList =
@@ -223854,48 +225375,51 @@ export type DlpProfilesCustomUpdateResult =
   | DlpProfilesCustomUpdateResultPredefinedProfile
   | DlpProfilesCustomUpdateResultIntegrationProfile;
 export const DlpProfilesCustomUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "id",
-      "allowedMatchCount",
-      "createdAt",
-      "name",
-      "ocrEnabled",
-      "type",
-      "updatedAt",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "dataClasses",
-      "dataTags",
-      "description",
-      "entries",
-      "sensitivityLevels",
-      "sharedEntries",
+      [
+        "id",
+        "allowedMatchCount",
+        "createdAt",
+        "name",
+        "ocrEnabled",
+        "type",
+        "updatedAt",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "dataClasses",
+        "dataTags",
+        "description",
+        "entries",
+        "sensitivityLevels",
+        "sharedEntries",
+      ],
+      [
+        "id",
+        "allowedMatchCount",
+        "entries",
+        "name",
+        "type",
+        "aiContextEnabled",
+        "confidenceThreshold",
+        "contextAwareness",
+        "ocrEnabled",
+        "openAccess",
+      ],
+      [
+        "id",
+        "createdAt",
+        "entries",
+        "name",
+        "sharedEntries",
+        "type",
+        "updatedAt",
+        "description",
+      ],
     ],
-    [
-      "id",
-      "allowedMatchCount",
-      "entries",
-      "name",
-      "type",
-      "aiContextEnabled",
-      "confidenceThreshold",
-      "contextAwareness",
-      "ocrEnabled",
-      "openAccess",
-    ],
-    [
-      "id",
-      "createdAt",
-      "entries",
-      "name",
-      "sharedEntries",
-      "type",
-      "updatedAt",
-      "description",
-    ],
-  ]),
+    { key: "type", values: ["custom", "predefined", "integration"] },
+  ),
 );
 
 export type UpdateDlpProfileCustomResponse = DlpProfilesCustomUpdateResult;

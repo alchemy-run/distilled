@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { buildRequest } from "./protocol-http.ts";
+import { buildRequest, mapKeys } from "./protocol-http.ts";
 import * as S from "./schema.ts";
 import * as T from "./trait.ts";
 
@@ -50,5 +50,58 @@ describe("StringEncoded members", () => {
   test("null stays null and an omitted member stays omitted", () => {
     expect(jsonBodyOf({ nullable: null })).toEqual({ nullable: null });
     expect(jsonBodyOf({})).toEqual({});
+  });
+});
+
+describe("UnionCases decoding", () => {
+  const cases = [
+    ["id", "type", "zoneName"],
+    ["id", "type", "accountName"],
+  ];
+  const merged = {
+    id: "1",
+    type: "account",
+    zoneName: "zone-a",
+    accountName: "acct-a",
+  };
+  const decode = (schema: S.Schema<unknown>, value: unknown) =>
+    mapKeys(schema.ast, value, "decode");
+
+  test("the discriminator picks the case key sets cannot tell apart", () => {
+    const schema = S.Unknown.pipe(
+      T.UnionCases(cases, { key: "type", values: ["zone", "account"] }),
+    );
+    expect(decode(schema, merged)).toEqual({
+      id: "1",
+      type: "account",
+      accountName: "acct-a",
+    });
+    expect(decode(schema, { ...merged, type: "zone" })).toEqual({
+      id: "1",
+      type: "zone",
+      zoneName: "zone-a",
+    });
+  });
+
+  test("an unknown tag falls back to key-set scoring", () => {
+    const schema = S.Unknown.pipe(
+      T.UnionCases(cases, { key: "type", values: ["zone", "account"] }),
+    );
+    expect(
+      decode(schema, { ...merged, type: "other", accountName: null }),
+    ).toEqual({
+      id: "1",
+      type: "other",
+      zoneName: "zone-a",
+    });
+  });
+
+  test("without a discriminator the best-explaining case wins", () => {
+    const schema = S.Unknown.pipe(T.UnionCases(cases));
+    expect(decode(schema, { ...merged, zoneName: null })).toEqual({
+      id: "1",
+      type: "account",
+      accountName: "acct-a",
+    });
   });
 });

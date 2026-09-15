@@ -873,16 +873,19 @@ export type SinksCreateRequestFormat =
   | SinksCreateRequestFormatJson
   | SinksCreateRequestFormatParquet;
 export const SinksCreateRequestFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "type",
-      "compression",
-      "decimalEncoding",
-      "timestampFormat",
-      "unstructured",
+      [
+        "type",
+        "compression",
+        "decimalEncoding",
+        "timestampFormat",
+        "unstructured",
+      ],
+      ["type", "compression", "rowGroupBytes"],
     ],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type SinksCreateRequestSchemaFieldsItemInt32Type = "int32";
@@ -1160,19 +1163,37 @@ export type SinksCreateRequestSchemaFieldsItem =
   | SinksCreateRequestSchemaFieldsItemStruct
   | SinksCreateRequestSchemaFieldsItemList;
 export const SinksCreateRequestSchemaFieldsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "int32",
+        "int64",
+        "float32",
+        "float64",
+        "bool",
+        "string",
+        "binary",
+        "timestamp",
+        "json",
+        "struct",
+        "list",
+      ],
+    },
+  ),
 );
 
 export type SinksCreateRequestSchemaFieldsList =
@@ -1490,16 +1511,19 @@ export type SinksCreateResponseFormat =
   | SinksCreateResponseFormatJson
   | SinksCreateResponseFormatParquet;
 export const SinksCreateResponseFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "type",
-      "compression",
-      "decimalEncoding",
-      "timestampFormat",
-      "unstructured",
+      [
+        "type",
+        "compression",
+        "decimalEncoding",
+        "timestampFormat",
+        "unstructured",
+      ],
+      ["type", "compression", "rowGroupBytes"],
     ],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type SinksCreateResponseSchemaFieldsItemInt32Type = "int32";
@@ -1779,19 +1803,37 @@ export type SinksCreateResponseSchemaFieldsItem =
   | SinksCreateResponseSchemaFieldsItemStruct
   | SinksCreateResponseSchemaFieldsItemList;
 export const SinksCreateResponseSchemaFieldsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "int32",
+        "int64",
+        "float32",
+        "float64",
+        "bool",
+        "string",
+        "binary",
+        "timestamp",
+        "json",
+        "struct",
+        "list",
+      ],
+    },
+  ),
 );
 
 export type SinksCreateResponseSchemaFieldsList =
@@ -1918,10 +1960,13 @@ export type StreamsCreateRequestFormat =
   | StreamsCreateRequestFormatJson
   | StreamsCreateRequestFormatParquet;
 export const StreamsCreateRequestFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+      ["type", "compression", "rowGroupBytes"],
+    ],
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type StreamsCreateRequestHttpCorsOriginsList = Array<string>;
@@ -2234,19 +2279,37 @@ export type StreamsCreateRequestSchemaFieldsItem =
   | StreamsCreateRequestSchemaFieldsItemList;
 export const StreamsCreateRequestSchemaFieldsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+      ],
+      {
+        key: "type",
+        values: [
+          "int32",
+          "int64",
+          "float32",
+          "float64",
+          "bool",
+          "string",
+          "binary",
+          "timestamp",
+          "json",
+          "struct",
+          "list",
+        ],
+      },
+    ),
   );
 
 export type StreamsCreateRequestSchemaFieldsList =
@@ -2427,10 +2490,13 @@ export type StreamsCreateResponseFormat =
   | StreamsCreateResponseFormatJson
   | StreamsCreateResponseFormatParquet;
 export const StreamsCreateResponseFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+      ["type", "compression", "rowGroupBytes"],
+    ],
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type StreamsCreateResponseSchemaFieldsItemInt32Type = "int32";
@@ -2711,19 +2777,37 @@ export type StreamsCreateResponseSchemaFieldsItem =
   | StreamsCreateResponseSchemaFieldsItemList;
 export const StreamsCreateResponseSchemaFieldsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+      ],
+      {
+        key: "type",
+        values: [
+          "int32",
+          "int64",
+          "float32",
+          "float64",
+          "bool",
+          "string",
+          "binary",
+          "timestamp",
+          "json",
+          "struct",
+          "list",
+        ],
+      },
+    ),
   );
 
 export type StreamsCreateResponseSchemaFieldsList =
@@ -3384,16 +3468,19 @@ export type SinksGetResponseFormat =
   | SinksGetResponseFormatJson
   | SinksGetResponseFormatParquet;
 export const SinksGetResponseFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "type",
-      "compression",
-      "decimalEncoding",
-      "timestampFormat",
-      "unstructured",
+      [
+        "type",
+        "compression",
+        "decimalEncoding",
+        "timestampFormat",
+        "unstructured",
+      ],
+      ["type", "compression", "rowGroupBytes"],
     ],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type SinksGetResponseSchemaFieldsItemInt32Type = "int32";
@@ -3671,19 +3758,37 @@ export type SinksGetResponseSchemaFieldsItem =
   | SinksGetResponseSchemaFieldsItemStruct
   | SinksGetResponseSchemaFieldsItemList;
 export const SinksGetResponseSchemaFieldsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "int32",
+        "int64",
+        "float32",
+        "float64",
+        "bool",
+        "string",
+        "binary",
+        "timestamp",
+        "json",
+        "struct",
+        "list",
+      ],
+    },
+  ),
 );
 
 export type SinksGetResponseSchemaFieldsList =
@@ -3871,10 +3976,13 @@ export type StreamsGetResponseFormat =
   | StreamsGetResponseFormatJson
   | StreamsGetResponseFormatParquet;
 export const StreamsGetResponseFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+      ["type", "compression", "rowGroupBytes"],
+    ],
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type StreamsGetResponseSchemaFieldsItemInt32Type = "int32";
@@ -4154,19 +4262,37 @@ export type StreamsGetResponseSchemaFieldsItem =
   | StreamsGetResponseSchemaFieldsItemStruct
   | StreamsGetResponseSchemaFieldsItemList;
 export const StreamsGetResponseSchemaFieldsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "int32",
+        "int64",
+        "float32",
+        "float64",
+        "bool",
+        "string",
+        "binary",
+        "timestamp",
+        "json",
+        "struct",
+        "list",
+      ],
+    },
+  ),
 );
 
 export type StreamsGetResponseSchemaFieldsList =
@@ -4763,16 +4889,19 @@ export type SinksListResultItemFormat =
   | SinksListResultItemFormatJson
   | SinksListResultItemFormatParquet;
 export const SinksListResultItemFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
+  T.UnionCases(
     [
-      "type",
-      "compression",
-      "decimalEncoding",
-      "timestampFormat",
-      "unstructured",
+      [
+        "type",
+        "compression",
+        "decimalEncoding",
+        "timestampFormat",
+        "unstructured",
+      ],
+      ["type", "compression", "rowGroupBytes"],
     ],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type SinksListResultItemSchemaFieldsItemInt32Type = "int32";
@@ -5052,19 +5181,37 @@ export type SinksListResultItemSchemaFieldsItem =
   | SinksListResultItemSchemaFieldsItemStruct
   | SinksListResultItemSchemaFieldsItemList;
 export const SinksListResultItemSchemaFieldsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-    ["type", "metadataKey", "name", "required", "sqlName"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+      ["type", "metadataKey", "name", "required", "sqlName"],
+    ],
+    {
+      key: "type",
+      values: [
+        "int32",
+        "int64",
+        "float32",
+        "float64",
+        "bool",
+        "string",
+        "binary",
+        "timestamp",
+        "json",
+        "struct",
+        "list",
+      ],
+    },
+  ),
 );
 
 export type SinksListResultItemSchemaFieldsList =
@@ -5279,10 +5426,13 @@ export type StreamsListResultItemFormat =
   | StreamsListResultItemFormatJson
   | StreamsListResultItemFormatParquet;
 export const StreamsListResultItemFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+      ["type", "compression", "rowGroupBytes"],
+    ],
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type StreamsListResultItemSchemaFieldsItemInt32Type = "int32";
@@ -5563,19 +5713,37 @@ export type StreamsListResultItemSchemaFieldsItem =
   | StreamsListResultItemSchemaFieldsItemList;
 export const StreamsListResultItemSchemaFieldsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+      ],
+      {
+        key: "type",
+        values: [
+          "int32",
+          "int64",
+          "float32",
+          "float64",
+          "bool",
+          "string",
+          "binary",
+          "timestamp",
+          "json",
+          "struct",
+          "list",
+        ],
+      },
+    ),
   );
 
 export type StreamsListResultItemSchemaFieldsList =
@@ -5906,10 +6074,13 @@ export type StreamsUpdateResponseFormat =
   | StreamsUpdateResponseFormatJson
   | StreamsUpdateResponseFormatParquet;
 export const StreamsUpdateResponseFormat = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
-    ["type", "compression", "rowGroupBytes"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+      ["type", "compression", "rowGroupBytes"],
+    ],
+    { key: "type", values: ["json", "parquet"] },
+  ),
 );
 
 export type StreamsUpdateResponseSchemaFieldsItemInt32Type = "int32";
@@ -6190,19 +6361,37 @@ export type StreamsUpdateResponseSchemaFieldsItem =
   | StreamsUpdateResponseSchemaFieldsItemList;
 export const StreamsUpdateResponseSchemaFieldsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName", "unit"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-      ["type", "metadataKey", "name", "required", "sqlName"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName", "unit"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+        ["type", "metadataKey", "name", "required", "sqlName"],
+      ],
+      {
+        key: "type",
+        values: [
+          "int32",
+          "int64",
+          "float32",
+          "float64",
+          "bool",
+          "string",
+          "binary",
+          "timestamp",
+          "json",
+          "struct",
+          "list",
+        ],
+      },
+    ),
   );
 
 export type StreamsUpdateResponseSchemaFieldsList =

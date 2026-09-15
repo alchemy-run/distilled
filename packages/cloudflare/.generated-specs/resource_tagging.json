@@ -2041,7 +2041,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#ListResultItemCase26TagsMap": {
+    "com.cloudflare.resource_tagging#ListResultItemLoadBalancerMonitorTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2050,7 +2050,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.resource_tagging#ListResultItemCase26Type": {
+    "com.cloudflare.resource_tagging#ListResultItemLoadBalancerMonitorType": {
       "type": "enum",
       "members": {
         "LOAD_BALANCER_MONITOR": {
@@ -2061,7 +2061,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#ListResultItemCase26": {
+    "com.cloudflare.resource_tagging#ListResultItemLoadBalancerMonitor": {
       "type": "structure",
       "members": {
         "id": {
@@ -2086,14 +2086,14 @@
           }
         },
         "tags": {
-          "target": "com.cloudflare.resource_tagging#ListResultItemCase26TagsMap",
+          "target": "com.cloudflare.resource_tagging#ListResultItemLoadBalancerMonitorTagsMap",
           "traits": {
             "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.resource_tagging#ListResultItemCase26Type",
+          "target": "com.cloudflare.resource_tagging#ListResultItemLoadBalancerMonitorType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3051,10 +3051,138 @@
         }
       }
     },
+    "com.cloudflare.resource_tagging#ListResultItem": {
+      "type": "union",
+      "members": {
+        "AccessApplication": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAccessApplication"
+        },
+        "AccessApplicationPolicy": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAccessApplicationPolicy"
+        },
+        "AccessGroup": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAccessGroup"
+        },
+        "Account": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAccount"
+        },
+        "AccountRuleset": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAccountRuleset"
+        },
+        "AIGateway": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAIGateway"
+        },
+        "AlertingPolicy": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAlertingPolicy"
+        },
+        "AlertingWebhook": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAlertingWebhook"
+        },
+        "APIGatewayOperation": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemAPIGatewayOperation"
+        },
+        "CloudflaredTunnel": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemCloudflaredTunnel"
+        },
+        "CustomCertificate": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemCustomCertificate"
+        },
+        "CustomHostname": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemCustomHostname"
+        },
+        "CwsDeployment": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemCwsDeployment"
+        },
+        "CwsPolicy": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemCwsPolicy"
+        },
+        "CwsPolicySet": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemCwsPolicySet"
+        },
+        "CwsWorkload": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemCwsWorkload"
+        },
+        "D1Database": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemD1Database"
+        },
+        "DNSRecord": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemDNSRecord"
+        },
+        "DurableObjectNamespace": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemDurableObjectNamespace"
+        },
+        "GatewayList": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemGatewayList"
+        },
+        "GatewayRule": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemGatewayRule"
+        },
+        "Healthcheck": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemHealthcheck"
+        },
+        "Image": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemImage"
+        },
+        "InfrastructureTarget": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemInfrastructureTarget"
+        },
+        "KVNamespace": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemKVNamespace"
+        },
+        "LoadBalancer": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemLoadBalancer"
+        },
+        "LoadBalancerMonitor": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemLoadBalancerMonitor"
+        },
+        "LoadBalancerPool": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemLoadBalancerPool"
+        },
+        "ManagedClientCertificate": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemManagedClientCertificate"
+        },
+        "PagesProject": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemPagesProject"
+        },
+        "Queue": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemQueue"
+        },
+        "R2Bucket": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemR2Bucket"
+        },
+        "ResourceShare": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemResourceShare"
+        },
+        "StreamLiveInput": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemStreamLiveInput"
+        },
+        "StreamVideo": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemStreamVideo"
+        },
+        "VectorizeIndex": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemVectorizeIndex"
+        },
+        "Worker": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemWorker"
+        },
+        "WorkerRoute": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemWorkerRoute"
+        },
+        "WorkerVersion": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemWorkerVersion"
+        },
+        "Zone": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemZone"
+        },
+        "ZoneRuleset": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemZoneRuleset"
+        }
+      }
+    },
     "com.cloudflare.resource_tagging#ListResultList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.resource_tagging#ListResultItem"
       }
     },
     "com.cloudflare.resource_tagging#AccountTagsGetRequestResourceType": {
@@ -4988,7 +5116,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#AccountTagsGetResultCase26TagsMap": {
+    "com.cloudflare.resource_tagging#AccountTagsGetResultLoadBalancerMonitorTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -4997,7 +5125,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.resource_tagging#AccountTagsGetResultCase26Type": {
+    "com.cloudflare.resource_tagging#AccountTagsGetResultLoadBalancerMonitorType": {
       "type": "enum",
       "members": {
         "LOAD_BALANCER_MONITOR": {
@@ -5008,7 +5136,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#AccountTagsGetResultCase26": {
+    "com.cloudflare.resource_tagging#AccountTagsGetResultLoadBalancerMonitor": {
       "type": "structure",
       "members": {
         "id": {
@@ -5033,14 +5161,14 @@
           }
         },
         "tags": {
-          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCase26TagsMap",
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultLoadBalancerMonitorTagsMap",
           "traits": {
             "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCase26Type",
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultLoadBalancerMonitorType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5998,6 +6126,134 @@
         }
       }
     },
+    "com.cloudflare.resource_tagging#AccountTagsGetResult": {
+      "type": "union",
+      "members": {
+        "AccessApplication": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAccessApplication"
+        },
+        "AccessApplicationPolicy": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAccessApplicationPolicy"
+        },
+        "AccessGroup": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAccessGroup"
+        },
+        "Account": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAccount"
+        },
+        "AccountRuleset": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAccountRuleset"
+        },
+        "AIGateway": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAIGateway"
+        },
+        "AlertingPolicy": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAlertingPolicy"
+        },
+        "AlertingWebhook": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAlertingWebhook"
+        },
+        "APIGatewayOperation": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultAPIGatewayOperation"
+        },
+        "CloudflaredTunnel": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCloudflaredTunnel"
+        },
+        "CustomCertificate": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCustomCertificate"
+        },
+        "CustomHostname": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCustomHostname"
+        },
+        "CwsDeployment": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCwsDeployment"
+        },
+        "CwsPolicy": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCwsPolicy"
+        },
+        "CwsPolicySet": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCwsPolicySet"
+        },
+        "CwsWorkload": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultCwsWorkload"
+        },
+        "D1Database": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultD1Database"
+        },
+        "DNSRecord": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultDNSRecord"
+        },
+        "DurableObjectNamespace": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultDurableObjectNamespace"
+        },
+        "GatewayList": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultGatewayList"
+        },
+        "GatewayRule": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultGatewayRule"
+        },
+        "Healthcheck": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultHealthcheck"
+        },
+        "Image": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultImage"
+        },
+        "InfrastructureTarget": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultInfrastructureTarget"
+        },
+        "KVNamespace": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultKVNamespace"
+        },
+        "LoadBalancer": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultLoadBalancer"
+        },
+        "LoadBalancerMonitor": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultLoadBalancerMonitor"
+        },
+        "LoadBalancerPool": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultLoadBalancerPool"
+        },
+        "ManagedClientCertificate": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultManagedClientCertificate"
+        },
+        "PagesProject": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultPagesProject"
+        },
+        "Queue": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultQueue"
+        },
+        "R2Bucket": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultR2Bucket"
+        },
+        "ResourceShare": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultResourceShare"
+        },
+        "StreamLiveInput": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultStreamLiveInput"
+        },
+        "StreamVideo": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultStreamVideo"
+        },
+        "VectorizeIndex": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultVectorizeIndex"
+        },
+        "Worker": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultWorker"
+        },
+        "WorkerRoute": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultWorkerRoute"
+        },
+        "WorkerVersion": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultWorkerVersion"
+        },
+        "Zone": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultZone"
+        },
+        "ZoneRuleset": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultZoneRuleset"
+        }
+      }
+    },
     "com.cloudflare.resource_tagging#AccountTagsUpdateRequestResourceTypeResourceTaggingSetTagsRequestAccountLevelWorkerVersion": {
       "type": "enum",
       "members": {
@@ -6363,13 +6619,187 @@
       }
     },
     "com.cloudflare.resource_tagging#AccountTagsUpdateRequestResourceType": {
-      "type": "union",
+      "type": "enum",
       "members": {
-        "ResourceTaggingSetTagsRequestAccountLevelWorkerVersion": {
-          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateRequestResourceTypeResourceTaggingSetTagsRequestAccountLevelWorkerVersion"
+        "ACCESS_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_application"
+          }
         },
-        "ResourceTaggingSetTagsRequestAccountLevelBase": {
-          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateRequestResourceTypeResourceTaggingSetTagsRequestAccountLevelBase"
+        "ACCESS_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_group"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "ACCOUNT_RULESET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_ruleset"
+          }
+        },
+        "AI_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_gateway"
+          }
+        },
+        "ALERTING_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alerting_policy"
+          }
+        },
+        "ALERTING_WEBHOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alerting_webhook"
+          }
+        },
+        "CLOUDFLARED_TUNNEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflared_tunnel"
+          }
+        },
+        "CWS_DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cws_deployment"
+          }
+        },
+        "CWS_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cws_policy"
+          }
+        },
+        "CWS_POLICY_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cws_policy_set"
+          }
+        },
+        "CWS_WORKLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cws_workload"
+          }
+        },
+        "D1_DATABASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "d1_database"
+          }
+        },
+        "DURABLE_OBJECT_NAMESPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "durable_object_namespace"
+          }
+        },
+        "GATEWAY_LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gateway_list"
+          }
+        },
+        "GATEWAY_RULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gateway_rule"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        },
+        "INFRASTRUCTURE_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "infrastructure_target"
+          }
+        },
+        "KV_NAMESPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kv_namespace"
+          }
+        },
+        "LOAD_BALANCER_MONITOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "load_balancer_monitor"
+          }
+        },
+        "LOAD_BALANCER_POOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "load_balancer_pool"
+          }
+        },
+        "PAGES_PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pages_project"
+          }
+        },
+        "QUEUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queue"
+          }
+        },
+        "R2_BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "r2_bucket"
+          }
+        },
+        "RESOURCE_SHARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resource_share"
+          }
+        },
+        "STREAM_LIVE_INPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stream_live_input"
+          }
+        },
+        "STREAM_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stream_video"
+          }
+        },
+        "VECTORIZE_INDEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vectorize_index"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        },
+        "WORKER_VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker_version"
+          }
         }
       }
     },
@@ -8128,7 +8558,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#AccountTagsUpdateResultCase26TagsMap": {
+    "com.cloudflare.resource_tagging#AccountTagsUpdateResultLoadBalancerMonitorTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -8137,7 +8567,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.resource_tagging#AccountTagsUpdateResultCase26Type": {
+    "com.cloudflare.resource_tagging#AccountTagsUpdateResultLoadBalancerMonitorType": {
       "type": "enum",
       "members": {
         "LOAD_BALANCER_MONITOR": {
@@ -8148,7 +8578,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#AccountTagsUpdateResultCase26": {
+    "com.cloudflare.resource_tagging#AccountTagsUpdateResultLoadBalancerMonitor": {
       "type": "structure",
       "members": {
         "id": {
@@ -8173,14 +8603,14 @@
           }
         },
         "tags": {
-          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCase26TagsMap",
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultLoadBalancerMonitorTagsMap",
           "traits": {
             "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCase26Type",
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultLoadBalancerMonitorType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9135,6 +9565,134 @@
           "traits": {
             "smithy.api#documentation": "Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version."
           }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#AccountTagsUpdateResult": {
+      "type": "union",
+      "members": {
+        "AccessApplication": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAccessApplication"
+        },
+        "AccessApplicationPolicy": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAccessApplicationPolicy"
+        },
+        "AccessGroup": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAccessGroup"
+        },
+        "Account": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAccount"
+        },
+        "AccountRuleset": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAccountRuleset"
+        },
+        "AIGateway": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAIGateway"
+        },
+        "AlertingPolicy": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAlertingPolicy"
+        },
+        "AlertingWebhook": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAlertingWebhook"
+        },
+        "APIGatewayOperation": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultAPIGatewayOperation"
+        },
+        "CloudflaredTunnel": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCloudflaredTunnel"
+        },
+        "CustomCertificate": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCustomCertificate"
+        },
+        "CustomHostname": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCustomHostname"
+        },
+        "CwsDeployment": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCwsDeployment"
+        },
+        "CwsPolicy": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCwsPolicy"
+        },
+        "CwsPolicySet": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCwsPolicySet"
+        },
+        "CwsWorkload": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultCwsWorkload"
+        },
+        "D1Database": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultD1Database"
+        },
+        "DNSRecord": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultDNSRecord"
+        },
+        "DurableObjectNamespace": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultDurableObjectNamespace"
+        },
+        "GatewayList": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultGatewayList"
+        },
+        "GatewayRule": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultGatewayRule"
+        },
+        "Healthcheck": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultHealthcheck"
+        },
+        "Image": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultImage"
+        },
+        "InfrastructureTarget": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultInfrastructureTarget"
+        },
+        "KVNamespace": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultKVNamespace"
+        },
+        "LoadBalancer": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultLoadBalancer"
+        },
+        "LoadBalancerMonitor": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultLoadBalancerMonitor"
+        },
+        "LoadBalancerPool": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultLoadBalancerPool"
+        },
+        "ManagedClientCertificate": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultManagedClientCertificate"
+        },
+        "PagesProject": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultPagesProject"
+        },
+        "Queue": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultQueue"
+        },
+        "R2Bucket": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultR2Bucket"
+        },
+        "ResourceShare": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultResourceShare"
+        },
+        "StreamLiveInput": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultStreamLiveInput"
+        },
+        "StreamVideo": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultStreamVideo"
+        },
+        "VectorizeIndex": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultVectorizeIndex"
+        },
+        "Worker": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultWorker"
+        },
+        "WorkerRoute": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultWorkerRoute"
+        },
+        "WorkerVersion": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultWorkerVersion"
+        },
+        "Zone": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultZone"
+        },
+        "ZoneRuleset": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultZoneRuleset"
         }
       }
     },
@@ -11305,7 +11863,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#ZoneTagsGetResultCase26TagsMap": {
+    "com.cloudflare.resource_tagging#ZoneTagsGetResultLoadBalancerMonitorTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -11314,7 +11872,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.resource_tagging#ZoneTagsGetResultCase26Type": {
+    "com.cloudflare.resource_tagging#ZoneTagsGetResultLoadBalancerMonitorType": {
       "type": "enum",
       "members": {
         "LOAD_BALANCER_MONITOR": {
@@ -11325,7 +11883,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#ZoneTagsGetResultCase26": {
+    "com.cloudflare.resource_tagging#ZoneTagsGetResultLoadBalancerMonitor": {
       "type": "structure",
       "members": {
         "id": {
@@ -11350,14 +11908,14 @@
           }
         },
         "tags": {
-          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCase26TagsMap",
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultLoadBalancerMonitorTagsMap",
           "traits": {
             "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCase26Type",
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultLoadBalancerMonitorType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12315,6 +12873,134 @@
         }
       }
     },
+    "com.cloudflare.resource_tagging#ZoneTagsGetResult": {
+      "type": "union",
+      "members": {
+        "AccessApplication": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAccessApplication"
+        },
+        "AccessApplicationPolicy": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAccessApplicationPolicy"
+        },
+        "AccessGroup": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAccessGroup"
+        },
+        "Account": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAccount"
+        },
+        "AccountRuleset": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAccountRuleset"
+        },
+        "AIGateway": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAIGateway"
+        },
+        "AlertingPolicy": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAlertingPolicy"
+        },
+        "AlertingWebhook": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAlertingWebhook"
+        },
+        "APIGatewayOperation": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultAPIGatewayOperation"
+        },
+        "CloudflaredTunnel": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCloudflaredTunnel"
+        },
+        "CustomCertificate": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCustomCertificate"
+        },
+        "CustomHostname": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCustomHostname"
+        },
+        "CwsDeployment": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCwsDeployment"
+        },
+        "CwsPolicy": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCwsPolicy"
+        },
+        "CwsPolicySet": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCwsPolicySet"
+        },
+        "CwsWorkload": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultCwsWorkload"
+        },
+        "D1Database": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultD1Database"
+        },
+        "DNSRecord": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultDNSRecord"
+        },
+        "DurableObjectNamespace": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultDurableObjectNamespace"
+        },
+        "GatewayList": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultGatewayList"
+        },
+        "GatewayRule": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultGatewayRule"
+        },
+        "Healthcheck": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultHealthcheck"
+        },
+        "Image": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultImage"
+        },
+        "InfrastructureTarget": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultInfrastructureTarget"
+        },
+        "KVNamespace": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultKVNamespace"
+        },
+        "LoadBalancer": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultLoadBalancer"
+        },
+        "LoadBalancerMonitor": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultLoadBalancerMonitor"
+        },
+        "LoadBalancerPool": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultLoadBalancerPool"
+        },
+        "ManagedClientCertificate": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultManagedClientCertificate"
+        },
+        "PagesProject": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultPagesProject"
+        },
+        "Queue": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultQueue"
+        },
+        "R2Bucket": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultR2Bucket"
+        },
+        "ResourceShare": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultResourceShare"
+        },
+        "StreamLiveInput": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultStreamLiveInput"
+        },
+        "StreamVideo": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultStreamVideo"
+        },
+        "VectorizeIndex": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultVectorizeIndex"
+        },
+        "Worker": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultWorker"
+        },
+        "WorkerRoute": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultWorkerRoute"
+        },
+        "WorkerVersion": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultWorkerVersion"
+        },
+        "Zone": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultZone"
+        },
+        "ZoneRuleset": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultZoneRuleset"
+        }
+      }
+    },
     "com.cloudflare.resource_tagging#ZoneTagsUpdateRequestResourceTypeResourceTaggingSetTagsRequestZoneLevelBase": {
       "type": "enum",
       "members": {
@@ -12452,13 +13138,73 @@
       }
     },
     "com.cloudflare.resource_tagging#ZoneTagsUpdateRequestResourceType": {
-      "type": "union",
+      "type": "enum",
       "members": {
-        "ResourceTaggingSetTagsRequestZoneLevelBase": {
-          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateRequestResourceTypeResourceTaggingSetTagsRequestZoneLevelBase"
+        "API_GATEWAY_OPERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_gateway_operation"
+          }
         },
-        "ResourceTaggingSetTagsRequestZoneLevelAccessApplicationPolicy": {
-          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateRequestResourceTypeResourceTaggingSetTagsRequestZoneLevelAccessApplicationPolicy"
+        "CUSTOM_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom_certificate"
+          }
+        },
+        "CUSTOM_HOSTNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom_hostname"
+          }
+        },
+        "DNS_RECORD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dns_record"
+          }
+        },
+        "HEALTHCHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "healthcheck"
+          }
+        },
+        "LOAD_BALANCER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "load_balancer"
+          }
+        },
+        "MANAGED_CLIENT_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_client_certificate"
+          }
+        },
+        "WORKER_ROUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker_route"
+          }
+        },
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        },
+        "ZONE_RULESET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone_ruleset"
+          }
+        },
+        "ACCESS_APPLICATION_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_application_policy"
+          }
         }
       }
     },
@@ -14217,7 +14963,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCase26TagsMap": {
+    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultLoadBalancerMonitorTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -14226,7 +14972,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCase26Type": {
+    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultLoadBalancerMonitorType": {
       "type": "enum",
       "members": {
         "LOAD_BALANCER_MONITOR": {
@@ -14237,7 +14983,7 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCase26": {
+    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultLoadBalancerMonitor": {
       "type": "structure",
       "members": {
         "id": {
@@ -14262,14 +15008,14 @@
           }
         },
         "tags": {
-          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCase26TagsMap",
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultLoadBalancerMonitorTagsMap",
           "traits": {
             "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCase26Type",
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultLoadBalancerMonitorType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -15227,6 +15973,134 @@
         }
       }
     },
+    "com.cloudflare.resource_tagging#ZoneTagsUpdateResult": {
+      "type": "union",
+      "members": {
+        "AccessApplication": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAccessApplication"
+        },
+        "AccessApplicationPolicy": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAccessApplicationPolicy"
+        },
+        "AccessGroup": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAccessGroup"
+        },
+        "Account": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAccount"
+        },
+        "AccountRuleset": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAccountRuleset"
+        },
+        "AIGateway": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAIGateway"
+        },
+        "AlertingPolicy": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAlertingPolicy"
+        },
+        "AlertingWebhook": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAlertingWebhook"
+        },
+        "APIGatewayOperation": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultAPIGatewayOperation"
+        },
+        "CloudflaredTunnel": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCloudflaredTunnel"
+        },
+        "CustomCertificate": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCustomCertificate"
+        },
+        "CustomHostname": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCustomHostname"
+        },
+        "CwsDeployment": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCwsDeployment"
+        },
+        "CwsPolicy": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCwsPolicy"
+        },
+        "CwsPolicySet": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCwsPolicySet"
+        },
+        "CwsWorkload": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultCwsWorkload"
+        },
+        "D1Database": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultD1Database"
+        },
+        "DNSRecord": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDNSRecord"
+        },
+        "DurableObjectNamespace": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDurableObjectNamespace"
+        },
+        "GatewayList": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultGatewayList"
+        },
+        "GatewayRule": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultGatewayRule"
+        },
+        "Healthcheck": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultHealthcheck"
+        },
+        "Image": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultImage"
+        },
+        "InfrastructureTarget": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultInfrastructureTarget"
+        },
+        "KVNamespace": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultKVNamespace"
+        },
+        "LoadBalancer": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultLoadBalancer"
+        },
+        "LoadBalancerMonitor": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultLoadBalancerMonitor"
+        },
+        "LoadBalancerPool": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultLoadBalancerPool"
+        },
+        "ManagedClientCertificate": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultManagedClientCertificate"
+        },
+        "PagesProject": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultPagesProject"
+        },
+        "Queue": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultQueue"
+        },
+        "R2Bucket": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultR2Bucket"
+        },
+        "ResourceShare": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultResourceShare"
+        },
+        "StreamLiveInput": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultStreamLiveInput"
+        },
+        "StreamVideo": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultStreamVideo"
+        },
+        "VectorizeIndex": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultVectorizeIndex"
+        },
+        "Worker": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultWorker"
+        },
+        "WorkerRoute": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultWorkerRoute"
+        },
+        "WorkerVersion": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultWorkerVersion"
+        },
+        "Zone": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultZone"
+        },
+        "ZoneRuleset": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultZoneRuleset"
+        }
+      }
+    },
     "com.cloudflare.resource_tagging#ResourceTagging": {
       "type": "service",
       "version": "4.0",
@@ -15523,7 +16397,7 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResult",
           "traits": {
             "com.cloudflare.protocols#envelopePayload": {},
             "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
@@ -15603,7 +16477,7 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResult",
           "traits": {
             "com.cloudflare.protocols#envelopePayload": {},
             "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
@@ -15927,7 +16801,7 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResult",
           "traits": {
             "com.cloudflare.protocols#envelopePayload": {},
             "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
@@ -16019,7 +16893,7 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResult",
           "traits": {
             "com.cloudflare.protocols#envelopePayload": {},
             "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."

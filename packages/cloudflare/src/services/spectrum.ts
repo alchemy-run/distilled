@@ -136,10 +136,13 @@ export type AppsCreateRequestEdgeIps =
   | AppsCreateRequestEdgeIpsDynamic
   | AppsCreateRequestEdgeIpsStatic;
 export const AppsCreateRequestEdgeIps = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["connectivity", "type"],
-    ["ips", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["connectivity", "type"],
+      ["ips", "type"],
+    ],
+    { key: "type", values: ["dynamic", "static"] },
+  ),
 );
 
 export type AppsCreateRequestOriginDirectList = Array<string>;
@@ -344,10 +347,13 @@ export type AppsCreateResultSpectrumConfigAppConfigEdgeIps =
   | AppsCreateResultSpectrumConfigAppConfigEdgeIpsStatic;
 export const AppsCreateResultSpectrumConfigAppConfigEdgeIps =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["connectivity", "type"],
-      ["ips", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["connectivity", "type"],
+        ["ips", "type"],
+      ],
+      { key: "type", values: ["dynamic", "static"] },
+    ),
   );
 
 export type AppsCreateResultSpectrumConfigAppConfigOriginDirectList =
@@ -1376,10 +1382,13 @@ export type AppsGetResultSpectrumConfigAppConfigEdgeIps =
   | AppsGetResultSpectrumConfigAppConfigEdgeIpsStatic;
 export const AppsGetResultSpectrumConfigAppConfigEdgeIps =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["connectivity", "type"],
-      ["ips", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["connectivity", "type"],
+        ["ips", "type"],
+      ],
+      { key: "type", values: ["dynamic", "static"] },
+    ),
   );
 
 export type AppsGetResultSpectrumConfigAppConfigOriginDirectList =
@@ -1729,10 +1738,13 @@ export type AppsListResultCase0ItemEdgeIps =
   | AppsListResultCase0ItemEdgeIpsDynamic
   | AppsListResultCase0ItemEdgeIpsStatic;
 export const AppsListResultCase0ItemEdgeIps = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["connectivity", "type"],
-    ["ips", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["connectivity", "type"],
+      ["ips", "type"],
+    ],
+    { key: "type", values: ["dynamic", "static"] },
+  ),
 );
 
 export type AppsListResultCase0ItemOriginDirectList = Array<string>;
@@ -2067,10 +2079,13 @@ export type AppsUpdateRequestEdgeIps =
   | AppsUpdateRequestEdgeIpsDynamic
   | AppsUpdateRequestEdgeIpsStatic;
 export const AppsUpdateRequestEdgeIps = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["connectivity", "type"],
-    ["ips", "type"],
-  ]),
+  T.UnionCases(
+    [
+      ["connectivity", "type"],
+      ["ips", "type"],
+    ],
+    { key: "type", values: ["dynamic", "static"] },
+  ),
 );
 
 export type AppsUpdateRequestOriginDirectList = Array<string>;
@@ -2278,10 +2293,13 @@ export type AppsUpdateResultSpectrumConfigAppConfigEdgeIps =
   | AppsUpdateResultSpectrumConfigAppConfigEdgeIpsStatic;
 export const AppsUpdateResultSpectrumConfigAppConfigEdgeIps =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["connectivity", "type"],
-      ["ips", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["connectivity", "type"],
+        ["ips", "type"],
+      ],
+      { key: "type", values: ["dynamic", "static"] },
+    ),
   );
 
 export type AppsUpdateResultSpectrumConfigAppConfigOriginDirectList =

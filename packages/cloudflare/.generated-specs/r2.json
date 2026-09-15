@@ -4180,13 +4180,25 @@
       }
     },
     "com.cloudflare.r2#SuperSlurperConnectivityPrecheckSourceRequestVendor": {
-      "type": "union",
+      "type": "enum",
       "members": {
-        "SuperSlurperConnectivityPrecheckSourceRequestVendorEnum": {
-          "target": "com.cloudflare.r2#SuperSlurperConnectivityPrecheckSourceRequestVendorEnum"
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "s3"
+          }
         },
-        "R2SlurperR2SourceSchema": {
-          "target": "com.cloudflare.r2#SuperSlurperConnectivityPrecheckSourceRequestVendorR2SlurperR2SourceSchema"
+        "GCS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcs"
+          }
+        },
+        "R2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "r2"
+          }
         }
       }
     },

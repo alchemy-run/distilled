@@ -390,7 +390,14 @@ const CONSTRAINT_BADGE =
 
 /** A type token the ` or ` operator can follow. */
 const TYPE_TOKEN_END =
-  /(?:["\]})\d]|\b(?:string|number|integer|int|boolean|true|false|null|unknown|any|object|array)|[A-Z][A-Za-z0-9_]*)$/;
+  /(?:["\]})\d]|\b(?:string|number|integer|int|boolean|true|false|null|unknown|any|object|array))$/;
+
+/** A named type the ` or ` operator can follow — or whose own tail reads as one. */
+const NAMED_TYPE_END = /[A-Z][A-Za-z0-9_]*$/;
+
+/** What an arm looks like where the ` or ` before it lost its space. */
+const ARM_START =
+  /^(?:"|-?\d|(?:string|number|integer|int|boolean|true|false|null|unknown|any|array)\b|map\[)/;
 
 /** A declaration paragraph: `name: <type>` with a type-shaped right side. */
 const FIELD_DECL =
@@ -449,15 +456,25 @@ const collapseLines = (s: string): string =>
 
 /**
  * Restore the space the html→markdown pass ate before a union's ` or `.
- * A `{` never starts an arm — it opens a named type's key preview
- * (`Monitor { id, … }`), where the `or` belongs to the type name.
+ *
+ * After a closing token or a keyword type the ` or ` is unambiguous. After a
+ * name it is not: a type name can END in "or" (`LoadBalancerMonitor`,
+ * `CacheDeceptionArmor`, `ListCursor`), and splitting one leaves a phantom
+ * arm that turns its whole union opaque. A name is only read as an arm when
+ * what follows can start one on its own — a literal, a keyword type, an
+ * array or a map. `object { … }` and `{ … }` cannot: both are the key
+ * preview the docs print after a named type.
  */
 const respaceUnion = (decl: string): string =>
-  decl.replace(/(\S)or (?=\S)/g, (match, _prev: string, offset: number) =>
-    TYPE_TOKEN_END.test(decl.slice(0, offset + 1)) && decl[offset + 4] !== "{"
-      ? `${match[0]} or `
-      : match,
-  );
+  decl.replace(/(\S)or (?=\S)/g, (match, _prev: string, offset: number) => {
+    const before = decl.slice(0, offset + 1);
+    const after = decl.slice(offset + 4);
+    if (after.startsWith("{")) return match;
+    const splits = TYPE_TOKEN_END.test(before)
+      ? true
+      : NAMED_TYPE_END.test(before) && ARM_START.test(after);
+    return splits ? `${match[0]} or ` : match;
+  });
 
 /** One property declaration, spelled the way the bullet format spelled it. */
 const declarationText = (block: string): string => {
@@ -1032,6 +1049,21 @@ const armsToResolved = (bag: Bag, arms: Arm[], hint: string): Resolved => {
 
   if (distinct.length === 0) return { target: PRELUDE.Document, nullable };
   if (distinct.length === 1) return { target: distinct[0].target, nullable };
+
+  // All arms are enums → one enum over every value. The docs write the
+  // allowed kinds once per request variant (`ResourceTaggingSetTagsRequest…`
+  // account-level vs worker-version), and a union of two closed string sets
+  // is just the wider set — with case key sets that would both be empty.
+  if (distinct.every((t) => bag.shapes[t.target]?.type === "enum")) {
+    const values = dedupe(
+      distinct.flatMap((t) =>
+        Object.values(bag.shapes[t.target].members as Record<string, any>).map(
+          (m) => m.traits["smithy.api#enumValue"] as string,
+        ),
+      ),
+    );
+    return { target: enumOf(bag, values, hint), nullable };
+  }
 
   // All arms are maps → one map with a union value.
   if (

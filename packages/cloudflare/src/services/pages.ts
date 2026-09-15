@@ -2352,10 +2352,13 @@ export type ProjectsCreateResponseLatestDeploymentEnvVars =
   | ProjectsCreateResponseLatestDeploymentEnvVarsSecretText;
 export const ProjectsCreateResponseLatestDeploymentEnvVars =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "value"],
-      ["type", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "value"],
+        ["type", "value"],
+      ],
+      { key: "type", values: ["plain_text", "secret_text"] },
+    ),
   );
 
 export type ProjectsCreateResponseLatestDeploymentEnvironment =
@@ -4691,10 +4694,13 @@ export type ProjectsGetResponseLatestDeploymentEnvVars =
   | ProjectsGetResponseLatestDeploymentEnvVarsSecretText;
 export const ProjectsGetResponseLatestDeploymentEnvVars =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "value"],
-      ["type", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "value"],
+        ["type", "value"],
+      ],
+      { key: "type", values: ["plain_text", "secret_text"] },
+    ),
   );
 
 export type ProjectsGetResponseLatestDeploymentEnvironment =
@@ -7393,10 +7399,13 @@ export type ProjectsListResultItemLatestDeploymentEnvVars =
   | ProjectsListResultItemLatestDeploymentEnvVarsSecretText;
 export const ProjectsListResultItemLatestDeploymentEnvVars =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "value"],
-      ["type", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "value"],
+        ["type", "value"],
+      ],
+      { key: "type", values: ["plain_text", "secret_text"] },
+    ),
   );
 
 export type ProjectsListResultItemLatestDeploymentEnvironment =
@@ -9845,10 +9854,13 @@ export type ProjectsEditResponseLatestDeploymentEnvVars =
   | ProjectsEditResponseLatestDeploymentEnvVarsSecretText;
 export const ProjectsEditResponseLatestDeploymentEnvVars =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "value"],
-      ["type", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "value"],
+        ["type", "value"],
+      ],
+      { key: "type", values: ["plain_text", "secret_text"] },
+    ),
   );
 
 export type ProjectsEditResponseLatestDeploymentEnvironment =

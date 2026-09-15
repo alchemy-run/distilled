@@ -1674,14 +1674,20 @@ export type DynamicRoutingCreateDeploymentResponseElementsItem =
   | DynamicRoutingCreateDeploymentResponseElementsItemCase5;
 export const DynamicRoutingCreateDeploymentResponseElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingCreateDeploymentResponseElementsList =
@@ -1955,14 +1961,20 @@ export type DynamicRoutingCreateRequestElementsItem =
   | DynamicRoutingCreateRequestElementsItemCase5;
 export const DynamicRoutingCreateRequestElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingCreateRequestElementsList =
@@ -2251,14 +2263,20 @@ export type DynamicRoutingCreateResponseElementsItem =
   | DynamicRoutingCreateResponseElementsItemCase5;
 export const DynamicRoutingCreateResponseElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingCreateResponseElementsList =
@@ -2835,14 +2853,20 @@ export type DynamicRoutingCreateVersionRequestElementsItem =
   | DynamicRoutingCreateVersionRequestElementsItemCase5;
 export const DynamicRoutingCreateVersionRequestElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingCreateVersionRequestElementsList =
@@ -3126,14 +3150,20 @@ export type DynamicRoutingCreateVersionResponseElementsItem =
   | DynamicRoutingCreateVersionResponseElementsItemCase5;
 export const DynamicRoutingCreateVersionResponseElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingCreateVersionResponseElementsList =
@@ -4345,14 +4375,20 @@ export type DynamicRoutingDeleteResponseElementsItem =
   | DynamicRoutingDeleteResponseElementsItemCase5;
 export const DynamicRoutingDeleteResponseElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingDeleteResponseElementsList =
@@ -5740,14 +5776,20 @@ export type DynamicRoutingGetResponseElementsItem =
   | DynamicRoutingGetResponseElementsItemCase5;
 export const DynamicRoutingGetResponseElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingGetResponseElementsList =
@@ -6346,14 +6388,20 @@ export type DynamicRoutingGetVersionResponseElementsItem =
   | DynamicRoutingGetVersionResponseElementsItemCase5;
 export const DynamicRoutingGetVersionResponseElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingGetVersionResponseElementsList =
@@ -7858,14 +7906,20 @@ export type DynamicRoutingListResponseDataRoutesItemElementsItem =
   | DynamicRoutingListResponseDataRoutesItemElementsItemCase5;
 export const DynamicRoutingListResponseDataRoutesItemElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingListResponseDataRoutesItemElementsList =
@@ -8846,14 +8900,20 @@ export type DynamicRoutingUpdateResponseRouteElementsItem =
   | DynamicRoutingUpdateResponseRouteElementsItemCase5;
 export const DynamicRoutingUpdateResponseRouteElementsItem =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "properties", "type"],
-      ["id", "outputs", "type"],
-    ]),
+    T.UnionCases(
+      [
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "properties", "type"],
+        ["id", "outputs", "type"],
+      ],
+      {
+        key: "type",
+        values: ["start", "conditional", "percentage", "rate", "model", "end"],
+      },
+    ),
   );
 
 export type DynamicRoutingUpdateResponseRouteElementsList =

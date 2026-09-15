@@ -218856,6 +218856,95 @@
         "target": "smithy.api#Document"
       }
     },
+    "com.cloudflare.zero_trust#AccessApplicationsUpdateRequestType": {
+      "type": "enum",
+      "members": {
+        "SELF_HOSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "self_hosted"
+          }
+        },
+        "SAAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "saas"
+          }
+        },
+        "SSH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ssh"
+          }
+        },
+        "VNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnc"
+          }
+        },
+        "APP_LAUNCHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_launcher"
+          }
+        },
+        "WARP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warp"
+          }
+        },
+        "BISO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "biso"
+          }
+        },
+        "BOOKMARK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bookmark"
+          }
+        },
+        "DASH_SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dash_sso"
+          }
+        },
+        "INFRASTRUCTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "infrastructure"
+          }
+        },
+        "RDP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rdp"
+          }
+        },
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp"
+          }
+        },
+        "MCP_PORTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp_portal"
+          }
+        },
+        "PROXY_ENDPOINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "proxy_endpoint"
+          }
+        }
+      }
+    },
     "com.cloudflare.zero_trust#AccessApplicationsUpdateRequestTypeBrowserSSHApplication": {
       "type": "enum",
       "members": {
@@ -284808,6 +284897,95 @@
         "target": "smithy.api#Document"
       }
     },
+    "com.cloudflare.zero_trust#AccessApplicationsCreateRequestType": {
+      "type": "enum",
+      "members": {
+        "SELF_HOSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "self_hosted"
+          }
+        },
+        "SAAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "saas"
+          }
+        },
+        "SSH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ssh"
+          }
+        },
+        "VNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnc"
+          }
+        },
+        "APP_LAUNCHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_launcher"
+          }
+        },
+        "WARP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warp"
+          }
+        },
+        "BISO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "biso"
+          }
+        },
+        "BOOKMARK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bookmark"
+          }
+        },
+        "DASH_SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dash_sso"
+          }
+        },
+        "INFRASTRUCTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "infrastructure"
+          }
+        },
+        "RDP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rdp"
+          }
+        },
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp"
+          }
+        },
+        "MCP_PORTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp_portal"
+          }
+        },
+        "PROXY_ENDPOINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "proxy_endpoint"
+          }
+        }
+      }
+    },
     "com.cloudflare.zero_trust#AccessApplicationsCreateRequestTypeBrowserSSHApplication": {
       "type": "enum",
       "members": {
@@ -320354,17 +320532,6 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.zero_trust#AccessApplicationsUpdateRequestCorsHeadersAllowedMethodsItem"
-      }
-    },
-    "com.cloudflare.zero_trust#AccessApplicationsUpdateRequestType": {
-      "type": "union",
-      "members": {
-        "SelfHostedApplication": {
-          "target": "com.cloudflare.zero_trust#AccessApplicationsUpdateRequestTypeSelfHostedApplication"
-        },
-        "BrowserSSHApplication": {
-          "target": "com.cloudflare.zero_trust#AccessApplicationsUpdateRequestTypeBrowserSSHApplication"
-        }
       }
     },
     "com.cloudflare.zero_trust#AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigMappingsItem": {
@@ -361698,17 +361865,6 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestCorsHeadersAllowedMethodsItem"
-      }
-    },
-    "com.cloudflare.zero_trust#AccessApplicationsCreateRequestType": {
-      "type": "union",
-      "members": {
-        "SelfHostedApplication": {
-          "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestTypeSelfHostedApplication"
-        },
-        "BrowserSSHApplication": {
-          "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestTypeBrowserSSHApplication"
-        }
       }
     },
     "com.cloudflare.zero_trust#PutAccessCertificateSettingResponse": {
