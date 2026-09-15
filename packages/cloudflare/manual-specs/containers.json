@@ -367,10 +367,7 @@
           }
         },
         "durable_objects": {
-          "target": "com.cloudflare.containers#DurableObjectsRef",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "com.cloudflare.containers#DurableObjectsRef"
         },
         "instances": {
           "target": "smithy.api#Integer"

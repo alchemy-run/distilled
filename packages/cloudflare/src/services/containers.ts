@@ -128,7 +128,7 @@ export interface CreateContainerApplicationRequest {
   instanceType?: string;
   environmentVariables?: EnvironmentVariableList;
   maxInstances: number;
-  durableObjects: DurableObjectsRef;
+  durableObjects?: DurableObjectsRef;
   instances?: number;
   schedulingPolicy: SchedulingPolicy | (string & {});
   constraints?: unknown;
@@ -145,7 +145,9 @@ export const CreateContainerApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       EnvironmentVariableList.pipe(T.Body("environment_variables")),
     ),
     maxInstances: S.Number.pipe(T.Body("max_instances")),
-    durableObjects: DurableObjectsRef.pipe(T.Body("durable_objects")),
+    durableObjects: S.optional(
+      DurableObjectsRef.pipe(T.Body("durable_objects")),
+    ),
     instances: S.optional(S.Number),
     schedulingPolicy: SchedulingPolicy.pipe(T.Body("scheduling_policy")),
     constraints: S.optional(S.Unknown),
