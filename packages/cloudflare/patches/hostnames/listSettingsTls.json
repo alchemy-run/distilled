@@ -1,0 +1,17 @@
+{
+  "description": "Type the entitlement/forbidden errors on listSettingsTls so alchemy list can skip non-entitled zones",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.hostnames#SettingsTlsList/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.hostnames#AdvancedCertificateManagerRequired"
+        },
+        {
+          "target": "com.cloudflare.hostnames#Forbidden"
+        }
+      ]
+    }
+  ]
+}

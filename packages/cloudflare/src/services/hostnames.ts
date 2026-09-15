@@ -447,7 +447,10 @@ export const getSettingTls: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListSettingsTlsError = CloudflareOpError;
+export type ListSettingsTlsError =
+  | AdvancedCertificateManagerRequired
+  | Forbidden
+  | CloudflareOpError;
 /** List the requested TLS setting for the hostnames under this zone. */
 export const listSettingsTls: API.OperationMethod<
   ListSettingsTlsRequest,
@@ -457,7 +460,12 @@ export const listSettingsTls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListSettingsTlsRequest,
   output: ListSettingsTlsResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    AdvancedCertificateManagerRequired,
+    Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
