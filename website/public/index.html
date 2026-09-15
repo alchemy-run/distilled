@@ -447,7 +447,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
 
         <div class="caps" data-reveal>
           <article class="cap">
-            <h3>Typed errors</h3>
+            <h3>Typed Errors</h3>
             <pre
               class="snippet"
             ><code>S3.<span class="f">getObject</span>({ Bucket, Key }).<span class="f">pipe</span>(
@@ -487,7 +487,7 @@ program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({   
           </article>
 
           <article class="cap">
-            <h3>Pagination and streaming</h3>
+            <h3>Paginate with Streams instead of loops</h3>
             <pre
               class="snippet"
             ><code><span class="m">// Paginated: pages fetch themselves, on demand.</span>
@@ -531,7 +531,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(MockHt
           </article>
 
           <article class="cap">
-            <h3>Tracing</h3>
+            <h3>Built-in OTel support with Effect spans</h3>
             <pre
               class="snippet"
             ><code><span class="m">// Effect's HttpClient opens a span per request with the</span>
@@ -554,11 +554,11 @@ program.<span class="f">pipe</span>(
           </article>
 
           <article class="cap">
-            <h3>Bundle size and speed</h3>
+            <h3>Import one operation, ship one operation</h3>
             <pre
               class="snippet"
-            ><code><span class="m">// one service, not the 430-service barrel</span>
-<span class="k">import</span> * <span class="k">as</span> S3 <span class="k">from</span> <span class="s">"@distilled.cloud/aws/s3"</span></code></pre>
+            ><code><span class="m">// the bundle keeps getObject — not the other 111 S3 ops</span>
+<span class="k">import</span> { getObject } <span class="k">from</span> <span class="s">"@distilled.cloud/aws/s3"</span></code></pre>
             <dl class="cap__stats">
               <div>
                 <dt>gzipped, one S3 op</dt>
@@ -578,8 +578,9 @@ program.<span class="f">pipe</span>(
               </div>
             </dl>
             <p>
-              Measured with the bundler settings Alchemy uses for Cloudflare
-              Workers. Runs on Node, Bun and Workers.
+              Every operation is its own export, so the bundler keeps only the
+              ones you call — 1 of 112 S3 operations survives in the measured
+              build. Runs on Node, Bun and Workers.
               <a class="cap__more" href="/bench">See all the numbers →</a>
             </p>
           </article>
