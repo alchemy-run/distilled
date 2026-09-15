@@ -361,15 +361,7 @@
         },
         "smithy.api#documentation": "List the requested TLS setting for the hostnames under this zone.",
         "smithy.api#readonly": {}
-      },
-      "errors": [
-        {
-          "target": "com.cloudflare.hostnames#AdvancedCertificateManagerRequired"
-        },
-        {
-          "target": "com.cloudflare.hostnames#Forbidden"
-        }
-      ]
+      }
     },
     "com.cloudflare.hostnames#SettingsTlsUpdateRequestSettingId": {
       "type": "enum",

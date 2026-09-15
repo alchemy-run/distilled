@@ -60,35 +60,6 @@ describe("hostname TLS GET/LIST split", () => {
       ),
     ));
 
-  for (const [status, code, tag] of [
-    [403, 1450, "AdvancedCertificateManagerRequired"],
-    [403, 0, "Forbidden"],
-  ] as const) {
-    test(`LIST synthetic ${status}/${code} matches ${tag}`, () =>
-      Effect.runPromise(
-        listSettingsTls(request).pipe(
-          Effect.match({
-            onFailure: (error) => expect(error._tag).toBe(tag),
-            onSuccess: () => {
-              throw new Error("Expected entitlement error");
-            },
-          }),
-          Effect.provideService(
-            HttpClient.HttpClient,
-            client(
-              status,
-              {
-                success: false,
-                errors: [{ code, message: "Synthetic entitlement response" }],
-              },
-              collectionPath,
-            ),
-          ),
-          Effect.provide(fromApiToken({ apiToken: "fixture" })),
-        ),
-      ));
-  }
-
   test("GET preserves InvalidRoute for a 404 with code 7003", () =>
     Effect.runPromise(
       getSettingTls({ ...request, hostname: "example.com" }).pipe(
