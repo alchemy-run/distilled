@@ -477,6 +477,12 @@
     },
     {
       "path": "./packages/slack/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/s2/tsconfig.json"
+    },
+    {
+      "path": "./packages/s2/tsconfig.scripts.json"
     }
   ]
 }
