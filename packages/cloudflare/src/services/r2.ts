@@ -5008,8 +5008,6 @@ export interface UploadBucketObjectRequest {
   cacheControl?: string;
   /** Expiration date of the object. */
   expires?: string;
-  /** Storage class for the object. */
-  cf_r2_storage_class?: string;
 }
 export const UploadBucketObjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5036,9 +5034,6 @@ export const UploadBucketObjectRequest = /*@__PURE__*/ S.suspend(() =>
     contentLength: S.optional(S.String.pipe(T.Header("Content-Length"))),
     cacheControl: S.optional(S.String.pipe(T.Header("Cache-Control"))),
     expires: S.optional(S.String.pipe(T.Header("Expires"))),
-    cf_r2_storage_class: S.optional(
-      S.String.pipe(T.Header("cf-r2-storage-class")),
-    ),
   })
     .pipe(
       T.Http({

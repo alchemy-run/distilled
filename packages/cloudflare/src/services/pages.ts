@@ -2846,6 +2846,9 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateProjectResponse",
 }) as any as S.Schema<CreateProjectResponse>;
 
+export type ProjectsDeploymentsCreateRequestCommitDirty = "true" | "false";
+export const ProjectsDeploymentsCreateRequestCommitDirty = S.String;
+
 export interface CreateProjectDeploymentRequest {
   /** Identifier. */
   accountId: string;
@@ -2861,21 +2864,22 @@ export interface CreateProjectDeploymentRequest {
   workerBundle?: unknown;
   /** Worker JavaScript file. Mutually exclusive with `_worker.bundle`. Cannot specify both `_worker.js` and `_worker.bundle` in the same request. */
   workerJs?: unknown;
-  /** The branch to build the new deployment from. */
+  /** The branch to build the new deployment from. The `HEAD` of the branch will be used. If omitted, the production branch will be used by default. */
   branch?: string;
-  commitDirty?: boolean;
+  /** Boolean string indicating if the working directory has uncommitted changes. */
+  commitDirty?: ProjectsDeploymentsCreateRequestCommitDirty | (string & {});
+  /** Git commit SHA associated with this deployment. */
   commitHash?: string;
+  /** Git commit message associated with this deployment. */
   commitMessage?: string;
+  /** Functions routing configuration file. */
   functionsFilepathRoutingConfigJson?: unknown;
-  /** JSON string mapping file paths to their content hashes. */
+  /** JSON string containing a manifest of files to deploy. Maps file paths to their content hashes. Required for direct upload deployments. Maximum 20,000 entries. */
   manifest?: string;
+  /** The build output directory path. */
   pagesBuildOutputDir?: string;
+  /** Hash of the Wrangler configuration file used for this deployment. */
   wranglerConfigHash?: string;
-  headers2?: unknown;
-  redirects2?: unknown;
-  routes_json?: unknown;
-  worker_bundle?: unknown;
-  worker_js?: unknown;
 }
 export const CreateProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2887,7 +2891,9 @@ export const CreateProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     workerBundle: S.optional(S.Unknown.pipe(T.Body("_worker.bundle"))),
     workerJs: S.optional(S.Unknown.pipe(T.Body("_worker.js"))),
     branch: S.optional(S.String),
-    commitDirty: S.optional(S.Boolean.pipe(T.Body("commit_dirty"))),
+    commitDirty: S.optional(
+      ProjectsDeploymentsCreateRequestCommitDirty.pipe(T.Body("commit_dirty")),
+    ),
     commitHash: S.optional(S.String.pipe(T.Body("commit_hash"))),
     commitMessage: S.optional(S.String.pipe(T.Body("commit_message"))),
     functionsFilepathRoutingConfigJson: S.optional(
@@ -2900,11 +2906,6 @@ export const CreateProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     wranglerConfigHash: S.optional(
       S.String.pipe(T.Body("wrangler_config_hash")),
     ),
-    headers2: S.optional(S.Unknown.pipe(T.Body("_headers"))),
-    redirects2: S.optional(S.Unknown.pipe(T.Body("_redirects"))),
-    routes_json: S.optional(S.Unknown.pipe(T.Body("_routes.json"))),
-    worker_bundle: S.optional(S.Unknown.pipe(T.Body("_worker.bundle"))),
-    worker_js: S.optional(S.Unknown.pipe(T.Body("_worker.js"))),
   })
     .pipe(
       T.Http({

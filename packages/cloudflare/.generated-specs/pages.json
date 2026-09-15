@@ -19113,69 +19113,50 @@
         "branch": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The branch to build the new deployment from."
+            "smithy.api#documentation": "The branch to build the new deployment from. The `HEAD` of the branch will be used. If omitted, the production branch will be used by default."
           }
         },
         "commit_dirty": {
-          "target": "smithy.api#Boolean",
-          "traits": {}
+          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateRequestCommitDirty",
+          "traits": {
+            "smithy.api#documentation": "Boolean string indicating if the working directory has uncommitted changes."
+          }
         },
         "commit_hash": {
           "target": "smithy.api#String",
-          "traits": {}
+          "traits": {
+            "smithy.api#documentation": "Git commit SHA associated with this deployment."
+          }
         },
         "commit_message": {
           "target": "smithy.api#String",
-          "traits": {}
+          "traits": {
+            "smithy.api#documentation": "Git commit message associated with this deployment."
+          }
         },
         "functions_filepath_routing_config_json": {
           "target": "smithy.api#Document",
           "traits": {
+            "smithy.api#documentation": "Functions routing configuration file.",
             "smithy.api#jsonName": "functions-filepath-routing-config.json"
           }
         },
         "manifest": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "JSON string mapping file paths to their content hashes."
+            "smithy.api#documentation": "JSON string containing a manifest of files to deploy. Maps file paths to their content hashes. Required for direct upload deployments. Maximum 20,000 entries."
           }
         },
         "pages_build_output_dir": {
           "target": "smithy.api#String",
-          "traits": {}
+          "traits": {
+            "smithy.api#documentation": "The build output directory path."
+          }
         },
         "wrangler_config_hash": {
           "target": "smithy.api#String",
-          "traits": {}
-        },
-        "headers": {
-          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#jsonName": "_headers"
-          }
-        },
-        "redirects": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#jsonName": "_redirects"
-          }
-        },
-        "routes_json": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#jsonName": "_routes.json"
-          }
-        },
-        "worker_bundle": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#jsonName": "_worker.bundle"
-          }
-        },
-        "worker_js": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#jsonName": "_worker.js"
+            "smithy.api#documentation": "Hash of the Wrangler configuration file used for this deployment."
           }
         }
       },
