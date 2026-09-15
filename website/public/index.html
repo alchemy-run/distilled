@@ -306,7 +306,7 @@
 
 <span class="k">const</span> <span class="v">program</span> = S3.<span class="f">getObject</span>({ Bucket, Key }).<span class="f">pipe</span>(
   Effect.<span class="f">catchTags</span>({
-    <span class="t">NoSuchKey</span>:    () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),  <span class="m">// typed per op</span>
+    <span class="t">NoSuchKey</span>:    () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),
     <span class="t">AccessDenied</span>: (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
   }),
 )
@@ -359,7 +359,9 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(CfLive
   <span class="s">"@distilled.cloud/gcp/Credentials"</span>
 
 <span class="m">// Paginated ops are Streams: pages fetch on demand.</span>
-<span class="k">const</span> <span class="v">program</span> = Storage.listBuckets.<span class="f">items</span>({ project: <span class="s">"acme"</span> }).<span class="f">pipe</span>(
+<span class="k">const</span> <span class="v">program</span> = Storage.listBuckets
+  .<span class="f">items</span>({ project: <span class="s">"acme"</span> })
+  .<span class="f">pipe</span>(
   Stream.<span class="f">filter</span>((b) => b.location === <span class="s">"EU"</span>),
   Stream.<span class="f">take</span>(<span class="c">20</span>),
   Stream.<span class="f">runCollect</span>,
@@ -453,7 +455,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
     <span class="t">NoSuchKey</span>:     () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),
     <span class="t">AccessDenied</span>:  (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Forbidden</span>(e)),
   }),
-  Effect.<span class="f">catchIf</span>(<span class="f">isThrottlingError</span>, () => backOff),  <span class="m">// by category</span>
+  Effect.<span class="f">catchIf</span>(<span class="f">isThrottlingError</span>, () => backOff),
 )</code></pre>
             <p>
               Match the exact error with <code>catchTags</code>, or a category —
@@ -467,8 +469,8 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
             <h3>Retries</h3>
             <pre
               class="snippet"
-            ><code><span class="m">// Default: exponential from 250ms, capped 5s, jittered, 8 tries,</span>
-<span class="m">// transient + throttling only, server Retry-After honoured.</span>
+            ><code><span class="m">// Default: exponential from 250ms, cap 5s, jitter,</span>
+<span class="m">// 8 tries, transient/throttling only, Retry-After honoured.</span>
 program.<span class="f">pipe</span>(AWS.Retry.<span class="f">throttling</span>)   <span class="m">// retry throttles forever</span>
 program.<span class="f">pipe</span>(AWS.Retry.<span class="f">none</span>)         <span class="m">// or not at all</span>
 program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({      <span class="m">// or your own</span>
@@ -488,14 +490,14 @@ program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({   
             <h3>Pagination and streaming</h3>
             <pre
               class="snippet"
-            ><code><span class="m">// Paginated: every page fetches itself, on demand.</span>
+            ><code><span class="m">// Paginated: pages fetch themselves, on demand.</span>
 <span class="k">const</span> stale = Lambda.listFunctions.<span class="f">items</span>({}).<span class="f">pipe</span>(
   Stream.<span class="f">filter</span>((fn) => fn.Runtime === <span class="s">"nodejs16.x"</span>),
   Stream.<span class="f">take</span>(<span class="c">50</span>),
   Stream.<span class="f">runCollect</span>,
 )
 
-<span class="m">// Bodies: a Stream&lt;Uint8Array&gt; in and out — no buffering the file.</span>
+<span class="m">// Bodies stream in and out — nothing is buffered.</span>
 <span class="k">const</span> copy = S3.<span class="f">getObject</span>({ Bucket: src, Key }).<span class="f">pipe</span>(
   Effect.<span class="f">flatMap</span>((o) =>
     S3.<span class="f">putObject</span>({ Bucket: dst, Key, Body: o.Body! })),
@@ -532,8 +534,8 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(MockHt
             <h3>Tracing</h3>
             <pre
               class="snippet"
-            ><code><span class="m">// Effect's HttpClient opens a span per request, tagged with</span>
-<span class="m">// http.request.method, server.address, http.response.status_code.</span>
+            ><code><span class="m">// Effect's HttpClient opens a span per request with the</span>
+<span class="m">// standard http.* and server.* attributes.</span>
 program.<span class="f">pipe</span>(
   Effect.<span class="f">withSpan</span>(<span class="s">"provision-bucket"</span>),
   Effect.<span class="f">provide</span>(OtlpTracer.<span class="f">layer</span>({
@@ -1045,6 +1047,31 @@ program.<span class="f">pipe</span>(
           );
         });
       }
+
+      // Code blocks never scroll: measure each block's widest line and scale
+      // the font down (to a floor) so it fits the block. Re-run on resize.
+      const fitCode = () => {
+        for (const pre of document.querySelectorAll(
+          "pre.snippet, pre.code, pre.ev__code",
+        )) {
+          const code = pre.querySelector("code") ?? pre;
+          pre.style.removeProperty("--fit");
+          const avail =
+            pre.clientWidth -
+            (parseFloat(getComputedStyle(pre).paddingLeft) +
+              parseFloat(getComputedStyle(pre).paddingRight));
+          const need = code.scrollWidth;
+          if (need > avail && avail > 0) {
+            pre.style.setProperty(
+              "--fit",
+              Math.max(0.6, avail / need).toFixed(3),
+            );
+          }
+        }
+      };
+      fitCode();
+      addEventListener("resize", fitCode, { passive: true });
+      document.fonts?.ready.then(fitCode);
 
       // Package filter: matches on name, directory and tags; hides empty groups.
       const input = document.getElementById("filter");
