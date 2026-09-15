@@ -165,12 +165,24 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   /* Fine grid + a single warm glow behind the hero. */
-  background-image: radial-gradient(
-    60rem 30rem at 70% -10%,
-    color-mix(in oklab, var(--accent) 14%, transparent),
-    transparent 70%
-  );
-  background-attachment: fixed;
+  /* A glow behind the hero and a fine dot grid over the whole page. The dot
+     is a 1.5px disc on a 1.5rem pitch; --dot lets the shame/bench pages
+     keep the same grid under a different glow. */
+  --dot: color-mix(in oklab, var(--line-2) 85%, transparent);
+  background-image:
+    radial-gradient(
+      60rem 30rem at 70% -10%,
+      color-mix(in oklab, var(--accent) 14%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(circle, var(--dot) 0.75px, transparent 0.85px);
+  background-size:
+    auto,
+    1.5rem 1.5rem;
+  background-position:
+    0 0,
+    0.75rem 0.75rem;
+  background-attachment: fixed, local;
 }
 
 /* While the theme flips, suspend every transition so the whole page changes
@@ -1677,11 +1689,20 @@ pre.code code {
 
 .page-shame {
   /* Same grid, but the glow is ember-red instead of copper. */
-  background-image: radial-gradient(
-    60rem 30rem at 70% -10%,
-    color-mix(in oklab, var(--shame) 14%, transparent),
-    transparent 70%
-  );
+  background-image:
+    radial-gradient(
+      60rem 30rem at 70% -10%,
+      color-mix(in oklab, var(--shame) 14%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(circle, var(--dot) 0.75px, transparent 0.85px);
+  background-size:
+    auto,
+    1.5rem 1.5rem;
+  background-position:
+    0 0,
+    0.75rem 0.75rem;
+  background-attachment: fixed, local;
   --shame: var(--rose);
   --shame-2: var(--rose-2);
 }
@@ -2045,11 +2066,20 @@ pre.code code {
 .page-bench {
   --bench: var(--teal);
   --bench-2: var(--teal-2);
-  background-image: radial-gradient(
-    60rem 30rem at 70% -10%,
-    color-mix(in oklab, var(--bench) 14%, transparent),
-    transparent 70%
-  );
+  background-image:
+    radial-gradient(
+      60rem 30rem at 70% -10%,
+      color-mix(in oklab, var(--bench) 14%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(circle, var(--dot) 0.75px, transparent 0.85px);
+  background-size:
+    auto,
+    1.5rem 1.5rem;
+  background-position:
+    0 0,
+    0.75rem 0.75rem;
+  background-attachment: fixed, local;
 }
 
 .bench-hero {
