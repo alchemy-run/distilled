@@ -1946,8 +1946,6 @@ export interface CreateUserSchemaRequest {
   name?: string;
   /** Flag whether schema is enabled for validation. */
   validationEnabled?: UserSchemasCreateRequestValidationEnabled | (string & {});
-  /** Flag whether schema is enabled for validation. */
-  validationEnabled2?: boolean;
 }
 export const CreateUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1959,9 +1957,6 @@ export const CreateUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       UserSchemasCreateRequestValidationEnabled.pipe(
         T.Body("validation_enabled"),
       ),
-    ),
-    validationEnabled2: S.optional(
-      S.Boolean.pipe(T.Body("validation_enabled")),
     ),
   })
     .pipe(
