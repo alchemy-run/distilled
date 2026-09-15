@@ -1,21034 +1,21881 @@
-# Realtime Kit
+##### [Fetch all apps](/api/resources/realtime_kit/subresources/apps/methods/get)
 
-# Apps
+GET/accounts/{account_id}/realtime/kit/apps
 
-## Fetch all apps
+##### [Create App](/api/resources/realtime_kit/subresources/apps/methods/post)
 
-**get** `/accounts/{account_id}/realtime/kit/apps`
+POST/accounts/{account_id}/realtime/kit/apps
 
-Fetch all apps for your account
+##### Models
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+AppGetResponse object { data, paging, success }
 
-### Query Parameters
+</summary>
 
-- `page_no: optional number`
+<details>
 
-  The page number from which you want your page search results to be displayed.
+<summary>
 
-- `per_page: optional number`
+data: optional array of object { id, created_at, name }
 
-  Number of results per page.
+</summary>
 
-- `search: optional string`
+id: optional string
 
-  Search string that matches apps by name.
+formatuuid
 
-- `sort_order: optional "ASC" or "DESC"`
+[Link to this property](#)
 
-  Sort order for apps by creation time.
+created_at: optional string
 
-  - `"ASC"`
+formatdate-time
 
-  - `"DESC"`
+[Link to this property](#)
 
-### Returns
+name: optional string
 
-- `data: optional array of object { id, created_at, name }`
+[Link to this property](#)
 
-  - `id: optional string`
+</details>
 
-  - `created_at: optional string`
+[Link to this property](#)
 
-  - `name: optional string`
+<details>
 
-- `paging: optional object { end_offset, start_offset, total_count }`
+<summary>
 
-  - `end_offset: optional number`
+paging: optional object { end_offset, start_offset, total_count }
 
-  - `start_offset: optional number`
+</summary>
 
-  - `total_count: optional number`
+end_offset: optional number
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+start_offset: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/apps \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+total_count: optional number
 
-```json
-{
-  "data": [
-    {
-      "created_at": "2025-01-01T08:16:40.644Z",
-      "id": "14a396e7-ca44-4937-bf1f-050a69118543",
-      "name": "my-first-app"
-    }
-  ],
-  "paging": {
-    "end_offset": 1,
-    "start_offset": 1,
-    "total_count": 1
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Create App
+</details>
 
-**post** `/accounts/{account_id}/realtime/kit/apps`
+[Link to this property](#)
 
-Create new app for your account
+success: optional boolean
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+</details>
 
-  The account identifier tag.
+[Link to this property](#)
 
-### Body Parameters
+<details>
 
-- `name: string`
+<summary>
 
-### Returns
+AppPostResponse object { data, success }
 
-- `data: optional object { app }`
+</summary>
 
-  - `app: optional object { id, created_at, name }`
+<details>
 
-    - `id: optional string`
+<summary>
 
-    - `created_at: optional string`
+data: optional object { app }
 
-    - `name: optional string`
+</summary>
 
-- `success: optional boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/apps \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "x"
-        }'
-```
+app: optional object { id, created_at, name }
 
-#### Response
+</summary>
 
-```json
-{
-  "data": {
-    "app": {
-      "created_at": "2025-01-01T08:16:40.644Z",
-      "id": "14a396e7-ca44-4937-bf1f-050a69118543",
-      "name": "my-new-app"
-    }
-  },
-  "success": true
-}
-```
+id: optional string
 
-## Domain Types
+formatuuid
 
-### App Get Response
+[Link to this property](#)
 
-- `AppGetResponse object { data, paging, success }`
+created_at: optional string
 
-  - `data: optional array of object { id, created_at, name }`
+formatdate-time
 
-    - `id: optional string`
+[Link to this property](#)
 
-    - `created_at: optional string`
+name: optional string
 
-    - `name: optional string`
+[Link to this property](#)
 
-  - `paging: optional object { end_offset, start_offset, total_count }`
+</details>
 
-    - `end_offset: optional number`
+[Link to this property](#)
 
-    - `start_offset: optional number`
+</details>
 
-    - `total_count: optional number`
+[Link to this property](#)
 
-  - `success: optional boolean`
+success: optional boolean
 
-### App Post Response
+[Link to this property](#)
 
-- `AppPostResponse object { data, success }`
+</details>
 
-  - `data: optional object { app }`
+[Link to this property](#)
 
-    - `app: optional object { id, created_at, name }`
+##### [Fetch all meetings for an App](/api/resources/realtime_kit/subresources/meetings/methods/get)
 
-      - `id: optional string`
+GET/accounts/{account_id}/realtime/kit/{app_id}/meetings
 
-      - `created_at: optional string`
+##### [Create a meeting](/api/resources/realtime_kit/subresources/meetings/methods/create)
 
-      - `name: optional string`
+POST/accounts/{account_id}/realtime/kit/{app_id}/meetings
 
-  - `success: optional boolean`
+##### [Fetch a meeting for an App](/api/resources/realtime_kit/subresources/meetings/methods/get_meeting_by_id)
 
-# Meetings
+GET/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}
 
-## Fetch all meetings for an App
+##### [Update a meeting](/api/resources/realtime_kit/subresources/meetings/methods/update_meeting_by_id)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings`
+PATCH/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}
 
-Returns all meetings for the given App ID.
+##### [Replace a meeting](/api/resources/realtime_kit/subresources/meetings/methods/replace_meeting_by_id)
 
-### Path Parameters
+PUT/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}
 
-- `account_id: string`
+##### [Fetch all participants of a meeting](/api/resources/realtime_kit/subresources/meetings/methods/get_meeting_participants)
 
-  The account identifier tag.
+GET/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants
 
-- `app_id: string`
+##### [Add a participant](/api/resources/realtime_kit/subresources/meetings/methods/add_participant)
 
-  The app identifier tag.
+POST/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants
 
-### Query Parameters
+##### [Fetch a participant's detail](/api/resources/realtime_kit/subresources/meetings/methods/get_meeting_participant)
 
-- `end_time: optional string`
+GET/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}
 
-  The end time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+##### [Edit a participant's detail](/api/resources/realtime_kit/subresources/meetings/methods/edit_participant)
 
-- `page_no: optional number`
+PATCH/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}
 
-  The page number from which you want your page search results to be displayed.
+##### [Delete a participant](/api/resources/realtime_kit/subresources/meetings/methods/delete_meeting_participant)
 
-- `per_page: optional number`
+DELETE/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}
 
-  Number of results per page
+##### [Refresh participant's authentication token](/api/resources/realtime_kit/subresources/meetings/methods/refresh_participant_token)
 
-- `search: optional string`
+POST/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}/token
 
-  The search query string. You can search using the meeting ID or title.
+##### Models
 
-- `start_time: optional string`
+<details>
 
-  The start time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+<summary>
 
-- `status: optional "ACTIVE" or "INACTIVE"`
+MeetingGetResponse object { data, paging, success }
 
-  Filter meetings by status.
+</summary>
 
-  - `"ACTIVE"`
+<details>
 
-  - `"INACTIVE"`
+<summary>
 
-### Returns
+data: array of object { id, created_at, updated_at, 9 more }
 
-- `data: array of object { id, created_at, updated_at, 9 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-    ID of the meeting.
+ID of the meeting.
 
-  - `created_at: string`
+formatuuid
 
-    Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `updated_at: string`
+created_at: string
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+Timestamp the object was created at. The time is returned in ISO format.
 
-  - `live_stream_on_start: optional boolean`
+formatdate-time
 
-    Specifies if the meeting should start getting livestreamed on start.
+[Link to this property](#)
 
-  - `persist_chat: optional boolean`
+updated_at: string
 
-    Specifies if Chat within a meeting should persist for a week.
+Timestamp the object was updated at. The time is returned in ISO format.
 
-  - `record_on_start: optional boolean`
+formatdate-time
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+[Link to this property](#)
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+live_stream_on_start: optional boolean
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+Specifies if the meeting should start getting livestreamed on start.
 
-    - `audio_config: optional object { channel, codec, export_file }`
+[Link to this property](#)
 
-      Object containing configuration regarding the audio that is being recorded.
+persist_chat: optional boolean
 
-      - `channel: optional "mono" or "stereo"`
+Specifies if Chat within a meeting should persist for a week.
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-        - `"mono"`
+record_on_start: optional boolean
 
-        - `"stereo"`
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-      - `codec: optional "MP3" or "AAC"`
+[Link to this property](#)
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+<details>
 
-        - `"MP3"`
+<summary>
 
-        - `"AAC"`
+recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }
 
-      - `export_file: optional boolean`
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-        Controls whether to export audio file seperately
+</summary>
 
-    - `file_name_prefix: optional string`
+<details>
 
-      Adds a prefix to the beginning of the file name of the recording.
+<summary>
 
-    - `live_streaming_config: optional object { rtmp_url }`
+audio_config: optional object { channel, codec, export_file }
 
-      - `rtmp_url: optional string`
+Object containing configuration regarding the audio that is being recorded.
 
-        RTMP URL to stream to
+</summary>
 
-    - `max_seconds: optional number`
+<details>
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<summary>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+channel: optional "mono" or "stereo"
 
-      - `enabled: boolean`
+Audio signal pathway within an audio file that carries a specific sound source.
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+</summary>
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+One of the following:
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+"mono"
 
-        Type of storage media.
+[Link to this property](#)
 
-        - `"aws"`
+"stereo"
 
-        - `"azure"`
+[Link to this property](#)
 
-        - `"digitalocean"`
+</details>
 
-        - `"gcs"`
+[Link to this property](#)
 
-        - `"sftp"`
+<details>
 
-      - `access_key: optional string`
+<summary>
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+codec: optional "MP3" or "AAC"
 
-        Note that this field is not readable by clients, only writeable.
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+</summary>
 
-        Authentication method used for "sftp" type storage medium
+One of the following:
 
-        - `"KEY"`
+"MP3"
 
-        - `"PASSWORD"`
+[Link to this property](#)
 
-      - `bucket: optional string`
+"AAC"
 
-        Name of the storage medium's bucket.
+[Link to this property](#)
 
-      - `host: optional string`
+</details>
 
-        SSH destination server host for SFTP type storage medium
+[Link to this property](#)
 
-      - `password: optional string`
+export_file: optional boolean
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+Controls whether to export audio file seperately
 
-      - `path: optional string`
+[Link to this property](#)
 
-        Path relative to the bucket root at which the recording will be placed.
+</details>
 
-      - `port: optional number`
+[Link to this property](#)
 
-        SSH destination server port for SFTP type storage medium
+file_name_prefix: optional string
 
-      - `private_key: optional string`
+Adds a prefix to the beginning of the file name of the recording.
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-      - `region: optional string`
+<details>
 
-        Region of the storage medium.
+<summary>
 
-      - `secret: optional string`
+live_streaming_config: optional object { rtmp_url }
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+</summary>
 
-      - `username: optional string`
+rtmp_url: optional string
 
-        SSH destination server username for SFTP type storage medium
+RTMP URL to stream to
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+formaturi
 
-      - `codec: optional "H264" or "VP8"`
+[Link to this property](#)
 
-        Codec using which the recording will be encoded.
+</details>
 
-        - `"H264"`
+[Link to this property](#)
 
-        - `"VP8"`
+max_seconds: optional number
 
-      - `export_file: optional boolean`
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-        Controls whether to export video file seperately
+maximum86400
 
-      - `height: optional number`
+minimum60
 
-        Height of the recording video in pixels
+[Link to this property](#)
 
-      - `watermark: optional object { position, size, url }`
+<details>
 
-        Watermark to be added to the recording
+<summary>
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+realtimekit_bucket_config: optional object { enabled }
 
-          Position of the watermark
+</summary>
 
-          - `"left top"`
+enabled: boolean
 
-          - `"right top"`
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won’t be generated for a recording.
 
-          - `"left bottom"`
+[Link to this property](#)
 
-          - `"right bottom"`
+</details>
 
-        - `size: optional object { height, width }`
+[Link to this property](#)
 
-          Size of the watermark
+<details>
 
-          - `height: optional number`
+<summary>
 
-            Height of the watermark in px
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-          - `width: optional number`
+</summary>
 
-            Width of the watermark in px
+One of the following:
 
-        - `url: optional string`
+<details>
 
-          URL of the watermark image
+<summary>
 
-      - `width: optional number`
+object { access_key, auth_method, bucket, 9 more }
 
-        Width of the recording video in pixels
+</summary>
 
-  - `session_keep_alive_time_in_secs: optional number`
+access_key: optional string
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+Note that this field is not readable by clients, only writeable.
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+[Link to this property](#)
 
-    - `"ACTIVE"`
+<details>
 
-    - `"INACTIVE"`
+<summary>
 
-  - `summarize_on_end: optional boolean`
+auth_method: optional "KEY" or "PASSWORD"
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+Authentication method used for “sftp” type storage medium
 
-  - `title: optional string`
+</summary>
 
-    Title of the meeting.
+One of the following:
 
-  - `transcribe_on_end: optional boolean`
+"KEY"
 
-    Automatically generate transcripts when the meeting ends.
+[Link to this property](#)
 
-- `paging: object { end_offset, start_offset, total_count }`
+"PASSWORD"
 
-  - `end_offset: number`
+[Link to this property](#)
 
-  - `start_offset: number`
+</details>
 
-  - `total_count: number`
+[Link to this property](#)
 
-- `success: boolean`
+bucket: optional string
 
-### Example
+Name of the storage medium’s bucket.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+host: optional string
 
-```json
-{
-  "data": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "live_stream_on_start": true,
-      "persist_chat": true,
-      "record_on_start": true,
-      "recording_config": {
-        "audio_config": {
-          "channel": "mono",
-          "codec": "MP3",
-          "export_file": true
-        },
-        "file_name_prefix": "file_name_prefix",
-        "live_streaming_config": {
-          "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-        },
-        "max_seconds": 60,
-        "realtimekit_bucket_config": {
-          "enabled": true
-        },
-        "storage_config": {
-          "type": "aws",
-          "auth_method": "KEY",
-          "bucket": "bucket",
-          "host": "host",
-          "password": "password",
-          "path": "path",
-          "port": 0,
-          "private_key": "private_key",
-          "region": "us-east-1",
-          "secret": "secret",
-          "username": "username"
-        },
-        "video_config": {
-          "codec": "H264",
-          "export_file": true,
-          "height": 720,
-          "watermark": {
-            "position": "left top",
-            "size": {
-              "height": 1,
-              "width": 1
-            },
-            "url": "https://example.com"
-          },
-          "width": 1280
-        }
-      },
-      "session_keep_alive_time_in_secs": 60,
-      "status": "ACTIVE",
-      "summarize_on_end": true,
-      "title": "title",
-      "transcribe_on_end": true
-    }
-  ],
-  "paging": {
-    "end_offset": 30,
-    "start_offset": 1,
-    "total_count": 30
-  },
-  "success": true
-}
-```
+SSH destination server host for SFTP type storage medium
 
-## Create a meeting
+[Link to this property](#)
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings`
+password: optional string
 
-Create a meeting for the given App ID.
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+path: optional string
 
-  The account identifier tag.
+Path relative to the bucket root at which the recording will be placed.
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+port: optional number
 
-### Body Parameters
+SSH destination server port for SFTP type storage medium
 
-- `ai_config: optional object { summarization, transcription }`
+[Link to this property](#)
 
-  The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+private_key: optional string
 
-  - `summarization: optional object { summary_type, text_format, word_limit }`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-    Summary Config
+[Link to this property](#)
 
-    - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+region: optional string
 
-      Defines the style of the summary, such as general, team meeting, or sales call.
+Region of the storage medium.
 
-      - `"general"`
+[Link to this property](#)
 
-      - `"team_meeting"`
+secret: optional string
 
-      - `"sales_call"`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      - `"client_check_in"`
+[Link to this property](#)
 
-      - `"interview"`
+type: optional "gcs"
 
-      - `"daily_standup"`
+[Link to this property](#)
 
-      - `"one_on_one_meeting"`
+username: optional string
 
-      - `"lecture"`
+SSH destination server username for SFTP type storage medium
 
-      - `"code_review"`
+[Link to this property](#)
 
-    - `text_format: optional "plain_text" or "markdown"`
+</details>
 
-      Determines the text format of the summary, such as plain text or markdown.
+[Link to this property](#)
 
-      - `"plain_text"`
+<details>
 
-      - `"markdown"`
+<summary>
 
-    - `word_limit: optional number`
+object { access_key, region, auth_method, 9 more }
 
-      Sets the maximum number of words in the meeting summary.
+</summary>
 
-  - `transcription: optional object { keywords, language, profanity_filter }`
+access_key: unknown
 
-    Transcription Configurations
+minLength1
 
-    - `keywords: optional array of string`
+[Link to this property](#)
 
-      Adds specific terms to improve accurate detection during transcription.
+region: unknown
 
-    - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+minLength1
 
-      Specifies the language code for transcription to ensure accurate results.
+[Link to this property](#)
 
-      - `"en-US"`
+<details>
 
-      - `"en-IN"`
+<summary>
 
-      - `"de"`
+auth_method: optional "KEY" or "PASSWORD"
 
-      - `"hi"`
+Authentication method used for “sftp” type storage medium
 
-      - `"sv"`
+</summary>
 
-      - `"ru"`
+One of the following:
 
-      - `"pl"`
+"KEY"
 
-      - `"el"`
+[Link to this property](#)
 
-      - `"fr"`
+"PASSWORD"
 
-      - `"nl"`
+[Link to this property](#)
 
-    - `profanity_filter: optional boolean`
+</details>
 
-      Control the inclusion of offensive language in transcriptions.
+[Link to this property](#)
 
-- `live_stream_on_start: optional boolean`
+bucket: optional string
 
-  Specifies if the meeting should start getting livestreamed on start.
+Name of the storage medium’s bucket.
 
-- `persist_chat: optional boolean`
+[Link to this property](#)
 
-  If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space.
+host: optional string
 
-- `record_on_start: optional boolean`
+SSH destination server host for SFTP type storage medium
 
-  Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+[Link to this property](#)
 
-- `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+password: optional string
 
-  Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `audio_config: optional object { channel, codec, export_file }`
+[Link to this property](#)
 
-    Object containing configuration regarding the audio that is being recorded.
+path: optional string
 
-    - `channel: optional "mono" or "stereo"`
+Path relative to the bucket root at which the recording will be placed.
 
-      Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-      - `"mono"`
+port: optional number
 
-      - `"stereo"`
+SSH destination server port for SFTP type storage medium
 
-    - `codec: optional "MP3" or "AAC"`
+[Link to this property](#)
 
-      Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+private_key: optional string
 
-      - `"MP3"`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      - `"AAC"`
+[Link to this property](#)
 
-    - `export_file: optional boolean`
+secret: optional string
 
-      Controls whether to export audio file seperately
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-  - `file_name_prefix: optional string`
+[Link to this property](#)
 
-    Adds a prefix to the beginning of the file name of the recording.
+<details>
 
-  - `live_streaming_config: optional object { rtmp_url }`
+<summary>
 
-    - `rtmp_url: optional string`
+type: optional "aws" or "azure" or "digitalocean"
 
-      RTMP URL to stream to
+</summary>
 
-  - `max_seconds: optional number`
+One of the following:
 
-    Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+"aws"
 
-  - `realtimekit_bucket_config: optional object { enabled }`
+[Link to this property](#)
 
-    - `enabled: boolean`
+"azure"
 
-      Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+[Link to this property](#)
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+"digitalocean"
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+[Link to this property](#)
 
-      Type of storage media.
+</details>
 
-      - `"aws"`
+[Link to this property](#)
 
-      - `"azure"`
+username: optional string
 
-      - `"digitalocean"`
+SSH destination server username for SFTP type storage medium
 
-      - `"gcs"`
+[Link to this property](#)
 
-      - `"sftp"`
+</details>
 
-    - `access_key: optional string`
+[Link to this property](#)
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<details>
 
-      Note that this field is not readable by clients, only writeable.
+<summary>
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+object { private_key, access_key, auth_method, 9 more }
 
-      Authentication method used for "sftp" type storage medium
+</summary>
 
-      - `"KEY"`
+private_key: string
 
-      - `"PASSWORD"`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-    - `bucket: optional string`
+[Link to this property](#)
 
-      Name of the storage medium's bucket.
+access_key: optional string
 
-    - `host: optional string`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-      SSH destination server host for SFTP type storage medium
+Note that this field is not readable by clients, only writeable.
 
-    - `password: optional string`
+[Link to this property](#)
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+auth_method: optional "KEY"
 
-    - `path: optional string`
+[Link to this property](#)
 
-      Path relative to the bucket root at which the recording will be placed.
+bucket: optional string
 
-    - `port: optional number`
+Name of the storage medium’s bucket.
 
-      SSH destination server port for SFTP type storage medium
+[Link to this property](#)
 
-    - `private_key: optional string`
+host: optional string
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+SSH destination server host for SFTP type storage medium
 
-    - `region: optional string`
+[Link to this property](#)
 
-      Region of the storage medium.
+password: optional string
 
-    - `secret: optional string`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+[Link to this property](#)
 
-    - `username: optional string`
+path: optional string
 
-      SSH destination server username for SFTP type storage medium
+Path relative to the bucket root at which the recording will be placed.
 
-  - `video_config: optional object { codec, export_file, height, 2 more }`
+[Link to this property](#)
 
-    - `codec: optional "H264" or "VP8"`
+port: optional number
 
-      Codec using which the recording will be encoded.
+SSH destination server port for SFTP type storage medium
 
-      - `"H264"`
+[Link to this property](#)
 
-      - `"VP8"`
+region: optional string
 
-    - `export_file: optional boolean`
+Region of the storage medium.
 
-      Controls whether to export video file seperately
+[Link to this property](#)
 
-    - `height: optional number`
+secret: optional string
 
-      Height of the recording video in pixels
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-    - `watermark: optional object { position, size, url }`
+[Link to this property](#)
 
-      Watermark to be added to the recording
+<details>
 
-      - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+<summary>
 
-        Position of the watermark
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-        - `"left top"`
+Type of storage media.
 
-        - `"right top"`
+</summary>
 
-        - `"left bottom"`
+One of the following:
 
-        - `"right bottom"`
+"aws"
 
-      - `size: optional object { height, width }`
+[Link to this property](#)
 
-        Size of the watermark
+"azure"
 
-        - `height: optional number`
+[Link to this property](#)
 
-          Height of the watermark in px
+"digitalocean"
 
-        - `width: optional number`
+[Link to this property](#)
 
-          Width of the watermark in px
+"gcs"
 
-      - `url: optional string`
+[Link to this property](#)
 
-        URL of the watermark image
+"sftp"
 
-    - `width: optional number`
+[Link to this property](#)
 
-      Width of the recording video in pixels
+</details>
 
-- `session_keep_alive_time_in_secs: optional number`
+[Link to this property](#)
 
-  Time in seconds, for which a session remains active, after the last participant has left the meeting.
+username: optional string
 
-- `summarize_on_end: optional boolean`
+SSH destination server username for SFTP type storage medium
 
-  Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+[Link to this property](#)
 
-- `title: optional string`
+</details>
 
-  Title of the meeting
+[Link to this property](#)
 
-- `transcribe_on_end: optional boolean`
+<details>
 
-  Automatically generate transcripts when the meeting ends.
+<summary>
 
-### Returns
+object { password, access_key, auth_method, 9 more }
 
-- `success: boolean`
+</summary>
 
-  Success status of the operation
+password: string
 
-- `data: optional object { id, created_at, updated_at, 10 more }`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  Data returned by the operation
+[Link to this property](#)
 
-  - `id: string`
+access_key: optional string
 
-    ID of the meeting.
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-  - `created_at: string`
+Note that this field is not readable by clients, only writeable.
 
-    Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `updated_at: string`
+auth_method: optional "PASSWORD"
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `ai_config: optional object { summarization, transcription }`
+bucket: optional string
 
-    The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+Name of the storage medium’s bucket.
 
-    - `summarization: optional object { summary_type, text_format, word_limit }`
+[Link to this property](#)
 
-      Summary Config
+host: optional string
 
-      - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+SSH destination server host for SFTP type storage medium
 
-        Defines the style of the summary, such as general, team meeting, or sales call.
+[Link to this property](#)
 
-        - `"general"`
+path: optional string
 
-        - `"team_meeting"`
+Path relative to the bucket root at which the recording will be placed.
 
-        - `"sales_call"`
+[Link to this property](#)
 
-        - `"client_check_in"`
+port: optional number
 
-        - `"interview"`
+SSH destination server port for SFTP type storage medium
 
-        - `"daily_standup"`
+[Link to this property](#)
 
-        - `"one_on_one_meeting"`
+private_key: optional string
 
-        - `"lecture"`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-        - `"code_review"`
+[Link to this property](#)
 
-      - `text_format: optional "plain_text" or "markdown"`
+region: optional string
 
-        Determines the text format of the summary, such as plain text or markdown.
+Region of the storage medium.
 
-        - `"plain_text"`
+[Link to this property](#)
 
-        - `"markdown"`
+secret: optional string
 
-      - `word_limit: optional number`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-        Sets the maximum number of words in the meeting summary.
+[Link to this property](#)
 
-    - `transcription: optional object { keywords, language, profanity_filter }`
+<details>
 
-      Transcription Configurations
+<summary>
 
-      - `keywords: optional array of string`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-        Adds specific terms to improve accurate detection during transcription.
+Type of storage media.
 
-      - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+</summary>
 
-        Specifies the language code for transcription to ensure accurate results.
+One of the following:
 
-        - `"en-US"`
+"aws"
 
-        - `"en-IN"`
+[Link to this property](#)
 
-        - `"de"`
+"azure"
 
-        - `"hi"`
+[Link to this property](#)
 
-        - `"sv"`
+"digitalocean"
 
-        - `"ru"`
+[Link to this property](#)
 
-        - `"pl"`
+"gcs"
 
-        - `"el"`
+[Link to this property](#)
 
-        - `"fr"`
+"sftp"
 
-        - `"nl"`
+[Link to this property](#)
 
-      - `profanity_filter: optional boolean`
+</details>
 
-        Control the inclusion of offensive language in transcriptions.
+[Link to this property](#)
 
-  - `live_stream_on_start: optional boolean`
+username: optional string
 
-    Specifies if the meeting should start getting livestreamed on start.
+SSH destination server username for SFTP type storage medium
 
-  - `persist_chat: optional boolean`
+[Link to this property](#)
 
-    Specifies if Chat within a meeting should persist for a week.
+</details>
 
-  - `record_on_start: optional boolean`
+[Link to this property](#)
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+</details>
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+[Link to this property](#)
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+<details>
 
-    - `audio_config: optional object { channel, codec, export_file }`
+<summary>
 
-      Object containing configuration regarding the audio that is being recorded.
+video_config: optional object { codec, export_file, height, 2 more }
 
-      - `channel: optional "mono" or "stereo"`
+</summary>
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+<details>
 
-        - `"mono"`
+<summary>
 
-        - `"stereo"`
+codec: optional "H264" or "VP8" or "VP9"
 
-      - `codec: optional "MP3" or "AAC"`
+Codec using which the recording will be encoded.
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+</summary>
 
-        - `"MP3"`
+One of the following:
 
-        - `"AAC"`
+"H264"
 
-      - `export_file: optional boolean`
+[Link to this property](#)
 
-        Controls whether to export audio file seperately
+"VP8"
 
-    - `file_name_prefix: optional string`
+[Link to this property](#)
 
-      Adds a prefix to the beginning of the file name of the recording.
+"VP9"
 
-    - `live_streaming_config: optional object { rtmp_url }`
+[Link to this property](#)
 
-      - `rtmp_url: optional string`
+</details>
 
-        RTMP URL to stream to
+[Link to this property](#)
 
-    - `max_seconds: optional number`
+export_file: optional boolean
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+Controls whether to export video file seperately
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+[Link to this property](#)
 
-      - `enabled: boolean`
+height: optional number
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+Height of the recording video in pixels
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+maximum1920
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+minimum1
 
-        Type of storage media.
+[Link to this property](#)
 
-        - `"aws"`
+<details>
 
-        - `"azure"`
+<summary>
 
-        - `"digitalocean"`
+watermark: optional object { position, size, url }
 
-        - `"gcs"`
+Watermark to be added to the recording
 
-        - `"sftp"`
+</summary>
 
-      - `access_key: optional string`
+<details>
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<summary>
 
-        Note that this field is not readable by clients, only writeable.
+position: optional "left top" or "right top" or "left bottom" or "right bottom"
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+Position of the watermark
 
-        Authentication method used for "sftp" type storage medium
+</summary>
 
-        - `"KEY"`
+One of the following:
 
-        - `"PASSWORD"`
+"left top"
 
-      - `bucket: optional string`
+[Link to this property](#)
 
-        Name of the storage medium's bucket.
+"right top"
 
-      - `host: optional string`
+[Link to this property](#)
 
-        SSH destination server host for SFTP type storage medium
+"left bottom"
 
-      - `password: optional string`
+[Link to this property](#)
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+"right bottom"
 
-      - `path: optional string`
+[Link to this property](#)
 
-        Path relative to the bucket root at which the recording will be placed.
+</details>
 
-      - `port: optional number`
+[Link to this property](#)
 
-        SSH destination server port for SFTP type storage medium
+<details>
 
-      - `private_key: optional string`
+<summary>
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+size: optional object { height, width }
 
-      - `region: optional string`
+Size of the watermark
 
-        Region of the storage medium.
+</summary>
 
-      - `secret: optional string`
+height: optional number
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+Height of the watermark in px
 
-      - `username: optional string`
+minimum1
 
-        SSH destination server username for SFTP type storage medium
+[Link to this property](#)
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+width: optional number
 
-      - `codec: optional "H264" or "VP8"`
+Width of the watermark in px
 
-        Codec using which the recording will be encoded.
+minimum1
 
-        - `"H264"`
+[Link to this property](#)
 
-        - `"VP8"`
+</details>
 
-      - `export_file: optional boolean`
+[Link to this property](#)
 
-        Controls whether to export video file seperately
+url: optional string
 
-      - `height: optional number`
+URL of the watermark image
 
-        Height of the recording video in pixels
+formaturi
 
-      - `watermark: optional object { position, size, url }`
+[Link to this property](#)
 
-        Watermark to be added to the recording
+</details>
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+[Link to this property](#)
 
-          Position of the watermark
+width: optional number
 
-          - `"left top"`
+Width of the recording video in pixels
 
-          - `"right top"`
+maximum1920
 
-          - `"left bottom"`
+minimum1
 
-          - `"right bottom"`
+[Link to this property](#)
 
-        - `size: optional object { height, width }`
+</details>
 
-          Size of the watermark
+[Link to this property](#)
 
-          - `height: optional number`
+</details>
 
-            Height of the watermark in px
+[Link to this property](#)
 
-          - `width: optional number`
+session_keep_alive_time_in_secs: optional number
 
-            Width of the watermark in px
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-        - `url: optional string`
+maximum600
 
-          URL of the watermark image
+minimum60
 
-      - `width: optional number`
+[Link to this property](#)
 
-        Width of the recording video in pixels
+<details>
 
-  - `session_keep_alive_time_in_secs: optional number`
+<summary>
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+status: optional "ACTIVE" or "INACTIVE"
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+</summary>
 
-    - `"ACTIVE"`
+One of the following:
 
-    - `"INACTIVE"`
+"ACTIVE"
 
-  - `summarize_on_end: optional boolean`
+[Link to this property](#)
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+"INACTIVE"
 
-  - `title: optional string`
+[Link to this property](#)
 
-    Title of the meeting.
+</details>
 
-  - `transcribe_on_end: optional boolean`
+[Link to this property](#)
 
-    Automatically generate transcripts when the meeting ends.
+summarize_on_end: optional boolean
 
-### Example
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+[Link to this property](#)
 
-#### Response
+title: optional string
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_config": {
-      "summarization": {
-        "summary_type": "general",
-        "text_format": "plain_text",
-        "word_limit": 150
-      },
-      "transcription": {
-        "keywords": [
-          "string"
-        ],
-        "language": "en-US",
-        "profanity_filter": true
-      }
-    },
-    "live_stream_on_start": true,
-    "persist_chat": true,
-    "record_on_start": true,
-    "recording_config": {
-      "audio_config": {
-        "channel": "mono",
-        "codec": "MP3",
-        "export_file": true
-      },
-      "file_name_prefix": "file_name_prefix",
-      "live_streaming_config": {
-        "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-      },
-      "max_seconds": 60,
-      "realtimekit_bucket_config": {
-        "enabled": true
-      },
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      },
-      "video_config": {
-        "codec": "H264",
-        "export_file": true,
-        "height": 720,
-        "watermark": {
-          "position": "left top",
-          "size": {
-            "height": 1,
-            "width": 1
-          },
-          "url": "https://example.com"
-        },
-        "width": 1280
-      }
-    },
-    "session_keep_alive_time_in_secs": 60,
-    "status": "ACTIVE",
-    "summarize_on_end": true,
-    "title": "title",
-    "transcribe_on_end": true
-  }
-}
-```
+Title of the meeting.
 
-## Fetch a meeting for an App
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}`
+transcribe_on_end: optional boolean
 
-Returns a meeting details in an App for the given meeting ID.
+Automatically generate transcripts when the meeting ends.
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+</details>
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+<details>
 
-  The app identifier tag.
+<summary>
 
-- `meeting_id: string`
+paging: object { end_offset, start_offset, total_count }
 
-### Query Parameters
+</summary>
 
-- `name: optional string`
+end_offset: number
 
-### Returns
+[Link to this property](#)
 
-- `success: boolean`
+start_offset: number
 
-  Success status of the operation
+[Link to this property](#)
 
-- `data: optional object { id, created_at, updated_at, 10 more }`
+total_count: number
 
-  Data returned by the operation
+minimum0
 
-  - `id: string`
+[Link to this property](#)
 
-    ID of the meeting.
+</details>
 
-  - `created_at: string`
+[Link to this property](#)
 
-    Timestamp the object was created at. The time is returned in ISO format.
+success: boolean
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+</details>
 
-  - `ai_config: optional object { summarization, transcription }`
+[Link to this property](#)
 
-    The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+<details>
 
-    - `summarization: optional object { summary_type, text_format, word_limit }`
+<summary>
 
-      Summary Config
+MeetingCreateResponse object { success, data }
 
-      - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+</summary>
 
-        Defines the style of the summary, such as general, team meeting, or sales call.
+success: boolean
 
-        - `"general"`
+Success status of the operation
 
-        - `"team_meeting"`
+[Link to this property](#)
 
-        - `"sales_call"`
+<details>
 
-        - `"client_check_in"`
+<summary>
 
-        - `"interview"`
+data: optional object { id, created_at, updated_at, 10 more }
 
-        - `"daily_standup"`
+Data returned by the operation
 
-        - `"one_on_one_meeting"`
+</summary>
 
-        - `"lecture"`
+id: string
 
-        - `"code_review"`
+ID of the meeting.
 
-      - `text_format: optional "plain_text" or "markdown"`
+formatuuid
 
-        Determines the text format of the summary, such as plain text or markdown.
+[Link to this property](#)
 
-        - `"plain_text"`
+created_at: string
 
-        - `"markdown"`
+Timestamp the object was created at. The time is returned in ISO format.
 
-      - `word_limit: optional number`
+formatdate-time
 
-        Sets the maximum number of words in the meeting summary.
+[Link to this property](#)
 
-    - `transcription: optional object { keywords, language, profanity_filter }`
+updated_at: string
 
-      Transcription Configurations
+Timestamp the object was updated at. The time is returned in ISO format.
 
-      - `keywords: optional array of string`
+formatdate-time
 
-        Adds specific terms to improve accurate detection during transcription.
+[Link to this property](#)
 
-      - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+<details>
 
-        Specifies the language code for transcription to ensure accurate results.
+<summary>
 
-        - `"en-US"`
+ai_config: optional object { summarization, transcription }
 
-        - `"en-IN"`
+The AI Config allows you to customize the behavior of meeting transcriptions and summaries
 
-        - `"de"`
+</summary>
 
-        - `"hi"`
+<details>
 
-        - `"sv"`
+<summary>
 
-        - `"ru"`
+summarization: optional object { summary_type, text_format, word_limit }
 
-        - `"pl"`
+Summary Config
 
-        - `"el"`
+</summary>
 
-        - `"fr"`
+<details>
 
-        - `"nl"`
+<summary>
 
-      - `profanity_filter: optional boolean`
+summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more
 
-        Control the inclusion of offensive language in transcriptions.
+Defines the style of the summary, such as general, team meeting, or sales call.
 
-  - `live_stream_on_start: optional boolean`
+</summary>
 
-    Specifies if the meeting should start getting livestreamed on start.
+One of the following:
 
-  - `persist_chat: optional boolean`
+"general"
 
-    Specifies if Chat within a meeting should persist for a week.
+[Link to this property](#)
 
-  - `record_on_start: optional boolean`
+"team_meeting"
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+[Link to this property](#)
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+"sales_call"
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+[Link to this property](#)
 
-    - `audio_config: optional object { channel, codec, export_file }`
+"client_check_in"
 
-      Object containing configuration regarding the audio that is being recorded.
+[Link to this property](#)
 
-      - `channel: optional "mono" or "stereo"`
+"interview"
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-        - `"mono"`
+"daily_standup"
 
-        - `"stereo"`
+[Link to this property](#)
 
-      - `codec: optional "MP3" or "AAC"`
+"one_on_one_meeting"
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+[Link to this property](#)
 
-        - `"MP3"`
+"lecture"
 
-        - `"AAC"`
+[Link to this property](#)
 
-      - `export_file: optional boolean`
+"code_review"
 
-        Controls whether to export audio file seperately
+[Link to this property](#)
 
-    - `file_name_prefix: optional string`
+</details>
 
-      Adds a prefix to the beginning of the file name of the recording.
+[Link to this property](#)
 
-    - `live_streaming_config: optional object { rtmp_url }`
+<details>
 
-      - `rtmp_url: optional string`
+<summary>
 
-        RTMP URL to stream to
+text_format: optional "plain_text" or "markdown"
 
-    - `max_seconds: optional number`
+Determines the text format of the summary, such as plain text or markdown.
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+</summary>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+One of the following:
 
-      - `enabled: boolean`
+"plain_text"
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+[Link to this property](#)
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+"markdown"
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+[Link to this property](#)
 
-        Type of storage media.
+</details>
 
-        - `"aws"`
+[Link to this property](#)
 
-        - `"azure"`
+word_limit: optional number
 
-        - `"digitalocean"`
+Sets the maximum number of words in the meeting summary.
 
-        - `"gcs"`
+maximum1000
 
-        - `"sftp"`
+minimum150
 
-      - `access_key: optional string`
+[Link to this property](#)
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+</details>
 
-        Note that this field is not readable by clients, only writeable.
+[Link to this property](#)
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+<details>
 
-        Authentication method used for "sftp" type storage medium
+<summary>
 
-        - `"KEY"`
+transcription: optional object { keywords, language, profanity_filter }
 
-        - `"PASSWORD"`
+Transcription Configurations
 
-      - `bucket: optional string`
+</summary>
 
-        Name of the storage medium's bucket.
+keywords: optional array of string
 
-      - `host: optional string`
+Adds specific terms to improve accurate detection during transcription.
 
-        SSH destination server host for SFTP type storage medium
+[Link to this property](#)
 
-      - `password: optional string`
+<details>
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+<summary>
 
-      - `path: optional string`
+language: optional "en-US" or "en-IN" or "de" or 7 more
 
-        Path relative to the bucket root at which the recording will be placed.
+Specifies the language code for transcription to ensure accurate results.
 
-      - `port: optional number`
+</summary>
 
-        SSH destination server port for SFTP type storage medium
+One of the following:
 
-      - `private_key: optional string`
+"en-US"
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-      - `region: optional string`
+"en-IN"
 
-        Region of the storage medium.
+[Link to this property](#)
 
-      - `secret: optional string`
+"de"
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+[Link to this property](#)
 
-      - `username: optional string`
+"hi"
 
-        SSH destination server username for SFTP type storage medium
+[Link to this property](#)
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+"sv"
 
-      - `codec: optional "H264" or "VP8"`
+[Link to this property](#)
 
-        Codec using which the recording will be encoded.
+"ru"
 
-        - `"H264"`
+[Link to this property](#)
 
-        - `"VP8"`
+"pl"
 
-      - `export_file: optional boolean`
+[Link to this property](#)
 
-        Controls whether to export video file seperately
+"el"
 
-      - `height: optional number`
+[Link to this property](#)
 
-        Height of the recording video in pixels
+"fr"
 
-      - `watermark: optional object { position, size, url }`
+[Link to this property](#)
 
-        Watermark to be added to the recording
+"nl"
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+[Link to this property](#)
 
-          Position of the watermark
+</details>
 
-          - `"left top"`
+[Link to this property](#)
 
-          - `"right top"`
+profanity_filter: optional boolean
 
-          - `"left bottom"`
+Control the inclusion of offensive language in transcriptions.
 
-          - `"right bottom"`
+[Link to this property](#)
 
-        - `size: optional object { height, width }`
+</details>
 
-          Size of the watermark
+[Link to this property](#)
 
-          - `height: optional number`
+</details>
 
-            Height of the watermark in px
+[Link to this property](#)
 
-          - `width: optional number`
+live_stream_on_start: optional boolean
 
-            Width of the watermark in px
+Specifies if the meeting should start getting livestreamed on start.
 
-        - `url: optional string`
+[Link to this property](#)
 
-          URL of the watermark image
+persist_chat: optional boolean
 
-      - `width: optional number`
+Specifies if Chat within a meeting should persist for a week.
 
-        Width of the recording video in pixels
+[Link to this property](#)
 
-  - `session_keep_alive_time_in_secs: optional number`
+record_on_start: optional boolean
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+[Link to this property](#)
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+<details>
 
-    - `"ACTIVE"`
+<summary>
 
-    - `"INACTIVE"`
+recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }
 
-  - `summarize_on_end: optional boolean`
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+</summary>
 
-  - `title: optional string`
+<details>
 
-    Title of the meeting.
+<summary>
 
-  - `transcribe_on_end: optional boolean`
+audio_config: optional object { channel, codec, export_file }
 
-    Automatically generate transcripts when the meeting ends.
+Object containing configuration regarding the audio that is being recorded.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_config": {
-      "summarization": {
-        "summary_type": "general",
-        "text_format": "plain_text",
-        "word_limit": 150
-      },
-      "transcription": {
-        "keywords": [
-          "string"
-        ],
-        "language": "en-US",
-        "profanity_filter": true
-      }
-    },
-    "live_stream_on_start": true,
-    "persist_chat": true,
-    "record_on_start": true,
-    "recording_config": {
-      "audio_config": {
-        "channel": "mono",
-        "codec": "MP3",
-        "export_file": true
-      },
-      "file_name_prefix": "file_name_prefix",
-      "live_streaming_config": {
-        "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-      },
-      "max_seconds": 60,
-      "realtimekit_bucket_config": {
-        "enabled": true
-      },
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      },
-      "video_config": {
-        "codec": "H264",
-        "export_file": true,
-        "height": 720,
-        "watermark": {
-          "position": "left top",
-          "size": {
-            "height": 1,
-            "width": 1
-          },
-          "url": "https://example.com"
-        },
-        "width": 1280
-      }
-    },
-    "session_keep_alive_time_in_secs": 60,
-    "status": "ACTIVE",
-    "summarize_on_end": true,
-    "title": "title",
-    "transcribe_on_end": true
-  }
-}
-```
+channel: optional "mono" or "stereo"
 
-## Update a meeting
+Audio signal pathway within an audio file that carries a specific sound source.
 
-**patch** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}`
+</summary>
 
-Updates a meeting in an App for the given meeting ID.
+One of the following:
 
-### Path Parameters
+"mono"
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+"stereo"
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+</details>
 
-- `meeting_id: string`
+[Link to this property](#)
 
-### Body Parameters
+<details>
 
-- `ai_config: optional object { summarization, transcription }`
+<summary>
 
-  The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+codec: optional "MP3" or "AAC"
 
-  - `summarization: optional object { summary_type, text_format, word_limit }`
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-    Summary Config
+</summary>
 
-    - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+One of the following:
 
-      Defines the style of the summary, such as general, team meeting, or sales call.
+"MP3"
 
-      - `"general"`
+[Link to this property](#)
 
-      - `"team_meeting"`
+"AAC"
 
-      - `"sales_call"`
+[Link to this property](#)
 
-      - `"client_check_in"`
+</details>
 
-      - `"interview"`
+[Link to this property](#)
 
-      - `"daily_standup"`
+export_file: optional boolean
 
-      - `"one_on_one_meeting"`
+Controls whether to export audio file seperately
 
-      - `"lecture"`
+[Link to this property](#)
 
-      - `"code_review"`
+</details>
 
-    - `text_format: optional "plain_text" or "markdown"`
+[Link to this property](#)
 
-      Determines the text format of the summary, such as plain text or markdown.
+file_name_prefix: optional string
 
-      - `"plain_text"`
+Adds a prefix to the beginning of the file name of the recording.
 
-      - `"markdown"`
+[Link to this property](#)
 
-    - `word_limit: optional number`
+<details>
 
-      Sets the maximum number of words in the meeting summary.
+<summary>
 
-  - `transcription: optional object { keywords, language, profanity_filter }`
+live_streaming_config: optional object { rtmp_url }
 
-    Transcription Configurations
+</summary>
 
-    - `keywords: optional array of string`
+rtmp_url: optional string
 
-      Adds specific terms to improve accurate detection during transcription.
+RTMP URL to stream to
 
-    - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+formaturi
 
-      Specifies the language code for transcription to ensure accurate results.
+[Link to this property](#)
 
-      - `"en-US"`
+</details>
 
-      - `"en-IN"`
+[Link to this property](#)
 
-      - `"de"`
+max_seconds: optional number
 
-      - `"hi"`
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-      - `"sv"`
+maximum86400
 
-      - `"ru"`
+minimum60
 
-      - `"pl"`
+[Link to this property](#)
 
-      - `"el"`
+<details>
 
-      - `"fr"`
+<summary>
 
-      - `"nl"`
+realtimekit_bucket_config: optional object { enabled }
 
-    - `profanity_filter: optional boolean`
+</summary>
 
-      Control the inclusion of offensive language in transcriptions.
+enabled: boolean
 
-- `live_stream_on_start: optional boolean`
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won’t be generated for a recording.
 
-  Specifies if the meeting should start getting livestreamed on start.
+[Link to this property](#)
 
-- `persist_chat: optional boolean`
+</details>
 
-  If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space.
+[Link to this property](#)
 
-- `record_on_start: optional boolean`
+<details>
 
-  Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+<summary>
 
-- `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-  Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+</summary>
 
-  - `audio_config: optional object { channel, codec, export_file }`
+One of the following:
 
-    Object containing configuration regarding the audio that is being recorded.
+<details>
 
-    - `channel: optional "mono" or "stereo"`
+<summary>
 
-      Audio signal pathway within an audio file that carries a specific sound source.
+object { access_key, auth_method, bucket, 9 more }
 
-      - `"mono"`
+</summary>
 
-      - `"stereo"`
+access_key: optional string
 
-    - `codec: optional "MP3" or "AAC"`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-      Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+Note that this field is not readable by clients, only writeable.
 
-      - `"MP3"`
+[Link to this property](#)
 
-      - `"AAC"`
+<details>
 
-    - `export_file: optional boolean`
+<summary>
 
-      Controls whether to export audio file seperately
+auth_method: optional "KEY" or "PASSWORD"
 
-  - `file_name_prefix: optional string`
+Authentication method used for “sftp” type storage medium
 
-    Adds a prefix to the beginning of the file name of the recording.
+</summary>
 
-  - `live_streaming_config: optional object { rtmp_url }`
+One of the following:
 
-    - `rtmp_url: optional string`
+"KEY"
 
-      RTMP URL to stream to
+[Link to this property](#)
 
-  - `max_seconds: optional number`
+"PASSWORD"
 
-    Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+[Link to this property](#)
 
-  - `realtimekit_bucket_config: optional object { enabled }`
+</details>
 
-    - `enabled: boolean`
+[Link to this property](#)
 
-      Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+bucket: optional string
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+Name of the storage medium’s bucket.
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+[Link to this property](#)
 
-      Type of storage media.
+host: optional string
 
-      - `"aws"`
+SSH destination server host for SFTP type storage medium
 
-      - `"azure"`
+[Link to this property](#)
 
-      - `"digitalocean"`
+password: optional string
 
-      - `"gcs"`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-      - `"sftp"`
+[Link to this property](#)
 
-    - `access_key: optional string`
+path: optional string
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+Path relative to the bucket root at which the recording will be placed.
 
-      Note that this field is not readable by clients, only writeable.
+[Link to this property](#)
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+port: optional number
 
-      Authentication method used for "sftp" type storage medium
+SSH destination server port for SFTP type storage medium
 
-      - `"KEY"`
+[Link to this property](#)
 
-      - `"PASSWORD"`
+private_key: optional string
 
-    - `bucket: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      Name of the storage medium's bucket.
+[Link to this property](#)
 
-    - `host: optional string`
+region: optional string
 
-      SSH destination server host for SFTP type storage medium
+Region of the storage medium.
 
-    - `password: optional string`
+[Link to this property](#)
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+secret: optional string
 
-    - `path: optional string`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      Path relative to the bucket root at which the recording will be placed.
+[Link to this property](#)
 
-    - `port: optional number`
+type: optional "gcs"
 
-      SSH destination server port for SFTP type storage medium
+[Link to this property](#)
 
-    - `private_key: optional string`
+username: optional string
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+SSH destination server username for SFTP type storage medium
 
-    - `region: optional string`
+[Link to this property](#)
 
-      Region of the storage medium.
+</details>
 
-    - `secret: optional string`
+[Link to this property](#)
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<details>
 
-    - `username: optional string`
+<summary>
 
-      SSH destination server username for SFTP type storage medium
+object { access_key, region, auth_method, 9 more }
 
-  - `video_config: optional object { codec, export_file, height, 2 more }`
+</summary>
 
-    - `codec: optional "H264" or "VP8"`
+access_key: unknown
 
-      Codec using which the recording will be encoded.
+minLength1
 
-      - `"H264"`
+[Link to this property](#)
 
-      - `"VP8"`
+region: unknown
 
-    - `export_file: optional boolean`
+minLength1
 
-      Controls whether to export video file seperately
+[Link to this property](#)
 
-    - `height: optional number`
+<details>
 
-      Height of the recording video in pixels
+<summary>
 
-    - `watermark: optional object { position, size, url }`
+auth_method: optional "KEY" or "PASSWORD"
 
-      Watermark to be added to the recording
+Authentication method used for “sftp” type storage medium
 
-      - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+</summary>
 
-        Position of the watermark
+One of the following:
 
-        - `"left top"`
+"KEY"
 
-        - `"right top"`
+[Link to this property](#)
 
-        - `"left bottom"`
+"PASSWORD"
 
-        - `"right bottom"`
+[Link to this property](#)
 
-      - `size: optional object { height, width }`
+</details>
 
-        Size of the watermark
+[Link to this property](#)
 
-        - `height: optional number`
+bucket: optional string
 
-          Height of the watermark in px
+Name of the storage medium’s bucket.
 
-        - `width: optional number`
+[Link to this property](#)
 
-          Width of the watermark in px
+host: optional string
 
-      - `url: optional string`
+SSH destination server host for SFTP type storage medium
 
-        URL of the watermark image
+[Link to this property](#)
 
-    - `width: optional number`
+password: optional string
 
-      Width of the recording video in pixels
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-- `session_keep_alive_time_in_secs: optional number`
+[Link to this property](#)
 
-  Time in seconds, for which a session remains active, after the last participant has left the meeting.
+path: optional string
 
-- `status: optional "ACTIVE" or "INACTIVE"`
+Path relative to the bucket root at which the recording will be placed.
 
-  Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+[Link to this property](#)
 
-  - `"ACTIVE"`
+port: optional number
 
-  - `"INACTIVE"`
+SSH destination server port for SFTP type storage medium
 
-- `summarize_on_end: optional boolean`
+[Link to this property](#)
 
-  Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+private_key: optional string
 
-- `title: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-  Title of the meeting
+[Link to this property](#)
 
-- `transcribe_on_end: optional boolean`
+secret: optional string
 
-  Automatically generate transcripts when the meeting ends.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-### Returns
+[Link to this property](#)
 
-- `success: boolean`
+<details>
 
-  Success status of the operation
+<summary>
 
-- `data: optional object { id, created_at, updated_at, 10 more }`
+type: optional "aws" or "azure" or "digitalocean"
 
-  Data returned by the operation
+</summary>
 
-  - `id: string`
+One of the following:
 
-    ID of the meeting.
+"aws"
 
-  - `created_at: string`
+[Link to this property](#)
 
-    Timestamp the object was created at. The time is returned in ISO format.
+"azure"
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+"digitalocean"
 
-  - `ai_config: optional object { summarization, transcription }`
+[Link to this property](#)
 
-    The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+</details>
 
-    - `summarization: optional object { summary_type, text_format, word_limit }`
+[Link to this property](#)
 
-      Summary Config
+username: optional string
 
-      - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+SSH destination server username for SFTP type storage medium
 
-        Defines the style of the summary, such as general, team meeting, or sales call.
+[Link to this property](#)
 
-        - `"general"`
+</details>
 
-        - `"team_meeting"`
+[Link to this property](#)
 
-        - `"sales_call"`
+<details>
 
-        - `"client_check_in"`
+<summary>
 
-        - `"interview"`
+object { private_key, access_key, auth_method, 9 more }
 
-        - `"daily_standup"`
+</summary>
 
-        - `"one_on_one_meeting"`
+private_key: string
 
-        - `"lecture"`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-        - `"code_review"`
+[Link to this property](#)
 
-      - `text_format: optional "plain_text" or "markdown"`
+access_key: optional string
 
-        Determines the text format of the summary, such as plain text or markdown.
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-        - `"plain_text"`
+Note that this field is not readable by clients, only writeable.
 
-        - `"markdown"`
+[Link to this property](#)
 
-      - `word_limit: optional number`
+auth_method: optional "KEY"
 
-        Sets the maximum number of words in the meeting summary.
+[Link to this property](#)
 
-    - `transcription: optional object { keywords, language, profanity_filter }`
+bucket: optional string
 
-      Transcription Configurations
+Name of the storage medium’s bucket.
 
-      - `keywords: optional array of string`
+[Link to this property](#)
 
-        Adds specific terms to improve accurate detection during transcription.
+host: optional string
 
-      - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+SSH destination server host for SFTP type storage medium
 
-        Specifies the language code for transcription to ensure accurate results.
+[Link to this property](#)
 
-        - `"en-US"`
+password: optional string
 
-        - `"en-IN"`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-        - `"de"`
+[Link to this property](#)
 
-        - `"hi"`
+path: optional string
 
-        - `"sv"`
+Path relative to the bucket root at which the recording will be placed.
 
-        - `"ru"`
+[Link to this property](#)
 
-        - `"pl"`
+port: optional number
 
-        - `"el"`
+SSH destination server port for SFTP type storage medium
 
-        - `"fr"`
+[Link to this property](#)
 
-        - `"nl"`
+region: optional string
 
-      - `profanity_filter: optional boolean`
+Region of the storage medium.
 
-        Control the inclusion of offensive language in transcriptions.
+[Link to this property](#)
 
-  - `live_stream_on_start: optional boolean`
+secret: optional string
 
-    Specifies if the meeting should start getting livestreamed on start.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-  - `persist_chat: optional boolean`
+[Link to this property](#)
 
-    Specifies if Chat within a meeting should persist for a week.
+<details>
 
-  - `record_on_start: optional boolean`
+<summary>
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+Type of storage media.
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+</summary>
 
-    - `audio_config: optional object { channel, codec, export_file }`
+One of the following:
 
-      Object containing configuration regarding the audio that is being recorded.
+"aws"
 
-      - `channel: optional "mono" or "stereo"`
+[Link to this property](#)
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+"azure"
 
-        - `"mono"`
+[Link to this property](#)
 
-        - `"stereo"`
+"digitalocean"
 
-      - `codec: optional "MP3" or "AAC"`
+[Link to this property](#)
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+"gcs"
 
-        - `"MP3"`
+[Link to this property](#)
 
-        - `"AAC"`
+"sftp"
 
-      - `export_file: optional boolean`
+[Link to this property](#)
 
-        Controls whether to export audio file seperately
+</details>
 
-    - `file_name_prefix: optional string`
+[Link to this property](#)
 
-      Adds a prefix to the beginning of the file name of the recording.
+username: optional string
 
-    - `live_streaming_config: optional object { rtmp_url }`
+SSH destination server username for SFTP type storage medium
 
-      - `rtmp_url: optional string`
+[Link to this property](#)
 
-        RTMP URL to stream to
+</details>
 
-    - `max_seconds: optional number`
+[Link to this property](#)
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<details>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+<summary>
 
-      - `enabled: boolean`
+object { password, access_key, auth_method, 9 more }
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+</summary>
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+password: string
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-        Type of storage media.
+[Link to this property](#)
 
-        - `"aws"`
+access_key: optional string
 
-        - `"azure"`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-        - `"digitalocean"`
+Note that this field is not readable by clients, only writeable.
 
-        - `"gcs"`
+[Link to this property](#)
 
-        - `"sftp"`
+auth_method: optional "PASSWORD"
 
-      - `access_key: optional string`
+[Link to this property](#)
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+bucket: optional string
 
-        Note that this field is not readable by clients, only writeable.
+Name of the storage medium’s bucket.
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-        Authentication method used for "sftp" type storage medium
+host: optional string
 
-        - `"KEY"`
+SSH destination server host for SFTP type storage medium
 
-        - `"PASSWORD"`
+[Link to this property](#)
 
-      - `bucket: optional string`
+path: optional string
 
-        Name of the storage medium's bucket.
+Path relative to the bucket root at which the recording will be placed.
 
-      - `host: optional string`
+[Link to this property](#)
 
-        SSH destination server host for SFTP type storage medium
+port: optional number
 
-      - `password: optional string`
+SSH destination server port for SFTP type storage medium
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+[Link to this property](#)
 
-      - `path: optional string`
+private_key: optional string
 
-        Path relative to the bucket root at which the recording will be placed.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      - `port: optional number`
+[Link to this property](#)
 
-        SSH destination server port for SFTP type storage medium
+region: optional string
 
-      - `private_key: optional string`
+Region of the storage medium.
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-      - `region: optional string`
+secret: optional string
 
-        Region of the storage medium.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      - `secret: optional string`
+[Link to this property](#)
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<details>
 
-      - `username: optional string`
+<summary>
 
-        SSH destination server username for SFTP type storage medium
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+Type of storage media.
 
-      - `codec: optional "H264" or "VP8"`
+</summary>
 
-        Codec using which the recording will be encoded.
+One of the following:
 
-        - `"H264"`
+"aws"
 
-        - `"VP8"`
+[Link to this property](#)
 
-      - `export_file: optional boolean`
+"azure"
 
-        Controls whether to export video file seperately
+[Link to this property](#)
 
-      - `height: optional number`
+"digitalocean"
 
-        Height of the recording video in pixels
+[Link to this property](#)
 
-      - `watermark: optional object { position, size, url }`
+"gcs"
 
-        Watermark to be added to the recording
+[Link to this property](#)
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+"sftp"
 
-          Position of the watermark
+[Link to this property](#)
 
-          - `"left top"`
+</details>
 
-          - `"right top"`
+[Link to this property](#)
 
-          - `"left bottom"`
+username: optional string
 
-          - `"right bottom"`
+SSH destination server username for SFTP type storage medium
 
-        - `size: optional object { height, width }`
+[Link to this property](#)
 
-          Size of the watermark
+</details>
 
-          - `height: optional number`
+[Link to this property](#)
 
-            Height of the watermark in px
+</details>
 
-          - `width: optional number`
+[Link to this property](#)
 
-            Width of the watermark in px
+<details>
 
-        - `url: optional string`
+<summary>
 
-          URL of the watermark image
+video_config: optional object { codec, export_file, height, 2 more }
 
-      - `width: optional number`
+</summary>
 
-        Width of the recording video in pixels
+<details>
 
-  - `session_keep_alive_time_in_secs: optional number`
+<summary>
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+codec: optional "H264" or "VP8" or "VP9"
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+Codec using which the recording will be encoded.
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+</summary>
 
-    - `"ACTIVE"`
+One of the following:
 
-    - `"INACTIVE"`
+"H264"
 
-  - `summarize_on_end: optional boolean`
+[Link to this property](#)
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+"VP8"
 
-  - `title: optional string`
+[Link to this property](#)
 
-    Title of the meeting.
+"VP9"
 
-  - `transcribe_on_end: optional boolean`
+[Link to this property](#)
 
-    Automatically generate transcripts when the meeting ends.
+</details>
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "status": "INACTIVE"
-        }'
-```
+export_file: optional boolean
 
-#### Response
+Controls whether to export video file seperately
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_config": {
-      "summarization": {
-        "summary_type": "general",
-        "text_format": "plain_text",
-        "word_limit": 150
-      },
-      "transcription": {
-        "keywords": [
-          "string"
-        ],
-        "language": "en-US",
-        "profanity_filter": true
-      }
-    },
-    "live_stream_on_start": true,
-    "persist_chat": true,
-    "record_on_start": true,
-    "recording_config": {
-      "audio_config": {
-        "channel": "mono",
-        "codec": "MP3",
-        "export_file": true
-      },
-      "file_name_prefix": "file_name_prefix",
-      "live_streaming_config": {
-        "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-      },
-      "max_seconds": 60,
-      "realtimekit_bucket_config": {
-        "enabled": true
-      },
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      },
-      "video_config": {
-        "codec": "H264",
-        "export_file": true,
-        "height": 720,
-        "watermark": {
-          "position": "left top",
-          "size": {
-            "height": 1,
-            "width": 1
-          },
-          "url": "https://example.com"
-        },
-        "width": 1280
-      }
-    },
-    "session_keep_alive_time_in_secs": 60,
-    "status": "ACTIVE",
-    "summarize_on_end": true,
-    "title": "title",
-    "transcribe_on_end": true
-  }
-}
-```
+[Link to this property](#)
 
-## Replace a meeting
+height: optional number
 
-**put** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}`
+Height of the recording video in pixels
 
-Replaces all the details for the given meeting ID.
+maximum1920
 
-### Path Parameters
+minimum1
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+<details>
 
-- `app_id: string`
+<summary>
 
-  The app identifier tag.
+watermark: optional object { position, size, url }
 
-- `meeting_id: string`
+Watermark to be added to the recording
 
-### Body Parameters
+</summary>
 
-- `ai_config: optional object { summarization, transcription }`
+<details>
 
-  The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+<summary>
 
-  - `summarization: optional object { summary_type, text_format, word_limit }`
+position: optional "left top" or "right top" or "left bottom" or "right bottom"
 
-    Summary Config
+Position of the watermark
 
-    - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+</summary>
 
-      Defines the style of the summary, such as general, team meeting, or sales call.
+One of the following:
 
-      - `"general"`
+"left top"
 
-      - `"team_meeting"`
+[Link to this property](#)
 
-      - `"sales_call"`
+"right top"
 
-      - `"client_check_in"`
+[Link to this property](#)
 
-      - `"interview"`
+"left bottom"
 
-      - `"daily_standup"`
+[Link to this property](#)
 
-      - `"one_on_one_meeting"`
+"right bottom"
 
-      - `"lecture"`
+[Link to this property](#)
 
-      - `"code_review"`
+</details>
 
-    - `text_format: optional "plain_text" or "markdown"`
+[Link to this property](#)
 
-      Determines the text format of the summary, such as plain text or markdown.
+<details>
 
-      - `"plain_text"`
+<summary>
 
-      - `"markdown"`
+size: optional object { height, width }
 
-    - `word_limit: optional number`
+Size of the watermark
 
-      Sets the maximum number of words in the meeting summary.
+</summary>
 
-  - `transcription: optional object { keywords, language, profanity_filter }`
+height: optional number
 
-    Transcription Configurations
+Height of the watermark in px
 
-    - `keywords: optional array of string`
+minimum1
 
-      Adds specific terms to improve accurate detection during transcription.
+[Link to this property](#)
 
-    - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+width: optional number
 
-      Specifies the language code for transcription to ensure accurate results.
+Width of the watermark in px
 
-      - `"en-US"`
+minimum1
 
-      - `"en-IN"`
+[Link to this property](#)
 
-      - `"de"`
+</details>
 
-      - `"hi"`
+[Link to this property](#)
 
-      - `"sv"`
+url: optional string
 
-      - `"ru"`
+URL of the watermark image
 
-      - `"pl"`
+formaturi
 
-      - `"el"`
+[Link to this property](#)
 
-      - `"fr"`
+</details>
 
-      - `"nl"`
+[Link to this property](#)
 
-    - `profanity_filter: optional boolean`
+width: optional number
 
-      Control the inclusion of offensive language in transcriptions.
+Width of the recording video in pixels
 
-- `live_stream_on_start: optional boolean`
+maximum1920
 
-  Specifies if the meeting should start getting livestreamed on start.
+minimum1
 
-- `persist_chat: optional boolean`
+[Link to this property](#)
 
-  If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space.
+</details>
 
-- `record_on_start: optional boolean`
+[Link to this property](#)
 
-  Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+</details>
 
-- `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+[Link to this property](#)
 
-  Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+session_keep_alive_time_in_secs: optional number
 
-  - `audio_config: optional object { channel, codec, export_file }`
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-    Object containing configuration regarding the audio that is being recorded.
+maximum600
 
-    - `channel: optional "mono" or "stereo"`
+minimum60
 
-      Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-      - `"mono"`
+<details>
 
-      - `"stereo"`
+<summary>
 
-    - `codec: optional "MP3" or "AAC"`
+status: optional "ACTIVE" or "INACTIVE"
 
-      Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
 
-      - `"MP3"`
+</summary>
 
-      - `"AAC"`
+One of the following:
 
-    - `export_file: optional boolean`
+"ACTIVE"
 
-      Controls whether to export audio file seperately
+[Link to this property](#)
 
-  - `file_name_prefix: optional string`
+"INACTIVE"
 
-    Adds a prefix to the beginning of the file name of the recording.
+[Link to this property](#)
 
-  - `live_streaming_config: optional object { rtmp_url }`
+</details>
 
-    - `rtmp_url: optional string`
+[Link to this property](#)
 
-      RTMP URL to stream to
+summarize_on_end: optional boolean
 
-  - `max_seconds: optional number`
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-    Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+[Link to this property](#)
 
-  - `realtimekit_bucket_config: optional object { enabled }`
+title: optional string
 
-    - `enabled: boolean`
+Title of the meeting.
 
-      Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+[Link to this property](#)
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+transcribe_on_end: optional boolean
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+Automatically generate transcripts when the meeting ends.
 
-      Type of storage media.
+[Link to this property](#)
 
-      - `"aws"`
+</details>
 
-      - `"azure"`
+[Link to this property](#)
 
-      - `"digitalocean"`
+</details>
 
-      - `"gcs"`
+[Link to this property](#)
 
-      - `"sftp"`
+<details>
 
-    - `access_key: optional string`
+<summary>
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+MeetingGetMeetingByIDResponse object { success, data }
 
-      Note that this field is not readable by clients, only writeable.
+</summary>
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+success: boolean
 
-      Authentication method used for "sftp" type storage medium
+Success status of the operation
 
-      - `"KEY"`
+[Link to this property](#)
 
-      - `"PASSWORD"`
+<details>
 
-    - `bucket: optional string`
+<summary>
 
-      Name of the storage medium's bucket.
+data: optional object { id, created_at, updated_at, 10 more }
 
-    - `host: optional string`
+Data returned by the operation
 
-      SSH destination server host for SFTP type storage medium
+</summary>
 
-    - `password: optional string`
+id: string
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+ID of the meeting.
 
-    - `path: optional string`
+formatuuid
 
-      Path relative to the bucket root at which the recording will be placed.
+[Link to this property](#)
 
-    - `port: optional number`
+created_at: string
 
-      SSH destination server port for SFTP type storage medium
+Timestamp the object was created at. The time is returned in ISO format.
 
-    - `private_key: optional string`
+formatdate-time
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-    - `region: optional string`
+updated_at: string
 
-      Region of the storage medium.
+Timestamp the object was updated at. The time is returned in ISO format.
 
-    - `secret: optional string`
+formatdate-time
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+[Link to this property](#)
 
-    - `username: optional string`
+<details>
 
-      SSH destination server username for SFTP type storage medium
+<summary>
 
-  - `video_config: optional object { codec, export_file, height, 2 more }`
+ai_config: optional object { summarization, transcription }
 
-    - `codec: optional "H264" or "VP8"`
+The AI Config allows you to customize the behavior of meeting transcriptions and summaries
 
-      Codec using which the recording will be encoded.
+</summary>
 
-      - `"H264"`
+<details>
 
-      - `"VP8"`
+<summary>
 
-    - `export_file: optional boolean`
+summarization: optional object { summary_type, text_format, word_limit }
 
-      Controls whether to export video file seperately
+Summary Config
 
-    - `height: optional number`
+</summary>
 
-      Height of the recording video in pixels
+<details>
 
-    - `watermark: optional object { position, size, url }`
+<summary>
 
-      Watermark to be added to the recording
+summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more
 
-      - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+Defines the style of the summary, such as general, team meeting, or sales call.
 
-        Position of the watermark
+</summary>
 
-        - `"left top"`
+One of the following:
 
-        - `"right top"`
+"general"
 
-        - `"left bottom"`
+[Link to this property](#)
 
-        - `"right bottom"`
+"team_meeting"
 
-      - `size: optional object { height, width }`
+[Link to this property](#)
 
-        Size of the watermark
+"sales_call"
 
-        - `height: optional number`
+[Link to this property](#)
 
-          Height of the watermark in px
+"client_check_in"
 
-        - `width: optional number`
+[Link to this property](#)
 
-          Width of the watermark in px
+"interview"
 
-      - `url: optional string`
+[Link to this property](#)
 
-        URL of the watermark image
+"daily_standup"
 
-    - `width: optional number`
+[Link to this property](#)
 
-      Width of the recording video in pixels
+"one_on_one_meeting"
 
-- `session_keep_alive_time_in_secs: optional number`
+[Link to this property](#)
 
-  Time in seconds, for which a session remains active, after the last participant has left the meeting.
+"lecture"
 
-- `summarize_on_end: optional boolean`
+[Link to this property](#)
 
-  Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+"code_review"
 
-- `title: optional string`
+[Link to this property](#)
 
-  Title of the meeting
+</details>
 
-- `transcribe_on_end: optional boolean`
+[Link to this property](#)
 
-  Automatically generate transcripts when the meeting ends.
+<details>
 
-### Returns
+<summary>
 
-- `success: boolean`
+text_format: optional "plain_text" or "markdown"
 
-  Success status of the operation
+Determines the text format of the summary, such as plain text or markdown.
 
-- `data: optional object { id, created_at, updated_at, 10 more }`
+</summary>
 
-  Data returned by the operation
+One of the following:
 
-  - `id: string`
+"plain_text"
 
-    ID of the meeting.
+[Link to this property](#)
 
-  - `created_at: string`
+"markdown"
 
-    Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `updated_at: string`
+</details>
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `ai_config: optional object { summarization, transcription }`
+word_limit: optional number
 
-    The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+Sets the maximum number of words in the meeting summary.
 
-    - `summarization: optional object { summary_type, text_format, word_limit }`
+maximum1000
 
-      Summary Config
+minimum150
 
-      - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+[Link to this property](#)
 
-        Defines the style of the summary, such as general, team meeting, or sales call.
+</details>
 
-        - `"general"`
+[Link to this property](#)
 
-        - `"team_meeting"`
+<details>
 
-        - `"sales_call"`
+<summary>
 
-        - `"client_check_in"`
+transcription: optional object { keywords, language, profanity_filter }
 
-        - `"interview"`
+Transcription Configurations
 
-        - `"daily_standup"`
+</summary>
 
-        - `"one_on_one_meeting"`
+keywords: optional array of string
 
-        - `"lecture"`
+Adds specific terms to improve accurate detection during transcription.
 
-        - `"code_review"`
+[Link to this property](#)
 
-      - `text_format: optional "plain_text" or "markdown"`
+<details>
 
-        Determines the text format of the summary, such as plain text or markdown.
+<summary>
 
-        - `"plain_text"`
+language: optional "en-US" or "en-IN" or "de" or 7 more
 
-        - `"markdown"`
+Specifies the language code for transcription to ensure accurate results.
 
-      - `word_limit: optional number`
+</summary>
 
-        Sets the maximum number of words in the meeting summary.
+One of the following:
 
-    - `transcription: optional object { keywords, language, profanity_filter }`
+"en-US"
 
-      Transcription Configurations
+[Link to this property](#)
 
-      - `keywords: optional array of string`
+"en-IN"
 
-        Adds specific terms to improve accurate detection during transcription.
+[Link to this property](#)
 
-      - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+"de"
 
-        Specifies the language code for transcription to ensure accurate results.
+[Link to this property](#)
 
-        - `"en-US"`
+"hi"
 
-        - `"en-IN"`
+[Link to this property](#)
 
-        - `"de"`
+"sv"
 
-        - `"hi"`
+[Link to this property](#)
 
-        - `"sv"`
+"ru"
 
-        - `"ru"`
+[Link to this property](#)
 
-        - `"pl"`
+"pl"
 
-        - `"el"`
+[Link to this property](#)
 
-        - `"fr"`
+"el"
 
-        - `"nl"`
+[Link to this property](#)
 
-      - `profanity_filter: optional boolean`
+"fr"
 
-        Control the inclusion of offensive language in transcriptions.
+[Link to this property](#)
 
-  - `live_stream_on_start: optional boolean`
+"nl"
 
-    Specifies if the meeting should start getting livestreamed on start.
+[Link to this property](#)
 
-  - `persist_chat: optional boolean`
+</details>
 
-    Specifies if Chat within a meeting should persist for a week.
+[Link to this property](#)
 
-  - `record_on_start: optional boolean`
+profanity_filter: optional boolean
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+Control the inclusion of offensive language in transcriptions.
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+[Link to this property](#)
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+</details>
 
-    - `audio_config: optional object { channel, codec, export_file }`
+[Link to this property](#)
 
-      Object containing configuration regarding the audio that is being recorded.
+</details>
 
-      - `channel: optional "mono" or "stereo"`
+[Link to this property](#)
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+live_stream_on_start: optional boolean
 
-        - `"mono"`
+Specifies if the meeting should start getting livestreamed on start.
 
-        - `"stereo"`
+[Link to this property](#)
 
-      - `codec: optional "MP3" or "AAC"`
+persist_chat: optional boolean
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+Specifies if Chat within a meeting should persist for a week.
 
-        - `"MP3"`
+[Link to this property](#)
 
-        - `"AAC"`
+record_on_start: optional boolean
 
-      - `export_file: optional boolean`
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-        Controls whether to export audio file seperately
+[Link to this property](#)
 
-    - `file_name_prefix: optional string`
+<details>
 
-      Adds a prefix to the beginning of the file name of the recording.
+<summary>
 
-    - `live_streaming_config: optional object { rtmp_url }`
+recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }
 
-      - `rtmp_url: optional string`
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-        RTMP URL to stream to
+</summary>
 
-    - `max_seconds: optional number`
+<details>
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<summary>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+audio_config: optional object { channel, codec, export_file }
 
-      - `enabled: boolean`
+Object containing configuration regarding the audio that is being recorded.
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+</summary>
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<details>
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<summary>
 
-        Type of storage media.
+channel: optional "mono" or "stereo"
 
-        - `"aws"`
+Audio signal pathway within an audio file that carries a specific sound source.
 
-        - `"azure"`
+</summary>
 
-        - `"digitalocean"`
+One of the following:
 
-        - `"gcs"`
+"mono"
 
-        - `"sftp"`
+[Link to this property](#)
 
-      - `access_key: optional string`
+"stereo"
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-        Note that this field is not readable by clients, only writeable.
+</details>
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-        Authentication method used for "sftp" type storage medium
+<details>
 
-        - `"KEY"`
+<summary>
 
-        - `"PASSWORD"`
+codec: optional "MP3" or "AAC"
 
-      - `bucket: optional string`
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-        Name of the storage medium's bucket.
+</summary>
 
-      - `host: optional string`
+One of the following:
 
-        SSH destination server host for SFTP type storage medium
+"MP3"
 
-      - `password: optional string`
+[Link to this property](#)
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+"AAC"
 
-      - `path: optional string`
+[Link to this property](#)
 
-        Path relative to the bucket root at which the recording will be placed.
+</details>
 
-      - `port: optional number`
+[Link to this property](#)
 
-        SSH destination server port for SFTP type storage medium
+export_file: optional boolean
 
-      - `private_key: optional string`
+Controls whether to export audio file seperately
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-      - `region: optional string`
+</details>
 
-        Region of the storage medium.
+[Link to this property](#)
 
-      - `secret: optional string`
+file_name_prefix: optional string
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+Adds a prefix to the beginning of the file name of the recording.
 
-      - `username: optional string`
+[Link to this property](#)
 
-        SSH destination server username for SFTP type storage medium
+<details>
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+<summary>
 
-      - `codec: optional "H264" or "VP8"`
+live_streaming_config: optional object { rtmp_url }
 
-        Codec using which the recording will be encoded.
+</summary>
 
-        - `"H264"`
+rtmp_url: optional string
 
-        - `"VP8"`
+RTMP URL to stream to
 
-      - `export_file: optional boolean`
+formaturi
 
-        Controls whether to export video file seperately
+[Link to this property](#)
 
-      - `height: optional number`
+</details>
 
-        Height of the recording video in pixels
+[Link to this property](#)
 
-      - `watermark: optional object { position, size, url }`
+max_seconds: optional number
 
-        Watermark to be added to the recording
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+maximum86400
 
-          Position of the watermark
+minimum60
 
-          - `"left top"`
+[Link to this property](#)
 
-          - `"right top"`
+<details>
 
-          - `"left bottom"`
+<summary>
 
-          - `"right bottom"`
+realtimekit_bucket_config: optional object { enabled }
 
-        - `size: optional object { height, width }`
+</summary>
 
-          Size of the watermark
+enabled: boolean
 
-          - `height: optional number`
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won’t be generated for a recording.
 
-            Height of the watermark in px
+[Link to this property](#)
 
-          - `width: optional number`
+</details>
 
-            Width of the watermark in px
+[Link to this property](#)
 
-        - `url: optional string`
+<details>
 
-          URL of the watermark image
+<summary>
 
-      - `width: optional number`
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-        Width of the recording video in pixels
+</summary>
 
-  - `session_keep_alive_time_in_secs: optional number`
+One of the following:
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+<details>
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+<summary>
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+object { access_key, auth_method, bucket, 9 more }
 
-    - `"ACTIVE"`
+</summary>
 
-    - `"INACTIVE"`
+access_key: optional string
 
-  - `summarize_on_end: optional boolean`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+Note that this field is not readable by clients, only writeable.
 
-  - `title: optional string`
+[Link to this property](#)
 
-    Title of the meeting.
+<details>
 
-  - `transcribe_on_end: optional boolean`
+<summary>
 
-    Automatically generate transcripts when the meeting ends.
+auth_method: optional "KEY" or "PASSWORD"
 
-### Example
+Authentication method used for “sftp” type storage medium
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_config": {
-      "summarization": {
-        "summary_type": "general",
-        "text_format": "plain_text",
-        "word_limit": 150
-      },
-      "transcription": {
-        "keywords": [
-          "string"
-        ],
-        "language": "en-US",
-        "profanity_filter": true
-      }
-    },
-    "live_stream_on_start": true,
-    "persist_chat": true,
-    "record_on_start": true,
-    "recording_config": {
-      "audio_config": {
-        "channel": "mono",
-        "codec": "MP3",
-        "export_file": true
-      },
-      "file_name_prefix": "file_name_prefix",
-      "live_streaming_config": {
-        "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-      },
-      "max_seconds": 60,
-      "realtimekit_bucket_config": {
-        "enabled": true
-      },
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      },
-      "video_config": {
-        "codec": "H264",
-        "export_file": true,
-        "height": 720,
-        "watermark": {
-          "position": "left top",
-          "size": {
-            "height": 1,
-            "width": 1
-          },
-          "url": "https://example.com"
-        },
-        "width": 1280
-      }
-    },
-    "session_keep_alive_time_in_secs": 60,
-    "status": "ACTIVE",
-    "summarize_on_end": true,
-    "title": "title",
-    "transcribe_on_end": true
-  }
-}
-```
+"KEY"
 
-## Fetch all participants of a meeting
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants`
+"PASSWORD"
 
-Returns all participants detail for the given meeting ID.
+[Link to this property](#)
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+bucket: optional string
 
-- `app_id: string`
+Name of the storage medium’s bucket.
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `meeting_id: string`
+host: optional string
 
-### Query Parameters
+SSH destination server host for SFTP type storage medium
 
-- `page_no: optional number`
+[Link to this property](#)
 
-  The page number from which you want your page search results to be displayed.
+password: optional string
 
-- `per_page: optional number`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  Number of results per page
+[Link to this property](#)
 
-### Returns
+path: optional string
 
-- `data: array of object { id, created_at, custom_participant_id, 4 more }`
+Path relative to the bucket root at which the recording will be placed.
 
-  - `id: string`
+[Link to this property](#)
 
-    ID of the participant.
+port: optional number
 
-  - `created_at: string`
+SSH destination server port for SFTP type storage medium
 
-    When this object was created. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `custom_participant_id: string`
+private_key: optional string
 
-    A unique participant ID generated by the client.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-  - `preset_name: string`
+[Link to this property](#)
 
-    Preset applied to the participant.
+region: optional string
 
-  - `updated_at: string`
+Region of the storage medium.
 
-    When this object was updated. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `name: optional string`
+secret: optional string
 
-    Name of the participant.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-  - `picture: optional string`
+[Link to this property](#)
 
-    URL to a picture of the participant.
+type: optional "gcs"
 
-- `paging: object { end_offset, start_offset, total_count }`
+[Link to this property](#)
 
-  - `end_offset: number`
+username: optional string
 
-  - `start_offset: number`
+SSH destination server username for SFTP type storage medium
 
-  - `total_count: number`
+[Link to this property](#)
 
-- `success: boolean`
+</details>
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "data": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "custom_participant_id": "custom_participant_id",
-      "preset_name": "preset_name",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "picture": "https://example.com"
-    }
-  ],
-  "paging": {
-    "end_offset": 30,
-    "start_offset": 1,
-    "total_count": 30
-  },
-  "success": true
-}
-```
+object { access_key, region, auth_method, 9 more }
 
-## Add a participant
+</summary>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants`
+access_key: unknown
 
-Adds a participant to the given meeting ID.
+minLength1
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+region: unknown
 
-  The account identifier tag.
+minLength1
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+<details>
 
-- `meeting_id: string`
+<summary>
 
-### Body Parameters
+auth_method: optional "KEY" or "PASSWORD"
 
-- `custom_participant_id: string`
+Authentication method used for “sftp” type storage medium
 
-  A unique participant ID. You must specify a unique ID for the participant, for example, UUID, email address, and so on.
+</summary>
 
-- `preset_name: string`
+One of the following:
 
-  Name of the preset to apply to this participant.
+"KEY"
 
-- `name: optional string`
+[Link to this property](#)
 
-  (Optional) Name of the participant.
+"PASSWORD"
 
-- `picture: optional string`
+[Link to this property](#)
 
-  (Optional) A URL to a picture to be used for the participant.
+</details>
 
-### Returns
+[Link to this property](#)
 
-- `success: boolean`
+bucket: optional string
 
-  Success status of the operation
+Name of the storage medium’s bucket.
 
-- `data: optional object { id, token, created_at, 5 more }`
+[Link to this property](#)
 
-  Represents a participant.
+host: optional string
 
-  - `id: string`
+SSH destination server host for SFTP type storage medium
 
-    ID of the participant.
+[Link to this property](#)
 
-  - `token: string`
+password: optional string
 
-    The participant's auth token that can be used for joining a meeting from the client side.
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `created_at: string`
+[Link to this property](#)
 
-    When this object was created. The time is returned in ISO format.
+path: optional string
 
-  - `custom_participant_id: string`
+Path relative to the bucket root at which the recording will be placed.
 
-    A unique participant ID generated by the client.
+[Link to this property](#)
 
-  - `preset_name: string`
+port: optional number
 
-    Preset applied to the participant.
+SSH destination server port for SFTP type storage medium
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    When this object was updated. The time is returned in ISO format.
+private_key: optional string
 
-  - `name: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-    Name of the participant.
+[Link to this property](#)
 
-  - `picture: optional string`
+secret: optional string
 
-    URL to a picture of the participant.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "custom_participant_id": "custom_participant_id",
-          "preset_name": "preset_name",
-          "name": "Mary Sue",
-          "picture": "https://i.imgur.com/test.jpg"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "token": "token",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "custom_participant_id": "custom_participant_id",
-    "preset_name": "preset_name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "picture": "https://example.com"
-  }
-}
-```
+type: optional "aws" or "azure" or "digitalocean"
 
-## Fetch a participant's detail
+</summary>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}`
+One of the following:
 
-Returns a participant details for the given meeting and participant ID.
+"aws"
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+"azure"
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+"digitalocean"
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `meeting_id: string`
+</details>
 
-- `participant_id: string`
+[Link to this property](#)
 
-### Returns
+username: optional string
 
-- `data: object { id, created_at, custom_participant_id, 4 more }`
+SSH destination server username for SFTP type storage medium
 
-  Data returned by the operation
+[Link to this property](#)
 
-  - `id: string`
+</details>
 
-    ID of the participant.
+[Link to this property](#)
 
-  - `created_at: string`
+<details>
 
-    When this object was created. The time is returned in ISO format.
+<summary>
 
-  - `custom_participant_id: string`
+object { private_key, access_key, auth_method, 9 more }
 
-    A unique participant ID generated by the client.
+</summary>
 
-  - `preset_name: string`
+private_key: string
 
-    Preset applied to the participant.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    When this object was updated. The time is returned in ISO format.
+access_key: optional string
 
-  - `name: optional string`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-    Name of the participant.
+Note that this field is not readable by clients, only writeable.
 
-  - `picture: optional string`
+[Link to this property](#)
 
-    URL to a picture of the participant.
+auth_method: optional "KEY"
 
-- `success: boolean`
+[Link to this property](#)
 
-  Success status of the operation
+bucket: optional string
 
-### Example
+Name of the storage medium’s bucket.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants/$PARTICIPANT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+host: optional string
 
-```json
-{
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "custom_participant_id": "custom_participant_id",
-    "preset_name": "preset_name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "picture": "https://example.com"
-  },
-  "success": true
-}
-```
+SSH destination server host for SFTP type storage medium
 
-## Edit a participant's detail
+[Link to this property](#)
 
-**patch** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}`
+password: optional string
 
-Updates a participant's details for the given meeting and participant ID.
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+path: optional string
 
-  The account identifier tag.
+Path relative to the bucket root at which the recording will be placed.
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+port: optional number
 
-- `meeting_id: string`
+SSH destination server port for SFTP type storage medium
 
-- `participant_id: string`
+[Link to this property](#)
 
-### Body Parameters
+region: optional string
 
-- `name: optional string`
+Region of the storage medium.
 
-  (Optional) Name of the participant.
+[Link to this property](#)
 
-- `picture: optional string`
+secret: optional string
 
-  (Optional) A URL to a picture to be used for the participant.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-- `preset_name: optional string`
+[Link to this property](#)
 
-  (Optional) Name of the preset to apply to this participant.
+<details>
 
-### Returns
+<summary>
 
-- `success: boolean`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-  Success status of the operation
+Type of storage media.
 
-- `data: optional object { id, token, created_at, 5 more }`
+</summary>
 
-  Represents a participant.
+One of the following:
 
-  - `id: string`
+"aws"
 
-    ID of the participant.
+[Link to this property](#)
 
-  - `token: string`
+"azure"
 
-    The participant's auth token that can be used for joining a meeting from the client side.
+[Link to this property](#)
 
-  - `created_at: string`
+"digitalocean"
 
-    When this object was created. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `custom_participant_id: string`
+"gcs"
 
-    A unique participant ID generated by the client.
+[Link to this property](#)
 
-  - `preset_name: string`
+"sftp"
 
-    Preset applied to the participant.
+[Link to this property](#)
 
-  - `updated_at: string`
+</details>
 
-    When this object was updated. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `name: optional string`
+username: optional string
 
-    Name of the participant.
+SSH destination server username for SFTP type storage medium
 
-  - `picture: optional string`
+[Link to this property](#)
 
-    URL to a picture of the participant.
+</details>
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants/$PARTICIPANT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Jane Doe"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "token": "token",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "custom_participant_id": "custom_participant_id",
-    "preset_name": "preset_name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "picture": "https://example.com"
-  }
-}
-```
+object { password, access_key, auth_method, 9 more }
 
-## Delete a participant
+</summary>
 
-**delete** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}`
+password: string
 
-Deletes a participant for the given meeting and participant ID.
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+access_key: optional string
 
-  The account identifier tag.
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-- `app_id: string`
+Note that this field is not readable by clients, only writeable.
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `meeting_id: string`
+auth_method: optional "PASSWORD"
 
-- `participant_id: string`
+[Link to this property](#)
 
-### Returns
+bucket: optional string
 
-- `success: boolean`
+Name of the storage medium’s bucket.
 
-  Success status of the operation
+[Link to this property](#)
 
-- `data: optional object { created_at, custom_participant_id, preset_id, updated_at }`
+host: optional string
 
-  Data returned by the operation
+SSH destination server host for SFTP type storage medium
 
-  - `created_at: string`
+[Link to this property](#)
 
-    Timestamp this object was created at. The time is returned in ISO format.
+path: optional string
 
-  - `custom_participant_id: string`
+Path relative to the bucket root at which the recording will be placed.
 
-    A unique participant ID generated by the client.
+[Link to this property](#)
 
-  - `preset_id: string`
+port: optional number
 
-    ID of the preset applied to this participant.
+SSH destination server port for SFTP type storage medium
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    Timestamp this object was updated at. The time is returned in ISO format.
+private_key: optional string
 
-### Example
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants/$PARTICIPANT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+region: optional string
 
-```json
-{
-  "success": true,
-  "data": {
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "custom_participant_id": "custom_participant_id",
-    "preset_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+Region of the storage medium.
 
-## Refresh participant's authentication token
+[Link to this property](#)
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}/token`
+secret: optional string
 
-Regenerates participant's authentication token for the given meeting and participant ID.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>
 
-- `app_id: string`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-  The app identifier tag.
+Type of storage media.
 
-- `meeting_id: string`
+</summary>
 
-- `participant_id: string`
+One of the following:
 
-### Returns
+"aws"
 
-- `data: object { token }`
+[Link to this property](#)
 
-  Data returned by the operation
+"azure"
 
-  - `token: string`
+[Link to this property](#)
 
-    Regenerated participant's authentication token.
+"digitalocean"
 
-- `success: boolean`
+[Link to this property](#)
 
-  Success status of the operation
+"gcs"
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants/$PARTICIPANT_ID/token \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"sftp"
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "token": "token"
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)
 
-### Meeting Get Response
+username: optional string
 
-- `MeetingGetResponse object { data, paging, success }`
+SSH destination server username for SFTP type storage medium
 
-  - `data: array of object { id, created_at, updated_at, 9 more }`
+[Link to this property](#)
 
-    - `id: string`
+</details>
 
-      ID of the meeting.
+[Link to this property](#)
 
-    - `created_at: string`
+</details>
 
-      Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `updated_at: string`
+<details>
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<summary>
 
-    - `live_stream_on_start: optional boolean`
+video_config: optional object { codec, export_file, height, 2 more }
 
-      Specifies if the meeting should start getting livestreamed on start.
+</summary>
 
-    - `persist_chat: optional boolean`
+<details>
 
-      Specifies if Chat within a meeting should persist for a week.
+<summary>
 
-    - `record_on_start: optional boolean`
+codec: optional "H264" or "VP8" or "VP9"
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+Codec using which the recording will be encoded.
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+</summary>
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+One of the following:
 
-      - `audio_config: optional object { channel, codec, export_file }`
+"H264"
 
-        Object containing configuration regarding the audio that is being recorded.
+[Link to this property](#)
 
-        - `channel: optional "mono" or "stereo"`
+"VP8"
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-          - `"mono"`
+"VP9"
 
-          - `"stereo"`
+[Link to this property](#)
 
-        - `codec: optional "MP3" or "AAC"`
+</details>
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+[Link to this property](#)
 
-          - `"MP3"`
+export_file: optional boolean
 
-          - `"AAC"`
+Controls whether to export video file seperately
 
-        - `export_file: optional boolean`
+[Link to this property](#)
 
-          Controls whether to export audio file seperately
+height: optional number
 
-      - `file_name_prefix: optional string`
+Height of the recording video in pixels
 
-        Adds a prefix to the beginning of the file name of the recording.
+maximum1920
 
-      - `live_streaming_config: optional object { rtmp_url }`
+minimum1
 
-        - `rtmp_url: optional string`
+[Link to this property](#)
 
-          RTMP URL to stream to
+<details>
 
-      - `max_seconds: optional number`
+<summary>
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+watermark: optional object { position, size, url }
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+Watermark to be added to the recording
 
-        - `enabled: boolean`
+</summary>
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+<details>
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<summary>
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+position: optional "left top" or "right top" or "left bottom" or "right bottom"
 
-          Type of storage media.
+Position of the watermark
 
-          - `"aws"`
+</summary>
 
-          - `"azure"`
+One of the following:
 
-          - `"digitalocean"`
+"left top"
 
-          - `"gcs"`
+[Link to this property](#)
 
-          - `"sftp"`
+"right top"
 
-        - `access_key: optional string`
+[Link to this property](#)
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+"left bottom"
 
-          Note that this field is not readable by clients, only writeable.
+[Link to this property](#)
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+"right bottom"
 
-          Authentication method used for "sftp" type storage medium
+[Link to this property](#)
 
-          - `"KEY"`
+</details>
 
-          - `"PASSWORD"`
+[Link to this property](#)
 
-        - `bucket: optional string`
+<details>
 
-          Name of the storage medium's bucket.
+<summary>
 
-        - `host: optional string`
+size: optional object { height, width }
 
-          SSH destination server host for SFTP type storage medium
+Size of the watermark
 
-        - `password: optional string`
+</summary>
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+height: optional number
 
-        - `path: optional string`
+Height of the watermark in px
 
-          Path relative to the bucket root at which the recording will be placed.
+minimum1
 
-        - `port: optional number`
+[Link to this property](#)
 
-          SSH destination server port for SFTP type storage medium
+width: optional number
 
-        - `private_key: optional string`
+Width of the watermark in px
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+minimum1
 
-        - `region: optional string`
+[Link to this property](#)
 
-          Region of the storage medium.
+</details>
 
-        - `secret: optional string`
+[Link to this property](#)
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+url: optional string
 
-        - `username: optional string`
+URL of the watermark image
 
-          SSH destination server username for SFTP type storage medium
+formaturi
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+[Link to this property](#)
 
-        - `codec: optional "H264" or "VP8"`
+</details>
 
-          Codec using which the recording will be encoded.
+[Link to this property](#)
 
-          - `"H264"`
+width: optional number
 
-          - `"VP8"`
+Width of the recording video in pixels
 
-        - `export_file: optional boolean`
+maximum1920
 
-          Controls whether to export video file seperately
+minimum1
 
-        - `height: optional number`
+[Link to this property](#)
 
-          Height of the recording video in pixels
+</details>
 
-        - `watermark: optional object { position, size, url }`
+[Link to this property](#)
 
-          Watermark to be added to the recording
+</details>
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+[Link to this property](#)
 
-            Position of the watermark
+session_keep_alive_time_in_secs: optional number
 
-            - `"left top"`
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-            - `"right top"`
+maximum600
 
-            - `"left bottom"`
+minimum60
 
-            - `"right bottom"`
+[Link to this property](#)
 
-          - `size: optional object { height, width }`
+<details>
 
-            Size of the watermark
+<summary>
 
-            - `height: optional number`
+status: optional "ACTIVE" or "INACTIVE"
 
-              Height of the watermark in px
+Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
 
-            - `width: optional number`
+</summary>
 
-              Width of the watermark in px
+One of the following:
 
-          - `url: optional string`
+"ACTIVE"
 
-            URL of the watermark image
+[Link to this property](#)
 
-        - `width: optional number`
+"INACTIVE"
 
-          Width of the recording video in pixels
+[Link to this property](#)
 
-    - `session_keep_alive_time_in_secs: optional number`
+</details>
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+[Link to this property](#)
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+summarize_on_end: optional boolean
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-      - `"ACTIVE"`
+[Link to this property](#)
 
-      - `"INACTIVE"`
+title: optional string
 
-    - `summarize_on_end: optional boolean`
+Title of the meeting.
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+[Link to this property](#)
 
-    - `title: optional string`
+transcribe_on_end: optional boolean
 
-      Title of the meeting.
+Automatically generate transcripts when the meeting ends.
 
-    - `transcribe_on_end: optional boolean`
+[Link to this property](#)
 
-      Automatically generate transcripts when the meeting ends.
+</details>
 
-  - `paging: object { end_offset, start_offset, total_count }`
+[Link to this property](#)
 
-    - `end_offset: number`
+</details>
 
-    - `start_offset: number`
+[Link to this property](#)
 
-    - `total_count: number`
+<details>
 
-  - `success: boolean`
+<summary>
 
-### Meeting Create Response
+MeetingUpdateMeetingByIDResponse object { success, data }
 
-- `MeetingCreateResponse object { success, data }`
+</summary>
 
-  - `success: boolean`
+success: boolean
 
-    Success status of the operation
+Success status of the operation
 
-  - `data: optional object { id, created_at, updated_at, 10 more }`
+[Link to this property](#)
 
-    Data returned by the operation
+<details>
 
-    - `id: string`
+<summary>
 
-      ID of the meeting.
+data: optional object { id, created_at, updated_at, 10 more }
 
-    - `created_at: string`
+Data returned by the operation
 
-      Timestamp the object was created at. The time is returned in ISO format.
+</summary>
 
-    - `updated_at: string`
+id: string
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+ID of the meeting.
 
-    - `ai_config: optional object { summarization, transcription }`
+formatuuid
 
-      The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+[Link to this property](#)
 
-      - `summarization: optional object { summary_type, text_format, word_limit }`
+created_at: string
 
-        Summary Config
+Timestamp the object was created at. The time is returned in ISO format.
 
-        - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+formatdate-time
 
-          Defines the style of the summary, such as general, team meeting, or sales call.
+[Link to this property](#)
 
-          - `"general"`
+updated_at: string
 
-          - `"team_meeting"`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-          - `"sales_call"`
+formatdate-time
 
-          - `"client_check_in"`
+[Link to this property](#)
 
-          - `"interview"`
+<details>
 
-          - `"daily_standup"`
+<summary>
 
-          - `"one_on_one_meeting"`
+ai_config: optional object { summarization, transcription }
 
-          - `"lecture"`
+The AI Config allows you to customize the behavior of meeting transcriptions and summaries
 
-          - `"code_review"`
+</summary>
 
-        - `text_format: optional "plain_text" or "markdown"`
+<details>
 
-          Determines the text format of the summary, such as plain text or markdown.
+<summary>
 
-          - `"plain_text"`
+summarization: optional object { summary_type, text_format, word_limit }
 
-          - `"markdown"`
+Summary Config
 
-        - `word_limit: optional number`
+</summary>
 
-          Sets the maximum number of words in the meeting summary.
+<details>
 
-      - `transcription: optional object { keywords, language, profanity_filter }`
+<summary>
 
-        Transcription Configurations
+summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more
 
-        - `keywords: optional array of string`
+Defines the style of the summary, such as general, team meeting, or sales call.
 
-          Adds specific terms to improve accurate detection during transcription.
+</summary>
 
-        - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+One of the following:
 
-          Specifies the language code for transcription to ensure accurate results.
+"general"
 
-          - `"en-US"`
+[Link to this property](#)
 
-          - `"en-IN"`
+"team_meeting"
 
-          - `"de"`
+[Link to this property](#)
 
-          - `"hi"`
+"sales_call"
 
-          - `"sv"`
+[Link to this property](#)
 
-          - `"ru"`
+"client_check_in"
 
-          - `"pl"`
+[Link to this property](#)
 
-          - `"el"`
+"interview"
 
-          - `"fr"`
+[Link to this property](#)
 
-          - `"nl"`
+"daily_standup"
 
-        - `profanity_filter: optional boolean`
+[Link to this property](#)
 
-          Control the inclusion of offensive language in transcriptions.
+"one_on_one_meeting"
 
-    - `live_stream_on_start: optional boolean`
+[Link to this property](#)
 
-      Specifies if the meeting should start getting livestreamed on start.
+"lecture"
 
-    - `persist_chat: optional boolean`
+[Link to this property](#)
 
-      Specifies if Chat within a meeting should persist for a week.
+"code_review"
 
-    - `record_on_start: optional boolean`
+[Link to this property](#)
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+</details>
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+[Link to this property](#)
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+<details>
 
-      - `audio_config: optional object { channel, codec, export_file }`
+<summary>
 
-        Object containing configuration regarding the audio that is being recorded.
+text_format: optional "plain_text" or "markdown"
 
-        - `channel: optional "mono" or "stereo"`
+Determines the text format of the summary, such as plain text or markdown.
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+</summary>
 
-          - `"mono"`
+One of the following:
 
-          - `"stereo"`
+"plain_text"
 
-        - `codec: optional "MP3" or "AAC"`
+[Link to this property](#)
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+"markdown"
 
-          - `"MP3"`
+[Link to this property](#)
 
-          - `"AAC"`
+</details>
 
-        - `export_file: optional boolean`
+[Link to this property](#)
 
-          Controls whether to export audio file seperately
+word_limit: optional number
 
-      - `file_name_prefix: optional string`
+Sets the maximum number of words in the meeting summary.
 
-        Adds a prefix to the beginning of the file name of the recording.
+maximum1000
 
-      - `live_streaming_config: optional object { rtmp_url }`
+minimum150
 
-        - `rtmp_url: optional string`
+[Link to this property](#)
 
-          RTMP URL to stream to
+</details>
 
-      - `max_seconds: optional number`
+[Link to this property](#)
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<details>
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+<summary>
 
-        - `enabled: boolean`
+transcription: optional object { keywords, language, profanity_filter }
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+Transcription Configurations
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+</summary>
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+keywords: optional array of string
 
-          Type of storage media.
+Adds specific terms to improve accurate detection during transcription.
 
-          - `"aws"`
+[Link to this property](#)
 
-          - `"azure"`
+<details>
 
-          - `"digitalocean"`
+<summary>
 
-          - `"gcs"`
+language: optional "en-US" or "en-IN" or "de" or 7 more
 
-          - `"sftp"`
+Specifies the language code for transcription to ensure accurate results.
 
-        - `access_key: optional string`
+</summary>
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+One of the following:
 
-          Note that this field is not readable by clients, only writeable.
+"en-US"
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-          Authentication method used for "sftp" type storage medium
+"en-IN"
 
-          - `"KEY"`
+[Link to this property](#)
 
-          - `"PASSWORD"`
+"de"
 
-        - `bucket: optional string`
+[Link to this property](#)
 
-          Name of the storage medium's bucket.
+"hi"
 
-        - `host: optional string`
+[Link to this property](#)
 
-          SSH destination server host for SFTP type storage medium
+"sv"
 
-        - `password: optional string`
+[Link to this property](#)
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+"ru"
 
-        - `path: optional string`
+[Link to this property](#)
 
-          Path relative to the bucket root at which the recording will be placed.
+"pl"
 
-        - `port: optional number`
+[Link to this property](#)
 
-          SSH destination server port for SFTP type storage medium
+"el"
 
-        - `private_key: optional string`
+[Link to this property](#)
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+"fr"
 
-        - `region: optional string`
+[Link to this property](#)
 
-          Region of the storage medium.
+"nl"
 
-        - `secret: optional string`
+[Link to this property](#)
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+</details>
 
-        - `username: optional string`
+[Link to this property](#)
 
-          SSH destination server username for SFTP type storage medium
+profanity_filter: optional boolean
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+Control the inclusion of offensive language in transcriptions.
 
-        - `codec: optional "H264" or "VP8"`
+[Link to this property](#)
 
-          Codec using which the recording will be encoded.
+</details>
 
-          - `"H264"`
+[Link to this property](#)
 
-          - `"VP8"`
+</details>
 
-        - `export_file: optional boolean`
+[Link to this property](#)
 
-          Controls whether to export video file seperately
+live_stream_on_start: optional boolean
 
-        - `height: optional number`
+Specifies if the meeting should start getting livestreamed on start.
 
-          Height of the recording video in pixels
+[Link to this property](#)
 
-        - `watermark: optional object { position, size, url }`
+persist_chat: optional boolean
 
-          Watermark to be added to the recording
+Specifies if Chat within a meeting should persist for a week.
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+[Link to this property](#)
 
-            Position of the watermark
+record_on_start: optional boolean
 
-            - `"left top"`
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-            - `"right top"`
+[Link to this property](#)
 
-            - `"left bottom"`
+<details>
 
-            - `"right bottom"`
+<summary>
 
-          - `size: optional object { height, width }`
+recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }
 
-            Size of the watermark
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-            - `height: optional number`
+</summary>
 
-              Height of the watermark in px
+<details>
 
-            - `width: optional number`
+<summary>
 
-              Width of the watermark in px
+audio_config: optional object { channel, codec, export_file }
 
-          - `url: optional string`
+Object containing configuration regarding the audio that is being recorded.
 
-            URL of the watermark image
+</summary>
 
-        - `width: optional number`
+<details>
 
-          Width of the recording video in pixels
+<summary>
 
-    - `session_keep_alive_time_in_secs: optional number`
+channel: optional "mono" or "stereo"
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+Audio signal pathway within an audio file that carries a specific sound source.
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+</summary>
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+One of the following:
 
-      - `"ACTIVE"`
+"mono"
 
-      - `"INACTIVE"`
+[Link to this property](#)
 
-    - `summarize_on_end: optional boolean`
+"stereo"
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+[Link to this property](#)
 
-    - `title: optional string`
+</details>
 
-      Title of the meeting.
+[Link to this property](#)
 
-    - `transcribe_on_end: optional boolean`
+<details>
 
-      Automatically generate transcripts when the meeting ends.
+<summary>
 
-### Meeting Get Meeting By ID Response
+codec: optional "MP3" or "AAC"
 
-- `MeetingGetMeetingByIDResponse object { success, data }`
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-  - `success: boolean`
+</summary>
 
-    Success status of the operation
+One of the following:
 
-  - `data: optional object { id, created_at, updated_at, 10 more }`
+"MP3"
 
-    Data returned by the operation
+[Link to this property](#)
 
-    - `id: string`
+"AAC"
 
-      ID of the meeting.
+[Link to this property](#)
 
-    - `created_at: string`
+</details>
 
-      Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `updated_at: string`
+export_file: optional boolean
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+Controls whether to export audio file seperately
 
-    - `ai_config: optional object { summarization, transcription }`
+[Link to this property](#)
 
-      The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+</details>
 
-      - `summarization: optional object { summary_type, text_format, word_limit }`
+[Link to this property](#)
 
-        Summary Config
+file_name_prefix: optional string
 
-        - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+Adds a prefix to the beginning of the file name of the recording.
 
-          Defines the style of the summary, such as general, team meeting, or sales call.
+[Link to this property](#)
 
-          - `"general"`
+<details>
 
-          - `"team_meeting"`
+<summary>
 
-          - `"sales_call"`
+live_streaming_config: optional object { rtmp_url }
 
-          - `"client_check_in"`
+</summary>
 
-          - `"interview"`
+rtmp_url: optional string
 
-          - `"daily_standup"`
+RTMP URL to stream to
 
-          - `"one_on_one_meeting"`
+formaturi
 
-          - `"lecture"`
+[Link to this property](#)
 
-          - `"code_review"`
+</details>
 
-        - `text_format: optional "plain_text" or "markdown"`
+[Link to this property](#)
 
-          Determines the text format of the summary, such as plain text or markdown.
+max_seconds: optional number
 
-          - `"plain_text"`
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-          - `"markdown"`
+maximum86400
 
-        - `word_limit: optional number`
+minimum60
 
-          Sets the maximum number of words in the meeting summary.
+[Link to this property](#)
 
-      - `transcription: optional object { keywords, language, profanity_filter }`
+<details>
 
-        Transcription Configurations
+<summary>
 
-        - `keywords: optional array of string`
+realtimekit_bucket_config: optional object { enabled }
 
-          Adds specific terms to improve accurate detection during transcription.
+</summary>
 
-        - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+enabled: boolean
 
-          Specifies the language code for transcription to ensure accurate results.
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won’t be generated for a recording.
 
-          - `"en-US"`
+[Link to this property](#)
 
-          - `"en-IN"`
+</details>
 
-          - `"de"`
+[Link to this property](#)
 
-          - `"hi"`
+<details>
 
-          - `"sv"`
+<summary>
 
-          - `"ru"`
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-          - `"pl"`
+</summary>
 
-          - `"el"`
+One of the following:
 
-          - `"fr"`
+<details>
 
-          - `"nl"`
+<summary>
 
-        - `profanity_filter: optional boolean`
+object { access_key, auth_method, bucket, 9 more }
 
-          Control the inclusion of offensive language in transcriptions.
+</summary>
 
-    - `live_stream_on_start: optional boolean`
+access_key: optional string
 
-      Specifies if the meeting should start getting livestreamed on start.
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-    - `persist_chat: optional boolean`
+Note that this field is not readable by clients, only writeable.
 
-      Specifies if Chat within a meeting should persist for a week.
+[Link to this property](#)
 
-    - `record_on_start: optional boolean`
+<details>
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+<summary>
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+auth_method: optional "KEY" or "PASSWORD"
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+Authentication method used for “sftp” type storage medium
 
-      - `audio_config: optional object { channel, codec, export_file }`
+</summary>
 
-        Object containing configuration regarding the audio that is being recorded.
+One of the following:
 
-        - `channel: optional "mono" or "stereo"`
+"KEY"
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-          - `"mono"`
+"PASSWORD"
 
-          - `"stereo"`
+[Link to this property](#)
 
-        - `codec: optional "MP3" or "AAC"`
+</details>
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+[Link to this property](#)
 
-          - `"MP3"`
+bucket: optional string
 
-          - `"AAC"`
+Name of the storage medium’s bucket.
 
-        - `export_file: optional boolean`
+[Link to this property](#)
 
-          Controls whether to export audio file seperately
+host: optional string
 
-      - `file_name_prefix: optional string`
+SSH destination server host for SFTP type storage medium
 
-        Adds a prefix to the beginning of the file name of the recording.
+[Link to this property](#)
 
-      - `live_streaming_config: optional object { rtmp_url }`
+password: optional string
 
-        - `rtmp_url: optional string`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-          RTMP URL to stream to
+[Link to this property](#)
 
-      - `max_seconds: optional number`
+path: optional string
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+Path relative to the bucket root at which the recording will be placed.
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+[Link to this property](#)
 
-        - `enabled: boolean`
+port: optional number
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+SSH destination server port for SFTP type storage medium
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+[Link to this property](#)
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+private_key: optional string
 
-          Type of storage media.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-          - `"aws"`
+[Link to this property](#)
 
-          - `"azure"`
+region: optional string
 
-          - `"digitalocean"`
+Region of the storage medium.
 
-          - `"gcs"`
+[Link to this property](#)
 
-          - `"sftp"`
+secret: optional string
 
-        - `access_key: optional string`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-          Note that this field is not readable by clients, only writeable.
+type: optional "gcs"
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-          Authentication method used for "sftp" type storage medium
+username: optional string
 
-          - `"KEY"`
+SSH destination server username for SFTP type storage medium
 
-          - `"PASSWORD"`
+[Link to this property](#)
 
-        - `bucket: optional string`
+</details>
 
-          Name of the storage medium's bucket.
+[Link to this property](#)
 
-        - `host: optional string`
+<details>
 
-          SSH destination server host for SFTP type storage medium
+<summary>
 
-        - `password: optional string`
+object { access_key, region, auth_method, 9 more }
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+</summary>
 
-        - `path: optional string`
+access_key: unknown
 
-          Path relative to the bucket root at which the recording will be placed.
+minLength1
 
-        - `port: optional number`
+[Link to this property](#)
 
-          SSH destination server port for SFTP type storage medium
+region: unknown
 
-        - `private_key: optional string`
+minLength1
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-        - `region: optional string`
+<details>
 
-          Region of the storage medium.
+<summary>
 
-        - `secret: optional string`
+auth_method: optional "KEY" or "PASSWORD"
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+Authentication method used for “sftp” type storage medium
 
-        - `username: optional string`
+</summary>
 
-          SSH destination server username for SFTP type storage medium
+One of the following:
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+"KEY"
 
-        - `codec: optional "H264" or "VP8"`
+[Link to this property](#)
 
-          Codec using which the recording will be encoded.
+"PASSWORD"
 
-          - `"H264"`
+[Link to this property](#)
 
-          - `"VP8"`
+</details>
 
-        - `export_file: optional boolean`
+[Link to this property](#)
 
-          Controls whether to export video file seperately
+bucket: optional string
 
-        - `height: optional number`
+Name of the storage medium’s bucket.
 
-          Height of the recording video in pixels
+[Link to this property](#)
 
-        - `watermark: optional object { position, size, url }`
+host: optional string
 
-          Watermark to be added to the recording
+SSH destination server host for SFTP type storage medium
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+[Link to this property](#)
 
-            Position of the watermark
+password: optional string
 
-            - `"left top"`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-            - `"right top"`
+[Link to this property](#)
 
-            - `"left bottom"`
+path: optional string
 
-            - `"right bottom"`
+Path relative to the bucket root at which the recording will be placed.
 
-          - `size: optional object { height, width }`
+[Link to this property](#)
 
-            Size of the watermark
+port: optional number
 
-            - `height: optional number`
+SSH destination server port for SFTP type storage medium
 
-              Height of the watermark in px
+[Link to this property](#)
 
-            - `width: optional number`
+private_key: optional string
 
-              Width of the watermark in px
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-          - `url: optional string`
+[Link to this property](#)
 
-            URL of the watermark image
+secret: optional string
 
-        - `width: optional number`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-          Width of the recording video in pixels
+[Link to this property](#)
 
-    - `session_keep_alive_time_in_secs: optional number`
+<details>
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+<summary>
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+type: optional "aws" or "azure" or "digitalocean"
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+</summary>
 
-      - `"ACTIVE"`
+One of the following:
 
-      - `"INACTIVE"`
+"aws"
 
-    - `summarize_on_end: optional boolean`
+[Link to this property](#)
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+"azure"
 
-    - `title: optional string`
+[Link to this property](#)
 
-      Title of the meeting.
+"digitalocean"
 
-    - `transcribe_on_end: optional boolean`
+[Link to this property](#)
 
-      Automatically generate transcripts when the meeting ends.
+</details>
 
-### Meeting Update Meeting By ID Response
+[Link to this property](#)
 
-- `MeetingUpdateMeetingByIDResponse object { success, data }`
+username: optional string
 
-  - `success: boolean`
+SSH destination server username for SFTP type storage medium
 
-    Success status of the operation
+[Link to this property](#)
 
-  - `data: optional object { id, created_at, updated_at, 10 more }`
+</details>
 
-    Data returned by the operation
+[Link to this property](#)
 
-    - `id: string`
+<details>
 
-      ID of the meeting.
+<summary>
 
-    - `created_at: string`
+object { private_key, access_key, auth_method, 9 more }
 
-      Timestamp the object was created at. The time is returned in ISO format.
+</summary>
 
-    - `updated_at: string`
+private_key: string
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-    - `ai_config: optional object { summarization, transcription }`
+[Link to this property](#)
 
-      The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+access_key: optional string
 
-      - `summarization: optional object { summary_type, text_format, word_limit }`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-        Summary Config
+Note that this field is not readable by clients, only writeable.
 
-        - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+[Link to this property](#)
 
-          Defines the style of the summary, such as general, team meeting, or sales call.
+auth_method: optional "KEY"
 
-          - `"general"`
+[Link to this property](#)
 
-          - `"team_meeting"`
+bucket: optional string
 
-          - `"sales_call"`
+Name of the storage medium’s bucket.
 
-          - `"client_check_in"`
+[Link to this property](#)
 
-          - `"interview"`
+host: optional string
 
-          - `"daily_standup"`
+SSH destination server host for SFTP type storage medium
 
-          - `"one_on_one_meeting"`
+[Link to this property](#)
 
-          - `"lecture"`
+password: optional string
 
-          - `"code_review"`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-        - `text_format: optional "plain_text" or "markdown"`
+[Link to this property](#)
 
-          Determines the text format of the summary, such as plain text or markdown.
+path: optional string
 
-          - `"plain_text"`
+Path relative to the bucket root at which the recording will be placed.
 
-          - `"markdown"`
+[Link to this property](#)
 
-        - `word_limit: optional number`
+port: optional number
 
-          Sets the maximum number of words in the meeting summary.
+SSH destination server port for SFTP type storage medium
 
-      - `transcription: optional object { keywords, language, profanity_filter }`
+[Link to this property](#)
 
-        Transcription Configurations
+region: optional string
 
-        - `keywords: optional array of string`
+Region of the storage medium.
 
-          Adds specific terms to improve accurate detection during transcription.
+[Link to this property](#)
 
-        - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+secret: optional string
 
-          Specifies the language code for transcription to ensure accurate results.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-          - `"en-US"`
+[Link to this property](#)
 
-          - `"en-IN"`
+<details>
 
-          - `"de"`
+<summary>
 
-          - `"hi"`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-          - `"sv"`
+Type of storage media.
 
-          - `"ru"`
+</summary>
 
-          - `"pl"`
+One of the following:
 
-          - `"el"`
+"aws"
 
-          - `"fr"`
+[Link to this property](#)
 
-          - `"nl"`
+"azure"
 
-        - `profanity_filter: optional boolean`
+[Link to this property](#)
 
-          Control the inclusion of offensive language in transcriptions.
+"digitalocean"
 
-    - `live_stream_on_start: optional boolean`
+[Link to this property](#)
 
-      Specifies if the meeting should start getting livestreamed on start.
+"gcs"
 
-    - `persist_chat: optional boolean`
+[Link to this property](#)
 
-      Specifies if Chat within a meeting should persist for a week.
+"sftp"
 
-    - `record_on_start: optional boolean`
+[Link to this property](#)
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+</details>
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+[Link to this property](#)
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+username: optional string
 
-      - `audio_config: optional object { channel, codec, export_file }`
+SSH destination server username for SFTP type storage medium
 
-        Object containing configuration regarding the audio that is being recorded.
+[Link to this property](#)
 
-        - `channel: optional "mono" or "stereo"`
+</details>
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-          - `"mono"`
+<details>
 
-          - `"stereo"`
+<summary>
 
-        - `codec: optional "MP3" or "AAC"`
+object { password, access_key, auth_method, 9 more }
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+</summary>
 
-          - `"MP3"`
+password: string
 
-          - `"AAC"`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-        - `export_file: optional boolean`
+[Link to this property](#)
 
-          Controls whether to export audio file seperately
+access_key: optional string
 
-      - `file_name_prefix: optional string`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-        Adds a prefix to the beginning of the file name of the recording.
+Note that this field is not readable by clients, only writeable.
 
-      - `live_streaming_config: optional object { rtmp_url }`
+[Link to this property](#)
 
-        - `rtmp_url: optional string`
+auth_method: optional "PASSWORD"
 
-          RTMP URL to stream to
+[Link to this property](#)
 
-      - `max_seconds: optional number`
+bucket: optional string
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+Name of the storage medium’s bucket.
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+[Link to this property](#)
 
-        - `enabled: boolean`
+host: optional string
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+SSH destination server host for SFTP type storage medium
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+[Link to this property](#)
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+path: optional string
 
-          Type of storage media.
+Path relative to the bucket root at which the recording will be placed.
 
-          - `"aws"`
+[Link to this property](#)
 
-          - `"azure"`
+port: optional number
 
-          - `"digitalocean"`
+SSH destination server port for SFTP type storage medium
 
-          - `"gcs"`
+[Link to this property](#)
 
-          - `"sftp"`
+private_key: optional string
 
-        - `access_key: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-          Note that this field is not readable by clients, only writeable.
+region: optional string
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+Region of the storage medium.
 
-          Authentication method used for "sftp" type storage medium
+[Link to this property](#)
 
-          - `"KEY"`
+secret: optional string
 
-          - `"PASSWORD"`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-        - `bucket: optional string`
+[Link to this property](#)
 
-          Name of the storage medium's bucket.
+<details>
 
-        - `host: optional string`
+<summary>
 
-          SSH destination server host for SFTP type storage medium
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-        - `password: optional string`
+Type of storage media.
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+</summary>
 
-        - `path: optional string`
+One of the following:
 
-          Path relative to the bucket root at which the recording will be placed.
+"aws"
 
-        - `port: optional number`
+[Link to this property](#)
 
-          SSH destination server port for SFTP type storage medium
+"azure"
 
-        - `private_key: optional string`
+[Link to this property](#)
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+"digitalocean"
 
-        - `region: optional string`
+[Link to this property](#)
 
-          Region of the storage medium.
+"gcs"
 
-        - `secret: optional string`
+[Link to this property](#)
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+"sftp"
 
-        - `username: optional string`
+[Link to this property](#)
 
-          SSH destination server username for SFTP type storage medium
+</details>
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+[Link to this property](#)
 
-        - `codec: optional "H264" or "VP8"`
+username: optional string
 
-          Codec using which the recording will be encoded.
+SSH destination server username for SFTP type storage medium
 
-          - `"H264"`
+[Link to this property](#)
 
-          - `"VP8"`
+</details>
 
-        - `export_file: optional boolean`
+[Link to this property](#)
 
-          Controls whether to export video file seperately
+</details>
 
-        - `height: optional number`
+[Link to this property](#)
 
-          Height of the recording video in pixels
+<details>
 
-        - `watermark: optional object { position, size, url }`
+<summary>
 
-          Watermark to be added to the recording
+video_config: optional object { codec, export_file, height, 2 more }
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+</summary>
 
-            Position of the watermark
+<details>
 
-            - `"left top"`
+<summary>
 
-            - `"right top"`
+codec: optional "H264" or "VP8" or "VP9"
 
-            - `"left bottom"`
+Codec using which the recording will be encoded.
 
-            - `"right bottom"`
+</summary>
 
-          - `size: optional object { height, width }`
+One of the following:
 
-            Size of the watermark
+"H264"
 
-            - `height: optional number`
+[Link to this property](#)
 
-              Height of the watermark in px
+"VP8"
 
-            - `width: optional number`
+[Link to this property](#)
 
-              Width of the watermark in px
+"VP9"
 
-          - `url: optional string`
+[Link to this property](#)
 
-            URL of the watermark image
+</details>
 
-        - `width: optional number`
+[Link to this property](#)
 
-          Width of the recording video in pixels
+export_file: optional boolean
 
-    - `session_keep_alive_time_in_secs: optional number`
+Controls whether to export video file seperately
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+[Link to this property](#)
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+height: optional number
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+Height of the recording video in pixels
 
-      - `"ACTIVE"`
+maximum1920
 
-      - `"INACTIVE"`
+minimum1
 
-    - `summarize_on_end: optional boolean`
+[Link to this property](#)
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+<details>
 
-    - `title: optional string`
+<summary>
 
-      Title of the meeting.
+watermark: optional object { position, size, url }
 
-    - `transcribe_on_end: optional boolean`
+Watermark to be added to the recording
 
-      Automatically generate transcripts when the meeting ends.
+</summary>
 
-### Meeting Replace Meeting By ID Response
+<details>
 
-- `MeetingReplaceMeetingByIDResponse object { success, data }`
+<summary>
 
-  - `success: boolean`
+position: optional "left top" or "right top" or "left bottom" or "right bottom"
 
-    Success status of the operation
+Position of the watermark
 
-  - `data: optional object { id, created_at, updated_at, 10 more }`
+</summary>
 
-    Data returned by the operation
+One of the following:
 
-    - `id: string`
+"left top"
 
-      ID of the meeting.
+[Link to this property](#)
 
-    - `created_at: string`
+"right top"
 
-      Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `updated_at: string`
+"left bottom"
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `ai_config: optional object { summarization, transcription }`
+"right bottom"
 
-      The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+[Link to this property](#)
 
-      - `summarization: optional object { summary_type, text_format, word_limit }`
+</details>
 
-        Summary Config
+[Link to this property](#)
 
-        - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+<details>
 
-          Defines the style of the summary, such as general, team meeting, or sales call.
+<summary>
 
-          - `"general"`
+size: optional object { height, width }
 
-          - `"team_meeting"`
+Size of the watermark
 
-          - `"sales_call"`
+</summary>
 
-          - `"client_check_in"`
+height: optional number
 
-          - `"interview"`
+Height of the watermark in px
 
-          - `"daily_standup"`
+minimum1
 
-          - `"one_on_one_meeting"`
+[Link to this property](#)
 
-          - `"lecture"`
+width: optional number
 
-          - `"code_review"`
+Width of the watermark in px
 
-        - `text_format: optional "plain_text" or "markdown"`
+minimum1
 
-          Determines the text format of the summary, such as plain text or markdown.
+[Link to this property](#)
 
-          - `"plain_text"`
+</details>
 
-          - `"markdown"`
+[Link to this property](#)
 
-        - `word_limit: optional number`
+url: optional string
 
-          Sets the maximum number of words in the meeting summary.
+URL of the watermark image
 
-      - `transcription: optional object { keywords, language, profanity_filter }`
+formaturi
 
-        Transcription Configurations
+[Link to this property](#)
 
-        - `keywords: optional array of string`
+</details>
 
-          Adds specific terms to improve accurate detection during transcription.
+[Link to this property](#)
 
-        - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+width: optional number
 
-          Specifies the language code for transcription to ensure accurate results.
+Width of the recording video in pixels
 
-          - `"en-US"`
+maximum1920
 
-          - `"en-IN"`
+minimum1
 
-          - `"de"`
+[Link to this property](#)
 
-          - `"hi"`
+</details>
 
-          - `"sv"`
+[Link to this property](#)
 
-          - `"ru"`
+</details>
 
-          - `"pl"`
+[Link to this property](#)
 
-          - `"el"`
+session_keep_alive_time_in_secs: optional number
 
-          - `"fr"`
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-          - `"nl"`
+maximum600
 
-        - `profanity_filter: optional boolean`
+minimum60
 
-          Control the inclusion of offensive language in transcriptions.
+[Link to this property](#)
 
-    - `live_stream_on_start: optional boolean`
+<details>
 
-      Specifies if the meeting should start getting livestreamed on start.
+<summary>
 
-    - `persist_chat: optional boolean`
+status: optional "ACTIVE" or "INACTIVE"
 
-      Specifies if Chat within a meeting should persist for a week.
+Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
 
-    - `record_on_start: optional boolean`
+</summary>
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+One of the following:
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+"ACTIVE"
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+[Link to this property](#)
 
-      - `audio_config: optional object { channel, codec, export_file }`
+"INACTIVE"
 
-        Object containing configuration regarding the audio that is being recorded.
+[Link to this property](#)
 
-        - `channel: optional "mono" or "stereo"`
+</details>
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-          - `"mono"`
+summarize_on_end: optional boolean
 
-          - `"stereo"`
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-        - `codec: optional "MP3" or "AAC"`
+[Link to this property](#)
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+title: optional string
 
-          - `"MP3"`
+Title of the meeting.
 
-          - `"AAC"`
+[Link to this property](#)
 
-        - `export_file: optional boolean`
+transcribe_on_end: optional boolean
 
-          Controls whether to export audio file seperately
+Automatically generate transcripts when the meeting ends.
 
-      - `file_name_prefix: optional string`
+[Link to this property](#)
 
-        Adds a prefix to the beginning of the file name of the recording.
+</details>
 
-      - `live_streaming_config: optional object { rtmp_url }`
+[Link to this property](#)
 
-        - `rtmp_url: optional string`
+</details>
 
-          RTMP URL to stream to
+[Link to this property](#)
 
-      - `max_seconds: optional number`
+<details>
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<summary>
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+MeetingReplaceMeetingByIDResponse object { success, data }
 
-        - `enabled: boolean`
+</summary>
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+success: boolean
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+Success status of the operation
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+[Link to this property](#)
 
-          Type of storage media.
+<details>
 
-          - `"aws"`
+<summary>
 
-          - `"azure"`
+data: optional object { id, created_at, updated_at, 10 more }
 
-          - `"digitalocean"`
+Data returned by the operation
 
-          - `"gcs"`
+</summary>
 
-          - `"sftp"`
+id: string
 
-        - `access_key: optional string`
+ID of the meeting.
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+formatuuid
 
-          Note that this field is not readable by clients, only writeable.
+[Link to this property](#)
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+created_at: string
 
-          Authentication method used for "sftp" type storage medium
+Timestamp the object was created at. The time is returned in ISO format.
 
-          - `"KEY"`
+formatdate-time
 
-          - `"PASSWORD"`
+[Link to this property](#)
 
-        - `bucket: optional string`
+updated_at: string
 
-          Name of the storage medium's bucket.
+Timestamp the object was updated at. The time is returned in ISO format.
 
-        - `host: optional string`
+formatdate-time
 
-          SSH destination server host for SFTP type storage medium
+[Link to this property](#)
 
-        - `password: optional string`
+<details>
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+<summary>
 
-        - `path: optional string`
+ai_config: optional object { summarization, transcription }
 
-          Path relative to the bucket root at which the recording will be placed.
+The AI Config allows you to customize the behavior of meeting transcriptions and summaries
 
-        - `port: optional number`
+</summary>
 
-          SSH destination server port for SFTP type storage medium
+<details>
 
-        - `private_key: optional string`
+<summary>
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+summarization: optional object { summary_type, text_format, word_limit }
 
-        - `region: optional string`
+Summary Config
 
-          Region of the storage medium.
+</summary>
 
-        - `secret: optional string`
+<details>
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<summary>
 
-        - `username: optional string`
+summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more
 
-          SSH destination server username for SFTP type storage medium
+Defines the style of the summary, such as general, team meeting, or sales call.
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+</summary>
 
-        - `codec: optional "H264" or "VP8"`
+One of the following:
 
-          Codec using which the recording will be encoded.
+"general"
 
-          - `"H264"`
+[Link to this property](#)
 
-          - `"VP8"`
+"team_meeting"
 
-        - `export_file: optional boolean`
+[Link to this property](#)
 
-          Controls whether to export video file seperately
+"sales_call"
 
-        - `height: optional number`
+[Link to this property](#)
 
-          Height of the recording video in pixels
+"client_check_in"
 
-        - `watermark: optional object { position, size, url }`
+[Link to this property](#)
 
-          Watermark to be added to the recording
+"interview"
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+[Link to this property](#)
 
-            Position of the watermark
+"daily_standup"
 
-            - `"left top"`
+[Link to this property](#)
 
-            - `"right top"`
+"one_on_one_meeting"
 
-            - `"left bottom"`
+[Link to this property](#)
 
-            - `"right bottom"`
+"lecture"
 
-          - `size: optional object { height, width }`
+[Link to this property](#)
 
-            Size of the watermark
+"code_review"
 
-            - `height: optional number`
+[Link to this property](#)
 
-              Height of the watermark in px
+</details>
 
-            - `width: optional number`
+[Link to this property](#)
 
-              Width of the watermark in px
+<details>
 
-          - `url: optional string`
+<summary>
 
-            URL of the watermark image
+text_format: optional "plain_text" or "markdown"
 
-        - `width: optional number`
+Determines the text format of the summary, such as plain text or markdown.
 
-          Width of the recording video in pixels
+</summary>
 
-    - `session_keep_alive_time_in_secs: optional number`
+One of the following:
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+"plain_text"
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+[Link to this property](#)
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+"markdown"
 
-      - `"ACTIVE"`
+[Link to this property](#)
 
-      - `"INACTIVE"`
+</details>
 
-    - `summarize_on_end: optional boolean`
+[Link to this property](#)
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+word_limit: optional number
 
-    - `title: optional string`
+Sets the maximum number of words in the meeting summary.
 
-      Title of the meeting.
+maximum1000
 
-    - `transcribe_on_end: optional boolean`
+minimum150
 
-      Automatically generate transcripts when the meeting ends.
+[Link to this property](#)
 
-### Meeting Get Meeting Participants Response
+</details>
 
-- `MeetingGetMeetingParticipantsResponse object { data, paging, success }`
+[Link to this property](#)
 
-  - `data: array of object { id, created_at, custom_participant_id, 4 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-      ID of the participant.
+transcription: optional object { keywords, language, profanity_filter }
 
-    - `created_at: string`
+Transcription Configurations
 
-      When this object was created. The time is returned in ISO format.
+</summary>
 
-    - `custom_participant_id: string`
+keywords: optional array of string
 
-      A unique participant ID generated by the client.
+Adds specific terms to improve accurate detection during transcription.
 
-    - `preset_name: string`
+[Link to this property](#)
 
-      Preset applied to the participant.
+<details>
 
-    - `updated_at: string`
+<summary>
 
-      When this object was updated. The time is returned in ISO format.
+language: optional "en-US" or "en-IN" or "de" or 7 more
 
-    - `name: optional string`
+Specifies the language code for transcription to ensure accurate results.
 
-      Name of the participant.
+</summary>
 
-    - `picture: optional string`
+One of the following:
 
-      URL to a picture of the participant.
+"en-US"
 
-  - `paging: object { end_offset, start_offset, total_count }`
+[Link to this property](#)
 
-    - `end_offset: number`
+"en-IN"
 
-    - `start_offset: number`
+[Link to this property](#)
 
-    - `total_count: number`
+"de"
 
-  - `success: boolean`
+[Link to this property](#)
 
-### Meeting Add Participant Response
+"hi"
 
-- `MeetingAddParticipantResponse object { success, data }`
+[Link to this property](#)
 
-  - `success: boolean`
+"sv"
 
-    Success status of the operation
+[Link to this property](#)
 
-  - `data: optional object { id, token, created_at, 5 more }`
+"ru"
 
-    Represents a participant.
+[Link to this property](#)
 
-    - `id: string`
+"pl"
 
-      ID of the participant.
+[Link to this property](#)
 
-    - `token: string`
+"el"
 
-      The participant's auth token that can be used for joining a meeting from the client side.
+[Link to this property](#)
 
-    - `created_at: string`
+"fr"
 
-      When this object was created. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `custom_participant_id: string`
+"nl"
 
-      A unique participant ID generated by the client.
+[Link to this property](#)
 
-    - `preset_name: string`
+</details>
 
-      Preset applied to the participant.
+[Link to this property](#)
 
-    - `updated_at: string`
+profanity_filter: optional boolean
 
-      When this object was updated. The time is returned in ISO format.
+Control the inclusion of offensive language in transcriptions.
 
-    - `name: optional string`
+[Link to this property](#)
 
-      Name of the participant.
+</details>
 
-    - `picture: optional string`
+[Link to this property](#)
 
-      URL to a picture of the participant.
+</details>
 
-### Meeting Get Meeting Participant Response
+[Link to this property](#)
 
-- `MeetingGetMeetingParticipantResponse object { data, success }`
+live_stream_on_start: optional boolean
 
-  - `data: object { id, created_at, custom_participant_id, 4 more }`
+Specifies if the meeting should start getting livestreamed on start.
 
-    Data returned by the operation
+[Link to this property](#)
 
-    - `id: string`
+persist_chat: optional boolean
 
-      ID of the participant.
+Specifies if Chat within a meeting should persist for a week.
 
-    - `created_at: string`
+[Link to this property](#)
 
-      When this object was created. The time is returned in ISO format.
+record_on_start: optional boolean
 
-    - `custom_participant_id: string`
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-      A unique participant ID generated by the client.
+[Link to this property](#)
 
-    - `preset_name: string`
+<details>
 
-      Preset applied to the participant.
+<summary>
 
-    - `updated_at: string`
+recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }
 
-      When this object was updated. The time is returned in ISO format.
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-    - `name: optional string`
+</summary>
 
-      Name of the participant.
+<details>
 
-    - `picture: optional string`
+<summary>
 
-      URL to a picture of the participant.
+audio_config: optional object { channel, codec, export_file }
 
-  - `success: boolean`
+Object containing configuration regarding the audio that is being recorded.
 
-    Success status of the operation
+</summary>
 
-### Meeting Edit Participant Response
+<details>
 
-- `MeetingEditParticipantResponse object { success, data }`
+<summary>
 
-  - `success: boolean`
+channel: optional "mono" or "stereo"
 
-    Success status of the operation
+Audio signal pathway within an audio file that carries a specific sound source.
 
-  - `data: optional object { id, token, created_at, 5 more }`
+</summary>
 
-    Represents a participant.
+One of the following:
 
-    - `id: string`
+"mono"
 
-      ID of the participant.
+[Link to this property](#)
 
-    - `token: string`
+"stereo"
 
-      The participant's auth token that can be used for joining a meeting from the client side.
+[Link to this property](#)
 
-    - `created_at: string`
+</details>
 
-      When this object was created. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `custom_participant_id: string`
+<details>
 
-      A unique participant ID generated by the client.
+<summary>
 
-    - `preset_name: string`
+codec: optional "MP3" or "AAC"
 
-      Preset applied to the participant.
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-    - `updated_at: string`
+</summary>
 
-      When this object was updated. The time is returned in ISO format.
+One of the following:
 
-    - `name: optional string`
+"MP3"
 
-      Name of the participant.
+[Link to this property](#)
 
-    - `picture: optional string`
+"AAC"
 
-      URL to a picture of the participant.
+[Link to this property](#)
 
-### Meeting Delete Meeting Participant Response
+</details>
 
-- `MeetingDeleteMeetingParticipantResponse object { success, data }`
+[Link to this property](#)
 
-  - `success: boolean`
+export_file: optional boolean
 
-    Success status of the operation
+Controls whether to export audio file seperately
 
-  - `data: optional object { created_at, custom_participant_id, preset_id, updated_at }`
+[Link to this property](#)
 
-    Data returned by the operation
+</details>
 
-    - `created_at: string`
+[Link to this property](#)
 
-      Timestamp this object was created at. The time is returned in ISO format.
+file_name_prefix: optional string
 
-    - `custom_participant_id: string`
+Adds a prefix to the beginning of the file name of the recording.
 
-      A unique participant ID generated by the client.
+[Link to this property](#)
 
-    - `preset_id: string`
+<details>
 
-      ID of the preset applied to this participant.
+<summary>
 
-    - `updated_at: string`
+live_streaming_config: optional object { rtmp_url }
 
-      Timestamp this object was updated at. The time is returned in ISO format.
+</summary>
 
-### Meeting Refresh Participant Token Response
+rtmp_url: optional string
 
-- `MeetingRefreshParticipantTokenResponse object { data, success }`
+RTMP URL to stream to
 
-  - `data: object { token }`
+formaturi
 
-    Data returned by the operation
+[Link to this property](#)
 
-    - `token: string`
+</details>
 
-      Regenerated participant's authentication token.
+[Link to this property](#)
 
-  - `success: boolean`
+max_seconds: optional number
 
-    Success status of the operation
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-# Presets
+maximum86400
 
-## Fetch all presets
+minimum60
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/presets`
+[Link to this property](#)
 
-Fetches all the presets belonging to an App.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+realtimekit_bucket_config: optional object { enabled }
 
-  The account identifier tag.
+</summary>
 
-- `app_id: string`
+enabled: boolean
 
-  The app identifier tag.
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won’t be generated for a recording.
 
-### Query Parameters
+[Link to this property](#)
 
-- `page_no: optional number`
+</details>
 
-  The page number from which you want your page search results to be displayed.
+[Link to this property](#)
 
-- `per_page: optional number`
+<details>
 
-  Number of results per page
+<summary>
 
-- `search: optional string`
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-  Search presets by name.
+</summary>
 
-### Returns
+One of the following:
 
-- `data: array of object { id, created_at, name, updated_at }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    ID of the preset
+object { access_key, auth_method, bucket, 9 more }
 
-  - `created_at: optional string`
+</summary>
 
-    Timestamp this preset was created at
+access_key: optional string
 
-  - `name: optional string`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-    Name of the preset
+Note that this field is not readable by clients, only writeable.
 
-  - `updated_at: optional string`
+[Link to this property](#)
 
-    Timestamp this preset was last updated
+<details>
 
-- `paging: object { end_offset, start_offset, total_count }`
+<summary>
 
-  - `end_offset: number`
+auth_method: optional "KEY" or "PASSWORD"
 
-  - `start_offset: number`
+Authentication method used for “sftp” type storage medium
 
-  - `total_count: number`
+</summary>
 
-- `success: boolean`
+One of the following:
 
-### Example
+"KEY"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/presets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+"PASSWORD"
 
-```json
-{
-  "data": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "updated_at": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "paging": {
-    "end_offset": 30,
-    "start_offset": 1,
-    "total_count": 30
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Create a preset
+</details>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/presets`
+[Link to this property](#)
 
-Creates a preset belonging to the current App
+bucket: optional string
 
-### Path Parameters
+Name of the storage medium’s bucket.
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+host: optional string
 
-- `app_id: string`
+SSH destination server host for SFTP type storage medium
 
-  The app identifier tag.
+[Link to this property](#)
 
-### Body Parameters
+password: optional string
 
-- `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `max_screenshare_count: number`
+[Link to this property](#)
 
-    Maximum number of screen shares that can be active at a given time
+path: optional string
 
-  - `max_video_streams: object { desktop, mobile }`
+Path relative to the bucket root at which the recording will be placed.
 
-    Maximum number of streams that are visible on a device
+[Link to this property](#)
 
-    - `desktop: number`
+port: optional number
 
-      Maximum number of video streams visible on desktop devices
+SSH destination server port for SFTP type storage medium
 
-    - `mobile: number`
+[Link to this property](#)
 
-      Maximum number of streams visible on mobile devices
+private_key: optional string
 
-  - `media: object { screenshare, video, audio }`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-    Media configuration options. eg: Video quality
+[Link to this property](#)
 
-    - `screenshare: object { frame_rate, quality }`
+region: optional string
 
-      Configuration options for participant screen shares
+Region of the storage medium.
 
-      - `frame_rate: number`
+[Link to this property](#)
 
-        Frame rate of screen share
+secret: optional string
 
-      - `quality: "hd" or "vga" or "qvga" or 2 more`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-        Quality of screen share
+[Link to this property](#)
 
-        - `"hd"`
+type: optional "gcs"
 
-        - `"vga"`
+[Link to this property](#)
 
-        - `"qvga"`
+username: optional string
 
-        - `"fhd"`
+SSH destination server username for SFTP type storage medium
 
-        - `"uhd"`
+[Link to this property](#)
 
-    - `video: object { frame_rate, quality, simulcast }`
+</details>
 
-      Configuration options for participant videos
+[Link to this property](#)
 
-      - `frame_rate: number`
+<details>
 
-        Frame rate of participants' video
+<summary>
 
-      - `quality: "hd" or "vga" or "qvga" or 2 more`
+object { access_key, region, auth_method, 9 more }
 
-        Video quality of participants
+</summary>
 
-        - `"hd"`
+access_key: unknown
 
-        - `"vga"`
+minLength1
 
-        - `"qvga"`
+[Link to this property](#)
 
-        - `"fhd"`
+region: unknown
 
-        - `"uhd"`
+minLength1
 
-      - `simulcast: optional boolean`
+[Link to this property](#)
 
-        Enable simulcast for participant videos.
+<details>
 
-    - `audio: optional object { enable_high_bitrate, enable_stereo }`
+<summary>
 
-      Control options for Audio quality.
+auth_method: optional "KEY" or "PASSWORD"
 
-      - `enable_high_bitrate: optional boolean`
+Authentication method used for “sftp” type storage medium
 
-        Enable High Quality Audio for your meetings
+</summary>
 
-      - `enable_stereo: optional boolean`
+One of the following:
 
-        Enable Stereo for your meetings
+"KEY"
 
-  - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+[Link to this property](#)
 
-    Type of the meeting
+"PASSWORD"
 
-    - `"GROUP_CALL"`
+[Link to this property](#)
 
-    - `"WEBINAR"`
+</details>
 
-    - `"AUDIO_ROOM"`
+[Link to this property](#)
 
-    - `"LIVESTREAM"`
+bucket: optional string
 
-  - `livestream_viewer_qualities: optional array of number`
+Name of the storage medium’s bucket.
 
-    Livestream viewer quality levels.
+[Link to this property](#)
 
-- `name: string`
+host: optional string
 
-  Name of the preset
+SSH destination server host for SFTP type storage medium
 
-- `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+[Link to this property](#)
 
-  - `accept_waiting_requests: boolean`
+password: optional string
 
-    Whether this participant can accept waiting requests
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `can_accept_production_requests: boolean`
+[Link to this property](#)
 
-  - `can_change_participant_permissions: boolean`
+path: optional string
 
-  - `can_edit_display_name: boolean`
+Path relative to the bucket root at which the recording will be placed.
 
-  - `can_livestream: boolean`
+[Link to this property](#)
 
-  - `can_record: boolean`
+port: optional number
 
-  - `can_spotlight: boolean`
+SSH destination server port for SFTP type storage medium
 
-  - `chat: object { private, public }`
+[Link to this property](#)
 
-    - `private: object { can_receive, can_send, files, text }`
+private_key: optional string
 
-      - `can_receive: boolean`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      - `can_send: boolean`
+[Link to this property](#)
 
-      - `files: boolean`
+secret: optional string
 
-      - `text: boolean`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-    - `public: object { can_send, files, text }`
+[Link to this property](#)
 
-      - `can_send: boolean`
+<details>
 
-        Can send messages in general
+<summary>
 
-      - `files: boolean`
+type: optional "aws" or "azure" or "digitalocean"
 
-        Can send file messages
+</summary>
 
-      - `text: boolean`
+One of the following:
 
-        Can send text messages
+"aws"
 
-  - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+[Link to this property](#)
 
-    - `can_alter_connected_meetings: boolean`
+"azure"
 
-    - `can_switch_connected_meetings: boolean`
+[Link to this property](#)
 
-    - `can_switch_to_parent_meeting: boolean`
+"digitalocean"
 
-  - `disable_participant_audio: boolean`
+[Link to this property](#)
 
-  - `disable_participant_screensharing: boolean`
+</details>
 
-  - `disable_participant_video: boolean`
+[Link to this property](#)
 
-  - `hidden_participant: boolean`
+username: optional string
 
-    Whether this participant is visible to others or not
+SSH destination server username for SFTP type storage medium
 
-  - `kick_participant: boolean`
+[Link to this property](#)
 
-  - `media: object { audio, screenshare, video }`
+</details>
 
-    Media permissions
+[Link to this property](#)
 
-    - `audio: object { can_produce }`
+<details>
 
-      Audio permissions
+<summary>
 
-      - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+object { private_key, access_key, auth_method, 9 more }
 
-        Can produce audio
+</summary>
 
-        - `"ALLOWED"`
+private_key: string
 
-        - `"NOT_ALLOWED"`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-        - `"CAN_REQUEST"`
+[Link to this property](#)
 
-    - `screenshare: object { can_produce }`
+access_key: optional string
 
-      Screenshare permissions
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-      - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+Note that this field is not readable by clients, only writeable.
 
-        Can produce screen share video
+[Link to this property](#)
 
-        - `"ALLOWED"`
+auth_method: optional "KEY"
 
-        - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-        - `"CAN_REQUEST"`
+bucket: optional string
 
-    - `video: object { can_produce }`
+Name of the storage medium’s bucket.
 
-      Video permissions
+[Link to this property](#)
 
-      - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+host: optional string
 
-        Can produce video
+SSH destination server host for SFTP type storage medium
 
-        - `"ALLOWED"`
+[Link to this property](#)
 
-        - `"NOT_ALLOWED"`
+password: optional string
 
-        - `"CAN_REQUEST"`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `pin_participant: boolean`
+[Link to this property](#)
 
-  - `plugins: object { can_close, can_edit_config, can_start, config }`
+path: optional string
 
-    Plugin permissions
+Path relative to the bucket root at which the recording will be placed.
 
-    - `can_close: boolean`
+[Link to this property](#)
 
-      Can close plugins that are already open
+port: optional number
 
-    - `can_edit_config: boolean`
+SSH destination server port for SFTP type storage medium
 
-      Can edit plugin config
+[Link to this property](#)
 
-    - `can_start: boolean`
+region: optional string
 
-      Can start plugins
+Region of the storage medium.
 
-    - `config: map[object { access_control, handles_view_only } ]`
+[Link to this property](#)
 
-      Plugin configuration keyed by plugin UUID.
+secret: optional string
 
-      - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-        - `"FULL_ACCESS"`
+[Link to this property](#)
 
-        - `"VIEW_ONLY"`
+<details>
 
-      - `handles_view_only: optional boolean`
+<summary>
 
-  - `polls: object { can_create, can_view, can_vote }`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-    Poll permissions
+Type of storage media.
 
-    - `can_create: boolean`
+</summary>
 
-      Can create polls
+One of the following:
 
-    - `can_view: boolean`
+"aws"
 
-      Can view polls
+[Link to this property](#)
 
-    - `can_vote: boolean`
+"azure"
 
-      Can vote on polls
+[Link to this property](#)
 
-  - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+"digitalocean"
 
-    Type of the recording peer
+[Link to this property](#)
 
-    - `"RECORDER"`
+"gcs"
 
-    - `"LIVESTREAMER"`
+[Link to this property](#)
 
-    - `"NONE"`
+"sftp"
 
-  - `show_participant_list: boolean`
+[Link to this property](#)
 
-  - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+</details>
 
-    Waiting room type
+[Link to this property](#)
 
-    - `"SKIP"`
+username: optional string
 
-    - `"ON_PRIVILEGED_USER_ENTRY"`
+SSH destination server username for SFTP type storage medium
 
-    - `"SKIP_ON_ACCEPT"`
+[Link to this property](#)
 
-  - `accept_stage_requests: optional boolean`
+</details>
 
-  - `is_recorder: optional boolean`
+[Link to this property](#)
 
-  - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<details>
 
-    - `"ALLOWED"`
+<summary>
 
-    - `"NOT_ALLOWED"`
+object { password, access_key, auth_method, 9 more }
 
-    - `"CAN_REQUEST"`
+</summary>
 
-  - `stage_enabled: optional boolean`
+password: string
 
-  - `transcription_enabled: optional boolean`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-- `ui: object { design_tokens }`
+[Link to this property](#)
 
-  - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+access_key: optional string
 
-    - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-      - `"sharp"`
+Note that this field is not readable by clients, only writeable.
 
-      - `"rounded"`
+[Link to this property](#)
 
-      - `"extra-rounded"`
+auth_method: optional "PASSWORD"
 
-      - `"circular"`
+[Link to this property](#)
 
-    - `border_width: "none" or "thin" or "fat"`
+bucket: optional string
 
-      - `"none"`
+Name of the storage medium’s bucket.
 
-      - `"thin"`
+[Link to this property](#)
 
-      - `"fat"`
+host: optional string
 
-    - `colors: object { background, brand, danger, 5 more }`
+SSH destination server host for SFTP type storage medium
 
-      - `background: object { "1000", "600", "700", 2 more }`
+[Link to this property](#)
 
-        - `"1000": string`
+path: optional string
 
-        - `"600": string`
+Path relative to the bucket root at which the recording will be placed.
 
-        - `"700": string`
+[Link to this property](#)
 
-        - `"800": string`
+port: optional number
 
-        - `"900": string`
+SSH destination server port for SFTP type storage medium
 
-      - `brand: object { "300", "400", "500", 2 more }`
+[Link to this property](#)
 
-        - `"300": string`
+private_key: optional string
 
-        - `"400": string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-        - `"500": string`
+[Link to this property](#)
 
-        - `"600": string`
+region: optional string
 
-        - `"700": string`
+Region of the storage medium.
 
-      - `danger: string`
+[Link to this property](#)
 
-      - `success: string`
+secret: optional string
 
-      - `text: string`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      - `text_on_brand: string`
+[Link to this property](#)
 
-      - `video_bg: string`
+<details>
 
-      - `warning: string`
+<summary>
 
-    - `spacing_base: number`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-    - `theme: "darkest" or "dark" or "light"`
+Type of storage media.
 
-      - `"darkest"`
+</summary>
 
-      - `"dark"`
+One of the following:
 
-      - `"light"`
+"aws"
 
-    - `font_family: optional string`
+[Link to this property](#)
 
-    - `google_font: optional string`
+"azure"
 
-    - `logo: optional string`
+[Link to this property](#)
 
-### Returns
+"digitalocean"
 
-- `data: object { id, config, created_at, 4 more }`
+[Link to this property](#)
 
-  Data returned by the operation
+"gcs"
 
-  - `id: string`
+[Link to this property](#)
 
-    ID of the preset
+"sftp"
 
-  - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+[Link to this property](#)
 
-    - `max_screenshare_count: number`
+</details>
 
-      Maximum number of screen shares that can be active at a given time
+[Link to this property](#)
 
-    - `max_video_streams: object { desktop, mobile }`
+username: optional string
 
-      Maximum number of streams that are visible on a device
+SSH destination server username for SFTP type storage medium
 
-      - `desktop: number`
+[Link to this property](#)
 
-        Maximum number of video streams visible on desktop devices
+</details>
 
-      - `mobile: number`
+[Link to this property](#)
 
-        Maximum number of streams visible on mobile devices
+</details>
 
-    - `media: object { screenshare, video, audio }`
+[Link to this property](#)
 
-      Media configuration options. eg: Video quality
+<details>
 
-      - `screenshare: object { frame_rate, quality }`
+<summary>
 
-        Configuration options for participant screen shares
+video_config: optional object { codec, export_file, height, 2 more }
 
-        - `frame_rate: number`
+</summary>
 
-          Frame rate of screen share
+<details>
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+<summary>
 
-          Quality of screen share
+codec: optional "H264" or "VP8" or "VP9"
 
-          - `"hd"`
+Codec using which the recording will be encoded.
 
-          - `"vga"`
+</summary>
 
-          - `"qvga"`
+One of the following:
 
-          - `"fhd"`
+"H264"
 
-          - `"uhd"`
+[Link to this property](#)
 
-      - `video: object { frame_rate, quality, simulcast }`
+"VP8"
 
-        Configuration options for participant videos
+[Link to this property](#)
 
-        - `frame_rate: number`
+"VP9"
 
-          Frame rate of participants' video
+[Link to this property](#)
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+</details>
 
-          Video quality of participants
+[Link to this property](#)
 
-          - `"hd"`
+export_file: optional boolean
 
-          - `"vga"`
+Controls whether to export video file seperately
 
-          - `"qvga"`
+[Link to this property](#)
 
-          - `"fhd"`
+height: optional number
 
-          - `"uhd"`
+Height of the recording video in pixels
 
-        - `simulcast: optional boolean`
+maximum1920
 
-          Enable simulcast for participant videos.
+minimum1
 
-      - `audio: optional object { enable_high_bitrate, enable_stereo }`
+[Link to this property](#)
 
-        Control options for Audio quality.
+<details>
 
-        - `enable_high_bitrate: optional boolean`
+<summary>
 
-          Enable High Quality Audio for your meetings
+watermark: optional object { position, size, url }
 
-        - `enable_stereo: optional boolean`
+Watermark to be added to the recording
 
-          Enable Stereo for your meetings
+</summary>
 
-    - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+<details>
 
-      Type of the meeting
+<summary>
 
-      - `"GROUP_CALL"`
+position: optional "left top" or "right top" or "left bottom" or "right bottom"
 
-      - `"WEBINAR"`
+Position of the watermark
 
-      - `"AUDIO_ROOM"`
+</summary>
 
-      - `"LIVESTREAM"`
+One of the following:
 
-    - `livestream_viewer_qualities: optional array of number`
+"left top"
 
-      Livestream viewer quality levels.
+[Link to this property](#)
 
-  - `created_at: string`
+"right top"
 
-    Timestamp this preset was created at
+[Link to this property](#)
 
-  - `name: string`
+"left bottom"
 
-    Name of the preset
+[Link to this property](#)
 
-  - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+"right bottom"
 
-    - `accept_waiting_requests: boolean`
+[Link to this property](#)
 
-      Whether this participant can accept waiting requests
+</details>
 
-    - `can_accept_production_requests: boolean`
+[Link to this property](#)
 
-    - `can_change_participant_permissions: boolean`
+<details>
 
-    - `can_edit_display_name: boolean`
+<summary>
 
-    - `can_livestream: boolean`
+size: optional object { height, width }
 
-    - `can_record: boolean`
+Size of the watermark
 
-    - `can_spotlight: boolean`
+</summary>
 
-    - `chat: object { private, public }`
+height: optional number
 
-      - `private: object { can_receive, can_send, files, text }`
+Height of the watermark in px
 
-        - `can_receive: boolean`
+minimum1
 
-        - `can_send: boolean`
+[Link to this property](#)
 
-        - `files: boolean`
+width: optional number
 
-        - `text: boolean`
+Width of the watermark in px
 
-      - `public: object { can_send, files, text }`
+minimum1
 
-        - `can_send: boolean`
+[Link to this property](#)
 
-          Can send messages in general
+</details>
 
-        - `files: boolean`
+[Link to this property](#)
 
-          Can send file messages
+url: optional string
 
-        - `text: boolean`
+URL of the watermark image
 
-          Can send text messages
+formaturi
 
-    - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+[Link to this property](#)
 
-      - `can_alter_connected_meetings: boolean`
+</details>
 
-      - `can_switch_connected_meetings: boolean`
+[Link to this property](#)
 
-      - `can_switch_to_parent_meeting: boolean`
+width: optional number
 
-    - `disable_participant_audio: boolean`
+Width of the recording video in pixels
 
-    - `disable_participant_screensharing: boolean`
+maximum1920
 
-    - `disable_participant_video: boolean`
+minimum1
 
-    - `hidden_participant: boolean`
+[Link to this property](#)
 
-      Whether this participant is visible to others or not
+</details>
 
-    - `kick_participant: boolean`
+[Link to this property](#)
 
-    - `media: object { audio, screenshare, video }`
+</details>
 
-      Media permissions
+[Link to this property](#)
 
-      - `audio: object { can_produce }`
+session_keep_alive_time_in_secs: optional number
 
-        Audio permissions
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+maximum600
 
-          Can produce audio
+minimum60
 
-          - `"ALLOWED"`
+[Link to this property](#)
 
-          - `"NOT_ALLOWED"`
+<details>
 
-          - `"CAN_REQUEST"`
+<summary>
 
-      - `screenshare: object { can_produce }`
+status: optional "ACTIVE" or "INACTIVE"
 
-        Screenshare permissions
+Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+</summary>
 
-          Can produce screen share video
+One of the following:
 
-          - `"ALLOWED"`
+"ACTIVE"
 
-          - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-          - `"CAN_REQUEST"`
+"INACTIVE"
 
-      - `video: object { can_produce }`
+[Link to this property](#)
 
-        Video permissions
+</details>
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-          Can produce video
+summarize_on_end: optional boolean
 
-          - `"ALLOWED"`
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-          - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-          - `"CAN_REQUEST"`
+title: optional string
 
-    - `pin_participant: boolean`
+Title of the meeting.
 
-    - `plugins: object { can_close, can_edit_config, can_start, config }`
+[Link to this property](#)
 
-      Plugin permissions
+transcribe_on_end: optional boolean
 
-      - `can_close: boolean`
+Automatically generate transcripts when the meeting ends.
 
-        Can close plugins that are already open
+[Link to this property](#)
 
-      - `can_edit_config: boolean`
+</details>
 
-        Can edit plugin config
+[Link to this property](#)
 
-      - `can_start: boolean`
+</details>
 
-        Can start plugins
+[Link to this property](#)
 
-      - `config: map[object { access_control, handles_view_only } ]`
+<details>
 
-        Plugin configuration keyed by plugin UUID.
+<summary>
 
-        - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+MeetingGetMeetingParticipantsResponse object { data, paging, success }
 
-          - `"FULL_ACCESS"`
+</summary>
 
-          - `"VIEW_ONLY"`
+<details>
 
-        - `handles_view_only: optional boolean`
+<summary>
 
-    - `polls: object { can_create, can_view, can_vote }`
+data: array of object { id, created_at, custom_participant_id, 4 more }
 
-      Poll permissions
+</summary>
 
-      - `can_create: boolean`
+id: string
 
-        Can create polls
+ID of the participant.
 
-      - `can_view: boolean`
+formatuuid
 
-        Can view polls
+[Link to this property](#)
 
-      - `can_vote: boolean`
+created_at: string
 
-        Can vote on polls
+When this object was created. The time is returned in ISO format.
 
-    - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+formatdate-time
 
-      Type of the recording peer
+[Link to this property](#)
 
-      - `"RECORDER"`
+custom_participant_id: string
 
-      - `"LIVESTREAMER"`
+A unique participant ID generated by the client.
 
-      - `"NONE"`
+[Link to this property](#)
 
-    - `show_participant_list: boolean`
+preset_name: string
 
-    - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+Preset applied to the participant.
 
-      Waiting room type
+[Link to this property](#)
 
-      - `"SKIP"`
+updated_at: string
 
-      - `"ON_PRIVILEGED_USER_ENTRY"`
+When this object was updated. The time is returned in ISO format.
 
-      - `"SKIP_ON_ACCEPT"`
+formatdate-time
 
-    - `accept_stage_requests: optional boolean`
+[Link to this property](#)
 
-    - `is_recorder: optional boolean`
+name: optional string
 
-    - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+Name of the participant.
 
-      - `"ALLOWED"`
+[Link to this property](#)
 
-      - `"NOT_ALLOWED"`
+picture: optional string
 
-      - `"CAN_REQUEST"`
+URL to a picture of the participant.
 
-    - `stage_enabled: optional boolean`
+formaturi
 
-    - `transcription_enabled: optional boolean`
+[Link to this property](#)
 
-  - `ui: object { design_tokens }`
+</details>
 
-    - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+[Link to this property](#)
 
-      - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+<details>
 
-        - `"sharp"`
+<summary>
 
-        - `"rounded"`
+paging: object { end_offset, start_offset, total_count }
 
-        - `"extra-rounded"`
+</summary>
 
-        - `"circular"`
+end_offset: number
 
-      - `border_width: "none" or "thin" or "fat"`
+[Link to this property](#)
 
-        - `"none"`
+start_offset: number
 
-        - `"thin"`
+[Link to this property](#)
 
-        - `"fat"`
+total_count: number
 
-      - `colors: object { background, brand, danger, 5 more }`
+minimum0
 
-        - `background: object { "1000", "600", "700", 2 more }`
+[Link to this property](#)
 
-          - `"1000": string`
+</details>
 
-          - `"600": string`
+[Link to this property](#)
 
-          - `"700": string`
+success: boolean
 
-          - `"800": string`
+[Link to this property](#)
 
-          - `"900": string`
+</details>
 
-        - `brand: object { "300", "400", "500", 2 more }`
+[Link to this property](#)
 
-          - `"300": string`
+<details>
 
-          - `"400": string`
+<summary>
 
-          - `"500": string`
+MeetingAddParticipantResponse object { success, data }
 
-          - `"600": string`
+</summary>
 
-          - `"700": string`
+success: boolean
 
-        - `danger: string`
+Success status of the operation
 
-        - `success: string`
+[Link to this property](#)
 
-        - `text: string`
+<details>
 
-        - `text_on_brand: string`
+<summary>
 
-        - `video_bg: string`
+data: optional object { id, token, created_at, 5 more }
 
-        - `warning: string`
+Represents a participant.
 
-      - `spacing_base: number`
+</summary>
 
-      - `theme: "darkest" or "dark" or "light"`
+id: string
 
-        - `"darkest"`
+ID of the participant.
 
-        - `"dark"`
+formatuuid
 
-        - `"light"`
+[Link to this property](#)
 
-      - `font_family: optional string`
+token: string
 
-      - `google_font: optional string`
+The participant’s auth token that can be used for joining a meeting from the client side.
 
-      - `logo: optional string`
+[Link to this property](#)
 
-  - `updated_at: string`
+created_at: string
 
-    Timestamp this preset was last updated
+When this object was created. The time is returned in ISO format.
 
-- `success: boolean`
+formatdate-time
 
-  Success status of the operation
+[Link to this property](#)
 
-### Example
+custom_participant_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/presets \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "config": {
-            "max_screenshare_count": 0,
-            "max_video_streams": {
-              "desktop": 0,
-              "mobile": 0
-            },
-            "media": {
-              "screenshare": {
-                "frame_rate": 0,
-                "quality": "hd"
-              },
-              "video": {
-                "frame_rate": 30,
-                "quality": "hd"
-              }
-            },
-            "view_type": "GROUP_CALL"
-          },
-          "name": "name",
-          "permissions": {
-            "accept_waiting_requests": true,
-            "can_accept_production_requests": true,
-            "can_change_participant_permissions": true,
-            "can_edit_display_name": true,
-            "can_livestream": true,
-            "can_record": true,
-            "can_spotlight": true,
-            "chat": {
-              "private": {
-                "can_receive": true,
-                "can_send": true,
-                "files": true,
-                "text": true
-              },
-              "public": {
-                "can_send": true,
-                "files": true,
-                "text": true
-              }
-            },
-            "connected_meetings": {
-              "can_alter_connected_meetings": true,
-              "can_switch_connected_meetings": true,
-              "can_switch_to_parent_meeting": true
-            },
-            "disable_participant_audio": true,
-            "disable_participant_screensharing": true,
-            "disable_participant_video": true,
-            "hidden_participant": true,
-            "kick_participant": true,
-            "media": {
-              "audio": {
-                "can_produce": "ALLOWED"
-              },
-              "screenshare": {
-                "can_produce": "ALLOWED"
-              },
-              "video": {
-                "can_produce": "ALLOWED"
-              }
-            },
-            "pin_participant": true,
-            "plugins": {
-              "can_close": true,
-              "can_edit_config": true,
-              "can_start": true,
-              "config": {
-                "foo": {}
-              }
-            },
-            "polls": {
-              "can_create": true,
-              "can_view": true,
-              "can_vote": true
-            },
-            "recorder_type": "RECORDER",
-            "show_participant_list": true,
-            "waiting_room_type": "SKIP"
-          },
-          "ui": {
-            "design_tokens": {
-              "border_radius": "sharp",
-              "border_width": "none",
-              "colors": {
-                "background": {
-                  "600": "600",
-                  "700": "700",
-                  "800": "800",
-                  "900": "900",
-                  "1000": "1000"
-                },
-                "brand": {
-                  "300": "300",
-                  "400": "400",
-                  "500": "500",
-                  "600": "600",
-                  "700": "700"
-                },
-                "danger": "danger",
-                "success": "success",
-                "text": "text",
-                "text_on_brand": "text_on_brand",
-                "video_bg": "video_bg",
-                "warning": "warning"
-              },
-              "spacing_base": 1,
-              "theme": "darkest"
-            }
-          }
-        }'
-```
+A unique participant ID generated by the client.
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "config": {
-      "max_screenshare_count": 0,
-      "max_video_streams": {
-        "desktop": 0,
-        "mobile": 0
-      },
-      "media": {
-        "screenshare": {
-          "frame_rate": 0,
-          "quality": "hd"
-        },
-        "video": {
-          "frame_rate": 30,
-          "quality": "hd",
-          "simulcast": true
-        },
-        "audio": {
-          "enable_high_bitrate": true,
-          "enable_stereo": true
-        }
-      },
-      "view_type": "GROUP_CALL",
-      "livestream_viewer_qualities": [
-        0
-      ]
-    },
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "permissions": {
-      "accept_waiting_requests": true,
-      "can_accept_production_requests": true,
-      "can_change_participant_permissions": true,
-      "can_edit_display_name": true,
-      "can_livestream": true,
-      "can_record": true,
-      "can_spotlight": true,
-      "chat": {
-        "private": {
-          "can_receive": true,
-          "can_send": true,
-          "files": true,
-          "text": true
-        },
-        "public": {
-          "can_send": true,
-          "files": true,
-          "text": true
-        }
-      },
-      "connected_meetings": {
-        "can_alter_connected_meetings": true,
-        "can_switch_connected_meetings": true,
-        "can_switch_to_parent_meeting": true
-      },
-      "disable_participant_audio": true,
-      "disable_participant_screensharing": true,
-      "disable_participant_video": true,
-      "hidden_participant": true,
-      "kick_participant": true,
-      "media": {
-        "audio": {
-          "can_produce": "ALLOWED"
-        },
-        "screenshare": {
-          "can_produce": "ALLOWED"
-        },
-        "video": {
-          "can_produce": "ALLOWED"
-        }
-      },
-      "pin_participant": true,
-      "plugins": {
-        "can_close": true,
-        "can_edit_config": true,
-        "can_start": true,
-        "config": {
-          "foo": {
-            "access_control": "FULL_ACCESS",
-            "handles_view_only": true
-          }
-        }
-      },
-      "polls": {
-        "can_create": true,
-        "can_view": true,
-        "can_vote": true
-      },
-      "recorder_type": "RECORDER",
-      "show_participant_list": true,
-      "waiting_room_type": "SKIP",
-      "accept_stage_requests": true,
-      "is_recorder": true,
-      "stage_access": "ALLOWED",
-      "stage_enabled": true,
-      "transcription_enabled": true
-    },
-    "ui": {
-      "design_tokens": {
-        "border_radius": "sharp",
-        "border_width": "none",
-        "colors": {
-          "background": {
-            "600": "600",
-            "700": "700",
-            "800": "800",
-            "900": "900",
-            "1000": "1000"
-          },
-          "brand": {
-            "300": "300",
-            "400": "400",
-            "500": "500",
-            "600": "600",
-            "700": "700"
-          },
-          "danger": "danger",
-          "success": "success",
-          "text": "text",
-          "text_on_brand": "text_on_brand",
-          "video_bg": "video_bg",
-          "warning": "warning"
-        },
-        "spacing_base": 1,
-        "theme": "darkest",
-        "font_family": "font_family",
-        "google_font": "google_font",
-        "logo": "https://example.com"
-      }
-    },
-    "updated_at": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+preset_name: string
 
-## Fetch details of a preset
+Preset applied to the participant.
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}`
+[Link to this property](#)
 
-Fetches details of a preset using the provided preset ID
+updated_at: string
 
-### Path Parameters
+When this object was updated. The time is returned in ISO format.
 
-- `account_id: string`
+formatdate-time
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+name: optional string
 
-  The app identifier tag.
+Name of the participant.
 
-- `preset_id: string`
+[Link to this property](#)
 
-### Returns
+picture: optional string
 
-- `data: object { id, config, created_at, 4 more }`
+URL to a picture of the participant.
 
-  Data returned by the operation
+formaturi
 
-  - `id: string`
+[Link to this property](#)
 
-    ID of the preset
+</details>
 
-  - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+[Link to this property](#)
 
-    - `max_screenshare_count: number`
+</details>
 
-      Maximum number of screen shares that can be active at a given time
+[Link to this property](#)
 
-    - `max_video_streams: object { desktop, mobile }`
+<details>
 
-      Maximum number of streams that are visible on a device
+<summary>
 
-      - `desktop: number`
+MeetingGetMeetingParticipantResponse object { data, success }
 
-        Maximum number of video streams visible on desktop devices
+</summary>
 
-      - `mobile: number`
+<details>
 
-        Maximum number of streams visible on mobile devices
+<summary>
 
-    - `media: object { screenshare, video, audio }`
+data: object { id, created_at, custom_participant_id, 4 more }
 
-      Media configuration options. eg: Video quality
+Data returned by the operation
 
-      - `screenshare: object { frame_rate, quality }`
+</summary>
 
-        Configuration options for participant screen shares
+id: string
 
-        - `frame_rate: number`
+ID of the participant.
 
-          Frame rate of screen share
+formatuuid
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+[Link to this property](#)
 
-          Quality of screen share
+created_at: string
 
-          - `"hd"`
+When this object was created. The time is returned in ISO format.
 
-          - `"vga"`
+formatdate-time
 
-          - `"qvga"`
+[Link to this property](#)
 
-          - `"fhd"`
+custom_participant_id: string
 
-          - `"uhd"`
+A unique participant ID generated by the client.
 
-      - `video: object { frame_rate, quality, simulcast }`
+[Link to this property](#)
 
-        Configuration options for participant videos
+preset_name: string
 
-        - `frame_rate: number`
+Preset applied to the participant.
 
-          Frame rate of participants' video
+[Link to this property](#)
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+updated_at: string
 
-          Video quality of participants
+When this object was updated. The time is returned in ISO format.
 
-          - `"hd"`
+formatdate-time
 
-          - `"vga"`
+[Link to this property](#)
 
-          - `"qvga"`
+name: optional string
 
-          - `"fhd"`
+Name of the participant.
 
-          - `"uhd"`
+[Link to this property](#)
 
-        - `simulcast: optional boolean`
+picture: optional string
 
-          Enable simulcast for participant videos.
+URL to a picture of the participant.
 
-      - `audio: optional object { enable_high_bitrate, enable_stereo }`
+formaturi
 
-        Control options for Audio quality.
+[Link to this property](#)
 
-        - `enable_high_bitrate: optional boolean`
+</details>
 
-          Enable High Quality Audio for your meetings
+[Link to this property](#)
 
-        - `enable_stereo: optional boolean`
+success: boolean
 
-          Enable Stereo for your meetings
+Success status of the operation
 
-    - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+[Link to this property](#)
 
-      Type of the meeting
+</details>
 
-      - `"GROUP_CALL"`
+[Link to this property](#)
 
-      - `"WEBINAR"`
+<details>
 
-      - `"AUDIO_ROOM"`
+<summary>
 
-      - `"LIVESTREAM"`
+MeetingEditParticipantResponse object { success, data }
 
-    - `livestream_viewer_qualities: optional array of number`
+</summary>
 
-      Livestream viewer quality levels.
+success: boolean
 
-  - `created_at: string`
+Success status of the operation
 
-    Timestamp this preset was created at
+[Link to this property](#)
 
-  - `name: string`
+<details>
 
-    Name of the preset
+<summary>
 
-  - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+data: optional object { id, token, created_at, 5 more }
 
-    - `accept_waiting_requests: boolean`
+Represents a participant.
 
-      Whether this participant can accept waiting requests
+</summary>
 
-    - `can_accept_production_requests: boolean`
+id: string
 
-    - `can_change_participant_permissions: boolean`
+ID of the participant.
 
-    - `can_edit_display_name: boolean`
+formatuuid
 
-    - `can_livestream: boolean`
+[Link to this property](#)
 
-    - `can_record: boolean`
+token: string
 
-    - `can_spotlight: boolean`
+The participant’s auth token that can be used for joining a meeting from the client side.
 
-    - `chat: object { private, public }`
+[Link to this property](#)
 
-      - `private: object { can_receive, can_send, files, text }`
+created_at: string
 
-        - `can_receive: boolean`
+When this object was created. The time is returned in ISO format.
 
-        - `can_send: boolean`
+formatdate-time
 
-        - `files: boolean`
+[Link to this property](#)
 
-        - `text: boolean`
+custom_participant_id: string
 
-      - `public: object { can_send, files, text }`
+A unique participant ID generated by the client.
 
-        - `can_send: boolean`
+[Link to this property](#)
 
-          Can send messages in general
+preset_name: string
 
-        - `files: boolean`
+Preset applied to the participant.
 
-          Can send file messages
+[Link to this property](#)
 
-        - `text: boolean`
+updated_at: string
 
-          Can send text messages
+When this object was updated. The time is returned in ISO format.
 
-    - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+formatdate-time
 
-      - `can_alter_connected_meetings: boolean`
+[Link to this property](#)
 
-      - `can_switch_connected_meetings: boolean`
+name: optional string
 
-      - `can_switch_to_parent_meeting: boolean`
+Name of the participant.
 
-    - `disable_participant_audio: boolean`
+[Link to this property](#)
 
-    - `disable_participant_screensharing: boolean`
+picture: optional string
 
-    - `disable_participant_video: boolean`
+URL to a picture of the participant.
 
-    - `hidden_participant: boolean`
+formaturi
 
-      Whether this participant is visible to others or not
+[Link to this property](#)
 
-    - `kick_participant: boolean`
+</details>
 
-    - `media: object { audio, screenshare, video }`
+[Link to this property](#)
 
-      Media permissions
+</details>
 
-      - `audio: object { can_produce }`
+[Link to this property](#)
 
-        Audio permissions
+<details>
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<summary>
 
-          Can produce audio
+MeetingDeleteMeetingParticipantResponse object { success, data }
 
-          - `"ALLOWED"`
+</summary>
 
-          - `"NOT_ALLOWED"`
+success: boolean
 
-          - `"CAN_REQUEST"`
+Success status of the operation
 
-      - `screenshare: object { can_produce }`
+[Link to this property](#)
 
-        Screenshare permissions
+<details>
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<summary>
 
-          Can produce screen share video
+data: optional object { created_at, custom_participant_id, preset_id, updated_at }
 
-          - `"ALLOWED"`
+Data returned by the operation
 
-          - `"NOT_ALLOWED"`
+</summary>
 
-          - `"CAN_REQUEST"`
+created_at: string
 
-      - `video: object { can_produce }`
+Timestamp this object was created at. The time is returned in ISO format.
 
-        Video permissions
+formatdate-time
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-          Can produce video
+custom_participant_id: string
 
-          - `"ALLOWED"`
+A unique participant ID generated by the client.
 
-          - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-          - `"CAN_REQUEST"`
+preset_id: string
 
-    - `pin_participant: boolean`
+ID of the preset applied to this participant.
 
-    - `plugins: object { can_close, can_edit_config, can_start, config }`
+formatuuid
 
-      Plugin permissions
+[Link to this property](#)
 
-      - `can_close: boolean`
+updated_at: string
 
-        Can close plugins that are already open
+Timestamp this object was updated at. The time is returned in ISO format.
 
-      - `can_edit_config: boolean`
+formatdate-time
 
-        Can edit plugin config
+[Link to this property](#)
 
-      - `can_start: boolean`
+</details>
 
-        Can start plugins
+[Link to this property](#)
 
-      - `config: map[object { access_control, handles_view_only } ]`
+</details>
 
-        Plugin configuration keyed by plugin UUID.
+[Link to this property](#)
 
-        - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+<details>
 
-          - `"FULL_ACCESS"`
+<summary>
 
-          - `"VIEW_ONLY"`
+MeetingRefreshParticipantTokenResponse object { data, success }
 
-        - `handles_view_only: optional boolean`
+</summary>
 
-    - `polls: object { can_create, can_view, can_vote }`
+<details>
 
-      Poll permissions
+<summary>
 
-      - `can_create: boolean`
+data: object { token }
 
-        Can create polls
+Data returned by the operation
 
-      - `can_view: boolean`
+</summary>
 
-        Can view polls
+token: string
 
-      - `can_vote: boolean`
+Regenerated participant’s authentication token.
 
-        Can vote on polls
+[Link to this property](#)
 
-    - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+</details>
 
-      Type of the recording peer
+[Link to this property](#)
 
-      - `"RECORDER"`
+success: boolean
 
-      - `"LIVESTREAMER"`
+Success status of the operation
 
-      - `"NONE"`
+[Link to this property](#)
 
-    - `show_participant_list: boolean`
+</details>
 
-    - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+[Link to this property](#)
 
-      Waiting room type
+##### [Fetch all presets](/api/resources/realtime_kit/subresources/presets/methods/get)
 
-      - `"SKIP"`
+GET/accounts/{account_id}/realtime/kit/{app_id}/presets
 
-      - `"ON_PRIVILEGED_USER_ENTRY"`
+##### [Create a preset](/api/resources/realtime_kit/subresources/presets/methods/create)
 
-      - `"SKIP_ON_ACCEPT"`
+POST/accounts/{account_id}/realtime/kit/{app_id}/presets
 
-    - `accept_stage_requests: optional boolean`
+##### [Fetch details of a preset](/api/resources/realtime_kit/subresources/presets/methods/get_preset_by_id)
 
-    - `is_recorder: optional boolean`
+GET/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}
 
-    - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+##### [Delete a preset](/api/resources/realtime_kit/subresources/presets/methods/delete)
 
-      - `"ALLOWED"`
+DELETE/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}
 
-      - `"NOT_ALLOWED"`
+##### [Update a preset](/api/resources/realtime_kit/subresources/presets/methods/update)
 
-      - `"CAN_REQUEST"`
+PATCH/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}
 
-    - `stage_enabled: optional boolean`
+##### [Replace a preset](/api/resources/realtime_kit/subresources/presets/methods/replace_preset_by_id)
 
-    - `transcription_enabled: optional boolean`
+PUT/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}
 
-  - `ui: object { design_tokens }`
+##### Models
 
-    - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+<details>
 
-      - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+<summary>
 
-        - `"sharp"`
+PresetGetResponse object { data, paging, success }
 
-        - `"rounded"`
+</summary>
 
-        - `"extra-rounded"`
+<details>
 
-        - `"circular"`
+<summary>
 
-      - `border_width: "none" or "thin" or "fat"`
+data: array of object { id, created_at, name, updated_at }
 
-        - `"none"`
+</summary>
 
-        - `"thin"`
+id: optional string
 
-        - `"fat"`
+ID of the preset
 
-      - `colors: object { background, brand, danger, 5 more }`
+formatuuid
 
-        - `background: object { "1000", "600", "700", 2 more }`
+[Link to this property](#)
 
-          - `"1000": string`
+created_at: optional string
 
-          - `"600": string`
+Timestamp this preset was created at
 
-          - `"700": string`
+formatdate-time
 
-          - `"800": string`
+[Link to this property](#)
 
-          - `"900": string`
+name: optional string
 
-        - `brand: object { "300", "400", "500", 2 more }`
+Name of the preset
 
-          - `"300": string`
+[Link to this property](#)
 
-          - `"400": string`
+updated_at: optional string
 
-          - `"500": string`
+Timestamp this preset was last updated
 
-          - `"600": string`
+formatdate-time
 
-          - `"700": string`
+[Link to this property](#)
 
-        - `danger: string`
+</details>
 
-        - `success: string`
+[Link to this property](#)
 
-        - `text: string`
+<details>
 
-        - `text_on_brand: string`
+<summary>
 
-        - `video_bg: string`
+paging: object { end_offset, start_offset, total_count }
 
-        - `warning: string`
+</summary>
 
-      - `spacing_base: number`
+end_offset: number
 
-      - `theme: "darkest" or "dark" or "light"`
+[Link to this property](#)
 
-        - `"darkest"`
+start_offset: number
 
-        - `"dark"`
+[Link to this property](#)
 
-        - `"light"`
+total_count: number
 
-      - `font_family: optional string`
+minimum0
 
-      - `google_font: optional string`
+[Link to this property](#)
 
-      - `logo: optional string`
+</details>
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    Timestamp this preset was last updated
+success: boolean
 
-- `success: boolean`
+[Link to this property](#)
 
-  Success status of the operation
+</details>
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/presets/$PRESET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "config": {
-      "max_screenshare_count": 0,
-      "max_video_streams": {
-        "desktop": 0,
-        "mobile": 0
-      },
-      "media": {
-        "screenshare": {
-          "frame_rate": 0,
-          "quality": "hd"
-        },
-        "video": {
-          "frame_rate": 30,
-          "quality": "hd",
-          "simulcast": true
-        },
-        "audio": {
-          "enable_high_bitrate": true,
-          "enable_stereo": true
-        }
-      },
-      "view_type": "GROUP_CALL",
-      "livestream_viewer_qualities": [
-        0
-      ]
-    },
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "permissions": {
-      "accept_waiting_requests": true,
-      "can_accept_production_requests": true,
-      "can_change_participant_permissions": true,
-      "can_edit_display_name": true,
-      "can_livestream": true,
-      "can_record": true,
-      "can_spotlight": true,
-      "chat": {
-        "private": {
-          "can_receive": true,
-          "can_send": true,
-          "files": true,
-          "text": true
-        },
-        "public": {
-          "can_send": true,
-          "files": true,
-          "text": true
-        }
-      },
-      "connected_meetings": {
-        "can_alter_connected_meetings": true,
-        "can_switch_connected_meetings": true,
-        "can_switch_to_parent_meeting": true
-      },
-      "disable_participant_audio": true,
-      "disable_participant_screensharing": true,
-      "disable_participant_video": true,
-      "hidden_participant": true,
-      "kick_participant": true,
-      "media": {
-        "audio": {
-          "can_produce": "ALLOWED"
-        },
-        "screenshare": {
-          "can_produce": "ALLOWED"
-        },
-        "video": {
-          "can_produce": "ALLOWED"
-        }
-      },
-      "pin_participant": true,
-      "plugins": {
-        "can_close": true,
-        "can_edit_config": true,
-        "can_start": true,
-        "config": {
-          "foo": {
-            "access_control": "FULL_ACCESS",
-            "handles_view_only": true
-          }
-        }
-      },
-      "polls": {
-        "can_create": true,
-        "can_view": true,
-        "can_vote": true
-      },
-      "recorder_type": "RECORDER",
-      "show_participant_list": true,
-      "waiting_room_type": "SKIP",
-      "accept_stage_requests": true,
-      "is_recorder": true,
-      "stage_access": "ALLOWED",
-      "stage_enabled": true,
-      "transcription_enabled": true
-    },
-    "ui": {
-      "design_tokens": {
-        "border_radius": "sharp",
-        "border_width": "none",
-        "colors": {
-          "background": {
-            "600": "600",
-            "700": "700",
-            "800": "800",
-            "900": "900",
-            "1000": "1000"
-          },
-          "brand": {
-            "300": "300",
-            "400": "400",
-            "500": "500",
-            "600": "600",
-            "700": "700"
-          },
-          "danger": "danger",
-          "success": "success",
-          "text": "text",
-          "text_on_brand": "text_on_brand",
-          "video_bg": "video_bg",
-          "warning": "warning"
-        },
-        "spacing_base": 1,
-        "theme": "darkest",
-        "font_family": "font_family",
-        "google_font": "google_font",
-        "logo": "https://example.com"
-      }
-    },
-    "updated_at": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+PresetCreateResponse object { data, success }
 
-## Delete a preset
+</summary>
 
-**delete** `/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}`
+<details>
 
-Deletes a preset using the provided preset ID
+<summary>
 
-### Path Parameters
+data: object { id, config, created_at, 4 more }
 
-- `account_id: string`
+Data returned by the operation
 
-  The account identifier tag.
+</summary>
 
-- `app_id: string`
+id: string
 
-  The app identifier tag.
+ID of the preset
 
-- `preset_id: string`
+formatuuid
 
-### Returns
+[Link to this property](#)
 
-- `data: object { id, config, created_at, 4 more }`
+<details>
 
-  Data returned by the operation
+<summary>
 
-  - `id: string`
+config: object { max_screenshare_count, max_video_streams, media, 2 more }
 
-    ID of the preset
+</summary>
 
-  - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+max_screenshare_count: number
 
-    - `max_screenshare_count: number`
+Maximum number of screen shares that can be active at a given time
 
-      Maximum number of screen shares that can be active at a given time
+[Link to this property](#)
 
-    - `max_video_streams: object { desktop, mobile }`
+<details>
 
-      Maximum number of streams that are visible on a device
+<summary>
 
-      - `desktop: number`
+max_video_streams: object { desktop, mobile }
 
-        Maximum number of video streams visible on desktop devices
+Maximum number of streams that are visible on a device
 
-      - `mobile: number`
+</summary>
 
-        Maximum number of streams visible on mobile devices
+desktop: number
 
-    - `media: object { screenshare, video, audio }`
+Maximum number of video streams visible on desktop devices
 
-      Media configuration options. eg: Video quality
+[Link to this property](#)
 
-      - `screenshare: object { frame_rate, quality }`
+mobile: number
 
-        Configuration options for participant screen shares
+Maximum number of streams visible on mobile devices
 
-        - `frame_rate: number`
+[Link to this property](#)
 
-          Frame rate of screen share
+</details>
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+[Link to this property](#)
 
-          Quality of screen share
+<details>
 
-          - `"hd"`
+<summary>
 
-          - `"vga"`
+media: object { screenshare, video, audio }
 
-          - `"qvga"`
+Media configuration options. eg: Video quality
 
-          - `"fhd"`
+</summary>
 
-          - `"uhd"`
+<details>
 
-      - `video: object { frame_rate, quality, simulcast }`
+<summary>
 
-        Configuration options for participant videos
+screenshare: object { frame_rate, quality }
 
-        - `frame_rate: number`
+Configuration options for participant screen shares
 
-          Frame rate of participants' video
+</summary>
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+frame_rate: number
 
-          Video quality of participants
+Frame rate of screen share
 
-          - `"hd"`
+[Link to this property](#)
 
-          - `"vga"`
+<details>
 
-          - `"qvga"`
+<summary>
 
-          - `"fhd"`
+quality: "hd" or "vga" or "qvga" or 2 more
 
-          - `"uhd"`
+Quality of screen share
 
-        - `simulcast: optional boolean`
+</summary>
 
-          Enable simulcast for participant videos.
+One of the following:
 
-      - `audio: optional object { enable_high_bitrate, enable_stereo }`
+"hd"
 
-        Control options for Audio quality.
+[Link to this property](#)
 
-        - `enable_high_bitrate: optional boolean`
+"vga"
 
-          Enable High Quality Audio for your meetings
+[Link to this property](#)
 
-        - `enable_stereo: optional boolean`
+"qvga"
 
-          Enable Stereo for your meetings
+[Link to this property](#)
 
-    - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+"fhd"
 
-      Type of the meeting
+[Link to this property](#)
 
-      - `"GROUP_CALL"`
+"uhd"
 
-      - `"WEBINAR"`
+[Link to this property](#)
 
-      - `"AUDIO_ROOM"`
+</details>
 
-      - `"LIVESTREAM"`
+[Link to this property](#)
 
-    - `livestream_viewer_qualities: optional array of number`
+</details>
 
-      Livestream viewer quality levels.
+[Link to this property](#)
 
-  - `created_at: string`
+<details>
 
-    Timestamp this preset was created at
+<summary>
 
-  - `name: string`
+video: object { frame_rate, quality, simulcast }
 
-    Name of the preset
+Configuration options for participant videos
 
-  - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+</summary>
 
-    - `accept_waiting_requests: boolean`
+frame_rate: number
 
-      Whether this participant can accept waiting requests
+Frame rate of participants’ video
 
-    - `can_accept_production_requests: boolean`
+maximum30
 
-    - `can_change_participant_permissions: boolean`
+[Link to this property](#)
 
-    - `can_edit_display_name: boolean`
+<details>
 
-    - `can_livestream: boolean`
+<summary>
 
-    - `can_record: boolean`
+quality: "hd" or "vga" or "qvga" or 2 more
 
-    - `can_spotlight: boolean`
+Video quality of participants
 
-    - `chat: object { private, public }`
+</summary>
 
-      - `private: object { can_receive, can_send, files, text }`
+One of the following:
 
-        - `can_receive: boolean`
+"hd"
 
-        - `can_send: boolean`
+[Link to this property](#)
 
-        - `files: boolean`
+"vga"
 
-        - `text: boolean`
+[Link to this property](#)
 
-      - `public: object { can_send, files, text }`
+"qvga"
 
-        - `can_send: boolean`
+[Link to this property](#)
 
-          Can send messages in general
+"fhd"
 
-        - `files: boolean`
+[Link to this property](#)
 
-          Can send file messages
+"uhd"
 
-        - `text: boolean`
+[Link to this property](#)
 
-          Can send text messages
+</details>
 
-    - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+[Link to this property](#)
 
-      - `can_alter_connected_meetings: boolean`
+simulcast: optional boolean
 
-      - `can_switch_connected_meetings: boolean`
+Enable simulcast for participant videos.
 
-      - `can_switch_to_parent_meeting: boolean`
+[Link to this property](#)
 
-    - `disable_participant_audio: boolean`
+</details>
 
-    - `disable_participant_screensharing: boolean`
+[Link to this property](#)
 
-    - `disable_participant_video: boolean`
+<details>
 
-    - `hidden_participant: boolean`
+<summary>
 
-      Whether this participant is visible to others or not
+audio: optional object { enable_high_bitrate, enable_stereo }
 
-    - `kick_participant: boolean`
+Control options for Audio quality.
 
-    - `media: object { audio, screenshare, video }`
+</summary>
 
-      Media permissions
+enable_high_bitrate: optional boolean
 
-      - `audio: object { can_produce }`
+Enable High Quality Audio for your meetings
 
-        Audio permissions
+[Link to this property](#)
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+enable_stereo: optional boolean
 
-          Can produce audio
+Enable Stereo for your meetings
 
-          - `"ALLOWED"`
+[Link to this property](#)
 
-          - `"NOT_ALLOWED"`
+</details>
 
-          - `"CAN_REQUEST"`
+[Link to this property](#)
 
-      - `screenshare: object { can_produce }`
+</details>
 
-        Screenshare permissions
+[Link to this property](#)
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<details>
 
-          Can produce screen share video
+<summary>
 
-          - `"ALLOWED"`
+view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"
 
-          - `"NOT_ALLOWED"`
+Type of the meeting
 
-          - `"CAN_REQUEST"`
+</summary>
 
-      - `video: object { can_produce }`
+One of the following:
 
-        Video permissions
+"GROUP_CALL"
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-          Can produce video
+"WEBINAR"
 
-          - `"ALLOWED"`
+[Link to this property](#)
 
-          - `"NOT_ALLOWED"`
+"AUDIO_ROOM"
 
-          - `"CAN_REQUEST"`
+[Link to this property](#)
 
-    - `pin_participant: boolean`
+"LIVESTREAM"
 
-    - `plugins: object { can_close, can_edit_config, can_start, config }`
+[Link to this property](#)
 
-      Plugin permissions
+</details>
 
-      - `can_close: boolean`
+[Link to this property](#)
 
-        Can close plugins that are already open
+livestream_viewer_qualities: optional array of number
 
-      - `can_edit_config: boolean`
+Livestream viewer quality levels.
 
-        Can edit plugin config
+[Link to this property](#)
 
-      - `can_start: boolean`
+</details>
 
-        Can start plugins
+[Link to this property](#)
 
-      - `config: map[object { access_control, handles_view_only } ]`
+created_at: string
 
-        Plugin configuration keyed by plugin UUID.
+Timestamp this preset was created at
 
-        - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+formatdate-time
 
-          - `"FULL_ACCESS"`
+[Link to this property](#)
 
-          - `"VIEW_ONLY"`
+name: string
 
-        - `handles_view_only: optional boolean`
+Name of the preset
 
-    - `polls: object { can_create, can_view, can_vote }`
+[Link to this property](#)
 
-      Poll permissions
+<details>
 
-      - `can_create: boolean`
+<summary>
 
-        Can create polls
+permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }
 
-      - `can_view: boolean`
+</summary>
 
-        Can view polls
+accept_waiting_requests: boolean
 
-      - `can_vote: boolean`
+Whether this participant can accept waiting requests
 
-        Can vote on polls
+[Link to this property](#)
 
-    - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+can_accept_production_requests: boolean
 
-      Type of the recording peer
+[Link to this property](#)
 
-      - `"RECORDER"`
+can_change_participant_permissions: boolean
 
-      - `"LIVESTREAMER"`
+[Link to this property](#)
 
-      - `"NONE"`
+can_edit_display_name: boolean
 
-    - `show_participant_list: boolean`
+[Link to this property](#)
 
-    - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+can_livestream: boolean
 
-      Waiting room type
+[Link to this property](#)
 
-      - `"SKIP"`
+can_record: boolean
 
-      - `"ON_PRIVILEGED_USER_ENTRY"`
+[Link to this property](#)
 
-      - `"SKIP_ON_ACCEPT"`
+can_spotlight: boolean
 
-    - `accept_stage_requests: optional boolean`
+[Link to this property](#)
 
-    - `is_recorder: optional boolean`
+<details>
 
-    - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<summary>
 
-      - `"ALLOWED"`
+chat: object { private, public }
 
-      - `"NOT_ALLOWED"`
+</summary>
 
-      - `"CAN_REQUEST"`
+<details>
 
-    - `stage_enabled: optional boolean`
+<summary>
 
-    - `transcription_enabled: optional boolean`
+private: object { can_receive, can_send, files, text }
 
-  - `ui: object { design_tokens }`
+</summary>
 
-    - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+can_receive: boolean
 
-      - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+[Link to this property](#)
 
-        - `"sharp"`
+can_send: boolean
 
-        - `"rounded"`
+[Link to this property](#)
 
-        - `"extra-rounded"`
+files: boolean
 
-        - `"circular"`
+[Link to this property](#)
 
-      - `border_width: "none" or "thin" or "fat"`
+text: boolean
 
-        - `"none"`
+[Link to this property](#)
 
-        - `"thin"`
+</details>
 
-        - `"fat"`
+[Link to this property](#)
 
-      - `colors: object { background, brand, danger, 5 more }`
+<details>
 
-        - `background: object { "1000", "600", "700", 2 more }`
+<summary>
 
-          - `"1000": string`
+public: object { can_send, files, text }
 
-          - `"600": string`
+</summary>
 
-          - `"700": string`
+can_send: boolean
 
-          - `"800": string`
+Can send messages in general
 
-          - `"900": string`
+[Link to this property](#)
 
-        - `brand: object { "300", "400", "500", 2 more }`
+files: boolean
 
-          - `"300": string`
+Can send file messages
 
-          - `"400": string`
+[Link to this property](#)
 
-          - `"500": string`
+text: boolean
 
-          - `"600": string`
+Can send text messages
 
-          - `"700": string`
+[Link to this property](#)
 
-        - `danger: string`
+</details>
 
-        - `success: string`
+[Link to this property](#)
 
-        - `text: string`
+</details>
 
-        - `text_on_brand: string`
+[Link to this property](#)
 
-        - `video_bg: string`
+<details>
 
-        - `warning: string`
+<summary>
 
-      - `spacing_base: number`
+connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }
 
-      - `theme: "darkest" or "dark" or "light"`
+</summary>
 
-        - `"darkest"`
+can_alter_connected_meetings: boolean
 
-        - `"dark"`
+[Link to this property](#)
 
-        - `"light"`
+can_switch_connected_meetings: boolean
 
-      - `font_family: optional string`
+[Link to this property](#)
 
-      - `google_font: optional string`
+can_switch_to_parent_meeting: boolean
 
-      - `logo: optional string`
+[Link to this property](#)
 
-  - `updated_at: string`
+</details>
 
-    Timestamp this preset was last updated
+[Link to this property](#)
 
-- `success: boolean`
+disable_participant_audio: boolean
 
-  Success status of the operation
+[Link to this property](#)
 
-### Example
+disable_participant_screensharing: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/presets/$PRESET_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+disable_participant_video: boolean
 
-```json
-{
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "config": {
-      "max_screenshare_count": 0,
-      "max_video_streams": {
-        "desktop": 0,
-        "mobile": 0
-      },
-      "media": {
-        "screenshare": {
-          "frame_rate": 0,
-          "quality": "hd"
-        },
-        "video": {
-          "frame_rate": 30,
-          "quality": "hd",
-          "simulcast": true
-        },
-        "audio": {
-          "enable_high_bitrate": true,
-          "enable_stereo": true
-        }
-      },
-      "view_type": "GROUP_CALL",
-      "livestream_viewer_qualities": [
-        0
-      ]
-    },
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "permissions": {
-      "accept_waiting_requests": true,
-      "can_accept_production_requests": true,
-      "can_change_participant_permissions": true,
-      "can_edit_display_name": true,
-      "can_livestream": true,
-      "can_record": true,
-      "can_spotlight": true,
-      "chat": {
-        "private": {
-          "can_receive": true,
-          "can_send": true,
-          "files": true,
-          "text": true
-        },
-        "public": {
-          "can_send": true,
-          "files": true,
-          "text": true
-        }
-      },
-      "connected_meetings": {
-        "can_alter_connected_meetings": true,
-        "can_switch_connected_meetings": true,
-        "can_switch_to_parent_meeting": true
-      },
-      "disable_participant_audio": true,
-      "disable_participant_screensharing": true,
-      "disable_participant_video": true,
-      "hidden_participant": true,
-      "kick_participant": true,
-      "media": {
-        "audio": {
-          "can_produce": "ALLOWED"
-        },
-        "screenshare": {
-          "can_produce": "ALLOWED"
-        },
-        "video": {
-          "can_produce": "ALLOWED"
-        }
-      },
-      "pin_participant": true,
-      "plugins": {
-        "can_close": true,
-        "can_edit_config": true,
-        "can_start": true,
-        "config": {
-          "foo": {
-            "access_control": "FULL_ACCESS",
-            "handles_view_only": true
-          }
-        }
-      },
-      "polls": {
-        "can_create": true,
-        "can_view": true,
-        "can_vote": true
-      },
-      "recorder_type": "RECORDER",
-      "show_participant_list": true,
-      "waiting_room_type": "SKIP",
-      "accept_stage_requests": true,
-      "is_recorder": true,
-      "stage_access": "ALLOWED",
-      "stage_enabled": true,
-      "transcription_enabled": true
-    },
-    "ui": {
-      "design_tokens": {
-        "border_radius": "sharp",
-        "border_width": "none",
-        "colors": {
-          "background": {
-            "600": "600",
-            "700": "700",
-            "800": "800",
-            "900": "900",
-            "1000": "1000"
-          },
-          "brand": {
-            "300": "300",
-            "400": "400",
-            "500": "500",
-            "600": "600",
-            "700": "700"
-          },
-          "danger": "danger",
-          "success": "success",
-          "text": "text",
-          "text_on_brand": "text_on_brand",
-          "video_bg": "video_bg",
-          "warning": "warning"
-        },
-        "spacing_base": 1,
-        "theme": "darkest",
-        "font_family": "font_family",
-        "google_font": "google_font",
-        "logo": "https://example.com"
-      }
-    },
-    "updated_at": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Update a preset
+hidden_participant: boolean
 
-**patch** `/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}`
+Whether this participant is visible to others or not
 
-Update a preset by the provided preset ID
+[Link to this property](#)
 
-### Path Parameters
+kick_participant: boolean
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+<details>
 
-- `app_id: string`
+<summary>
 
-  The app identifier tag.
+media: object { audio, screenshare, video }
 
-- `preset_id: string`
+Media permissions
 
-### Body Parameters
+</summary>
 
-- `config: optional object { livestream_viewer_qualities, max_screenshare_count, max_video_streams, 2 more }`
+<details>
 
-  - `livestream_viewer_qualities: optional array of number`
+<summary>
 
-    Livestream viewer quality levels.
+audio: object { can_produce }
 
-  - `max_screenshare_count: optional number`
+Audio permissions
 
-    Maximum number of screen shares that can be active at a given time
+</summary>
 
-  - `max_video_streams: optional object { desktop, mobile }`
+<details>
 
-    Maximum number of streams that are visible on a device
+<summary>
 
-    - `desktop: optional number`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-      Maximum number of video streams visible on desktop devices
+Can produce audio
 
-    - `mobile: optional number`
+</summary>
 
-      Maximum number of streams visible on mobile devices
+One of the following:
 
-  - `media: optional object { audio, screenshare, video }`
+"ALLOWED"
 
-    Media configuration options. eg: Video quality
+[Link to this property](#)
 
-    - `audio: optional object { enable_high_bitrate, enable_stereo }`
+"NOT_ALLOWED"
 
-      Control options for Audio quality.
+[Link to this property](#)
 
-      - `enable_high_bitrate: optional boolean`
+"CAN_REQUEST"
 
-        Enable High Quality Audio for your meetings
+[Link to this property](#)
 
-      - `enable_stereo: optional boolean`
+</details>
 
-        Enable Stereo for your meetings
+[Link to this property](#)
 
-    - `screenshare: optional object { frame_rate, quality }`
+</details>
 
-      Configuration options for participant screen shares
+[Link to this property](#)
 
-      - `frame_rate: optional number`
+<details>
 
-        Frame rate of screen share
+<summary>
 
-      - `quality: optional "hd" or "vga" or "qvga" or 2 more`
+screenshare: object { can_produce }
 
-        Quality of screen share
+Screenshare permissions
 
-        - `"hd"`
+</summary>
 
-        - `"vga"`
+<details>
 
-        - `"qvga"`
+<summary>
 
-        - `"fhd"`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-        - `"uhd"`
+Can produce screen share video
 
-    - `video: optional object { frame_rate, quality, simulcast }`
+</summary>
 
-      Configuration options for participant videos
+One of the following:
 
-      - `frame_rate: optional number`
+"ALLOWED"
 
-        Frame rate of participants' video
+[Link to this property](#)
 
-      - `quality: optional "hd" or "vga" or "qvga" or 2 more`
+"NOT_ALLOWED"
 
-        Video quality of participants
+[Link to this property](#)
 
-        - `"hd"`
+"CAN_REQUEST"
 
-        - `"vga"`
+[Link to this property](#)
 
-        - `"qvga"`
+</details>
 
-        - `"fhd"`
+[Link to this property](#)
 
-        - `"uhd"`
+</details>
 
-      - `simulcast: optional boolean`
+[Link to this property](#)
 
-        Enable simulcast for participant videos.
+<details>
 
-  - `view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+<summary>
 
-    Type of the meeting
+video: object { can_produce }
 
-    - `"GROUP_CALL"`
+Video permissions
 
-    - `"WEBINAR"`
+</summary>
 
-    - `"AUDIO_ROOM"`
+<details>
 
-    - `"LIVESTREAM"`
+<summary>
 
-- `name: optional string`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-  Name of the preset
+Can produce video
 
-- `permissions: optional object { accept_stage_requests, accept_waiting_requests, can_accept_production_requests, 23 more }`
+</summary>
 
-  - `accept_stage_requests: optional boolean`
+One of the following:
 
-  - `accept_waiting_requests: optional boolean`
+"ALLOWED"
 
-    Whether this participant can accept waiting requests
+[Link to this property](#)
 
-  - `can_accept_production_requests: optional boolean`
+"NOT_ALLOWED"
 
-  - `can_change_participant_permissions: optional boolean`
+[Link to this property](#)
 
-  - `can_edit_display_name: optional boolean`
+"CAN_REQUEST"
 
-  - `can_livestream: optional boolean`
+[Link to this property](#)
 
-  - `can_record: optional boolean`
+</details>
 
-  - `can_spotlight: optional boolean`
+[Link to this property](#)
 
-  - `chat: optional object { private, public }`
+</details>
 
-    - `private: optional object { can_receive, can_send, files, text }`
+[Link to this property](#)
 
-      - `can_receive: optional boolean`
+</details>
 
-      - `can_send: optional boolean`
+[Link to this property](#)
 
-      - `files: optional boolean`
+pin_participant: boolean
 
-      - `text: optional boolean`
+[Link to this property](#)
 
-    - `public: optional object { can_send, files, text }`
+<details>
 
-      - `can_send: optional boolean`
+<summary>
 
-        Can send messages in general
+plugins: object { can_close, can_edit_config, can_start, config }
 
-      - `files: optional boolean`
+Plugin permissions
 
-        Can send file messages
+</summary>
 
-      - `text: optional boolean`
+can_close: boolean
 
-        Can send text messages
+Can close plugins that are already open
 
-  - `connected_meetings: optional object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+[Link to this property](#)
 
-    - `can_alter_connected_meetings: optional boolean`
+can_edit_config: boolean
 
-    - `can_switch_connected_meetings: optional boolean`
+Can edit plugin config
 
-    - `can_switch_to_parent_meeting: optional boolean`
+[Link to this property](#)
 
-  - `disable_participant_audio: optional boolean`
+can_start: boolean
 
-  - `disable_participant_screensharing: optional boolean`
+Can start plugins
 
-  - `disable_participant_video: optional boolean`
+[Link to this property](#)
 
-  - `hidden_participant: optional boolean`
+<details>
 
-    Whether this participant is visible to others or not
+<summary>
 
-  - `is_recorder: optional boolean`
+config: map[object { access_control, handles_view_only } ]
 
-  - `kick_participant: optional boolean`
+Plugin configuration keyed by plugin UUID.
 
-  - `media: optional object { audio, screenshare, video }`
+</summary>
 
-    Media permissions
+<details>
 
-    - `audio: optional object { can_produce }`
+<summary>
 
-      Audio permissions
+access_control: optional "FULL_ACCESS" or "VIEW_ONLY"
 
-      - `can_produce: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+</summary>
 
-        Can produce audio
+One of the following:
 
-        - `"ALLOWED"`
+"FULL_ACCESS"
 
-        - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-        - `"CAN_REQUEST"`
+"VIEW_ONLY"
 
-    - `screenshare: optional object { can_produce }`
+[Link to this property](#)
 
-      Screenshare permissions
+</details>
 
-      - `can_produce: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-        Can produce screen share video
+handles_view_only: optional boolean
 
-        - `"ALLOWED"`
+[Link to this property](#)
 
-        - `"NOT_ALLOWED"`
+</details>
 
-        - `"CAN_REQUEST"`
+[Link to this property](#)
 
-    - `video: optional object { can_produce }`
+</details>
 
-      Video permissions
+[Link to this property](#)
 
-      - `can_produce: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<details>
 
-        Can produce video
+<summary>
 
-        - `"ALLOWED"`
+polls: object { can_create, can_view, can_vote }
 
-        - `"NOT_ALLOWED"`
+Poll permissions
 
-        - `"CAN_REQUEST"`
+</summary>
 
-  - `pin_participant: optional boolean`
+can_create: boolean
 
-  - `plugins: optional object { can_close, can_edit_config, can_start, config }`
+Can create polls
 
-    Plugin permissions
+[Link to this property](#)
 
-    - `can_close: optional boolean`
+can_view: boolean
 
-      Can close plugins that are already open
+Can view polls
 
-    - `can_edit_config: optional boolean`
+[Link to this property](#)
 
-      Can edit plugin config
+can_vote: boolean
 
-    - `can_start: optional boolean`
+Can vote on polls
 
-      Can start plugins
+[Link to this property](#)
 
-    - `config: optional map[object { access_control, handles_view_only } ]`
+</details>
 
-      Plugin configuration keyed by plugin UUID.
+[Link to this property](#)
 
-      - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+<details>
 
-        - `"FULL_ACCESS"`
+<summary>
 
-        - `"VIEW_ONLY"`
+recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"
 
-      - `handles_view_only: optional boolean`
+Type of the recording peer
 
-  - `polls: optional object { can_create, can_view, can_vote }`
+</summary>
 
-    Poll permissions
+One of the following:
 
-    - `can_create: optional boolean`
+"RECORDER"
 
-      Can create polls
+[Link to this property](#)
 
-    - `can_view: optional boolean`
+"LIVESTREAMER"
 
-      Can view polls
+[Link to this property](#)
 
-    - `can_vote: optional boolean`
+"NONE"
 
-      Can vote on polls
+[Link to this property](#)
 
-  - `recorder_type: optional "RECORDER" or "LIVESTREAMER" or "NONE"`
+</details>
 
-    Type of the recording peer
+[Link to this property](#)
 
-    - `"RECORDER"`
+show_participant_list: boolean
 
-    - `"LIVESTREAMER"`
+[Link to this property](#)
 
-    - `"NONE"`
+<details>
 
-  - `show_participant_list: optional boolean`
+<summary>
 
-  - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"
 
-    - `"ALLOWED"`
+Waiting room type
 
-    - `"NOT_ALLOWED"`
+</summary>
 
-    - `"CAN_REQUEST"`
+One of the following:
 
-  - `stage_enabled: optional boolean`
+"SKIP"
 
-  - `transcription_enabled: optional boolean`
+[Link to this property](#)
 
-  - `waiting_room_type: optional "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+"ON_PRIVILEGED_USER_ENTRY"
 
-    Waiting room type
+[Link to this property](#)
 
-    - `"SKIP"`
+"SKIP_ON_ACCEPT"
 
-    - `"ON_PRIVILEGED_USER_ENTRY"`
+[Link to this property](#)
 
-    - `"SKIP_ON_ACCEPT"`
+</details>
 
-- `ui: optional object { design_tokens }`
+[Link to this property](#)
 
-  - `design_tokens: optional object { border_radius, border_width, colors, 5 more }`
+accept_stage_requests: optional boolean
 
-    - `border_radius: optional "sharp" or "rounded" or "extra-rounded" or "circular"`
+[Link to this property](#)
 
-      - `"sharp"`
+is_recorder: optional boolean
 
-      - `"rounded"`
+[Link to this property](#)
 
-      - `"extra-rounded"`
+<details>
 
-      - `"circular"`
+<summary>
 
-    - `border_width: optional "none" or "thin" or "fat"`
+stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-      - `"none"`
+</summary>
 
-      - `"thin"`
+One of the following:
 
-      - `"fat"`
+"ALLOWED"
 
-    - `colors: optional object { background, brand, danger, 5 more }`
+[Link to this property](#)
 
-      - `background: optional object { "1000", "600", "700", 2 more }`
+"NOT_ALLOWED"
 
-        - `"1000": optional string`
+[Link to this property](#)
 
-        - `"600": optional string`
+"CAN_REQUEST"
 
-        - `"700": optional string`
+[Link to this property](#)
 
-        - `"800": optional string`
+</details>
 
-        - `"900": optional string`
+[Link to this property](#)
 
-      - `brand: optional object { "300", "400", "500", 2 more }`
+stage_enabled: optional boolean
 
-        - `"300": optional string`
+[Link to this property](#)
 
-        - `"400": optional string`
+transcription_enabled: optional boolean
 
-        - `"500": optional string`
+[Link to this property](#)
 
-        - `"600": optional string`
+</details>
 
-        - `"700": optional string`
+[Link to this property](#)
 
-      - `danger: optional string`
+<details>
 
-      - `success: optional string`
+<summary>
 
-      - `text: optional string`
+ui: object { design_tokens }
 
-      - `text_on_brand: optional string`
+</summary>
 
-      - `video_bg: optional string`
+<details>
 
-      - `warning: optional string`
+<summary>
 
-    - `font_family: optional string`
+design_tokens: object { border_radius, border_width, colors, 5 more }
 
-    - `google_font: optional string`
+</summary>
 
-    - `logo: optional string`
+<details>
 
-    - `spacing_base: optional number`
+<summary>
 
-    - `theme: optional "darkest" or "dark" or "light"`
+border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"
 
-      - `"darkest"`
+</summary>
 
-      - `"dark"`
+One of the following:
 
-      - `"light"`
+"sharp"
 
-### Returns
+[Link to this property](#)
 
-- `data: object { id, config, created_at, 4 more }`
+"rounded"
 
-  Data returned by the operation
+[Link to this property](#)
 
-  - `id: string`
+"extra-rounded"
 
-    ID of the preset
+[Link to this property](#)
 
-  - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+"circular"
 
-    - `max_screenshare_count: number`
+[Link to this property](#)
 
-      Maximum number of screen shares that can be active at a given time
+</details>
 
-    - `max_video_streams: object { desktop, mobile }`
+[Link to this property](#)
 
-      Maximum number of streams that are visible on a device
+<details>
 
-      - `desktop: number`
+<summary>
 
-        Maximum number of video streams visible on desktop devices
+border_width: "none" or "thin" or "fat"
 
-      - `mobile: number`
+</summary>
 
-        Maximum number of streams visible on mobile devices
+One of the following:
 
-    - `media: object { screenshare, video, audio }`
+"none"
 
-      Media configuration options. eg: Video quality
+[Link to this property](#)
 
-      - `screenshare: object { frame_rate, quality }`
+"thin"
 
-        Configuration options for participant screen shares
+[Link to this property](#)
 
-        - `frame_rate: number`
+"fat"
 
-          Frame rate of screen share
+[Link to this property](#)
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+</details>
 
-          Quality of screen share
+[Link to this property](#)
 
-          - `"hd"`
+<details>
 
-          - `"vga"`
+<summary>
 
-          - `"qvga"`
+colors: object { background, brand, danger, 5 more }
 
-          - `"fhd"`
+</summary>
 
-          - `"uhd"`
+<details>
 
-      - `video: object { frame_rate, quality, simulcast }`
+<summary>
 
-        Configuration options for participant videos
+background: object { "1000", "600", "700", 2 more }
 
-        - `frame_rate: number`
+</summary>
 
-          Frame rate of participants' video
+"1000": string
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+[Link to this property](#)
 
-          Video quality of participants
+"600": string
 
-          - `"hd"`
+[Link to this property](#)
 
-          - `"vga"`
+"700": string
 
-          - `"qvga"`
+[Link to this property](#)
 
-          - `"fhd"`
+"800": string
 
-          - `"uhd"`
+[Link to this property](#)
 
-        - `simulcast: optional boolean`
+"900": string
 
-          Enable simulcast for participant videos.
+[Link to this property](#)
 
-      - `audio: optional object { enable_high_bitrate, enable_stereo }`
+</details>
 
-        Control options for Audio quality.
+[Link to this property](#)
 
-        - `enable_high_bitrate: optional boolean`
+<details>
 
-          Enable High Quality Audio for your meetings
+<summary>
 
-        - `enable_stereo: optional boolean`
+brand: object { "300", "400", "500", 2 more }
 
-          Enable Stereo for your meetings
+</summary>
 
-    - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+"300": string
 
-      Type of the meeting
+[Link to this property](#)
 
-      - `"GROUP_CALL"`
+"400": string
 
-      - `"WEBINAR"`
+[Link to this property](#)
 
-      - `"AUDIO_ROOM"`
+"500": string
 
-      - `"LIVESTREAM"`
+[Link to this property](#)
 
-    - `livestream_viewer_qualities: optional array of number`
+"600": string
 
-      Livestream viewer quality levels.
+[Link to this property](#)
 
-  - `created_at: string`
+"700": string
 
-    Timestamp this preset was created at
+[Link to this property](#)
 
-  - `name: string`
+</details>
 
-    Name of the preset
+[Link to this property](#)
 
-  - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+danger: string
 
-    - `accept_waiting_requests: boolean`
+[Link to this property](#)
 
-      Whether this participant can accept waiting requests
+success: string
 
-    - `can_accept_production_requests: boolean`
+[Link to this property](#)
 
-    - `can_change_participant_permissions: boolean`
+text: string
 
-    - `can_edit_display_name: boolean`
+[Link to this property](#)
 
-    - `can_livestream: boolean`
+text_on_brand: string
 
-    - `can_record: boolean`
+[Link to this property](#)
 
-    - `can_spotlight: boolean`
+video_bg: string
 
-    - `chat: object { private, public }`
+[Link to this property](#)
 
-      - `private: object { can_receive, can_send, files, text }`
+warning: string
 
-        - `can_receive: boolean`
+[Link to this property](#)
 
-        - `can_send: boolean`
+</details>
 
-        - `files: boolean`
+[Link to this property](#)
 
-        - `text: boolean`
+spacing_base: number
 
-      - `public: object { can_send, files, text }`
+minimum1
 
-        - `can_send: boolean`
+[Link to this property](#)
 
-          Can send messages in general
+<details>
 
-        - `files: boolean`
+<summary>
 
-          Can send file messages
+theme: "darkest" or "dark" or "light"
 
-        - `text: boolean`
+</summary>
 
-          Can send text messages
+One of the following:
 
-    - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+"darkest"
 
-      - `can_alter_connected_meetings: boolean`
+[Link to this property](#)
 
-      - `can_switch_connected_meetings: boolean`
+"dark"
 
-      - `can_switch_to_parent_meeting: boolean`
+[Link to this property](#)
 
-    - `disable_participant_audio: boolean`
+"light"
 
-    - `disable_participant_screensharing: boolean`
+[Link to this property](#)
 
-    - `disable_participant_video: boolean`
+</details>
 
-    - `hidden_participant: boolean`
+[Link to this property](#)
 
-      Whether this participant is visible to others or not
+font_family: optional string
 
-    - `kick_participant: boolean`
+[Link to this property](#)
 
-    - `media: object { audio, screenshare, video }`
+google_font: optional string
 
-      Media permissions
+[Link to this property](#)
 
-      - `audio: object { can_produce }`
+logo: optional string
 
-        Audio permissions
+formaturi
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-          Can produce audio
+</details>
 
-          - `"ALLOWED"`
+[Link to this property](#)
 
-          - `"NOT_ALLOWED"`
+</details>
 
-          - `"CAN_REQUEST"`
+[Link to this property](#)
 
-      - `screenshare: object { can_produce }`
+updated_at: string
 
-        Screenshare permissions
+Timestamp this preset was last updated
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+formatdate-time
 
-          Can produce screen share video
+[Link to this property](#)
 
-          - `"ALLOWED"`
+</details>
 
-          - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-          - `"CAN_REQUEST"`
+success: boolean
 
-      - `video: object { can_produce }`
+Success status of the operation
 
-        Video permissions
+[Link to this property](#)
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+</details>
 
-          Can produce video
+[Link to this property](#)
 
-          - `"ALLOWED"`
+<details>
 
-          - `"NOT_ALLOWED"`
+<summary>
 
-          - `"CAN_REQUEST"`
+PresetGetPresetByIDResponse object { data, success }
 
-    - `pin_participant: boolean`
+</summary>
 
-    - `plugins: object { can_close, can_edit_config, can_start, config }`
+<details>
 
-      Plugin permissions
+<summary>
 
-      - `can_close: boolean`
+data: object { id, config, created_at, 4 more }
 
-        Can close plugins that are already open
+Data returned by the operation
 
-      - `can_edit_config: boolean`
+</summary>
 
-        Can edit plugin config
+id: string
 
-      - `can_start: boolean`
+ID of the preset
 
-        Can start plugins
+formatuuid
 
-      - `config: map[object { access_control, handles_view_only } ]`
+[Link to this property](#)
 
-        Plugin configuration keyed by plugin UUID.
+<details>
 
-        - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+<summary>
 
-          - `"FULL_ACCESS"`
+config: object { max_screenshare_count, max_video_streams, media, 2 more }
 
-          - `"VIEW_ONLY"`
+</summary>
 
-        - `handles_view_only: optional boolean`
+max_screenshare_count: number
 
-    - `polls: object { can_create, can_view, can_vote }`
+Maximum number of screen shares that can be active at a given time
 
-      Poll permissions
+[Link to this property](#)
 
-      - `can_create: boolean`
+<details>
 
-        Can create polls
+<summary>
 
-      - `can_view: boolean`
+max_video_streams: object { desktop, mobile }
 
-        Can view polls
+Maximum number of streams that are visible on a device
 
-      - `can_vote: boolean`
+</summary>
 
-        Can vote on polls
+desktop: number
 
-    - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+Maximum number of video streams visible on desktop devices
 
-      Type of the recording peer
+[Link to this property](#)
 
-      - `"RECORDER"`
+mobile: number
 
-      - `"LIVESTREAMER"`
+Maximum number of streams visible on mobile devices
 
-      - `"NONE"`
+[Link to this property](#)
 
-    - `show_participant_list: boolean`
+</details>
 
-    - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+[Link to this property](#)
 
-      Waiting room type
+<details>
 
-      - `"SKIP"`
+<summary>
 
-      - `"ON_PRIVILEGED_USER_ENTRY"`
+media: object { screenshare, video, audio }
 
-      - `"SKIP_ON_ACCEPT"`
+Media configuration options. eg: Video quality
 
-    - `accept_stage_requests: optional boolean`
+</summary>
 
-    - `is_recorder: optional boolean`
+<details>
 
-    - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<summary>
 
-      - `"ALLOWED"`
+screenshare: object { frame_rate, quality }
 
-      - `"NOT_ALLOWED"`
+Configuration options for participant screen shares
 
-      - `"CAN_REQUEST"`
+</summary>
 
-    - `stage_enabled: optional boolean`
+frame_rate: number
 
-    - `transcription_enabled: optional boolean`
+Frame rate of screen share
 
-  - `ui: object { design_tokens }`
+[Link to this property](#)
 
-    - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+<details>
 
-      - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+<summary>
 
-        - `"sharp"`
+quality: "hd" or "vga" or "qvga" or 2 more
 
-        - `"rounded"`
+Quality of screen share
 
-        - `"extra-rounded"`
+</summary>
 
-        - `"circular"`
+One of the following:
 
-      - `border_width: "none" or "thin" or "fat"`
+"hd"
 
-        - `"none"`
+[Link to this property](#)
 
-        - `"thin"`
+"vga"
 
-        - `"fat"`
+[Link to this property](#)
 
-      - `colors: object { background, brand, danger, 5 more }`
+"qvga"
 
-        - `background: object { "1000", "600", "700", 2 more }`
+[Link to this property](#)
 
-          - `"1000": string`
+"fhd"
 
-          - `"600": string`
+[Link to this property](#)
 
-          - `"700": string`
+"uhd"
 
-          - `"800": string`
+[Link to this property](#)
 
-          - `"900": string`
+</details>
 
-        - `brand: object { "300", "400", "500", 2 more }`
+[Link to this property](#)
 
-          - `"300": string`
+</details>
 
-          - `"400": string`
+[Link to this property](#)
 
-          - `"500": string`
+<details>
 
-          - `"600": string`
+<summary>
 
-          - `"700": string`
+video: object { frame_rate, quality, simulcast }
 
-        - `danger: string`
+Configuration options for participant videos
 
-        - `success: string`
+</summary>
 
-        - `text: string`
+frame_rate: number
 
-        - `text_on_brand: string`
+Frame rate of participants’ video
 
-        - `video_bg: string`
+maximum30
 
-        - `warning: string`
+[Link to this property](#)
 
-      - `spacing_base: number`
+<details>
 
-      - `theme: "darkest" or "dark" or "light"`
+<summary>
 
-        - `"darkest"`
+quality: "hd" or "vga" or "qvga" or 2 more
 
-        - `"dark"`
+Video quality of participants
 
-        - `"light"`
+</summary>
 
-      - `font_family: optional string`
+One of the following:
 
-      - `google_font: optional string`
+"hd"
 
-      - `logo: optional string`
+[Link to this property](#)
 
-  - `updated_at: string`
+"vga"
 
-    Timestamp this preset was last updated
+[Link to this property](#)
 
-- `success: boolean`
+"qvga"
 
-  Success status of the operation
+[Link to this property](#)
 
-### Example
+"fhd"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/presets/$PRESET_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+[Link to this property](#)
 
-#### Response
+"uhd"
 
-```json
-{
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "config": {
-      "max_screenshare_count": 0,
-      "max_video_streams": {
-        "desktop": 0,
-        "mobile": 0
-      },
-      "media": {
-        "screenshare": {
-          "frame_rate": 0,
-          "quality": "hd"
-        },
-        "video": {
-          "frame_rate": 30,
-          "quality": "hd",
-          "simulcast": true
-        },
-        "audio": {
-          "enable_high_bitrate": true,
-          "enable_stereo": true
-        }
-      },
-      "view_type": "GROUP_CALL",
-      "livestream_viewer_qualities": [
-        0
-      ]
-    },
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "permissions": {
-      "accept_waiting_requests": true,
-      "can_accept_production_requests": true,
-      "can_change_participant_permissions": true,
-      "can_edit_display_name": true,
-      "can_livestream": true,
-      "can_record": true,
-      "can_spotlight": true,
-      "chat": {
-        "private": {
-          "can_receive": true,
-          "can_send": true,
-          "files": true,
-          "text": true
-        },
-        "public": {
-          "can_send": true,
-          "files": true,
-          "text": true
-        }
-      },
-      "connected_meetings": {
-        "can_alter_connected_meetings": true,
-        "can_switch_connected_meetings": true,
-        "can_switch_to_parent_meeting": true
-      },
-      "disable_participant_audio": true,
-      "disable_participant_screensharing": true,
-      "disable_participant_video": true,
-      "hidden_participant": true,
-      "kick_participant": true,
-      "media": {
-        "audio": {
-          "can_produce": "ALLOWED"
-        },
-        "screenshare": {
-          "can_produce": "ALLOWED"
-        },
-        "video": {
-          "can_produce": "ALLOWED"
-        }
-      },
-      "pin_participant": true,
-      "plugins": {
-        "can_close": true,
-        "can_edit_config": true,
-        "can_start": true,
-        "config": {
-          "foo": {
-            "access_control": "FULL_ACCESS",
-            "handles_view_only": true
-          }
-        }
-      },
-      "polls": {
-        "can_create": true,
-        "can_view": true,
-        "can_vote": true
-      },
-      "recorder_type": "RECORDER",
-      "show_participant_list": true,
-      "waiting_room_type": "SKIP",
-      "accept_stage_requests": true,
-      "is_recorder": true,
-      "stage_access": "ALLOWED",
-      "stage_enabled": true,
-      "transcription_enabled": true
-    },
-    "ui": {
-      "design_tokens": {
-        "border_radius": "sharp",
-        "border_width": "none",
-        "colors": {
-          "background": {
-            "600": "600",
-            "700": "700",
-            "800": "800",
-            "900": "900",
-            "1000": "1000"
-          },
-          "brand": {
-            "300": "300",
-            "400": "400",
-            "500": "500",
-            "600": "600",
-            "700": "700"
-          },
-          "danger": "danger",
-          "success": "success",
-          "text": "text",
-          "text_on_brand": "text_on_brand",
-          "video_bg": "video_bg",
-          "warning": "warning"
-        },
-        "spacing_base": 1,
-        "theme": "darkest",
-        "font_family": "font_family",
-        "google_font": "google_font",
-        "logo": "https://example.com"
-      }
-    },
-    "updated_at": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Domain Types
+</details>
 
-### Preset Get Response
+[Link to this property](#)
 
-- `PresetGetResponse object { data, paging, success }`
+simulcast: optional boolean
 
-  - `data: array of object { id, created_at, name, updated_at }`
+Enable simulcast for participant videos.
 
-    - `id: optional string`
+[Link to this property](#)
 
-      ID of the preset
+</details>
 
-    - `created_at: optional string`
+[Link to this property](#)
 
-      Timestamp this preset was created at
+<details>
 
-    - `name: optional string`
+<summary>
 
-      Name of the preset
+audio: optional object { enable_high_bitrate, enable_stereo }
 
-    - `updated_at: optional string`
+Control options for Audio quality.
 
-      Timestamp this preset was last updated
+</summary>
 
-  - `paging: object { end_offset, start_offset, total_count }`
+enable_high_bitrate: optional boolean
 
-    - `end_offset: number`
+Enable High Quality Audio for your meetings
 
-    - `start_offset: number`
+[Link to this property](#)
 
-    - `total_count: number`
+enable_stereo: optional boolean
 
-  - `success: boolean`
+Enable Stereo for your meetings
 
-### Preset Create Response
+[Link to this property](#)
 
-- `PresetCreateResponse object { data, success }`
+</details>
 
-  - `data: object { id, config, created_at, 4 more }`
+[Link to this property](#)
 
-    Data returned by the operation
+</details>
 
-    - `id: string`
+[Link to this property](#)
 
-      ID of the preset
+<details>
 
-    - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+<summary>
 
-      - `max_screenshare_count: number`
+view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"
 
-        Maximum number of screen shares that can be active at a given time
+Type of the meeting
 
-      - `max_video_streams: object { desktop, mobile }`
+</summary>
 
-        Maximum number of streams that are visible on a device
+One of the following:
 
-        - `desktop: number`
+"GROUP_CALL"
 
-          Maximum number of video streams visible on desktop devices
+[Link to this property](#)
 
-        - `mobile: number`
+"WEBINAR"
 
-          Maximum number of streams visible on mobile devices
+[Link to this property](#)
 
-      - `media: object { screenshare, video, audio }`
+"AUDIO_ROOM"
 
-        Media configuration options. eg: Video quality
+[Link to this property](#)
 
-        - `screenshare: object { frame_rate, quality }`
+"LIVESTREAM"
 
-          Configuration options for participant screen shares
+[Link to this property](#)
 
-          - `frame_rate: number`
+</details>
 
-            Frame rate of screen share
+[Link to this property](#)
 
-          - `quality: "hd" or "vga" or "qvga" or 2 more`
+livestream_viewer_qualities: optional array of number
 
-            Quality of screen share
+Livestream viewer quality levels.
 
-            - `"hd"`
+[Link to this property](#)
 
-            - `"vga"`
+</details>
 
-            - `"qvga"`
+[Link to this property](#)
 
-            - `"fhd"`
+created_at: string
 
-            - `"uhd"`
+Timestamp this preset was created at
 
-        - `video: object { frame_rate, quality, simulcast }`
+formatdate-time
 
-          Configuration options for participant videos
+[Link to this property](#)
 
-          - `frame_rate: number`
+name: string
 
-            Frame rate of participants' video
+Name of the preset
 
-          - `quality: "hd" or "vga" or "qvga" or 2 more`
+[Link to this property](#)
 
-            Video quality of participants
+<details>
 
-            - `"hd"`
+<summary>
 
-            - `"vga"`
+permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }
 
-            - `"qvga"`
+</summary>
 
-            - `"fhd"`
+accept_waiting_requests: boolean
 
-            - `"uhd"`
+Whether this participant can accept waiting requests
 
-          - `simulcast: optional boolean`
+[Link to this property](#)
 
-            Enable simulcast for participant videos.
+can_accept_production_requests: boolean
 
-        - `audio: optional object { enable_high_bitrate, enable_stereo }`
+[Link to this property](#)
 
-          Control options for Audio quality.
+can_change_participant_permissions: boolean
 
-          - `enable_high_bitrate: optional boolean`
+[Link to this property](#)
 
-            Enable High Quality Audio for your meetings
+can_edit_display_name: boolean
 
-          - `enable_stereo: optional boolean`
+[Link to this property](#)
 
-            Enable Stereo for your meetings
+can_livestream: boolean
 
-      - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+[Link to this property](#)
 
-        Type of the meeting
+can_record: boolean
 
-        - `"GROUP_CALL"`
+[Link to this property](#)
 
-        - `"WEBINAR"`
+can_spotlight: boolean
 
-        - `"AUDIO_ROOM"`
+[Link to this property](#)
 
-        - `"LIVESTREAM"`
+<details>
 
-      - `livestream_viewer_qualities: optional array of number`
+<summary>
 
-        Livestream viewer quality levels.
+chat: object { private, public }
 
-    - `created_at: string`
+</summary>
 
-      Timestamp this preset was created at
+<details>
 
-    - `name: string`
+<summary>
 
-      Name of the preset
+private: object { can_receive, can_send, files, text }
 
-    - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+</summary>
 
-      - `accept_waiting_requests: boolean`
+can_receive: boolean
 
-        Whether this participant can accept waiting requests
+[Link to this property](#)
 
-      - `can_accept_production_requests: boolean`
+can_send: boolean
 
-      - `can_change_participant_permissions: boolean`
+[Link to this property](#)
 
-      - `can_edit_display_name: boolean`
+files: boolean
 
-      - `can_livestream: boolean`
+[Link to this property](#)
 
-      - `can_record: boolean`
+text: boolean
 
-      - `can_spotlight: boolean`
+[Link to this property](#)
 
-      - `chat: object { private, public }`
+</details>
 
-        - `private: object { can_receive, can_send, files, text }`
+[Link to this property](#)
 
-          - `can_receive: boolean`
+<details>
 
-          - `can_send: boolean`
+<summary>
 
-          - `files: boolean`
+public: object { can_send, files, text }
 
-          - `text: boolean`
+</summary>
 
-        - `public: object { can_send, files, text }`
+can_send: boolean
 
-          - `can_send: boolean`
+Can send messages in general
 
-            Can send messages in general
+[Link to this property](#)
 
-          - `files: boolean`
+files: boolean
 
-            Can send file messages
+Can send file messages
 
-          - `text: boolean`
+[Link to this property](#)
 
-            Can send text messages
+text: boolean
 
-      - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+Can send text messages
 
-        - `can_alter_connected_meetings: boolean`
+[Link to this property](#)
 
-        - `can_switch_connected_meetings: boolean`
+</details>
 
-        - `can_switch_to_parent_meeting: boolean`
+[Link to this property](#)
 
-      - `disable_participant_audio: boolean`
+</details>
 
-      - `disable_participant_screensharing: boolean`
+[Link to this property](#)
 
-      - `disable_participant_video: boolean`
+<details>
 
-      - `hidden_participant: boolean`
+<summary>
 
-        Whether this participant is visible to others or not
+connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }
 
-      - `kick_participant: boolean`
+</summary>
 
-      - `media: object { audio, screenshare, video }`
+can_alter_connected_meetings: boolean
 
-        Media permissions
+[Link to this property](#)
 
-        - `audio: object { can_produce }`
+can_switch_connected_meetings: boolean
 
-          Audio permissions
+[Link to this property](#)
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+can_switch_to_parent_meeting: boolean
 
-            Can produce audio
+[Link to this property](#)
 
-            - `"ALLOWED"`
+</details>
 
-            - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-            - `"CAN_REQUEST"`
+disable_participant_audio: boolean
 
-        - `screenshare: object { can_produce }`
+[Link to this property](#)
 
-          Screenshare permissions
+disable_participant_screensharing: boolean
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-            Can produce screen share video
+disable_participant_video: boolean
 
-            - `"ALLOWED"`
+[Link to this property](#)
 
-            - `"NOT_ALLOWED"`
+hidden_participant: boolean
 
-            - `"CAN_REQUEST"`
+Whether this participant is visible to others or not
 
-        - `video: object { can_produce }`
+[Link to this property](#)
 
-          Video permissions
+kick_participant: boolean
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-            Can produce video
+<details>
 
-            - `"ALLOWED"`
+<summary>
 
-            - `"NOT_ALLOWED"`
+media: object { audio, screenshare, video }
 
-            - `"CAN_REQUEST"`
+Media permissions
 
-      - `pin_participant: boolean`
+</summary>
 
-      - `plugins: object { can_close, can_edit_config, can_start, config }`
+<details>
 
-        Plugin permissions
+<summary>
 
-        - `can_close: boolean`
+audio: object { can_produce }
 
-          Can close plugins that are already open
+Audio permissions
 
-        - `can_edit_config: boolean`
+</summary>
 
-          Can edit plugin config
+<details>
 
-        - `can_start: boolean`
+<summary>
 
-          Can start plugins
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-        - `config: map[object { access_control, handles_view_only } ]`
+Can produce audio
 
-          Plugin configuration keyed by plugin UUID.
+</summary>
 
-          - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+One of the following:
 
-            - `"FULL_ACCESS"`
+"ALLOWED"
 
-            - `"VIEW_ONLY"`
+[Link to this property](#)
 
-          - `handles_view_only: optional boolean`
+"NOT_ALLOWED"
 
-      - `polls: object { can_create, can_view, can_vote }`
+[Link to this property](#)
 
-        Poll permissions
+"CAN_REQUEST"
 
-        - `can_create: boolean`
+[Link to this property](#)
 
-          Can create polls
+</details>
 
-        - `can_view: boolean`
+[Link to this property](#)
 
-          Can view polls
+</details>
 
-        - `can_vote: boolean`
+[Link to this property](#)
 
-          Can vote on polls
+<details>
 
-      - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+<summary>
 
-        Type of the recording peer
+screenshare: object { can_produce }
 
-        - `"RECORDER"`
+Screenshare permissions
 
-        - `"LIVESTREAMER"`
+</summary>
 
-        - `"NONE"`
+<details>
 
-      - `show_participant_list: boolean`
+<summary>
 
-      - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-        Waiting room type
+Can produce screen share video
 
-        - `"SKIP"`
+</summary>
 
-        - `"ON_PRIVILEGED_USER_ENTRY"`
+One of the following:
 
-        - `"SKIP_ON_ACCEPT"`
+"ALLOWED"
 
-      - `accept_stage_requests: optional boolean`
+[Link to this property](#)
 
-      - `is_recorder: optional boolean`
+"NOT_ALLOWED"
 
-      - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-        - `"ALLOWED"`
+"CAN_REQUEST"
 
-        - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-        - `"CAN_REQUEST"`
+</details>
 
-      - `stage_enabled: optional boolean`
+[Link to this property](#)
 
-      - `transcription_enabled: optional boolean`
+</details>
 
-    - `ui: object { design_tokens }`
+[Link to this property](#)
 
-      - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+<details>
 
-        - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+<summary>
 
-          - `"sharp"`
+video: object { can_produce }
 
-          - `"rounded"`
+Video permissions
 
-          - `"extra-rounded"`
+</summary>
 
-          - `"circular"`
+<details>
 
-        - `border_width: "none" or "thin" or "fat"`
+<summary>
 
-          - `"none"`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-          - `"thin"`
+Can produce video
 
-          - `"fat"`
+</summary>
 
-        - `colors: object { background, brand, danger, 5 more }`
+One of the following:
 
-          - `background: object { "1000", "600", "700", 2 more }`
+"ALLOWED"
 
-            - `"1000": string`
+[Link to this property](#)
 
-            - `"600": string`
+"NOT_ALLOWED"
 
-            - `"700": string`
+[Link to this property](#)
 
-            - `"800": string`
+"CAN_REQUEST"
 
-            - `"900": string`
+[Link to this property](#)
 
-          - `brand: object { "300", "400", "500", 2 more }`
+</details>
 
-            - `"300": string`
+[Link to this property](#)
 
-            - `"400": string`
+</details>
 
-            - `"500": string`
+[Link to this property](#)
 
-            - `"600": string`
+</details>
 
-            - `"700": string`
+[Link to this property](#)
 
-          - `danger: string`
+pin_participant: boolean
 
-          - `success: string`
+[Link to this property](#)
 
-          - `text: string`
+<details>
 
-          - `text_on_brand: string`
+<summary>
 
-          - `video_bg: string`
+plugins: object { can_close, can_edit_config, can_start, config }
 
-          - `warning: string`
+Plugin permissions
 
-        - `spacing_base: number`
+</summary>
 
-        - `theme: "darkest" or "dark" or "light"`
+can_close: boolean
 
-          - `"darkest"`
+Can close plugins that are already open
 
-          - `"dark"`
+[Link to this property](#)
 
-          - `"light"`
+can_edit_config: boolean
 
-        - `font_family: optional string`
+Can edit plugin config
 
-        - `google_font: optional string`
+[Link to this property](#)
 
-        - `logo: optional string`
+can_start: boolean
 
-    - `updated_at: string`
+Can start plugins
 
-      Timestamp this preset was last updated
+[Link to this property](#)
 
-  - `success: boolean`
+<details>
 
-    Success status of the operation
+<summary>
 
-### Preset Get Preset By ID Response
+config: map[object { access_control, handles_view_only } ]
 
-- `PresetGetPresetByIDResponse object { data, success }`
+Plugin configuration keyed by plugin UUID.
 
-  - `data: object { id, config, created_at, 4 more }`
+</summary>
 
-    Data returned by the operation
+<details>
 
-    - `id: string`
+<summary>
 
-      ID of the preset
+access_control: optional "FULL_ACCESS" or "VIEW_ONLY"
 
-    - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+</summary>
 
-      - `max_screenshare_count: number`
+One of the following:
 
-        Maximum number of screen shares that can be active at a given time
+"FULL_ACCESS"
 
-      - `max_video_streams: object { desktop, mobile }`
+[Link to this property](#)
 
-        Maximum number of streams that are visible on a device
+"VIEW_ONLY"
 
-        - `desktop: number`
+[Link to this property](#)
 
-          Maximum number of video streams visible on desktop devices
+</details>
 
-        - `mobile: number`
+[Link to this property](#)
 
-          Maximum number of streams visible on mobile devices
+handles_view_only: optional boolean
 
-      - `media: object { screenshare, video, audio }`
+[Link to this property](#)
 
-        Media configuration options. eg: Video quality
+</details>
 
-        - `screenshare: object { frame_rate, quality }`
+[Link to this property](#)
 
-          Configuration options for participant screen shares
+</details>
 
-          - `frame_rate: number`
+[Link to this property](#)
 
-            Frame rate of screen share
+<details>
 
-          - `quality: "hd" or "vga" or "qvga" or 2 more`
+<summary>
 
-            Quality of screen share
+polls: object { can_create, can_view, can_vote }
 
-            - `"hd"`
+Poll permissions
 
-            - `"vga"`
+</summary>
 
-            - `"qvga"`
+can_create: boolean
 
-            - `"fhd"`
+Can create polls
 
-            - `"uhd"`
+[Link to this property](#)
 
-        - `video: object { frame_rate, quality, simulcast }`
+can_view: boolean
 
-          Configuration options for participant videos
+Can view polls
 
-          - `frame_rate: number`
+[Link to this property](#)
 
-            Frame rate of participants' video
+can_vote: boolean
 
-          - `quality: "hd" or "vga" or "qvga" or 2 more`
+Can vote on polls
 
-            Video quality of participants
+[Link to this property](#)
 
-            - `"hd"`
+</details>
 
-            - `"vga"`
+[Link to this property](#)
 
-            - `"qvga"`
+<details>
 
-            - `"fhd"`
+<summary>
 
-            - `"uhd"`
+recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"
 
-          - `simulcast: optional boolean`
+Type of the recording peer
 
-            Enable simulcast for participant videos.
+</summary>
 
-        - `audio: optional object { enable_high_bitrate, enable_stereo }`
+One of the following:
 
-          Control options for Audio quality.
+"RECORDER"
 
-          - `enable_high_bitrate: optional boolean`
+[Link to this property](#)
 
-            Enable High Quality Audio for your meetings
+"LIVESTREAMER"
 
-          - `enable_stereo: optional boolean`
+[Link to this property](#)
 
-            Enable Stereo for your meetings
+"NONE"
 
-      - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+[Link to this property](#)
 
-        Type of the meeting
+</details>
 
-        - `"GROUP_CALL"`
+[Link to this property](#)
 
-        - `"WEBINAR"`
+show_participant_list: boolean
 
-        - `"AUDIO_ROOM"`
+[Link to this property](#)
 
-        - `"LIVESTREAM"`
+<details>
 
-      - `livestream_viewer_qualities: optional array of number`
+<summary>
 
-        Livestream viewer quality levels.
+waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"
 
-    - `created_at: string`
+Waiting room type
 
-      Timestamp this preset was created at
+</summary>
 
-    - `name: string`
+One of the following:
 
-      Name of the preset
+"SKIP"
 
-    - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+[Link to this property](#)
 
-      - `accept_waiting_requests: boolean`
+"ON_PRIVILEGED_USER_ENTRY"
 
-        Whether this participant can accept waiting requests
+[Link to this property](#)
 
-      - `can_accept_production_requests: boolean`
+"SKIP_ON_ACCEPT"
 
-      - `can_change_participant_permissions: boolean`
+[Link to this property](#)
 
-      - `can_edit_display_name: boolean`
+</details>
 
-      - `can_livestream: boolean`
+[Link to this property](#)
 
-      - `can_record: boolean`
+accept_stage_requests: optional boolean
 
-      - `can_spotlight: boolean`
+[Link to this property](#)
 
-      - `chat: object { private, public }`
+is_recorder: optional boolean
 
-        - `private: object { can_receive, can_send, files, text }`
+[Link to this property](#)
 
-          - `can_receive: boolean`
+<details>
 
-          - `can_send: boolean`
+<summary>
 
-          - `files: boolean`
+stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-          - `text: boolean`
+</summary>
 
-        - `public: object { can_send, files, text }`
+One of the following:
 
-          - `can_send: boolean`
+"ALLOWED"
 
-            Can send messages in general
+[Link to this property](#)
 
-          - `files: boolean`
+"NOT_ALLOWED"
 
-            Can send file messages
+[Link to this property](#)
 
-          - `text: boolean`
+"CAN_REQUEST"
 
-            Can send text messages
+[Link to this property](#)
 
-      - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+</details>
 
-        - `can_alter_connected_meetings: boolean`
+[Link to this property](#)
 
-        - `can_switch_connected_meetings: boolean`
+stage_enabled: optional boolean
 
-        - `can_switch_to_parent_meeting: boolean`
+[Link to this property](#)
 
-      - `disable_participant_audio: boolean`
+transcription_enabled: optional boolean
 
-      - `disable_participant_screensharing: boolean`
+[Link to this property](#)
 
-      - `disable_participant_video: boolean`
+</details>
 
-      - `hidden_participant: boolean`
+[Link to this property](#)
 
-        Whether this participant is visible to others or not
+<details>
 
-      - `kick_participant: boolean`
+<summary>
 
-      - `media: object { audio, screenshare, video }`
+ui: object { design_tokens }
 
-        Media permissions
+</summary>
 
-        - `audio: object { can_produce }`
+<details>
 
-          Audio permissions
+<summary>
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+design_tokens: object { border_radius, border_width, colors, 5 more }
 
-            Can produce audio
+</summary>
 
-            - `"ALLOWED"`
+<details>
 
-            - `"NOT_ALLOWED"`
+<summary>
 
-            - `"CAN_REQUEST"`
+border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"
 
-        - `screenshare: object { can_produce }`
+</summary>
 
-          Screenshare permissions
+One of the following:
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+"sharp"
 
-            Can produce screen share video
+[Link to this property](#)
 
-            - `"ALLOWED"`
+"rounded"
 
-            - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-            - `"CAN_REQUEST"`
+"extra-rounded"
 
-        - `video: object { can_produce }`
+[Link to this property](#)
 
-          Video permissions
+"circular"
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-            Can produce video
+</details>
 
-            - `"ALLOWED"`
+[Link to this property](#)
 
-            - `"NOT_ALLOWED"`
+<details>
 
-            - `"CAN_REQUEST"`
+<summary>
 
-      - `pin_participant: boolean`
+border_width: "none" or "thin" or "fat"
 
-      - `plugins: object { can_close, can_edit_config, can_start, config }`
+</summary>
 
-        Plugin permissions
+One of the following:
 
-        - `can_close: boolean`
+"none"
 
-          Can close plugins that are already open
+[Link to this property](#)
 
-        - `can_edit_config: boolean`
+"thin"
 
-          Can edit plugin config
+[Link to this property](#)
 
-        - `can_start: boolean`
+"fat"
 
-          Can start plugins
+[Link to this property](#)
 
-        - `config: map[object { access_control, handles_view_only } ]`
+</details>
 
-          Plugin configuration keyed by plugin UUID.
+[Link to this property](#)
 
-          - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+<details>
 
-            - `"FULL_ACCESS"`
+<summary>
 
-            - `"VIEW_ONLY"`
+colors: object { background, brand, danger, 5 more }
 
-          - `handles_view_only: optional boolean`
+</summary>
 
-      - `polls: object { can_create, can_view, can_vote }`
+<details>
 
-        Poll permissions
+<summary>
 
-        - `can_create: boolean`
+background: object { "1000", "600", "700", 2 more }
 
-          Can create polls
+</summary>
 
-        - `can_view: boolean`
+"1000": string
 
-          Can view polls
+[Link to this property](#)
 
-        - `can_vote: boolean`
+"600": string
 
-          Can vote on polls
+[Link to this property](#)
 
-      - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+"700": string
 
-        Type of the recording peer
+[Link to this property](#)
 
-        - `"RECORDER"`
+"800": string
 
-        - `"LIVESTREAMER"`
+[Link to this property](#)
 
-        - `"NONE"`
+"900": string
 
-      - `show_participant_list: boolean`
+[Link to this property](#)
 
-      - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+</details>
 
-        Waiting room type
+[Link to this property](#)
 
-        - `"SKIP"`
+<details>
 
-        - `"ON_PRIVILEGED_USER_ENTRY"`
+<summary>
 
-        - `"SKIP_ON_ACCEPT"`
+brand: object { "300", "400", "500", 2 more }
 
-      - `accept_stage_requests: optional boolean`
+</summary>
 
-      - `is_recorder: optional boolean`
+"300": string
 
-      - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-        - `"ALLOWED"`
+"400": string
 
-        - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-        - `"CAN_REQUEST"`
+"500": string
 
-      - `stage_enabled: optional boolean`
+[Link to this property](#)
 
-      - `transcription_enabled: optional boolean`
+"600": string
 
-    - `ui: object { design_tokens }`
+[Link to this property](#)
 
-      - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+"700": string
 
-        - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+[Link to this property](#)
 
-          - `"sharp"`
+</details>
 
-          - `"rounded"`
+[Link to this property](#)
 
-          - `"extra-rounded"`
+danger: string
 
-          - `"circular"`
+[Link to this property](#)
 
-        - `border_width: "none" or "thin" or "fat"`
+success: string
 
-          - `"none"`
+[Link to this property](#)
 
-          - `"thin"`
+text: string
 
-          - `"fat"`
+[Link to this property](#)
 
-        - `colors: object { background, brand, danger, 5 more }`
+text_on_brand: string
 
-          - `background: object { "1000", "600", "700", 2 more }`
+[Link to this property](#)
 
-            - `"1000": string`
+video_bg: string
 
-            - `"600": string`
+[Link to this property](#)
 
-            - `"700": string`
+warning: string
 
-            - `"800": string`
+[Link to this property](#)
 
-            - `"900": string`
+</details>
 
-          - `brand: object { "300", "400", "500", 2 more }`
+[Link to this property](#)
 
-            - `"300": string`
+spacing_base: number
 
-            - `"400": string`
+minimum1
 
-            - `"500": string`
+[Link to this property](#)
 
-            - `"600": string`
+<details>
 
-            - `"700": string`
+<summary>
 
-          - `danger: string`
+theme: "darkest" or "dark" or "light"
 
-          - `success: string`
+</summary>
 
-          - `text: string`
+One of the following:
 
-          - `text_on_brand: string`
+"darkest"
 
-          - `video_bg: string`
+[Link to this property](#)
 
-          - `warning: string`
+"dark"
 
-        - `spacing_base: number`
+[Link to this property](#)
 
-        - `theme: "darkest" or "dark" or "light"`
+"light"
 
-          - `"darkest"`
+[Link to this property](#)
 
-          - `"dark"`
+</details>
 
-          - `"light"`
+[Link to this property](#)
 
-        - `font_family: optional string`
+font_family: optional string
 
-        - `google_font: optional string`
+[Link to this property](#)
 
-        - `logo: optional string`
+google_font: optional string
 
-    - `updated_at: string`
+[Link to this property](#)
 
-      Timestamp this preset was last updated
+logo: optional string
 
-  - `success: boolean`
+formaturi
 
-    Success status of the operation
+[Link to this property](#)
 
-### Preset Delete Response
+</details>
 
-- `PresetDeleteResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: object { id, config, created_at, 4 more }`
+</details>
 
-    Data returned by the operation
+[Link to this property](#)
 
-    - `id: string`
+updated_at: string
 
-      ID of the preset
+Timestamp this preset was last updated
 
-    - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+formatdate-time
 
-      - `max_screenshare_count: number`
+[Link to this property](#)
 
-        Maximum number of screen shares that can be active at a given time
+</details>
 
-      - `max_video_streams: object { desktop, mobile }`
+[Link to this property](#)
 
-        Maximum number of streams that are visible on a device
+success: boolean
 
-        - `desktop: number`
+Success status of the operation
 
-          Maximum number of video streams visible on desktop devices
+[Link to this property](#)
 
-        - `mobile: number`
+</details>
 
-          Maximum number of streams visible on mobile devices
+[Link to this property](#)
 
-      - `media: object { screenshare, video, audio }`
+<details>
 
-        Media configuration options. eg: Video quality
+<summary>
 
-        - `screenshare: object { frame_rate, quality }`
+PresetDeleteResponse object { data, success }
 
-          Configuration options for participant screen shares
+</summary>
 
-          - `frame_rate: number`
+<details>
 
-            Frame rate of screen share
+<summary>
 
-          - `quality: "hd" or "vga" or "qvga" or 2 more`
+data: object { id, config, created_at, 4 more }
 
-            Quality of screen share
+Data returned by the operation
 
-            - `"hd"`
+</summary>
 
-            - `"vga"`
+id: string
 
-            - `"qvga"`
+ID of the preset
 
-            - `"fhd"`
+formatuuid
 
-            - `"uhd"`
+[Link to this property](#)
 
-        - `video: object { frame_rate, quality, simulcast }`
+<details>
 
-          Configuration options for participant videos
+<summary>
 
-          - `frame_rate: number`
+config: object { max_screenshare_count, max_video_streams, media, 2 more }
 
-            Frame rate of participants' video
+</summary>
 
-          - `quality: "hd" or "vga" or "qvga" or 2 more`
+max_screenshare_count: number
 
-            Video quality of participants
+Maximum number of screen shares that can be active at a given time
 
-            - `"hd"`
+[Link to this property](#)
 
-            - `"vga"`
+<details>
 
-            - `"qvga"`
+<summary>
 
-            - `"fhd"`
+max_video_streams: object { desktop, mobile }
 
-            - `"uhd"`
+Maximum number of streams that are visible on a device
 
-          - `simulcast: optional boolean`
+</summary>
 
-            Enable simulcast for participant videos.
+desktop: number
 
-        - `audio: optional object { enable_high_bitrate, enable_stereo }`
+Maximum number of video streams visible on desktop devices
 
-          Control options for Audio quality.
+[Link to this property](#)
 
-          - `enable_high_bitrate: optional boolean`
+mobile: number
 
-            Enable High Quality Audio for your meetings
+Maximum number of streams visible on mobile devices
 
-          - `enable_stereo: optional boolean`
+[Link to this property](#)
 
-            Enable Stereo for your meetings
+</details>
 
-      - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+[Link to this property](#)
 
-        Type of the meeting
+<details>
 
-        - `"GROUP_CALL"`
+<summary>
 
-        - `"WEBINAR"`
+media: object { screenshare, video, audio }
 
-        - `"AUDIO_ROOM"`
+Media configuration options. eg: Video quality
 
-        - `"LIVESTREAM"`
+</summary>
 
-      - `livestream_viewer_qualities: optional array of number`
+<details>
 
-        Livestream viewer quality levels.
+<summary>
 
-    - `created_at: string`
+screenshare: object { frame_rate, quality }
 
-      Timestamp this preset was created at
+Configuration options for participant screen shares
 
-    - `name: string`
+</summary>
 
-      Name of the preset
+frame_rate: number
 
-    - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+Frame rate of screen share
 
-      - `accept_waiting_requests: boolean`
+[Link to this property](#)
 
-        Whether this participant can accept waiting requests
+<details>
 
-      - `can_accept_production_requests: boolean`
+<summary>
 
-      - `can_change_participant_permissions: boolean`
+quality: "hd" or "vga" or "qvga" or 2 more
 
-      - `can_edit_display_name: boolean`
+Quality of screen share
 
-      - `can_livestream: boolean`
+</summary>
 
-      - `can_record: boolean`
+One of the following:
 
-      - `can_spotlight: boolean`
+"hd"
 
-      - `chat: object { private, public }`
+[Link to this property](#)
 
-        - `private: object { can_receive, can_send, files, text }`
+"vga"
 
-          - `can_receive: boolean`
+[Link to this property](#)
 
-          - `can_send: boolean`
+"qvga"
 
-          - `files: boolean`
+[Link to this property](#)
 
-          - `text: boolean`
+"fhd"
 
-        - `public: object { can_send, files, text }`
+[Link to this property](#)
 
-          - `can_send: boolean`
+"uhd"
 
-            Can send messages in general
+[Link to this property](#)
 
-          - `files: boolean`
+</details>
 
-            Can send file messages
+[Link to this property](#)
 
-          - `text: boolean`
+</details>
 
-            Can send text messages
+[Link to this property](#)
 
-      - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+<details>
 
-        - `can_alter_connected_meetings: boolean`
+<summary>
 
-        - `can_switch_connected_meetings: boolean`
+video: object { frame_rate, quality, simulcast }
 
-        - `can_switch_to_parent_meeting: boolean`
+Configuration options for participant videos
 
-      - `disable_participant_audio: boolean`
+</summary>
 
-      - `disable_participant_screensharing: boolean`
+frame_rate: number
 
-      - `disable_participant_video: boolean`
+Frame rate of participants’ video
 
-      - `hidden_participant: boolean`
+maximum30
 
-        Whether this participant is visible to others or not
+[Link to this property](#)
 
-      - `kick_participant: boolean`
+<details>
 
-      - `media: object { audio, screenshare, video }`
+<summary>
 
-        Media permissions
+quality: "hd" or "vga" or "qvga" or 2 more
 
-        - `audio: object { can_produce }`
+Video quality of participants
 
-          Audio permissions
+</summary>
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+One of the following:
 
-            Can produce audio
+"hd"
 
-            - `"ALLOWED"`
+[Link to this property](#)
 
-            - `"NOT_ALLOWED"`
+"vga"
 
-            - `"CAN_REQUEST"`
+[Link to this property](#)
 
-        - `screenshare: object { can_produce }`
+"qvga"
 
-          Screenshare permissions
+[Link to this property](#)
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+"fhd"
 
-            Can produce screen share video
+[Link to this property](#)
 
-            - `"ALLOWED"`
+"uhd"
 
-            - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-            - `"CAN_REQUEST"`
+</details>
 
-        - `video: object { can_produce }`
+[Link to this property](#)
 
-          Video permissions
+simulcast: optional boolean
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+Enable simulcast for participant videos.
 
-            Can produce video
+[Link to this property](#)
 
-            - `"ALLOWED"`
+</details>
 
-            - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-            - `"CAN_REQUEST"`
+<details>
 
-      - `pin_participant: boolean`
+<summary>
 
-      - `plugins: object { can_close, can_edit_config, can_start, config }`
+audio: optional object { enable_high_bitrate, enable_stereo }
 
-        Plugin permissions
+Control options for Audio quality.
 
-        - `can_close: boolean`
+</summary>
 
-          Can close plugins that are already open
+enable_high_bitrate: optional boolean
 
-        - `can_edit_config: boolean`
+Enable High Quality Audio for your meetings
 
-          Can edit plugin config
+[Link to this property](#)
 
-        - `can_start: boolean`
+enable_stereo: optional boolean
 
-          Can start plugins
+Enable Stereo for your meetings
 
-        - `config: map[object { access_control, handles_view_only } ]`
+[Link to this property](#)
 
-          Plugin configuration keyed by plugin UUID.
+</details>
 
-          - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+[Link to this property](#)
 
-            - `"FULL_ACCESS"`
+</details>
 
-            - `"VIEW_ONLY"`
+[Link to this property](#)
 
-          - `handles_view_only: optional boolean`
+<details>
 
-      - `polls: object { can_create, can_view, can_vote }`
+<summary>
 
-        Poll permissions
+view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"
 
-        - `can_create: boolean`
+Type of the meeting
 
-          Can create polls
+</summary>
 
-        - `can_view: boolean`
+One of the following:
 
-          Can view polls
+"GROUP_CALL"
 
-        - `can_vote: boolean`
+[Link to this property](#)
 
-          Can vote on polls
+"WEBINAR"
 
-      - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+[Link to this property](#)
 
-        Type of the recording peer
+"AUDIO_ROOM"
 
-        - `"RECORDER"`
+[Link to this property](#)
 
-        - `"LIVESTREAMER"`
+"LIVESTREAM"
 
-        - `"NONE"`
+[Link to this property](#)
 
-      - `show_participant_list: boolean`
+</details>
 
-      - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+[Link to this property](#)
 
-        Waiting room type
+livestream_viewer_qualities: optional array of number
 
-        - `"SKIP"`
+Livestream viewer quality levels.
 
-        - `"ON_PRIVILEGED_USER_ENTRY"`
+[Link to this property](#)
 
-        - `"SKIP_ON_ACCEPT"`
+</details>
 
-      - `accept_stage_requests: optional boolean`
+[Link to this property](#)
 
-      - `is_recorder: optional boolean`
+created_at: string
 
-      - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+Timestamp this preset was created at
 
-        - `"ALLOWED"`
+formatdate-time
 
-        - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-        - `"CAN_REQUEST"`
+name: string
 
-      - `stage_enabled: optional boolean`
+Name of the preset
 
-      - `transcription_enabled: optional boolean`
+[Link to this property](#)
 
-    - `ui: object { design_tokens }`
+<details>
 
-      - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+<summary>
 
-        - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }
 
-          - `"sharp"`
+</summary>
 
-          - `"rounded"`
+accept_waiting_requests: boolean
 
-          - `"extra-rounded"`
+Whether this participant can accept waiting requests
 
-          - `"circular"`
+[Link to this property](#)
 
-        - `border_width: "none" or "thin" or "fat"`
+can_accept_production_requests: boolean
 
-          - `"none"`
+[Link to this property](#)
 
-          - `"thin"`
+can_change_participant_permissions: boolean
 
-          - `"fat"`
+[Link to this property](#)
 
-        - `colors: object { background, brand, danger, 5 more }`
+can_edit_display_name: boolean
 
-          - `background: object { "1000", "600", "700", 2 more }`
+[Link to this property](#)
 
-            - `"1000": string`
+can_livestream: boolean
 
-            - `"600": string`
+[Link to this property](#)
 
-            - `"700": string`
+can_record: boolean
 
-            - `"800": string`
+[Link to this property](#)
 
-            - `"900": string`
+can_spotlight: boolean
 
-          - `brand: object { "300", "400", "500", 2 more }`
+[Link to this property](#)
 
-            - `"300": string`
+<details>
 
-            - `"400": string`
+<summary>
 
-            - `"500": string`
+chat: object { private, public }
 
-            - `"600": string`
+</summary>
 
-            - `"700": string`
+<details>
 
-          - `danger: string`
+<summary>
 
-          - `success: string`
+private: object { can_receive, can_send, files, text }
 
-          - `text: string`
+</summary>
 
-          - `text_on_brand: string`
+can_receive: boolean
 
-          - `video_bg: string`
+[Link to this property](#)
 
-          - `warning: string`
+can_send: boolean
 
-        - `spacing_base: number`
+[Link to this property](#)
 
-        - `theme: "darkest" or "dark" or "light"`
+files: boolean
 
-          - `"darkest"`
+[Link to this property](#)
 
-          - `"dark"`
+text: boolean
 
-          - `"light"`
+[Link to this property](#)
 
-        - `font_family: optional string`
+</details>
 
-        - `google_font: optional string`
+[Link to this property](#)
 
-        - `logo: optional string`
+<details>
 
-    - `updated_at: string`
+<summary>
 
-      Timestamp this preset was last updated
+public: object { can_send, files, text }
 
-  - `success: boolean`
+</summary>
 
-    Success status of the operation
+can_send: boolean
 
-### Preset Update Response
+Can send messages in general
 
-- `PresetUpdateResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: object { id, config, created_at, 4 more }`
+files: boolean
 
-    Data returned by the operation
+Can send file messages
 
-    - `id: string`
+[Link to this property](#)
 
-      ID of the preset
+text: boolean
 
-    - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+Can send text messages
 
-      - `max_screenshare_count: number`
+[Link to this property](#)
 
-        Maximum number of screen shares that can be active at a given time
+</details>
 
-      - `max_video_streams: object { desktop, mobile }`
+[Link to this property](#)
 
-        Maximum number of streams that are visible on a device
+</details>
 
-        - `desktop: number`
+[Link to this property](#)
 
-          Maximum number of video streams visible on desktop devices
+<details>
 
-        - `mobile: number`
+<summary>
 
-          Maximum number of streams visible on mobile devices
+connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }
 
-      - `media: object { screenshare, video, audio }`
+</summary>
 
-        Media configuration options. eg: Video quality
+can_alter_connected_meetings: boolean
 
-        - `screenshare: object { frame_rate, quality }`
+[Link to this property](#)
 
-          Configuration options for participant screen shares
+can_switch_connected_meetings: boolean
 
-          - `frame_rate: number`
+[Link to this property](#)
 
-            Frame rate of screen share
+can_switch_to_parent_meeting: boolean
 
-          - `quality: "hd" or "vga" or "qvga" or 2 more`
+[Link to this property](#)
 
-            Quality of screen share
+</details>
 
-            - `"hd"`
+[Link to this property](#)
 
-            - `"vga"`
+disable_participant_audio: boolean
 
-            - `"qvga"`
+[Link to this property](#)
 
-            - `"fhd"`
+disable_participant_screensharing: boolean
 
-            - `"uhd"`
+[Link to this property](#)
 
-        - `video: object { frame_rate, quality, simulcast }`
+disable_participant_video: boolean
 
-          Configuration options for participant videos
+[Link to this property](#)
 
-          - `frame_rate: number`
+hidden_participant: boolean
 
-            Frame rate of participants' video
+Whether this participant is visible to others or not
 
-          - `quality: "hd" or "vga" or "qvga" or 2 more`
+[Link to this property](#)
 
-            Video quality of participants
+kick_participant: boolean
 
-            - `"hd"`
+[Link to this property](#)
 
-            - `"vga"`
+<details>
 
-            - `"qvga"`
+<summary>
 
-            - `"fhd"`
+media: object { audio, screenshare, video }
 
-            - `"uhd"`
+Media permissions
 
-          - `simulcast: optional boolean`
+</summary>
 
-            Enable simulcast for participant videos.
+<details>
 
-        - `audio: optional object { enable_high_bitrate, enable_stereo }`
+<summary>
 
-          Control options for Audio quality.
+audio: object { can_produce }
 
-          - `enable_high_bitrate: optional boolean`
+Audio permissions
 
-            Enable High Quality Audio for your meetings
+</summary>
 
-          - `enable_stereo: optional boolean`
+<details>
 
-            Enable Stereo for your meetings
+<summary>
 
-      - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-        Type of the meeting
+Can produce audio
 
-        - `"GROUP_CALL"`
+</summary>
 
-        - `"WEBINAR"`
+One of the following:
 
-        - `"AUDIO_ROOM"`
+"ALLOWED"
 
-        - `"LIVESTREAM"`
+[Link to this property](#)
 
-      - `livestream_viewer_qualities: optional array of number`
+"NOT_ALLOWED"
 
-        Livestream viewer quality levels.
+[Link to this property](#)
 
-    - `created_at: string`
+"CAN_REQUEST"
 
-      Timestamp this preset was created at
+[Link to this property](#)
 
-    - `name: string`
+</details>
 
-      Name of the preset
+[Link to this property](#)
 
-    - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+</details>
 
-      - `accept_waiting_requests: boolean`
+[Link to this property](#)
 
-        Whether this participant can accept waiting requests
+<details>
 
-      - `can_accept_production_requests: boolean`
+<summary>
 
-      - `can_change_participant_permissions: boolean`
+screenshare: object { can_produce }
 
-      - `can_edit_display_name: boolean`
+Screenshare permissions
 
-      - `can_livestream: boolean`
+</summary>
 
-      - `can_record: boolean`
+<details>
 
-      - `can_spotlight: boolean`
+<summary>
 
-      - `chat: object { private, public }`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-        - `private: object { can_receive, can_send, files, text }`
+Can produce screen share video
 
-          - `can_receive: boolean`
+</summary>
 
-          - `can_send: boolean`
+One of the following:
 
-          - `files: boolean`
+"ALLOWED"
 
-          - `text: boolean`
+[Link to this property](#)
 
-        - `public: object { can_send, files, text }`
+"NOT_ALLOWED"
 
-          - `can_send: boolean`
+[Link to this property](#)
 
-            Can send messages in general
+"CAN_REQUEST"
 
-          - `files: boolean`
+[Link to this property](#)
 
-            Can send file messages
+</details>
 
-          - `text: boolean`
+[Link to this property](#)
 
-            Can send text messages
+</details>
 
-      - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+[Link to this property](#)
 
-        - `can_alter_connected_meetings: boolean`
+<details>
 
-        - `can_switch_connected_meetings: boolean`
+<summary>
 
-        - `can_switch_to_parent_meeting: boolean`
+video: object { can_produce }
 
-      - `disable_participant_audio: boolean`
+Video permissions
 
-      - `disable_participant_screensharing: boolean`
+</summary>
 
-      - `disable_participant_video: boolean`
+<details>
 
-      - `hidden_participant: boolean`
+<summary>
 
-        Whether this participant is visible to others or not
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-      - `kick_participant: boolean`
+Can produce video
 
-      - `media: object { audio, screenshare, video }`
+</summary>
 
-        Media permissions
+One of the following:
 
-        - `audio: object { can_produce }`
+"ALLOWED"
 
-          Audio permissions
+[Link to this property](#)
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+"NOT_ALLOWED"
 
-            Can produce audio
+[Link to this property](#)
 
-            - `"ALLOWED"`
+"CAN_REQUEST"
 
-            - `"NOT_ALLOWED"`
+[Link to this property](#)
 
-            - `"CAN_REQUEST"`
+</details>
 
-        - `screenshare: object { can_produce }`
+[Link to this property](#)
 
-          Screenshare permissions
+</details>
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-            Can produce screen share video
+</details>
 
-            - `"ALLOWED"`
+[Link to this property](#)
 
-            - `"NOT_ALLOWED"`
+pin_participant: boolean
 
-            - `"CAN_REQUEST"`
+[Link to this property](#)
 
-        - `video: object { can_produce }`
+<details>
 
-          Video permissions
+<summary>
 
-          - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+plugins: object { can_close, can_edit_config, can_start, config }
 
-            Can produce video
+Plugin permissions
 
-            - `"ALLOWED"`
+</summary>
 
-            - `"NOT_ALLOWED"`
+can_close: boolean
 
-            - `"CAN_REQUEST"`
+Can close plugins that are already open
 
-      - `pin_participant: boolean`
+[Link to this property](#)
 
-      - `plugins: object { can_close, can_edit_config, can_start, config }`
+can_edit_config: boolean
 
-        Plugin permissions
+Can edit plugin config
 
-        - `can_close: boolean`
+[Link to this property](#)
 
-          Can close plugins that are already open
+can_start: boolean
 
-        - `can_edit_config: boolean`
+Can start plugins
 
-          Can edit plugin config
+[Link to this property](#)
 
-        - `can_start: boolean`
+<details>
 
-          Can start plugins
+<summary>
 
-        - `config: map[object { access_control, handles_view_only } ]`
+config: map[object { access_control, handles_view_only } ]
 
-          Plugin configuration keyed by plugin UUID.
+Plugin configuration keyed by plugin UUID.
 
-          - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+</summary>
 
-            - `"FULL_ACCESS"`
+<details>
 
-            - `"VIEW_ONLY"`
+<summary>
 
-          - `handles_view_only: optional boolean`
+access_control: optional "FULL_ACCESS" or "VIEW_ONLY"
 
-      - `polls: object { can_create, can_view, can_vote }`
+</summary>
 
-        Poll permissions
+One of the following:
 
-        - `can_create: boolean`
+"FULL_ACCESS"
 
-          Can create polls
+[Link to this property](#)
 
-        - `can_view: boolean`
+"VIEW_ONLY"
 
-          Can view polls
+[Link to this property](#)
 
-        - `can_vote: boolean`
+</details>
 
-          Can vote on polls
+[Link to this property](#)
 
-      - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+handles_view_only: optional boolean
 
-        Type of the recording peer
+[Link to this property](#)
 
-        - `"RECORDER"`
+</details>
 
-        - `"LIVESTREAMER"`
+[Link to this property](#)
 
-        - `"NONE"`
+</details>
 
-      - `show_participant_list: boolean`
+[Link to this property](#)
 
-      - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+<details>
 
-        Waiting room type
+<summary>
 
-        - `"SKIP"`
+polls: object { can_create, can_view, can_vote }
 
-        - `"ON_PRIVILEGED_USER_ENTRY"`
+Poll permissions
 
-        - `"SKIP_ON_ACCEPT"`
+</summary>
 
-      - `accept_stage_requests: optional boolean`
+can_create: boolean
 
-      - `is_recorder: optional boolean`
+Can create polls
 
-      - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+[Link to this property](#)
 
-        - `"ALLOWED"`
+can_view: boolean
 
-        - `"NOT_ALLOWED"`
+Can view polls
 
-        - `"CAN_REQUEST"`
+[Link to this property](#)
 
-      - `stage_enabled: optional boolean`
+can_vote: boolean
 
-      - `transcription_enabled: optional boolean`
+Can vote on polls
 
-    - `ui: object { design_tokens }`
+[Link to this property](#)
 
-      - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+</details>
 
-        - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+[Link to this property](#)
 
-          - `"sharp"`
+<details>
 
-          - `"rounded"`
+<summary>
 
-          - `"extra-rounded"`
+recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"
 
-          - `"circular"`
+Type of the recording peer
 
-        - `border_width: "none" or "thin" or "fat"`
+</summary>
 
-          - `"none"`
+One of the following:
 
-          - `"thin"`
+"RECORDER"
 
-          - `"fat"`
+[Link to this property](#)
 
-        - `colors: object { background, brand, danger, 5 more }`
+"LIVESTREAMER"
 
-          - `background: object { "1000", "600", "700", 2 more }`
+[Link to this property](#)
 
-            - `"1000": string`
+"NONE"
 
-            - `"600": string`
+[Link to this property](#)
 
-            - `"700": string`
+</details>
 
-            - `"800": string`
+[Link to this property](#)
 
-            - `"900": string`
+show_participant_list: boolean
 
-          - `brand: object { "300", "400", "500", 2 more }`
+[Link to this property](#)
 
-            - `"300": string`
+<details>
 
-            - `"400": string`
+<summary>
 
-            - `"500": string`
+waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"
 
-            - `"600": string`
+Waiting room type
 
-            - `"700": string`
+</summary>
 
-          - `danger: string`
+One of the following:
 
-          - `success: string`
+"SKIP"
 
-          - `text: string`
+[Link to this property](#)
 
-          - `text_on_brand: string`
+"ON_PRIVILEGED_USER_ENTRY"
 
-          - `video_bg: string`
+[Link to this property](#)
 
-          - `warning: string`
+"SKIP_ON_ACCEPT"
 
-        - `spacing_base: number`
+[Link to this property](#)
 
-        - `theme: "darkest" or "dark" or "light"`
+</details>
 
-          - `"darkest"`
+[Link to this property](#)
 
-          - `"dark"`
+accept_stage_requests: optional boolean
 
-          - `"light"`
+[Link to this property](#)
 
-        - `font_family: optional string`
+is_recorder: optional boolean
 
-        - `google_font: optional string`
+[Link to this property](#)
 
-        - `logo: optional string`
+<details>
 
-    - `updated_at: string`
+<summary>
 
-      Timestamp this preset was last updated
+stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-  - `success: boolean`
+</summary>
 
-    Success status of the operation
+One of the following:
 
-# Sessions
+"ALLOWED"
 
-## Fetch all sessions of an App
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions`
+"NOT_ALLOWED"
 
-Returns details of all sessions of an App.
+[Link to this property](#)
 
-### Path Parameters
+"CAN_REQUEST"
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+</details>
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+stage_enabled: optional boolean
 
-### Query Parameters
+[Link to this property](#)
 
-- `associated_id: optional string`
+transcription_enabled: optional boolean
 
-  ID of the meeting that sessions should be associated with
+[Link to this property](#)
 
-- `end_time: optional string`
+</details>
 
-  The end time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+[Link to this property](#)
 
-- `page_no: optional number`
+<details>
 
-  The page number from which you want your page search results to be displayed.
+<summary>
 
-- `participants: optional string`
+ui: object { design_tokens }
 
-- `per_page: optional number`
+</summary>
 
-  Number of results per page
+<details>
 
-- `search: optional string`
+<summary>
 
-  Search string that matches sessions based on meeting title, meeting ID, and session ID
+design_tokens: object { border_radius, border_width, colors, 5 more }
 
-- `sort_by: optional "minutesConsumed" or "createdAt"`
+</summary>
 
-  - `"minutesConsumed"`
+<details>
 
-  - `"createdAt"`
+<summary>
 
-- `sort_order: optional "ASC" or "DESC"`
+border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"
 
-  - `"ASC"`
+</summary>
 
-  - `"DESC"`
+One of the following:
 
-- `start_time: optional string`
+"sharp"
 
-  The start time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+[Link to this property](#)
 
-- `status: optional "LIVE" or "ENDED"`
+"rounded"
 
-  - `"LIVE"`
+[Link to this property](#)
 
-  - `"ENDED"`
+"extra-rounded"
 
-### Returns
+[Link to this property](#)
 
-- `data: optional object { sessions }`
+"circular"
 
-  - `sessions: optional array of object { id, associated_id, created_at, 11 more }`
+[Link to this property](#)
 
-    - `id: string`
+</details>
 
-      ID of the session
+[Link to this property](#)
 
-    - `associated_id: string`
+<details>
 
-      ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+<summary>
 
-    - `created_at: string`
+border_width: "none" or "thin" or "fat"
 
-      timestamp when session created
+</summary>
 
-    - `live_participants: number`
+One of the following:
 
-      number of participants currently in the session
+"none"
 
-    - `max_concurrent_participants: number`
+[Link to this property](#)
 
-      number of maximum participants that were in the session
+"thin"
 
-    - `meeting_display_name: string`
+[Link to this property](#)
 
-      Title of the meeting this session belongs to
+"fat"
 
-    - `minutes_consumed: number`
+[Link to this property](#)
 
-      number of minutes consumed since the session started
+</details>
 
-    - `organization_id: string`
+[Link to this property](#)
 
-      App id that hosted this session
+<details>
 
-    - `started_at: string`
+<summary>
 
-      timestamp when session started
+colors: object { background, brand, danger, 5 more }
 
-    - `status: "LIVE" or "ENDED"`
+</summary>
 
-      current status of session
+<details>
 
-      - `"LIVE"`
+<summary>
 
-      - `"ENDED"`
+background: object { "1000", "600", "700", 2 more }
 
-    - `type: "meeting" or "livestream" or "participant"`
+</summary>
 
-      type of session
+"1000": string
 
-      - `"meeting"`
+[Link to this property](#)
 
-      - `"livestream"`
+"600": string
 
-      - `"participant"`
+[Link to this property](#)
 
-    - `updated_at: string`
+"700": string
 
-      timestamp when session was last updated
+[Link to this property](#)
 
-    - `breakout_rooms: optional array of unknown`
+"800": string
 
-    - `ended_at: optional string`
+[Link to this property](#)
 
-      timestamp when session ended
+"900": string
 
-- `paging: optional object { end_offset, start_offset, total_count }`
+[Link to this property](#)
 
-  - `end_offset: optional number`
+</details>
 
-  - `start_offset: optional number`
+[Link to this property](#)
 
-  - `total_count: optional number`
+<details>
 
-- `success: optional boolean`
+<summary>
 
-### Example
+brand: object { "300", "400", "500", 2 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+"300": string
 
-```json
-{
-  "data": {
-    "sessions": [
-      {
-        "id": "id",
-        "associated_id": "associated_id",
-        "created_at": "created_at",
-        "live_participants": 0,
-        "max_concurrent_participants": 0,
-        "meeting_display_name": "meeting_display_name",
-        "minutes_consumed": 0,
-        "organization_id": "organization_id",
-        "started_at": "started_at",
-        "status": "LIVE",
-        "type": "meeting",
-        "updated_at": "updated_at",
-        "breakout_rooms": [
-          {}
-        ],
-        "ended_at": "ended_at"
-      }
-    ]
-  },
-  "paging": {
-    "end_offset": 0,
-    "start_offset": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Fetch details of a session
+"400": string
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}`
+[Link to this property](#)
 
-Returns data of the given session ID including recording details.
+"500": string
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+"600": string
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+"700": string
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `session_id: string`
+</details>
 
-### Query Parameters
+[Link to this property](#)
 
-- `include_breakout_rooms: optional boolean`
+danger: string
 
-  List all breakout rooms
+[Link to this property](#)
 
-### Returns
+success: string
 
-- `data: optional object { id, associated_id, created_at, 11 more }`
+[Link to this property](#)
 
-  - `id: string`
+text: string
 
-    ID of the session
+[Link to this property](#)
 
-  - `associated_id: string`
+text_on_brand: string
 
-    ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+[Link to this property](#)
 
-  - `created_at: string`
+video_bg: string
 
-    timestamp when session created
+[Link to this property](#)
 
-  - `live_participants: number`
+warning: string
 
-    number of participants currently in the session
+[Link to this property](#)
 
-  - `max_concurrent_participants: number`
+</details>
 
-    number of maximum participants that were in the session
+[Link to this property](#)
 
-  - `meeting_display_name: string`
+spacing_base: number
 
-    Title of the meeting this session belongs to
+minimum1
 
-  - `minutes_consumed: number`
+[Link to this property](#)
 
-    number of minutes consumed since the session started
+<details>
 
-  - `organization_id: string`
+<summary>
 
-    App id that hosted this session
+theme: "darkest" or "dark" or "light"
 
-  - `started_at: string`
+</summary>
 
-    timestamp when session started
+One of the following:
 
-  - `status: "LIVE" or "ENDED"`
+"darkest"
 
-    current status of session
+[Link to this property](#)
 
-    - `"LIVE"`
+"dark"
 
-    - `"ENDED"`
+[Link to this property](#)
 
-  - `type: "meeting" or "livestream" or "participant"`
+"light"
 
-    type of session
+[Link to this property](#)
 
-    - `"meeting"`
+</details>
 
-    - `"livestream"`
+[Link to this property](#)
 
-    - `"participant"`
+font_family: optional string
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    timestamp when session was last updated
+google_font: optional string
 
-  - `breakout_rooms: optional array of unknown`
+[Link to this property](#)
 
-  - `ended_at: optional string`
+logo: optional string
 
-    timestamp when session ended
+formaturi
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+</details>
 
-```json
-{
-  "data": {
-    "id": "id",
-    "associated_id": "associated_id",
-    "created_at": "created_at",
-    "live_participants": 0,
-    "max_concurrent_participants": 0,
-    "meeting_display_name": "meeting_display_name",
-    "minutes_consumed": 0,
-    "organization_id": "organization_id",
-    "started_at": "started_at",
-    "status": "LIVE",
-    "type": "meeting",
-    "updated_at": "updated_at",
-    "breakout_rooms": [
-      {}
-    ],
-    "ended_at": "ended_at"
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Fetch participants list of a session
+updated_at: string
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/participants`
+Timestamp this preset was last updated
 
-Returns a list of participants for the given session ID.
+formatdate-time
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+</details>
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+success: boolean
 
-  The app identifier tag.
+Success status of the operation
 
-- `session_id: string`
+[Link to this property](#)
 
-### Query Parameters
+</details>
 
-- `include_peer_events: optional boolean`
+[Link to this property](#)
 
-  if true, response includes all the peer events of participants.
+<details>
 
-- `page_no: optional number`
+<summary>
 
-  The page number from which you want your page search results to be displayed.
+PresetUpdateResponse object { data, success }
 
-- `per_page: optional number`
+</summary>
 
-  Number of results per page
+<details>
 
-- `search: optional string`
+<summary>
 
-  The search query string. You can search using participant ID, custom participant ID, or display name.
+data: object { id, config, created_at, 4 more }
 
-- `sort_by: optional "joinedAt" or "duration"`
+Data returned by the operation
 
-  - `"joinedAt"`
+</summary>
 
-  - `"duration"`
+id: string
 
-- `sort_order: optional "ASC" or "DESC"`
+ID of the preset
 
-  - `"ASC"`
+formatuuid
 
-  - `"DESC"`
+[Link to this property](#)
 
-- `view: optional "raw" or "consolidated"`
+<details>
 
-  In breakout room sessions, the view parameter can be set to `raw` for session specific duration for participants or `consolidated` to accumulate breakout room durations.
+<summary>
 
-  - `"raw"`
+config: object { max_screenshare_count, max_video_streams, media, 2 more }
 
-  - `"consolidated"`
+</summary>
 
-### Returns
+max_screenshare_count: number
 
-- `data: optional object { participants }`
+Maximum number of screen shares that can be active at a given time
 
-  - `participants: optional array of object { id, created_at, custom_participant_id, 8 more }`
+[Link to this property](#)
 
-    - `id: optional string`
+<details>
 
-      Participant ID. This maps to the corresponding peerId.
+<summary>
 
-    - `created_at: optional string`
+max_video_streams: object { desktop, mobile }
 
-      timestamp when this participant was created.
+Maximum number of streams that are visible on a device
 
-    - `custom_participant_id: optional string`
+</summary>
 
-      ID passed by client to create this participant.
+desktop: number
 
-    - `display_name: optional string`
+Maximum number of video streams visible on desktop devices
 
-      Display name of participant when joining the session.
+[Link to this property](#)
 
-    - `duration: optional number`
+mobile: number
 
-      number of minutes for which the participant was in the session.
+Maximum number of streams visible on mobile devices
 
-    - `joined_at: optional string`
+[Link to this property](#)
 
-      timestamp at which participant joined the session.
+</details>
 
-    - `left_at: optional string`
+[Link to this property](#)
 
-      timestamp at which participant left the session.
+<details>
 
-    - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+<summary>
 
-      Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+media: object { screenshare, video, audio }
 
-      - `id: optional string`
+Media configuration options. eg: Video quality
 
-        ID of the peer event.
+</summary>
 
-      - `created_at: optional string`
+<details>
 
-        Timestamp when this peer event was created.
+<summary>
 
-      - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+screenshare: object { frame_rate, quality }
 
-        Name of the peer event.
+Configuration options for participant screen shares
 
-        - `"PEER_CREATED"`
+</summary>
 
-        - `"PEER_JOINING"`
+frame_rate: number
 
-        - `"PEER_LEAVING"`
+Frame rate of screen share
 
-      - `minutes_consumed: optional number`
+[Link to this property](#)
 
-        Minutes consumed attributed to this event.
+<details>
 
-      - `participant_id: optional string`
+<summary>
 
-        ID of the participant this event belongs to.
+quality: "hd" or "vga" or "qvga" or 2 more
 
-      - `peer_id: optional string`
+Quality of screen share
 
-        Peer ID this event belongs to.
+</summary>
 
-      - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+One of the following:
 
-        View type of the preset associated with the peer.
+"hd"
 
-        - `"GROUP_CALL"`
+[Link to this property](#)
 
-        - `"WEBINAR"`
+"vga"
 
-        - `"AUDIO_ROOM"`
+[Link to this property](#)
 
-        - `"LIVESTREAM"`
+"qvga"
 
-        - `"CHAT"`
+[Link to this property](#)
 
-      - `session_id: optional string`
+"fhd"
 
-        ID of the session this event belongs to.
+[Link to this property](#)
 
-      - `socket_session_id: optional string`
+"uhd"
 
-        ID of the socket session associated with this event.
+[Link to this property](#)
 
-      - `updated_at: optional string`
+</details>
 
-        Timestamp when this peer event was last updated.
+[Link to this property](#)
 
-    - `preset_name: optional string`
+</details>
 
-      Name of the preset associated with the participant.
+[Link to this property](#)
 
-    - `updated_at: optional string`
+<details>
 
-      timestamp when this participant's data was last updated.
+<summary>
 
-    - `user_id: optional string`
+video: object { frame_rate, quality, simulcast }
 
-      User id for this participant.
+Configuration options for participant videos
 
-- `success: optional boolean`
+</summary>
 
-### Example
+frame_rate: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/participants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Frame rate of participants’ video
 
-#### Response
+maximum30
 
-```json
-{
-  "data": {
-    "paging": {
-      "end_offset": 2,
-      "start_offset": 1,
-      "total_count": 123
-    },
-    "participants": [
-      {
-        "created_at": "2023-02-01T10:51:08.039Z",
-        "custom_participant_id": "83qi0i",
-        "display_name": "Mark",
-        "duration": 5.8097,
-        "id": "005f4e0c-4d08-4d4e-a391-a76be75cd296",
-        "joined_at": "2023-02-01T10:51:08.030Z",
-        "left_at": "2023-02-01T10:56:56.612Z",
-        "preset_name": "webinar_participant",
-        "updated_at": "2023-02-01T10:56:56.618Z",
-        "user_id": "0a08343d-a9dc-45f0-9feb-6a64afcc4f81"
-      },
-      {
-        "created_at": "2023-02-01T10:50:36.853Z",
-        "custom_participant_id": "3uggr",
-        "display_name": "Henry",
-        "duration": 6.9263,
-        "id": "51fdf95f-d893-471a-922b-7db7adb14453",
-        "joined_at": "2023-02-01T10:50:36.846Z\"",
-        "left_at": "2023-02-01T10:57:32.424Z",
-        "preset_name": "webinar_participant",
-        "updated_at": "2023-02-01T10:57:32.431Z",
-        "user_id": "85e7f0fd-7c16-45e9-9d68-f17ef007c4eb"
-      }
-    ]
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Fetch details of a participant
+<details>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/participants/{participant_id}`
+<summary>
 
-Returns details of the given participant ID along with call statistics for the given session ID.
+quality: "hd" or "vga" or "qvga" or 2 more
 
-### Path Parameters
+Video quality of participants
 
-- `account_id: string`
+</summary>
 
-  The account identifier tag.
+One of the following:
 
-- `app_id: string`
+"hd"
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `session_id: string`
+"vga"
 
-- `participant_id: string`
+[Link to this property](#)
 
-### Query Parameters
+"qvga"
 
-- `include_peer_events: optional boolean`
+[Link to this property](#)
 
-  if true, response includes all the peer events of participant.
+"fhd"
 
-### Returns
+[Link to this property](#)
 
-- `data: optional object { participant }`
+"uhd"
 
-  - `participant: optional object { id, created_at, custom_participant_id, 8 more }`
+[Link to this property](#)
 
-    - `id: optional string`
+</details>
 
-      Participant ID. This maps to the corresponding peerId.
+[Link to this property](#)
 
-    - `created_at: optional string`
+simulcast: optional boolean
 
-      timestamp when this participant was created.
+Enable simulcast for participant videos.
 
-    - `custom_participant_id: optional string`
+[Link to this property](#)
 
-      ID passed by client to create this participant.
+</details>
 
-    - `display_name: optional string`
+[Link to this property](#)
 
-      Display name of participant when joining the session.
+<details>
 
-    - `duration: optional number`
+<summary>
 
-      number of minutes for which the participant was in the session.
+audio: optional object { enable_high_bitrate, enable_stereo }
 
-    - `joined_at: optional string`
+Control options for Audio quality.
 
-      timestamp at which participant joined the session.
+</summary>
 
-    - `left_at: optional string`
+enable_high_bitrate: optional boolean
 
-      timestamp at which participant left the session.
+Enable High Quality Audio for your meetings
 
-    - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+[Link to this property](#)
 
-      Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+enable_stereo: optional boolean
 
-      - `id: optional string`
+Enable Stereo for your meetings
 
-        ID of the peer event.
+[Link to this property](#)
 
-      - `created_at: optional string`
+</details>
 
-        Timestamp when this peer event was created.
+[Link to this property](#)
 
-      - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+</details>
 
-        Name of the peer event.
+[Link to this property](#)
 
-        - `"PEER_CREATED"`
+<details>
 
-        - `"PEER_JOINING"`
+<summary>
 
-        - `"PEER_LEAVING"`
+view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"
 
-      - `minutes_consumed: optional number`
+Type of the meeting
 
-        Minutes consumed attributed to this event.
+</summary>
 
-      - `participant_id: optional string`
+One of the following:
 
-        ID of the participant this event belongs to.
+"GROUP_CALL"
 
-      - `peer_id: optional string`
+[Link to this property](#)
 
-        Peer ID this event belongs to.
+"WEBINAR"
 
-      - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+[Link to this property](#)
 
-        View type of the preset associated with the peer.
+"AUDIO_ROOM"
 
-        - `"GROUP_CALL"`
+[Link to this property](#)
 
-        - `"WEBINAR"`
+"LIVESTREAM"
 
-        - `"AUDIO_ROOM"`
+[Link to this property](#)
 
-        - `"LIVESTREAM"`
+</details>
 
-        - `"CHAT"`
+[Link to this property](#)
 
-      - `session_id: optional string`
+livestream_viewer_qualities: optional array of number
 
-        ID of the session this event belongs to.
+Livestream viewer quality levels.
 
-      - `socket_session_id: optional string`
+[Link to this property](#)
 
-        ID of the socket session associated with this event.
+</details>
 
-      - `updated_at: optional string`
+[Link to this property](#)
 
-        Timestamp when this peer event was last updated.
+created_at: string
 
-    - `preset_name: optional string`
+Timestamp this preset was created at
 
-      Name of the preset associated with the participant.
+formatdate-time
 
-    - `updated_at: optional string`
+[Link to this property](#)
 
-      timestamp when this participant's data was last updated.
+name: string
 
-    - `user_id: optional string`
+Name of the preset
 
-      User id for this participant.
+[Link to this property](#)
 
-- `success: optional boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/participants/$PARTICIPANT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "data": {
-    "participant": {
-      "id": "id",
-      "created_at": "created_at",
-      "custom_participant_id": "custom_participant_id",
-      "display_name": "display_name",
-      "duration": 0,
-      "joined_at": "joined_at",
-      "left_at": "left_at",
-      "peer_events": [
-        {
-          "id": "id",
-          "created_at": "created_at",
-          "event_name": "PEER_CREATED",
-          "minutes_consumed": 0,
-          "participant_id": "participant_id",
-          "peer_id": "peer_id",
-          "preset_view_type": "GROUP_CALL",
-          "session_id": "session_id",
-          "socket_session_id": "socket_session_id",
-          "updated_at": "updated_at"
-        }
-      ],
-      "preset_name": "preset_name",
-      "updated_at": "updated_at",
-      "user_id": "user_id"
-    }
-  },
-  "success": true
-}
-```
+accept_waiting_requests: boolean
 
-## Fetch all chat messages of a session
+Whether this participant can accept waiting requests
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/chat`
+[Link to this property](#)
 
-Returns a URL to download all chat messages of the session ID in CSV format.
+can_accept_production_requests: boolean
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+can_change_participant_permissions: boolean
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+can_edit_display_name: boolean
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `session_id: string`
+can_livestream: boolean
 
-### Returns
+[Link to this property](#)
 
-- `data: optional object { chat_download_url, chat_download_url_expiry }`
+can_record: boolean
 
-  - `chat_download_url: string`
+[Link to this property](#)
 
-    URL where the chat logs can be downloaded
+can_spotlight: boolean
 
-  - `chat_download_url_expiry: string`
+[Link to this property](#)
 
-    Time when the download URL will expire
+<details>
 
-- `success: optional boolean`
+<summary>
 
-### Example
+chat: object { private, public }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/chat \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "data": {
-    "chat_download_url": "chat_download_url",
-    "chat_download_url_expiry": "chat_download_url_expiry"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Fetch the complete transcript for a session
+private: object { can_receive, can_send, files, text }
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/transcript`
+</summary>
 
-Returns a URL to download the transcript for the session ID in CSV format.
+can_receive: boolean
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+can_send: boolean
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+files: boolean
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `session_id: string`
+text: boolean
 
-### Query Parameters
+[Link to this property](#)
 
-- `format: optional "SRT" or "VTT" or "JSON" or "CSV"`
+</details>
 
-  Transcript file format to fetch.
+[Link to this property](#)
 
-  - `"SRT"`
+<details>
 
-  - `"VTT"`
+<summary>
 
-  - `"JSON"`
+public: object { can_send, files, text }
 
-  - `"CSV"`
+</summary>
 
-### Returns
+can_send: boolean
 
-- `data: optional object { sessionId, transcript_download_url, transcript_download_url_expiry }`
+Can send messages in general
 
-  - `sessionId: string`
+[Link to this property](#)
 
-  - `transcript_download_url: string`
+files: boolean
 
-    URL where the transcript can be downloaded
+Can send file messages
 
-  - `transcript_download_url_expiry: string`
+[Link to this property](#)
 
-    Time when the download URL will expire
+text: boolean
 
-- `success: optional boolean`
+Can send text messages
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/transcript \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "sessionId": "sessionId",
-    "transcript_download_url": "transcript_download_url",
-    "transcript_download_url_expiry": "transcript_download_url_expiry"
-  },
-  "success": true
-}
-```
+</details>
 
-## Fetch summary of transcripts for a session
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/summary`
+<details>
 
-Returns a Summary URL to download the Summary of Transcripts for the session ID as plain text.
+<summary>
 
-### Path Parameters
+connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }
 
-- `account_id: string`
+</summary>
 
-  The account identifier tag.
+can_alter_connected_meetings: boolean
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+can_switch_connected_meetings: boolean
 
-- `session_id: string`
+[Link to this property](#)
 
-### Returns
+can_switch_to_parent_meeting: boolean
 
-- `data: optional object { sessionId, summaryDownloadUrl, summaryDownloadUrlExpiry }`
+[Link to this property](#)
 
-  - `sessionId: string`
+</details>
 
-  - `summaryDownloadUrl: string`
+[Link to this property](#)
 
-    URL where the summary of transcripts can be downloaded
+disable_participant_audio: boolean
 
-  - `summaryDownloadUrlExpiry: string`
+[Link to this property](#)
 
-    Time of Expiry before when you need to download the csv file.
+disable_participant_screensharing: boolean
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+disable_participant_video: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/summary \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+hidden_participant: boolean
 
-```json
-{
-  "data": {
-    "sessionId": "sessionId",
-    "summaryDownloadUrl": "summaryDownloadUrl",
-    "summaryDownloadUrlExpiry": "summaryDownloadUrlExpiry"
-  },
-  "success": true
-}
-```
+Whether this participant is visible to others or not
 
-## Generate summary of Transcripts for the session
+[Link to this property](#)
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/summary`
+kick_participant: boolean
 
-Trigger Summary generation of Transcripts for the session ID.
+[Link to this property](#)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+media: object { audio, screenshare, video }
 
-- `app_id: string`
+Media permissions
 
-  The app identifier tag.
+</summary>
 
-- `session_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `data: optional object { session_id, status }`
+audio: object { can_produce }
 
-  - `session_id: optional string`
+Audio permissions
 
-  - `status: optional string`
+</summary>
 
-- `success: optional boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/summary \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-#### Response
+Can produce audio
 
-```json
-{
-  "data": {
-    "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "status": "status"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Fetch details of peer
+One of the following:
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/peer-report/{peer_id}`
+"ALLOWED"
 
-Returns participant details for the given peer ID along with call statistics.
+[Link to this property](#)
 
-### Path Parameters
+"NOT_ALLOWED"
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+"CAN_REQUEST"
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+</details>
 
-- `peer_id: string`
+[Link to this property](#)
 
-### Query Parameters
+</details>
 
-- `filters: optional "device_info" or "ip_information" or "precall_network_information" or 2 more`
+[Link to this property](#)
 
-  Filter to apply to the peer report.
+<details>
 
-  - `"device_info"`
+<summary>
 
-  - `"ip_information"`
+screenshare: object { can_produce }
 
-  - `"precall_network_information"`
+Screenshare permissions
 
-  - `"events"`
+</summary>
 
-  - `"quality_stats"`
+<details>
 
-- `include_peer_events: optional boolean`
+<summary>
 
-  if true, response includes all the peer events of participant.
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-### Returns
+Can produce screen share video
 
-- `data: optional object { participant }`
+</summary>
 
-  - `participant: optional object { id, created_at, custom_participant_id, 10 more }`
+One of the following:
 
-    - `id: optional string`
+"ALLOWED"
 
-      ID of the participant.
+[Link to this property](#)
 
-    - `created_at: optional string`
+"NOT_ALLOWED"
 
-      timestamp when this participant was created.
+[Link to this property](#)
 
-    - `custom_participant_id: optional string`
+"CAN_REQUEST"
 
-      ID passed by client to create this participant.
+[Link to this property](#)
 
-    - `display_name: optional string`
+</details>
 
-      Display name of participant when joining the session.
+[Link to this property](#)
 
-    - `duration: optional number`
+</details>
 
-      number of minutes for which the participant was in the session.
+[Link to this property](#)
 
-    - `joined_at: optional string`
+<details>
 
-      timestamp at which participant joined the session.
+<summary>
 
-    - `left_at: optional string`
+video: object { can_produce }
 
-      timestamp at which participant left the session.
+Video permissions
 
-    - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+</summary>
 
-      Connection lifecycle events for the participant's peer.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        ID of the peer event.
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-      - `created_at: optional string`
+Can produce video
 
-        Timestamp when this peer event was created.
+</summary>
 
-      - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+One of the following:
 
-        Name of the peer event.
+"ALLOWED"
 
-        - `"PEER_CREATED"`
+[Link to this property](#)
 
-        - `"PEER_JOINING"`
+"NOT_ALLOWED"
 
-        - `"PEER_LEAVING"`
+[Link to this property](#)
 
-      - `minutes_consumed: optional number`
+"CAN_REQUEST"
 
-        Minutes consumed attributed to this event.
+[Link to this property](#)
 
-      - `participant_id: optional string`
+</details>
 
-        ID of the participant this event belongs to.
+[Link to this property](#)
 
-      - `peer_id: optional string`
+</details>
 
-        Peer ID this event belongs to.
+[Link to this property](#)
 
-      - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+</details>
 
-        View type of the preset associated with the peer.
+[Link to this property](#)
 
-        - `"GROUP_CALL"`
+pin_participant: boolean
 
-        - `"WEBINAR"`
+[Link to this property](#)
 
-        - `"AUDIO_ROOM"`
+<details>
 
-        - `"LIVESTREAM"`
+<summary>
 
-        - `"CHAT"`
+plugins: object { can_close, can_edit_config, can_start, config }
 
-      - `session_id: optional string`
+Plugin permissions
 
-        ID of the session this event belongs to.
+</summary>
 
-      - `socket_session_id: optional string`
+can_close: boolean
 
-        ID of the socket session associated with this event.
+Can close plugins that are already open
 
-      - `updated_at: optional string`
+[Link to this property](#)
 
-        Timestamp when this peer event was last updated.
+can_edit_config: boolean
 
-    - `peer_report: optional object { metadata, quality }`
+Can edit plugin config
 
-      Peer call statistics report.
+[Link to this property](#)
 
-      - `metadata: optional object { audio_devices_updates, browser_metadata, candidate_pairs, 12 more }`
+can_start: boolean
 
-        Connection and device metadata for the participant.
+Can start plugins
 
-        - `audio_devices_updates: optional array of object { added, removed, timestamp }`
+[Link to this property](#)
 
-          - `added: optional array of object { device_id, kind, label }`
+<details>
 
-            Devices that became available.
+<summary>
 
-            - `device_id: optional string`
+config: map[object { access_control, handles_view_only } ]
 
-              ID of the device.
+Plugin configuration keyed by plugin UUID.
 
-            - `kind: optional string`
+</summary>
 
-              Kind of device, for example audioinput or videoinput.
+<details>
 
-            - `label: optional string`
+<summary>
 
-              Human-readable label of the device.
+access_control: optional "FULL_ACCESS" or "VIEW_ONLY"
 
-          - `removed: optional array of object { device_id, kind, label }`
+</summary>
 
-            Devices that became unavailable.
+One of the following:
 
-            - `device_id: optional string`
+"FULL_ACCESS"
 
-              ID of the device.
+[Link to this property](#)
 
-            - `kind: optional string`
+"VIEW_ONLY"
 
-              Kind of device, for example audioinput or videoinput.
+[Link to this property](#)
 
-            - `label: optional string`
+</details>
 
-              Human-readable label of the device.
+[Link to this property](#)
 
-          - `timestamp: optional string`
+handles_view_only: optional boolean
 
-            Timestamp of the device update.
+[Link to this property](#)
 
-        - `browser_metadata: optional object { browser, browser_version, engine, 2 more }`
+</details>
 
-          - `browser: optional string`
+[Link to this property](#)
 
-          - `browser_version: optional string`
+</details>
 
-          - `engine: optional string`
+[Link to this property](#)
 
-          - `user_agent: optional string`
+<details>
 
-          - `webgl_support: optional boolean`
+<summary>
 
-        - `candidate_pairs: optional object { consuming_transport, producing_transport }`
+polls: object { can_create, can_view, can_vote }
 
-          - `consuming_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }`
+Poll permissions
 
-            - `available_incoming_bitrate: optional number`
+</summary>
 
-            - `available_outgoing_bitrate: optional number`
+can_create: boolean
 
-            - `bytes_discarded_on_send: optional number`
+Can create polls
 
-            - `bytes_received: optional number`
+[Link to this property](#)
 
-            - `bytes_sent: optional number`
+can_view: boolean
 
-            - `current_round_trip_time: optional number`
+Can view polls
 
-            - `last_packet_received_timestamp: optional number`
+[Link to this property](#)
 
-              Epoch milliseconds when the last packet was received.
+can_vote: boolean
 
-            - `last_packet_sent_timestamp: optional number`
+Can vote on polls
 
-              Epoch milliseconds when the last packet was sent.
+[Link to this property](#)
 
-            - `local_candidate_address: optional string`
+</details>
 
-            - `local_candidate_id: optional string`
+[Link to this property](#)
 
-            - `local_candidate_network_type: optional string`
+<details>
 
-            - `local_candidate_port: optional number`
+<summary>
 
-            - `local_candidate_protocol: optional string`
+recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"
 
-            - `local_candidate_related_address: optional string`
+Type of the recording peer
 
-            - `local_candidate_related_port: optional number`
+</summary>
 
-            - `local_candidate_type: optional string`
+One of the following:
 
-            - `local_candidate_url: optional string`
+"RECORDER"
 
-            - `nominated: optional boolean`
+[Link to this property](#)
 
-            - `packets_discarded_on_send: optional number`
+"LIVESTREAMER"
 
-            - `packets_received: optional number`
+[Link to this property](#)
 
-            - `packets_sent: optional number`
+"NONE"
 
-            - `remote_candidate_address: optional string`
+[Link to this property](#)
 
-            - `remote_candidate_id: optional string`
+</details>
 
-            - `remote_candidate_port: optional number`
+[Link to this property](#)
 
-            - `remote_candidate_protocol: optional string`
+show_participant_list: boolean
 
-            - `remote_candidate_type: optional string`
+[Link to this property](#)
 
-            - `remote_candidate_url: optional string`
+<details>
 
-            - `total_round_trip_time: optional number`
+<summary>
 
-          - `producing_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }`
+waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"
 
-            - `available_incoming_bitrate: optional number`
+Waiting room type
 
-            - `available_outgoing_bitrate: optional number`
+</summary>
 
-            - `bytes_discarded_on_send: optional number`
+One of the following:
 
-            - `bytes_received: optional number`
+"SKIP"
 
-            - `bytes_sent: optional number`
+[Link to this property](#)
 
-            - `current_round_trip_time: optional number`
+"ON_PRIVILEGED_USER_ENTRY"
 
-            - `last_packet_received_timestamp: optional number`
+[Link to this property](#)
 
-              Epoch milliseconds when the last packet was received.
+"SKIP_ON_ACCEPT"
 
-            - `last_packet_sent_timestamp: optional number`
+[Link to this property](#)
 
-              Epoch milliseconds when the last packet was sent.
+</details>
 
-            - `local_candidate_address: optional string`
+[Link to this property](#)
 
-            - `local_candidate_id: optional string`
+accept_stage_requests: optional boolean
 
-            - `local_candidate_network_type: optional string`
+[Link to this property](#)
 
-            - `local_candidate_port: optional number`
+is_recorder: optional boolean
 
-            - `local_candidate_protocol: optional string`
+[Link to this property](#)
 
-            - `local_candidate_related_address: optional string`
+<details>
 
-            - `local_candidate_related_port: optional number`
+<summary>
 
-            - `local_candidate_type: optional string`
+stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-            - `local_candidate_url: optional string`
+</summary>
 
-            - `nominated: optional boolean`
+One of the following:
 
-            - `packets_discarded_on_send: optional number`
+"ALLOWED"
 
-            - `packets_received: optional number`
+[Link to this property](#)
 
-            - `packets_sent: optional number`
+"NOT_ALLOWED"
 
-            - `remote_candidate_address: optional string`
+[Link to this property](#)
 
-            - `remote_candidate_id: optional string`
+"CAN_REQUEST"
 
-            - `remote_candidate_port: optional number`
+[Link to this property](#)
 
-            - `remote_candidate_protocol: optional string`
+</details>
 
-            - `remote_candidate_type: optional string`
+[Link to this property](#)
 
-            - `remote_candidate_url: optional string`
+stage_enabled: optional boolean
 
-            - `total_round_trip_time: optional number`
+[Link to this property](#)
 
-        - `device_info: optional object { cpus, is_mobile, os, os_version }`
+transcription_enabled: optional boolean
 
-          - `cpus: optional number`
+[Link to this property](#)
 
-          - `is_mobile: optional boolean`
+</details>
 
-          - `os: optional string`
+[Link to this property](#)
 
-          - `os_version: optional string`
+<details>
 
-        - `events: optional array of object { metadata, name, timestamp }`
+<summary>
 
-          - `metadata: optional map[string or number or boolean]`
+ui: object { design_tokens }
 
-            Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null).
+</summary>
 
-            - `string`
+<details>
 
-            - `number`
+<summary>
 
-            - `boolean`
+design_tokens: object { border_radius, border_width, colors, 5 more }
 
-          - `name: optional string`
+</summary>
 
-            Name of the event.
+<details>
 
-          - `timestamp: optional string`
+<summary>
 
-            Timestamp when the event occurred.
+border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"
 
-        - `ip_information: optional object { asn, city, country, 4 more }`
+</summary>
 
-          - `asn: optional object { asn, domain, name, 2 more }`
+One of the following:
 
-            - `asn: optional string`
+"sharp"
 
-            - `domain: optional string`
+[Link to this property](#)
 
-            - `name: optional string`
+"rounded"
 
-            - `route: optional string`
+[Link to this property](#)
 
-            - `type: optional string`
+"extra-rounded"
 
-          - `city: optional string`
+[Link to this property](#)
 
-          - `country: optional string`
+"circular"
 
-          - `ipv4: optional string`
+[Link to this property](#)
 
-          - `org: optional string`
+</details>
 
-          - `region: optional string`
+[Link to this property](#)
 
-          - `timezone: optional string`
+<details>
 
-        - `native_metadata: optional object { audio_encoder, video_encoder }`
+<summary>
 
-          - `audio_encoder: optional string`
+border_width: "none" or "thin" or "fat"
 
-          - `video_encoder: optional string`
+</summary>
 
-        - `pc_metadata: optional array of object { effective_network_type, reflexive_connectivity, relay_connectivity, 3 more }`
+One of the following:
 
-          - `effective_network_type: optional string`
+"none"
 
-          - `reflexive_connectivity: optional boolean`
+[Link to this property](#)
 
-          - `relay_connectivity: optional boolean`
+"thin"
 
-          - `sdp: optional array of string`
+[Link to this property](#)
 
-          - `timestamp: optional string`
+"fat"
 
-          - `turn_connectivity: optional boolean`
+[Link to this property](#)
 
-        - `room_view_type: optional string`
+</details>
 
-        - `sdk_name: optional string`
+[Link to this property](#)
 
-        - `sdk_type: optional string`
+<details>
 
-        - `sdk_version: optional string`
+<summary>
 
-        - `selected_device_updates: optional array of object { device, timestamp }`
+colors: object { background, brand, danger, 5 more }
 
-          - `device: optional object { device_id, kind, label }`
+</summary>
 
-            A media device (camera, microphone, or speaker).
+<details>
 
-            - `device_id: optional string`
+<summary>
 
-              ID of the device.
+background: object { "1000", "600", "700", 2 more }
 
-            - `kind: optional string`
+</summary>
 
-              Kind of device, for example audioinput or videoinput.
+"1000": string
 
-            - `label: optional string`
+[Link to this property](#)
 
-              Human-readable label of the device.
+"600": string
 
-          - `timestamp: optional string`
+[Link to this property](#)
 
-        - `speaker_devices_updates: optional array of object { added, removed, timestamp }`
+"700": string
 
-          - `added: optional array of object { device_id, kind, label }`
+[Link to this property](#)
 
-            Devices that became available.
+"800": string
 
-            - `device_id: optional string`
+[Link to this property](#)
 
-              ID of the device.
+"900": string
 
-            - `kind: optional string`
+[Link to this property](#)
 
-              Kind of device, for example audioinput or videoinput.
+</details>
 
-            - `label: optional string`
+[Link to this property](#)
 
-              Human-readable label of the device.
+<details>
 
-          - `removed: optional array of object { device_id, kind, label }`
+<summary>
 
-            Devices that became unavailable.
+brand: object { "300", "400", "500", 2 more }
 
-            - `device_id: optional string`
+</summary>
 
-              ID of the device.
+"300": string
 
-            - `kind: optional string`
+[Link to this property](#)
 
-              Kind of device, for example audioinput or videoinput.
+"400": string
 
-            - `label: optional string`
+[Link to this property](#)
 
-              Human-readable label of the device.
+"500": string
 
-          - `timestamp: optional string`
+[Link to this property](#)
 
-            Timestamp of the device update.
+"600": string
 
-        - `video_devices_updates: optional array of object { added, removed, timestamp }`
+[Link to this property](#)
 
-          - `added: optional array of object { device_id, kind, label }`
+"700": string
 
-            Devices that became available.
+[Link to this property](#)
 
-            - `device_id: optional string`
+</details>
 
-              ID of the device.
+[Link to this property](#)
 
-            - `kind: optional string`
+danger: string
 
-              Kind of device, for example audioinput or videoinput.
+[Link to this property](#)
 
-            - `label: optional string`
+success: string
 
-              Human-readable label of the device.
+[Link to this property](#)
 
-          - `removed: optional array of object { device_id, kind, label }`
+text: string
 
-            Devices that became unavailable.
+[Link to this property](#)
 
-            - `device_id: optional string`
+text_on_brand: string
 
-              ID of the device.
+[Link to this property](#)
 
-            - `kind: optional string`
+video_bg: string
 
-              Kind of device, for example audioinput or videoinput.
+[Link to this property](#)
 
-            - `label: optional string`
+warning: string
 
-              Human-readable label of the device.
+[Link to this property](#)
 
-          - `timestamp: optional string`
+</details>
 
-            Timestamp of the device update.
+[Link to this property](#)
 
-      - `quality: optional object { audio_consumer, audio_consumer_cumulative, audio_producer, 13 more }`
+spacing_base: number
 
-        Media quality statistics for the participant.
+minimum1
 
-        - `audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }`
+[Link to this property](#)
 
-          - `bytes_received: optional number`
+<details>
 
-          - `concealment_events: optional number`
+<summary>
 
-          - `consumer_id: optional string`
+theme: "darkest" or "dark" or "light"
 
-          - `jitter: optional number`
+</summary>
 
-          - `jitter_buffer_delay: optional number`
+One of the following:
 
-          - `jitter_buffer_emitted_count: optional number`
+"darkest"
 
-          - `mid: optional string`
+[Link to this property](#)
 
-          - `mos_quality: optional number`
+"dark"
 
-          - `packets_lost: optional number`
+[Link to this property](#)
 
-          - `packets_received: optional number`
+"light"
 
-          - `peer_id: optional string`
+[Link to this property](#)
 
-          - `producer_id: optional string`
+</details>
 
-          - `ssrc: optional number`
+[Link to this property](#)
 
-          - `timestamp: optional string`
+font_family: optional string
 
-        - `audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }`
+[Link to this property](#)
 
-          Aggregated inbound (consumer) audio statistics for the session.
+google_font: optional string
 
-          - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+[Link to this property](#)
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+logo: optional string
 
-            - `"100ms_or_greater_event_fraction": optional number`
+formaturi
 
-            - `"250ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"500ms_or_greater_event_fraction": optional number`
+</details>
 
-            - `avg: optional number`
+[Link to this property](#)
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+</details>
 
-            Cumulative packet loss distribution.
+[Link to this property](#)
 
-            - `"10_or_greater_event_fraction": optional number`
+updated_at: string
 
-            - `"25_or_greater_event_fraction": optional number`
+Timestamp this preset was last updated
 
-            - `"5_or_greater_event_fraction": optional number`
+formatdate-time
 
-            - `"50_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `avg: optional number`
+</details>
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-            Distribution summary with average and percentiles.
+success: boolean
 
-            - `avg: optional number`
+Success status of the operation
 
-            - `p50: optional number`
+[Link to this property](#)
 
-            - `p75: optional number`
+</details>
 
-            - `p90: optional number`
+[Link to this property](#)
 
-        - `audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }`
+<details>
 
-          - `bytes_sent: optional number`
+<summary>
 
-          - `jitter: optional number`
+PresetReplacePresetByIDResponse object { data, success }
 
-          - `mid: optional string`
+</summary>
 
-          - `mos_quality: optional number`
+<details>
 
-          - `packets_lost: optional number`
+<summary>
 
-          - `packets_sent: optional number`
+data: object { id, config, created_at, 4 more }
 
-          - `producer_id: optional string`
+Data returned by the operation
 
-          - `rtt: optional number`
+</summary>
 
-          - `ssrc: optional number`
+id: string
 
-          - `timestamp: optional string`
+ID of the preset
 
-        - `audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }`
+formatuuid
 
-          Aggregated outbound (producer) audio statistics for the session.
+[Link to this property](#)
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+<details>
 
-            Cumulative packet loss distribution.
+<summary>
 
-            - `"10_or_greater_event_fraction": optional number`
+config: object { max_screenshare_count, max_video_streams, media, 2 more }
 
-            - `"25_or_greater_event_fraction": optional number`
+</summary>
 
-            - `"5_or_greater_event_fraction": optional number`
+max_screenshare_count: number
 
-            - `"50_or_greater_event_fraction": optional number`
+Maximum number of screen shares that can be active at a given time
 
-            - `avg: optional number`
+[Link to this property](#)
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+<details>
 
-            Distribution summary with average and percentiles.
+<summary>
 
-            - `avg: optional number`
+max_video_streams: object { desktop, mobile }
 
-            - `p50: optional number`
+Maximum number of streams that are visible on a device
 
-            - `p75: optional number`
+</summary>
 
-            - `p90: optional number`
+desktop: number
 
-          - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+Maximum number of video streams visible on desktop devices
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+[Link to this property](#)
 
-            - `"100ms_or_greater_event_fraction": optional number`
+mobile: number
 
-            - `"250ms_or_greater_event_fraction": optional number`
+Maximum number of streams visible on mobile devices
 
-            - `"500ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `avg: optional number`
+</details>
 
-        - `screenshare_audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }`
+[Link to this property](#)
 
-          - `bytes_received: optional number`
+<details>
 
-          - `concealment_events: optional number`
+<summary>
 
-          - `consumer_id: optional string`
+media: object { screenshare, video, audio }
 
-          - `jitter: optional number`
+Media configuration options. eg: Video quality
 
-          - `jitter_buffer_delay: optional number`
+</summary>
 
-          - `jitter_buffer_emitted_count: optional number`
+<details>
 
-          - `mid: optional string`
+<summary>
 
-          - `mos_quality: optional number`
+screenshare: object { frame_rate, quality }
 
-          - `packets_lost: optional number`
+Configuration options for participant screen shares
 
-          - `packets_received: optional number`
+</summary>
 
-          - `peer_id: optional string`
+frame_rate: number
 
-          - `producer_id: optional string`
+Frame rate of screen share
 
-          - `ssrc: optional number`
+[Link to this property](#)
 
-          - `timestamp: optional string`
+<details>
 
-        - `screenshare_audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }`
+<summary>
 
-          Aggregated inbound (consumer) audio statistics for the session.
+quality: "hd" or "vga" or "qvga" or 2 more
 
-          - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+Quality of screen share
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+</summary>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+One of the following:
 
-            - `"250ms_or_greater_event_fraction": optional number`
+"hd"
 
-            - `"500ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `avg: optional number`
+"vga"
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+[Link to this property](#)
 
-            Cumulative packet loss distribution.
+"qvga"
 
-            - `"10_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"25_or_greater_event_fraction": optional number`
+"fhd"
 
-            - `"5_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"50_or_greater_event_fraction": optional number`
+"uhd"
 
-            - `avg: optional number`
+[Link to this property](#)
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+</details>
 
-            Distribution summary with average and percentiles.
+[Link to this property](#)
 
-            - `avg: optional number`
+</details>
 
-            - `p50: optional number`
+[Link to this property](#)
 
-            - `p75: optional number`
+<details>
 
-            - `p90: optional number`
+<summary>
 
-        - `screenshare_audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }`
+video: object { frame_rate, quality, simulcast }
 
-          - `bytes_sent: optional number`
+Configuration options for participant videos
 
-          - `jitter: optional number`
+</summary>
 
-          - `mid: optional string`
+frame_rate: number
 
-          - `mos_quality: optional number`
+Frame rate of participants’ video
 
-          - `packets_lost: optional number`
+maximum30
 
-          - `packets_sent: optional number`
+[Link to this property](#)
 
-          - `producer_id: optional string`
+<details>
 
-          - `rtt: optional number`
+<summary>
 
-          - `ssrc: optional number`
+quality: "hd" or "vga" or "qvga" or 2 more
 
-          - `timestamp: optional string`
+Video quality of participants
 
-        - `screenshare_audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }`
+</summary>
 
-          Aggregated outbound (producer) audio statistics for the session.
+One of the following:
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+"hd"
 
-            Cumulative packet loss distribution.
+[Link to this property](#)
 
-            - `"10_or_greater_event_fraction": optional number`
+"vga"
 
-            - `"25_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"5_or_greater_event_fraction": optional number`
+"qvga"
 
-            - `"50_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `avg: optional number`
+"fhd"
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-            Distribution summary with average and percentiles.
+"uhd"
 
-            - `avg: optional number`
+[Link to this property](#)
 
-            - `p50: optional number`
+</details>
 
-            - `p75: optional number`
+[Link to this property](#)
 
-            - `p90: optional number`
+simulcast: optional boolean
 
-          - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+Enable simulcast for participant videos.
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+[Link to this property](#)
 
-            - `"100ms_or_greater_event_fraction": optional number`
+</details>
 
-            - `"250ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"500ms_or_greater_event_fraction": optional number`
+<details>
 
-            - `avg: optional number`
+<summary>
 
-        - `screenshare_video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }`
+audio: optional object { enable_high_bitrate, enable_stereo }
 
-          - `bytes_received: optional number`
+Control options for Audio quality.
 
-          - `consumer_id: optional string`
+</summary>
 
-          - `fir_count: optional number`
+enable_high_bitrate: optional boolean
 
-          - `frame_height: optional number`
+Enable High Quality Audio for your meetings
 
-          - `frame_width: optional number`
+[Link to this property](#)
 
-          - `frames_decoded: optional number`
+enable_stereo: optional boolean
 
-          - `frames_dropped: optional number`
+Enable Stereo for your meetings
 
-          - `frames_per_second: optional number`
+[Link to this property](#)
 
-          - `jitter: optional number`
+</details>
 
-          - `jitter_buffer_delay: optional number`
+[Link to this property](#)
 
-          - `jitter_buffer_emitted_count: optional number`
+</details>
 
-          - `key_frames_decoded: optional number`
+[Link to this property](#)
 
-          - `mid: optional string`
+<details>
 
-          - `mos_quality: optional number`
+<summary>
 
-          - `packets_lost: optional number`
+view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"
 
-          - `packets_received: optional number`
+Type of the meeting
 
-          - `peer_id: optional string`
+</summary>
 
-          - `producer_id: optional string`
+One of the following:
 
-          - `ssrc: optional number`
+"GROUP_CALL"
 
-          - `timestamp: optional string`
+[Link to this property](#)
 
-        - `screenshare_video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }`
+"WEBINAR"
 
-          Aggregated inbound (consumer) video statistics for the session.
+[Link to this property](#)
 
-          - `frame_per_second: optional object { avg, p50, p75, p90 }`
+"AUDIO_ROOM"
 
-            Distribution summary with average and percentiles.
+[Link to this property](#)
 
-            - `avg: optional number`
+"LIVESTREAM"
 
-            - `p50: optional number`
+[Link to this property](#)
 
-            - `p75: optional number`
+</details>
 
-            - `p90: optional number`
+[Link to this property](#)
 
-          - `frame_width: optional object { avg, p50, p75, p90 }`
+livestream_viewer_qualities: optional array of number
 
-            Distribution summary with average and percentiles.
+Livestream viewer quality levels.
 
-            - `avg: optional number`
+[Link to this property](#)
 
-            - `p50: optional number`
+</details>
 
-            - `p75: optional number`
+[Link to this property](#)
 
-            - `p90: optional number`
+created_at: string
 
-          - `issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }`
+Timestamp this preset was created at
 
-            - `lag_fraction: optional number`
+formatdate-time
 
-            - `no_video_fraction: optional number`
+[Link to this property](#)
 
-            - `poor_resolution_fraction: optional number`
+name: string
 
-          - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+Name of the preset
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+[Link to this property](#)
 
-            - `"100ms_or_greater_event_fraction": optional number`
+<details>
 
-            - `"250ms_or_greater_event_fraction": optional number`
+<summary>
 
-            - `"500ms_or_greater_event_fraction": optional number`
+permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }
 
-            - `avg: optional number`
+</summary>
 
-          - `key_frames_decoded_fraction: optional number`
+accept_waiting_requests: boolean
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+Whether this participant can accept waiting requests
 
-            Cumulative packet loss distribution.
+[Link to this property](#)
 
-            - `"10_or_greater_event_fraction": optional number`
+can_accept_production_requests: boolean
 
-            - `"25_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"5_or_greater_event_fraction": optional number`
+can_change_participant_permissions: boolean
 
-            - `"50_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `avg: optional number`
+can_edit_display_name: boolean
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-            Distribution summary with average and percentiles.
+can_livestream: boolean
 
-            - `avg: optional number`
+[Link to this property](#)
 
-            - `p50: optional number`
+can_record: boolean
 
-            - `p75: optional number`
+[Link to this property](#)
 
-            - `p90: optional number`
+can_spotlight: boolean
 
-        - `screenshare_video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }`
+[Link to this property](#)
 
-          - `bytes_sent: optional number`
+<details>
 
-          - `fir_count: optional number`
+<summary>
 
-          - `frame_height: optional number`
+chat: object { private, public }
 
-          - `frame_width: optional number`
+</summary>
 
-          - `frames_encoded: optional number`
+<details>
 
-          - `frames_per_second: optional number`
+<summary>
 
-          - `jitter: optional number`
+private: object { can_receive, can_send, files, text }
 
-          - `key_frames_encoded: optional number`
+</summary>
 
-          - `mid: optional string`
+can_receive: boolean
 
-          - `mos_quality: optional number`
+[Link to this property](#)
 
-          - `packets_lost: optional number`
+can_send: boolean
 
-          - `packets_sent: optional number`
+[Link to this property](#)
 
-          - `pli_count: optional number`
+files: boolean
 
-          - `producer_id: optional string`
+[Link to this property](#)
 
-          - `quality_limitation_durations: optional object { bandwidth, cpu, none, other }`
+text: boolean
 
-            - `bandwidth: optional number`
+[Link to this property](#)
 
-            - `cpu: optional number`
+</details>
 
-            - `none: optional number`
+[Link to this property](#)
 
-            - `other: optional number`
+<details>
 
-          - `quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"`
+<summary>
 
-            - `"cpu"`
+public: object { can_send, files, text }
 
-            - `"bandwidth"`
+</summary>
 
-            - `"none"`
+can_send: boolean
 
-            - `"other"`
+Can send messages in general
 
-          - `quality_limitation_resolution_changes: optional number`
+[Link to this property](#)
 
-          - `rtt: optional number`
+files: boolean
 
-          - `ssrc: optional number`
+Can send file messages
 
-          - `timestamp: optional string`
+[Link to this property](#)
 
-        - `screenshare_video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }`
+text: boolean
 
-          Aggregated outbound (producer) video statistics for the session.
+Can send text messages
 
-          - `frame_per_second: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-            Distribution summary with average and percentiles.
+</details>
 
-            - `avg: optional number`
+[Link to this property](#)
 
-            - `p50: optional number`
+</details>
 
-            - `p75: optional number`
+[Link to this property](#)
 
-            - `p90: optional number`
+<details>
 
-          - `frame_width: optional object { avg, p50, p75, p90 }`
+<summary>
 
-            Distribution summary with average and percentiles.
+connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }
 
-            - `avg: optional number`
+</summary>
 
-            - `p50: optional number`
+can_alter_connected_meetings: boolean
 
-            - `p75: optional number`
+[Link to this property](#)
 
-            - `p90: optional number`
+can_switch_connected_meetings: boolean
 
-          - `high_negative_feedback_fraction: optional number`
+[Link to this property](#)
 
-          - `issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }`
+can_switch_to_parent_meeting: boolean
 
-            - `bandwidth_quality_limitation_fraction: optional number`
+[Link to this property](#)
 
-            - `cpu_quality_limitation_fraction: optional number`
+</details>
 
-            - `no_video_fraction: optional number`
+[Link to this property](#)
 
-            - `poor_resolution_fraction: optional number`
+disable_participant_audio: boolean
 
-            - `quality_limitation_fraction: optional number`
+[Link to this property](#)
 
-          - `key_frames_encoded_fraction: optional number`
+disable_participant_screensharing: boolean
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+[Link to this property](#)
 
-            Cumulative packet loss distribution.
+disable_participant_video: boolean
 
-            - `"10_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"25_or_greater_event_fraction": optional number`
+hidden_participant: boolean
 
-            - `"5_or_greater_event_fraction": optional number`
+Whether this participant is visible to others or not
 
-            - `"50_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `avg: optional number`
+kick_participant: boolean
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-            Distribution summary with average and percentiles.
+<details>
 
-            - `avg: optional number`
+<summary>
 
-            - `p50: optional number`
+media: object { audio, screenshare, video }
 
-            - `p75: optional number`
+Media permissions
 
-            - `p90: optional number`
+</summary>
 
-          - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<details>
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+<summary>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+audio: object { can_produce }
 
-            - `"250ms_or_greater_event_fraction": optional number`
+Audio permissions
 
-            - `"500ms_or_greater_event_fraction": optional number`
+</summary>
 
-            - `avg: optional number`
+<details>
 
-        - `video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }`
+<summary>
 
-          - `bytes_received: optional number`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-          - `consumer_id: optional string`
+Can produce audio
 
-          - `fir_count: optional number`
+</summary>
 
-          - `frame_height: optional number`
+One of the following:
 
-          - `frame_width: optional number`
+"ALLOWED"
 
-          - `frames_decoded: optional number`
+[Link to this property](#)
 
-          - `frames_dropped: optional number`
+"NOT_ALLOWED"
 
-          - `frames_per_second: optional number`
+[Link to this property](#)
 
-          - `jitter: optional number`
+"CAN_REQUEST"
 
-          - `jitter_buffer_delay: optional number`
+[Link to this property](#)
 
-          - `jitter_buffer_emitted_count: optional number`
+</details>
 
-          - `key_frames_decoded: optional number`
+[Link to this property](#)
 
-          - `mid: optional string`
+</details>
 
-          - `mos_quality: optional number`
+[Link to this property](#)
 
-          - `packets_lost: optional number`
+<details>
 
-          - `packets_received: optional number`
+<summary>
 
-          - `peer_id: optional string`
+screenshare: object { can_produce }
 
-          - `producer_id: optional string`
+Screenshare permissions
 
-          - `ssrc: optional number`
+</summary>
 
-          - `timestamp: optional string`
+<details>
 
-        - `video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }`
+<summary>
 
-          Aggregated inbound (consumer) video statistics for the session.
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-          - `frame_per_second: optional object { avg, p50, p75, p90 }`
+Can produce screen share video
 
-            Distribution summary with average and percentiles.
+</summary>
 
-            - `avg: optional number`
+One of the following:
 
-            - `p50: optional number`
+"ALLOWED"
 
-            - `p75: optional number`
+[Link to this property](#)
 
-            - `p90: optional number`
+"NOT_ALLOWED"
 
-          - `frame_width: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-            Distribution summary with average and percentiles.
+"CAN_REQUEST"
 
-            - `avg: optional number`
+[Link to this property](#)
 
-            - `p50: optional number`
+</details>
 
-            - `p75: optional number`
+[Link to this property](#)
 
-            - `p90: optional number`
+</details>
 
-          - `issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }`
+[Link to this property](#)
 
-            - `lag_fraction: optional number`
+<details>
 
-            - `no_video_fraction: optional number`
+<summary>
 
-            - `poor_resolution_fraction: optional number`
+video: object { can_produce }
 
-          - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+Video permissions
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+</summary>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+<details>
 
-            - `"250ms_or_greater_event_fraction": optional number`
+<summary>
 
-            - `"500ms_or_greater_event_fraction": optional number`
+can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-            - `avg: optional number`
+Can produce video
 
-          - `key_frames_decoded_fraction: optional number`
+</summary>
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+One of the following:
 
-            Cumulative packet loss distribution.
+"ALLOWED"
 
-            - `"10_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"25_or_greater_event_fraction": optional number`
+"NOT_ALLOWED"
 
-            - `"5_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"50_or_greater_event_fraction": optional number`
+"CAN_REQUEST"
 
-            - `avg: optional number`
+[Link to this property](#)
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+</details>
 
-            Distribution summary with average and percentiles.
+[Link to this property](#)
 
-            - `avg: optional number`
+</details>
 
-            - `p50: optional number`
+[Link to this property](#)
 
-            - `p75: optional number`
+</details>
 
-            - `p90: optional number`
+[Link to this property](#)
 
-        - `video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }`
+pin_participant: boolean
 
-          - `bytes_sent: optional number`
+[Link to this property](#)
 
-          - `fir_count: optional number`
+<details>
 
-          - `frame_height: optional number`
+<summary>
 
-          - `frame_width: optional number`
+plugins: object { can_close, can_edit_config, can_start, config }
 
-          - `frames_encoded: optional number`
+Plugin permissions
 
-          - `frames_per_second: optional number`
+</summary>
 
-          - `jitter: optional number`
+can_close: boolean
 
-          - `key_frames_encoded: optional number`
+Can close plugins that are already open
 
-          - `mid: optional string`
+[Link to this property](#)
 
-          - `mos_quality: optional number`
+can_edit_config: boolean
 
-          - `packets_lost: optional number`
+Can edit plugin config
 
-          - `packets_sent: optional number`
+[Link to this property](#)
 
-          - `pli_count: optional number`
+can_start: boolean
 
-          - `producer_id: optional string`
+Can start plugins
 
-          - `quality_limitation_durations: optional object { bandwidth, cpu, none, other }`
+[Link to this property](#)
 
-            - `bandwidth: optional number`
+<details>
 
-            - `cpu: optional number`
+<summary>
 
-            - `none: optional number`
+config: map[object { access_control, handles_view_only } ]
 
-            - `other: optional number`
+Plugin configuration keyed by plugin UUID.
 
-          - `quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"`
+</summary>
 
-            - `"cpu"`
+<details>
 
-            - `"bandwidth"`
+<summary>
 
-            - `"none"`
+access_control: optional "FULL_ACCESS" or "VIEW_ONLY"
 
-            - `"other"`
+</summary>
 
-          - `quality_limitation_resolution_changes: optional number`
+One of the following:
 
-          - `rtt: optional number`
+"FULL_ACCESS"
 
-          - `ssrc: optional number`
+[Link to this property](#)
 
-          - `timestamp: optional string`
+"VIEW_ONLY"
 
-        - `video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }`
+[Link to this property](#)
 
-          Aggregated outbound (producer) video statistics for the session.
+</details>
 
-          - `frame_per_second: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-            Distribution summary with average and percentiles.
+handles_view_only: optional boolean
 
-            - `avg: optional number`
+[Link to this property](#)
 
-            - `p50: optional number`
+</details>
 
-            - `p75: optional number`
+[Link to this property](#)
 
-            - `p90: optional number`
+</details>
 
-          - `frame_width: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-            Distribution summary with average and percentiles.
+<details>
 
-            - `avg: optional number`
+<summary>
 
-            - `p50: optional number`
+polls: object { can_create, can_view, can_vote }
 
-            - `p75: optional number`
+Poll permissions
 
-            - `p90: optional number`
+</summary>
 
-          - `high_negative_feedback_fraction: optional number`
+can_create: boolean
 
-          - `issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }`
+Can create polls
 
-            - `bandwidth_quality_limitation_fraction: optional number`
+[Link to this property](#)
 
-            - `cpu_quality_limitation_fraction: optional number`
+can_view: boolean
 
-            - `no_video_fraction: optional number`
+Can view polls
 
-            - `poor_resolution_fraction: optional number`
+[Link to this property](#)
 
-            - `quality_limitation_fraction: optional number`
+can_vote: boolean
 
-          - `key_frames_encoded_fraction: optional number`
+Can vote on polls
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+[Link to this property](#)
 
-            Cumulative packet loss distribution.
+</details>
 
-            - `"10_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"25_or_greater_event_fraction": optional number`
+<details>
 
-            - `"5_or_greater_event_fraction": optional number`
+<summary>
 
-            - `"50_or_greater_event_fraction": optional number`
+recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"
 
-            - `avg: optional number`
+Type of the recording peer
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+</summary>
 
-            Distribution summary with average and percentiles.
+One of the following:
 
-            - `avg: optional number`
+"RECORDER"
 
-            - `p50: optional number`
+[Link to this property](#)
 
-            - `p75: optional number`
+"LIVESTREAMER"
 
-            - `p90: optional number`
+[Link to this property](#)
 
-          - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+"NONE"
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+[Link to this property](#)
 
-            - `"100ms_or_greater_event_fraction": optional number`
+</details>
 
-            - `"250ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-            - `"500ms_or_greater_event_fraction": optional number`
+show_participant_list: boolean
 
-            - `avg: optional number`
+[Link to this property](#)
 
-    - `role: optional string`
+<details>
 
-      Name of the preset associated with the participant.
+<summary>
 
-    - `session_id: optional string`
+waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"
 
-    - `updated_at: optional string`
+Waiting room type
 
-      timestamp when this participant's data was last updated.
+</summary>
 
-    - `user_id: optional string`
+One of the following:
 
-      User id for this participant.
+"SKIP"
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+"ON_PRIVILEGED_USER_ENTRY"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/peer-report/$PEER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+"SKIP_ON_ACCEPT"
 
-```json
-{
-  "data": {
-    "participant": {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "created_at",
-      "custom_participant_id": "custom_participant_id",
-      "display_name": "display_name",
-      "duration": 0,
-      "joined_at": "joined_at",
-      "left_at": "left_at",
-      "peer_events": [
-        {
-          "id": "id",
-          "created_at": "created_at",
-          "event_name": "PEER_CREATED",
-          "minutes_consumed": 0,
-          "participant_id": "participant_id",
-          "peer_id": "peer_id",
-          "preset_view_type": "GROUP_CALL",
-          "session_id": "session_id",
-          "socket_session_id": "socket_session_id",
-          "updated_at": "updated_at"
-        }
-      ],
-      "peer_report": {
-        "metadata": {
-          "audio_devices_updates": [
-            {
-              "added": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "removed": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "timestamp": "timestamp"
-            }
-          ],
-          "browser_metadata": {
-            "browser": "browser",
-            "browser_version": "browser_version",
-            "engine": "engine",
-            "user_agent": "user_agent",
-            "webgl_support": true
-          },
-          "candidate_pairs": {
-            "consuming_transport": [
-              {
-                "available_incoming_bitrate": 0,
-                "available_outgoing_bitrate": 0,
-                "bytes_discarded_on_send": 0,
-                "bytes_received": 0,
-                "bytes_sent": 0,
-                "current_round_trip_time": 0,
-                "last_packet_received_timestamp": 0,
-                "last_packet_sent_timestamp": 0,
-                "local_candidate_address": "local_candidate_address",
-                "local_candidate_id": "local_candidate_id",
-                "local_candidate_network_type": "local_candidate_network_type",
-                "local_candidate_port": 0,
-                "local_candidate_protocol": "local_candidate_protocol",
-                "local_candidate_related_address": "local_candidate_related_address",
-                "local_candidate_related_port": 0,
-                "local_candidate_type": "local_candidate_type",
-                "local_candidate_url": "local_candidate_url",
-                "nominated": true,
-                "packets_discarded_on_send": 0,
-                "packets_received": 0,
-                "packets_sent": 0,
-                "remote_candidate_address": "remote_candidate_address",
-                "remote_candidate_id": "remote_candidate_id",
-                "remote_candidate_port": 0,
-                "remote_candidate_protocol": "remote_candidate_protocol",
-                "remote_candidate_type": "remote_candidate_type",
-                "remote_candidate_url": "remote_candidate_url",
-                "total_round_trip_time": 0
-              }
-            ],
-            "producing_transport": [
-              {
-                "available_incoming_bitrate": 0,
-                "available_outgoing_bitrate": 0,
-                "bytes_discarded_on_send": 0,
-                "bytes_received": 0,
-                "bytes_sent": 0,
-                "current_round_trip_time": 0,
-                "last_packet_received_timestamp": 0,
-                "last_packet_sent_timestamp": 0,
-                "local_candidate_address": "local_candidate_address",
-                "local_candidate_id": "local_candidate_id",
-                "local_candidate_network_type": "local_candidate_network_type",
-                "local_candidate_port": 0,
-                "local_candidate_protocol": "local_candidate_protocol",
-                "local_candidate_related_address": "local_candidate_related_address",
-                "local_candidate_related_port": 0,
-                "local_candidate_type": "local_candidate_type",
-                "local_candidate_url": "local_candidate_url",
-                "nominated": true,
-                "packets_discarded_on_send": 0,
-                "packets_received": 0,
-                "packets_sent": 0,
-                "remote_candidate_address": "remote_candidate_address",
-                "remote_candidate_id": "remote_candidate_id",
-                "remote_candidate_port": 0,
-                "remote_candidate_protocol": "remote_candidate_protocol",
-                "remote_candidate_type": "remote_candidate_type",
-                "remote_candidate_url": "remote_candidate_url",
-                "total_round_trip_time": 0
-              }
-            ]
-          },
-          "device_info": {
-            "cpus": 0,
-            "is_mobile": true,
-            "os": "os",
-            "os_version": "os_version"
-          },
-          "events": [
-            {
-              "metadata": {
-                "foo": "string"
-              },
-              "name": "name",
-              "timestamp": "timestamp"
-            }
-          ],
-          "ip_information": {
-            "asn": {
-              "asn": "asn",
-              "domain": "domain",
-              "name": "name",
-              "route": "route",
-              "type": "type"
-            },
-            "city": "city",
-            "country": "country",
-            "ipv4": "ipv4",
-            "org": "org",
-            "region": "region",
-            "timezone": "timezone"
-          },
-          "native_metadata": {
-            "audio_encoder": "audio_encoder",
-            "video_encoder": "video_encoder"
-          },
-          "pc_metadata": [
-            {
-              "effective_network_type": "effective_network_type",
-              "reflexive_connectivity": true,
-              "relay_connectivity": true,
-              "sdp": [
-                "string"
-              ],
-              "timestamp": "timestamp",
-              "turn_connectivity": true
-            }
-          ],
-          "room_view_type": "room_view_type",
-          "sdk_name": "sdk_name",
-          "sdk_type": "sdk_type",
-          "sdk_version": "sdk_version",
-          "selected_device_updates": [
-            {
-              "device": {
-                "device_id": "device_id",
-                "kind": "kind",
-                "label": "label"
-              },
-              "timestamp": "timestamp"
-            }
-          ],
-          "speaker_devices_updates": [
-            {
-              "added": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "removed": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "timestamp": "timestamp"
-            }
-          ],
-          "video_devices_updates": [
-            {
-              "added": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "removed": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "timestamp": "timestamp"
-            }
-          ]
-        },
-        "quality": {
-          "audio_consumer": [
-            {
-              "bytes_received": 0,
-              "concealment_events": 0,
-              "consumer_id": "consumer_id",
-              "jitter": 0,
-              "jitter_buffer_delay": 0,
-              "jitter_buffer_emitted_count": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_received": 0,
-              "peer_id": "peer_id",
-              "producer_id": "producer_id",
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "audio_consumer_cumulative": {
-            "jitter_buffer_delay": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            }
-          },
-          "audio_producer": [
-            {
-              "bytes_sent": 0,
-              "jitter": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "producer_id": "producer_id",
-              "rtt": 0,
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "audio_producer_cumulative": {
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "rtt": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            }
-          },
-          "screenshare_audio_consumer": [
-            {
-              "bytes_received": 0,
-              "concealment_events": 0,
-              "consumer_id": "consumer_id",
-              "jitter": 0,
-              "jitter_buffer_delay": 0,
-              "jitter_buffer_emitted_count": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_received": 0,
-              "peer_id": "peer_id",
-              "producer_id": "producer_id",
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "screenshare_audio_consumer_cumulative": {
-            "jitter_buffer_delay": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            }
-          },
-          "screenshare_audio_producer": [
-            {
-              "bytes_sent": 0,
-              "jitter": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "producer_id": "producer_id",
-              "rtt": 0,
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "screenshare_audio_producer_cumulative": {
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "rtt": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            }
-          },
-          "screenshare_video_consumer": [
-            {
-              "bytes_received": 0,
-              "consumer_id": "consumer_id",
-              "fir_count": 0,
-              "frame_height": 0,
-              "frame_width": 0,
-              "frames_decoded": 0,
-              "frames_dropped": 0,
-              "frames_per_second": 0,
-              "jitter": 0,
-              "jitter_buffer_delay": 0,
-              "jitter_buffer_emitted_count": 0,
-              "key_frames_decoded": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_received": 0,
-              "peer_id": "peer_id",
-              "producer_id": "producer_id",
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "screenshare_video_consumer_cumulative": {
-            "frame_per_second": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "frame_width": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "issues": {
-              "lag_fraction": 0,
-              "no_video_fraction": 0,
-              "poor_resolution_fraction": 0
-            },
-            "jitter_buffer_delay": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "key_frames_decoded_fraction": 0,
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            }
-          },
-          "screenshare_video_producer": [
-            {
-              "bytes_sent": 0,
-              "fir_count": 0,
-              "frame_height": 0,
-              "frame_width": 0,
-              "frames_encoded": 0,
-              "frames_per_second": 0,
-              "jitter": 0,
-              "key_frames_encoded": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "pli_count": 0,
-              "producer_id": "producer_id",
-              "quality_limitation_durations": {
-                "bandwidth": 0,
-                "cpu": 0,
-                "none": 0,
-                "other": 0
-              },
-              "quality_limitation_reason": "cpu",
-              "quality_limitation_resolution_changes": 0,
-              "rtt": 0,
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "screenshare_video_producer_cumulative": {
-            "frame_per_second": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "frame_width": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "high_negative_feedback_fraction": 0,
-            "issues": {
-              "bandwidth_quality_limitation_fraction": 0,
-              "cpu_quality_limitation_fraction": 0,
-              "no_video_fraction": 0,
-              "poor_resolution_fraction": 0,
-              "quality_limitation_fraction": 0
-            },
-            "key_frames_encoded_fraction": 0,
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "rtt": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            }
-          },
-          "video_consumer": [
-            {
-              "bytes_received": 0,
-              "consumer_id": "consumer_id",
-              "fir_count": 0,
-              "frame_height": 0,
-              "frame_width": 0,
-              "frames_decoded": 0,
-              "frames_dropped": 0,
-              "frames_per_second": 0,
-              "jitter": 0,
-              "jitter_buffer_delay": 0,
-              "jitter_buffer_emitted_count": 0,
-              "key_frames_decoded": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_received": 0,
-              "peer_id": "peer_id",
-              "producer_id": "producer_id",
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "video_consumer_cumulative": {
-            "frame_per_second": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "frame_width": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "issues": {
-              "lag_fraction": 0,
-              "no_video_fraction": 0,
-              "poor_resolution_fraction": 0
-            },
-            "jitter_buffer_delay": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "key_frames_decoded_fraction": 0,
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            }
-          },
-          "video_producer": [
-            {
-              "bytes_sent": 0,
-              "fir_count": 0,
-              "frame_height": 0,
-              "frame_width": 0,
-              "frames_encoded": 0,
-              "frames_per_second": 0,
-              "jitter": 0,
-              "key_frames_encoded": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "pli_count": 0,
-              "producer_id": "producer_id",
-              "quality_limitation_durations": {
-                "bandwidth": 0,
-                "cpu": 0,
-                "none": 0,
-                "other": 0
-              },
-              "quality_limitation_reason": "cpu",
-              "quality_limitation_resolution_changes": 0,
-              "rtt": 0,
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "video_producer_cumulative": {
-            "frame_per_second": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "frame_width": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "high_negative_feedback_fraction": 0,
-            "issues": {
-              "bandwidth_quality_limitation_fraction": 0,
-              "cpu_quality_limitation_fraction": 0,
-              "no_video_fraction": 0,
-              "poor_resolution_fraction": 0,
-              "quality_limitation_fraction": 0
-            },
-            "key_frames_encoded_fraction": 0,
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "rtt": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            }
-          }
-        }
-      },
-      "role": "role",
-      "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "updated_at": "updated_at",
-      "user_id": "user_id"
-    }
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Domain Types
+</details>
 
-### Session Get Sessions Response
+[Link to this property](#)
 
-- `SessionGetSessionsResponse object { data, paging, success }`
+accept_stage_requests: optional boolean
 
-  - `data: optional object { sessions }`
+[Link to this property](#)
 
-    - `sessions: optional array of object { id, associated_id, created_at, 11 more }`
+is_recorder: optional boolean
 
-      - `id: string`
+[Link to this property](#)
 
-        ID of the session
+<details>
 
-      - `associated_id: string`
+<summary>
 
-        ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"
 
-      - `created_at: string`
+</summary>
 
-        timestamp when session created
+One of the following:
 
-      - `live_participants: number`
+"ALLOWED"
 
-        number of participants currently in the session
+[Link to this property](#)
 
-      - `max_concurrent_participants: number`
+"NOT_ALLOWED"
 
-        number of maximum participants that were in the session
+[Link to this property](#)
 
-      - `meeting_display_name: string`
+"CAN_REQUEST"
 
-        Title of the meeting this session belongs to
+[Link to this property](#)
 
-      - `minutes_consumed: number`
+</details>
 
-        number of minutes consumed since the session started
+[Link to this property](#)
 
-      - `organization_id: string`
+stage_enabled: optional boolean
 
-        App id that hosted this session
+[Link to this property](#)
 
-      - `started_at: string`
+transcription_enabled: optional boolean
 
-        timestamp when session started
+[Link to this property](#)
 
-      - `status: "LIVE" or "ENDED"`
+</details>
 
-        current status of session
+[Link to this property](#)
 
-        - `"LIVE"`
+<details>
 
-        - `"ENDED"`
+<summary>
 
-      - `type: "meeting" or "livestream" or "participant"`
+ui: object { design_tokens }
 
-        type of session
+</summary>
 
-        - `"meeting"`
+<details>
 
-        - `"livestream"`
+<summary>
 
-        - `"participant"`
+design_tokens: object { border_radius, border_width, colors, 5 more }
 
-      - `updated_at: string`
+</summary>
 
-        timestamp when session was last updated
+<details>
 
-      - `breakout_rooms: optional array of unknown`
+<summary>
 
-      - `ended_at: optional string`
+border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"
 
-        timestamp when session ended
+</summary>
 
-  - `paging: optional object { end_offset, start_offset, total_count }`
+One of the following:
 
-    - `end_offset: optional number`
+"sharp"
 
-    - `start_offset: optional number`
+[Link to this property](#)
 
-    - `total_count: optional number`
+"rounded"
 
-  - `success: optional boolean`
+[Link to this property](#)
 
-### Session Get Session Details Response
+"extra-rounded"
 
-- `SessionGetSessionDetailsResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: optional object { id, associated_id, created_at, 11 more }`
+"circular"
 
-    - `id: string`
+[Link to this property](#)
 
-      ID of the session
+</details>
 
-    - `associated_id: string`
+[Link to this property](#)
 
-      ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+<details>
 
-    - `created_at: string`
+<summary>
 
-      timestamp when session created
+border_width: "none" or "thin" or "fat"
 
-    - `live_participants: number`
+</summary>
 
-      number of participants currently in the session
+One of the following:
 
-    - `max_concurrent_participants: number`
+"none"
 
-      number of maximum participants that were in the session
+[Link to this property](#)
 
-    - `meeting_display_name: string`
+"thin"
 
-      Title of the meeting this session belongs to
+[Link to this property](#)
 
-    - `minutes_consumed: number`
+"fat"
 
-      number of minutes consumed since the session started
+[Link to this property](#)
 
-    - `organization_id: string`
+</details>
 
-      App id that hosted this session
+[Link to this property](#)
 
-    - `started_at: string`
+<details>
 
-      timestamp when session started
+<summary>
 
-    - `status: "LIVE" or "ENDED"`
+colors: object { background, brand, danger, 5 more }
 
-      current status of session
+</summary>
 
-      - `"LIVE"`
+<details>
 
-      - `"ENDED"`
+<summary>
 
-    - `type: "meeting" or "livestream" or "participant"`
+background: object { "1000", "600", "700", 2 more }
 
-      type of session
+</summary>
 
-      - `"meeting"`
+"1000": string
 
-      - `"livestream"`
+[Link to this property](#)
 
-      - `"participant"`
+"600": string
 
-    - `updated_at: string`
+[Link to this property](#)
 
-      timestamp when session was last updated
+"700": string
 
-    - `breakout_rooms: optional array of unknown`
+[Link to this property](#)
 
-    - `ended_at: optional string`
+"800": string
 
-      timestamp when session ended
+[Link to this property](#)
 
-  - `success: optional boolean`
+"900": string
 
-### Session Get Session Participants Response
+[Link to this property](#)
 
-- `SessionGetSessionParticipantsResponse object { data, success }`
+</details>
 
-  - `data: optional object { participants }`
+[Link to this property](#)
 
-    - `participants: optional array of object { id, created_at, custom_participant_id, 8 more }`
+<details>
 
-      - `id: optional string`
+<summary>
 
-        Participant ID. This maps to the corresponding peerId.
+brand: object { "300", "400", "500", 2 more }
 
-      - `created_at: optional string`
+</summary>
 
-        timestamp when this participant was created.
+"300": string
 
-      - `custom_participant_id: optional string`
+[Link to this property](#)
 
-        ID passed by client to create this participant.
+"400": string
 
-      - `display_name: optional string`
+[Link to this property](#)
 
-        Display name of participant when joining the session.
+"500": string
 
-      - `duration: optional number`
+[Link to this property](#)
 
-        number of minutes for which the participant was in the session.
+"600": string
 
-      - `joined_at: optional string`
+[Link to this property](#)
 
-        timestamp at which participant joined the session.
+"700": string
 
-      - `left_at: optional string`
+[Link to this property](#)
 
-        timestamp at which participant left the session.
+</details>
 
-      - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+[Link to this property](#)
 
-        Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+danger: string
 
-        - `id: optional string`
+[Link to this property](#)
 
-          ID of the peer event.
+success: string
 
-        - `created_at: optional string`
+[Link to this property](#)
 
-          Timestamp when this peer event was created.
+text: string
 
-        - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+[Link to this property](#)
 
-          Name of the peer event.
+text_on_brand: string
 
-          - `"PEER_CREATED"`
+[Link to this property](#)
 
-          - `"PEER_JOINING"`
+video_bg: string
 
-          - `"PEER_LEAVING"`
+[Link to this property](#)
 
-        - `minutes_consumed: optional number`
+warning: string
 
-          Minutes consumed attributed to this event.
+[Link to this property](#)
 
-        - `participant_id: optional string`
+</details>
 
-          ID of the participant this event belongs to.
+[Link to this property](#)
 
-        - `peer_id: optional string`
+spacing_base: number
 
-          Peer ID this event belongs to.
+minimum1
 
-        - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+[Link to this property](#)
 
-          View type of the preset associated with the peer.
+<details>
 
-          - `"GROUP_CALL"`
+<summary>
 
-          - `"WEBINAR"`
+theme: "darkest" or "dark" or "light"
 
-          - `"AUDIO_ROOM"`
+</summary>
 
-          - `"LIVESTREAM"`
+One of the following:
 
-          - `"CHAT"`
+"darkest"
 
-        - `session_id: optional string`
+[Link to this property](#)
 
-          ID of the session this event belongs to.
+"dark"
 
-        - `socket_session_id: optional string`
+[Link to this property](#)
 
-          ID of the socket session associated with this event.
+"light"
 
-        - `updated_at: optional string`
+[Link to this property](#)
 
-          Timestamp when this peer event was last updated.
+</details>
 
-      - `preset_name: optional string`
+[Link to this property](#)
 
-        Name of the preset associated with the participant.
+font_family: optional string
 
-      - `updated_at: optional string`
+[Link to this property](#)
 
-        timestamp when this participant's data was last updated.
+google_font: optional string
 
-      - `user_id: optional string`
+[Link to this property](#)
 
-        User id for this participant.
+logo: optional string
 
-  - `success: optional boolean`
+formaturi
 
-### Session Get Session Participant Details Response
+[Link to this property](#)
 
-- `SessionGetSessionParticipantDetailsResponse object { data, success }`
+</details>
 
-  - `data: optional object { participant }`
+[Link to this property](#)
 
-    - `participant: optional object { id, created_at, custom_participant_id, 8 more }`
+</details>
 
-      - `id: optional string`
+[Link to this property](#)
 
-        Participant ID. This maps to the corresponding peerId.
+updated_at: string
 
-      - `created_at: optional string`
+Timestamp this preset was last updated
 
-        timestamp when this participant was created.
+formatdate-time
 
-      - `custom_participant_id: optional string`
+[Link to this property](#)
 
-        ID passed by client to create this participant.
+</details>
 
-      - `display_name: optional string`
+[Link to this property](#)
 
-        Display name of participant when joining the session.
+success: boolean
 
-      - `duration: optional number`
+Success status of the operation
 
-        number of minutes for which the participant was in the session.
+[Link to this property](#)
 
-      - `joined_at: optional string`
+</details>
 
-        timestamp at which participant joined the session.
+[Link to this property](#)
 
-      - `left_at: optional string`
+##### [Fetch all sessions of an App](/api/resources/realtime_kit/subresources/sessions/methods/get_sessions)
 
-        timestamp at which participant left the session.
+GET/accounts/{account_id}/realtime/kit/{app_id}/sessions
 
-      - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+##### [Fetch details of a session](/api/resources/realtime_kit/subresources/sessions/methods/get_session_details)
 
-        Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+GET/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}
 
-        - `id: optional string`
+##### [Fetch participants list of a session](/api/resources/realtime_kit/subresources/sessions/methods/get_session_participants)
 
-          ID of the peer event.
+GET/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/participants
 
-        - `created_at: optional string`
+##### [Fetch details of a participant](/api/resources/realtime_kit/subresources/sessions/methods/get_session_participant_details)
 
-          Timestamp when this peer event was created.
+GET/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/participants/{participant_id}
 
-        - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+##### [Fetch all chat messages of a session](/api/resources/realtime_kit/subresources/sessions/methods/get_session_chat)
 
-          Name of the peer event.
+GET/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/chat
 
-          - `"PEER_CREATED"`
+##### [Fetch the complete transcript for a session](/api/resources/realtime_kit/subresources/sessions/methods/get_session_transcripts)
 
-          - `"PEER_JOINING"`
+GET/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/transcript
 
-          - `"PEER_LEAVING"`
+##### [Fetch summary of transcripts for a session](/api/resources/realtime_kit/subresources/sessions/methods/get_session_summary)
 
-        - `minutes_consumed: optional number`
+GET/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/summary
 
-          Minutes consumed attributed to this event.
+##### [Generate summary of Transcripts for the session](/api/resources/realtime_kit/subresources/sessions/methods/generate_summary_of_transcripts)
 
-        - `participant_id: optional string`
+POST/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/summary
 
-          ID of the participant this event belongs to.
+##### [Fetch details of peer](/api/resources/realtime_kit/subresources/sessions/methods/get_participant_data_from_peer_id)
 
-        - `peer_id: optional string`
+GET/accounts/{account_id}/realtime/kit/{app_id}/sessions/peer-report/{peer_id}
 
-          Peer ID this event belongs to.
+##### Models
 
-        - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+<details>
 
-          View type of the preset associated with the peer.
+<summary>
 
-          - `"GROUP_CALL"`
+SessionGetSessionsResponse object { data, paging, success }
 
-          - `"WEBINAR"`
+</summary>
 
-          - `"AUDIO_ROOM"`
+<details>
 
-          - `"LIVESTREAM"`
+<summary>
 
-          - `"CHAT"`
+data: optional object { sessions }
 
-        - `session_id: optional string`
+</summary>
 
-          ID of the session this event belongs to.
+<details>
 
-        - `socket_session_id: optional string`
+<summary>
 
-          ID of the socket session associated with this event.
+sessions: optional array of object { id, associated_id, created_at, 11 more }
 
-        - `updated_at: optional string`
+</summary>
 
-          Timestamp when this peer event was last updated.
+id: string
 
-      - `preset_name: optional string`
+ID of the session
 
-        Name of the preset associated with the participant.
+[Link to this property](#)
 
-      - `updated_at: optional string`
+associated_id: string
 
-        timestamp when this participant's data was last updated.
+ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
 
-      - `user_id: optional string`
+[Link to this property](#)
 
-        User id for this participant.
+created_at: string
 
-  - `success: optional boolean`
+timestamp when session created
 
-### Session Get Session Chat Response
+[Link to this property](#)
 
-- `SessionGetSessionChatResponse object { data, success }`
+live_participants: number
 
-  - `data: optional object { chat_download_url, chat_download_url_expiry }`
+number of participants currently in the session
 
-    - `chat_download_url: string`
+[Link to this property](#)
 
-      URL where the chat logs can be downloaded
+max_concurrent_participants: number
 
-    - `chat_download_url_expiry: string`
+number of maximum participants that were in the session
 
-      Time when the download URL will expire
+[Link to this property](#)
 
-  - `success: optional boolean`
+meeting_display_name: string
 
-### Session Get Session Transcripts Response
+Title of the meeting this session belongs to
 
-- `SessionGetSessionTranscriptsResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: optional object { sessionId, transcript_download_url, transcript_download_url_expiry }`
+minutes_consumed: number
 
-    - `sessionId: string`
+number of minutes consumed since the session started
 
-    - `transcript_download_url: string`
+[Link to this property](#)
 
-      URL where the transcript can be downloaded
+organization_id: string
 
-    - `transcript_download_url_expiry: string`
+App id that hosted this session
 
-      Time when the download URL will expire
+[Link to this property](#)
 
-  - `success: optional boolean`
+started_at: string
 
-### Session Get Session Summary Response
+timestamp when session started
 
-- `SessionGetSessionSummaryResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: optional object { sessionId, summaryDownloadUrl, summaryDownloadUrlExpiry }`
+<details>
 
-    - `sessionId: string`
+<summary>
 
-    - `summaryDownloadUrl: string`
+status: "LIVE" or "ENDED"
 
-      URL where the summary of transcripts can be downloaded
+current status of session
 
-    - `summaryDownloadUrlExpiry: string`
+</summary>
 
-      Time of Expiry before when you need to download the csv file.
+One of the following:
 
-  - `success: optional boolean`
+"LIVE"
 
-### Session Generate Summary Of Transcripts Response
+[Link to this property](#)
 
-- `SessionGenerateSummaryOfTranscriptsResponse object { data, success }`
+"ENDED"
 
-  - `data: optional object { session_id, status }`
+[Link to this property](#)
 
-    - `session_id: optional string`
+</details>
 
-    - `status: optional string`
+[Link to this property](#)
 
-  - `success: optional boolean`
+<details>
 
-### Session Get Participant Data From Peer ID Response
+<summary>
 
-- `SessionGetParticipantDataFromPeerIDResponse object { data, success }`
+type: "meeting" or "livestream" or "participant"
 
-  - `data: optional object { participant }`
+type of session
 
-    - `participant: optional object { id, created_at, custom_participant_id, 10 more }`
+</summary>
 
-      - `id: optional string`
+One of the following:
 
-        ID of the participant.
+"meeting"
 
-      - `created_at: optional string`
+[Link to this property](#)
 
-        timestamp when this participant was created.
+"livestream"
 
-      - `custom_participant_id: optional string`
+[Link to this property](#)
 
-        ID passed by client to create this participant.
+"participant"
 
-      - `display_name: optional string`
+[Link to this property](#)
 
-        Display name of participant when joining the session.
+</details>
 
-      - `duration: optional number`
+[Link to this property](#)
 
-        number of minutes for which the participant was in the session.
+updated_at: string
 
-      - `joined_at: optional string`
+timestamp when session was last updated
 
-        timestamp at which participant joined the session.
+[Link to this property](#)
 
-      - `left_at: optional string`
+breakout_rooms: optional array of unknown
 
-        timestamp at which participant left the session.
+[Link to this property](#)
 
-      - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+ended_at: optional string
 
-        Connection lifecycle events for the participant's peer.
+timestamp when session ended
 
-        - `id: optional string`
+[Link to this property](#)
 
-          ID of the peer event.
+</details>
 
-        - `created_at: optional string`
+[Link to this property](#)
 
-          Timestamp when this peer event was created.
+</details>
 
-        - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+[Link to this property](#)
 
-          Name of the peer event.
+<details>
 
-          - `"PEER_CREATED"`
+<summary>
 
-          - `"PEER_JOINING"`
+paging: optional object { end_offset, start_offset, total_count }
 
-          - `"PEER_LEAVING"`
+</summary>
 
-        - `minutes_consumed: optional number`
+end_offset: optional number
 
-          Minutes consumed attributed to this event.
+[Link to this property](#)
 
-        - `participant_id: optional string`
+start_offset: optional number
 
-          ID of the participant this event belongs to.
+[Link to this property](#)
 
-        - `peer_id: optional string`
+total_count: optional number
 
-          Peer ID this event belongs to.
+minimum0
 
-        - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+[Link to this property](#)
 
-          View type of the preset associated with the peer.
+</details>
 
-          - `"GROUP_CALL"`
+[Link to this property](#)
 
-          - `"WEBINAR"`
+success: optional boolean
 
-          - `"AUDIO_ROOM"`
+[Link to this property](#)
 
-          - `"LIVESTREAM"`
+</details>
 
-          - `"CHAT"`
+[Link to this property](#)
 
-        - `session_id: optional string`
+<details>
 
-          ID of the session this event belongs to.
+<summary>
 
-        - `socket_session_id: optional string`
+SessionGetSessionDetailsResponse object { data, success }
 
-          ID of the socket session associated with this event.
+</summary>
 
-        - `updated_at: optional string`
+<details>
 
-          Timestamp when this peer event was last updated.
+<summary>
 
-      - `peer_report: optional object { metadata, quality }`
+data: optional object { id, associated_id, created_at, 11 more }
 
-        Peer call statistics report.
+</summary>
 
-        - `metadata: optional object { audio_devices_updates, browser_metadata, candidate_pairs, 12 more }`
+id: string
 
-          Connection and device metadata for the participant.
+ID of the session
 
-          - `audio_devices_updates: optional array of object { added, removed, timestamp }`
+[Link to this property](#)
 
-            - `added: optional array of object { device_id, kind, label }`
+associated_id: string
 
-              Devices that became available.
+ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
 
-              - `device_id: optional string`
+[Link to this property](#)
 
-                ID of the device.
+created_at: string
 
-              - `kind: optional string`
+timestamp when session created
 
-                Kind of device, for example audioinput or videoinput.
+[Link to this property](#)
 
-              - `label: optional string`
+live_participants: number
 
-                Human-readable label of the device.
+number of participants currently in the session
 
-            - `removed: optional array of object { device_id, kind, label }`
+[Link to this property](#)
 
-              Devices that became unavailable.
+max_concurrent_participants: number
 
-              - `device_id: optional string`
+number of maximum participants that were in the session
 
-                ID of the device.
+[Link to this property](#)
 
-              - `kind: optional string`
+meeting_display_name: string
 
-                Kind of device, for example audioinput or videoinput.
+Title of the meeting this session belongs to
 
-              - `label: optional string`
+[Link to this property](#)
 
-                Human-readable label of the device.
+minutes_consumed: number
 
-            - `timestamp: optional string`
+number of minutes consumed since the session started
 
-              Timestamp of the device update.
+[Link to this property](#)
 
-          - `browser_metadata: optional object { browser, browser_version, engine, 2 more }`
+organization_id: string
 
-            - `browser: optional string`
+App id that hosted this session
 
-            - `browser_version: optional string`
+[Link to this property](#)
 
-            - `engine: optional string`
+started_at: string
 
-            - `user_agent: optional string`
+timestamp when session started
 
-            - `webgl_support: optional boolean`
+[Link to this property](#)
 
-          - `candidate_pairs: optional object { consuming_transport, producing_transport }`
+<details>
 
-            - `consuming_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }`
+<summary>
 
-              - `available_incoming_bitrate: optional number`
+status: "LIVE" or "ENDED"
 
-              - `available_outgoing_bitrate: optional number`
+current status of session
 
-              - `bytes_discarded_on_send: optional number`
+</summary>
 
-              - `bytes_received: optional number`
+One of the following:
 
-              - `bytes_sent: optional number`
+"LIVE"
 
-              - `current_round_trip_time: optional number`
+[Link to this property](#)
 
-              - `last_packet_received_timestamp: optional number`
+"ENDED"
 
-                Epoch milliseconds when the last packet was received.
+[Link to this property](#)
 
-              - `last_packet_sent_timestamp: optional number`
+</details>
 
-                Epoch milliseconds when the last packet was sent.
+[Link to this property](#)
 
-              - `local_candidate_address: optional string`
+<details>
 
-              - `local_candidate_id: optional string`
+<summary>
 
-              - `local_candidate_network_type: optional string`
+type: "meeting" or "livestream" or "participant"
 
-              - `local_candidate_port: optional number`
+type of session
 
-              - `local_candidate_protocol: optional string`
+</summary>
 
-              - `local_candidate_related_address: optional string`
+One of the following:
 
-              - `local_candidate_related_port: optional number`
+"meeting"
 
-              - `local_candidate_type: optional string`
+[Link to this property](#)
 
-              - `local_candidate_url: optional string`
+"livestream"
 
-              - `nominated: optional boolean`
+[Link to this property](#)
 
-              - `packets_discarded_on_send: optional number`
+"participant"
 
-              - `packets_received: optional number`
+[Link to this property](#)
 
-              - `packets_sent: optional number`
+</details>
 
-              - `remote_candidate_address: optional string`
+[Link to this property](#)
 
-              - `remote_candidate_id: optional string`
+updated_at: string
 
-              - `remote_candidate_port: optional number`
+timestamp when session was last updated
 
-              - `remote_candidate_protocol: optional string`
+[Link to this property](#)
 
-              - `remote_candidate_type: optional string`
+breakout_rooms: optional array of unknown
 
-              - `remote_candidate_url: optional string`
+[Link to this property](#)
 
-              - `total_round_trip_time: optional number`
+ended_at: optional string
 
-            - `producing_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }`
+timestamp when session ended
 
-              - `available_incoming_bitrate: optional number`
+[Link to this property](#)
 
-              - `available_outgoing_bitrate: optional number`
+</details>
 
-              - `bytes_discarded_on_send: optional number`
+[Link to this property](#)
 
-              - `bytes_received: optional number`
+success: optional boolean
 
-              - `bytes_sent: optional number`
+[Link to this property](#)
 
-              - `current_round_trip_time: optional number`
+</details>
 
-              - `last_packet_received_timestamp: optional number`
+[Link to this property](#)
 
-                Epoch milliseconds when the last packet was received.
+<details>
 
-              - `last_packet_sent_timestamp: optional number`
+<summary>
 
-                Epoch milliseconds when the last packet was sent.
+SessionGetSessionParticipantsResponse object { data, success }
 
-              - `local_candidate_address: optional string`
+</summary>
 
-              - `local_candidate_id: optional string`
+<details>
 
-              - `local_candidate_network_type: optional string`
+<summary>
 
-              - `local_candidate_port: optional number`
+data: optional object { participants }
 
-              - `local_candidate_protocol: optional string`
+</summary>
 
-              - `local_candidate_related_address: optional string`
+<details>
 
-              - `local_candidate_related_port: optional number`
+<summary>
 
-              - `local_candidate_type: optional string`
+participants: optional array of object { id, created_at, custom_participant_id, 8 more }
 
-              - `local_candidate_url: optional string`
+</summary>
 
-              - `nominated: optional boolean`
+id: optional string
 
-              - `packets_discarded_on_send: optional number`
+Participant ID. This maps to the corresponding peerId.
 
-              - `packets_received: optional number`
+[Link to this property](#)
 
-              - `packets_sent: optional number`
+created_at: optional string
 
-              - `remote_candidate_address: optional string`
+timestamp when this participant was created.
 
-              - `remote_candidate_id: optional string`
+[Link to this property](#)
 
-              - `remote_candidate_port: optional number`
+custom_participant_id: optional string
 
-              - `remote_candidate_protocol: optional string`
+ID passed by client to create this participant.
 
-              - `remote_candidate_type: optional string`
+[Link to this property](#)
 
-              - `remote_candidate_url: optional string`
+display_name: optional string
 
-              - `total_round_trip_time: optional number`
+Display name of participant when joining the session.
 
-          - `device_info: optional object { cpus, is_mobile, os, os_version }`
+[Link to this property](#)
 
-            - `cpus: optional number`
+duration: optional number
 
-            - `is_mobile: optional boolean`
+number of minutes for which the participant was in the session.
 
-            - `os: optional string`
+[Link to this property](#)
 
-            - `os_version: optional string`
+joined_at: optional string
 
-          - `events: optional array of object { metadata, name, timestamp }`
+timestamp at which participant joined the session.
 
-            - `metadata: optional map[string or number or boolean]`
+[Link to this property](#)
 
-              Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null).
+left_at: optional string
 
-              - `string`
+timestamp at which participant left the session.
 
-              - `number`
+[Link to this property](#)
 
-              - `boolean`
+<details>
 
-            - `name: optional string`
+<summary>
 
-              Name of the event.
+peer_events: optional array of object { id, created_at, event_name, 7 more }
 
-            - `timestamp: optional string`
+Connection lifecycle events for the participant’s peer. Only included when `include_peer_events` is true.
 
-              Timestamp when the event occurred.
+</summary>
 
-          - `ip_information: optional object { asn, city, country, 4 more }`
+id: optional string
 
-            - `asn: optional object { asn, domain, name, 2 more }`
+ID of the peer event.
 
-              - `asn: optional string`
+[Link to this property](#)
 
-              - `domain: optional string`
+created_at: optional string
 
-              - `name: optional string`
+Timestamp when this peer event was created.
 
-              - `route: optional string`
+[Link to this property](#)
 
-              - `type: optional string`
+<details>
 
-            - `city: optional string`
+<summary>
 
-            - `country: optional string`
+event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"
 
-            - `ipv4: optional string`
+Name of the peer event.
 
-            - `org: optional string`
+</summary>
 
-            - `region: optional string`
+One of the following:
 
-            - `timezone: optional string`
+"PEER_CREATED"
 
-          - `native_metadata: optional object { audio_encoder, video_encoder }`
+[Link to this property](#)
 
-            - `audio_encoder: optional string`
+"PEER_JOINING"
 
-            - `video_encoder: optional string`
+[Link to this property](#)
 
-          - `pc_metadata: optional array of object { effective_network_type, reflexive_connectivity, relay_connectivity, 3 more }`
+"PEER_LEAVING"
 
-            - `effective_network_type: optional string`
+[Link to this property](#)
 
-            - `reflexive_connectivity: optional boolean`
+</details>
 
-            - `relay_connectivity: optional boolean`
+[Link to this property](#)
 
-            - `sdp: optional array of string`
+minutes_consumed: optional number
 
-            - `timestamp: optional string`
+Minutes consumed attributed to this event.
 
-            - `turn_connectivity: optional boolean`
+[Link to this property](#)
 
-          - `room_view_type: optional string`
+participant_id: optional string
 
-          - `sdk_name: optional string`
+ID of the participant this event belongs to.
 
-          - `sdk_type: optional string`
+[Link to this property](#)
 
-          - `sdk_version: optional string`
+peer_id: optional string
 
-          - `selected_device_updates: optional array of object { device, timestamp }`
+Peer ID this event belongs to.
 
-            - `device: optional object { device_id, kind, label }`
+[Link to this property](#)
 
-              A media device (camera, microphone, or speaker).
+<details>
 
-              - `device_id: optional string`
+<summary>
 
-                ID of the device.
+preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more
 
-              - `kind: optional string`
+View type of the preset associated with the peer.
 
-                Kind of device, for example audioinput or videoinput.
+</summary>
 
-              - `label: optional string`
+One of the following:
 
-                Human-readable label of the device.
+"GROUP_CALL"
 
-            - `timestamp: optional string`
+[Link to this property](#)
 
-          - `speaker_devices_updates: optional array of object { added, removed, timestamp }`
+"WEBINAR"
 
-            - `added: optional array of object { device_id, kind, label }`
+[Link to this property](#)
 
-              Devices that became available.
+"AUDIO_ROOM"
 
-              - `device_id: optional string`
+[Link to this property](#)
 
-                ID of the device.
+"LIVESTREAM"
 
-              - `kind: optional string`
+[Link to this property](#)
 
-                Kind of device, for example audioinput or videoinput.
+"CHAT"
 
-              - `label: optional string`
+[Link to this property](#)
 
-                Human-readable label of the device.
+</details>
 
-            - `removed: optional array of object { device_id, kind, label }`
+[Link to this property](#)
 
-              Devices that became unavailable.
+session_id: optional string
 
-              - `device_id: optional string`
+ID of the session this event belongs to.
 
-                ID of the device.
+[Link to this property](#)
 
-              - `kind: optional string`
+socket_session_id: optional string
 
-                Kind of device, for example audioinput or videoinput.
+ID of the socket session associated with this event.
 
-              - `label: optional string`
+[Link to this property](#)
 
-                Human-readable label of the device.
+updated_at: optional string
 
-            - `timestamp: optional string`
+Timestamp when this peer event was last updated.
 
-              Timestamp of the device update.
+[Link to this property](#)
 
-          - `video_devices_updates: optional array of object { added, removed, timestamp }`
+</details>
 
-            - `added: optional array of object { device_id, kind, label }`
+[Link to this property](#)
 
-              Devices that became available.
+preset_name: optional string
 
-              - `device_id: optional string`
+Name of the preset associated with the participant.
 
-                ID of the device.
+[Link to this property](#)
 
-              - `kind: optional string`
+updated_at: optional string
 
-                Kind of device, for example audioinput or videoinput.
+timestamp when this participant’s data was last updated.
 
-              - `label: optional string`
+[Link to this property](#)
 
-                Human-readable label of the device.
+user_id: optional string
 
-            - `removed: optional array of object { device_id, kind, label }`
+User id for this participant.
 
-              Devices that became unavailable.
+[Link to this property](#)
 
-              - `device_id: optional string`
+</details>
 
-                ID of the device.
+[Link to this property](#)
 
-              - `kind: optional string`
+</details>
 
-                Kind of device, for example audioinput or videoinput.
+[Link to this property](#)
 
-              - `label: optional string`
+success: optional boolean
 
-                Human-readable label of the device.
+[Link to this property](#)
 
-            - `timestamp: optional string`
+</details>
 
-              Timestamp of the device update.
+[Link to this property](#)
 
-        - `quality: optional object { audio_consumer, audio_consumer_cumulative, audio_producer, 13 more }`
+<details>
 
-          Media quality statistics for the participant.
+<summary>
 
-          - `audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }`
+SessionGetSessionParticipantDetailsResponse object { data, success }
 
-            - `bytes_received: optional number`
+</summary>
 
-            - `concealment_events: optional number`
+<details>
 
-            - `consumer_id: optional string`
+<summary>
 
-            - `jitter: optional number`
+data: optional object { participant }
 
-            - `jitter_buffer_delay: optional number`
+</summary>
 
-            - `jitter_buffer_emitted_count: optional number`
+<details>
 
-            - `mid: optional string`
+<summary>
 
-            - `mos_quality: optional number`
+participant: optional object { id, created_at, custom_participant_id, 8 more }
 
-            - `packets_lost: optional number`
+</summary>
 
-            - `packets_received: optional number`
+id: optional string
 
-            - `peer_id: optional string`
+Participant ID. This maps to the corresponding peerId.
 
-            - `producer_id: optional string`
+[Link to this property](#)
 
-            - `ssrc: optional number`
+created_at: optional string
 
-            - `timestamp: optional string`
+timestamp when this participant was created.
 
-          - `audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }`
+[Link to this property](#)
 
-            Aggregated inbound (consumer) audio statistics for the session.
+custom_participant_id: optional string
 
-            - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+ID passed by client to create this participant.
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+[Link to this property](#)
 
-              - `"100ms_or_greater_event_fraction": optional number`
+display_name: optional string
 
-              - `"250ms_or_greater_event_fraction": optional number`
+Display name of participant when joining the session.
 
-              - `"500ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `avg: optional number`
+duration: optional number
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+number of minutes for which the participant was in the session.
 
-              Cumulative packet loss distribution.
+[Link to this property](#)
 
-              - `"10_or_greater_event_fraction": optional number`
+joined_at: optional string
 
-              - `"25_or_greater_event_fraction": optional number`
+timestamp at which participant joined the session.
 
-              - `"5_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"50_or_greater_event_fraction": optional number`
+left_at: optional string
 
-              - `avg: optional number`
+timestamp at which participant left the session.
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-              Distribution summary with average and percentiles.
+<details>
 
-              - `avg: optional number`
+<summary>
 
-              - `p50: optional number`
+peer_events: optional array of object { id, created_at, event_name, 7 more }
 
-              - `p75: optional number`
+Connection lifecycle events for the participant’s peer. Only included when `include_peer_events` is true.
 
-              - `p90: optional number`
+</summary>
 
-          - `audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }`
+id: optional string
 
-            - `bytes_sent: optional number`
+ID of the peer event.
 
-            - `jitter: optional number`
+[Link to this property](#)
 
-            - `mid: optional string`
+created_at: optional string
 
-            - `mos_quality: optional number`
+Timestamp when this peer event was created.
 
-            - `packets_lost: optional number`
+[Link to this property](#)
 
-            - `packets_sent: optional number`
+<details>
 
-            - `producer_id: optional string`
+<summary>
 
-            - `rtt: optional number`
+event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"
 
-            - `ssrc: optional number`
+Name of the peer event.
 
-            - `timestamp: optional string`
+</summary>
 
-          - `audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }`
+One of the following:
 
-            Aggregated outbound (producer) audio statistics for the session.
+"PEER_CREATED"
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+[Link to this property](#)
 
-              Cumulative packet loss distribution.
+"PEER_JOINING"
 
-              - `"10_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"25_or_greater_event_fraction": optional number`
+"PEER_LEAVING"
 
-              - `"5_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"50_or_greater_event_fraction": optional number`
+</details>
 
-              - `avg: optional number`
+[Link to this property](#)
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+minutes_consumed: optional number
 
-              Distribution summary with average and percentiles.
+Minutes consumed attributed to this event.
 
-              - `avg: optional number`
+[Link to this property](#)
 
-              - `p50: optional number`
+participant_id: optional string
 
-              - `p75: optional number`
+ID of the participant this event belongs to.
 
-              - `p90: optional number`
+[Link to this property](#)
 
-            - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+peer_id: optional string
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+Peer ID this event belongs to.
 
-              - `"100ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<details>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+<summary>
 
-              - `avg: optional number`
+preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more
 
-          - `screenshare_audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }`
+View type of the preset associated with the peer.
 
-            - `bytes_received: optional number`
+</summary>
 
-            - `concealment_events: optional number`
+One of the following:
 
-            - `consumer_id: optional string`
+"GROUP_CALL"
 
-            - `jitter: optional number`
+[Link to this property](#)
 
-            - `jitter_buffer_delay: optional number`
+"WEBINAR"
 
-            - `jitter_buffer_emitted_count: optional number`
+[Link to this property](#)
 
-            - `mid: optional string`
+"AUDIO_ROOM"
 
-            - `mos_quality: optional number`
+[Link to this property](#)
 
-            - `packets_lost: optional number`
+"LIVESTREAM"
 
-            - `packets_received: optional number`
+[Link to this property](#)
 
-            - `peer_id: optional string`
+"CHAT"
 
-            - `producer_id: optional string`
+[Link to this property](#)
 
-            - `ssrc: optional number`
+</details>
 
-            - `timestamp: optional string`
+[Link to this property](#)
 
-          - `screenshare_audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }`
+session_id: optional string
 
-            Aggregated inbound (consumer) audio statistics for the session.
+ID of the session this event belongs to.
 
-            - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+[Link to this property](#)
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+socket_session_id: optional string
 
-              - `"100ms_or_greater_event_fraction": optional number`
+ID of the socket session associated with this event.
 
-              - `"250ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"500ms_or_greater_event_fraction": optional number`
+updated_at: optional string
 
-              - `avg: optional number`
+Timestamp when this peer event was last updated.
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+[Link to this property](#)
 
-              Cumulative packet loss distribution.
+</details>
 
-              - `"10_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"25_or_greater_event_fraction": optional number`
+preset_name: optional string
 
-              - `"5_or_greater_event_fraction": optional number`
+Name of the preset associated with the participant.
 
-              - `"50_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `avg: optional number`
+updated_at: optional string
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+timestamp when this participant’s data was last updated.
 
-              Distribution summary with average and percentiles.
+[Link to this property](#)
 
-              - `avg: optional number`
+user_id: optional string
 
-              - `p50: optional number`
+User id for this participant.
 
-              - `p75: optional number`
+[Link to this property](#)
 
-              - `p90: optional number`
+</details>
 
-          - `screenshare_audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }`
+[Link to this property](#)
 
-            - `bytes_sent: optional number`
+</details>
 
-            - `jitter: optional number`
+[Link to this property](#)
 
-            - `mid: optional string`
+success: optional boolean
 
-            - `mos_quality: optional number`
+[Link to this property](#)
 
-            - `packets_lost: optional number`
+</details>
 
-            - `packets_sent: optional number`
+[Link to this property](#)
 
-            - `producer_id: optional string`
+<details>
 
-            - `rtt: optional number`
+<summary>
 
-            - `ssrc: optional number`
+SessionGetSessionChatResponse object { data, success }
 
-            - `timestamp: optional string`
+</summary>
 
-          - `screenshare_audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }`
+<details>
 
-            Aggregated outbound (producer) audio statistics for the session.
+<summary>
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+data: optional object { chat_download_url, chat_download_url_expiry }
 
-              Cumulative packet loss distribution.
+</summary>
 
-              - `"10_or_greater_event_fraction": optional number`
+chat_download_url: string
 
-              - `"25_or_greater_event_fraction": optional number`
+URL where the chat logs can be downloaded
 
-              - `"5_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"50_or_greater_event_fraction": optional number`
+chat_download_url_expiry: string
 
-              - `avg: optional number`
+Time when the download URL will expire
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-              Distribution summary with average and percentiles.
+</details>
 
-              - `avg: optional number`
+[Link to this property](#)
 
-              - `p50: optional number`
+success: optional boolean
 
-              - `p75: optional number`
+[Link to this property](#)
 
-              - `p90: optional number`
+</details>
 
-            - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+[Link to this property](#)
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+<details>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+<summary>
 
-              - `"250ms_or_greater_event_fraction": optional number`
+SessionGetSessionTranscriptsResponse object { data, success }
 
-              - `"500ms_or_greater_event_fraction": optional number`
+</summary>
 
-              - `avg: optional number`
+<details>
 
-          - `screenshare_video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }`
+<summary>
 
-            - `bytes_received: optional number`
+data: optional object { sessionId, transcript_download_url, transcript_download_url_expiry }
 
-            - `consumer_id: optional string`
+</summary>
 
-            - `fir_count: optional number`
+sessionId: string
 
-            - `frame_height: optional number`
+[Link to this property](#)
 
-            - `frame_width: optional number`
+transcript_download_url: string
 
-            - `frames_decoded: optional number`
+URL where the transcript can be downloaded
 
-            - `frames_dropped: optional number`
+[Link to this property](#)
 
-            - `frames_per_second: optional number`
+transcript_download_url_expiry: string
 
-            - `jitter: optional number`
+Time when the download URL will expire
 
-            - `jitter_buffer_delay: optional number`
+[Link to this property](#)
 
-            - `jitter_buffer_emitted_count: optional number`
+</details>
 
-            - `key_frames_decoded: optional number`
+[Link to this property](#)
 
-            - `mid: optional string`
+success: optional boolean
 
-            - `mos_quality: optional number`
+[Link to this property](#)
 
-            - `packets_lost: optional number`
+</details>
 
-            - `packets_received: optional number`
+[Link to this property](#)
 
-            - `peer_id: optional string`
+<details>
 
-            - `producer_id: optional string`
+<summary>
 
-            - `ssrc: optional number`
+SessionGetSessionSummaryResponse object { data, success }
 
-            - `timestamp: optional string`
+</summary>
 
-          - `screenshare_video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }`
+<details>
 
-            Aggregated inbound (consumer) video statistics for the session.
+<summary>
 
-            - `frame_per_second: optional object { avg, p50, p75, p90 }`
+data: optional object { sessionId, summaryDownloadUrl, summaryDownloadUrlExpiry }
 
-              Distribution summary with average and percentiles.
+</summary>
 
-              - `avg: optional number`
+sessionId: string
 
-              - `p50: optional number`
+[Link to this property](#)
 
-              - `p75: optional number`
+summaryDownloadUrl: string
 
-              - `p90: optional number`
+URL where the summary of transcripts can be downloaded
 
-            - `frame_width: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-              Distribution summary with average and percentiles.
+summaryDownloadUrlExpiry: string
 
-              - `avg: optional number`
+Time of Expiry before when you need to download the csv file.
 
-              - `p50: optional number`
+[Link to this property](#)
 
-              - `p75: optional number`
+</details>
 
-              - `p90: optional number`
+[Link to this property](#)
 
-            - `issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }`
+success: optional boolean
 
-              - `lag_fraction: optional number`
+[Link to this property](#)
 
-              - `no_video_fraction: optional number`
+</details>
 
-              - `poor_resolution_fraction: optional number`
+[Link to this property](#)
 
-            - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<details>
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+<summary>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+SessionGenerateSummaryOfTranscriptsResponse object { data, success }
 
-              - `"250ms_or_greater_event_fraction": optional number`
+</summary>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+<details>
 
-              - `avg: optional number`
+<summary>
 
-            - `key_frames_decoded_fraction: optional number`
+data: optional object { session_id, status }
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+</summary>
 
-              Cumulative packet loss distribution.
+session_id: optional string
 
-              - `"10_or_greater_event_fraction": optional number`
+formatuuid
 
-              - `"25_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"5_or_greater_event_fraction": optional number`
+status: optional string
 
-              - `"50_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `avg: optional number`
+</details>
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-              Distribution summary with average and percentiles.
+success: optional boolean
 
-              - `avg: optional number`
+[Link to this property](#)
 
-              - `p50: optional number`
+</details>
 
-              - `p75: optional number`
+[Link to this property](#)
 
-              - `p90: optional number`
+<details>
 
-          - `screenshare_video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }`
+<summary>
 
-            - `bytes_sent: optional number`
+SessionGetParticipantDataFromPeerIDResponse object { data, success }
 
-            - `fir_count: optional number`
+</summary>
 
-            - `frame_height: optional number`
+<details>
 
-            - `frame_width: optional number`
+<summary>
 
-            - `frames_encoded: optional number`
+data: optional object { participant }
 
-            - `frames_per_second: optional number`
+</summary>
 
-            - `jitter: optional number`
+<details>
 
-            - `key_frames_encoded: optional number`
+<summary>
 
-            - `mid: optional string`
+participant: optional object { id, created_at, custom_participant_id, 10 more }
 
-            - `mos_quality: optional number`
+</summary>
 
-            - `packets_lost: optional number`
+id: optional string
 
-            - `packets_sent: optional number`
+ID of the participant.
 
-            - `pli_count: optional number`
+formatuuid
 
-            - `producer_id: optional string`
+[Link to this property](#)
 
-            - `quality_limitation_durations: optional object { bandwidth, cpu, none, other }`
+created_at: optional string
 
-              - `bandwidth: optional number`
+timestamp when this participant was created.
 
-              - `cpu: optional number`
+[Link to this property](#)
 
-              - `none: optional number`
+custom_participant_id: optional string
 
-              - `other: optional number`
+ID passed by client to create this participant.
 
-            - `quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"`
+[Link to this property](#)
 
-              - `"cpu"`
+display_name: optional string
 
-              - `"bandwidth"`
+Display name of participant when joining the session.
 
-              - `"none"`
+[Link to this property](#)
 
-              - `"other"`
+duration: optional number
 
-            - `quality_limitation_resolution_changes: optional number`
+number of minutes for which the participant was in the session.
 
-            - `rtt: optional number`
+[Link to this property](#)
 
-            - `ssrc: optional number`
+joined_at: optional string
 
-            - `timestamp: optional string`
+timestamp at which participant joined the session.
 
-          - `screenshare_video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }`
+[Link to this property](#)
 
-            Aggregated outbound (producer) video statistics for the session.
+left_at: optional string
 
-            - `frame_per_second: optional object { avg, p50, p75, p90 }`
+timestamp at which participant left the session.
 
-              Distribution summary with average and percentiles.
+[Link to this property](#)
 
-              - `avg: optional number`
+<details>
 
-              - `p50: optional number`
+<summary>
 
-              - `p75: optional number`
+peer_events: optional array of object { id, created_at, event_name, 7 more }
 
-              - `p90: optional number`
+Connection lifecycle events for the participant’s peer.
 
-            - `frame_width: optional object { avg, p50, p75, p90 }`
+</summary>
 
-              Distribution summary with average and percentiles.
+id: optional string
 
-              - `avg: optional number`
+ID of the peer event.
 
-              - `p50: optional number`
+[Link to this property](#)
 
-              - `p75: optional number`
+created_at: optional string
 
-              - `p90: optional number`
+Timestamp when this peer event was created.
 
-            - `high_negative_feedback_fraction: optional number`
+[Link to this property](#)
 
-            - `issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }`
+<details>
 
-              - `bandwidth_quality_limitation_fraction: optional number`
+<summary>
 
-              - `cpu_quality_limitation_fraction: optional number`
+event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"
 
-              - `no_video_fraction: optional number`
+Name of the peer event.
 
-              - `poor_resolution_fraction: optional number`
+</summary>
 
-              - `quality_limitation_fraction: optional number`
+One of the following:
 
-            - `key_frames_encoded_fraction: optional number`
+"PEER_CREATED"
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+[Link to this property](#)
 
-              Cumulative packet loss distribution.
+"PEER_JOINING"
 
-              - `"10_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"25_or_greater_event_fraction": optional number`
+"PEER_LEAVING"
 
-              - `"5_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"50_or_greater_event_fraction": optional number`
+</details>
 
-              - `avg: optional number`
+[Link to this property](#)
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+minutes_consumed: optional number
 
-              Distribution summary with average and percentiles.
+Minutes consumed attributed to this event.
 
-              - `avg: optional number`
+[Link to this property](#)
 
-              - `p50: optional number`
+participant_id: optional string
 
-              - `p75: optional number`
+ID of the participant this event belongs to.
 
-              - `p90: optional number`
+[Link to this property](#)
 
-            - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+peer_id: optional string
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+Peer ID this event belongs to.
 
-              - `"100ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<details>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+<summary>
 
-              - `avg: optional number`
+preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more
 
-          - `video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }`
+View type of the preset associated with the peer.
 
-            - `bytes_received: optional number`
+</summary>
 
-            - `consumer_id: optional string`
+One of the following:
 
-            - `fir_count: optional number`
+"GROUP_CALL"
 
-            - `frame_height: optional number`
+[Link to this property](#)
 
-            - `frame_width: optional number`
+"WEBINAR"
 
-            - `frames_decoded: optional number`
+[Link to this property](#)
 
-            - `frames_dropped: optional number`
+"AUDIO_ROOM"
 
-            - `frames_per_second: optional number`
+[Link to this property](#)
 
-            - `jitter: optional number`
+"LIVESTREAM"
 
-            - `jitter_buffer_delay: optional number`
+[Link to this property](#)
 
-            - `jitter_buffer_emitted_count: optional number`
+"CHAT"
 
-            - `key_frames_decoded: optional number`
+[Link to this property](#)
 
-            - `mid: optional string`
+</details>
 
-            - `mos_quality: optional number`
+[Link to this property](#)
 
-            - `packets_lost: optional number`
+session_id: optional string
 
-            - `packets_received: optional number`
+ID of the session this event belongs to.
 
-            - `peer_id: optional string`
+[Link to this property](#)
 
-            - `producer_id: optional string`
+socket_session_id: optional string
 
-            - `ssrc: optional number`
+ID of the socket session associated with this event.
 
-            - `timestamp: optional string`
+[Link to this property](#)
 
-          - `video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }`
+updated_at: optional string
 
-            Aggregated inbound (consumer) video statistics for the session.
+Timestamp when this peer event was last updated.
 
-            - `frame_per_second: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-              Distribution summary with average and percentiles.
+</details>
 
-              - `avg: optional number`
+[Link to this property](#)
 
-              - `p50: optional number`
+<details>
 
-              - `p75: optional number`
+<summary>
 
-              - `p90: optional number`
+peer_report: optional object { metadata, quality }
 
-            - `frame_width: optional object { avg, p50, p75, p90 }`
+Peer call statistics report.
 
-              Distribution summary with average and percentiles.
+</summary>
 
-              - `avg: optional number`
+<details>
 
-              - `p50: optional number`
+<summary>
 
-              - `p75: optional number`
+metadata: optional object { audio_devices_updates, browser_metadata, candidate_pairs, 12 more }
 
-              - `p90: optional number`
+Connection and device metadata for the participant.
 
-            - `issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }`
+</summary>
 
-              - `lag_fraction: optional number`
+<details>
 
-              - `no_video_fraction: optional number`
+<summary>
 
-              - `poor_resolution_fraction: optional number`
+audio_devices_updates: optional array of object { added, removed, timestamp }
 
-            - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+</summary>
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+<details>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+<summary>
 
-              - `"250ms_or_greater_event_fraction": optional number`
+added: optional array of object { device_id, kind, label }
 
-              - `"500ms_or_greater_event_fraction": optional number`
+Devices that became available.
 
-              - `avg: optional number`
+</summary>
 
-            - `key_frames_decoded_fraction: optional number`
+device_id: optional string
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+ID of the device.
 
-              Cumulative packet loss distribution.
+[Link to this property](#)
 
-              - `"10_or_greater_event_fraction": optional number`
+kind: optional string
 
-              - `"25_or_greater_event_fraction": optional number`
+Kind of device, for example audioinput or videoinput.
 
-              - `"5_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"50_or_greater_event_fraction": optional number`
+label: optional string
 
-              - `avg: optional number`
+Human-readable label of the device.
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-              Distribution summary with average and percentiles.
+</details>
 
-              - `avg: optional number`
+[Link to this property](#)
 
-              - `p50: optional number`
+<details>
 
-              - `p75: optional number`
+<summary>
 
-              - `p90: optional number`
+removed: optional array of object { device_id, kind, label }
 
-          - `video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }`
+Devices that became unavailable.
 
-            - `bytes_sent: optional number`
+</summary>
 
-            - `fir_count: optional number`
+device_id: optional string
 
-            - `frame_height: optional number`
+ID of the device.
 
-            - `frame_width: optional number`
+[Link to this property](#)
 
-            - `frames_encoded: optional number`
+kind: optional string
 
-            - `frames_per_second: optional number`
+Kind of device, for example audioinput or videoinput.
 
-            - `jitter: optional number`
+[Link to this property](#)
 
-            - `key_frames_encoded: optional number`
+label: optional string
 
-            - `mid: optional string`
+Human-readable label of the device.
 
-            - `mos_quality: optional number`
+[Link to this property](#)
 
-            - `packets_lost: optional number`
+</details>
 
-            - `packets_sent: optional number`
+[Link to this property](#)
 
-            - `pli_count: optional number`
+timestamp: optional string
 
-            - `producer_id: optional string`
+Timestamp of the device update.
 
-            - `quality_limitation_durations: optional object { bandwidth, cpu, none, other }`
+[Link to this property](#)
 
-              - `bandwidth: optional number`
+</details>
 
-              - `cpu: optional number`
+[Link to this property](#)
 
-              - `none: optional number`
+<details>
 
-              - `other: optional number`
+<summary>
 
-            - `quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"`
+browser_metadata: optional object { browser, browser_version, engine, 2 more }
 
-              - `"cpu"`
+</summary>
 
-              - `"bandwidth"`
+browser: optional string
 
-              - `"none"`
+[Link to this property](#)
 
-              - `"other"`
+browser_version: optional string
 
-            - `quality_limitation_resolution_changes: optional number`
+[Link to this property](#)
 
-            - `rtt: optional number`
+engine: optional string
 
-            - `ssrc: optional number`
+[Link to this property](#)
 
-            - `timestamp: optional string`
+user_agent: optional string
 
-          - `video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }`
+[Link to this property](#)
 
-            Aggregated outbound (producer) video statistics for the session.
+webgl_support: optional boolean
 
-            - `frame_per_second: optional object { avg, p50, p75, p90 }`
+[Link to this property](#)
 
-              Distribution summary with average and percentiles.
+</details>
 
-              - `avg: optional number`
+[Link to this property](#)
 
-              - `p50: optional number`
+<details>
 
-              - `p75: optional number`
+<summary>
 
-              - `p90: optional number`
+candidate_pairs: optional object { consuming_transport, producing_transport }
 
-            - `frame_width: optional object { avg, p50, p75, p90 }`
+</summary>
 
-              Distribution summary with average and percentiles.
+<details>
 
-              - `avg: optional number`
+<summary>
 
-              - `p50: optional number`
+consuming_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }
 
-              - `p75: optional number`
+</summary>
 
-              - `p90: optional number`
+available_incoming_bitrate: optional number
 
-            - `high_negative_feedback_fraction: optional number`
+[Link to this property](#)
 
-            - `issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }`
+available_outgoing_bitrate: optional number
 
-              - `bandwidth_quality_limitation_fraction: optional number`
+[Link to this property](#)
 
-              - `cpu_quality_limitation_fraction: optional number`
+bytes_discarded_on_send: optional number
 
-              - `no_video_fraction: optional number`
+[Link to this property](#)
 
-              - `poor_resolution_fraction: optional number`
+bytes_received: optional number
 
-              - `quality_limitation_fraction: optional number`
+[Link to this property](#)
 
-            - `key_frames_encoded_fraction: optional number`
+bytes_sent: optional number
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+[Link to this property](#)
 
-              Cumulative packet loss distribution.
+current_round_trip_time: optional number
 
-              - `"10_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"25_or_greater_event_fraction": optional number`
+last_packet_received_timestamp: optional number
 
-              - `"5_or_greater_event_fraction": optional number`
+Epoch milliseconds when the last packet was received.
 
-              - `"50_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `avg: optional number`
+last_packet_sent_timestamp: optional number
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+Epoch milliseconds when the last packet was sent.
 
-              Distribution summary with average and percentiles.
+[Link to this property](#)
 
-              - `avg: optional number`
+local_candidate_address: optional string
 
-              - `p50: optional number`
+[Link to this property](#)
 
-              - `p75: optional number`
+local_candidate_id: optional string
 
-              - `p90: optional number`
+[Link to this property](#)
 
-            - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+local_candidate_network_type: optional string
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+[Link to this property](#)
 
-              - `"100ms_or_greater_event_fraction": optional number`
+local_candidate_port: optional number
 
-              - `"250ms_or_greater_event_fraction": optional number`
+[Link to this property](#)
 
-              - `"500ms_or_greater_event_fraction": optional number`
+local_candidate_protocol: optional string
 
-              - `avg: optional number`
+[Link to this property](#)
 
-      - `role: optional string`
+local_candidate_related_address: optional string
 
-        Name of the preset associated with the participant.
+[Link to this property](#)
 
-      - `session_id: optional string`
+local_candidate_related_port: optional number
 
-      - `updated_at: optional string`
+[Link to this property](#)
 
-        timestamp when this participant's data was last updated.
+local_candidate_type: optional string
 
-      - `user_id: optional string`
+[Link to this property](#)
 
-        User id for this participant.
+local_candidate_url: optional string
 
-  - `success: optional boolean`
+[Link to this property](#)
 
-# Recordings
+nominated: optional boolean
 
-## Fetch all recordings for an App
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/recordings`
+packets_discarded_on_send: optional number
 
-Returns all recordings for an App. If the `meeting_id` parameter is passed, returns all recordings for the given meeting ID.
+[Link to this property](#)
 
-### Path Parameters
+packets_received: optional number
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+packets_sent: optional number
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+remote_candidate_address: optional string
 
-### Query Parameters
+[Link to this property](#)
 
-- `end_time: optional string`
+remote_candidate_id: optional string
 
-  The end time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+[Link to this property](#)
 
-- `expired: optional boolean`
+remote_candidate_port: optional number
 
-  If passed, only shows expired/non-expired recordings on RealtimeKit's bucket
+[Link to this property](#)
 
-- `meeting_id: optional string`
+remote_candidate_protocol: optional string
 
-  ID of a meeting. Optional. Will limit results to only this meeting if passed.
+[Link to this property](#)
 
-- `page_no: optional number`
+remote_candidate_type: optional string
 
-  The page number from which you want your page search results to be displayed.
+[Link to this property](#)
 
-- `per_page: optional number`
+remote_candidate_url: optional string
 
-  Number of results per page
+[Link to this property](#)
 
-- `search: optional string`
+total_round_trip_time: optional number
 
-  The search query string. You can search using the meeting ID or title.
+[Link to this property](#)
 
-- `sort_by: optional "invokedTime"`
+</details>
 
-  - `"invokedTime"`
+[Link to this property](#)
 
-- `sort_order: optional "ASC" or "DESC"`
+<details>
 
-  - `"ASC"`
+<summary>
 
-  - `"DESC"`
+producing_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }
 
-- `start_time: optional string`
+</summary>
 
-  The start time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+available_incoming_bitrate: optional number
 
-- `status: optional array of "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+[Link to this property](#)
 
-  Filter by one or more recording status
+available_outgoing_bitrate: optional number
 
-  - `"INVOKED"`
+[Link to this property](#)
 
-  - `"RECORDING"`
+bytes_discarded_on_send: optional number
 
-  - `"UPLOADING"`
+[Link to this property](#)
 
-  - `"UPLOADED"`
+bytes_received: optional number
 
-  - `"ERRORED"`
+[Link to this property](#)
 
-  - `"PAUSED"`
+bytes_sent: optional number
 
-### Returns
+[Link to this property](#)
 
-- `data: array of object { id, audio_download_url, download_url, 11 more }`
+current_round_trip_time: optional number
 
-  - `id: string`
+[Link to this property](#)
 
-    ID of the recording
+last_packet_received_timestamp: optional number
 
-  - `audio_download_url: string`
+Epoch milliseconds when the last packet was received.
 
-    If the audio_config is passed, the URL for downloading the audio recording is returned.
+[Link to this property](#)
 
-  - `download_url: string`
+last_packet_sent_timestamp: optional number
 
-    URL where the recording can be downloaded.
+Epoch milliseconds when the last packet was sent.
 
-  - `download_url_expiry: string`
+[Link to this property](#)
 
-    Timestamp when the download URL expires.
+local_candidate_address: optional string
 
-  - `file_size: number`
+[Link to this property](#)
 
-    File size of the recording, in bytes.
+local_candidate_id: optional string
 
-  - `invoked_time: string`
+[Link to this property](#)
 
-    Timestamp when this recording was invoked.
+local_candidate_network_type: optional string
 
-  - `output_file_name: string`
+[Link to this property](#)
 
-    File name of the recording.
+local_candidate_port: optional number
 
-  - `session_id: string`
+[Link to this property](#)
 
-    ID of the meeting session this recording is for.
+local_candidate_protocol: optional string
 
-  - `started_time: string`
+[Link to this property](#)
 
-    Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+local_candidate_related_address: optional string
 
-  - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+[Link to this property](#)
 
-    Current status of the recording.
+local_candidate_related_port: optional number
 
-    - `"INVOKED"`
+[Link to this property](#)
 
-    - `"RECORDING"`
+local_candidate_type: optional string
 
-    - `"UPLOADING"`
+[Link to this property](#)
 
-    - `"UPLOADED"`
+local_candidate_url: optional string
 
-    - `"ERRORED"`
+[Link to this property](#)
 
-    - `"PAUSED"`
+nominated: optional boolean
 
-  - `stopped_time: string`
+[Link to this property](#)
 
-    Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+packets_discarded_on_send: optional number
 
-  - `meeting: optional object { id, created_at, updated_at, 9 more }`
+[Link to this property](#)
 
-    - `id: string`
+packets_received: optional number
 
-      ID of the meeting.
+[Link to this property](#)
 
-    - `created_at: string`
+packets_sent: optional number
 
-      Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `updated_at: string`
+remote_candidate_address: optional string
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `live_stream_on_start: optional boolean`
+remote_candidate_id: optional string
 
-      Specifies if the meeting should start getting livestreamed on start.
+[Link to this property](#)
 
-    - `persist_chat: optional boolean`
+remote_candidate_port: optional number
 
-      Specifies if Chat within a meeting should persist for a week.
+[Link to this property](#)
 
-    - `record_on_start: optional boolean`
+remote_candidate_protocol: optional string
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+[Link to this property](#)
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+remote_candidate_type: optional string
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+[Link to this property](#)
 
-      - `audio_config: optional object { channel, codec, export_file }`
+remote_candidate_url: optional string
 
-        Object containing configuration regarding the audio that is being recorded.
+[Link to this property](#)
 
-        - `channel: optional "mono" or "stereo"`
+total_round_trip_time: optional number
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-          - `"mono"`
+</details>
 
-          - `"stereo"`
+[Link to this property](#)
 
-        - `codec: optional "MP3" or "AAC"`
+</details>
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+[Link to this property](#)
 
-          - `"MP3"`
+<details>
 
-          - `"AAC"`
+<summary>
 
-        - `export_file: optional boolean`
+device_info: optional object { cpus, is_mobile, os, os_version }
 
-          Controls whether to export audio file seperately
+</summary>
 
-      - `file_name_prefix: optional string`
+cpus: optional number
 
-        Adds a prefix to the beginning of the file name of the recording.
+[Link to this property](#)
 
-      - `live_streaming_config: optional object { rtmp_url }`
+is_mobile: optional boolean
 
-        - `rtmp_url: optional string`
+[Link to this property](#)
 
-          RTMP URL to stream to
+os: optional string
 
-      - `max_seconds: optional number`
+[Link to this property](#)
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+os_version: optional string
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+[Link to this property](#)
 
-        - `enabled: boolean`
+</details>
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+[Link to this property](#)
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<details>
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<summary>
 
-          Type of storage media.
+events: optional array of object { metadata, name, timestamp }
 
-          - `"aws"`
+</summary>
 
-          - `"azure"`
+<details>
 
-          - `"digitalocean"`
+<summary>
 
-          - `"gcs"`
+metadata: optional map[string or number or boolean]
 
-          - `"sftp"`
+Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null).
 
-        - `access_key: optional string`
+</summary>
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+One of the following:
 
-          Note that this field is not readable by clients, only writeable.
+string
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-          Authentication method used for "sftp" type storage medium
+number
 
-          - `"KEY"`
+[Link to this property](#)
 
-          - `"PASSWORD"`
+boolean
 
-        - `bucket: optional string`
+[Link to this property](#)
 
-          Name of the storage medium's bucket.
+</details>
 
-        - `host: optional string`
+[Link to this property](#)
 
-          SSH destination server host for SFTP type storage medium
+name: optional string
 
-        - `password: optional string`
+Name of the event.
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+[Link to this property](#)
 
-        - `path: optional string`
+timestamp: optional string
 
-          Path relative to the bucket root at which the recording will be placed.
+Timestamp when the event occurred.
 
-        - `port: optional number`
+[Link to this property](#)
 
-          SSH destination server port for SFTP type storage medium
+</details>
 
-        - `private_key: optional string`
+[Link to this property](#)
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+<details>
 
-        - `region: optional string`
+<summary>
 
-          Region of the storage medium.
+ip_information: optional object { asn, city, country, 4 more }
 
-        - `secret: optional string`
+</summary>
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<details>
 
-        - `username: optional string`
+<summary>
 
-          SSH destination server username for SFTP type storage medium
+asn: optional object { asn, domain, name, 2 more }
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+</summary>
 
-        - `codec: optional "H264" or "VP8"`
+asn: optional string
 
-          Codec using which the recording will be encoded.
+[Link to this property](#)
 
-          - `"H264"`
+domain: optional string
 
-          - `"VP8"`
+[Link to this property](#)
 
-        - `export_file: optional boolean`
+name: optional string
 
-          Controls whether to export video file seperately
+[Link to this property](#)
 
-        - `height: optional number`
+route: optional string
 
-          Height of the recording video in pixels
+[Link to this property](#)
 
-        - `watermark: optional object { position, size, url }`
+type: optional string
 
-          Watermark to be added to the recording
+[Link to this property](#)
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+</details>
 
-            Position of the watermark
+[Link to this property](#)
 
-            - `"left top"`
+city: optional string
 
-            - `"right top"`
+[Link to this property](#)
 
-            - `"left bottom"`
+country: optional string
 
-            - `"right bottom"`
+[Link to this property](#)
 
-          - `size: optional object { height, width }`
+ipv4: optional string
 
-            Size of the watermark
+[Link to this property](#)
 
-            - `height: optional number`
+org: optional string
 
-              Height of the watermark in px
+[Link to this property](#)
 
-            - `width: optional number`
+region: optional string
 
-              Width of the watermark in px
+[Link to this property](#)
 
-          - `url: optional string`
+timezone: optional string
 
-            URL of the watermark image
+[Link to this property](#)
 
-        - `width: optional number`
+</details>
 
-          Width of the recording video in pixels
+[Link to this property](#)
 
-    - `session_keep_alive_time_in_secs: optional number`
+<details>
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+<summary>
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+native_metadata: optional object { audio_encoder, video_encoder }
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+</summary>
 
-      - `"ACTIVE"`
+audio_encoder: optional string
 
-      - `"INACTIVE"`
+[Link to this property](#)
 
-    - `summarize_on_end: optional boolean`
+video_encoder: optional string
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+[Link to this property](#)
 
-    - `title: optional string`
+</details>
 
-      Title of the meeting.
+[Link to this property](#)
 
-    - `transcribe_on_end: optional boolean`
+<details>
 
-      Automatically generate transcripts when the meeting ends.
+<summary>
 
-  - `recording_duration: optional number`
+pc_metadata: optional array of object { effective_network_type, reflexive_connectivity, relay_connectivity, 3 more }
 
-    Total recording time in seconds.
+</summary>
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+effective_network_type: optional string
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+[Link to this property](#)
 
-      Type of storage media.
+reflexive_connectivity: optional boolean
 
-      - `"aws"`
+[Link to this property](#)
 
-      - `"azure"`
+relay_connectivity: optional boolean
 
-      - `"digitalocean"`
+[Link to this property](#)
 
-      - `"gcs"`
+sdp: optional array of string
 
-      - `"sftp"`
+[Link to this property](#)
 
-    - `access_key: optional string`
+timestamp: optional string
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-      Note that this field is not readable by clients, only writeable.
+turn_connectivity: optional boolean
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-      Authentication method used for "sftp" type storage medium
+</details>
 
-      - `"KEY"`
+[Link to this property](#)
 
-      - `"PASSWORD"`
+room_view_type: optional string
 
-    - `bucket: optional string`
+[Link to this property](#)
 
-      Name of the storage medium's bucket.
+sdk_name: optional string
 
-    - `host: optional string`
+[Link to this property](#)
 
-      SSH destination server host for SFTP type storage medium
+sdk_type: optional string
 
-    - `password: optional string`
+[Link to this property](#)
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+sdk_version: optional string
 
-    - `path: optional string`
+[Link to this property](#)
 
-      Path relative to the bucket root at which the recording will be placed.
+<details>
 
-    - `port: optional number`
+<summary>
 
-      SSH destination server port for SFTP type storage medium
+selected_device_updates: optional array of object { device, timestamp }
 
-    - `private_key: optional string`
+</summary>
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+<details>
 
-    - `region: optional string`
+<summary>
 
-      Region of the storage medium.
+device: optional object { device_id, kind, label }
 
-    - `secret: optional string`
+A media device (camera, microphone, or speaker).
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+</summary>
 
-    - `username: optional string`
+device_id: optional string
 
-      SSH destination server username for SFTP type storage medium
+ID of the device.
 
-- `paging: object { end_offset, start_offset, total_count }`
+[Link to this property](#)
 
-  - `end_offset: number`
+kind: optional string
 
-  - `start_offset: number`
+Kind of device, for example audioinput or videoinput.
 
-  - `total_count: number`
+[Link to this property](#)
 
-- `success: boolean`
+label: optional string
 
-### Example
+Human-readable label of the device.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/recordings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+</details>
 
-```json
-{
-  "data": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "audio_download_url": "https://example.com",
-      "download_url": "https://example.com",
-      "download_url_expiry": "2019-12-27T18:11:19.117Z",
-      "file_size": 0,
-      "invoked_time": "2019-12-27T18:11:19.117Z",
-      "output_file_name": "output_file_name",
-      "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "started_time": "2019-12-27T18:11:19.117Z",
-      "status": "INVOKED",
-      "stopped_time": "2019-12-27T18:11:19.117Z",
-      "meeting": {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "live_stream_on_start": true,
-        "persist_chat": true,
-        "record_on_start": true,
-        "recording_config": {
-          "audio_config": {
-            "channel": "mono",
-            "codec": "MP3",
-            "export_file": true
-          },
-          "file_name_prefix": "file_name_prefix",
-          "live_streaming_config": {
-            "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-          },
-          "max_seconds": 60,
-          "realtimekit_bucket_config": {
-            "enabled": true
-          },
-          "storage_config": {
-            "type": "aws",
-            "auth_method": "KEY",
-            "bucket": "bucket",
-            "host": "host",
-            "password": "password",
-            "path": "path",
-            "port": 0,
-            "private_key": "private_key",
-            "region": "us-east-1",
-            "secret": "secret",
-            "username": "username"
-          },
-          "video_config": {
-            "codec": "H264",
-            "export_file": true,
-            "height": 720,
-            "watermark": {
-              "position": "left top",
-              "size": {
-                "height": 1,
-                "width": 1
-              },
-              "url": "https://example.com"
-            },
-            "width": 1280
-          }
-        },
-        "session_keep_alive_time_in_secs": 60,
-        "status": "ACTIVE",
-        "summarize_on_end": true,
-        "title": "title",
-        "transcribe_on_end": true
-      },
-      "recording_duration": 0,
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      }
-    }
-  ],
-  "paging": {
-    "end_offset": 30,
-    "start_offset": 1,
-    "total_count": 30
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Start recording a meeting
+timestamp: optional string
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/recordings`
+[Link to this property](#)
 
-Starts recording a meeting. The meeting can be started by an App admin directly, or a participant with permissions to start a recording, based on the type of authorization used.
+</details>
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>
 
-- `app_id: string`
+speaker_devices_updates: optional array of object { added, removed, timestamp }
 
-  The app identifier tag.
+</summary>
 
-### Body Parameters
+<details>
 
-- `meeting_id: string`
+<summary>
 
-  ID of the meeting to record.
+added: optional array of object { device_id, kind, label }
 
-- `allow_multiple_recordings: optional boolean`
+Devices that became available.
 
-  By default, a meeting allows only one recording to run at a time. Enabling the `allow_multiple_recordings` parameter to true allows you to initiate multiple recordings concurrently in the same meeting. This allows you to record separate videos of the same meeting with different configurations, such as portrait mode or landscape mode.
+</summary>
 
-- `audio_config: optional object { channel, codec, export_file }`
+device_id: optional string
 
-  Object containing configuration regarding the audio that is being recorded.
+ID of the device.
 
-  - `channel: optional "mono" or "stereo"`
+[Link to this property](#)
 
-    Audio signal pathway within an audio file that carries a specific sound source.
+kind: optional string
 
-    - `"mono"`
+Kind of device, for example audioinput or videoinput.
 
-    - `"stereo"`
+[Link to this property](#)
 
-  - `codec: optional "MP3" or "AAC"`
+label: optional string
 
-    Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+Human-readable label of the device.
 
-    - `"MP3"`
+[Link to this property](#)
 
-    - `"AAC"`
+</details>
 
-  - `export_file: optional boolean`
+[Link to this property](#)
 
-    Controls whether to export audio file seperately
+<details>
 
-- `file_name_prefix: optional string`
+<summary>
 
-  Update the recording file name.
+removed: optional array of object { device_id, kind, label }
 
-- `interactive_config: optional object { type }`
+Devices that became unavailable.
 
-  Allows you to add timed metadata to your recordings, which are digital markers inserted into a video file to provide contextual information at specific points in the content range. The ID3 tags containing this information are available to clients on the playback timeline in HLS format. The output files are generated in a compressed .tar format.
+</summary>
 
-  - `type: optional "ID3"`
+device_id: optional string
 
-    The metadata is presented in the form of ID3 tags.
+ID of the device.
 
-    - `"ID3"`
+[Link to this property](#)
 
-- `max_seconds: optional number`
+kind: optional string
 
-  Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+Kind of device, for example audioinput or videoinput.
 
-- `realtimekit_bucket_config: optional object { enabled }`
+[Link to this property](#)
 
-  - `enabled: boolean`
+label: optional string
 
-    Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+Human-readable label of the device.
 
-- `rtmp_out_config: optional object { rtmp_url }`
+[Link to this property](#)
 
-  - `rtmp_url: optional string`
+</details>
 
-    RTMP URL to stream to
+[Link to this property](#)
 
-- `storage_config: optional object { type, access_key, auth_method, 9 more }`
+timestamp: optional string
 
-  - `type: "aws" or "azure" or "digitalocean" or 2 more`
+Timestamp of the device update.
 
-    Type of storage media.
+[Link to this property](#)
 
-    - `"aws"`
+</details>
 
-    - `"azure"`
+[Link to this property](#)
 
-    - `"digitalocean"`
+<details>
 
-    - `"gcs"`
+<summary>
 
-    - `"sftp"`
+video_devices_updates: optional array of object { added, removed, timestamp }
 
-  - `access_key: optional string`
+</summary>
 
-    Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<details>
 
-    Note that this field is not readable by clients, only writeable.
+<summary>
 
-  - `auth_method: optional "KEY" or "PASSWORD"`
+added: optional array of object { device_id, kind, label }
 
-    Authentication method used for "sftp" type storage medium
+Devices that became available.
 
-    - `"KEY"`
+</summary>
 
-    - `"PASSWORD"`
+device_id: optional string
 
-  - `bucket: optional string`
+ID of the device.
 
-    Name of the storage medium's bucket.
+[Link to this property](#)
 
-  - `host: optional string`
+kind: optional string
 
-    SSH destination server host for SFTP type storage medium
+Kind of device, for example audioinput or videoinput.
 
-  - `password: optional string`
+[Link to this property](#)
 
-    SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+label: optional string
 
-  - `path: optional string`
+Human-readable label of the device.
 
-    Path relative to the bucket root at which the recording will be placed.
+[Link to this property](#)
 
-  - `port: optional number`
+</details>
 
-    SSH destination server port for SFTP type storage medium
+[Link to this property](#)
 
-  - `private_key: optional string`
+<details>
 
-    Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+<summary>
 
-  - `region: optional string`
+removed: optional array of object { device_id, kind, label }
 
-    Region of the storage medium.
+Devices that became unavailable.
 
-  - `secret: optional string`
+</summary>
 
-    Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+device_id: optional string
 
-  - `username: optional string`
+ID of the device.
 
-    SSH destination server username for SFTP type storage medium
+[Link to this property](#)
 
-- `url: optional string`
+kind: optional string
 
-  Pass a custom url to record arbitary screen
+Kind of device, for example audioinput or videoinput.
 
-- `video_config: optional object { codec, export_file, height, 2 more }`
+[Link to this property](#)
 
-  - `codec: optional "H264" or "VP8"`
+label: optional string
 
-    Codec using which the recording will be encoded.
+Human-readable label of the device.
 
-    - `"H264"`
+[Link to this property](#)
 
-    - `"VP8"`
+</details>
 
-  - `export_file: optional boolean`
+[Link to this property](#)
 
-    Controls whether to export video file seperately
+timestamp: optional string
 
-  - `height: optional number`
+Timestamp of the device update.
 
-    Height of the recording video in pixels
+[Link to this property](#)
 
-  - `watermark: optional object { position, size, url }`
+</details>
 
-    Watermark to be added to the recording
+[Link to this property](#)
 
-    - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+</details>
 
-      Position of the watermark
+[Link to this property](#)
 
-      - `"left top"`
+<details>
 
-      - `"right top"`
+<summary>
 
-      - `"left bottom"`
+quality: optional object { audio_consumer, audio_consumer_cumulative, audio_producer, 13 more }
 
-      - `"right bottom"`
+Media quality statistics for the participant.
 
-    - `size: optional object { height, width }`
+</summary>
 
-      Size of the watermark
+<details>
 
-      - `height: optional number`
+<summary>
 
-        Height of the watermark in px
+audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }
 
-      - `width: optional number`
+</summary>
 
-        Width of the watermark in px
+bytes_received: optional number
 
-    - `url: optional string`
+[Link to this property](#)
 
-      URL of the watermark image
+concealment_events: optional number
 
-  - `width: optional number`
+[Link to this property](#)
 
-    Width of the recording video in pixels
+consumer_id: optional string
 
-### Returns
+[Link to this property](#)
 
-- `success: boolean`
+jitter: optional number
 
-  Success status of the operation
+[Link to this property](#)
 
-- `data: optional object { id, audio_download_url, download_url, 12 more }`
+jitter_buffer_delay: optional number
 
-  Data returned by the operation
+[Link to this property](#)
 
-  - `id: string`
+jitter_buffer_emitted_count: optional number
 
-    ID of the recording
+[Link to this property](#)
 
-  - `audio_download_url: string`
+mid: optional string
 
-    If the audio_config is passed, the URL for downloading the audio recording is returned.
+[Link to this property](#)
 
-  - `download_url: string`
+mos_quality: optional number
 
-    URL where the recording can be downloaded.
+[Link to this property](#)
 
-  - `download_url_expiry: string`
+packets_lost: optional number
 
-    Timestamp when the download URL expires.
+[Link to this property](#)
 
-  - `file_size: number`
+packets_received: optional number
 
-    File size of the recording, in bytes.
+[Link to this property](#)
 
-  - `invoked_time: string`
+peer_id: optional string
 
-    Timestamp when this recording was invoked.
+[Link to this property](#)
 
-  - `output_file_name: string`
+producer_id: optional string
 
-    File name of the recording.
+[Link to this property](#)
 
-  - `session_id: string`
+ssrc: optional number
 
-    ID of the meeting session this recording is for.
+[Link to this property](#)
 
-  - `started_time: string`
+timestamp: optional string
 
-    Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+[Link to this property](#)
 
-  - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+</details>
 
-    Current status of the recording.
+[Link to this property](#)
 
-    - `"INVOKED"`
+<details>
 
-    - `"RECORDING"`
+<summary>
 
-    - `"UPLOADING"`
+audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }
 
-    - `"UPLOADED"`
+Aggregated inbound (consumer) audio statistics for the session.
 
-    - `"ERRORED"`
+</summary>
 
-    - `"PAUSED"`
+<details>
 
-  - `stopped_time: string`
+<summary>
 
-    Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }
 
-  - `recording_duration: optional number`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-    Total recording time in seconds.
+</summary>
 
-  - `start_reason: optional object { caller, reason }`
+"100ms_or_greater_event_fraction": optional number
 
-    - `caller: optional object { name, type, user_Id }`
+[Link to this property](#)
 
-      - `name: optional string`
+"250ms_or_greater_event_fraction": optional number
 
-        Name of the user who started the recording.
+[Link to this property](#)
 
-      - `type: optional "ORGANIZATION" or "USER"`
+"500ms_or_greater_event_fraction": optional number
 
-        The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+[Link to this property](#)
 
-        - `"ORGANIZATION"`
+avg: optional number
 
-        - `"USER"`
+[Link to this property](#)
 
-      - `user_Id: optional string`
+</details>
 
-        The user ID of the person who started the recording.
+[Link to this property](#)
 
-    - `reason: optional "API_CALL" or "RECORD_ON_START"`
+<details>
 
-      Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API.
+<summary>
 
-      If the recording is initiated using the "RECORD_ON_START" parameter, the user details will not be populated.
+packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }
 
-      - `"API_CALL"`
+Cumulative packet loss distribution.
 
-      - `"RECORD_ON_START"`
+</summary>
 
-  - `stop_reason: optional object { caller, reason }`
+"10_or_greater_event_fraction": optional number
 
-    - `caller: optional object { name, type, user_Id }`
+[Link to this property](#)
 
-      - `name: optional string`
+"25_or_greater_event_fraction": optional number
 
-        Name of the user who stopped the recording.
+[Link to this property](#)
 
-      - `type: optional "ORGANIZATION" or "USER"`
+"5_or_greater_event_fraction": optional number
 
-        The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+[Link to this property](#)
 
-        - `"ORGANIZATION"`
+"50_or_greater_event_fraction": optional number
 
-        - `"USER"`
+[Link to this property](#)
 
-      - `user_Id: optional string`
+avg: optional number
 
-        The user ID of the person who stopped the recording.
+[Link to this property](#)
 
-    - `reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"`
+</details>
 
-      Specifies the reason why the recording stopped.
+[Link to this property](#)
 
-      - `"API_CALL"`
+<details>
 
-      - `"INTERNAL_ERROR"`
+<summary>
 
-      - `"ALL_PEERS_LEFT"`
+quality_mos: optional object { avg, p50, p75, p90 }
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+Distribution summary with average and percentiles.
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+</summary>
 
-      Type of storage media.
+avg: optional number
 
-      - `"aws"`
+[Link to this property](#)
 
-      - `"azure"`
+p50: optional number
 
-      - `"digitalocean"`
+[Link to this property](#)
 
-      - `"gcs"`
+p75: optional number
 
-      - `"sftp"`
+[Link to this property](#)
 
-    - `access_key: optional string`
+p90: optional number
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-      Note that this field is not readable by clients, only writeable.
+</details>
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-      Authentication method used for "sftp" type storage medium
+</details>
 
-      - `"KEY"`
+[Link to this property](#)
 
-      - `"PASSWORD"`
+<details>
 
-    - `bucket: optional string`
+<summary>
 
-      Name of the storage medium's bucket.
+audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }
 
-    - `host: optional string`
+</summary>
 
-      SSH destination server host for SFTP type storage medium
+bytes_sent: optional number
 
-    - `password: optional string`
+[Link to this property](#)
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+jitter: optional number
 
-    - `path: optional string`
+[Link to this property](#)
 
-      Path relative to the bucket root at which the recording will be placed.
+mid: optional string
 
-    - `port: optional number`
+[Link to this property](#)
 
-      SSH destination server port for SFTP type storage medium
+mos_quality: optional number
 
-    - `private_key: optional string`
+[Link to this property](#)
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+packets_lost: optional number
 
-    - `region: optional string`
+[Link to this property](#)
 
-      Region of the storage medium.
+packets_sent: optional number
 
-    - `secret: optional string`
+[Link to this property](#)
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+producer_id: optional string
 
-    - `username: optional string`
+[Link to this property](#)
 
-      SSH destination server username for SFTP type storage medium
+rtt: optional number
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/recordings \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "meeting_id": "97440c6a-140b-40a9-9499-b23fd7a3868a"
-        }'
-```
+ssrc: optional number
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "audio_download_url": "https://example.com",
-    "download_url": "https://example.com",
-    "download_url_expiry": "2019-12-27T18:11:19.117Z",
-    "file_size": 0,
-    "invoked_time": "2019-12-27T18:11:19.117Z",
-    "output_file_name": "output_file_name",
-    "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "started_time": "2019-12-27T18:11:19.117Z",
-    "status": "INVOKED",
-    "stopped_time": "2019-12-27T18:11:19.117Z",
-    "recording_duration": 0,
-    "start_reason": {
-      "caller": {
-        "name": "RealtimeKit_test",
-        "type": "ORGANIZATION",
-        "user_Id": "d61f6956-e68f-4375-bf10-c38a704d1bec"
-      },
-      "reason": "API_CALL"
-    },
-    "stop_reason": {
-      "caller": {
-        "name": "RealtimeKit_test",
-        "type": "ORGANIZATION",
-        "user_Id": "d61f6956-e68f-4375-bf10-c38a704d1bec"
-      },
-      "reason": "API_CALL"
-    },
-    "storage_config": {
-      "type": "aws",
-      "auth_method": "KEY",
-      "bucket": "bucket",
-      "host": "host",
-      "password": "password",
-      "path": "path",
-      "port": 0,
-      "private_key": "private_key",
-      "region": "us-east-1",
-      "secret": "secret",
-      "username": "username"
-    }
-  }
-}
-```
+timestamp: optional string
 
-## Fetch active recording
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/recordings/active-recording/{meeting_id}`
+</details>
 
-Returns the active recording details for the given meeting ID.
+[Link to this property](#)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }
 
-- `app_id: string`
+Aggregated outbound (producer) audio statistics for the session.
 
-  The app identifier tag.
+</summary>
 
-- `meeting_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `data: object { id, audio_download_url, download_url, 9 more }`
+packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }
 
-  Data returned by the operation
+Cumulative packet loss distribution.
 
-  - `id: string`
+</summary>
 
-    ID of the recording
+"10_or_greater_event_fraction": optional number
 
-  - `audio_download_url: string`
+[Link to this property](#)
 
-    If the audio_config is passed, the URL for downloading the audio recording is returned.
+"25_or_greater_event_fraction": optional number
 
-  - `download_url: string`
+[Link to this property](#)
 
-    URL where the recording can be downloaded.
+"5_or_greater_event_fraction": optional number
 
-  - `download_url_expiry: string`
+[Link to this property](#)
 
-    Timestamp when the download URL expires.
+"50_or_greater_event_fraction": optional number
 
-  - `file_size: number`
+[Link to this property](#)
 
-    File size of the recording, in bytes.
+avg: optional number
 
-  - `invoked_time: string`
+[Link to this property](#)
 
-    Timestamp when this recording was invoked.
+</details>
 
-  - `output_file_name: string`
+[Link to this property](#)
 
-    File name of the recording.
+<details>
 
-  - `session_id: string`
+<summary>
 
-    ID of the meeting session this recording is for.
+quality_mos: optional object { avg, p50, p75, p90 }
 
-  - `started_time: string`
+Distribution summary with average and percentiles.
 
-    Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+</summary>
 
-  - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+avg: optional number
 
-    Current status of the recording.
+[Link to this property](#)
 
-    - `"INVOKED"`
+p50: optional number
 
-    - `"RECORDING"`
+[Link to this property](#)
 
-    - `"UPLOADING"`
+p75: optional number
 
-    - `"UPLOADED"`
+[Link to this property](#)
 
-    - `"ERRORED"`
+p90: optional number
 
-    - `"PAUSED"`
+[Link to this property](#)
 
-  - `stopped_time: string`
+</details>
 
-    Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+[Link to this property](#)
 
-  - `recording_duration: optional number`
+<details>
 
-    Total recording time in seconds.
+<summary>
 
-- `success: boolean`
+rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }
 
-  Success status of the operation
+Cumulative latency distribution (milliseconds-based thresholds).
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/recordings/active-recording/$MEETING_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"100ms_or_greater_event_fraction": optional number
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "audio_download_url": "https://example.com",
-    "download_url": "https://example.com",
-    "download_url_expiry": "2019-12-27T18:11:19.117Z",
-    "file_size": 0,
-    "invoked_time": "2019-12-27T18:11:19.117Z",
-    "output_file_name": "output_file_name",
-    "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "started_time": "2019-12-27T18:11:19.117Z",
-    "status": "INVOKED",
-    "stopped_time": "2019-12-27T18:11:19.117Z",
-    "recording_duration": 0
-  },
-  "success": true
-}
-```
+"250ms_or_greater_event_fraction": optional number
 
-## Fetch details of a recording
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/recordings/{recording_id}`
+"500ms_or_greater_event_fraction": optional number
 
-Returns details of a recording for the given recording ID.
+[Link to this property](#)
 
-### Path Parameters
+avg: optional number
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+</details>
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+</details>
 
-- `recording_id: string`
+[Link to this property](#)
 
-### Returns
+<details>
 
-- `success: boolean`
+<summary>
 
-  Success status of the operation
+screenshare_audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }
 
-- `data: optional object { id, audio_download_url, download_url, 12 more }`
+</summary>
 
-  Data returned by the operation
+bytes_received: optional number
 
-  - `id: string`
+[Link to this property](#)
 
-    ID of the recording
+concealment_events: optional number
 
-  - `audio_download_url: string`
+[Link to this property](#)
 
-    If the audio_config is passed, the URL for downloading the audio recording is returned.
+consumer_id: optional string
 
-  - `download_url: string`
+[Link to this property](#)
 
-    URL where the recording can be downloaded.
+jitter: optional number
 
-  - `download_url_expiry: string`
+[Link to this property](#)
 
-    Timestamp when the download URL expires.
+jitter_buffer_delay: optional number
 
-  - `file_size: number`
+[Link to this property](#)
 
-    File size of the recording, in bytes.
+jitter_buffer_emitted_count: optional number
 
-  - `invoked_time: string`
+[Link to this property](#)
 
-    Timestamp when this recording was invoked.
+mid: optional string
 
-  - `output_file_name: string`
+[Link to this property](#)
 
-    File name of the recording.
+mos_quality: optional number
 
-  - `session_id: string`
+[Link to this property](#)
 
-    ID of the meeting session this recording is for.
+packets_lost: optional number
 
-  - `started_time: string`
+[Link to this property](#)
 
-    Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+packets_received: optional number
 
-  - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+[Link to this property](#)
 
-    Current status of the recording.
+peer_id: optional string
 
-    - `"INVOKED"`
+[Link to this property](#)
 
-    - `"RECORDING"`
+producer_id: optional string
 
-    - `"UPLOADING"`
+[Link to this property](#)
 
-    - `"UPLOADED"`
+ssrc: optional number
 
-    - `"ERRORED"`
+[Link to this property](#)
 
-    - `"PAUSED"`
+timestamp: optional string
 
-  - `stopped_time: string`
+[Link to this property](#)
 
-    Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+</details>
 
-  - `recording_duration: optional number`
+[Link to this property](#)
 
-    Total recording time in seconds.
+<details>
 
-  - `start_reason: optional object { caller, reason }`
+<summary>
 
-    - `caller: optional object { name, type, user_Id }`
+screenshare_audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }
 
-      - `name: optional string`
+Aggregated inbound (consumer) audio statistics for the session.
 
-        Name of the user who started the recording.
+</summary>
 
-      - `type: optional "ORGANIZATION" or "USER"`
+<details>
 
-        The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+<summary>
 
-        - `"ORGANIZATION"`
+jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }
 
-        - `"USER"`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-      - `user_Id: optional string`
+</summary>
 
-        The user ID of the person who started the recording.
+"100ms_or_greater_event_fraction": optional number
 
-    - `reason: optional "API_CALL" or "RECORD_ON_START"`
+[Link to this property](#)
 
-      Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API.
+"250ms_or_greater_event_fraction": optional number
 
-      If the recording is initiated using the "RECORD_ON_START" parameter, the user details will not be populated.
+[Link to this property](#)
 
-      - `"API_CALL"`
+"500ms_or_greater_event_fraction": optional number
 
-      - `"RECORD_ON_START"`
+[Link to this property](#)
 
-  - `stop_reason: optional object { caller, reason }`
+avg: optional number
 
-    - `caller: optional object { name, type, user_Id }`
+[Link to this property](#)
 
-      - `name: optional string`
+</details>
 
-        Name of the user who stopped the recording.
+[Link to this property](#)
 
-      - `type: optional "ORGANIZATION" or "USER"`
+<details>
 
-        The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+<summary>
 
-        - `"ORGANIZATION"`
+packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }
 
-        - `"USER"`
+Cumulative packet loss distribution.
 
-      - `user_Id: optional string`
+</summary>
 
-        The user ID of the person who stopped the recording.
+"10_or_greater_event_fraction": optional number
 
-    - `reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"`
+[Link to this property](#)
 
-      Specifies the reason why the recording stopped.
+"25_or_greater_event_fraction": optional number
 
-      - `"API_CALL"`
+[Link to this property](#)
 
-      - `"INTERNAL_ERROR"`
+"5_or_greater_event_fraction": optional number
 
-      - `"ALL_PEERS_LEFT"`
+[Link to this property](#)
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+"50_or_greater_event_fraction": optional number
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+[Link to this property](#)
 
-      Type of storage media.
+avg: optional number
 
-      - `"aws"`
+[Link to this property](#)
 
-      - `"azure"`
+</details>
 
-      - `"digitalocean"`
+[Link to this property](#)
 
-      - `"gcs"`
+<details>
 
-      - `"sftp"`
+<summary>
 
-    - `access_key: optional string`
+quality_mos: optional object { avg, p50, p75, p90 }
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+Distribution summary with average and percentiles.
 
-      Note that this field is not readable by clients, only writeable.
+</summary>
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+avg: optional number
 
-      Authentication method used for "sftp" type storage medium
+[Link to this property](#)
 
-      - `"KEY"`
+p50: optional number
 
-      - `"PASSWORD"`
+[Link to this property](#)
 
-    - `bucket: optional string`
+p75: optional number
 
-      Name of the storage medium's bucket.
+[Link to this property](#)
 
-    - `host: optional string`
+p90: optional number
 
-      SSH destination server host for SFTP type storage medium
+[Link to this property](#)
 
-    - `password: optional string`
+</details>
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+[Link to this property](#)
 
-    - `path: optional string`
+</details>
 
-      Path relative to the bucket root at which the recording will be placed.
+[Link to this property](#)
 
-    - `port: optional number`
+<details>
 
-      SSH destination server port for SFTP type storage medium
+<summary>
 
-    - `private_key: optional string`
+screenshare_audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+</summary>
 
-    - `region: optional string`
+bytes_sent: optional number
 
-      Region of the storage medium.
+[Link to this property](#)
 
-    - `secret: optional string`
+jitter: optional number
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+[Link to this property](#)
 
-    - `username: optional string`
+mid: optional string
 
-      SSH destination server username for SFTP type storage medium
+[Link to this property](#)
 
-### Example
+mos_quality: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/recordings/$RECORDING_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+packets_lost: optional number
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "audio_download_url": "https://example.com",
-    "download_url": "https://example.com",
-    "download_url_expiry": "2019-12-27T18:11:19.117Z",
-    "file_size": 0,
-    "invoked_time": "2019-12-27T18:11:19.117Z",
-    "output_file_name": "output_file_name",
-    "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "started_time": "2019-12-27T18:11:19.117Z",
-    "status": "INVOKED",
-    "stopped_time": "2019-12-27T18:11:19.117Z",
-    "recording_duration": 0,
-    "start_reason": {
-      "caller": {
-        "name": "RealtimeKit_test",
-        "type": "ORGANIZATION",
-        "user_Id": "d61f6956-e68f-4375-bf10-c38a704d1bec"
-      },
-      "reason": "API_CALL"
-    },
-    "stop_reason": {
-      "caller": {
-        "name": "RealtimeKit_test",
-        "type": "ORGANIZATION",
-        "user_Id": "d61f6956-e68f-4375-bf10-c38a704d1bec"
-      },
-      "reason": "API_CALL"
-    },
-    "storage_config": {
-      "type": "aws",
-      "auth_method": "KEY",
-      "bucket": "bucket",
-      "host": "host",
-      "password": "password",
-      "path": "path",
-      "port": 0,
-      "private_key": "private_key",
-      "region": "us-east-1",
-      "secret": "secret",
-      "username": "username"
-    }
-  }
-}
-```
+[Link to this property](#)
 
-## Pause/Resume/Stop recording
+packets_sent: optional number
 
-**put** `/accounts/{account_id}/realtime/kit/{app_id}/recordings/{recording_id}`
+[Link to this property](#)
 
-Pause/Resume/Stop a given recording ID.
+producer_id: optional string
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+rtt: optional number
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+ssrc: optional number
 
-- `recording_id: string`
+[Link to this property](#)
 
-### Body Parameters
+timestamp: optional string
 
-- `action: "stop" or "pause" or "resume"`
+[Link to this property](#)
 
-  - `"stop"`
+</details>
 
-  - `"pause"`
+[Link to this property](#)
 
-  - `"resume"`
+<details>
 
-### Returns
+<summary>
 
-- `success: boolean`
+screenshare_audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }
 
-  Success status of the operation
+Aggregated outbound (producer) audio statistics for the session.
 
-- `data: optional object { id, audio_download_url, download_url, 12 more }`
+</summary>
 
-  Data returned by the operation
+<details>
 
-  - `id: string`
+<summary>
 
-    ID of the recording
+packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }
 
-  - `audio_download_url: string`
+Cumulative packet loss distribution.
 
-    If the audio_config is passed, the URL for downloading the audio recording is returned.
+</summary>
 
-  - `download_url: string`
+"10_or_greater_event_fraction": optional number
 
-    URL where the recording can be downloaded.
+[Link to this property](#)
 
-  - `download_url_expiry: string`
+"25_or_greater_event_fraction": optional number
 
-    Timestamp when the download URL expires.
+[Link to this property](#)
 
-  - `file_size: number`
+"5_or_greater_event_fraction": optional number
 
-    File size of the recording, in bytes.
+[Link to this property](#)
 
-  - `invoked_time: string`
+"50_or_greater_event_fraction": optional number
 
-    Timestamp when this recording was invoked.
+[Link to this property](#)
 
-  - `output_file_name: string`
+avg: optional number
 
-    File name of the recording.
+[Link to this property](#)
 
-  - `session_id: string`
+</details>
 
-    ID of the meeting session this recording is for.
+[Link to this property](#)
 
-  - `started_time: string`
+<details>
 
-    Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+<summary>
 
-  - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+quality_mos: optional object { avg, p50, p75, p90 }
 
-    Current status of the recording.
+Distribution summary with average and percentiles.
 
-    - `"INVOKED"`
+</summary>
 
-    - `"RECORDING"`
+avg: optional number
 
-    - `"UPLOADING"`
+[Link to this property](#)
 
-    - `"UPLOADED"`
+p50: optional number
 
-    - `"ERRORED"`
+[Link to this property](#)
 
-    - `"PAUSED"`
+p75: optional number
 
-  - `stopped_time: string`
+[Link to this property](#)
 
-    Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+p90: optional number
 
-  - `recording_duration: optional number`
+[Link to this property](#)
 
-    Total recording time in seconds.
+</details>
 
-  - `start_reason: optional object { caller, reason }`
+[Link to this property](#)
 
-    - `caller: optional object { name, type, user_Id }`
+<details>
 
-      - `name: optional string`
+<summary>
 
-        Name of the user who started the recording.
+rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }
 
-      - `type: optional "ORGANIZATION" or "USER"`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-        The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+</summary>
 
-        - `"ORGANIZATION"`
+"100ms_or_greater_event_fraction": optional number
 
-        - `"USER"`
+[Link to this property](#)
 
-      - `user_Id: optional string`
+"250ms_or_greater_event_fraction": optional number
 
-        The user ID of the person who started the recording.
+[Link to this property](#)
 
-    - `reason: optional "API_CALL" or "RECORD_ON_START"`
+"500ms_or_greater_event_fraction": optional number
 
-      Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API.
+[Link to this property](#)
 
-      If the recording is initiated using the "RECORD_ON_START" parameter, the user details will not be populated.
+avg: optional number
 
-      - `"API_CALL"`
+[Link to this property](#)
 
-      - `"RECORD_ON_START"`
+</details>
 
-  - `stop_reason: optional object { caller, reason }`
+[Link to this property](#)
 
-    - `caller: optional object { name, type, user_Id }`
+</details>
 
-      - `name: optional string`
+[Link to this property](#)
 
-        Name of the user who stopped the recording.
+<details>
 
-      - `type: optional "ORGANIZATION" or "USER"`
+<summary>
 
-        The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+screenshare_video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }
 
-        - `"ORGANIZATION"`
+</summary>
 
-        - `"USER"`
+bytes_received: optional number
 
-      - `user_Id: optional string`
+[Link to this property](#)
 
-        The user ID of the person who stopped the recording.
+consumer_id: optional string
 
-    - `reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"`
+[Link to this property](#)
 
-      Specifies the reason why the recording stopped.
+fir_count: optional number
 
-      - `"API_CALL"`
+[Link to this property](#)
 
-      - `"INTERNAL_ERROR"`
+frame_height: optional number
 
-      - `"ALL_PEERS_LEFT"`
+[Link to this property](#)
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+frame_width: optional number
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+[Link to this property](#)
 
-      Type of storage media.
+frames_decoded: optional number
 
-      - `"aws"`
+[Link to this property](#)
 
-      - `"azure"`
+frames_dropped: optional number
 
-      - `"digitalocean"`
+[Link to this property](#)
 
-      - `"gcs"`
+frames_per_second: optional number
 
-      - `"sftp"`
+[Link to this property](#)
 
-    - `access_key: optional string`
+jitter: optional number
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-      Note that this field is not readable by clients, only writeable.
+jitter_buffer_delay: optional number
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-      Authentication method used for "sftp" type storage medium
+jitter_buffer_emitted_count: optional number
 
-      - `"KEY"`
+[Link to this property](#)
 
-      - `"PASSWORD"`
+key_frames_decoded: optional number
 
-    - `bucket: optional string`
+[Link to this property](#)
 
-      Name of the storage medium's bucket.
+mid: optional string
 
-    - `host: optional string`
+[Link to this property](#)
 
-      SSH destination server host for SFTP type storage medium
+mos_quality: optional number
 
-    - `password: optional string`
+[Link to this property](#)
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+packets_lost: optional number
 
-    - `path: optional string`
+[Link to this property](#)
 
-      Path relative to the bucket root at which the recording will be placed.
+packets_received: optional number
 
-    - `port: optional number`
+[Link to this property](#)
 
-      SSH destination server port for SFTP type storage medium
+peer_id: optional string
 
-    - `private_key: optional string`
+[Link to this property](#)
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+producer_id: optional string
 
-    - `region: optional string`
+[Link to this property](#)
 
-      Region of the storage medium.
+ssrc: optional number
 
-    - `secret: optional string`
+[Link to this property](#)
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+timestamp: optional string
 
-    - `username: optional string`
+[Link to this property](#)
 
-      SSH destination server username for SFTP type storage medium
+</details>
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/recordings/$RECORDING_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": "stop"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "audio_download_url": "https://example.com",
-    "download_url": "https://example.com",
-    "download_url_expiry": "2019-12-27T18:11:19.117Z",
-    "file_size": 0,
-    "invoked_time": "2019-12-27T18:11:19.117Z",
-    "output_file_name": "output_file_name",
-    "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "started_time": "2019-12-27T18:11:19.117Z",
-    "status": "INVOKED",
-    "stopped_time": "2019-12-27T18:11:19.117Z",
-    "recording_duration": 0,
-    "start_reason": {
-      "caller": {
-        "name": "RealtimeKit_test",
-        "type": "ORGANIZATION",
-        "user_Id": "d61f6956-e68f-4375-bf10-c38a704d1bec"
-      },
-      "reason": "API_CALL"
-    },
-    "stop_reason": {
-      "caller": {
-        "name": "RealtimeKit_test",
-        "type": "ORGANIZATION",
-        "user_Id": "d61f6956-e68f-4375-bf10-c38a704d1bec"
-      },
-      "reason": "API_CALL"
-    },
-    "storage_config": {
-      "type": "aws",
-      "auth_method": "KEY",
-      "bucket": "bucket",
-      "host": "host",
-      "password": "password",
-      "path": "path",
-      "port": 0,
-      "private_key": "private_key",
-      "region": "us-east-1",
-      "secret": "secret",
-      "username": "username"
-    }
-  }
-}
-```
+screenshare_video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }
 
-## Start recording participant audio tracks
+Aggregated inbound (consumer) video statistics for the session.
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/recordings/track`
+</summary>
 
-Starts track recording for a meeting. Track recording currently records separate participant audio tracks as WebM files in the RealtimeKit bucket. Video track recording is in development. For more information, refer to [Track recording](/realtime/realtimekit/recording-guide/track-recording/).
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+frame_per_second: optional object { avg, p50, p75, p90 }
 
-  The account identifier tag.
+Distribution summary with average and percentiles.
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+avg: optional number
 
-### Body Parameters
+[Link to this property](#)
 
-- `meeting_id: string`
+p50: optional number
 
-  ID of the meeting to record.
+[Link to this property](#)
 
-- `layers: optional map[object { file_name_prefix, media_kind } ]`
+p75: optional number
 
-  Optional audio layer configuration. If omitted, RealtimeKit records all participant audio using the default file name prefix.
+[Link to this property](#)
 
-  - `file_name_prefix: optional string`
+p90: optional number
 
-    A file name prefix to apply for files generated from this layer
+[Link to this property](#)
 
-  - `media_kind: optional "audio"`
+</details>
 
-    Media kind to record. Track recording currently supports audio only.
+[Link to this property](#)
 
-    - `"audio"`
+<details>
 
-- `user_ids: optional array of string`
+<summary>
 
-  Optional list of participant user IDs to record. Selective track recording (`user_ids`) is in early beta contact support to use this feature.
+frame_width: optional object { avg, p50, p75, p90 }
 
-### Returns
+Distribution summary with average and percentiles.
 
-- `success: boolean`
+</summary>
 
-  Success status of the operation
+avg: optional number
 
-- `data: optional object { recording }`
+[Link to this property](#)
 
-  Data returned by the operation
+p50: optional number
 
-  - `recording: object { id, audio_download_url, download_url, 9 more }`
+[Link to this property](#)
 
-    - `id: string`
+p75: optional number
 
-      ID of the recording
+[Link to this property](#)
 
-    - `audio_download_url: string`
+p90: optional number
 
-      If the audio_config is passed, the URL for downloading the audio recording is returned.
+[Link to this property](#)
 
-    - `download_url: string`
+</details>
 
-      URL where the recording can be downloaded.
+[Link to this property](#)
 
-    - `download_url_expiry: string`
+<details>
 
-      Timestamp when the download URL expires.
+<summary>
 
-    - `file_size: number`
+issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }
 
-      File size of the recording, in bytes.
+</summary>
 
-    - `invoked_time: string`
+lag_fraction: optional number
 
-      Timestamp when this recording was invoked.
+[Link to this property](#)
 
-    - `output_file_name: string`
+no_video_fraction: optional number
 
-      File name of the recording.
+[Link to this property](#)
 
-    - `session_id: string`
+poor_resolution_fraction: optional number
 
-      ID of the meeting session this recording is for.
+[Link to this property](#)
 
-    - `started_time: string`
+</details>
 
-      Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+[Link to this property](#)
 
-    - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+<details>
 
-      Current status of the recording.
+<summary>
 
-      - `"INVOKED"`
+jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }
 
-      - `"RECORDING"`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-      - `"UPLOADING"`
+</summary>
 
-      - `"UPLOADED"`
+"100ms_or_greater_event_fraction": optional number
 
-      - `"ERRORED"`
+[Link to this property](#)
 
-      - `"PAUSED"`
+"250ms_or_greater_event_fraction": optional number
 
-    - `stopped_time: string`
+[Link to this property](#)
 
-      Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+"500ms_or_greater_event_fraction": optional number
 
-    - `recording_duration: optional number`
+[Link to this property](#)
 
-      Total recording time in seconds.
+avg: optional number
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/recordings/track \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "meeting_id": "97440c6a-140b-40a9-9499-b23fd7a3868a"
-        }'
-```
+</details>
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "success": true,
-  "data": {
-    "recording": {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "audio_download_url": "https://example.com",
-      "download_url": "https://example.com",
-      "download_url_expiry": "2019-12-27T18:11:19.117Z",
-      "file_size": 0,
-      "invoked_time": "2019-12-27T18:11:19.117Z",
-      "output_file_name": "output_file_name",
-      "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "started_time": "2019-12-27T18:11:19.117Z",
-      "status": "INVOKED",
-      "stopped_time": "2019-12-27T18:11:19.117Z",
-      "recording_duration": 0
-    }
-  }
-}
-```
+key_frames_decoded_fraction: optional number
 
-## Domain Types
+[Link to this property](#)
 
-### Recording Get Recordings Response
+<details>
 
-- `RecordingGetRecordingsResponse object { data, paging, success }`
+<summary>
 
-  - `data: array of object { id, audio_download_url, download_url, 11 more }`
+packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }
 
-    - `id: string`
+Cumulative packet loss distribution.
 
-      ID of the recording
+</summary>
 
-    - `audio_download_url: string`
+"10_or_greater_event_fraction": optional number
 
-      If the audio_config is passed, the URL for downloading the audio recording is returned.
+[Link to this property](#)
 
-    - `download_url: string`
+"25_or_greater_event_fraction": optional number
 
-      URL where the recording can be downloaded.
+[Link to this property](#)
 
-    - `download_url_expiry: string`
+"5_or_greater_event_fraction": optional number
 
-      Timestamp when the download URL expires.
+[Link to this property](#)
 
-    - `file_size: number`
+"50_or_greater_event_fraction": optional number
 
-      File size of the recording, in bytes.
+[Link to this property](#)
 
-    - `invoked_time: string`
+avg: optional number
 
-      Timestamp when this recording was invoked.
+[Link to this property](#)
 
-    - `output_file_name: string`
+</details>
 
-      File name of the recording.
+[Link to this property](#)
 
-    - `session_id: string`
+<details>
 
-      ID of the meeting session this recording is for.
+<summary>
 
-    - `started_time: string`
+quality_mos: optional object { avg, p50, p75, p90 }
 
-      Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+Distribution summary with average and percentiles.
 
-    - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+</summary>
 
-      Current status of the recording.
+avg: optional number
 
-      - `"INVOKED"`
+[Link to this property](#)
 
-      - `"RECORDING"`
+p50: optional number
 
-      - `"UPLOADING"`
+[Link to this property](#)
 
-      - `"UPLOADED"`
+p75: optional number
 
-      - `"ERRORED"`
+[Link to this property](#)
 
-      - `"PAUSED"`
+p90: optional number
 
-    - `stopped_time: string`
+[Link to this property](#)
 
-      Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+</details>
 
-    - `meeting: optional object { id, created_at, updated_at, 9 more }`
+[Link to this property](#)
 
-      - `id: string`
+</details>
 
-        ID of the meeting.
+[Link to this property](#)
 
-      - `created_at: string`
+<details>
 
-        Timestamp the object was created at. The time is returned in ISO format.
+<summary>
 
-      - `updated_at: string`
+screenshare_video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }
 
-        Timestamp the object was updated at. The time is returned in ISO format.
+</summary>
 
-      - `live_stream_on_start: optional boolean`
+bytes_sent: optional number
 
-        Specifies if the meeting should start getting livestreamed on start.
+[Link to this property](#)
 
-      - `persist_chat: optional boolean`
+fir_count: optional number
 
-        Specifies if Chat within a meeting should persist for a week.
+[Link to this property](#)
 
-      - `record_on_start: optional boolean`
+frame_height: optional number
 
-        Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+[Link to this property](#)
 
-      - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+frame_width: optional number
 
-        Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+[Link to this property](#)
 
-        - `audio_config: optional object { channel, codec, export_file }`
+frames_encoded: optional number
 
-          Object containing configuration regarding the audio that is being recorded.
+[Link to this property](#)
 
-          - `channel: optional "mono" or "stereo"`
+frames_per_second: optional number
 
-            Audio signal pathway within an audio file that carries a specific sound source.
+[Link to this property](#)
 
-            - `"mono"`
+jitter: optional number
 
-            - `"stereo"`
+[Link to this property](#)
 
-          - `codec: optional "MP3" or "AAC"`
+key_frames_encoded: optional number
 
-            Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+[Link to this property](#)
 
-            - `"MP3"`
+mid: optional string
 
-            - `"AAC"`
+[Link to this property](#)
 
-          - `export_file: optional boolean`
+mos_quality: optional number
 
-            Controls whether to export audio file seperately
+[Link to this property](#)
 
-        - `file_name_prefix: optional string`
+packets_lost: optional number
 
-          Adds a prefix to the beginning of the file name of the recording.
+[Link to this property](#)
 
-        - `live_streaming_config: optional object { rtmp_url }`
+packets_sent: optional number
 
-          - `rtmp_url: optional string`
+[Link to this property](#)
 
-            RTMP URL to stream to
+pli_count: optional number
 
-        - `max_seconds: optional number`
+[Link to this property](#)
 
-          Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+producer_id: optional string
 
-        - `realtimekit_bucket_config: optional object { enabled }`
+[Link to this property](#)
 
-          - `enabled: boolean`
+<details>
 
-            Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+<summary>
 
-        - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+quality_limitation_durations: optional object { bandwidth, cpu, none, other }
 
-          - `type: "aws" or "azure" or "digitalocean" or 2 more`
+</summary>
 
-            Type of storage media.
+bandwidth: optional number
 
-            - `"aws"`
+[Link to this property](#)
 
-            - `"azure"`
+cpu: optional number
 
-            - `"digitalocean"`
+[Link to this property](#)
 
-            - `"gcs"`
+none: optional number
 
-            - `"sftp"`
+[Link to this property](#)
 
-          - `access_key: optional string`
+other: optional number
 
-            Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-            Note that this field is not readable by clients, only writeable.
+</details>
 
-          - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-            Authentication method used for "sftp" type storage medium
+<details>
 
-            - `"KEY"`
+<summary>
 
-            - `"PASSWORD"`
+quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"
 
-          - `bucket: optional string`
+</summary>
 
-            Name of the storage medium's bucket.
+One of the following:
 
-          - `host: optional string`
+"cpu"
 
-            SSH destination server host for SFTP type storage medium
+[Link to this property](#)
 
-          - `password: optional string`
+"bandwidth"
 
-            SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+[Link to this property](#)
 
-          - `path: optional string`
+"none"
 
-            Path relative to the bucket root at which the recording will be placed.
+[Link to this property](#)
 
-          - `port: optional number`
+"other"
 
-            SSH destination server port for SFTP type storage medium
+[Link to this property](#)
 
-          - `private_key: optional string`
+</details>
 
-            Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-          - `region: optional string`
+quality_limitation_resolution_changes: optional number
 
-            Region of the storage medium.
+[Link to this property](#)
 
-          - `secret: optional string`
+rtt: optional number
 
-            Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+[Link to this property](#)
 
-          - `username: optional string`
+ssrc: optional number
 
-            SSH destination server username for SFTP type storage medium
+[Link to this property](#)
 
-        - `video_config: optional object { codec, export_file, height, 2 more }`
+timestamp: optional string
 
-          - `codec: optional "H264" or "VP8"`
+[Link to this property](#)
 
-            Codec using which the recording will be encoded.
+</details>
 
-            - `"H264"`
+[Link to this property](#)
 
-            - `"VP8"`
+<details>
 
-          - `export_file: optional boolean`
+<summary>
 
-            Controls whether to export video file seperately
+screenshare_video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }
 
-          - `height: optional number`
+Aggregated outbound (producer) video statistics for the session.
 
-            Height of the recording video in pixels
+</summary>
 
-          - `watermark: optional object { position, size, url }`
+<details>
 
-            Watermark to be added to the recording
+<summary>
 
-            - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+frame_per_second: optional object { avg, p50, p75, p90 }
 
-              Position of the watermark
+Distribution summary with average and percentiles.
 
-              - `"left top"`
+</summary>
 
-              - `"right top"`
+avg: optional number
 
-              - `"left bottom"`
+[Link to this property](#)
 
-              - `"right bottom"`
+p50: optional number
 
-            - `size: optional object { height, width }`
+[Link to this property](#)
 
-              Size of the watermark
+p75: optional number
 
-              - `height: optional number`
+[Link to this property](#)
 
-                Height of the watermark in px
+p90: optional number
 
-              - `width: optional number`
+[Link to this property](#)
 
-                Width of the watermark in px
+</details>
 
-            - `url: optional string`
+[Link to this property](#)
 
-              URL of the watermark image
+<details>
 
-          - `width: optional number`
+<summary>
 
-            Width of the recording video in pixels
+frame_width: optional object { avg, p50, p75, p90 }
 
-      - `session_keep_alive_time_in_secs: optional number`
+Distribution summary with average and percentiles.
 
-        Time in seconds, for which a session remains active, after the last participant has left the meeting.
+</summary>
 
-      - `status: optional "ACTIVE" or "INACTIVE"`
+avg: optional number
 
-        Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+[Link to this property](#)
 
-        - `"ACTIVE"`
+p50: optional number
 
-        - `"INACTIVE"`
+[Link to this property](#)
 
-      - `summarize_on_end: optional boolean`
+p75: optional number
 
-        Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+[Link to this property](#)
 
-      - `title: optional string`
+p90: optional number
 
-        Title of the meeting.
+[Link to this property](#)
 
-      - `transcribe_on_end: optional boolean`
+</details>
 
-        Automatically generate transcripts when the meeting ends.
+[Link to this property](#)
 
-    - `recording_duration: optional number`
+high_negative_feedback_fraction: optional number
 
-      Total recording time in seconds.
+[Link to this property](#)
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<details>
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<summary>
 
-        Type of storage media.
+issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }
 
-        - `"aws"`
+</summary>
 
-        - `"azure"`
+bandwidth_quality_limitation_fraction: optional number
 
-        - `"digitalocean"`
+[Link to this property](#)
 
-        - `"gcs"`
+cpu_quality_limitation_fraction: optional number
 
-        - `"sftp"`
+[Link to this property](#)
 
-      - `access_key: optional string`
+no_video_fraction: optional number
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-        Note that this field is not readable by clients, only writeable.
+poor_resolution_fraction: optional number
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-        Authentication method used for "sftp" type storage medium
+quality_limitation_fraction: optional number
 
-        - `"KEY"`
+[Link to this property](#)
 
-        - `"PASSWORD"`
+</details>
 
-      - `bucket: optional string`
+[Link to this property](#)
 
-        Name of the storage medium's bucket.
+key_frames_encoded_fraction: optional number
 
-      - `host: optional string`
+[Link to this property](#)
 
-        SSH destination server host for SFTP type storage medium
+<details>
 
-      - `password: optional string`
+<summary>
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }
 
-      - `path: optional string`
+Cumulative packet loss distribution.
 
-        Path relative to the bucket root at which the recording will be placed.
+</summary>
 
-      - `port: optional number`
+"10_or_greater_event_fraction": optional number
 
-        SSH destination server port for SFTP type storage medium
+[Link to this property](#)
 
-      - `private_key: optional string`
+"25_or_greater_event_fraction": optional number
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-      - `region: optional string`
+"5_or_greater_event_fraction": optional number
 
-        Region of the storage medium.
+[Link to this property](#)
 
-      - `secret: optional string`
+"50_or_greater_event_fraction": optional number
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+[Link to this property](#)
 
-      - `username: optional string`
+avg: optional number
 
-        SSH destination server username for SFTP type storage medium
+[Link to this property](#)
 
-  - `paging: object { end_offset, start_offset, total_count }`
+</details>
 
-    - `end_offset: number`
+[Link to this property](#)
 
-    - `start_offset: number`
+<details>
 
-    - `total_count: number`
+<summary>
 
-  - `success: boolean`
+quality_mos: optional object { avg, p50, p75, p90 }
 
-### Recording Start Recordings Response
+Distribution summary with average and percentiles.
 
-- `RecordingStartRecordingsResponse object { success, data }`
+</summary>
 
-  - `success: boolean`
+avg: optional number
 
-    Success status of the operation
+[Link to this property](#)
 
-  - `data: optional object { id, audio_download_url, download_url, 12 more }`
+p50: optional number
 
-    Data returned by the operation
+[Link to this property](#)
 
-    - `id: string`
+p75: optional number
 
-      ID of the recording
+[Link to this property](#)
 
-    - `audio_download_url: string`
+p90: optional number
 
-      If the audio_config is passed, the URL for downloading the audio recording is returned.
+[Link to this property](#)
 
-    - `download_url: string`
+</details>
 
-      URL where the recording can be downloaded.
+[Link to this property](#)
 
-    - `download_url_expiry: string`
+<details>
 
-      Timestamp when the download URL expires.
+<summary>
 
-    - `file_size: number`
+rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }
 
-      File size of the recording, in bytes.
+Cumulative latency distribution (milliseconds-based thresholds).
 
-    - `invoked_time: string`
+</summary>
 
-      Timestamp when this recording was invoked.
+"100ms_or_greater_event_fraction": optional number
 
-    - `output_file_name: string`
+[Link to this property](#)
 
-      File name of the recording.
+"250ms_or_greater_event_fraction": optional number
 
-    - `session_id: string`
+[Link to this property](#)
 
-      ID of the meeting session this recording is for.
+"500ms_or_greater_event_fraction": optional number
 
-    - `started_time: string`
+[Link to this property](#)
 
-      Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+avg: optional number
 
-    - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+[Link to this property](#)
 
-      Current status of the recording.
+</details>
 
-      - `"INVOKED"`
+[Link to this property](#)
 
-      - `"RECORDING"`
+</details>
 
-      - `"UPLOADING"`
+[Link to this property](#)
 
-      - `"UPLOADED"`
+<details>
 
-      - `"ERRORED"`
+<summary>
 
-      - `"PAUSED"`
+video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }
 
-    - `stopped_time: string`
+</summary>
 
-      Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+bytes_received: optional number
 
-    - `recording_duration: optional number`
+[Link to this property](#)
 
-      Total recording time in seconds.
+consumer_id: optional string
 
-    - `start_reason: optional object { caller, reason }`
+[Link to this property](#)
 
-      - `caller: optional object { name, type, user_Id }`
+fir_count: optional number
 
-        - `name: optional string`
+[Link to this property](#)
 
-          Name of the user who started the recording.
+frame_height: optional number
 
-        - `type: optional "ORGANIZATION" or "USER"`
+[Link to this property](#)
 
-          The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+frame_width: optional number
 
-          - `"ORGANIZATION"`
+[Link to this property](#)
 
-          - `"USER"`
+frames_decoded: optional number
 
-        - `user_Id: optional string`
+[Link to this property](#)
 
-          The user ID of the person who started the recording.
+frames_dropped: optional number
 
-      - `reason: optional "API_CALL" or "RECORD_ON_START"`
+[Link to this property](#)
 
-        Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API.
+frames_per_second: optional number
 
-        If the recording is initiated using the "RECORD_ON_START" parameter, the user details will not be populated.
+[Link to this property](#)
 
-        - `"API_CALL"`
+jitter: optional number
 
-        - `"RECORD_ON_START"`
+[Link to this property](#)
 
-    - `stop_reason: optional object { caller, reason }`
+jitter_buffer_delay: optional number
 
-      - `caller: optional object { name, type, user_Id }`
+[Link to this property](#)
 
-        - `name: optional string`
+jitter_buffer_emitted_count: optional number
 
-          Name of the user who stopped the recording.
+[Link to this property](#)
 
-        - `type: optional "ORGANIZATION" or "USER"`
+key_frames_decoded: optional number
 
-          The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+[Link to this property](#)
 
-          - `"ORGANIZATION"`
+mid: optional string
 
-          - `"USER"`
+[Link to this property](#)
 
-        - `user_Id: optional string`
+mos_quality: optional number
 
-          The user ID of the person who stopped the recording.
+[Link to this property](#)
 
-      - `reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"`
+packets_lost: optional number
 
-        Specifies the reason why the recording stopped.
+[Link to this property](#)
 
-        - `"API_CALL"`
+packets_received: optional number
 
-        - `"INTERNAL_ERROR"`
+[Link to this property](#)
 
-        - `"ALL_PEERS_LEFT"`
+peer_id: optional string
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+[Link to this property](#)
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+producer_id: optional string
 
-        Type of storage media.
+[Link to this property](#)
 
-        - `"aws"`
+ssrc: optional number
 
-        - `"azure"`
+[Link to this property](#)
 
-        - `"digitalocean"`
+timestamp: optional string
 
-        - `"gcs"`
+[Link to this property](#)
 
-        - `"sftp"`
+</details>
 
-      - `access_key: optional string`
+[Link to this property](#)
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<details>
 
-        Note that this field is not readable by clients, only writeable.
+<summary>
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }
 
-        Authentication method used for "sftp" type storage medium
+Aggregated inbound (consumer) video statistics for the session.
 
-        - `"KEY"`
+</summary>
 
-        - `"PASSWORD"`
+<details>
 
-      - `bucket: optional string`
+<summary>
 
-        Name of the storage medium's bucket.
+frame_per_second: optional object { avg, p50, p75, p90 }
 
-      - `host: optional string`
+Distribution summary with average and percentiles.
 
-        SSH destination server host for SFTP type storage medium
+</summary>
 
-      - `password: optional string`
+avg: optional number
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+[Link to this property](#)
 
-      - `path: optional string`
+p50: optional number
 
-        Path relative to the bucket root at which the recording will be placed.
+[Link to this property](#)
 
-      - `port: optional number`
+p75: optional number
 
-        SSH destination server port for SFTP type storage medium
+[Link to this property](#)
 
-      - `private_key: optional string`
+p90: optional number
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-      - `region: optional string`
+</details>
 
-        Region of the storage medium.
+[Link to this property](#)
 
-      - `secret: optional string`
+<details>
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<summary>
 
-      - `username: optional string`
+frame_width: optional object { avg, p50, p75, p90 }
 
-        SSH destination server username for SFTP type storage medium
+Distribution summary with average and percentiles.
 
-### Recording Get Active Recordings Response
+</summary>
 
-- `RecordingGetActiveRecordingsResponse object { data, success }`
+avg: optional number
 
-  - `data: object { id, audio_download_url, download_url, 9 more }`
+[Link to this property](#)
 
-    Data returned by the operation
+p50: optional number
 
-    - `id: string`
+[Link to this property](#)
 
-      ID of the recording
+p75: optional number
 
-    - `audio_download_url: string`
+[Link to this property](#)
 
-      If the audio_config is passed, the URL for downloading the audio recording is returned.
+p90: optional number
 
-    - `download_url: string`
+[Link to this property](#)
 
-      URL where the recording can be downloaded.
+</details>
 
-    - `download_url_expiry: string`
+[Link to this property](#)
 
-      Timestamp when the download URL expires.
+<details>
 
-    - `file_size: number`
+<summary>
 
-      File size of the recording, in bytes.
+issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }
 
-    - `invoked_time: string`
+</summary>
 
-      Timestamp when this recording was invoked.
+lag_fraction: optional number
 
-    - `output_file_name: string`
+[Link to this property](#)
 
-      File name of the recording.
+no_video_fraction: optional number
 
-    - `session_id: string`
+[Link to this property](#)
 
-      ID of the meeting session this recording is for.
+poor_resolution_fraction: optional number
 
-    - `started_time: string`
+[Link to this property](#)
 
-      Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+</details>
 
-    - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+[Link to this property](#)
 
-      Current status of the recording.
+<details>
 
-      - `"INVOKED"`
+<summary>
 
-      - `"RECORDING"`
+jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }
 
-      - `"UPLOADING"`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-      - `"UPLOADED"`
+</summary>
 
-      - `"ERRORED"`
+"100ms_or_greater_event_fraction": optional number
 
-      - `"PAUSED"`
+[Link to this property](#)
 
-    - `stopped_time: string`
+"250ms_or_greater_event_fraction": optional number
 
-      Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+[Link to this property](#)
 
-    - `recording_duration: optional number`
+"500ms_or_greater_event_fraction": optional number
 
-      Total recording time in seconds.
+[Link to this property](#)
 
-  - `success: boolean`
+avg: optional number
 
-    Success status of the operation
+[Link to this property](#)
 
-### Recording Get One Recording Response
+</details>
 
-- `RecordingGetOneRecordingResponse object { success, data }`
+[Link to this property](#)
 
-  - `success: boolean`
+key_frames_decoded_fraction: optional number
 
-    Success status of the operation
+[Link to this property](#)
 
-  - `data: optional object { id, audio_download_url, download_url, 12 more }`
+<details>
 
-    Data returned by the operation
+<summary>
 
-    - `id: string`
+packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }
 
-      ID of the recording
+Cumulative packet loss distribution.
 
-    - `audio_download_url: string`
+</summary>
 
-      If the audio_config is passed, the URL for downloading the audio recording is returned.
+"10_or_greater_event_fraction": optional number
 
-    - `download_url: string`
+[Link to this property](#)
 
-      URL where the recording can be downloaded.
+"25_or_greater_event_fraction": optional number
 
-    - `download_url_expiry: string`
+[Link to this property](#)
 
-      Timestamp when the download URL expires.
+"5_or_greater_event_fraction": optional number
 
-    - `file_size: number`
+[Link to this property](#)
 
-      File size of the recording, in bytes.
+"50_or_greater_event_fraction": optional number
 
-    - `invoked_time: string`
+[Link to this property](#)
 
-      Timestamp when this recording was invoked.
+avg: optional number
 
-    - `output_file_name: string`
+[Link to this property](#)
 
-      File name of the recording.
+</details>
 
-    - `session_id: string`
+[Link to this property](#)
 
-      ID of the meeting session this recording is for.
+<details>
 
-    - `started_time: string`
+<summary>
 
-      Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+quality_mos: optional object { avg, p50, p75, p90 }
 
-    - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+Distribution summary with average and percentiles.
 
-      Current status of the recording.
+</summary>
 
-      - `"INVOKED"`
+avg: optional number
 
-      - `"RECORDING"`
+[Link to this property](#)
 
-      - `"UPLOADING"`
+p50: optional number
 
-      - `"UPLOADED"`
+[Link to this property](#)
 
-      - `"ERRORED"`
+p75: optional number
 
-      - `"PAUSED"`
+[Link to this property](#)
 
-    - `stopped_time: string`
+p90: optional number
 
-      Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+[Link to this property](#)
 
-    - `recording_duration: optional number`
+</details>
 
-      Total recording time in seconds.
+[Link to this property](#)
 
-    - `start_reason: optional object { caller, reason }`
+</details>
 
-      - `caller: optional object { name, type, user_Id }`
+[Link to this property](#)
 
-        - `name: optional string`
+<details>
 
-          Name of the user who started the recording.
+<summary>
 
-        - `type: optional "ORGANIZATION" or "USER"`
+video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }
 
-          The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+</summary>
 
-          - `"ORGANIZATION"`
+bytes_sent: optional number
 
-          - `"USER"`
+[Link to this property](#)
 
-        - `user_Id: optional string`
+fir_count: optional number
 
-          The user ID of the person who started the recording.
+[Link to this property](#)
 
-      - `reason: optional "API_CALL" or "RECORD_ON_START"`
+frame_height: optional number
 
-        Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API.
+[Link to this property](#)
 
-        If the recording is initiated using the "RECORD_ON_START" parameter, the user details will not be populated.
+frame_width: optional number
 
-        - `"API_CALL"`
+[Link to this property](#)
 
-        - `"RECORD_ON_START"`
+frames_encoded: optional number
 
-    - `stop_reason: optional object { caller, reason }`
+[Link to this property](#)
 
-      - `caller: optional object { name, type, user_Id }`
+frames_per_second: optional number
 
-        - `name: optional string`
+[Link to this property](#)
 
-          Name of the user who stopped the recording.
+jitter: optional number
 
-        - `type: optional "ORGANIZATION" or "USER"`
+[Link to this property](#)
 
-          The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+key_frames_encoded: optional number
 
-          - `"ORGANIZATION"`
+[Link to this property](#)
 
-          - `"USER"`
+mid: optional string
 
-        - `user_Id: optional string`
+[Link to this property](#)
 
-          The user ID of the person who stopped the recording.
+mos_quality: optional number
 
-      - `reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"`
+[Link to this property](#)
 
-        Specifies the reason why the recording stopped.
+packets_lost: optional number
 
-        - `"API_CALL"`
+[Link to this property](#)
 
-        - `"INTERNAL_ERROR"`
+packets_sent: optional number
 
-        - `"ALL_PEERS_LEFT"`
+[Link to this property](#)
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+pli_count: optional number
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+[Link to this property](#)
 
-        Type of storage media.
+producer_id: optional string
 
-        - `"aws"`
+[Link to this property](#)
 
-        - `"azure"`
+<details>
 
-        - `"digitalocean"`
+<summary>
 
-        - `"gcs"`
+quality_limitation_durations: optional object { bandwidth, cpu, none, other }
 
-        - `"sftp"`
+</summary>
 
-      - `access_key: optional string`
+bandwidth: optional number
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-        Note that this field is not readable by clients, only writeable.
+cpu: optional number
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-        Authentication method used for "sftp" type storage medium
+none: optional number
 
-        - `"KEY"`
+[Link to this property](#)
 
-        - `"PASSWORD"`
+other: optional number
 
-      - `bucket: optional string`
+[Link to this property](#)
 
-        Name of the storage medium's bucket.
+</details>
 
-      - `host: optional string`
+[Link to this property](#)
 
-        SSH destination server host for SFTP type storage medium
+<details>
 
-      - `password: optional string`
+<summary>
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"
 
-      - `path: optional string`
+</summary>
 
-        Path relative to the bucket root at which the recording will be placed.
+One of the following:
 
-      - `port: optional number`
+"cpu"
 
-        SSH destination server port for SFTP type storage medium
+[Link to this property](#)
 
-      - `private_key: optional string`
+"bandwidth"
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-      - `region: optional string`
+"none"
 
-        Region of the storage medium.
+[Link to this property](#)
 
-      - `secret: optional string`
+"other"
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+[Link to this property](#)
 
-      - `username: optional string`
+</details>
 
-        SSH destination server username for SFTP type storage medium
+[Link to this property](#)
 
-### Recording Pause Resume Stop Recording Response
+quality_limitation_resolution_changes: optional number
 
-- `RecordingPauseResumeStopRecordingResponse object { success, data }`
+[Link to this property](#)
 
-  - `success: boolean`
+rtt: optional number
 
-    Success status of the operation
+[Link to this property](#)
 
-  - `data: optional object { id, audio_download_url, download_url, 12 more }`
+ssrc: optional number
 
-    Data returned by the operation
+[Link to this property](#)
 
-    - `id: string`
+timestamp: optional string
 
-      ID of the recording
+[Link to this property](#)
 
-    - `audio_download_url: string`
+</details>
 
-      If the audio_config is passed, the URL for downloading the audio recording is returned.
+[Link to this property](#)
 
-    - `download_url: string`
+<details>
 
-      URL where the recording can be downloaded.
+<summary>
 
-    - `download_url_expiry: string`
+video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }
 
-      Timestamp when the download URL expires.
+Aggregated outbound (producer) video statistics for the session.
 
-    - `file_size: number`
+</summary>
 
-      File size of the recording, in bytes.
+<details>
 
-    - `invoked_time: string`
+<summary>
 
-      Timestamp when this recording was invoked.
+frame_per_second: optional object { avg, p50, p75, p90 }
 
-    - `output_file_name: string`
+Distribution summary with average and percentiles.
 
-      File name of the recording.
+</summary>
 
-    - `session_id: string`
+avg: optional number
 
-      ID of the meeting session this recording is for.
+[Link to this property](#)
 
-    - `started_time: string`
+p50: optional number
 
-      Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+[Link to this property](#)
 
-    - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+p75: optional number
 
-      Current status of the recording.
+[Link to this property](#)
 
-      - `"INVOKED"`
+p90: optional number
 
-      - `"RECORDING"`
+[Link to this property](#)
 
-      - `"UPLOADING"`
+</details>
 
-      - `"UPLOADED"`
+[Link to this property](#)
 
-      - `"ERRORED"`
+<details>
 
-      - `"PAUSED"`
+<summary>
 
-    - `stopped_time: string`
+frame_width: optional object { avg, p50, p75, p90 }
 
-      Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+Distribution summary with average and percentiles.
 
-    - `recording_duration: optional number`
+</summary>
 
-      Total recording time in seconds.
+avg: optional number
 
-    - `start_reason: optional object { caller, reason }`
+[Link to this property](#)
 
-      - `caller: optional object { name, type, user_Id }`
+p50: optional number
 
-        - `name: optional string`
+[Link to this property](#)
 
-          Name of the user who started the recording.
+p75: optional number
 
-        - `type: optional "ORGANIZATION" or "USER"`
+[Link to this property](#)
 
-          The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+p90: optional number
 
-          - `"ORGANIZATION"`
+[Link to this property](#)
 
-          - `"USER"`
+</details>
 
-        - `user_Id: optional string`
+[Link to this property](#)
 
-          The user ID of the person who started the recording.
+high_negative_feedback_fraction: optional number
 
-      - `reason: optional "API_CALL" or "RECORD_ON_START"`
+[Link to this property](#)
 
-        Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API.
+<details>
 
-        If the recording is initiated using the "RECORD_ON_START" parameter, the user details will not be populated.
+<summary>
 
-        - `"API_CALL"`
+issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }
 
-        - `"RECORD_ON_START"`
+</summary>
 
-    - `stop_reason: optional object { caller, reason }`
+bandwidth_quality_limitation_fraction: optional number
 
-      - `caller: optional object { name, type, user_Id }`
+[Link to this property](#)
 
-        - `name: optional string`
+cpu_quality_limitation_fraction: optional number
 
-          Name of the user who stopped the recording.
+[Link to this property](#)
 
-        - `type: optional "ORGANIZATION" or "USER"`
+no_video_fraction: optional number
 
-          The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+[Link to this property](#)
 
-          - `"ORGANIZATION"`
+poor_resolution_fraction: optional number
 
-          - `"USER"`
+[Link to this property](#)
 
-        - `user_Id: optional string`
+quality_limitation_fraction: optional number
 
-          The user ID of the person who stopped the recording.
+[Link to this property](#)
 
-      - `reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"`
+</details>
 
-        Specifies the reason why the recording stopped.
+[Link to this property](#)
 
-        - `"API_CALL"`
+key_frames_encoded_fraction: optional number
 
-        - `"INTERNAL_ERROR"`
+[Link to this property](#)
 
-        - `"ALL_PEERS_LEFT"`
+<details>
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<summary>
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }
 
-        Type of storage media.
+Cumulative packet loss distribution.
 
-        - `"aws"`
+</summary>
 
-        - `"azure"`
+"10_or_greater_event_fraction": optional number
 
-        - `"digitalocean"`
+[Link to this property](#)
 
-        - `"gcs"`
+"25_or_greater_event_fraction": optional number
 
-        - `"sftp"`
+[Link to this property](#)
 
-      - `access_key: optional string`
+"5_or_greater_event_fraction": optional number
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+[Link to this property](#)
 
-        Note that this field is not readable by clients, only writeable.
+"50_or_greater_event_fraction": optional number
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+[Link to this property](#)
 
-        Authentication method used for "sftp" type storage medium
+avg: optional number
 
-        - `"KEY"`
+[Link to this property](#)
 
-        - `"PASSWORD"`
+</details>
 
-      - `bucket: optional string`
+[Link to this property](#)
 
-        Name of the storage medium's bucket.
+<details>
 
-      - `host: optional string`
+<summary>
 
-        SSH destination server host for SFTP type storage medium
+quality_mos: optional object { avg, p50, p75, p90 }
 
-      - `password: optional string`
+Distribution summary with average and percentiles.
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+</summary>
 
-      - `path: optional string`
+avg: optional number
 
-        Path relative to the bucket root at which the recording will be placed.
+[Link to this property](#)
 
-      - `port: optional number`
+p50: optional number
 
-        SSH destination server port for SFTP type storage medium
+[Link to this property](#)
 
-      - `private_key: optional string`
+p75: optional number
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+[Link to this property](#)
 
-      - `region: optional string`
+p90: optional number
 
-        Region of the storage medium.
+[Link to this property](#)
 
-      - `secret: optional string`
+</details>
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+[Link to this property](#)
 
-      - `username: optional string`
+<details>
 
-        SSH destination server username for SFTP type storage medium
+<summary>
 
-### Recording Start Track Recording Response
+rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }
 
-- `RecordingStartTrackRecordingResponse object { success, data }`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-  - `success: boolean`
+</summary>
 
-    Success status of the operation
+"100ms_or_greater_event_fraction": optional number
 
-  - `data: optional object { recording }`
+[Link to this property](#)
 
-    Data returned by the operation
+"250ms_or_greater_event_fraction": optional number
 
-    - `recording: object { id, audio_download_url, download_url, 9 more }`
+[Link to this property](#)
 
-      - `id: string`
+"500ms_or_greater_event_fraction": optional number
 
-        ID of the recording
+[Link to this property](#)
 
-      - `audio_download_url: string`
+avg: optional number
 
-        If the audio_config is passed, the URL for downloading the audio recording is returned.
+[Link to this property](#)
 
-      - `download_url: string`
+</details>
 
-        URL where the recording can be downloaded.
+[Link to this property](#)
 
-      - `download_url_expiry: string`
+</details>
 
-        Timestamp when the download URL expires.
+[Link to this property](#)
 
-      - `file_size: number`
+</details>
 
-        File size of the recording, in bytes.
+[Link to this property](#)
 
-      - `invoked_time: string`
+</details>
 
-        Timestamp when this recording was invoked.
+[Link to this property](#)
 
-      - `output_file_name: string`
+role: optional string
 
-        File name of the recording.
+Name of the preset associated with the participant.
 
-      - `session_id: string`
+[Link to this property](#)
 
-        ID of the meeting session this recording is for.
+session_id: optional string
 
-      - `started_time: string`
+formatuuid
 
-        Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+[Link to this property](#)
 
-      - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+updated_at: optional string
 
-        Current status of the recording.
+timestamp when this participant’s data was last updated.
 
-        - `"INVOKED"`
+[Link to this property](#)
 
-        - `"RECORDING"`
+user_id: optional string
 
-        - `"UPLOADING"`
+User id for this participant.
 
-        - `"UPLOADED"`
+[Link to this property](#)
 
-        - `"ERRORED"`
+</details>
 
-        - `"PAUSED"`
+[Link to this property](#)
 
-      - `stopped_time: string`
+</details>
 
-        Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+[Link to this property](#)
 
-      - `recording_duration: optional number`
+success: optional boolean
 
-        Total recording time in seconds.
+[Link to this property](#)
 
-# Webhooks
+</details>
 
-## Fetch all webhooks details
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks`
+##### [Fetch all recordings for an App](/api/resources/realtime_kit/subresources/recordings/methods/get_recordings)
 
-Returns details of all webhooks for an App.
+GET/accounts/{account_id}/realtime/kit/{app_id}/recordings
 
-### Path Parameters
+##### [Start recording a meeting](/api/resources/realtime_kit/subresources/recordings/methods/start_recordings)
 
-- `account_id: string`
+POST/accounts/{account_id}/realtime/kit/{app_id}/recordings
 
-  The account identifier tag.
+##### [Fetch active recording](/api/resources/realtime_kit/subresources/recordings/methods/get_active_recordings)
 
-- `app_id: string`
+GET/accounts/{account_id}/realtime/kit/{app_id}/recordings/active-recording/{meeting_id}
 
-  The app identifier tag.
+##### [Fetch details of a recording](/api/resources/realtime_kit/subresources/recordings/methods/get_one_recording)
 
-### Returns
+GET/accounts/{account_id}/realtime/kit/{app_id}/recordings/{recording_id}
 
-- `data: array of object { id, created_at, enabled, 4 more }`
+##### [Pause/Resume/Stop recording](/api/resources/realtime_kit/subresources/recordings/methods/pause_resume_stop_recording)
 
-  - `id: string`
+PUT/accounts/{account_id}/realtime/kit/{app_id}/recordings/{recording_id}
 
-    ID of the webhook
+##### [Start recording participant audio tracks](/api/resources/realtime_kit/subresources/recordings/methods/start_track_recording)
 
-  - `created_at: string`
+POST/accounts/{account_id}/realtime/kit/{app_id}/recordings/track
 
-    Timestamp when this webhook was created
+##### Models
 
-  - `enabled: boolean`
+<details>
 
-    Set to true if the webhook is active
+<summary>
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+RecordingGetRecordingsResponse object { data, paging, success }
 
-    Events this webhook will send updates for
+</summary>
 
-    - `"meeting.started"`
+<details>
 
-    - `"meeting.ended"`
+<summary>
 
-    - `"meeting.participantJoined"`
+data: array of object { id, audio_download_url, download_url, 11 more }
 
-    - `"meeting.participantLeft"`
+</summary>
 
-    - `"meeting.chatSynced"`
+id: string
 
-    - `"recording.statusUpdate"`
+ID of the recording
 
-    - `"livestreaming.statusUpdate"`
+formatuuid
 
-    - `"meeting.transcript"`
+[Link to this property](#)
 
-    - `"meeting.summary"`
+audio_download_url: string
 
-  - `name: string`
+If the audio_config is passed, the URL for downloading the audio recording is returned.
 
-    Name of the webhook
+formaturi
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    Timestamp when this webhook was updated
+download_url: string
 
-  - `url: string`
+URL where the recording can be downloaded.
 
-    URL the webhook will send events to
+formaturi
 
-- `success: boolean`
+[Link to this property](#)
 
-### Example
+download_url_expiry: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Timestamp when the download URL expires.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "data": [
-    {
-      "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-      "created_at": "2022-05-28T07:01:53.075Z",
-      "enabled": true,
-      "events": [
-        "meeting.started",
-        "meeting.ended",
-        "meeting.participantJoined",
-        "meeting.participantLeft",
-        "meeting.chatSynced",
-        "recording.statusUpdate",
-        "livestreaming.statusUpdate",
-        "meeting.transcript",
-        "meeting.summary"
-      ],
-      "name": "All events webhook",
-      "updated_at": "2022-05-28T07:01:53.075Z",
-      "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-    }
-  ],
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Add a webhook
+file_size: number
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks`
+File size of the recording, in bytes.
 
-Adds a new webhook to an App.
+[Link to this property](#)
 
-### Path Parameters
+invoked_time: string
 
-- `account_id: string`
+Timestamp when this recording was invoked.
 
-  The account identifier tag.
+formatdate-time
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+output_file_name: string
 
-### Body Parameters
+File name of the recording.
 
-- `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)
 
-  Events that this webhook will get triggered by
+session_id: string
 
-  - `"meeting.started"`
+ID of the meeting session this recording is for.
 
-  - `"meeting.ended"`
+formatuuid
 
-  - `"meeting.participantJoined"`
+[Link to this property](#)
 
-  - `"meeting.participantLeft"`
+started_time: string
 
-  - `"meeting.chatSynced"`
+Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
 
-  - `"recording.statusUpdate"`
+formatdate-time
 
-  - `"livestreaming.statusUpdate"`
+[Link to this property](#)
 
-  - `"meeting.transcript"`
+<details>
 
-  - `"meeting.summary"`
+<summary>
 
-- `name: string`
+status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more
 
-  Name of the webhook
+Current status of the recording.
 
-- `url: string`
+</summary>
 
-  URL this webhook will send events to
+One of the following:
 
-- `enabled: optional boolean`
+"INVOKED"
 
-  Set whether or not the webhook should be active when created
+[Link to this property](#)
 
-### Returns
+"RECORDING"
 
-- `data: object { id, created_at, enabled, 4 more }`
+[Link to this property](#)
 
-  - `id: string`
+"UPLOADING"
 
-    ID of the webhook
+[Link to this property](#)
 
-  - `created_at: string`
+"UPLOADED"
 
-    Timestamp when this webhook was created
+[Link to this property](#)
 
-  - `enabled: boolean`
+"ERRORED"
 
-    Set to true if the webhook is active
+[Link to this property](#)
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+"PAUSED"
 
-    Events this webhook will send updates for
+[Link to this property](#)
 
-    - `"meeting.started"`
+</details>
 
-    - `"meeting.ended"`
+[Link to this property](#)
 
-    - `"meeting.participantJoined"`
+stopped_time: string
 
-    - `"meeting.participantLeft"`
+Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
 
-    - `"meeting.chatSynced"`
+formatdate-time
 
-    - `"recording.statusUpdate"`
+[Link to this property](#)
 
-    - `"livestreaming.statusUpdate"`
+<details>
 
-    - `"meeting.transcript"`
+<summary>
 
-    - `"meeting.summary"`
+meeting: optional object { id, created_at, updated_at, 9 more }
 
-  - `name: string`
+</summary>
 
-    Name of the webhook
+id: string
 
-  - `updated_at: string`
+ID of the meeting.
 
-    Timestamp when this webhook was updated
+formatuuid
 
-  - `url: string`
+[Link to this property](#)
 
-    URL the webhook will send events to
+created_at: string
 
-- `success: boolean`
+Timestamp the object was created at. The time is returned in ISO format.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "events": [
-            "meeting.started",
-            "meeting.ended",
-            "meeting.participantJoined",
-            "meeting.participantLeft",
-            "meeting.chatSynced",
-            "recording.statusUpdate",
-            "livestreaming.statusUpdate",
-            "meeting.transcript",
-            "meeting.summary"
-          ],
-          "name": "All events webhook",
-          "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-        }'
-```
+[Link to this property](#)
 
-#### Response
+updated_at: string
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+Timestamp the object was updated at. The time is returned in ISO format.
 
-## Fetch details of a webhook
+formatdate-time
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+[Link to this property](#)
 
-Returns webhook details for the given webhook ID.
+live_stream_on_start: optional boolean
 
-### Path Parameters
+Specifies if the meeting should start getting livestreamed on start.
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+persist_chat: optional boolean
 
-- `app_id: string`
+Specifies if Chat within a meeting should persist for a week.
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `webhook_id: string`
+record_on_start: optional boolean
 
-### Returns
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-- `data: object { id, created_at, enabled, 4 more }`
+[Link to this property](#)
 
-  - `id: string`
+<details>
 
-    ID of the webhook
+<summary>
 
-  - `created_at: string`
+recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }
 
-    Timestamp when this webhook was created
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-  - `enabled: boolean`
+</summary>
 
-    Set to true if the webhook is active
+<details>
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+<summary>
 
-    Events this webhook will send updates for
+audio_config: optional object { channel, codec, export_file }
 
-    - `"meeting.started"`
+Object containing configuration regarding the audio that is being recorded.
 
-    - `"meeting.ended"`
+</summary>
 
-    - `"meeting.participantJoined"`
+<details>
 
-    - `"meeting.participantLeft"`
+<summary>
 
-    - `"meeting.chatSynced"`
+channel: optional "mono" or "stereo"
 
-    - `"recording.statusUpdate"`
+Audio signal pathway within an audio file that carries a specific sound source.
 
-    - `"livestreaming.statusUpdate"`
+</summary>
 
-    - `"meeting.transcript"`
+One of the following:
 
-    - `"meeting.summary"`
+"mono"
 
-  - `name: string`
+[Link to this property](#)
 
-    Name of the webhook
+"stereo"
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    Timestamp when this webhook was updated
+</details>
 
-  - `url: string`
+[Link to this property](#)
 
-    URL the webhook will send events to
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+codec: optional "MP3" or "AAC"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-#### Response
+</summary>
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+One of the following:
 
-## Replace a webhook
+"MP3"
 
-**put** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+[Link to this property](#)
 
-Replace all details for the given webhook ID.
+"AAC"
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+</details>
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+export_file: optional boolean
 
-  The app identifier tag.
+Controls whether to export audio file seperately
 
-- `webhook_id: string`
+[Link to this property](#)
 
-### Body Parameters
+</details>
 
-- `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)
 
-  Events that this webhook will get triggered by
+file_name_prefix: optional string
 
-  - `"meeting.started"`
+Adds a prefix to the beginning of the file name of the recording.
 
-  - `"meeting.ended"`
+[Link to this property](#)
 
-  - `"meeting.participantJoined"`
+<details>
 
-  - `"meeting.participantLeft"`
+<summary>
 
-  - `"meeting.chatSynced"`
+live_streaming_config: optional object { rtmp_url }
 
-  - `"recording.statusUpdate"`
+</summary>
 
-  - `"livestreaming.statusUpdate"`
+rtmp_url: optional string
 
-  - `"meeting.transcript"`
+RTMP URL to stream to
 
-  - `"meeting.summary"`
+formaturi
 
-- `name: string`
+[Link to this property](#)
 
-  Name of the webhook
+</details>
 
-- `url: string`
+[Link to this property](#)
 
-  URL this webhook will send events to
+max_seconds: optional number
 
-- `enabled: optional boolean`
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-  Set whether or not the webhook should be active when created
+maximum86400
 
-### Returns
+minimum60
 
-- `data: object { id, created_at, enabled, 4 more }`
+[Link to this property](#)
 
-  - `id: string`
+<details>
 
-    ID of the webhook
+<summary>
 
-  - `created_at: string`
+realtimekit_bucket_config: optional object { enabled }
 
-    Timestamp when this webhook was created
+</summary>
 
-  - `enabled: boolean`
+enabled: boolean
 
-    Set to true if the webhook is active
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won’t be generated for a recording.
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)
 
-    Events this webhook will send updates for
+</details>
 
-    - `"meeting.started"`
+[Link to this property](#)
 
-    - `"meeting.ended"`
+<details>
 
-    - `"meeting.participantJoined"`
+<summary>
 
-    - `"meeting.participantLeft"`
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-    - `"meeting.chatSynced"`
+</summary>
 
-    - `"recording.statusUpdate"`
+One of the following:
 
-    - `"livestreaming.statusUpdate"`
+<details>
 
-    - `"meeting.transcript"`
+<summary>
 
-    - `"meeting.summary"`
+object { access_key, auth_method, bucket, 9 more }
 
-  - `name: string`
+</summary>
 
-    Name of the webhook
+access_key: optional string
 
-  - `updated_at: string`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-    Timestamp when this webhook was updated
+Note that this field is not readable by clients, only writeable.
 
-  - `url: string`
+[Link to this property](#)
 
-    URL the webhook will send events to
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+auth_method: optional "KEY" or "PASSWORD"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "events": [
-            "meeting.started",
-            "meeting.ended",
-            "meeting.participantJoined",
-            "meeting.participantLeft",
-            "meeting.chatSynced",
-            "recording.statusUpdate",
-            "livestreaming.statusUpdate",
-            "meeting.transcript",
-            "meeting.summary"
-          ],
-          "name": "All events webhook",
-          "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-        }'
-```
+Authentication method used for “sftp” type storage medium
 
-#### Response
+</summary>
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+One of the following:
 
-## Edit a webhook
+"KEY"
 
-**patch** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+[Link to this property](#)
 
-Edits the webhook details for the given webhook ID.
+"PASSWORD"
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+</details>
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+bucket: optional string
 
-  The app identifier tag.
+Name of the storage medium’s bucket.
 
-- `webhook_id: string`
+[Link to this property](#)
 
-### Body Parameters
+host: optional string
 
-- `enabled: optional boolean`
+SSH destination server host for SFTP type storage medium
 
-- `events: optional array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)
 
-  Events that the webhook will get triggered by
+password: optional string
 
-  - `"meeting.started"`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `"meeting.ended"`
+[Link to this property](#)
 
-  - `"meeting.participantJoined"`
+path: optional string
 
-  - `"meeting.participantLeft"`
+Path relative to the bucket root at which the recording will be placed.
 
-  - `"recording.statusUpdate"`
+[Link to this property](#)
 
-  - `"livestreaming.statusUpdate"`
+port: optional number
 
-  - `"meeting.chatSynced"`
+SSH destination server port for SFTP type storage medium
 
-  - `"meeting.transcript"`
+[Link to this property](#)
 
-  - `"meeting.summary"`
+private_key: optional string
 
-- `name: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-  Name of the webhook
+[Link to this property](#)
 
-- `url: optional string`
+region: optional string
 
-  URL the webhook will send events to
+Region of the storage medium.
 
-### Returns
+[Link to this property](#)
 
-- `data: object { id, created_at, enabled, 4 more }`
+secret: optional string
 
-  - `id: string`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-    ID of the webhook
+[Link to this property](#)
 
-  - `created_at: string`
+type: optional "gcs"
 
-    Timestamp when this webhook was created
+[Link to this property](#)
 
-  - `enabled: boolean`
+username: optional string
 
-    Set to true if the webhook is active
+SSH destination server username for SFTP type storage medium
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)
 
-    Events this webhook will send updates for
+</details>
 
-    - `"meeting.started"`
+[Link to this property](#)
 
-    - `"meeting.ended"`
+<details>
 
-    - `"meeting.participantJoined"`
+<summary>
 
-    - `"meeting.participantLeft"`
+object { access_key, region, auth_method, 9 more }
 
-    - `"meeting.chatSynced"`
+</summary>
 
-    - `"recording.statusUpdate"`
+access_key: unknown
 
-    - `"livestreaming.statusUpdate"`
+minLength1
 
-    - `"meeting.transcript"`
+[Link to this property](#)
 
-    - `"meeting.summary"`
+region: unknown
 
-  - `name: string`
+minLength1
 
-    Name of the webhook
+[Link to this property](#)
 
-  - `updated_at: string`
+<details>
 
-    Timestamp when this webhook was updated
+<summary>
 
-  - `url: string`
+auth_method: optional "KEY" or "PASSWORD"
 
-    URL the webhook will send events to
+Authentication method used for “sftp” type storage medium
 
-- `success: boolean`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-        }'
-```
+"KEY"
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+"PASSWORD"
 
-## Delete a webhook
+[Link to this property](#)
 
-**delete** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+</details>
 
-Removes a webhook for the given webhook ID.
+[Link to this property](#)
 
-### Path Parameters
+bucket: optional string
 
-- `account_id: string`
+Name of the storage medium’s bucket.
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+host: optional string
 
-  The app identifier tag.
+SSH destination server host for SFTP type storage medium
 
-- `webhook_id: string`
+[Link to this property](#)
 
-### Returns
+password: optional string
 
-- `data: object { id, created_at, enabled, 4 more }`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `id: string`
+[Link to this property](#)
 
-    ID of the webhook
+path: optional string
 
-  - `created_at: string`
+Path relative to the bucket root at which the recording will be placed.
 
-    Timestamp when this webhook was created
+[Link to this property](#)
 
-  - `enabled: boolean`
+port: optional number
 
-    Set to true if the webhook is active
+SSH destination server port for SFTP type storage medium
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)
 
-    Events this webhook will send updates for
+private_key: optional string
 
-    - `"meeting.started"`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-    - `"meeting.ended"`
+[Link to this property](#)
 
-    - `"meeting.participantJoined"`
+secret: optional string
 
-    - `"meeting.participantLeft"`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-    - `"meeting.chatSynced"`
+[Link to this property](#)
 
-    - `"recording.statusUpdate"`
+<details>
 
-    - `"livestreaming.statusUpdate"`
+<summary>
 
-    - `"meeting.transcript"`
+type: optional "aws" or "azure" or "digitalocean"
 
-    - `"meeting.summary"`
+</summary>
 
-  - `name: string`
+One of the following:
 
-    Name of the webhook
+"aws"
 
-  - `updated_at: string`
+[Link to this property](#)
 
-    Timestamp when this webhook was updated
+"azure"
 
-  - `url: string`
+[Link to this property](#)
 
-    URL the webhook will send events to
+"digitalocean"
 
-- `success: boolean`
+[Link to this property](#)
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+username: optional string
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+SSH destination server username for SFTP type storage medium
 
-## Domain Types
+[Link to this property](#)
 
-### Webhook Get Webhooks Response
+</details>
 
-- `WebhookGetWebhooksResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: array of object { id, created_at, enabled, 4 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-      ID of the webhook
+object { private_key, access_key, auth_method, 9 more }
 
-    - `created_at: string`
+</summary>
 
-      Timestamp when this webhook was created
+private_key: string
 
-    - `enabled: boolean`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      Set to true if the webhook is active
+[Link to this property](#)
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+access_key: optional string
 
-      Events this webhook will send updates for
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-      - `"meeting.started"`
+Note that this field is not readable by clients, only writeable.
 
-      - `"meeting.ended"`
+[Link to this property](#)
 
-      - `"meeting.participantJoined"`
+auth_method: optional "KEY"
 
-      - `"meeting.participantLeft"`
+[Link to this property](#)
 
-      - `"meeting.chatSynced"`
+bucket: optional string
 
-      - `"recording.statusUpdate"`
+Name of the storage medium’s bucket.
 
-      - `"livestreaming.statusUpdate"`
+[Link to this property](#)
 
-      - `"meeting.transcript"`
+host: optional string
 
-      - `"meeting.summary"`
+SSH destination server host for SFTP type storage medium
 
-    - `name: string`
+[Link to this property](#)
 
-      Name of the webhook
+password: optional string
 
-    - `updated_at: string`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-      Timestamp when this webhook was updated
+[Link to this property](#)
 
-    - `url: string`
+path: optional string
 
-      URL the webhook will send events to
+Path relative to the bucket root at which the recording will be placed.
 
-  - `success: boolean`
+[Link to this property](#)
 
-### Webhook Create Webhook Response
+port: optional number
 
-- `WebhookCreateWebhookResponse object { data, success }`
+SSH destination server port for SFTP type storage medium
 
-  - `data: object { id, created_at, enabled, 4 more }`
+[Link to this property](#)
 
-    - `id: string`
+region: optional string
 
-      ID of the webhook
+Region of the storage medium.
 
-    - `created_at: string`
+[Link to this property](#)
 
-      Timestamp when this webhook was created
+secret: optional string
 
-    - `enabled: boolean`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      Set to true if the webhook is active
+[Link to this property](#)
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+<details>
 
-      Events this webhook will send updates for
+<summary>
 
-      - `"meeting.started"`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-      - `"meeting.ended"`
+Type of storage media.
 
-      - `"meeting.participantJoined"`
+</summary>
 
-      - `"meeting.participantLeft"`
+One of the following:
 
-      - `"meeting.chatSynced"`
+"aws"
 
-      - `"recording.statusUpdate"`
+[Link to this property](#)
 
-      - `"livestreaming.statusUpdate"`
+"azure"
 
-      - `"meeting.transcript"`
+[Link to this property](#)
 
-      - `"meeting.summary"`
+"digitalocean"
 
-    - `name: string`
+[Link to this property](#)
 
-      Name of the webhook
+"gcs"
 
-    - `updated_at: string`
+[Link to this property](#)
 
-      Timestamp when this webhook was updated
+"sftp"
 
-    - `url: string`
+[Link to this property](#)
 
-      URL the webhook will send events to
+</details>
 
-  - `success: boolean`
+[Link to this property](#)
 
-### Webhook Get Webhook By ID Response
+username: optional string
 
-- `WebhookGetWebhookByIDResponse object { data, success }`
+SSH destination server username for SFTP type storage medium
 
-  - `data: object { id, created_at, enabled, 4 more }`
+[Link to this property](#)
 
-    - `id: string`
+</details>
 
-      ID of the webhook
+[Link to this property](#)
 
-    - `created_at: string`
+<details>
 
-      Timestamp when this webhook was created
+<summary>
 
-    - `enabled: boolean`
+object { password, access_key, auth_method, 9 more }
 
-      Set to true if the webhook is active
+</summary>
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+password: string
 
-      Events this webhook will send updates for
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-      - `"meeting.started"`
+[Link to this property](#)
 
-      - `"meeting.ended"`
+access_key: optional string
 
-      - `"meeting.participantJoined"`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-      - `"meeting.participantLeft"`
+Note that this field is not readable by clients, only writeable.
 
-      - `"meeting.chatSynced"`
+[Link to this property](#)
 
-      - `"recording.statusUpdate"`
+auth_method: optional "PASSWORD"
 
-      - `"livestreaming.statusUpdate"`
+[Link to this property](#)
 
-      - `"meeting.transcript"`
+bucket: optional string
 
-      - `"meeting.summary"`
+Name of the storage medium’s bucket.
 
-    - `name: string`
+[Link to this property](#)
 
-      Name of the webhook
+host: optional string
 
-    - `updated_at: string`
+SSH destination server host for SFTP type storage medium
 
-      Timestamp when this webhook was updated
+[Link to this property](#)
 
-    - `url: string`
+path: optional string
 
-      URL the webhook will send events to
+Path relative to the bucket root at which the recording will be placed.
 
-  - `success: boolean`
+[Link to this property](#)
 
-### Webhook Replace Webhook Response
+port: optional number
 
-- `WebhookReplaceWebhookResponse object { data, success }`
+SSH destination server port for SFTP type storage medium
 
-  - `data: object { id, created_at, enabled, 4 more }`
+[Link to this property](#)
 
-    - `id: string`
+private_key: optional string
 
-      ID of the webhook
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-    - `created_at: string`
+[Link to this property](#)
 
-      Timestamp when this webhook was created
+region: optional string
 
-    - `enabled: boolean`
+Region of the storage medium.
 
-      Set to true if the webhook is active
+[Link to this property](#)
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+secret: optional string
 
-      Events this webhook will send updates for
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      - `"meeting.started"`
+[Link to this property](#)
 
-      - `"meeting.ended"`
+<details>
 
-      - `"meeting.participantJoined"`
+<summary>
 
-      - `"meeting.participantLeft"`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-      - `"meeting.chatSynced"`
+Type of storage media.
 
-      - `"recording.statusUpdate"`
+</summary>
 
-      - `"livestreaming.statusUpdate"`
+One of the following:
 
-      - `"meeting.transcript"`
+"aws"
 
-      - `"meeting.summary"`
+[Link to this property](#)
 
-    - `name: string`
+"azure"
 
-      Name of the webhook
+[Link to this property](#)
 
-    - `updated_at: string`
+"digitalocean"
 
-      Timestamp when this webhook was updated
+[Link to this property](#)
 
-    - `url: string`
+"gcs"
 
-      URL the webhook will send events to
+[Link to this property](#)
 
-  - `success: boolean`
+"sftp"
 
-### Webhook Edit Webhook Response
+[Link to this property](#)
 
-- `WebhookEditWebhookResponse object { data, success }`
+</details>
 
-  - `data: object { id, created_at, enabled, 4 more }`
+[Link to this property](#)
 
-    - `id: string`
+username: optional string
 
-      ID of the webhook
+SSH destination server username for SFTP type storage medium
 
-    - `created_at: string`
+[Link to this property](#)
 
-      Timestamp when this webhook was created
+</details>
 
-    - `enabled: boolean`
+[Link to this property](#)
 
-      Set to true if the webhook is active
+</details>
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)
 
-      Events this webhook will send updates for
+<details>
 
-      - `"meeting.started"`
+<summary>
 
-      - `"meeting.ended"`
+video_config: optional object { codec, export_file, height, 2 more }
 
-      - `"meeting.participantJoined"`
+</summary>
 
-      - `"meeting.participantLeft"`
+<details>
 
-      - `"meeting.chatSynced"`
+<summary>
 
-      - `"recording.statusUpdate"`
+codec: optional "H264" or "VP8" or "VP9"
 
-      - `"livestreaming.statusUpdate"`
+Codec using which the recording will be encoded.
 
-      - `"meeting.transcript"`
+</summary>
 
-      - `"meeting.summary"`
+One of the following:
 
-    - `name: string`
+"H264"
 
-      Name of the webhook
+[Link to this property](#)
 
-    - `updated_at: string`
+"VP8"
 
-      Timestamp when this webhook was updated
+[Link to this property](#)
 
-    - `url: string`
+"VP9"
 
-      URL the webhook will send events to
+[Link to this property](#)
 
-  - `success: boolean`
+</details>
 
-### Webhook Delete Webhook Response
+[Link to this property](#)
 
-- `WebhookDeleteWebhookResponse object { data, success }`
+export_file: optional boolean
 
-  - `data: object { id, created_at, enabled, 4 more }`
+Controls whether to export video file seperately
 
-    - `id: string`
+[Link to this property](#)
 
-      ID of the webhook
+height: optional number
 
-    - `created_at: string`
+Height of the recording video in pixels
 
-      Timestamp when this webhook was created
+maximum1920
 
-    - `enabled: boolean`
+minimum1
 
-      Set to true if the webhook is active
+[Link to this property](#)
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+<details>
 
-      Events this webhook will send updates for
+<summary>
 
-      - `"meeting.started"`
+watermark: optional object { position, size, url }
 
-      - `"meeting.ended"`
+Watermark to be added to the recording
 
-      - `"meeting.participantJoined"`
+</summary>
 
-      - `"meeting.participantLeft"`
+<details>
 
-      - `"meeting.chatSynced"`
+<summary>
 
-      - `"recording.statusUpdate"`
+position: optional "left top" or "right top" or "left bottom" or "right bottom"
 
-      - `"livestreaming.statusUpdate"`
+Position of the watermark
 
-      - `"meeting.transcript"`
+</summary>
 
-      - `"meeting.summary"`
+One of the following:
 
-    - `name: string`
+"left top"
 
-      Name of the webhook
+[Link to this property](#)
 
-    - `updated_at: string`
+"right top"
 
-      Timestamp when this webhook was updated
+[Link to this property](#)
 
-    - `url: string`
+"left bottom"
 
-      URL the webhook will send events to
+[Link to this property](#)
 
-  - `success: boolean`
+"right bottom"
 
-# Active Session
+[Link to this property](#)
 
-## Fetch details of an active session
+</details>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session`
+[Link to this property](#)
 
-Returns details of an ongoing active session for the given meeting ID.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+size: optional object { height, width }
 
-  The account identifier tag.
+Size of the watermark
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+height: optional number
 
-- `meeting_id: string`
+Height of the watermark in px
 
-### Returns
+minimum1
 
-- `data: optional object { id, associated_id, created_at, 11 more }`
+[Link to this property](#)
 
-  - `id: string`
+width: optional number
 
-    ID of the session
+Width of the watermark in px
 
-  - `associated_id: string`
+minimum1
 
-    ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+[Link to this property](#)
 
-  - `created_at: string`
+</details>
 
-    timestamp when session created
+[Link to this property](#)
 
-  - `live_participants: number`
+url: optional string
 
-    number of participants currently in the session
+URL of the watermark image
 
-  - `max_concurrent_participants: number`
+formaturi
 
-    number of maximum participants that were in the session
+[Link to this property](#)
 
-  - `meeting_display_name: string`
+</details>
 
-    Title of the meeting this session belongs to
+[Link to this property](#)
 
-  - `minutes_consumed: number`
+width: optional number
 
-    number of minutes consumed since the session started
+Width of the recording video in pixels
 
-  - `organization_id: string`
+maximum1920
 
-    App id that hosted this session
+minimum1
 
-  - `started_at: string`
+[Link to this property](#)
 
-    timestamp when session started
+</details>
 
-  - `status: "LIVE" or "ENDED"`
+[Link to this property](#)
 
-    current status of session
+</details>
 
-    - `"LIVE"`
+[Link to this property](#)
 
-    - `"ENDED"`
+session_keep_alive_time_in_secs: optional number
 
-  - `type: "meeting" or "livestream" or "participant"`
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-    type of session
+maximum600
 
-    - `"meeting"`
+minimum60
 
-    - `"livestream"`
+[Link to this property](#)
 
-    - `"participant"`
+<details>
 
-  - `updated_at: string`
+<summary>
 
-    timestamp when session was last updated
+status: optional "ACTIVE" or "INACTIVE"
 
-  - `breakout_rooms: optional array of unknown`
+Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
 
-  - `ended_at: optional string`
+</summary>
 
-    timestamp when session ended
+One of the following:
 
-- `success: optional boolean`
+"ACTIVE"
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"INACTIVE"
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "id": "id",
-    "associated_id": "associated_id",
-    "created_at": "created_at",
-    "live_participants": 0,
-    "max_concurrent_participants": 0,
-    "meeting_display_name": "meeting_display_name",
-    "minutes_consumed": 0,
-    "organization_id": "organization_id",
-    "started_at": "started_at",
-    "status": "LIVE",
-    "type": "meeting",
-    "updated_at": "updated_at",
-    "breakout_rooms": [
-      {}
-    ],
-    "ended_at": "ended_at"
-  },
-  "success": true
-}
-```
+</details>
 
-## Kick participants from an active session
+[Link to this property](#)
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/kick`
+summarize_on_end: optional boolean
 
-Kicks one or more participants from an active session using user ID or custom participant ID.
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+title: optional string
 
-  The account identifier tag.
+Title of the meeting.
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+transcribe_on_end: optional boolean
 
-- `meeting_id: string`
+Automatically generate transcripts when the meeting ends.
 
-### Body Parameters
+[Link to this property](#)
 
-- `custom_participant_ids: array of string`
+</details>
 
-- `participant_ids: array of string`
+[Link to this property](#)
 
-### Returns
+recording_duration: optional number
 
-- `data: optional object { action, participants }`
+Total recording time in seconds.
 
-  - `action: optional string`
+[Link to this property](#)
 
-  - `participants: optional array of object { id, created_at, updated_at, 3 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-      ID of the session participant
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-    - `created_at: string`
+</summary>
 
-    - `updated_at: string`
+One of the following:
 
-    - `email: optional string`
+<details>
 
-      Email of the session participant.
+<summary>
 
-    - `name: optional string`
+object { access_key, auth_method, bucket, 9 more }
 
-      Name of the session participant.
+</summary>
 
-    - `picture: optional string`
+access_key: optional string
 
-      A URL pointing to a picture of the participant.
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-- `success: optional boolean`
+Note that this field is not readable by clients, only writeable.
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session/kick \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "custom_participant_ids": [
-            "string"
-          ],
-          "participant_ids": [
-            "string"
-          ]
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "data": {
-    "action": "action",
-    "participants": [
-      {
-        "id": "id",
-        "created_at": "created_at",
-        "updated_at": "updated_at",
-        "email": "email",
-        "name": "name",
-        "picture": "picture"
-      }
-    ]
-  },
-  "success": true
-}
-```
+auth_method: optional "KEY" or "PASSWORD"
 
-## Kick all participants
+Authentication method used for “sftp” type storage medium
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/kick-all`
+</summary>
 
-Kicks all participants from an active session for the given meeting ID.
+One of the following:
 
-### Path Parameters
+"KEY"
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+"PASSWORD"
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+</details>
 
-- `meeting_id: string`
+[Link to this property](#)
 
-### Returns
+bucket: optional string
 
-- `data: optional object { action, kicked_participants_count }`
+Name of the storage medium’s bucket.
 
-  - `action: optional string`
+[Link to this property](#)
 
-  - `kicked_participants_count: optional number`
+host: optional string
 
-- `success: optional boolean`
+SSH destination server host for SFTP type storage medium
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session/kick-all \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+password: optional string
 
-#### Response
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-```json
-{
-  "data": {
-    "action": "action",
-    "kicked_participants_count": 0
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Create a poll
+path: optional string
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/poll`
+Path relative to the bucket root at which the recording will be placed.
 
-Creates a new poll in an active session for the given meeting ID.
+[Link to this property](#)
 
-### Path Parameters
+port: optional number
 
-- `account_id: string`
+SSH destination server port for SFTP type storage medium
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+private_key: optional string
 
-  The app identifier tag.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-- `meeting_id: string`
+[Link to this property](#)
 
-### Body Parameters
+region: optional string
 
-- `options: array of string`
+Region of the storage medium.
 
-  Different options for the question
+[Link to this property](#)
 
-- `question: string`
+secret: optional string
 
-  Question of the poll
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-- `anonymous: optional boolean`
+[Link to this property](#)
 
-  if voters on a poll are anonymous
+type: optional "gcs"
 
-- `hide_votes: optional boolean`
+[Link to this property](#)
 
-  if votes on an option are visible before a person votes
+username: optional string
 
-### Returns
+SSH destination server username for SFTP type storage medium
 
-- `data: optional object { action, poll }`
+[Link to this property](#)
 
-  - `action: optional string`
+</details>
 
-  - `poll: optional object { id, options, question, 4 more }`
+[Link to this property](#)
 
-    - `id: string`
+<details>
 
-      ID of the poll
+<summary>
 
-    - `options: array of object { count, text, votes }`
+object { access_key, region, auth_method, 9 more }
 
-      Answer options
+</summary>
 
-      - `count: number`
+access_key: unknown
 
-      - `text: string`
+minLength1
 
-        Text of the answer option
+[Link to this property](#)
 
-      - `votes: array of object { id, name }`
+region: unknown
 
-        - `id: string`
+minLength1
 
-        - `name: string`
+[Link to this property](#)
 
-    - `question: string`
+<details>
 
-      Question asked by the poll
+<summary>
 
-    - `anonymous: optional boolean`
+auth_method: optional "KEY" or "PASSWORD"
 
-    - `created_by: optional string`
+Authentication method used for “sftp” type storage medium
 
-    - `hide_votes: optional boolean`
+</summary>
 
-    - `voted: optional array of string`
+One of the following:
 
-- `success: optional boolean`
+"KEY"
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session/poll \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "options": [
-            "string"
-          ],
-          "question": "question"
-        }'
-```
+"PASSWORD"
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "action": "action",
-    "poll": {
-      "id": "id",
-      "options": [
-        {
-          "count": 0,
-          "text": "text",
-          "votes": [
-            {
-              "id": "id",
-              "name": "name"
-            }
-          ]
-        }
-      ],
-      "question": "question",
-      "anonymous": true,
-      "created_by": "created_by",
-      "hide_votes": true,
-      "voted": [
-        "string"
-      ]
-    }
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)
 
-### Active Session Get Active Session Response
+bucket: optional string
 
-- `ActiveSessionGetActiveSessionResponse object { data, success }`
+Name of the storage medium’s bucket.
 
-  - `data: optional object { id, associated_id, created_at, 11 more }`
+[Link to this property](#)
 
-    - `id: string`
+host: optional string
 
-      ID of the session
+SSH destination server host for SFTP type storage medium
 
-    - `associated_id: string`
+[Link to this property](#)
 
-      ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+password: optional string
 
-    - `created_at: string`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-      timestamp when session created
+[Link to this property](#)
 
-    - `live_participants: number`
+path: optional string
 
-      number of participants currently in the session
+Path relative to the bucket root at which the recording will be placed.
 
-    - `max_concurrent_participants: number`
+[Link to this property](#)
 
-      number of maximum participants that were in the session
+port: optional number
 
-    - `meeting_display_name: string`
+SSH destination server port for SFTP type storage medium
 
-      Title of the meeting this session belongs to
+[Link to this property](#)
 
-    - `minutes_consumed: number`
+private_key: optional string
 
-      number of minutes consumed since the session started
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-    - `organization_id: string`
+[Link to this property](#)
 
-      App id that hosted this session
+secret: optional string
 
-    - `started_at: string`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      timestamp when session started
+[Link to this property](#)
 
-    - `status: "LIVE" or "ENDED"`
+<details>
 
-      current status of session
+<summary>
 
-      - `"LIVE"`
+type: optional "aws" or "azure" or "digitalocean"
 
-      - `"ENDED"`
+</summary>
 
-    - `type: "meeting" or "livestream" or "participant"`
+One of the following:
 
-      type of session
+"aws"
 
-      - `"meeting"`
+[Link to this property](#)
 
-      - `"livestream"`
+"azure"
 
-      - `"participant"`
+[Link to this property](#)
 
-    - `updated_at: string`
+"digitalocean"
 
-      timestamp when session was last updated
+[Link to this property](#)
 
-    - `breakout_rooms: optional array of unknown`
+</details>
 
-    - `ended_at: optional string`
+[Link to this property](#)
 
-      timestamp when session ended
+username: optional string
 
-  - `success: optional boolean`
+SSH destination server username for SFTP type storage medium
 
-### Active Session Kick Participants Response
+[Link to this property](#)
 
-- `ActiveSessionKickParticipantsResponse object { data, success }`
+</details>
 
-  - `data: optional object { action, participants }`
+[Link to this property](#)
 
-    - `action: optional string`
+<details>
 
-    - `participants: optional array of object { id, created_at, updated_at, 3 more }`
+<summary>
 
-      - `id: string`
+object { private_key, access_key, auth_method, 9 more }
 
-        ID of the session participant
+</summary>
 
-      - `created_at: string`
+private_key: string
 
-      - `updated_at: string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      - `email: optional string`
+[Link to this property](#)
 
-        Email of the session participant.
+access_key: optional string
 
-      - `name: optional string`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-        Name of the session participant.
+Note that this field is not readable by clients, only writeable.
 
-      - `picture: optional string`
+[Link to this property](#)
 
-        A URL pointing to a picture of the participant.
+auth_method: optional "KEY"
 
-  - `success: optional boolean`
+[Link to this property](#)
 
-### Active Session Kick All Participants Response
+bucket: optional string
 
-- `ActiveSessionKickAllParticipantsResponse object { data, success }`
+Name of the storage medium’s bucket.
 
-  - `data: optional object { action, kicked_participants_count }`
+[Link to this property](#)
 
-    - `action: optional string`
+host: optional string
 
-    - `kicked_participants_count: optional number`
+SSH destination server host for SFTP type storage medium
 
-  - `success: optional boolean`
+[Link to this property](#)
 
-### Active Session Create Poll Response
+password: optional string
 
-- `ActiveSessionCreatePollResponse object { data, success }`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `data: optional object { action, poll }`
+[Link to this property](#)
 
-    - `action: optional string`
+path: optional string
 
-    - `poll: optional object { id, options, question, 4 more }`
+Path relative to the bucket root at which the recording will be placed.
 
-      - `id: string`
+[Link to this property](#)
 
-        ID of the poll
+port: optional number
 
-      - `options: array of object { count, text, votes }`
+SSH destination server port for SFTP type storage medium
 
-        Answer options
+[Link to this property](#)
 
-        - `count: number`
+region: optional string
 
-        - `text: string`
+Region of the storage medium.
 
-          Text of the answer option
+[Link to this property](#)
 
-        - `votes: array of object { id, name }`
+secret: optional string
 
-          - `id: string`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-          - `name: string`
+[Link to this property](#)
 
-      - `question: string`
+<details>
 
-        Question asked by the poll
+<summary>
 
-      - `anonymous: optional boolean`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-      - `created_by: optional string`
+Type of storage media.
 
-      - `hide_votes: optional boolean`
+</summary>
 
-      - `voted: optional array of string`
+One of the following:
 
-  - `success: optional boolean`
+"aws"
 
-# Livestreams
+[Link to this property](#)
 
-## Create an independent livestream
+"azure"
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams`
+[Link to this property](#)
 
-Creates a livestream for the given App ID and returns ingest server, stream key, and playback URL. You can pass custom input to the ingest server and stream key, and freely distribute the content using the playback URL on any player that supports HLS/LHLS.
+"digitalocean"
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+"gcs"
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+"sftp"
 
-  The app identifier tag.
+[Link to this property](#)
 
-### Body Parameters
+</details>
 
-- `name: optional string`
+[Link to this property](#)
 
-  Name of the livestream
+username: optional string
 
-### Returns
+SSH destination server username for SFTP type storage medium
 
-- `data: optional object { id, disabled, ingest_server, 5 more }`
+[Link to this property](#)
 
-  - `id: optional string`
+</details>
 
-    The livestream ID.
+[Link to this property](#)
 
-  - `disabled: optional boolean`
+<details>
 
-    Specifies if the livestream was disabled.
+<summary>
 
-  - `ingest_server: optional string`
+object { password, access_key, auth_method, 9 more }
 
-    The server URL to which the RTMP encoder should send the video and audio data.
+</summary>
 
-  - `meeting_id: optional string`
+password: string
 
-  - `name: optional string`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `playback_url: optional string`
+[Link to this property](#)
 
-    The web address that viewers can use to watch the livestream.
+access_key: optional string
 
-  - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-    - `"LIVE"`
+Note that this field is not readable by clients, only writeable.
 
-    - `"IDLE"`
+[Link to this property](#)
 
-    - `"ERRORED"`
+auth_method: optional "PASSWORD"
 
-    - `"INVOKED"`
+[Link to this property](#)
 
-  - `stream_key: optional string`
+bucket: optional string
 
-    Unique key for accessing each livestream.
+Name of the storage medium’s bucket.
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+host: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+SSH destination server host for SFTP type storage medium
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "disabled": false,
-    "id": "78dd0b50-4147-4bb8-88d3-2ccc2e98bff0",
-    "ingest_server": "rtmps://live.cloudflare.com:443/live/",
-    "meeting_id": null,
-    "name": "Livestreaming-Demo",
-    "playback_url": "https://customer-s8oj0c1n5ek8ah1e.cloudflarestream.com/7de6a3fec0f9c05bf1df140950d3a237/manifest/video.m3u8",
-    "status": "INVOKED",
-    "stream_key": "f26566285faca6fbe2e79a73a66rsrrsrrsr3cde23a2bb7dbc6c2c1761b98f4e4"
-  },
-  "success": true
-}
-```
+path: optional string
 
-## Fetch all livestreams
+Path relative to the bucket root at which the recording will be placed.
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams`
+[Link to this property](#)
 
-Returns details of livestreams associated with the given App ID. It includes livestreams created by your App and RealtimeKit meetings that are livestreamed by your App. If you only want details of livestreams created by your App and not RealtimeKit meetings, you can use the `exclude_meetings` query parameter.
+port: optional number
 
-### Path Parameters
+SSH destination server port for SFTP type storage medium
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+private_key: optional string
 
-- `app_id: string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-  The app identifier tag.
+[Link to this property](#)
 
-### Query Parameters
+region: optional string
 
-- `end_time: optional string`
+Region of the storage medium.
 
-  Specify the end time range in ISO format to access the live stream.
+[Link to this property](#)
 
-- `exclude_meetings: optional boolean`
+secret: optional string
 
-  Exclude the RealtimeKit meetings that are livestreamed.
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-- `page_no: optional number`
+[Link to this property](#)
 
-  The page number from which you want your page search results to be displayed.
+<details>
 
-- `per_page: optional number`
+<summary>
 
-  Number of results per page.
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-- `sort_order: optional "ASC" or "DSC"`
+Type of storage media.
 
-  Specifies the sorting order for the results.
+</summary>
 
-  - `"ASC"`
+One of the following:
 
-  - `"DSC"`
+"aws"
 
-- `start_time: optional string`
+[Link to this property](#)
 
-  Specify the start time range in ISO format to access the live stream.
+"azure"
 
-- `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+[Link to this property](#)
 
-  Specifies the status of the operation.
+"digitalocean"
 
-  - `"LIVE"`
+[Link to this property](#)
 
-  - `"IDLE"`
+"gcs"
 
-  - `"ERRORED"`
+[Link to this property](#)
 
-  - `"INVOKED"`
+"sftp"
 
-### Returns
+[Link to this property](#)
 
-- `data: optional object { id, created_at, disabled, 8 more }`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)
 
-    The ID of the livestream.
+username: optional string
 
-  - `created_at: optional string`
+SSH destination server username for SFTP type storage medium
 
-    Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-  - `disabled: optional string`
+</details>
 
-    Specifies if the livestream was disabled.
+[Link to this property](#)
 
-  - `ingest_server: optional string`
+</details>
 
-    The server URL to which the RTMP encoder sends the video and audio data.
+[Link to this property](#)
 
-  - `meeting_id: optional string`
+</details>
 
-    ID of the meeting.
+[Link to this property](#)
 
-  - `name: optional string`
+<details>
 
-    Name of the livestream.
+<summary>
 
-  - `paging: optional object { end_offset, start_offset, total_count }`
+paging: object { end_offset, start_offset, total_count }
 
-    - `end_offset: optional number`
+</summary>
 
-    - `start_offset: optional number`
+end_offset: number
 
-    - `total_count: optional number`
+[Link to this property](#)
 
-  - `playback_url: optional string`
+start_offset: number
 
-    The web address that viewers can use to watch the livestream.
+[Link to this property](#)
 
-  - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+total_count: number
 
-    - `"LIVE"`
+minimum0
 
-    - `"IDLE"`
+[Link to this property](#)
 
-    - `"ERRORED"`
+</details>
 
-    - `"INVOKED"`
+[Link to this property](#)
 
-  - `stream_key: optional string`
+success: boolean
 
-    Unique key for accessing each livestream.
+[Link to this property](#)
 
-  - `updated_at: optional string`
+</details>
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+[Link to this property](#)
 
-- `success: optional boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+RecordingStartRecordingsResponse object { success, data }
 
-#### Response
+</summary>
 
-```json
-{
-  "data": {
-    "id": "3fd739f4-3c41-456e-bfba-6ebd51e16d2d",
-    "created_at": "2023-07-15T11:48:34.753Z",
-    "disabled": "disabled",
-    "ingest_server": "rtmps://live.cloudflare.com:443/live/",
-    "meeting_id": "meeting_id",
-    "name": "test",
-    "paging": {
-      "end_offset": 1,
-      "start_offset": 1,
-      "total_count": 1
-    },
-    "playback_url": "https://customer-s8oj0c1n5ek8ah1e.cloudflarestream.com/7de6a3fec0f9c05bf1df140950d3a237/manifest/video.m3u8",
-    "status": "LIVE",
-    "stream_key": "f26566285faca6fbe2e79a73a66rsrrsrrsr3cde23a2bb7dbc6c2c1761b98f4e4",
-    "updated_at": "2023-07-15T11:48:34.753Z"
-  },
-  "success": true
-}
-```
+success: boolean
 
-## Stop livestreaming a meeting
+Success status of the operation
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-livestream/stop`
+[Link to this property](#)
 
-Stops the active livestream of a meeting associated with the given meeting ID. Retreive the meeting ID using the `Create a meeting` API.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+data: optional object { id, audio_download_url, download_url, 12 more }
 
-  The account identifier tag.
+Data returned by the operation
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+id: string
 
-- `meeting_id: string`
+ID of the recording
 
-### Returns
+formatuuid
 
-- `data: optional object { message }`
+[Link to this property](#)
 
-  - `message: optional string`
+audio_download_url: string
 
-- `success: optional boolean`
+If the audio_config is passed, the URL for downloading the audio recording is returned.
 
-### Example
+formaturi
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-livestream/stop \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+download_url: string
 
-```json
-{
-  "data": {
-    "message": "Stopped live stream successfully"
-  },
-  "success": true
-}
-```
+URL where the recording can be downloaded.
 
-## Start livestreaming a meeting
+formaturi
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/livestreams`
+[Link to this property](#)
 
-Starts livestream of a meeting associated with the given meeting ID. Retreive the meeting ID using the `Create a meeting` API.
+download_url_expiry: string
 
-### Path Parameters
+Timestamp when the download URL expires.
 
-- `account_id: string`
+formatdate-time
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+file_size: number
 
-  The app identifier tag.
+File size of the recording, in bytes.
 
-- `meeting_id: string`
+[Link to this property](#)
 
-### Body Parameters
+invoked_time: string
 
-- `name: optional string`
+Timestamp when this recording was invoked.
 
-- `video_config: optional object { height, width }`
+formatdate-time
 
-  - `height: optional number`
+[Link to this property](#)
 
-    Height of the livestreaming video in pixels
+output_file_name: string
 
-  - `width: optional number`
+File name of the recording.
 
-    Width of the livestreaming video in pixels
+[Link to this property](#)
 
-### Returns
+session_id: string
 
-- `data: optional object { id, ingest_server, playback_url, 2 more }`
+ID of the meeting session this recording is for.
 
-  - `id: optional string`
+formatuuid
 
-    The livestream ID.
+[Link to this property](#)
 
-  - `ingest_server: optional string`
+started_time: string
 
-    The server URL to which the RTMP encoder sends the video and audio data.
+Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
 
-  - `playback_url: optional string`
+formatdate-time
 
-    The web address that viewers can use to watch the livestream.
+[Link to this property](#)
 
-  - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+<details>
 
-    - `"LIVE"`
+<summary>
 
-    - `"IDLE"`
+status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more
 
-    - `"ERRORED"`
+Current status of the recording.
 
-    - `"INVOKED"`
+</summary>
 
-  - `stream_key: optional string`
+One of the following:
 
-    Unique key for accessing each livestream.
+"INVOKED"
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+"RECORDING"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/livestreams \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+[Link to this property](#)
 
-#### Response
+"UPLOADING"
 
-```json
-{
-  "data": {
-    "id": "7088bba8-f522-49a8-b59b-3cd0e946bbb0",
-    "ingest_server": "rtmps://live.cloudflare.com:443/live/",
-    "playback_url": "https://customer-s8oj0c1n5ek8ah1e.cloudflarestream.com/7de6a3fec0f9c05bf1df140950d3a237/manifest/video.m3u8",
-    "status": "INVOKED",
-    "stream_key": "f26566285faca6fbe2e79a73a66rsrrsrrsr3cde23a2bb7dbc6c2c1761b98f4e4"
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Fetch complete analytics data for your livestreams
+"UPLOADED"
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/livestreams/overall`
+[Link to this property](#)
 
-Returns livestream analytics for the specified time range.
+"ERRORED"
 
-### Path Parameters
+[Link to this property](#)
 
-- `account_id: string`
+"PAUSED"
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+</details>
 
-  The app identifier tag.
+[Link to this property](#)
 
-### Query Parameters
+stopped_time: string
 
-- `end_time: optional number`
+Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
 
-  Specify the end time as a Unix timestamp in seconds to access the livestream analytics.
+formatdate-time
 
-- `filters: optional string`
+[Link to this property](#)
 
-  Optional filters for livestream analytics.
+recording_duration: optional number
 
-- `start_time: optional number`
+Total recording time in seconds.
 
-  Specify the start time as a Unix timestamp in seconds to access the livestream analytics.
+[Link to this property](#)
 
-### Returns
+<details>
 
-- `data: optional object { count, total_ingest_seconds, total_viewer_seconds }`
+<summary>
 
-  - `count: optional number`
+start_reason: optional object { caller, reason }
 
-    Count of total livestreams.
+</summary>
 
-  - `total_ingest_seconds: optional number`
+<details>
 
-    Total time duration for which the input was given or the meeting was streamed.
+<summary>
 
-  - `total_viewer_seconds: optional number`
+caller: optional object { name, type, user_Id }
 
-    Total view time for which the viewers watched the stream.
+</summary>
 
-- `success: optional boolean`
+name: optional string
 
-### Example
+Name of the user who started the recording.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/livestreams/overall \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+<details>
 
-```json
-{
-  "data": {
-    "count": 4,
-    "total_ingest_seconds": 531,
-    "total_viewer_seconds": 116
-  },
-  "success": true
-}
-```
+<summary>
 
-## Fetch day-wise analytics data for your livestreams
+type: optional "ORGANIZATION" or "USER"
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/livestreams/daywise`
+The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
 
-Returns day-wise livestream analytics for the specified time range.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"ORGANIZATION"
 
-  The account identifier tag.
+[Link to this property](#)
 
-- `app_id: string`
+"USER"
 
-  The app identifier tag.
+[Link to this property](#)
 
-### Query Parameters
+</details>
 
-- `end_time: optional number`
+[Link to this property](#)
 
-  Specify the end time as a Unix timestamp in seconds to access the livestream analytics.
+user_Id: optional string
 
-- `filters: optional string`
+The user ID of the person who started the recording.
 
-  Optional filters for livestream analytics.
+formatuuid
 
-- `start_time: optional number`
+[Link to this property](#)
 
-  Specify the start time as a Unix timestamp in seconds to access the livestream analytics.
+</details>
 
-### Returns
+[Link to this property](#)
 
-- `data: optional array of object { count, date, total_ingest_seconds, total_viewer_seconds }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Count of total livestream sessions.
+reason: optional "API_CALL" or "RECORD_ON_START"
 
-  - `date: optional string`
+Specifies if the recording was started using the “Start a Recording”API or using the parameter RECORD_ON_START in the “Create a meeting” API.
 
-    Analytics date.
+If the recording is initiated using the “RECORD_ON_START” parameter, the user details will not be populated.
 
-  - `total_ingest_seconds: optional number`
+</summary>
 
-    Total time duration for which the input was given or the meeting was streamed.
+One of the following:
 
-  - `total_viewer_seconds: optional number`
+"API_CALL"
 
-    Total view time for which the viewers watched the stream.
+[Link to this property](#)
 
-- `success: optional boolean`
+"RECORD_ON_START"
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/livestreams/daywise \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": [
-    {
-      "count": 4,
-      "date": "2023-07-15",
-      "total_ingest_seconds": 531,
-      "total_viewer_seconds": 116
-    }
-  ],
-  "success": true
-}
-```
+</details>
 
-## Fetch day-wise session and recording analytics data for an App
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/daywise`
+<details>
 
-Returns day-wise session and recording analytics data of an App for the specified time range start_date to end_date. If start_date and end_date are not provided, the default time range is set from 30 days ago to the current date.
+<summary>
 
-### Path Parameters
+stop_reason: optional object { caller, reason }
 
-- `account_id: string`
+</summary>
 
-  The account identifier tag.
+<details>
 
-- `app_id: string`
+<summary>
 
-  The app identifier tag.
+caller: optional object { name, type, user_Id }
 
-### Query Parameters
+</summary>
 
-- `end_date: optional string`
+name: optional string
 
-  end date in YYYY-MM-DD format
+Name of the user who stopped the recording.
 
-- `start_date: optional string`
+[Link to this property](#)
 
-  start date in YYYY-MM-DD format
+<details>
 
-### Returns
+<summary>
 
-- `data: optional object { recording_stats, session_stats }`
+type: optional "ORGANIZATION" or "USER"
 
-  - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
 
-    Recording statistics of an App during the range specified
+</summary>
 
-    - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+One of the following:
 
-      Day wise recording stats
+"ORGANIZATION"
 
-      - `day: optional string`
+[Link to this property](#)
 
-      - `total_recording_minutes: optional number`
+"USER"
 
-        Total recording minutes for a specific day
+[Link to this property](#)
 
-      - `total_recordings: optional number`
+</details>
 
-        Total number of recordings for a specific day
+[Link to this property](#)
 
-    - `recording_count: optional number`
+user_Id: optional string
 
-      Total number of recordings during the range specified
+The user ID of the person who stopped the recording.
 
-    - `recording_minutes_consumed: optional number`
+formatuuid
 
-      Total recording minutes during the range specified
+[Link to this property](#)
 
-  - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+</details>
 
-    Session statistics of an App during the range specified
+[Link to this property](#)
 
-    - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+<details>
 
-      Day wise session stats
+<summary>
 
-      - `day: optional string`
+reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"
 
-      - `total_session_minutes: optional number`
+Specifies the reason why the recording stopped.
 
-        Total session minutes for a specific day
+</summary>
 
-      - `total_sessions: optional number`
+One of the following:
 
-        Total number of sessions for a specific day
+"API_CALL"
 
-    - `sessions_count: optional number`
+[Link to this property](#)
 
-      Total number of sessions during the range specified
+"INTERNAL_ERROR"
 
-    - `sessions_minutes_consumed: optional number`
+[Link to this property](#)
 
-      Total session minutes during the range specified
+"ALL_PEERS_LEFT"
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/daywise \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)
 
-#### Response
+</details>
 
-```json
-{
-  "data": {
-    "recording_stats": {
-      "day_stats": [
-        {
-          "day": "day",
-          "total_recording_minutes": 0,
-          "total_recordings": 0
-        }
-      ],
-      "recording_count": 0,
-      "recording_minutes_consumed": 0
-    },
-    "session_stats": {
-      "day_stats": [
-        {
-          "day": "day",
-          "total_session_minutes": 0,
-          "total_sessions": 0
-        }
-      ],
-      "sessions_count": 0,
-      "sessions_minutes_consumed": 0
-    }
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Fetch active livestreams for a meeting
+<details>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-livestream`
+<summary>
 
-Returns details of all active livestreams for the given meeting ID.
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-  The account identifier tag.
+<details>
 
-- `app_id: string`
+<summary>
 
-  The app identifier tag.
+object { access_key, auth_method, bucket, 9 more }
 
-- `meeting_id: string`
+</summary>
 
-### Returns
+access_key: optional string
 
-- `data: optional object { id, created_at, disabled, 7 more }`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-  - `id: optional string`
+Note that this field is not readable by clients, only writeable.
 
-    The livestream ID.
+[Link to this property](#)
 
-  - `created_at: optional string`
+<details>
 
-    Timestamp the object was created at. The time is returned in ISO format.
+<summary>
 
-  - `disabled: optional string`
+auth_method: optional "KEY" or "PASSWORD"
 
-    Specifies if the livestream was disabled.
+Authentication method used for “sftp” type storage medium
 
-  - `ingest_server: optional string`
+</summary>
 
-    The server URL to which the RTMP encoder sends the video and audio data.
+One of the following:
 
-  - `meeting_id: optional string`
+"KEY"
 
-  - `name: optional string`
+[Link to this property](#)
 
-    Name of the livestream.
+"PASSWORD"
 
-  - `playback_url: optional string`
+[Link to this property](#)
 
-    The web address that viewers can use to watch the livestream.
+</details>
 
-  - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+[Link to this property](#)
 
-    - `"LIVE"`
+bucket: optional string
 
-    - `"IDLE"`
+Name of the storage medium’s bucket.
 
-    - `"ERRORED"`
+[Link to this property](#)
 
-    - `"INVOKED"`
+host: optional string
 
-  - `stream_key: optional string`
+SSH destination server host for SFTP type storage medium
 
-    Unique key for accessing each livestream.
+[Link to this property](#)
 
-  - `updated_at: optional string`
+password: optional string
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+path: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-livestream \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Path relative to the bucket root at which the recording will be placed.
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "data": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "disabled": "disabled",
-    "ingest_server": "ingest_server",
-    "meeting_id": "meeting_id",
-    "name": "name",
-    "playback_url": "playback_url",
-    "status": "LIVE",
-    "stream_key": "stream_key",
-    "updated_at": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+port: optional number
 
-## Fetch livestream session details using livestream session ID
+SSH destination server port for SFTP type storage medium
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams/sessions/{livestream-session-id}`
+[Link to this property](#)
 
-Returns livestream session details for the given livestream session ID. Retrieve the `livestream_session_id`using the `Fetch livestream session details using a session ID` API.
+private_key: optional string
 
-### Path Parameters
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+region: optional string
 
-- `app_id: string`
+Region of the storage medium.
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `"livestream-session-id": string`
+secret: optional string
 
-### Returns
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-- `data: optional object { id, created_at, err_message, 6 more }`
+[Link to this property](#)
 
-  - `id: optional string`
+type: optional "gcs"
 
-    The livestream ID.
+[Link to this property](#)
 
-  - `created_at: optional string`
+username: optional string
 
-    Timestamp the object was created at. The time is returned in ISO format.
+SSH destination server username for SFTP type storage medium
 
-  - `err_message: optional string`
+[Link to this property](#)
 
-    The server URL to which the RTMP encoder sends the video and audio data.
+</details>
 
-  - `ingest_seconds: optional number`
+[Link to this property](#)
 
-    Name of the livestream.
+<details>
 
-  - `livestream_id: optional string`
+<summary>
 
-  - `started_time: optional string`
+object { access_key, region, auth_method, 9 more }
 
-    Unique key for accessing each livestream.
+</summary>
 
-  - `stopped_time: optional string`
+access_key: unknown
 
-    The web address that viewers can use to watch the livestream.
+minLength1
 
-  - `updated_at: optional string`
+[Link to this property](#)
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+region: unknown
 
-  - `viewer_seconds: optional number`
+minLength1
 
-    Specifies if the livestream was disabled.
+[Link to this property](#)
 
-- `success: optional boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams/sessions/$LIVESTREAM_SESSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+auth_method: optional "KEY" or "PASSWORD"
 
-#### Response
+Authentication method used for “sftp” type storage medium
 
-```json
-{
-  "data": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "err_message": "err_message",
-    "ingest_seconds": 0,
-    "livestream_id": "livestream_id",
-    "started_time": "started_time",
-    "stopped_time": "stopped_time",
-    "updated_at": "updated_at",
-    "viewer_seconds": 0
-  },
-  "success": true
-}
-```
+</summary>
 
-## Fetch active livestream session details
+One of the following:
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams/{livestream_id}/active-livestream-session`
+"KEY"
 
-Returns details of all active livestreams for the given livestream ID. Retreive the livestream ID using the `Start livestreaming a meeting` API.
+[Link to this property](#)
 
-### Path Parameters
+"PASSWORD"
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+</details>
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+bucket: optional string
 
-- `livestream_id: string`
+Name of the storage medium’s bucket.
 
-### Returns
+[Link to this property](#)
 
-- `data: optional object { livestream, session }`
+host: optional string
 
-  - `livestream: optional object { id, created_at, disabled, 7 more }`
+SSH destination server host for SFTP type storage medium
 
-    - `id: optional string`
+[Link to this property](#)
 
-    - `created_at: optional string`
+password: optional string
 
-      Timestamp the object was created at. The time is returned in ISO format.
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-    - `disabled: optional string`
+[Link to this property](#)
 
-      Specifies if the livestream was disabled.
+path: optional string
 
-    - `ingest_server: optional string`
+Path relative to the bucket root at which the recording will be placed.
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+[Link to this property](#)
 
-    - `meeting_id: optional string`
+port: optional number
 
-      ID of the meeting.
+SSH destination server port for SFTP type storage medium
 
-    - `name: optional string`
+[Link to this property](#)
 
-      Name of the livestream.
+private_key: optional string
 
-    - `playback_url: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      The web address that viewers can use to watch the livestream.
+[Link to this property](#)
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+secret: optional string
 
-      - `"LIVE"`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      - `"IDLE"`
+[Link to this property](#)
 
-      - `"ERRORED"`
+<details>
 
-      - `"INVOKED"`
+<summary>
 
-    - `stream_key: optional string`
+type: optional "aws" or "azure" or "digitalocean"
 
-      Unique key for accessing each livestream.
+</summary>
 
-    - `updated_at: optional string`
+One of the following:
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+"aws"
 
-  - `session: optional object { id, created_at, err_message, 7 more }`
+[Link to this property](#)
 
-    - `id: optional string`
+"azure"
 
-    - `created_at: optional string`
+[Link to this property](#)
 
-      Timestamp the object was created at. The time is returned in ISO format.
+"digitalocean"
 
-    - `err_message: optional string`
+[Link to this property](#)
 
-    - `ingest_seconds: optional string`
+</details>
 
-      The time duration for which the input was given or the meeting was streamed.
+[Link to this property](#)
 
-    - `invoked_time: optional string`
+username: optional string
 
-      Timestamp the object was invoked. The time is returned in ISO format.
+SSH destination server username for SFTP type storage medium
 
-    - `livestream_id: optional string`
+[Link to this property](#)
 
-    - `started_time: optional string`
+</details>
 
-      Timestamp the object was started. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `stopped_time: optional string`
+<details>
 
-      Timestamp the object was stopped. The time is returned in ISO format.
+<summary>
 
-    - `updated_at: optional string`
+object { private_key, access_key, auth_method, 9 more }
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+</summary>
 
-    - `viewer_seconds: optional string`
+private_key: string
 
-      The total view time for which the viewers watched the stream.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-- `success: optional boolean`
+[Link to this property](#)
 
-### Example
+access_key: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams/$LIVESTREAM_ID/active-livestream-session \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-#### Response
+Note that this field is not readable by clients, only writeable.
 
-```json
-{
-  "data": {
-    "livestream": {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "disabled": "disabled",
-      "ingest_server": "ingest_server",
-      "meeting_id": "meeting_id",
-      "name": "name",
-      "playback_url": "playback_url",
-      "status": "LIVE",
-      "stream_key": "stream_key",
-      "updated_at": "2019-12-27T18:11:19.117Z"
-    },
-    "session": {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "err_message": "err_message",
-      "ingest_seconds": "ingest_seconds",
-      "invoked_time": "2019-12-27T18:11:19.117Z",
-      "livestream_id": "livestream_id",
-      "started_time": "2019-12-27T18:11:19.117Z",
-      "stopped_time": "2019-12-27T18:11:19.117Z",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "viewer_seconds": "viewer_seconds"
-    }
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Fetch livestream details using livestream ID
+auth_method: optional "KEY"
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams/{livestream_id}`
+[Link to this property](#)
 
-Returns details of a livestream with sessions for the given livestream ID. Retreive the livestream ID using the `Start livestreaming a meeting` API.
+bucket: optional string
 
-### Path Parameters
+Name of the storage medium’s bucket.
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+host: optional string
 
-- `app_id: string`
+SSH destination server host for SFTP type storage medium
 
-  The app identifier tag.
+[Link to this property](#)
 
-- `livestream_id: string`
+password: optional string
 
-### Query Parameters
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-- `page_no: optional number`
+[Link to this property](#)
 
-  The page number from which you want your page search results to be displayed.
+path: optional string
 
-- `per_page: optional number`
+Path relative to the bucket root at which the recording will be placed.
 
-  Number of results per page.
+[Link to this property](#)
 
-### Returns
+port: optional number
 
-- `data: optional object { livestream, paging, session }`
+SSH destination server port for SFTP type storage medium
 
-  - `livestream: optional object { id, created_at, disabled, 7 more }`
+[Link to this property](#)
 
-    - `id: optional string`
+region: optional string
 
-      ID of the livestream.
+Region of the storage medium.
 
-    - `created_at: optional string`
+[Link to this property](#)
 
-      Timestamp the object was created at. The time is returned in ISO format.
+secret: optional string
 
-    - `disabled: optional string`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-      Specifies if the livestream was disabled.
+[Link to this property](#)
 
-    - `ingest_server: optional string`
+<details>
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+<summary>
 
-    - `meeting_id: optional string`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-      The ID of the meeting.
+Type of storage media.
 
-    - `name: optional string`
+</summary>
 
-      Name of the livestream.
+One of the following:
 
-    - `playback_url: optional string`
+"aws"
 
-      The web address that viewers can use to watch the livestream.
+[Link to this property](#)
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+"azure"
 
-      - `"LIVE"`
+[Link to this property](#)
 
-      - `"IDLE"`
+"digitalocean"
 
-      - `"ERRORED"`
+[Link to this property](#)
 
-      - `"INVOKED"`
+"gcs"
 
-    - `stream_key: optional string`
+[Link to this property](#)
 
-      Unique key for accessing each livestream.
+"sftp"
 
-    - `updated_at: optional string`
+[Link to this property](#)
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+</details>
 
-  - `paging: optional object { end_offset, start_offset, total_count }`
+[Link to this property](#)
 
-    - `end_offset: optional number`
+username: optional string
 
-    - `start_offset: optional number`
+SSH destination server username for SFTP type storage medium
 
-    - `total_count: optional number`
+[Link to this property](#)
 
-  - `session: optional object { id, created_at, err_message, 7 more }`
+</details>
 
-    - `id: optional string`
+[Link to this property](#)
 
-      ID of the session.
+<details>
 
-    - `created_at: optional string`
+<summary>
 
-      Timestamp the object was created at. The time is returned in ISO format.
+object { password, access_key, auth_method, 9 more }
 
-    - `err_message: optional string`
+</summary>
 
-    - `ingest_seconds: optional number`
+password: string
 
-      The time duration for which the input was given or the meeting was streamed.
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-    - `invoked_time: optional string`
+[Link to this property](#)
 
-      Timestamp the object was invoked. The time is returned in ISO format.
+access_key: optional string
 
-    - `livestream_id: optional string`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-    - `started_time: optional string`
+Note that this field is not readable by clients, only writeable.
 
-      Timestamp the object was started. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `stopped_time: optional string`
+auth_method: optional "PASSWORD"
 
-      Timestamp the object was stopped. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `updated_at: optional string`
+bucket: optional string
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+Name of the storage medium’s bucket.
 
-    - `viewer_seconds: optional number`
+[Link to this property](#)
 
-      The total view time for which the viewers watched the stream.
+host: optional string
 
-- `success: optional boolean`
+SSH destination server host for SFTP type storage medium
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams/$LIVESTREAM_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+path: optional string
 
-#### Response
+Path relative to the bucket root at which the recording will be placed.
 
-```json
-{
-  "data": {
-    "livestream": {
-      "id": "id",
-      "created_at": "created_at",
-      "disabled": "disabled",
-      "ingest_server": "ingest_server",
-      "meeting_id": "meeting_id",
-      "name": "name",
-      "playback_url": "playback_url",
-      "status": "LIVE",
-      "stream_key": "stream_key",
-      "updated_at": "updated_at"
-    },
-    "paging": {
-      "end_offset": 1,
-      "start_offset": 1,
-      "total_count": 1
-    },
-    "session": {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "err_message": "err_message",
-      "ingest_seconds": 0,
-      "invoked_time": "2019-12-27T18:11:19.117Z",
-      "livestream_id": "livestream_id",
-      "started_time": "2019-12-27T18:11:19.117Z",
-      "stopped_time": "2019-12-27T18:11:19.117Z",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "viewer_seconds": 0
-    }
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Domain Types
+port: optional number
 
-### Livestream Create Independent Livestream Response
+SSH destination server port for SFTP type storage medium
 
-- `LivestreamCreateIndependentLivestreamResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: optional object { id, disabled, ingest_server, 5 more }`
+private_key: optional string
 
-    - `id: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      The livestream ID.
+[Link to this property](#)
 
-    - `disabled: optional boolean`
+region: optional string
 
-      Specifies if the livestream was disabled.
+Region of the storage medium.
 
-    - `ingest_server: optional string`
+[Link to this property](#)
 
-      The server URL to which the RTMP encoder should send the video and audio data.
+secret: optional string
 
-    - `meeting_id: optional string`
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-    - `name: optional string`
+[Link to this property](#)
 
-    - `playback_url: optional string`
+<details>
 
-      The web address that viewers can use to watch the livestream.
+<summary>
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+type: optional "aws" or "azure" or "digitalocean" or 2 more
 
-      - `"LIVE"`
+Type of storage media.
 
-      - `"IDLE"`
+</summary>
 
-      - `"ERRORED"`
+One of the following:
 
-      - `"INVOKED"`
+"aws"
 
-    - `stream_key: optional string`
+[Link to this property](#)
 
-      Unique key for accessing each livestream.
+"azure"
 
-  - `success: optional boolean`
+[Link to this property](#)
 
-### Livestream Get All Livestreams Response
+"digitalocean"
 
-- `LivestreamGetAllLivestreamsResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: optional object { id, created_at, disabled, 8 more }`
+"gcs"
 
-    - `id: optional string`
+[Link to this property](#)
 
-      The ID of the livestream.
+"sftp"
 
-    - `created_at: optional string`
+[Link to this property](#)
 
-      Timestamp the object was created at. The time is returned in ISO format.
+</details>
 
-    - `disabled: optional string`
+[Link to this property](#)
 
-      Specifies if the livestream was disabled.
+username: optional string
 
-    - `ingest_server: optional string`
+SSH destination server username for SFTP type storage medium
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+[Link to this property](#)
 
-    - `meeting_id: optional string`
+</details>
 
-      ID of the meeting.
+[Link to this property](#)
 
-    - `name: optional string`
+</details>
 
-      Name of the livestream.
+[Link to this property](#)
 
-    - `paging: optional object { end_offset, start_offset, total_count }`
+</details>
 
-      - `end_offset: optional number`
+[Link to this property](#)
 
-      - `start_offset: optional number`
+</details>
 
-      - `total_count: optional number`
+[Link to this property](#)
 
-    - `playback_url: optional string`
+<details>
 
-      The web address that viewers can use to watch the livestream.
+<summary>
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+RecordingGetActiveRecordingsResponse object { data, success }
 
-      - `"LIVE"`
+</summary>
 
-      - `"IDLE"`
+<details>
 
-      - `"ERRORED"`
+<summary>
 
-      - `"INVOKED"`
+data: object { id, audio_download_url, download_url, 9 more }
 
-    - `stream_key: optional string`
+Data returned by the operation
 
-      Unique key for accessing each livestream.
+</summary>
 
-    - `updated_at: optional string`
+id: string
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+ID of the recording
 
-  - `success: optional boolean`
+formatuuid
 
-### Livestream Stop Livestreaming A Meeting Response
+[Link to this property](#)
 
-- `LivestreamStopLivestreamingAMeetingResponse object { data, success }`
+audio_download_url: string
 
-  - `data: optional object { message }`
+If the audio_config is passed, the URL for downloading the audio recording is returned.
 
-    - `message: optional string`
+formaturi
 
-  - `success: optional boolean`
+[Link to this property](#)
 
-### Livestream Start Livestreaming A Meeting Response
+download_url: string
 
-- `LivestreamStartLivestreamingAMeetingResponse object { data, success }`
+URL where the recording can be downloaded.
 
-  - `data: optional object { id, ingest_server, playback_url, 2 more }`
+formaturi
 
-    - `id: optional string`
+[Link to this property](#)
 
-      The livestream ID.
+download_url_expiry: string
 
-    - `ingest_server: optional string`
+Timestamp when the download URL expires.
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+formatdate-time
 
-    - `playback_url: optional string`
+[Link to this property](#)
 
-      The web address that viewers can use to watch the livestream.
+file_size: number
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+File size of the recording, in bytes.
 
-      - `"LIVE"`
+[Link to this property](#)
 
-      - `"IDLE"`
+invoked_time: string
 
-      - `"ERRORED"`
+Timestamp when this recording was invoked.
 
-      - `"INVOKED"`
+formatdate-time
 
-    - `stream_key: optional string`
+[Link to this property](#)
 
-      Unique key for accessing each livestream.
+output_file_name: string
 
-  - `success: optional boolean`
+File name of the recording.
 
-### Livestream Get Livestream Analytics Complete Response
+[Link to this property](#)
 
-- `LivestreamGetLivestreamAnalyticsCompleteResponse object { data, success }`
+session_id: string
 
-  - `data: optional object { count, total_ingest_seconds, total_viewer_seconds }`
+ID of the meeting session this recording is for.
 
-    - `count: optional number`
+formatuuid
 
-      Count of total livestreams.
+[Link to this property](#)
 
-    - `total_ingest_seconds: optional number`
+started_time: string
 
-      Total time duration for which the input was given or the meeting was streamed.
+Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
 
-    - `total_viewer_seconds: optional number`
+formatdate-time
 
-      Total view time for which the viewers watched the stream.
+[Link to this property](#)
 
-  - `success: optional boolean`
+<details>
 
-### Livestream Get Livestream Analytics Daywise Response
+<summary>
 
-- `LivestreamGetLivestreamAnalyticsDaywiseResponse object { data, success }`
+status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more
 
-  - `data: optional array of object { count, date, total_ingest_seconds, total_viewer_seconds }`
+Current status of the recording.
 
-    - `count: optional number`
+</summary>
 
-      Count of total livestream sessions.
+One of the following:
 
-    - `date: optional string`
+"INVOKED"
 
-      Analytics date.
+[Link to this property](#)
 
-    - `total_ingest_seconds: optional number`
+"RECORDING"
 
-      Total time duration for which the input was given or the meeting was streamed.
+[Link to this property](#)
 
-    - `total_viewer_seconds: optional number`
+"UPLOADING"
 
-      Total view time for which the viewers watched the stream.
+[Link to this property](#)
 
-  - `success: optional boolean`
+"UPLOADED"
 
-### Livestream Get Org Analytics Response
+[Link to this property](#)
 
-- `LivestreamGetOrgAnalyticsResponse object { data, success }`
+"ERRORED"
 
-  - `data: optional object { recording_stats, session_stats }`
+[Link to this property](#)
 
-    - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+"PAUSED"
 
-      Recording statistics of an App during the range specified
+[Link to this property](#)
 
-      - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+</details>
 
-        Day wise recording stats
+[Link to this property](#)
 
-        - `day: optional string`
+stopped_time: string
 
-        - `total_recording_minutes: optional number`
+Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
 
-          Total recording minutes for a specific day
+formatdate-time
 
-        - `total_recordings: optional number`
+[Link to this property](#)
 
-          Total number of recordings for a specific day
+recording_duration: optional number
 
-      - `recording_count: optional number`
+Total recording time in seconds.
 
-        Total number of recordings during the range specified
+[Link to this property](#)
 
-      - `recording_minutes_consumed: optional number`
+</details>
 
-        Total recording minutes during the range specified
+[Link to this property](#)
 
-    - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+success: boolean
 
-      Session statistics of an App during the range specified
+Success status of the operation
 
-      - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+[Link to this property](#)
 
-        Day wise session stats
+</details>
 
-        - `day: optional string`
+[Link to this property](#)
 
-        - `total_session_minutes: optional number`
+<details>
 
-          Total session minutes for a specific day
+<summary>
 
-        - `total_sessions: optional number`
+RecordingGetOneRecordingResponse object { success, data }
 
-          Total number of sessions for a specific day
+</summary>
 
-      - `sessions_count: optional number`
+success: boolean
 
-        Total number of sessions during the range specified
+Success status of the operation
 
-      - `sessions_minutes_consumed: optional number`
+[Link to this property](#)
 
-        Total session minutes during the range specified
+<details>
 
-  - `success: optional boolean`
+<summary>
 
-### Livestream Get Meeting Active Livestreams Response
+data: optional object { id, audio_download_url, download_url, 12 more }
 
-- `LivestreamGetMeetingActiveLivestreamsResponse object { data, success }`
+Data returned by the operation
 
-  - `data: optional object { id, created_at, disabled, 7 more }`
+</summary>
 
-    - `id: optional string`
+id: string
 
-      The livestream ID.
+ID of the recording
 
-    - `created_at: optional string`
+formatuuid
 
-      Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `disabled: optional string`
+audio_download_url: string
 
-      Specifies if the livestream was disabled.
+If the audio_config is passed, the URL for downloading the audio recording is returned.
 
-    - `ingest_server: optional string`
+formaturi
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+[Link to this property](#)
 
-    - `meeting_id: optional string`
+download_url: string
 
-    - `name: optional string`
+URL where the recording can be downloaded.
 
-      Name of the livestream.
+formaturi
 
-    - `playback_url: optional string`
+[Link to this property](#)
 
-      The web address that viewers can use to watch the livestream.
+download_url_expiry: string
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+Timestamp when the download URL expires.
 
-      - `"LIVE"`
+formatdate-time
 
-      - `"IDLE"`
+[Link to this property](#)
 
-      - `"ERRORED"`
+file_size: number
 
-      - `"INVOKED"`
+File size of the recording, in bytes.
 
-    - `stream_key: optional string`
+[Link to this property](#)
 
-      Unique key for accessing each livestream.
+invoked_time: string
 
-    - `updated_at: optional string`
+Timestamp when this recording was invoked.
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+formatdate-time
 
-  - `success: optional boolean`
+[Link to this property](#)
 
-### Livestream Get Livestream Session Details For Session ID Response
+output_file_name: string
 
-- `LivestreamGetLivestreamSessionDetailsForSessionIDResponse object { data, success }`
+File name of the recording.
 
-  - `data: optional object { id, created_at, err_message, 6 more }`
+[Link to this property](#)
 
-    - `id: optional string`
+session_id: string
 
-      The livestream ID.
+ID of the meeting session this recording is for.
 
-    - `created_at: optional string`
+formatuuid
 
-      Timestamp the object was created at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `err_message: optional string`
+started_time: string
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
 
-    - `ingest_seconds: optional number`
+formatdate-time
 
-      Name of the livestream.
+[Link to this property](#)
 
-    - `livestream_id: optional string`
+<details>
 
-    - `started_time: optional string`
+<summary>
 
-      Unique key for accessing each livestream.
+status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more
 
-    - `stopped_time: optional string`
+Current status of the recording.
 
-      The web address that viewers can use to watch the livestream.
+</summary>
 
-    - `updated_at: optional string`
+One of the following:
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+"INVOKED"
 
-    - `viewer_seconds: optional number`
+[Link to this property](#)
 
-      Specifies if the livestream was disabled.
+"RECORDING"
 
-  - `success: optional boolean`
+[Link to this property](#)
 
-### Livestream Get Active Livestreams For Livestream ID Response
+"UPLOADING"
 
-- `LivestreamGetActiveLivestreamsForLivestreamIDResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: optional object { livestream, session }`
+"UPLOADED"
 
-    - `livestream: optional object { id, created_at, disabled, 7 more }`
+[Link to this property](#)
 
-      - `id: optional string`
+"ERRORED"
 
-      - `created_at: optional string`
+[Link to this property](#)
 
-        Timestamp the object was created at. The time is returned in ISO format.
+"PAUSED"
 
-      - `disabled: optional string`
+[Link to this property](#)
 
-        Specifies if the livestream was disabled.
+</details>
 
-      - `ingest_server: optional string`
+[Link to this property](#)
 
-        The server URL to which the RTMP encoder sends the video and audio data.
+stopped_time: string
 
-      - `meeting_id: optional string`
+Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
 
-        ID of the meeting.
+formatdate-time
 
-      - `name: optional string`
+[Link to this property](#)
 
-        Name of the livestream.
+recording_duration: optional number
 
-      - `playback_url: optional string`
+Total recording time in seconds.
 
-        The web address that viewers can use to watch the livestream.
+[Link to this property](#)
 
-      - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+<details>
 
-        - `"LIVE"`
+<summary>
 
-        - `"IDLE"`
+start_reason: optional object { caller, reason }
 
-        - `"ERRORED"`
+</summary>
 
-        - `"INVOKED"`
+<details>
 
-      - `stream_key: optional string`
+<summary>
 
-        Unique key for accessing each livestream.
+caller: optional object { name, type, user_Id }
 
-      - `updated_at: optional string`
+</summary>
 
-        Timestamp the object was updated at. The time is returned in ISO format.
+name: optional string
 
-    - `session: optional object { id, created_at, err_message, 7 more }`
+Name of the user who started the recording.
 
-      - `id: optional string`
+[Link to this property](#)
 
-      - `created_at: optional string`
+<details>
 
-        Timestamp the object was created at. The time is returned in ISO format.
+<summary>
 
-      - `err_message: optional string`
+type: optional "ORGANIZATION" or "USER"
 
-      - `ingest_seconds: optional string`
+The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
 
-        The time duration for which the input was given or the meeting was streamed.
+</summary>
 
-      - `invoked_time: optional string`
+One of the following:
 
-        Timestamp the object was invoked. The time is returned in ISO format.
+"ORGANIZATION"
 
-      - `livestream_id: optional string`
+[Link to this property](#)
 
-      - `started_time: optional string`
+"USER"
 
-        Timestamp the object was started. The time is returned in ISO format.
+[Link to this property](#)
 
-      - `stopped_time: optional string`
+</details>
 
-        Timestamp the object was stopped. The time is returned in ISO format.
+[Link to this property](#)
 
-      - `updated_at: optional string`
+user_Id: optional string
 
-        Timestamp the object was updated at. The time is returned in ISO format.
+The user ID of the person who started the recording.
 
-      - `viewer_seconds: optional string`
+formatuuid
 
-        The total view time for which the viewers watched the stream.
+[Link to this property](#)
 
-  - `success: optional boolean`
+</details>
 
-### Livestream Get Livestream Session For Livestream ID Response
+[Link to this property](#)
 
-- `LivestreamGetLivestreamSessionForLivestreamIDResponse object { data, success }`
+<details>
 
-  - `data: optional object { livestream, paging, session }`
+<summary>
 
-    - `livestream: optional object { id, created_at, disabled, 7 more }`
+reason: optional "API_CALL" or "RECORD_ON_START"
 
-      - `id: optional string`
+Specifies if the recording was started using the “Start a Recording”API or using the parameter RECORD_ON_START in the “Create a meeting” API.
 
-        ID of the livestream.
+If the recording is initiated using the “RECORD_ON_START” parameter, the user details will not be populated.
 
-      - `created_at: optional string`
+</summary>
 
-        Timestamp the object was created at. The time is returned in ISO format.
+One of the following:
 
-      - `disabled: optional string`
+"API_CALL"
 
-        Specifies if the livestream was disabled.
+[Link to this property](#)
 
-      - `ingest_server: optional string`
+"RECORD_ON_START"
 
-        The server URL to which the RTMP encoder sends the video and audio data.
+[Link to this property](#)
 
-      - `meeting_id: optional string`
+</details>
 
-        The ID of the meeting.
+[Link to this property](#)
 
-      - `name: optional string`
+</details>
 
-        Name of the livestream.
+[Link to this property](#)
 
-      - `playback_url: optional string`
+<details>
 
-        The web address that viewers can use to watch the livestream.
+<summary>
 
-      - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+stop_reason: optional object { caller, reason }
 
-        - `"LIVE"`
+</summary>
 
-        - `"IDLE"`
+<details>
 
-        - `"ERRORED"`
+<summary>
 
-        - `"INVOKED"`
+caller: optional object { name, type, user_Id }
 
-      - `stream_key: optional string`
+</summary>
 
-        Unique key for accessing each livestream.
+name: optional string
 
-      - `updated_at: optional string`
+Name of the user who stopped the recording.
 
-        Timestamp the object was updated at. The time is returned in ISO format.
+[Link to this property](#)
 
-    - `paging: optional object { end_offset, start_offset, total_count }`
+<details>
 
-      - `end_offset: optional number`
+<summary>
 
-      - `start_offset: optional number`
+type: optional "ORGANIZATION" or "USER"
 
-      - `total_count: optional number`
+The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
 
-    - `session: optional object { id, created_at, err_message, 7 more }`
+</summary>
 
-      - `id: optional string`
+One of the following:
 
-        ID of the session.
+"ORGANIZATION"
 
-      - `created_at: optional string`
+[Link to this property](#)
 
-        Timestamp the object was created at. The time is returned in ISO format.
+"USER"
 
-      - `err_message: optional string`
+[Link to this property](#)
 
-      - `ingest_seconds: optional number`
+</details>
 
-        The time duration for which the input was given or the meeting was streamed.
+[Link to this property](#)
 
-      - `invoked_time: optional string`
+user_Id: optional string
 
-        Timestamp the object was invoked. The time is returned in ISO format.
+The user ID of the person who stopped the recording.
 
-      - `livestream_id: optional string`
+formatuuid
 
-      - `started_time: optional string`
+[Link to this property](#)
 
-        Timestamp the object was started. The time is returned in ISO format.
+</details>
 
-      - `stopped_time: optional string`
+[Link to this property](#)
 
-        Timestamp the object was stopped. The time is returned in ISO format.
+<details>
 
-      - `updated_at: optional string`
+<summary>
 
-        Timestamp the object was updated at. The time is returned in ISO format.
+reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"
 
-      - `viewer_seconds: optional number`
+Specifies the reason why the recording stopped.
 
-        The total view time for which the viewers watched the stream.
+</summary>
 
-  - `success: optional boolean`
+One of the following:
 
-# Analytics
+"API_CALL"
 
-## Fetch day-wise session and recording analytics data for an App
+[Link to this property](#)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/daywise`
+"INTERNAL_ERROR"
 
-Returns day-wise session and recording analytics data of an App for the specified time range start_date to end_date. If start_date and end_date are not provided, the default time range is set from 30 days ago to the current date.
+[Link to this property](#)
 
-### Path Parameters
+"ALL_PEERS_LEFT"
 
-- `account_id: string`
+[Link to this property](#)
 
-  The account identifier tag.
+</details>
 
-- `app_id: string`
+[Link to this property](#)
 
-  The app identifier tag.
+</details>
 
-### Query Parameters
+[Link to this property](#)
 
-- `end_date: optional string`
+<details>
 
-  end date in YYYY-MM-DD format
+<summary>
 
-- `start_date: optional string`
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
 
-  start date in YYYY-MM-DD format
+</summary>
 
-### Returns
+One of the following:
 
-- `data: optional object { recording_stats, session_stats }`
+<details>
 
-  - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+<summary>
 
-    Recording statistics of an App during the range specified
+object { access_key, auth_method, bucket, 9 more }
 
-    - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+</summary>
 
-      Day wise recording stats
+access_key: optional string
 
-      - `day: optional string`
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
 
-      - `total_recording_minutes: optional number`
+Note that this field is not readable by clients, only writeable.
 
-        Total recording minutes for a specific day
+[Link to this property](#)
 
-      - `total_recordings: optional number`
+<details>
 
-        Total number of recordings for a specific day
+<summary>
 
-    - `recording_count: optional number`
+auth_method: optional "KEY" or "PASSWORD"
 
-      Total number of recordings during the range specified
+Authentication method used for “sftp” type storage medium
 
-    - `recording_minutes_consumed: optional number`
+</summary>
 
-      Total recording minutes during the range specified
+One of the following:
 
-  - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+"KEY"
 
-    Session statistics of an App during the range specified
+[Link to this property](#)
 
-    - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+"PASSWORD"
 
-      Day wise session stats
+[Link to this property](#)
 
-      - `day: optional string`
+</details>
 
-      - `total_session_minutes: optional number`
+[Link to this property](#)
 
-        Total session minutes for a specific day
+bucket: optional string
 
-      - `total_sessions: optional number`
+Name of the storage medium’s bucket.
 
-        Total number of sessions for a specific day
+[Link to this property](#)
 
-    - `sessions_count: optional number`
+host: optional string
 
-      Total number of sessions during the range specified
+SSH destination server host for SFTP type storage medium
 
-    - `sessions_minutes_consumed: optional number`
+[Link to this property](#)
 
-      Total session minutes during the range specified
+password: optional string
 
-- `success: optional boolean`
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/daywise \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+path: optional string
 
-#### Response
+Path relative to the bucket root at which the recording will be placed.
 
-```json
-{
-  "data": {
-    "recording_stats": {
-      "day_stats": [
-        {
-          "day": "day",
-          "total_recording_minutes": 0,
-          "total_recordings": 0
-        }
-      ],
-      "recording_count": 0,
-      "recording_minutes_consumed": 0
-    },
-    "session_stats": {
-      "day_stats": [
-        {
-          "day": "day",
-          "total_session_minutes": 0,
-          "total_sessions": 0
-        }
-      ],
-      "sessions_count": 0,
-      "sessions_minutes_consumed": 0
-    }
-  },
-  "success": true
-}
-```
+[Link to this property](#)
 
-## Domain Types
+port: optional number
 
-### Analytics Get Org Analytics Response
+SSH destination server port for SFTP type storage medium
 
-- `AnalyticsGetOrgAnalyticsResponse object { data, success }`
+[Link to this property](#)
 
-  - `data: optional object { recording_stats, session_stats }`
+private_key: optional string
 
-    - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
 
-      Recording statistics of an App during the range specified
+[Link to this property](#)
 
-      - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+region: optional string
 
-        Day wise recording stats
+Region of the storage medium.
 
-        - `day: optional string`
+[Link to this property](#)
 
-        - `total_recording_minutes: optional number`
+secret: optional string
 
-          Total recording minutes for a specific day
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
 
-        - `total_recordings: optional number`
+[Link to this property](#)
 
-          Total number of recordings for a specific day
+type: optional "gcs"
 
-      - `recording_count: optional number`
+[Link to this property](#)
 
-        Total number of recordings during the range specified
+username: optional string
 
-      - `recording_minutes_consumed: optional number`
+SSH destination server username for SFTP type storage medium
 
-        Total recording minutes during the range specified
+[Link to this property](#)
 
-    - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+</details>
 
-      Session statistics of an App during the range specified
+[Link to this property](#)
 
-      - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+<details>
 
-        Day wise session stats
+<summary>
 
-        - `day: optional string`
+object { access_key, region, auth_method, 9 more }
 
-        - `total_session_minutes: optional number`
+</summary>
 
-          Total session minutes for a specific day
+access_key: unknown
 
-        - `total_sessions: optional number`
+minLength1
 
-          Total number of sessions for a specific day
+[Link to this property](#)
 
-      - `sessions_count: optional number`
+region: unknown
 
-        Total number of sessions during the range specified
+minLength1
 
-      - `sessions_minutes_consumed: optional number`
+[Link to this property](#)
 
-        Total session minutes during the range specified
+<details>
 
-  - `success: optional boolean`
+<summary>
+
+auth_method: optional "KEY" or "PASSWORD"
+
+Authentication method used for “sftp” type storage medium
+
+</summary>
+
+One of the following:
+
+"KEY"
+
+[Link to this property](#)
+
+"PASSWORD"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+[Link to this property](#)
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+[Link to this property](#)
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
+
+[Link to this property](#)
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+[Link to this property](#)
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+[Link to this property](#)
+
+private_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
+
+[Link to this property](#)
+
+secret: optional string
+
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: optional "aws" or "azure" or "digitalocean"
+
+</summary>
+
+One of the following:
+
+"aws"
+
+[Link to this property](#)
+
+"azure"
+
+[Link to this property](#)
+
+"digitalocean"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+object { private_key, access_key, auth_method, 9 more }
+
+</summary>
+
+private_key: string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
+
+[Link to this property](#)
+
+access_key: optional string
+
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+[Link to this property](#)
+
+auth_method: optional "KEY"
+
+[Link to this property](#)
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+[Link to this property](#)
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+[Link to this property](#)
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
+
+[Link to this property](#)
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+[Link to this property](#)
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+[Link to this property](#)
+
+region: optional string
+
+Region of the storage medium.
+
+[Link to this property](#)
+
+secret: optional string
+
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: optional "aws" or "azure" or "digitalocean" or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+[Link to this property](#)
+
+"azure"
+
+[Link to this property](#)
+
+"digitalocean"
+
+[Link to this property](#)
+
+"gcs"
+
+[Link to this property](#)
+
+"sftp"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+object { password, access_key, auth_method, 9 more }
+
+</summary>
+
+password: string
+
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
+
+[Link to this property](#)
+
+access_key: optional string
+
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+[Link to this property](#)
+
+auth_method: optional "PASSWORD"
+
+[Link to this property](#)
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+[Link to this property](#)
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+[Link to this property](#)
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+[Link to this property](#)
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+[Link to this property](#)
+
+private_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
+
+[Link to this property](#)
+
+region: optional string
+
+Region of the storage medium.
+
+[Link to this property](#)
+
+secret: optional string
+
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: optional "aws" or "azure" or "digitalocean" or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+[Link to this property](#)
+
+"azure"
+
+[Link to this property](#)
+
+"digitalocean"
+
+[Link to this property](#)
+
+"gcs"
+
+[Link to this property](#)
+
+"sftp"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+RecordingPauseResumeStopRecordingResponse object { success, data }
+
+</summary>
+
+success: boolean
+
+Success status of the operation
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+data: optional object { id, audio_download_url, download_url, 12 more }
+
+Data returned by the operation
+
+</summary>
+
+id: string
+
+ID of the recording
+
+formatuuid
+
+[Link to this property](#)
+
+audio_download_url: string
+
+If the audio_config is passed, the URL for downloading the audio recording is returned.
+
+formaturi
+
+[Link to this property](#)
+
+download_url: string
+
+URL where the recording can be downloaded.
+
+formaturi
+
+[Link to this property](#)
+
+download_url_expiry: string
+
+Timestamp when the download URL expires.
+
+formatdate-time
+
+[Link to this property](#)
+
+file_size: number
+
+File size of the recording, in bytes.
+
+[Link to this property](#)
+
+invoked_time: string
+
+Timestamp when this recording was invoked.
+
+formatdate-time
+
+[Link to this property](#)
+
+output_file_name: string
+
+File name of the recording.
+
+[Link to this property](#)
+
+session_id: string
+
+ID of the meeting session this recording is for.
+
+formatuuid
+
+[Link to this property](#)
+
+started_time: string
+
+Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+
+formatdate-time
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more
+
+Current status of the recording.
+
+</summary>
+
+One of the following:
+
+"INVOKED"
+
+[Link to this property](#)
+
+"RECORDING"
+
+[Link to this property](#)
+
+"UPLOADING"
+
+[Link to this property](#)
+
+"UPLOADED"
+
+[Link to this property](#)
+
+"ERRORED"
+
+[Link to this property](#)
+
+"PAUSED"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+stopped_time: string
+
+Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+
+formatdate-time
+
+[Link to this property](#)
+
+recording_duration: optional number
+
+Total recording time in seconds.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+start_reason: optional object { caller, reason }
+
+</summary>
+
+<details>
+
+<summary>
+
+caller: optional object { name, type, user_Id }
+
+</summary>
+
+name: optional string
+
+Name of the user who started the recording.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: optional "ORGANIZATION" or "USER"
+
+The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+
+</summary>
+
+One of the following:
+
+"ORGANIZATION"
+
+[Link to this property](#)
+
+"USER"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+user_Id: optional string
+
+The user ID of the person who started the recording.
+
+formatuuid
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+reason: optional "API_CALL" or "RECORD_ON_START"
+
+Specifies if the recording was started using the “Start a Recording”API or using the parameter RECORD_ON_START in the “Create a meeting” API.
+
+If the recording is initiated using the “RECORD_ON_START” parameter, the user details will not be populated.
+
+</summary>
+
+One of the following:
+
+"API_CALL"
+
+[Link to this property](#)
+
+"RECORD_ON_START"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+stop_reason: optional object { caller, reason }
+
+</summary>
+
+<details>
+
+<summary>
+
+caller: optional object { name, type, user_Id }
+
+</summary>
+
+name: optional string
+
+Name of the user who stopped the recording.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: optional "ORGANIZATION" or "USER"
+
+The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+
+</summary>
+
+One of the following:
+
+"ORGANIZATION"
+
+[Link to this property](#)
+
+"USER"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+user_Id: optional string
+
+The user ID of the person who stopped the recording.
+
+formatuuid
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"
+
+Specifies the reason why the recording stopped.
+
+</summary>
+
+One of the following:
+
+"API_CALL"
+
+[Link to this property](#)
+
+"INTERNAL_ERROR"
+
+[Link to this property](#)
+
+"ALL_PEERS_LEFT"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+storage_config: optional object { access_key, auth_method, bucket, 9 more } or object { access_key, region, auth_method, 9 more } or object { private_key, access_key, auth_method, 9 more } or object { password, access_key, auth_method, 9 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object { access_key, auth_method, bucket, 9 more }
+
+</summary>
+
+access_key: optional string
+
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+auth_method: optional "KEY" or "PASSWORD"
+
+Authentication method used for “sftp” type storage medium
+
+</summary>
+
+One of the following:
+
+"KEY"
+
+[Link to this property](#)
+
+"PASSWORD"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+[Link to this property](#)
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+[Link to this property](#)
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
+
+[Link to this property](#)
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+[Link to this property](#)
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+[Link to this property](#)
+
+private_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
+
+[Link to this property](#)
+
+region: optional string
+
+Region of the storage medium.
+
+[Link to this property](#)
+
+secret: optional string
+
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+
+[Link to this property](#)
+
+type: optional "gcs"
+
+[Link to this property](#)
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+object { access_key, region, auth_method, 9 more }
+
+</summary>
+
+access_key: unknown
+
+minLength1
+
+[Link to this property](#)
+
+region: unknown
+
+minLength1
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+auth_method: optional "KEY" or "PASSWORD"
+
+Authentication method used for “sftp” type storage medium
+
+</summary>
+
+One of the following:
+
+"KEY"
+
+[Link to this property](#)
+
+"PASSWORD"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+[Link to this property](#)
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+[Link to this property](#)
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
+
+[Link to this property](#)
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+[Link to this property](#)
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+[Link to this property](#)
+
+private_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
+
+[Link to this property](#)
+
+secret: optional string
+
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: optional "aws" or "azure" or "digitalocean"
+
+</summary>
+
+One of the following:
+
+"aws"
+
+[Link to this property](#)
+
+"azure"
+
+[Link to this property](#)
+
+"digitalocean"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+object { private_key, access_key, auth_method, 9 more }
+
+</summary>
+
+private_key: string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
+
+[Link to this property](#)
+
+access_key: optional string
+
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+[Link to this property](#)
+
+auth_method: optional "KEY"
+
+[Link to this property](#)
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+[Link to this property](#)
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+[Link to this property](#)
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
+
+[Link to this property](#)
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+[Link to this property](#)
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+[Link to this property](#)
+
+region: optional string
+
+Region of the storage medium.
+
+[Link to this property](#)
+
+secret: optional string
+
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: optional "aws" or "azure" or "digitalocean" or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+[Link to this property](#)
+
+"azure"
+
+[Link to this property](#)
+
+"digitalocean"
+
+[Link to this property](#)
+
+"gcs"
+
+[Link to this property](#)
+
+"sftp"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+object { password, access_key, auth_method, 9 more }
+
+</summary>
+
+password: string
+
+SSH destination server password for SFTP type storage medium when auth_method is “PASSWORD”. If auth_method is “KEY”, this specifies the password for the ssh private key.
+
+[Link to this property](#)
+
+access_key: optional string
+
+Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+[Link to this property](#)
+
+auth_method: optional "PASSWORD"
+
+[Link to this property](#)
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+[Link to this property](#)
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+[Link to this property](#)
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+[Link to this property](#)
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+[Link to this property](#)
+
+private_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is “KEY”
+
+[Link to this property](#)
+
+region: optional string
+
+Region of the storage medium.
+
+[Link to this property](#)
+
+secret: optional string
+
+Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: optional "aws" or "azure" or "digitalocean" or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+[Link to this property](#)
+
+"azure"
+
+[Link to this property](#)
+
+"digitalocean"
+
+[Link to this property](#)
+
+"gcs"
+
+[Link to this property](#)
+
+"sftp"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+RecordingStartTrackRecordingResponse object { success, data }
+
+</summary>
+
+success: boolean
+
+Success status of the operation
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+data: optional object { recording }
+
+Data returned by the operation
+
+</summary>
+
+<details>
+
+<summary>
+
+recording: object { id, audio_download_url, download_url, 9 more }
+
+</summary>
+
+id: string
+
+ID of the recording
+
+formatuuid
+
+[Link to this property](#)
+
+audio_download_url: string
+
+If the audio_config is passed, the URL for downloading the audio recording is returned.
+
+formaturi
+
+[Link to this property](#)
+
+download_url: string
+
+URL where the recording can be downloaded.
+
+formaturi
+
+[Link to this property](#)
+
+download_url_expiry: string
+
+Timestamp when the download URL expires.
+
+formatdate-time
+
+[Link to this property](#)
+
+file_size: number
+
+File size of the recording, in bytes.
+
+[Link to this property](#)
+
+invoked_time: string
+
+Timestamp when this recording was invoked.
+
+formatdate-time
+
+[Link to this property](#)
+
+output_file_name: string
+
+File name of the recording.
+
+[Link to this property](#)
+
+session_id: string
+
+ID of the meeting session this recording is for.
+
+formatuuid
+
+[Link to this property](#)
+
+started_time: string
+
+Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+
+formatdate-time
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more
+
+Current status of the recording.
+
+</summary>
+
+One of the following:
+
+"INVOKED"
+
+[Link to this property](#)
+
+"RECORDING"
+
+[Link to this property](#)
+
+"UPLOADING"
+
+[Link to this property](#)
+
+"UPLOADED"
+
+[Link to this property](#)
+
+"ERRORED"
+
+[Link to this property](#)
+
+"PAUSED"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+stopped_time: string
+
+Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+
+formatdate-time
+
+[Link to this property](#)
+
+recording_duration: optional number
+
+Total recording time in seconds.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+##### [Fetch all webhooks details](/api/resources/realtime_kit/subresources/webhooks/methods/get_webhooks)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/webhooks
+
+##### [Add a webhook](/api/resources/realtime_kit/subresources/webhooks/methods/create_webhook)
+
+POST/accounts/{account_id}/realtime/kit/{app_id}/webhooks
+
+##### [Fetch details of a webhook](/api/resources/realtime_kit/subresources/webhooks/methods/get_webhook_by_id)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}
+
+##### [Replace a webhook](/api/resources/realtime_kit/subresources/webhooks/methods/replace_webhook)
+
+PUT/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}
+
+##### [Edit a webhook](/api/resources/realtime_kit/subresources/webhooks/methods/edit_webhook)
+
+PATCH/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}
+
+##### [Delete a webhook](/api/resources/realtime_kit/subresources/webhooks/methods/delete_webhook)
+
+DELETE/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}
+
+##### Models
+
+<details>
+
+<summary>
+
+WebhookGetWebhooksResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: array of object { id, created_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+ID of the webhook
+
+formatuuid
+
+[Link to this property](#)
+
+created_at: string
+
+Timestamp when this webhook was created
+
+formatdate-time
+
+[Link to this property](#)
+
+enabled: boolean
+
+Set to true if the webhook is active
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more
+
+Events this webhook will send updates for
+
+</summary>
+
+One of the following:
+
+"meeting.started"
+
+[Link to this property](#)
+
+"meeting.ended"
+
+[Link to this property](#)
+
+"meeting.participantJoined"
+
+[Link to this property](#)
+
+"meeting.participantLeft"
+
+[Link to this property](#)
+
+"meeting.chatSynced"
+
+[Link to this property](#)
+
+"recording.statusUpdate"
+
+[Link to this property](#)
+
+"livestreaming.statusUpdate"
+
+[Link to this property](#)
+
+"meeting.transcript"
+
+[Link to this property](#)
+
+"meeting.summary"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+name: string
+
+Name of the webhook
+
+[Link to this property](#)
+
+updated_at: string
+
+Timestamp when this webhook was updated
+
+formatdate-time
+
+[Link to this property](#)
+
+url: string
+
+URL the webhook will send events to
+
+formaturi
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+WebhookCreateWebhookResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object { id, created_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+ID of the webhook
+
+formatuuid
+
+[Link to this property](#)
+
+created_at: string
+
+Timestamp when this webhook was created
+
+formatdate-time
+
+[Link to this property](#)
+
+enabled: boolean
+
+Set to true if the webhook is active
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more
+
+Events this webhook will send updates for
+
+</summary>
+
+One of the following:
+
+"meeting.started"
+
+[Link to this property](#)
+
+"meeting.ended"
+
+[Link to this property](#)
+
+"meeting.participantJoined"
+
+[Link to this property](#)
+
+"meeting.participantLeft"
+
+[Link to this property](#)
+
+"meeting.chatSynced"
+
+[Link to this property](#)
+
+"recording.statusUpdate"
+
+[Link to this property](#)
+
+"livestreaming.statusUpdate"
+
+[Link to this property](#)
+
+"meeting.transcript"
+
+[Link to this property](#)
+
+"meeting.summary"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+name: string
+
+Name of the webhook
+
+[Link to this property](#)
+
+updated_at: string
+
+Timestamp when this webhook was updated
+
+formatdate-time
+
+[Link to this property](#)
+
+url: string
+
+URL the webhook will send events to
+
+formaturi
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+WebhookGetWebhookByIDResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object { id, created_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+ID of the webhook
+
+formatuuid
+
+[Link to this property](#)
+
+created_at: string
+
+Timestamp when this webhook was created
+
+formatdate-time
+
+[Link to this property](#)
+
+enabled: boolean
+
+Set to true if the webhook is active
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more
+
+Events this webhook will send updates for
+
+</summary>
+
+One of the following:
+
+"meeting.started"
+
+[Link to this property](#)
+
+"meeting.ended"
+
+[Link to this property](#)
+
+"meeting.participantJoined"
+
+[Link to this property](#)
+
+"meeting.participantLeft"
+
+[Link to this property](#)
+
+"meeting.chatSynced"
+
+[Link to this property](#)
+
+"recording.statusUpdate"
+
+[Link to this property](#)
+
+"livestreaming.statusUpdate"
+
+[Link to this property](#)
+
+"meeting.transcript"
+
+[Link to this property](#)
+
+"meeting.summary"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+name: string
+
+Name of the webhook
+
+[Link to this property](#)
+
+updated_at: string
+
+Timestamp when this webhook was updated
+
+formatdate-time
+
+[Link to this property](#)
+
+url: string
+
+URL the webhook will send events to
+
+formaturi
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+WebhookReplaceWebhookResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object { id, created_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+ID of the webhook
+
+formatuuid
+
+[Link to this property](#)
+
+created_at: string
+
+Timestamp when this webhook was created
+
+formatdate-time
+
+[Link to this property](#)
+
+enabled: boolean
+
+Set to true if the webhook is active
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more
+
+Events this webhook will send updates for
+
+</summary>
+
+One of the following:
+
+"meeting.started"
+
+[Link to this property](#)
+
+"meeting.ended"
+
+[Link to this property](#)
+
+"meeting.participantJoined"
+
+[Link to this property](#)
+
+"meeting.participantLeft"
+
+[Link to this property](#)
+
+"meeting.chatSynced"
+
+[Link to this property](#)
+
+"recording.statusUpdate"
+
+[Link to this property](#)
+
+"livestreaming.statusUpdate"
+
+[Link to this property](#)
+
+"meeting.transcript"
+
+[Link to this property](#)
+
+"meeting.summary"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+name: string
+
+Name of the webhook
+
+[Link to this property](#)
+
+updated_at: string
+
+Timestamp when this webhook was updated
+
+formatdate-time
+
+[Link to this property](#)
+
+url: string
+
+URL the webhook will send events to
+
+formaturi
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+WebhookEditWebhookResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object { id, created_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+ID of the webhook
+
+formatuuid
+
+[Link to this property](#)
+
+created_at: string
+
+Timestamp when this webhook was created
+
+formatdate-time
+
+[Link to this property](#)
+
+enabled: boolean
+
+Set to true if the webhook is active
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more
+
+Events this webhook will send updates for
+
+</summary>
+
+One of the following:
+
+"meeting.started"
+
+[Link to this property](#)
+
+"meeting.ended"
+
+[Link to this property](#)
+
+"meeting.participantJoined"
+
+[Link to this property](#)
+
+"meeting.participantLeft"
+
+[Link to this property](#)
+
+"meeting.chatSynced"
+
+[Link to this property](#)
+
+"recording.statusUpdate"
+
+[Link to this property](#)
+
+"livestreaming.statusUpdate"
+
+[Link to this property](#)
+
+"meeting.transcript"
+
+[Link to this property](#)
+
+"meeting.summary"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+name: string
+
+Name of the webhook
+
+[Link to this property](#)
+
+updated_at: string
+
+Timestamp when this webhook was updated
+
+formatdate-time
+
+[Link to this property](#)
+
+url: string
+
+URL the webhook will send events to
+
+formaturi
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+WebhookDeleteWebhookResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object { id, created_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+ID of the webhook
+
+formatuuid
+
+[Link to this property](#)
+
+created_at: string
+
+Timestamp when this webhook was created
+
+formatdate-time
+
+[Link to this property](#)
+
+enabled: boolean
+
+Set to true if the webhook is active
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more
+
+Events this webhook will send updates for
+
+</summary>
+
+One of the following:
+
+"meeting.started"
+
+[Link to this property](#)
+
+"meeting.ended"
+
+[Link to this property](#)
+
+"meeting.participantJoined"
+
+[Link to this property](#)
+
+"meeting.participantLeft"
+
+[Link to this property](#)
+
+"meeting.chatSynced"
+
+[Link to this property](#)
+
+"recording.statusUpdate"
+
+[Link to this property](#)
+
+"livestreaming.statusUpdate"
+
+[Link to this property](#)
+
+"meeting.transcript"
+
+[Link to this property](#)
+
+"meeting.summary"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+name: string
+
+Name of the webhook
+
+[Link to this property](#)
+
+updated_at: string
+
+Timestamp when this webhook was updated
+
+formatdate-time
+
+[Link to this property](#)
+
+url: string
+
+URL the webhook will send events to
+
+formaturi
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+##### [Fetch details of an active session](/api/resources/realtime_kit/subresources/active-session/methods/get_active_session)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session
+
+##### [Kick participants from an active session](/api/resources/realtime_kit/subresources/active-session/methods/kick_participants)
+
+POST/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/kick
+
+##### [Kick all participants](/api/resources/realtime_kit/subresources/active-session/methods/kick_all_participants)
+
+POST/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/kick-all
+
+##### [Create a poll](/api/resources/realtime_kit/subresources/active-session/methods/create_poll)
+
+POST/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/poll
+
+##### Models
+
+<details>
+
+<summary>
+
+ActiveSessionGetActiveSessionResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { id, associated_id, created_at, 11 more }
+
+</summary>
+
+id: string
+
+ID of the session
+
+[Link to this property](#)
+
+associated_id: string
+
+ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+
+[Link to this property](#)
+
+created_at: string
+
+timestamp when session created
+
+[Link to this property](#)
+
+live_participants: number
+
+number of participants currently in the session
+
+[Link to this property](#)
+
+max_concurrent_participants: number
+
+number of maximum participants that were in the session
+
+[Link to this property](#)
+
+meeting_display_name: string
+
+Title of the meeting this session belongs to
+
+[Link to this property](#)
+
+minutes_consumed: number
+
+number of minutes consumed since the session started
+
+[Link to this property](#)
+
+organization_id: string
+
+App id that hosted this session
+
+[Link to this property](#)
+
+started_at: string
+
+timestamp when session started
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+status: "LIVE" or "ENDED"
+
+current status of session
+
+</summary>
+
+One of the following:
+
+"LIVE"
+
+[Link to this property](#)
+
+"ENDED"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+type: "meeting" or "livestream" or "participant"
+
+type of session
+
+</summary>
+
+One of the following:
+
+"meeting"
+
+[Link to this property](#)
+
+"livestream"
+
+[Link to this property](#)
+
+"participant"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+updated_at: string
+
+timestamp when session was last updated
+
+[Link to this property](#)
+
+breakout_rooms: optional array of unknown
+
+[Link to this property](#)
+
+ended_at: optional string
+
+timestamp when session ended
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ActiveSessionKickParticipantsResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { action, participants }
+
+</summary>
+
+action: optional string
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+participants: optional array of object { id, created_at, updated_at, 3 more }
+
+</summary>
+
+id: string
+
+ID of the session participant
+
+[Link to this property](#)
+
+created_at: string
+
+[Link to this property](#)
+
+updated_at: string
+
+[Link to this property](#)
+
+email: optional string
+
+Email of the session participant.
+
+[Link to this property](#)
+
+name: optional string
+
+Name of the session participant.
+
+[Link to this property](#)
+
+picture: optional string
+
+A URL pointing to a picture of the participant.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ActiveSessionKickAllParticipantsResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { action, kicked_participants_count }
+
+</summary>
+
+action: optional string
+
+[Link to this property](#)
+
+kicked_participants_count: optional number
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ActiveSessionCreatePollResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { action, poll }
+
+</summary>
+
+action: optional string
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+poll: optional object { id, options, question, 4 more }
+
+</summary>
+
+id: string
+
+ID of the poll
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+options: array of object { count, text, votes }
+
+Answer options
+
+</summary>
+
+count: number
+
+[Link to this property](#)
+
+text: string
+
+Text of the answer option
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+votes: array of object { id, name }
+
+</summary>
+
+id: string
+
+[Link to this property](#)
+
+name: string
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+question: string
+
+Question asked by the poll
+
+[Link to this property](#)
+
+anonymous: optional boolean
+
+[Link to this property](#)
+
+created_by: optional string
+
+[Link to this property](#)
+
+hide_votes: optional boolean
+
+[Link to this property](#)
+
+voted: optional array of string
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+##### [Fetch all livestreams](/api/resources/realtime_kit/subresources/livestreams/methods/get_all_livestreams)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/livestreams
+
+##### [Stop livestreaming a meeting](/api/resources/realtime_kit/subresources/livestreams/methods/stop_livestreaming_a_meeting)
+
+POST/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-livestream/stop
+
+##### [Start livestreaming a meeting](/api/resources/realtime_kit/subresources/livestreams/methods/start_livestreaming_a_meeting)
+
+POST/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/livestreams
+
+##### [Fetch complete analytics data for your livestreams](/api/resources/realtime_kit/subresources/livestreams/methods/get_livestream_analytics_complete)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/analytics/livestreams/overall
+
+##### [Fetch day-wise analytics data for your livestreams](/api/resources/realtime_kit/subresources/livestreams/methods/get_livestream_analytics_daywise)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/analytics/livestreams/daywise
+
+##### [Fetch day-wise session and recording analytics data for an App](/api/resources/realtime_kit/subresources/livestreams/methods/get_org_analytics)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/analytics/daywise
+
+##### [Fetch active livestreams for a meeting](/api/resources/realtime_kit/subresources/livestreams/methods/get_meeting_active_livestreams)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-livestream
+
+##### [Fetch livestream session details using livestream session ID](/api/resources/realtime_kit/subresources/livestreams/methods/get_livestream_session_details_for_session_id)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/livestreams/sessions/{livestream-session-id}
+
+##### [Fetch active livestream session details](/api/resources/realtime_kit/subresources/livestreams/methods/get_active_livestreams_for_livestream_id)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/livestreams/{livestream_id}/active-livestream-session
+
+##### [Fetch livestream details using livestream ID](/api/resources/realtime_kit/subresources/livestreams/methods/get_livestream_session_for_livestream_id)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/livestreams/{livestream_id}
+
+##### Models
+
+<details>
+
+<summary>
+
+LivestreamGetAllLivestreamsResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { id, created_at, disabled, 8 more }
+
+</summary>
+
+id: optional string
+
+The ID of the livestream.
+
+formatuuid
+
+[Link to this property](#)
+
+created_at: optional string
+
+Timestamp the object was created at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+disabled: optional string
+
+Specifies if the livestream was disabled.
+
+[Link to this property](#)
+
+ingest_server: optional string
+
+The server URL to which the RTMP encoder sends the video and audio data.
+
+[Link to this property](#)
+
+meeting_id: optional string
+
+ID of the meeting.
+
+[Link to this property](#)
+
+name: optional string
+
+Name of the livestream.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+paging: optional object { end_offset, start_offset, total_count }
+
+</summary>
+
+end_offset: optional number
+
+[Link to this property](#)
+
+start_offset: optional number
+
+[Link to this property](#)
+
+total_count: optional number
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+playback_url: optional string
+
+The web address that viewers can use to watch the livestream.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"
+
+</summary>
+
+One of the following:
+
+"LIVE"
+
+[Link to this property](#)
+
+"IDLE"
+
+[Link to this property](#)
+
+"ERRORED"
+
+[Link to this property](#)
+
+"INVOKED"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+stream_key: optional string
+
+Unique key for accessing each livestream.
+
+[Link to this property](#)
+
+updated_at: optional string
+
+Timestamp the object was updated at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamStopLivestreamingAMeetingResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { message }
+
+</summary>
+
+message: optional string
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamStartLivestreamingAMeetingResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { id, ingest_server, playback_url, 2 more }
+
+</summary>
+
+id: optional string
+
+The livestream ID.
+
+[Link to this property](#)
+
+ingest_server: optional string
+
+The server URL to which the RTMP encoder sends the video and audio data.
+
+[Link to this property](#)
+
+playback_url: optional string
+
+The web address that viewers can use to watch the livestream.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"
+
+</summary>
+
+One of the following:
+
+"LIVE"
+
+[Link to this property](#)
+
+"IDLE"
+
+[Link to this property](#)
+
+"ERRORED"
+
+[Link to this property](#)
+
+"INVOKED"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+stream_key: optional string
+
+Unique key for accessing each livestream.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamGetLivestreamAnalyticsCompleteResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { count, total_ingest_seconds, total_viewer_seconds }
+
+</summary>
+
+count: optional number
+
+Count of total livestreams.
+
+[Link to this property](#)
+
+total_ingest_seconds: optional number
+
+Total time duration for which the input was given or the meeting was streamed.
+
+[Link to this property](#)
+
+total_viewer_seconds: optional number
+
+Total view time for which the viewers watched the stream.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamGetLivestreamAnalyticsDaywiseResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional array of object { count, date, total_ingest_seconds, total_viewer_seconds }
+
+</summary>
+
+count: optional number
+
+Count of total livestream sessions.
+
+[Link to this property](#)
+
+date: optional string
+
+Analytics date.
+
+[Link to this property](#)
+
+total_ingest_seconds: optional number
+
+Total time duration for which the input was given or the meeting was streamed.
+
+[Link to this property](#)
+
+total_viewer_seconds: optional number
+
+Total view time for which the viewers watched the stream.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamGetOrgAnalyticsResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { recording_stats, session_stats }
+
+</summary>
+
+<details>
+
+<summary>
+
+recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }
+
+Recording statistics of an App during the range specified
+
+</summary>
+
+<details>
+
+<summary>
+
+day_stats: optional array of object { day, total_recording_minutes, total_recordings }
+
+Day wise recording stats
+
+</summary>
+
+day: optional string
+
+[Link to this property](#)
+
+total_recording_minutes: optional number
+
+Total recording minutes for a specific day
+
+[Link to this property](#)
+
+total_recordings: optional number
+
+Total number of recordings for a specific day
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+recording_count: optional number
+
+Total number of recordings during the range specified
+
+[Link to this property](#)
+
+recording_minutes_consumed: optional number
+
+Total recording minutes during the range specified
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }
+
+Session statistics of an App during the range specified
+
+</summary>
+
+<details>
+
+<summary>
+
+day_stats: optional array of object { day, total_session_minutes, total_sessions }
+
+Day wise session stats
+
+</summary>
+
+day: optional string
+
+[Link to this property](#)
+
+total_session_minutes: optional number
+
+Total session minutes for a specific day
+
+[Link to this property](#)
+
+total_sessions: optional number
+
+Total number of sessions for a specific day
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+sessions_count: optional number
+
+Total number of sessions during the range specified
+
+[Link to this property](#)
+
+sessions_minutes_consumed: optional number
+
+Total session minutes during the range specified
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamGetMeetingActiveLivestreamsResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { id, created_at, disabled, 7 more }
+
+</summary>
+
+id: optional string
+
+The livestream ID.
+
+[Link to this property](#)
+
+created_at: optional string
+
+Timestamp the object was created at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+disabled: optional string
+
+Specifies if the livestream was disabled.
+
+[Link to this property](#)
+
+ingest_server: optional string
+
+The server URL to which the RTMP encoder sends the video and audio data.
+
+[Link to this property](#)
+
+meeting_id: optional string
+
+[Link to this property](#)
+
+name: optional string
+
+Name of the livestream.
+
+[Link to this property](#)
+
+playback_url: optional string
+
+The web address that viewers can use to watch the livestream.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"
+
+</summary>
+
+One of the following:
+
+"LIVE"
+
+[Link to this property](#)
+
+"IDLE"
+
+[Link to this property](#)
+
+"ERRORED"
+
+[Link to this property](#)
+
+"INVOKED"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+stream_key: optional string
+
+Unique key for accessing each livestream.
+
+[Link to this property](#)
+
+updated_at: optional string
+
+Timestamp the object was updated at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamGetLivestreamSessionDetailsForSessionIDResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { id, created_at, err_message, 6 more }
+
+</summary>
+
+id: optional string
+
+The livestream ID.
+
+[Link to this property](#)
+
+created_at: optional string
+
+Timestamp the object was created at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+err_message: optional string
+
+The server URL to which the RTMP encoder sends the video and audio data.
+
+[Link to this property](#)
+
+ingest_seconds: optional number
+
+Name of the livestream.
+
+[Link to this property](#)
+
+livestream_id: optional string
+
+[Link to this property](#)
+
+started_time: optional string
+
+Unique key for accessing each livestream.
+
+[Link to this property](#)
+
+stopped_time: optional string
+
+The web address that viewers can use to watch the livestream.
+
+[Link to this property](#)
+
+updated_at: optional string
+
+Timestamp the object was updated at. The time is returned in ISO format.
+
+[Link to this property](#)
+
+viewer_seconds: optional number
+
+Specifies if the livestream was disabled.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamGetActiveLivestreamsForLivestreamIDResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { livestream, session }
+
+</summary>
+
+<details>
+
+<summary>
+
+livestream: optional object { id, created_at, disabled, 7 more }
+
+</summary>
+
+id: optional string
+
+[Link to this property](#)
+
+created_at: optional string
+
+Timestamp the object was created at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+disabled: optional string
+
+Specifies if the livestream was disabled.
+
+[Link to this property](#)
+
+ingest_server: optional string
+
+The server URL to which the RTMP encoder sends the video and audio data.
+
+[Link to this property](#)
+
+meeting_id: optional string
+
+ID of the meeting.
+
+[Link to this property](#)
+
+name: optional string
+
+Name of the livestream.
+
+[Link to this property](#)
+
+playback_url: optional string
+
+The web address that viewers can use to watch the livestream.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"
+
+</summary>
+
+One of the following:
+
+"LIVE"
+
+[Link to this property](#)
+
+"IDLE"
+
+[Link to this property](#)
+
+"ERRORED"
+
+[Link to this property](#)
+
+"INVOKED"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+stream_key: optional string
+
+Unique key for accessing each livestream.
+
+[Link to this property](#)
+
+updated_at: optional string
+
+Timestamp the object was updated at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+session: optional object { id, created_at, err_message, 7 more }
+
+</summary>
+
+id: optional string
+
+[Link to this property](#)
+
+created_at: optional string
+
+Timestamp the object was created at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+err_message: optional string
+
+[Link to this property](#)
+
+ingest_seconds: optional string
+
+The time duration for which the input was given or the meeting was streamed.
+
+[Link to this property](#)
+
+invoked_time: optional string
+
+Timestamp the object was invoked. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+livestream_id: optional string
+
+[Link to this property](#)
+
+started_time: optional string
+
+Timestamp the object was started. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+stopped_time: optional string
+
+Timestamp the object was stopped. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+updated_at: optional string
+
+Timestamp the object was updated at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+viewer_seconds: optional string
+
+The total view time for which the viewers watched the stream.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+LivestreamGetLivestreamSessionForLivestreamIDResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { livestream, paging, session }
+
+</summary>
+
+<details>
+
+<summary>
+
+livestream: optional object { id, created_at, disabled, 7 more }
+
+</summary>
+
+id: optional string
+
+ID of the livestream.
+
+[Link to this property](#)
+
+created_at: optional string
+
+Timestamp the object was created at. The time is returned in ISO format.
+
+[Link to this property](#)
+
+disabled: optional string
+
+Specifies if the livestream was disabled.
+
+[Link to this property](#)
+
+ingest_server: optional string
+
+The server URL to which the RTMP encoder sends the video and audio data.
+
+[Link to this property](#)
+
+meeting_id: optional string
+
+The ID of the meeting.
+
+[Link to this property](#)
+
+name: optional string
+
+Name of the livestream.
+
+[Link to this property](#)
+
+playback_url: optional string
+
+The web address that viewers can use to watch the livestream.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"
+
+</summary>
+
+One of the following:
+
+"LIVE"
+
+[Link to this property](#)
+
+"IDLE"
+
+[Link to this property](#)
+
+"ERRORED"
+
+[Link to this property](#)
+
+"INVOKED"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+stream_key: optional string
+
+Unique key for accessing each livestream.
+
+[Link to this property](#)
+
+updated_at: optional string
+
+Timestamp the object was updated at. The time is returned in ISO format.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+paging: optional object { end_offset, start_offset, total_count }
+
+</summary>
+
+end_offset: optional number
+
+[Link to this property](#)
+
+start_offset: optional number
+
+[Link to this property](#)
+
+total_count: optional number
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+session: optional object { id, created_at, err_message, 7 more }
+
+</summary>
+
+id: optional string
+
+ID of the session.
+
+[Link to this property](#)
+
+created_at: optional string
+
+Timestamp the object was created at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+err_message: optional string
+
+[Link to this property](#)
+
+ingest_seconds: optional number
+
+The time duration for which the input was given or the meeting was streamed.
+
+[Link to this property](#)
+
+invoked_time: optional string
+
+Timestamp the object was invoked. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+livestream_id: optional string
+
+[Link to this property](#)
+
+started_time: optional string
+
+Timestamp the object was started. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+stopped_time: optional string
+
+Timestamp the object was stopped. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+updated_at: optional string
+
+Timestamp the object was updated at. The time is returned in ISO format.
+
+formatdate-time
+
+[Link to this property](#)
+
+viewer_seconds: optional number
+
+The total view time for which the viewers watched the stream.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+##### [Fetch day-wise session and recording analytics data for an App](/api/resources/realtime_kit/subresources/analytics/methods/get_org_analytics)
+
+GET/accounts/{account_id}/realtime/kit/{app_id}/analytics/daywise
+
+##### Models
+
+<details>
+
+<summary>
+
+AnalyticsGetOrgAnalyticsResponse object { data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: optional object { recording_stats, session_stats }
+
+</summary>
+
+<details>
+
+<summary>
+
+recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }
+
+Recording statistics of an App during the range specified
+
+</summary>
+
+<details>
+
+<summary>
+
+day_stats: optional array of object { day, total_recording_minutes, total_recordings }
+
+Day wise recording stats
+
+</summary>
+
+day: optional string
+
+[Link to this property](#)
+
+total_recording_minutes: optional number
+
+Total recording minutes for a specific day
+
+[Link to this property](#)
+
+total_recordings: optional number
+
+Total number of recordings for a specific day
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+recording_count: optional number
+
+Total number of recordings during the range specified
+
+[Link to this property](#)
+
+recording_minutes_consumed: optional number
+
+Total recording minutes during the range specified
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }
+
+Session statistics of an App during the range specified
+
+</summary>
+
+<details>
+
+<summary>
+
+day_stats: optional array of object { day, total_session_minutes, total_sessions }
+
+Day wise session stats
+
+</summary>
+
+day: optional string
+
+[Link to this property](#)
+
+total_session_minutes: optional number
+
+Total session minutes for a specific day
+
+[Link to this property](#)
+
+total_sessions: optional number
+
+Total number of sessions for a specific day
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+sessions_count: optional number
+
+Total number of sessions during the range specified
+
+[Link to this property](#)
+
+sessions_minutes_consumed: optional number
+
+Total session minutes during the range specified
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+success: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)

@@ -1,548 +1,237 @@
+---
+title: Smart Tiered Cache
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cache](https://developers.cloudflare.com/api/resources/cache)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Smart Tiered Cache
 
-## Get Smart Tiered Cache setting
+##### [Get Smart Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/smart_tiered_cache/methods/get)
 
-**get** `/zones/{zone_id}/cache/tiered_cache_smart_topology_enable`
+GET/zones/{zone\_id}/cache/tiered\_cache\_smart\_topology\_enable
 
-Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin.
+##### [Create Smart Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/smart_tiered_cache/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/cache/tiered\_cache\_smart\_topology\_enable
 
-- `zone_id: string`
+##### [Patch Smart Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/smart_tiered_cache/methods/edit)
 
-  Identifier.
+PATCH/zones/{zone\_id}/cache/tiered\_cache\_smart\_topology\_enable
 
-### Returns
+##### [Delete Smart Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/smart_tiered_cache/methods/delete)
 
-- `errors: array of ResponseInfo`
+DELETE/zones/{zone\_id}/cache/tiered\_cache\_smart\_topology\_enable
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+SmartTieredCacheGetResponse object {id, editable, value, modified\_on }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: "tiered\_cache\_smart\_topology\_enable"
 
-  - `code: number`
+The identifier of the caching setting.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+editable: boolean
 
-  - `source: optional object { pointer }`
+Whether the setting is editable.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id, editable, value, modified_on }`
+value: "on"or "off"
 
-  - `id: "tiered_cache_smart_topology_enable"`
+Value of the Smart Tiered Cache zone setting.
 
-    The identifier of the caching setting.
+</summary>
 
-    - `"tiered_cache_smart_topology_enable"`
+One of the following:
 
-  - `editable: boolean`
+"on"
 
-    Whether the setting is editable.
+<a href="#">Link to this property</a>
 
-  - `value: "on" or "off"`
+"off"
 
-    Value of the Smart Tiered Cache zone setting.
+<a href="#">Link to this property</a>
 
-    - `"on"`
+</details>
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+modified\_on: optional string
 
-    Last time this setting was modified.
+Last time this setting was modified.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/tiered_cache_smart_topology_enable \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_cache_smart_topology_enable",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+[Link to this property](#)%20cache.smart_tiered_cache%20%3E%20(model)%20smart_tiered_cache_get_response%20%3E%20(schema)>)
 
-## Create Smart Tiered Cache setting
+<details>
 
-**post** `/zones/{zone_id}/cache/tiered_cache_smart_topology_enable`
+<summary>
 
-Smart Tiered Cache dynamically selects the single closest upper tier for each of your website's origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin.
+SmartTieredCacheCreateResponse object {id, editable, value, modified\_on }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: "tiered\_cache\_smart\_topology\_enable"
 
-  Identifier.
+The identifier of the caching setting.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `value: "on" or "off"`
+editable: boolean
 
-  Enable or disable the Smart Tiered Cache.
+Whether the setting is editable.
 
-  - `"on"`
+<a href="#">Link to this property</a>
 
-  - `"off"`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+value: "on"or "off"
 
-  - `code: number`
+Value of the Smart Tiered Cache zone setting.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"on"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"off"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_on: optional string
 
-- `success: true`
+Last time this setting was modified.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, editable, value, modified_on }`
+</details>
 
-  - `id: "tiered_cache_smart_topology_enable"`
+[Link to this property](#)%20cache.smart_tiered_cache%20%3E%20(model)%20smart_tiered_cache_create_response%20%3E%20(schema)>)
 
-    The identifier of the caching setting.
+<details>
 
-    - `"tiered_cache_smart_topology_enable"`
+<summary>
 
-  - `editable: boolean`
+SmartTieredCacheEditResponse object {id, editable, value, modified\_on }
 
-    Whether the setting is editable.
+</summary>
 
-  - `value: "on" or "off"`
+id: "tiered\_cache\_smart\_topology\_enable"
 
-    Value of the Smart Tiered Cache zone setting.
+The identifier of the caching setting.
 
-    - `"on"`
+<a href="#">Link to this property</a>
 
-    - `"off"`
+editable: boolean
 
-  - `modified_on: optional string`
+Whether the setting is editable.
 
-    Last time this setting was modified.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/tiered_cache_smart_topology_enable \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
+<summary>
 
-#### Response
+value: "on"or "off"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_cache_smart_topology_enable",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Value of the Smart Tiered Cache zone setting.
 
-## Patch Smart Tiered Cache setting
+</summary>
 
-**patch** `/zones/{zone_id}/cache/tiered_cache_smart_topology_enable`
+One of the following:
 
-Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin.
+"on"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"off"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `value: "on" or "off"`
+<a href="#">Link to this property</a>
 
-  Enable or disable the Smart Tiered Cache.
+modified\_on: optional string
 
-  - `"on"`
+Last time this setting was modified.
 
-  - `"off"`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20cache.smart_tiered_cache%20%3E%20(model)%20smart_tiered_cache_edit_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+SmartTieredCacheDeleteResponse object {id, editable, modified\_on }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: "tiered\_cache\_smart\_topology\_enable"
 
-  - `code: number`
+The identifier of the caching setting.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+editable: boolean
 
-  - `source: optional object { pointer }`
+Whether the setting is editable.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+modified\_on: optional string
 
-  - `true`
+Last time this setting was modified.
 
-- `result: optional object { id, editable, value, modified_on }`
+formatdate-time
 
-  - `id: "tiered_cache_smart_topology_enable"`
+<a href="#">Link to this property</a>
 
-    The identifier of the caching setting.
+</details>
 
-    - `"tiered_cache_smart_topology_enable"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Smart Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/tiered_cache_smart_topology_enable \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_cache_smart_topology_enable",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete Smart Tiered Cache setting
-
-**delete** `/zones/{zone_id}/cache/tiered_cache_smart_topology_enable`
-
-Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, modified_on }`
-
-  - `id: "tiered_cache_smart_topology_enable"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_cache_smart_topology_enable"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/tiered_cache_smart_topology_enable \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_cache_smart_topology_enable",
-    "editable": true,
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Smart Tiered Cache Get Response
-
-- `SmartTieredCacheGetResponse object { id, editable, value, modified_on }`
-
-  - `id: "tiered_cache_smart_topology_enable"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_cache_smart_topology_enable"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Smart Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Smart Tiered Cache Create Response
-
-- `SmartTieredCacheCreateResponse object { id, editable, value, modified_on }`
-
-  - `id: "tiered_cache_smart_topology_enable"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_cache_smart_topology_enable"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Smart Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Smart Tiered Cache Edit Response
-
-- `SmartTieredCacheEditResponse object { id, editable, value, modified_on }`
-
-  - `id: "tiered_cache_smart_topology_enable"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_cache_smart_topology_enable"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Smart Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Smart Tiered Cache Delete Response
-
-- `SmartTieredCacheDeleteResponse object { id, editable, modified_on }`
-
-  - `id: "tiered_cache_smart_topology_enable"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_cache_smart_topology_enable"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20cache.smart_tiered_cache%20%3E%20(model)%20smart_tiered_cache_delete_response%20%3E%20(schema)>)

@@ -1,9 +1,28 @@
-## List images V2
+---
+title: List images V2
+---
 
-**get** `/accounts/{account_id}/images/v2`
+[Skip to content](#_top)
 
-List up to 10000 images from CF Images, with up to 1000 results per page. Use the optional parameters below to get a specific range of images.
-Pagination is supported via continuation_token.
+[API Reference](https://developers.cloudflare.com/api)
+
+[Images](https://developers.cloudflare.com/api/resources/images)
+
+[V2](https://developers.cloudflare.com/api/resources/images/subresources/v2)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List images V2
+
+GET/accounts/{account\_id}/images/v2
+
+List up to 10000 images from CF Images, with up to 1000 results per page. Use the optional parameters below to get a specific range of images. Pagination is supported via continuation\_token.
 
 **Metadata Filtering (Optional):**
 
@@ -22,16 +41,15 @@ You can optionally filter images by custom metadata fields using the `meta.<fiel
 
 - Maximum 5 metadata filters per request
 - Maximum 5 levels of nesting (e.g., `meta.first.second.third.fourth.fifth`)
-- Maximum 10 elements for list operators (`in`)
+- Maximum 10 elements for list operators ( `in`)
 - Supports string, number, and boolean value types
-- Range operators (`gt`, `gte`, `lt`, `lte`) only accept numeric values
+- Range operators ( `gt`, `gte`, `lt`, `lte`) only accept numeric values
 
-**Filter Consistency:**
-Filters are combined with AND logic. The system does not validate whether filter combinations are logically consistent. For example, `meta.priority[eq:number]=5&meta.priority[lte:number]=3` will return zero results because no value can satisfy both conditions simultaneously. It is the caller's responsibility to ensure filter combinations make sense.
+**Filter Consistency:** Filters are combined with AND logic. The system does not validate whether filter combinations are logically consistent. For example, `meta.priority[eq:number]=5&meta.priority[lte:number]=3` will return zero results because no value can satisfy both conditions simultaneously. It is the caller’s responsibility to ensure filter combinations make sense.
 
 **Examples:**
 
-```
+```plaintext
 # List all images
 /images/v2
 
@@ -60,136 +78,330 @@ Filters are combined with AND logic. The system does not validate whether filter
 /images/v2?meta.status[eq]=active&meta.priority[eq:number]=5
 ```
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `continuation_token: optional string`
 
-  Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `creator: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set
+</details>
 
-- `meta: optional object { "<field>[<operator>]" }`
+<details>
 
-  - `"<field>[<operator>]": optional string`
+<summary>API Email + API Key</summary>
 
-    Optional metadata filter(s). Multiple filters can be combined with AND logic.
 
-    **Operators:**
 
-    - `eq`, `eq:string`, `eq:number`, `eq:boolean` - Exact match
-    - `gt`, `gt:number` - Greater than (number only)
-    - `gte`, `gte:number` - Greater than or equal (number only)
-    - `lt`, `lt:number` - Less than (number only)
-    - `lte`, `lte:number` - Less than or equal (number only)
-    - `in`, `in:string`, `in:number` - Match any value in pipe-separated list
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    **Examples:**
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `meta.status[eq]=active`
-    - `meta.priority[eq:number]=5`
-    - `meta.enabled[eq:boolean]=true`
-    - `meta.priority[gte:number]=1`
-    - `meta.score[lt:number]=100`
-    - `meta.region[in]=us-east|us-west|eu-west`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    **Note:** Filter consistency is not validated. Contradictory filters (e.g., `meta.priority[eq:number]=5&meta.priority[lte:number]=3`) will return zero results.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `per_page: optional number`
+</details>
 
-  Number of items per page
+##### Accepted Permissions (at least one required)
 
-- `sort_order: optional "asc" or "desc"`
+`Images Read``Images Write`
 
-  Sorting order by upload time
+##### P ath ParametersExpand Collapse
 
-  - `"asc"`
+account\_id: string
 
-  - `"desc"`
+Account identifier tag.
 
-### Returns
+maxLength32
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+##### Q uery ParametersExpand Collapse
 
-  - `message: string`
+continuation\_token: optional string
 
-  - `documentation_url: optional string`
+Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20continuation_token%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+creator: optional string
 
-  - `code: number`
+Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set
 
-  - `message: string`
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20creator%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `result: object { continuation_token, images }`
+meta: optional object {"&lt;field&gt;\[&lt;operator&gt;]" }
 
-  - `continuation_token: optional string`
+</summary>
 
-    Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint.
+"&lt;field&gt;\[&lt;operator&gt;]": optional string
 
-  - `images: optional array of Image`
+Optional metadata filter(s). Multiple filters can be combined with AND logic.
 
-    - `id: optional string`
+**Operators:**
 
-      Image unique identifier.
+- <code>eq</code>, <code>eq:string</code>, <code>eq:number</code>, <code>eq:boolean</code> - Exact match
+- <code>gt</code>, <code>gt:number</code> - Greater than (number only)
+- <code>gte</code>, <code>gte:number</code> - Greater than or equal (number only)
+- <code>lt</code>, <code>lt:number</code> - Less than (number only)
+- <code>lte</code>, <code>lte:number</code> - Less than or equal (number only)
+- <code>in</code>, <code>in:string</code>, <code>in:number</code> - Match any value in pipe-separated list
 
-    - `creator: optional string`
+**Examples:**
 
-      Can set the creator field with an internal user ID.
+- <code>meta.status[eq]=active</code>
+- <code>meta.priority[eq:number]=5</code>
+- <code>meta.enabled[eq:boolean]=true</code>
+- <code>meta.priority[gte:number]=1</code>
+- <code>meta.score[lt:number]=100</code>
+- <code>meta.region[in]=us-east|us-west|eu-west</code>
 
-    - `filename: optional string`
+**Note:** Filter consistency is not validated. Contradictory filters (e.g., <code>meta.priority[eq:number]=5&amp;meta.priority[lte:number]=3</code>) will return zero results.
 
-      Image file name.
+<a href="#">Link to this property</a>
 
-    - `meta: optional unknown`
+</details>
 
-      User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20meta%20%3E%20(schema)>)
 
-    - `requireSignedURLs: optional boolean`
+per\_page: optional number
 
-      Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+Number of items per page
 
-    - `uploaded: optional string`
+maximum10000
 
-      When the media item was uploaded.
+minimum10
 
-    - `variants: optional array of string`
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-      Object specifying available variants for an image.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+sort\_order: optional "asc"or "desc"
 
-  - `true`
+Sorting order by upload time
 
-### Example
+</summary>
 
-```http
+One of the following:
+
+"asc"
+
+<a href="#">Link to this property</a>
+
+"desc"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sort_order%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {continuation\_token, images }
+
+</summary>
+
+continuation\_token: optional string
+
+Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+images: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1%20%3E%20(model)%20image%20%3E%20(schema)">Image</a> { id, creator, filename, 4 more }
+
+</summary>
+
+id: optional string
+
+Image unique identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+creator: optional string
+
+Can set the creator field with an internal user ID.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+filename: optional string
+
+Image file name.
+
+maxLength255
+
+<a href="#">Link to this property</a>
+
+meta: optional unknown
+
+User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+
+<a href="#">Link to this property</a>
+
+requireSignedURLs: optional boolean
+
+Indicates whether the image can be a accessed only using it’s UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+
+<a href="#">Link to this property</a>
+
+uploaded: optional string
+
+When the media item was uploaded.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+variants: optional array of string
+
+Object specifying available variants for an image.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20images.v2%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List images V2
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v2 \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+400 example
+
+400 example
+
+```
 {
   "errors": [
     {
@@ -232,5 +444,115 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v2 \
     ]
   },
   "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 5400,
+      "message": "Unsupported metadata filter operator: 'not-eq'"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 5400,
+      "message": "Too many metadata filters: 6 provided, maximum 5 allowed"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+400 example
+
+400 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "continuation_token": "continuation_token",
+    "images": [
+      {
+        "id": "id",
+        "creator": "107b9558-dd06-4bbd-5fef-9c2c16bb7900",
+        "filename": "logo.png",
+        "meta": {
+          "key": "value"
+        },
+        "requireSignedURLs": true,
+        "uploaded": "2014-01-02T02:20:00.123Z",
+        "variants": [
+          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/thumbnail",
+          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/hero",
+          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/original"
+        ]
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 5400,
+      "message": "Unsupported metadata filter operator: 'not-eq'"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 5400,
+      "message": "Too many metadata filters: 6 provided, maximum 5 allowed"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

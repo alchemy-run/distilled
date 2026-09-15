@@ -1649,6 +1649,12 @@
           "traits": {
             "smithy.api#documentation": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database."
           }
+        },
+        "restarted_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted."
+          }
         }
       }
     },
@@ -2478,6 +2484,12 @@
           "traits": {
             "smithy.api#documentation": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database."
           }
+        },
+        "restarted_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted."
+          }
         }
       },
       "traits": {
@@ -2658,6 +2670,12 @@
           "traits": {
             "smithy.api#documentation": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database."
           }
+        },
+        "restarted_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted."
+          }
         }
       },
       "traits": {
@@ -2705,6 +2723,20 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Page number of paginated results.",
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of results per page.",
+            "smithy.api#httpQuery": "per_page"
+          }
         }
       },
       "traits": {
@@ -2740,7 +2772,7 @@
           "uri": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Patches and returns the specified Hyperdrive configuration. Custom caching settings are not kept if caching is disabled."
+        "smithy.api#documentation": "Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled."
       },
       "errors": [
         {
@@ -2857,6 +2889,12 @@
           "traits": {
             "smithy.api#documentation": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database."
           }
+        },
+        "restarted_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted."
+          }
         }
       },
       "traits": {
@@ -2878,7 +2916,7 @@
           "uri": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates and returns the specified Hyperdrive configuration.",
+        "smithy.api#documentation": "Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. Use the update operation to modify only selected fields.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -2996,6 +3034,12 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database."
+          }
+        },
+        "restarted_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted."
           }
         }
       },

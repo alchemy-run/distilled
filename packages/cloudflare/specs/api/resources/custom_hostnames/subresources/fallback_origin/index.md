@@ -1,489 +1,279 @@
+---
+title: Fallback Origin
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Custom Hostnames](https://developers.cloudflare.com/api/resources/custom_hostnames)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Fallback Origin
 
-## Get Fallback Origin for Custom Hostnames
+##### [Get Fallback Origin for Custom Hostnames](https://developers.cloudflare.com/api/resources/custom_hostnames/subresources/fallback_origin/methods/get)
 
-**get** `/zones/{zone_id}/custom_hostnames/fallback_origin`
+GET/zones/{zone\_id}/custom\_hostnames/fallback\_origin
 
-Retrieves the current fallback origin configuration for custom hostnames on a zone. The fallback origin handles traffic when specific custom hostname origins are unavailable.
+##### [Update Fallback Origin for Custom Hostnames](https://developers.cloudflare.com/api/resources/custom_hostnames/subresources/fallback_origin/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/custom\_hostnames/fallback\_origin
 
-- `zone_id: string`
+##### [Delete Fallback Origin for Custom Hostnames](https://developers.cloudflare.com/api/resources/custom_hostnames/subresources/fallback_origin/methods/delete)
 
-  Identifier.
+DELETE/zones/{zone\_id}/custom\_hostnames/fallback\_origin
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+FallbackOriginGetResponse object {created\_at, errors, origin, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+created\_at: optional string
 
-    - `pointer: optional string`
+This is the time the fallback origin was created.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+errors: optional array of string
 
-  - `documentation_url: optional string`
+These are errors that were encountered while trying to activate a fallback origin.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+origin: optional string
 
-- `success: true`
+Your origin hostname that requests to your custom hostnames will be sent to.
 
-  Whether the API call was successful.
+maxLength255
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created_at, errors, origin, 2 more }`
+<details>
 
-  - `created_at: optional string`
+<summary>
 
-    This is the time the fallback origin was created.
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 3 more
 
-  - `errors: optional array of string`
+Status of the fallback origin’s activation.
 
-    These are errors that were encountered while trying to activate a fallback origin.
+</summary>
 
-  - `origin: optional string`
+One of the following:
 
-    Your origin hostname that requests to your custom hostnames will be sent to.
+"initializing"
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 3 more`
+<a href="#">Link to this property</a>
 
-    Status of the fallback origin's activation.
+"pending\_deployment"
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deployment"`
+"pending\_deletion"
 
-    - `"pending_deletion"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"active"
 
-    - `"deployment_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deletion_timed_out"`
+"deployment\_timed\_out"
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-    This is the time the fallback origin was updated.
+"deletion\_timed\_out"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_hostnames/fallback_origin \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2019-10-28T18:11:23.37411Z",
-    "errors": [
-      "DNS records are not setup correctly. Origin should be a proxied A/AAAA/CNAME dns record"
-    ],
-    "origin": "fallback.example.com",
-    "status": "pending_deployment",
-    "updated_at": "2020-03-16T18:11:23.531995Z"
-  }
-}
-```
+updated\_at: optional string
 
-## Update Fallback Origin for Custom Hostnames
+This is the time the fallback origin was updated.
 
-**put** `/zones/{zone_id}/custom_hostnames/fallback_origin`
+formatdate-time
 
-Updates the fallback origin configuration for custom hostnames on a zone. Sets the default origin server for custom hostname traffic.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+[Link to this property](#)%20custom_hostnames.fallback_origin%20%3E%20(model)%20fallback_origin_get_response%20%3E%20(schema)>)
 
-  Identifier.
+<details>
 
-### Body Parameters
+<summary>
 
-- `origin: string`
+FallbackOriginUpdateResponse object {created\_at, errors, origin, 2 more }
 
-  Your origin hostname that requests to your custom hostnames will be sent to.
+</summary>
 
-### Returns
+created\_at: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+This is the time the fallback origin was created.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+errors: optional array of string
 
-  - `source: optional object { pointer }`
+These are errors that were encountered while trying to activate a fallback origin.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+origin: optional string
 
-  - `code: number`
+Your origin hostname that requests to your custom hostnames will be sent to.
 
-  - `message: string`
+maxLength255
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 3 more
 
-  Whether the API call was successful.
+Status of the fallback origin’s activation.
 
-  - `true`
+</summary>
 
-- `result: optional object { created_at, errors, origin, 2 more }`
+One of the following:
 
-  - `created_at: optional string`
+"initializing"
 
-    This is the time the fallback origin was created.
+<a href="#">Link to this property</a>
 
-  - `errors: optional array of string`
+"pending\_deployment"
 
-    These are errors that were encountered while trying to activate a fallback origin.
+<a href="#">Link to this property</a>
 
-  - `origin: optional string`
+"pending\_deletion"
 
-    Your origin hostname that requests to your custom hostnames will be sent to.
+<a href="#">Link to this property</a>
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 3 more`
+"active"
 
-    Status of the fallback origin's activation.
+<a href="#">Link to this property</a>
 
-    - `"initializing"`
+"deployment\_timed\_out"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+"deletion\_timed\_out"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deployment_timed_out"`
+</details>
 
-    - `"deletion_timed_out"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+updated\_at: optional string
 
-    This is the time the fallback origin was updated.
+This is the time the fallback origin was updated.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_hostnames/fallback_origin \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "origin": "fallback.example.com"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2019-10-28T18:11:23.37411Z",
-    "errors": [
-      "DNS records are not setup correctly. Origin should be a proxied A/AAAA/CNAME dns record"
-    ],
-    "origin": "fallback.example.com",
-    "status": "pending_deployment",
-    "updated_at": "2020-03-16T18:11:23.531995Z"
-  }
-}
-```
+[Link to this property](#)%20custom_hostnames.fallback_origin%20%3E%20(model)%20fallback_origin_update_response%20%3E%20(schema)>)
 
-## Delete Fallback Origin for Custom Hostnames
+<details>
 
-**delete** `/zones/{zone_id}/custom_hostnames/fallback_origin`
+<summary>
 
-Removes the fallback origin configuration for custom hostnames on a zone. Custom hostnames without specific origins will no longer have a fallback.
+FallbackOriginDeleteResponse object {created\_at, errors, origin, 2 more }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+created\_at: optional string
 
-  Identifier.
+This is the time the fallback origin was created.
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+errors: optional array of string
 
-  - `message: string`
+These are errors that were encountered while trying to activate a fallback origin.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+origin: optional string
 
-    - `pointer: optional string`
+Your origin hostname that requests to your custom hostnames will be sent to.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength255
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 3 more
 
-    - `pointer: optional string`
+Status of the fallback origin’s activation.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+One of the following:
 
-  - `true`
+"initializing"
 
-- `result: optional object { created_at, errors, origin, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"pending\_deployment"
 
-    This is the time the fallback origin was created.
+<a href="#">Link to this property</a>
 
-  - `errors: optional array of string`
+"pending\_deletion"
 
-    These are errors that were encountered while trying to activate a fallback origin.
+<a href="#">Link to this property</a>
 
-  - `origin: optional string`
+"active"
 
-    Your origin hostname that requests to your custom hostnames will be sent to.
+<a href="#">Link to this property</a>
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 3 more`
+"deployment\_timed\_out"
 
-    Status of the fallback origin's activation.
+<a href="#">Link to this property</a>
 
-    - `"initializing"`
+"deletion\_timed\_out"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+</details>
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deployment_timed_out"`
+updated\_at: optional string
 
-    - `"deletion_timed_out"`
+This is the time the fallback origin was updated.
 
-  - `updated_at: optional string`
+formatdate-time
 
-    This is the time the fallback origin was updated.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_hostnames/fallback_origin \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2019-10-28T18:11:23.37411Z",
-    "errors": [
-      "DNS records are not setup correctly. Origin should be a proxied A/AAAA/CNAME dns record"
-    ],
-    "origin": "fallback.example.com",
-    "status": "pending_deployment",
-    "updated_at": "2020-03-16T18:11:23.531995Z"
-  }
-}
-```
-
-## Domain Types
-
-### Fallback Origin Get Response
-
-- `FallbackOriginGetResponse object { created_at, errors, origin, 2 more }`
-
-  - `created_at: optional string`
-
-    This is the time the fallback origin was created.
-
-  - `errors: optional array of string`
-
-    These are errors that were encountered while trying to activate a fallback origin.
-
-  - `origin: optional string`
-
-    Your origin hostname that requests to your custom hostnames will be sent to.
-
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 3 more`
-
-    Status of the fallback origin's activation.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"pending_deletion"`
-
-    - `"active"`
-
-    - `"deployment_timed_out"`
-
-    - `"deletion_timed_out"`
-
-  - `updated_at: optional string`
-
-    This is the time the fallback origin was updated.
-
-### Fallback Origin Update Response
-
-- `FallbackOriginUpdateResponse object { created_at, errors, origin, 2 more }`
-
-  - `created_at: optional string`
-
-    This is the time the fallback origin was created.
-
-  - `errors: optional array of string`
-
-    These are errors that were encountered while trying to activate a fallback origin.
-
-  - `origin: optional string`
-
-    Your origin hostname that requests to your custom hostnames will be sent to.
-
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 3 more`
-
-    Status of the fallback origin's activation.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"pending_deletion"`
-
-    - `"active"`
-
-    - `"deployment_timed_out"`
-
-    - `"deletion_timed_out"`
-
-  - `updated_at: optional string`
-
-    This is the time the fallback origin was updated.
-
-### Fallback Origin Delete Response
-
-- `FallbackOriginDeleteResponse object { created_at, errors, origin, 2 more }`
-
-  - `created_at: optional string`
-
-    This is the time the fallback origin was created.
-
-  - `errors: optional array of string`
-
-    These are errors that were encountered while trying to activate a fallback origin.
-
-  - `origin: optional string`
-
-    Your origin hostname that requests to your custom hostnames will be sent to.
-
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 3 more`
-
-    Status of the fallback origin's activation.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"pending_deletion"`
-
-    - `"active"`
-
-    - `"deployment_timed_out"`
-
-    - `"deletion_timed_out"`
-
-  - `updated_at: optional string`
-
-    This is the time the fallback origin was updated.
+[Link to this property](#)%20custom_hostnames.fallback_origin%20%3E%20(model)%20fallback_origin_delete_response%20%3E%20(schema)>)

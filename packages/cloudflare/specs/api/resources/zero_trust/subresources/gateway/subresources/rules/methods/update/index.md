@@ -1,1062 +1,2422 @@
-## Update a Zero Trust Gateway rule
+---
+title: Update a Zero Trust Gateway rule
+---
 
-**put** `/accounts/{account_id}/gateway/rules/{rule_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+[Rules](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a Zero Trust Gateway rule
+
+PUT/accounts/{account\_id}/gateway/rules/{rule\_id}
 
 Update a configured Zero Trust Gateway rule.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `rule_id: string`
+<summary>API Token</summary>
 
-  Identify the API resource with a UUID.
 
-### Body Parameters
 
-- `action: "on" or "off" or "allow" or 13 more`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"on"`
+</details>
 
-  - `"off"`
+<details>
 
-  - `"allow"`
+<summary>API Email + API Key</summary>
 
-  - `"block"`
 
-  - `"scan"`
 
-  - `"noscan"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"safesearch"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"ytrestricted"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"isolate"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"noisolate"`
+</details>
 
-  - `"override"`
+##### P ath ParametersExpand Collapse
 
-  - `"l4_override"`
+account\_id: string
 
-  - `"egress"`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"resolve"`
+rule\_id: string
 
-  - `"quarantine"`
+Identify the API resource with a UUID.
 
-  - `"redirect"`
+maxLength36
 
-- `name: string`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20rule_id%20%3E%20(schema)>)
 
-  Specify the rule name.
+##### Body ParametersJSONExpand Collapse
 
-- `description: optional string`
+<details>
 
-  Specify the rule description.
+<summary>
 
-- `device_posture: optional string`
+action: "on"or "off"or "allow"or 13 more
 
-  Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to <code>true</code>.
 
-- `enabled: optional boolean`
+</summary>
 
-  Specify whether the rule is enabled.
+One of the following:
 
-- `expiration: optional object { expires_at, duration, expired }`
+"on"
 
-  Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
+<a href="#">Link to this property</a>
 
-  - `expires_at: string`
+"off"
 
-    Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
+<a href="#">Link to this property</a>
 
-  - `duration: optional number`
+"allow"
 
-    Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
+<a href="#">Link to this property</a>
 
-  - `expired: optional boolean`
+"block"
 
-    Indicates whether the policy is expired.
+<a href="#">Link to this property</a>
 
-- `filters: optional array of GatewayFilter`
+"scan"
 
-  Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
+<a href="#">Link to this property</a>
 
-  - `"http"`
+"noscan"
 
-  - `"dns"`
+<a href="#">Link to this property</a>
 
-  - `"l4"`
+"safesearch"
 
-  - `"egress"`
+<a href="#">Link to this property</a>
 
-  - `"dns_resolver"`
+"ytrestricted"
 
-- `identity: optional string`
+<a href="#">Link to this property</a>
 
-  Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+"isolate"
 
-- `precedence: optional number`
+<a href="#">Link to this property</a>
 
-  Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
+"noisolate"
 
-- `rule_settings: optional RuleSetting`
+<a href="#">Link to this property</a>
 
-  Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
+"override"
 
-  - `add_headers: optional map[array of string]`
+<a href="#">Link to this property</a>
 
-    Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
+"l4\_override"
 
-  - `allow_child_bypass: optional boolean`
+<a href="#">Link to this property</a>
 
-    Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
+"egress"
 
-  - `audit_ssh: optional object { command_logging }`
+<a href="#">Link to this property</a>
 
-    Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
+"resolve"
 
-    - `command_logging: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enable SSH command logging.
+"quarantine"
 
-  - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
+<a href="#">Link to this property</a>
 
-    Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
+"redirect"
 
-    - `copy: optional "enabled" or "disabled" or "remote_only"`
+<a href="#">Link to this property</a>
 
-      Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
+</details>
 
-      - `"enabled"`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20action%20%3E%20(schema)>)
 
-      - `"disabled"`
+name: string
 
-      - `"remote_only"`
+Specify the rule name.
 
-    - `dcp: optional boolean`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      Set to false to enable copy-pasting. Only applies when `version == "v1"`.
+description: optional string
 
-    - `dd: optional boolean`
+Specify the rule description.
 
-      Set to false to enable downloading. Only applies when `version == "v1"`.
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    - `dk: optional boolean`
+device\_posture: optional string
 
-      Set to false to enable keyboard usage. Only applies when `version == "v1"`.
+Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
 
-    - `download: optional "enabled" or "disabled" or "remote_only"`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20device_posture%20%3E%20(schema)>)
 
-      Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
+enabled: optional boolean
 
-      - `"enabled"`
+Specify whether the rule is enabled.
 
-      - `"disabled"`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-      - `"remote_only"`
+<details>
 
-    - `dp: optional boolean`
+<summary>
 
-      Set to false to enable printing. Only applies when `version == "v1"`.
+expiration: optional object {expires\_at, duration, expired }
 
-    - `du: optional boolean`
+Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy’s <code>schedule</code> configuration, if any. This does not apply to HTTP or network policies. Settable only for <code>dns</code> rules.
 
-      Set to false to enable uploading. Only applies when `version == "v1"`.
+</summary>
 
-    - `keyboard: optional "enabled" or "disabled"`
+expires\_at: string
 
-      Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+Show the timestamp when the policy expires and stops applying. The value must follow RFC 3339 and include a UTC offset. The system accepts non-zero offsets but converts them to the equivalent UTC+00:00 value and returns timestamps with a trailing Z. Expiration policies ignore client timezones and expire globally at the specified expires\_at time.
 
-      - `"enabled"`
+formatdate-time
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `paste: optional "enabled" or "disabled" or "remote_only"`
+duration: optional number
 
-      Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
+Defines the default duration a policy active in minutes. Must set in order to use the <code>reset_expiration</code> endpoint on this rule.
 
-      - `"enabled"`
+minimum5
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-      - `"remote_only"`
+expired: optional boolean
 
-    - `printing: optional "enabled" or "disabled"`
+Indicates whether the policy is expired.
 
-      Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+</details>
 
-      - `"disabled"`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20expiration%20%3E%20(schema)>)
 
-    - `upload: optional "enabled" or "disabled"`
+<details>
 
-      Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
+<summary>
 
-      - `"enabled"`
+filters: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20gateway_filter%20%3E%20(schema)">GatewayFilter</a>
 
-      - `"disabled"`
+Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
 
-    - `version: optional "v1" or "v2"`
+</summary>
 
-      Indicate which version of the browser isolation controls should apply.
+One of the following:
 
-      - `"v1"`
+"http"
 
-      - `"v2"`
+<a href="#">Link to this property</a>
 
-    - `wm_id: optional string`
+"dns"
 
-      Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
+<a href="#">Link to this property</a>
 
-  - `block_page: optional object { target_uri, include_context }`
+"l4"
 
-    Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
+<a href="#">Link to this property</a>
 
-    - `target_uri: string`
+"egress"
 
-      Specify the URI to which the user is redirected.
+<a href="#">Link to this property</a>
 
-    - `include_context: optional boolean`
+"dns\_resolver"
 
-      Specify whether to pass the context information as query parameters.
+<a href="#">Link to this property</a>
 
-  - `block_page_enabled: optional boolean`
+</details>
 
-    Enable the custom block page. Settable only for `dns` rules with action `block`.
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20filters%20%3E%20(schema)>)
 
-  - `block_reason: optional string`
+identity: optional string
 
-    Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
+Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
 
-  - `bypass_parent_rule: optional boolean`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20identity%20%3E%20(schema)>)
 
-    Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
+precedence: optional number
 
-  - `check_session: optional object { duration, enforce }`
+Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
 
-    Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20precedence%20%3E%20(schema)>)
 
-    - `duration: optional string`
+<details>
 
-      Sets the required session freshness threshold. The API returns a normalized version of this value.
+<summary>
 
-    - `enforce: optional boolean`
+rule\_settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20rule_setting%20%3E%20(schema)">RuleSetting</a> { add\_headers, allow\_child\_bypass, audit\_ssh, 25 more }
 
-      Enable session enforcement.
+Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
 
-  - `dns_resolvers: optional object { ipv4, ipv6 }`
+</summary>
 
-    Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
+add\_headers: optional map\[array of string]
 
-    - `ipv4: optional array of DNSResolverSettingsV4`
+Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain <code>@{selector.name}</code> variable references that are interpolated at the edge. Use <code>@@{</code> to escape a literal <code>@{</code>. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
 
-      - `ip: string`
+<a href="#">Link to this property</a>
 
-        Specify the IPv4 address of the upstream resolver.
+allow\_child\_bypass: optional boolean
 
-      - `port: optional number`
+Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
 
-        Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
+<a href="#">Link to this property</a>
 
-      - `route_through_private_network: optional boolean`
+<details>
 
-        Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
+<summary>
 
-      - `vnet_id: optional string`
+audit\_ssh: optional object {command\_logging }
 
-        Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
+Define the settings for the Audit SSH action. Settable only for <code>l4</code> rules with <code>audit_ssh</code> action.
 
-    - `ipv6: optional array of DNSResolverSettingsV6`
+</summary>
 
-      - `ip: string`
+command\_logging: optional boolean
 
-        Specify the IPv6 address of the upstream resolver.
+Enable SSH command logging.
 
-      - `port: optional number`
+<a href="#">Link to this property</a>
 
-        Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
+</details>
 
-      - `route_through_private_network: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
+<details>
 
-      - `vnet_id: optional string`
+<summary>
 
-        Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
+biso\_admin\_controls: optional object {copy, dcp, dd, 10 more }
 
-  - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
+Configure browser isolation behavior. Settable only for <code>http</code> rules with the action set to <code>isolate</code>.
 
-    Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
+</summary>
 
-    - `ipv4: optional string`
+<details>
 
-      Specify the IPv4 address to use for egress.
+<summary>
 
-    - `ipv4_fallback: optional string`
+copy: optional "enabled"or "disabled"or "remote\_only"
 
-      Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
+Configure copy behavior. If set to remote\_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == “v2”.
 
-    - `ipv6: optional string`
+</summary>
 
-      Specify the IPv6 range to use for egress.
+One of the following:
 
-  - `forensic_copy: optional object { enabled }`
+"enabled"
 
-    Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+"disabled"
 
-      Enable sending the copy to storage.
+<a href="#">Link to this property</a>
 
-  - `ignore_cname_category_matches: optional boolean`
+"remote\_only"
 
-    Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
+<a href="#">Link to this property</a>
 
-  - `insecure_disable_dnssec_validation: optional boolean`
+</details>
 
-    Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
+<a href="#">Link to this property</a>
 
-  - `ip_categories: optional boolean`
+dcp: optional boolean
 
-    Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
+Set to false to enable copy-pasting. Only applies when <code>version == "v1"</code>.
 
-  - `ip_indicator_feeds: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
+dd: optional boolean
 
-  - `l4override: optional object { ip, port }`
+Set to false to enable downloading. Only applies when <code>version == "v1"</code>.
 
-    Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
+<a href="#">Link to this property</a>
 
-    - `ip: optional string`
+dk: optional boolean
 
-      Defines the IPv4 or IPv6 address.
+Set to false to enable keyboard usage. Only applies when <code>version == "v1"</code>.
 
-    - `port: optional number`
+<a href="#">Link to this property</a>
 
-      Defines a port number to use for TCP/UDP overrides.
+<details>
 
-  - `notification_settings: optional object { enabled, include_context, msg, support_url }`
+<summary>
 
-    Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
+download: optional "enabled"or "disabled"or "remote\_only"
 
-    - `enabled: optional boolean`
+Configure download behavior. When set to remote\_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == “v2”.
 
-      Enable notification.
+</summary>
 
-    - `include_context: optional boolean`
+One of the following:
 
-      Indicates whether to pass the context information as query parameters.
+"enabled"
 
-    - `msg: optional string`
+<a href="#">Link to this property</a>
 
-      Customize the message shown in the notification.
+"disabled"
 
-    - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-      Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
+"remote\_only"
 
-  - `override_host: optional string`
+<a href="#">Link to this property</a>
 
-    Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
+</details>
 
-  - `override_ips: optional array of string`
+<a href="#">Link to this property</a>
 
-    Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
+dp: optional boolean
 
-  - `payload_log: optional object { enabled }`
+Set to false to enable printing. Only applies when <code>version == "v1"</code>.
 
-    Configure DLP payload logging. Settable only for `http` rules.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+du: optional boolean
 
-      Enable DLP payload logging for this rule.
+Set to false to enable uploading. Only applies when <code>version == "v1"</code>.
 
-  - `quarantine: optional object { file_types }`
+<a href="#">Link to this property</a>
 
-    Configure settings that apply to quarantine rules. Settable only for `http` rules.
+<details>
 
-    - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
+<summary>
 
-      Specify the types of files to sandbox.
+keyboard: optional "enabled"or "disabled"
 
-      - `"exe"`
+Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == “v2”.
 
-      - `"pdf"`
+</summary>
 
-      - `"doc"`
+One of the following:
 
-      - `"docm"`
+"enabled"
 
-      - `"docx"`
+<a href="#">Link to this property</a>
 
-      - `"rtf"`
+"disabled"
 
-      - `"ppt"`
+<a href="#">Link to this property</a>
 
-      - `"pptx"`
+</details>
 
-      - `"xls"`
+<a href="#">Link to this property</a>
 
-      - `"xlsm"`
+<details>
 
-      - `"xlsx"`
+<summary>
 
-      - `"zip"`
+paste: optional "enabled"or "disabled"or "remote\_only"
 
-      - `"rar"`
+Configure paste behavior. If set to remote\_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == “v2”.
 
-  - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
+</summary>
 
-    Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
+One of the following:
 
-    - `target_uri: string`
+"enabled"
 
-      Specify the URI to which the user is redirected.
+<a href="#">Link to this property</a>
 
-    - `include_context: optional boolean`
+"disabled"
 
-      Specify whether to pass the context information as query parameters.
+<a href="#">Link to this property</a>
 
-    - `preserve_path_and_query: optional boolean`
+"remote\_only"
 
-      Specify whether to append the path and query parameters from the original request to target_uri.
+<a href="#">Link to this property</a>
 
-  - `resolve_dns_internally: optional object { fallback, view_id }`
+</details>
 
-    Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
+<a href="#">Link to this property</a>
 
-    - `fallback: optional "none" or "public_dns"`
+<details>
 
-      Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
+<summary>
 
-      - `"none"`
+printing: optional "enabled"or "disabled"
 
-      - `"public_dns"`
+Configure print behavior. Default, Printing is enabled. Applies only when version == “v2”.
 
-    - `view_id: optional string`
+</summary>
 
-      Specify the internal DNS view identifier to pass to the internal DNS service.
+One of the following:
 
-  - `resolve_dns_through_cloudflare: optional boolean`
+"enabled"
 
-    Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
+<a href="#">Link to this property</a>
 
-  - `untrusted_cert: optional object { action }`
+"disabled"
 
-    Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
+<a href="#">Link to this property</a>
 
-    - `action: optional "pass_through" or "block" or "error"`
+</details>
 
-      Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
+<a href="#">Link to this property</a>
 
-      - `"pass_through"`
+<details>
 
-      - `"block"`
+<summary>
 
-      - `"error"`
+upload: optional "enabled"or "disabled"
 
-- `schedule: optional Schedule`
+Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == “v2”.
 
-  Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
+</summary>
 
-  - `fri: optional string`
+One of the following:
 
-    Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+"enabled"
 
-  - `mon: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+"disabled"
 
-  - `sat: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+</details>
 
-  - `sun: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+<details>
 
-  - `thu: optional string`
+<summary>
 
-    Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+version: optional "v1"or "v2"
 
-  - `time_zone: optional string`
+Indicate which version of the browser isolation controls should apply.
 
-    Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
+</summary>
 
-  - `tue: optional string`
+One of the following:
 
-    Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+"v1"
 
-  - `wed: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+"v2"
 
-- `traffic: optional string`
+<a href="#">Link to this property</a>
 
-  Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+wm\_id: optional string
 
-  - `code: number`
+Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+maxLength36
 
-  - `source: optional object { pointer }`
+minLength1
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+block\_page: optional object {target\_uri, include\_context }
 
-- `success: true`
+Configure custom block page settings. If missing or null, use the account settings. Settable only for <code>http</code> rules with the action set to <code>block</code>.
 
-  Indicate whether the API call was successful.
+</summary>
 
-  - `true`
+target\_uri: string
 
-- `result: optional GatewayRule`
+Specify the URI to which the user is redirected.
 
-  - `action: "on" or "off" or "allow" or 13 more`
+formaturi
 
-    Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
+<a href="#">Link to this property</a>
 
-    - `"on"`
+include\_context: optional boolean
 
-    - `"off"`
+Specify whether to pass the context information as query parameters.
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+</details>
 
-    - `"scan"`
+<a href="#">Link to this property</a>
 
-    - `"noscan"`
+block\_page\_enabled: optional boolean
 
-    - `"safesearch"`
+Enable the custom block page. Settable only for <code>dns</code> rules with action <code>block</code>.
 
-    - `"ytrestricted"`
+<a href="#">Link to this property</a>
 
-    - `"isolate"`
+block\_reason: optional string
 
-    - `"noisolate"`
+Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for <code>dns</code>, <code>l4</code>, and <code>http</code> rules when the action set to <code>block</code>.
 
-    - `"override"`
+<a href="#">Link to this property</a>
 
-    - `"l4_override"`
+bypass\_parent\_rule: optional boolean
 
-    - `"egress"`
+Set to enable MSP accounts to bypass their parent’s rules. Only MSP child accounts can set this. Settable for all types of rules.
 
-    - `"resolve"`
+<a href="#">Link to this property</a>
 
-    - `"quarantine"`
+<details>
 
-    - `"redirect"`
+<summary>
 
-  - `enabled: boolean`
+check\_session: optional object {duration, enforce }
 
-    Specify whether the rule is enabled.
+Configure session check behavior. Settable only for <code>l4</code> and <code>http</code> rules with the action set to <code>allow</code>.
 
-  - `filters: array of GatewayFilter`
+</summary>
 
-    Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
+duration: optional string
 
-    - `"http"`
+Sets the required session freshness threshold. The API returns a normalized version of this value.
 
-    - `"dns"`
+<a href="#">Link to this property</a>
 
-    - `"l4"`
+enforce: optional boolean
 
-    - `"egress"`
+Enable session enforcement.
 
-    - `"dns_resolver"`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Specify the rule name.
+<a href="#">Link to this property</a>
 
-  - `precedence: number`
+delete\_headers: optional array of string
 
-    Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
+Remove headers from allowed requests by name. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
 
-  - `traffic: string`
+<a href="#">Link to this property</a>
 
-    Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Identify the API resource with a UUID.
+dns\_resolvers: optional object {ipv4, ipv6 }
 
-  - `created_at: optional string`
+Configure custom resolvers to route queries that match the resolver policy. Unused with ‘resolve\_dns\_through\_cloudflare’ or ‘resolve\_dns\_internally’ settings. DNS queries get routed to the address closest to their origin. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
 
-  - `deleted_at: optional string`
+</summary>
 
-    Indicate the date of deletion, if any.
+<details>
 
-  - `description: optional string`
+<summary>
 
-    Specify the rule description.
+ipv4: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20dns_resolver_settings_v4%20%3E%20(schema)">DNSResolverSettingsV4</a> { ip, port, route\_through\_private\_network, vnet\_id }
 
-  - `device_posture: optional string`
+</summary>
 
-    Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+ip: string
 
-  - `expiration: optional object { expires_at, duration, expired }`
+Specify the IPv4 address of the upstream resolver.
 
-    Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
+<a href="#">Link to this property</a>
 
-    - `expires_at: string`
+port: optional number
 
-      Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
+Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
 
-    - `duration: optional number`
+<a href="#">Link to this property</a>
 
-      Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
+route\_through\_private\_network: optional boolean
 
-    - `expired: optional boolean`
+Indicate whether to connect to this resolver over a private network. Must set when vnet\_id set.
 
-      Indicates whether the policy is expired.
+<a href="#">Link to this property</a>
 
-  - `identity: optional string`
+vnet\_id: optional string
 
-    Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
 
-  - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicate that this rule is shared via the Orgs API and read only.
+</details>
 
-  - `rule_settings: optional RuleSetting`
+<a href="#">Link to this property</a>
 
-    Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
+<details>
 
-    - `add_headers: optional map[array of string]`
+<summary>
 
-      Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
+ipv6: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20dns_resolver_settings_v6%20%3E%20(schema)">DNSResolverSettingsV6</a> { ip, port, route\_through\_private\_network, vnet\_id }
 
-    - `allow_child_bypass: optional boolean`
+</summary>
 
-      Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
+ip: string
 
-    - `audit_ssh: optional object { command_logging }`
+Specify the IPv6 address of the upstream resolver.
 
-      Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
+<a href="#">Link to this property</a>
 
-      - `command_logging: optional boolean`
+port: optional number
 
-        Enable SSH command logging.
+Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
 
-    - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
+<a href="#">Link to this property</a>
 
-      Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
+route\_through\_private\_network: optional boolean
 
-      - `copy: optional "enabled" or "disabled" or "remote_only"`
+Indicate whether to connect to this resolver over a private network. Must set when vnet\_id set.
 
-        Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
+<a href="#">Link to this property</a>
 
-        - `"enabled"`
+vnet\_id: optional string
 
-        - `"disabled"`
+Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
 
-        - `"remote_only"`
+<a href="#">Link to this property</a>
 
-      - `dcp: optional boolean`
+</details>
 
-        Set to false to enable copy-pasting. Only applies when `version == "v1"`.
+<a href="#">Link to this property</a>
 
-      - `dd: optional boolean`
+</details>
 
-        Set to false to enable downloading. Only applies when `version == "v1"`.
+<a href="#">Link to this property</a>
 
-      - `dk: optional boolean`
+<details>
 
-        Set to false to enable keyboard usage. Only applies when `version == "v1"`.
+<summary>
 
-      - `download: optional "enabled" or "disabled" or "remote_only"`
+egress: optional object {ipv4, ipv4\_fallback, ipv6 }
 
-        Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
+Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for <code>egress</code> rules.
 
-        - `"enabled"`
+</summary>
 
-        - `"disabled"`
+ipv4: optional string
 
-        - `"remote_only"`
+Specify the IPv4 address to use for egress.
 
-      - `dp: optional boolean`
+<a href="#">Link to this property</a>
 
-        Set to false to enable printing. Only applies when `version == "v1"`.
+ipv4\_fallback: optional string
 
-      - `du: optional boolean`
+Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set ‘0.0.0.0’ to indicate local egress via WARP IPs.
 
-        Set to false to enable uploading. Only applies when `version == "v1"`.
+<a href="#">Link to this property</a>
 
-      - `keyboard: optional "enabled" or "disabled"`
+ipv6: optional string
 
-        Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+Specify the IPv6 range to use for egress.
 
-        - `"enabled"`
+<a href="#">Link to this property</a>
 
-        - `"disabled"`
+</details>
 
-      - `paste: optional "enabled" or "disabled" or "remote_only"`
+<a href="#">Link to this property</a>
 
-        Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
+<details>
 
-        - `"enabled"`
+<summary>
 
-        - `"disabled"`
+forensic\_copy: optional object {enabled }
 
-        - `"remote_only"`
+Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
 
-      - `printing: optional "enabled" or "disabled"`
+</summary>
 
-        Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
+enabled: optional boolean
 
-        - `"enabled"`
+Enable sending the copy to storage.
 
-        - `"disabled"`
+<a href="#">Link to this property</a>
 
-      - `upload: optional "enabled" or "disabled"`
+</details>
 
-        Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
+<a href="#">Link to this property</a>
 
-        - `"enabled"`
+ignore\_cname\_category\_matches: optional boolean
 
-        - `"disabled"`
+Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
 
-      - `version: optional "v1" or "v2"`
+<a href="#">Link to this property</a>
 
-        Indicate which version of the browser isolation controls should apply.
+insecure\_disable\_dnssec\_validation: optional boolean
 
-        - `"v1"`
+Specify whether to disable DNSSEC validation (for Allow actions) \[INSECURE]. Settable only for <code>dns</code> rules.
 
-        - `"v2"`
+<a href="#">Link to this property</a>
 
-      - `wm_id: optional string`
+ip\_categories: optional boolean
 
-        Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
+Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
 
-    - `block_page: optional object { target_uri, include_context }`
+<a href="#">Link to this property</a>
 
-      Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
+ip\_indicator\_feeds: optional boolean
 
-      - `target_uri: string`
+Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
 
-        Specify the URI to which the user is redirected.
+<a href="#">Link to this property</a>
 
-      - `include_context: optional boolean`
+<details>
 
-        Specify whether to pass the context information as query parameters.
+<summary>
 
-    - `block_page_enabled: optional boolean`
+l4override: optional object {ip, port }
 
-      Enable the custom block page. Settable only for `dns` rules with action `block`.
+Send matching traffic to the supplied destination IP address and port. Settable only for <code>l4</code> rules with the action set to <code>l4_override</code>.
 
-    - `block_reason: optional string`
+</summary>
 
-      Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
+ip: optional string
 
-    - `bypass_parent_rule: optional boolean`
+Defines the IPv4 or IPv6 address.
 
-      Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
+<a href="#">Link to this property</a>
 
-    - `check_session: optional object { duration, enforce }`
+port: optional number
 
-      Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
+Defines a port number to use for TCP/UDP overrides.
 
-      - `duration: optional string`
+<a href="#">Link to this property</a>
 
-        Sets the required session freshness threshold. The API returns a normalized version of this value.
+</details>
 
-      - `enforce: optional boolean`
+<a href="#">Link to this property</a>
 
-        Enable session enforcement.
+<details>
 
-    - `dns_resolvers: optional object { ipv4, ipv6 }`
+<summary>
 
-      Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
+notification\_settings: optional object {enabled, include\_context, msg, support\_url }
 
-      - `ipv4: optional array of DNSResolverSettingsV4`
+Configure a notification to display on the user’s device when this rule matched. Settable for all types of rules with the action set to <code>block</code>.
 
-        - `ip: string`
+</summary>
 
-          Specify the IPv4 address of the upstream resolver.
+enabled: optional boolean
 
-        - `port: optional number`
+Enable notification.
 
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
+<a href="#">Link to this property</a>
 
-        - `route_through_private_network: optional boolean`
+include\_context: optional boolean
 
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
+Indicates whether to pass the context information as query parameters.
 
-        - `vnet_id: optional string`
+<a href="#">Link to this property</a>
 
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
+msg: optional string
 
-      - `ipv6: optional array of DNSResolverSettingsV6`
+Customize the message shown in the notification.
 
-        - `ip: string`
+<a href="#">Link to this property</a>
 
-          Specify the IPv6 address of the upstream resolver.
+support\_url: optional string
 
-        - `port: optional number`
+Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
 
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
+<a href="#">Link to this property</a>
 
-        - `route_through_private_network: optional boolean`
+</details>
 
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
+<a href="#">Link to this property</a>
 
-        - `vnet_id: optional string`
+override\_host: optional string
 
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
+Defines a hostname for override, for the matching DNS queries. Settable only for <code>dns</code> rules with the action set to <code>override</code>.
 
-    - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
+<a href="#">Link to this property</a>
 
-      Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
+override\_ips: optional array of string
 
-      - `ipv4: optional string`
+Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for <code>dns</code> rules with the action set to <code>override</code>.
 
-        Specify the IPv4 address to use for egress.
+<a href="#">Link to this property</a>
 
-      - `ipv4_fallback: optional string`
+<details>
 
-        Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
+<summary>
 
-      - `ipv6: optional string`
+payload\_log: optional object {enabled }
 
-        Specify the IPv6 range to use for egress.
+Configure DLP payload logging. Settable only for <code>http</code> rules.
 
-    - `forensic_copy: optional object { enabled }`
+</summary>
 
-      Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
+enabled: optional boolean
 
-      - `enabled: optional boolean`
+Enable DLP payload logging for this rule.
 
-        Enable sending the copy to storage.
+<a href="#">Link to this property</a>
 
-    - `ignore_cname_category_matches: optional boolean`
+</details>
 
-      Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
+<a href="#">Link to this property</a>
 
-    - `insecure_disable_dnssec_validation: optional boolean`
+<details>
 
-      Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
+<summary>
 
-    - `ip_categories: optional boolean`
+quarantine: optional object {file\_types }
 
-      Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
+Configure settings that apply to quarantine rules. Settable only for <code>http</code> rules.
 
-    - `ip_indicator_feeds: optional boolean`
+</summary>
 
-      Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
+<details>
 
-    - `l4override: optional object { ip, port }`
+<summary>
 
-      Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
+file\_types: optional array of "exe"or "pdf"or "doc"or 10 more
 
-      - `ip: optional string`
+Specify the types of files to sandbox.
 
-        Defines the IPv4 or IPv6 address.
+</summary>
 
-      - `port: optional number`
+One of the following:
 
-        Defines a port number to use for TCP/UDP overrides.
+"exe"
 
-    - `notification_settings: optional object { enabled, include_context, msg, support_url }`
+<a href="#">Link to this property</a>
 
-      Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
+"pdf"
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Enable notification.
+"doc"
 
-      - `include_context: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates whether to pass the context information as query parameters.
+"docm"
 
-      - `msg: optional string`
+<a href="#">Link to this property</a>
 
-        Customize the message shown in the notification.
+"docx"
 
-      - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-        Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
+"rtf"
 
-    - `override_host: optional string`
+<a href="#">Link to this property</a>
 
-      Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
+"ppt"
 
-    - `override_ips: optional array of string`
+<a href="#">Link to this property</a>
 
-      Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
+"pptx"
 
-    - `payload_log: optional object { enabled }`
+<a href="#">Link to this property</a>
 
-      Configure DLP payload logging. Settable only for `http` rules.
+"xls"
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Enable DLP payload logging for this rule.
+"xlsm"
 
-    - `quarantine: optional object { file_types }`
+<a href="#">Link to this property</a>
 
-      Configure settings that apply to quarantine rules. Settable only for `http` rules.
+"xlsx"
 
-      - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
+<a href="#">Link to this property</a>
 
-        Specify the types of files to sandbox.
+"zip"
 
-        - `"exe"`
+<a href="#">Link to this property</a>
 
-        - `"pdf"`
+"rar"
 
-        - `"doc"`
+<a href="#">Link to this property</a>
 
-        - `"docm"`
+</details>
 
-        - `"docx"`
+<a href="#">Link to this property</a>
 
-        - `"rtf"`
+</details>
 
-        - `"ppt"`
+<a href="#">Link to this property</a>
 
-        - `"pptx"`
+<details>
 
-        - `"xls"`
+<summary>
 
-        - `"xlsm"`
+redirect: optional object {target\_uri, include\_context, preserve\_path\_and\_query }
 
-        - `"xlsx"`
+Apply settings to redirect rules. Settable only for <code>http</code> rules with the action set to <code>redirect</code>.
 
-        - `"zip"`
+</summary>
 
-        - `"rar"`
+target\_uri: string
 
-    - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
+Specify the URI to which the user is redirected.
 
-      Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
+formaturi
 
-      - `target_uri: string`
+<a href="#">Link to this property</a>
 
-        Specify the URI to which the user is redirected.
+include\_context: optional boolean
 
-      - `include_context: optional boolean`
+Specify whether to pass the context information as query parameters.
 
-        Specify whether to pass the context information as query parameters.
+<a href="#">Link to this property</a>
 
-      - `preserve_path_and_query: optional boolean`
+preserve\_path\_and\_query: optional boolean
 
-        Specify whether to append the path and query parameters from the original request to target_uri.
+Specify whether to append the path and query parameters from the original request to target\_uri.
 
-    - `resolve_dns_internally: optional object { fallback, view_id }`
+<a href="#">Link to this property</a>
 
-      Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
+</details>
 
-      - `fallback: optional "none" or "public_dns"`
+<a href="#">Link to this property</a>
 
-        Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
+<details>
 
-        - `"none"`
+<summary>
 
-        - `"public_dns"`
+resolve\_dns\_internally: optional object {fallback, view\_id }
 
-      - `view_id: optional string`
+Configure to forward the query to the internal DNS service, passing the specified ‘view\_id’ as input. Not used when ‘dns\_resolvers’ is specified or ‘resolve\_dns\_through\_cloudflare’ is set. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
 
-        Specify the internal DNS view identifier to pass to the internal DNS service.
+</summary>
 
-    - `resolve_dns_through_cloudflare: optional boolean`
+<details>
 
-      Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
+<summary>
 
-    - `untrusted_cert: optional object { action }`
+fallback: optional "none"or "public\_dns"
 
-      Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
+Specify the fallback behavior to apply when the internal DNS response code differs from ‘NOERROR’ or when the response data contains only CNAME records for ‘A’ or ‘AAAA’ queries.
 
-      - `action: optional "pass_through" or "block" or "error"`
+</summary>
 
-        Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
+One of the following:
 
-        - `"pass_through"`
+"none"
 
-        - `"block"`
+<a href="#">Link to this property</a>
 
-        - `"error"`
+"public\_dns"
 
-  - `schedule: optional Schedule`
+<a href="#">Link to this property</a>
 
-    Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
+</details>
 
-    - `fri: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+view\_id: optional string
 
-    - `mon: optional string`
+Specify the internal DNS view identifier to pass to the internal DNS service.
 
-      Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+<a href="#">Link to this property</a>
 
-    - `sat: optional string`
+</details>
 
-      Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+<a href="#">Link to this property</a>
 
-    - `sun: optional string`
+resolve\_dns\_through\_cloudflare: optional boolean
 
-      Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+Enable to send queries that match the policy to Cloudflare’s default 1.1.1.1 DNS resolver. Cannot set when ‘dns\_resolvers’ specified or ‘resolve\_dns\_internally’ is set. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
 
-    - `thu: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+set\_headers: optional map\[array of string]
 
-    - `time_zone: optional string`
+Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain <code>@{selector.name}</code> variable references that are interpolated at the edge. Use <code>@@{</code> to escape a literal <code>@{</code>. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
 
-      Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
+<a href="#">Link to this property</a>
 
-    - `tue: optional string`
+<details>
 
-      Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+<summary>
 
-    - `wed: optional string`
+untrusted\_cert: optional object {action }
 
-      Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
 
-  - `sharable: optional boolean`
+</summary>
 
-    Indicate that this rule is sharable via the Orgs API.
+<details>
 
-  - `source_account: optional string`
+<summary>
 
-    Provide the account tag of the account that created the rule.
+action: optional "pass\_through"or "block"or "error"
 
-  - `updated_at: optional string`
+Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
 
-  - `version: optional number`
+</summary>
 
-    Indicate the version number of the rule(read-only).
+One of the following:
 
-  - `warning_status: optional string`
+"pass\_through"
 
-    Indicate a warning for a misconfigured rule, if any.
+<a href="#">Link to this property</a>
 
-### Example
+"block"
 
-```http
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20rule_settings%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+schedule: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20schedule%20%3E%20(schema)">Schedule</a> { fri, mon, sat, 5 more }
+
+Defines the schedule for activating DNS policies. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
+
+</summary>
+
+fri: optional string
+
+Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+mon: optional string
+
+Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+sat: optional string
+
+Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+sun: optional string
+
+Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+thu: optional string
+
+Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+time\_zone: optional string
+
+Specify the time zone for rule evaluation. When a <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List">valid time zone city name</a> is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user’s IP address. Colo time zone is used when the user’s IP address does not resolve to a location.
+
+<a href="#">Link to this property</a>
+
+tue: optional string
+
+Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+wed: optional string
+
+Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20schedule%20%3E%20(schema)>)
+
+traffic: optional string
+
+Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20traffic%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Indicate whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20gateway_rule%20%3E%20(schema)">GatewayRule</a> { action, enabled, filters, 18 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+action: "on"or "off"or "allow"or 13 more
+
+Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to <code>true</code>.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"scan"
+
+<a href="#">Link to this property</a>
+
+"noscan"
+
+<a href="#">Link to this property</a>
+
+"safesearch"
+
+<a href="#">Link to this property</a>
+
+"ytrestricted"
+
+<a href="#">Link to this property</a>
+
+"isolate"
+
+<a href="#">Link to this property</a>
+
+"noisolate"
+
+<a href="#">Link to this property</a>
+
+"override"
+
+<a href="#">Link to this property</a>
+
+"l4\_override"
+
+<a href="#">Link to this property</a>
+
+"egress"
+
+<a href="#">Link to this property</a>
+
+"resolve"
+
+<a href="#">Link to this property</a>
+
+"quarantine"
+
+<a href="#">Link to this property</a>
+
+"redirect"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Specify whether the rule is enabled.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+filters: array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20gateway_filter%20%3E%20(schema)">GatewayFilter</a>
+
+Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
+
+</summary>
+
+One of the following:
+
+"http"
+
+<a href="#">Link to this property</a>
+
+"dns"
+
+<a href="#">Link to this property</a>
+
+"l4"
+
+<a href="#">Link to this property</a>
+
+"egress"
+
+<a href="#">Link to this property</a>
+
+"dns\_resolver"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Specify the rule name.
+
+<a href="#">Link to this property</a>
+
+precedence: number
+
+Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to <a href="http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform">Order of enforcement</a> to manage precedence via Terraform.
+
+<a href="#">Link to this property</a>
+
+traffic: string
+
+Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Identify the API resource with a UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleted\_at: optional string
+
+Indicate the date of deletion, if any.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Specify the rule description.
+
+<a href="#">Link to this property</a>
+
+device\_posture: optional string
+
+Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+expiration: optional object {expires\_at, duration, expired }
+
+Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy’s <code>schedule</code> configuration, if any. This does not apply to HTTP or network policies. Settable only for <code>dns</code> rules.
+
+</summary>
+
+expires\_at: string
+
+Show the timestamp when the policy expires and stops applying. The value must follow RFC 3339 and include a UTC offset. The system accepts non-zero offsets but converts them to the equivalent UTC+00:00 value and returns timestamps with a trailing Z. Expiration policies ignore client timezones and expire globally at the specified expires\_at time.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+duration: optional number
+
+Defines the default duration a policy active in minutes. Must set in order to use the <code>reset_expiration</code> endpoint on this rule.
+
+minimum5
+
+<a href="#">Link to this property</a>
+
+expired: optional boolean
+
+Indicates whether the policy is expired.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+identity: optional string
+
+Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicate that this rule is shared via the Orgs API and read only.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rule\_settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20rule_setting%20%3E%20(schema)">RuleSetting</a> { add\_headers, allow\_child\_bypass, audit\_ssh, 25 more }
+
+Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
+
+</summary>
+
+add\_headers: optional map\[array of string]
+
+Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain <code>@{selector.name}</code> variable references that are interpolated at the edge. Use <code>@@{</code> to escape a literal <code>@{</code>. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
+
+<a href="#">Link to this property</a>
+
+allow\_child\_bypass: optional boolean
+
+Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+audit\_ssh: optional object {command\_logging }
+
+Define the settings for the Audit SSH action. Settable only for <code>l4</code> rules with <code>audit_ssh</code> action.
+
+</summary>
+
+command\_logging: optional boolean
+
+Enable SSH command logging.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+biso\_admin\_controls: optional object {copy, dcp, dd, 10 more }
+
+Configure browser isolation behavior. Settable only for <code>http</code> rules with the action set to <code>isolate</code>.
+
+</summary>
+
+<details>
+
+<summary>
+
+copy: optional "enabled"or "disabled"or "remote\_only"
+
+Configure copy behavior. If set to remote\_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == “v2”.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"remote\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dcp: optional boolean
+
+Set to false to enable copy-pasting. Only applies when <code>version == "v1"</code>.
+
+<a href="#">Link to this property</a>
+
+dd: optional boolean
+
+Set to false to enable downloading. Only applies when <code>version == "v1"</code>.
+
+<a href="#">Link to this property</a>
+
+dk: optional boolean
+
+Set to false to enable keyboard usage. Only applies when <code>version == "v1"</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+download: optional "enabled"or "disabled"or "remote\_only"
+
+Configure download behavior. When set to remote\_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == “v2”.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"remote\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dp: optional boolean
+
+Set to false to enable printing. Only applies when <code>version == "v1"</code>.
+
+<a href="#">Link to this property</a>
+
+du: optional boolean
+
+Set to false to enable uploading. Only applies when <code>version == "v1"</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+keyboard: optional "enabled"or "disabled"
+
+Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == “v2”.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+paste: optional "enabled"or "disabled"or "remote\_only"
+
+Configure paste behavior. If set to remote\_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == “v2”.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"remote\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+printing: optional "enabled"or "disabled"
+
+Configure print behavior. Default, Printing is enabled. Applies only when version == “v2”.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+upload: optional "enabled"or "disabled"
+
+Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == “v2”.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+version: optional "v1"or "v2"
+
+Indicate which version of the browser isolation controls should apply.
+
+</summary>
+
+One of the following:
+
+"v1"
+
+<a href="#">Link to this property</a>
+
+"v2"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+wm\_id: optional string
+
+Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
+
+formatuuid
+
+maxLength36
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+block\_page: optional object {target\_uri, include\_context }
+
+Configure custom block page settings. If missing or null, use the account settings. Settable only for <code>http</code> rules with the action set to <code>block</code>.
+
+</summary>
+
+target\_uri: string
+
+Specify the URI to which the user is redirected.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+include\_context: optional boolean
+
+Specify whether to pass the context information as query parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+block\_page\_enabled: optional boolean
+
+Enable the custom block page. Settable only for <code>dns</code> rules with action <code>block</code>.
+
+<a href="#">Link to this property</a>
+
+block\_reason: optional string
+
+Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for <code>dns</code>, <code>l4</code>, and <code>http</code> rules when the action set to <code>block</code>.
+
+<a href="#">Link to this property</a>
+
+bypass\_parent\_rule: optional boolean
+
+Set to enable MSP accounts to bypass their parent’s rules. Only MSP child accounts can set this. Settable for all types of rules.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+check\_session: optional object {duration, enforce }
+
+Configure session check behavior. Settable only for <code>l4</code> and <code>http</code> rules with the action set to <code>allow</code>.
+
+</summary>
+
+duration: optional string
+
+Sets the required session freshness threshold. The API returns a normalized version of this value.
+
+<a href="#">Link to this property</a>
+
+enforce: optional boolean
+
+Enable session enforcement.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+delete\_headers: optional array of string
+
+Remove headers from allowed requests by name. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dns\_resolvers: optional object {ipv4, ipv6 }
+
+Configure custom resolvers to route queries that match the resolver policy. Unused with ‘resolve\_dns\_through\_cloudflare’ or ‘resolve\_dns\_internally’ settings. DNS queries get routed to the address closest to their origin. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
+
+</summary>
+
+<details>
+
+<summary>
+
+ipv4: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20dns_resolver_settings_v4%20%3E%20(schema)">DNSResolverSettingsV4</a> { ip, port, route\_through\_private\_network, vnet\_id }
+
+</summary>
+
+ip: string
+
+Specify the IPv4 address of the upstream resolver.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
+
+<a href="#">Link to this property</a>
+
+route\_through\_private\_network: optional boolean
+
+Indicate whether to connect to this resolver over a private network. Must set when vnet\_id set.
+
+<a href="#">Link to this property</a>
+
+vnet\_id: optional string
+
+Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ipv6: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20dns_resolver_settings_v6%20%3E%20(schema)">DNSResolverSettingsV6</a> { ip, port, route\_through\_private\_network, vnet\_id }
+
+</summary>
+
+ip: string
+
+Specify the IPv6 address of the upstream resolver.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
+
+<a href="#">Link to this property</a>
+
+route\_through\_private\_network: optional boolean
+
+Indicate whether to connect to this resolver over a private network. Must set when vnet\_id set.
+
+<a href="#">Link to this property</a>
+
+vnet\_id: optional string
+
+Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+egress: optional object {ipv4, ipv4\_fallback, ipv6 }
+
+Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for <code>egress</code> rules.
+
+</summary>
+
+ipv4: optional string
+
+Specify the IPv4 address to use for egress.
+
+<a href="#">Link to this property</a>
+
+ipv4\_fallback: optional string
+
+Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set ‘0.0.0.0’ to indicate local egress via WARP IPs.
+
+<a href="#">Link to this property</a>
+
+ipv6: optional string
+
+Specify the IPv6 range to use for egress.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+forensic\_copy: optional object {enabled }
+
+Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
+
+</summary>
+
+enabled: optional boolean
+
+Enable sending the copy to storage.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ignore\_cname\_category\_matches: optional boolean
+
+Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
+
+<a href="#">Link to this property</a>
+
+insecure\_disable\_dnssec\_validation: optional boolean
+
+Specify whether to disable DNSSEC validation (for Allow actions) \[INSECURE]. Settable only for <code>dns</code> rules.
+
+<a href="#">Link to this property</a>
+
+ip\_categories: optional boolean
+
+Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
+
+<a href="#">Link to this property</a>
+
+ip\_indicator\_feeds: optional boolean
+
+Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+l4override: optional object {ip, port }
+
+Send matching traffic to the supplied destination IP address and port. Settable only for <code>l4</code> rules with the action set to <code>l4_override</code>.
+
+</summary>
+
+ip: optional string
+
+Defines the IPv4 or IPv6 address.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+Defines a port number to use for TCP/UDP overrides.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+notification\_settings: optional object {enabled, include\_context, msg, support\_url }
+
+Configure a notification to display on the user’s device when this rule matched. Settable for all types of rules with the action set to <code>block</code>.
+
+</summary>
+
+enabled: optional boolean
+
+Enable notification.
+
+<a href="#">Link to this property</a>
+
+include\_context: optional boolean
+
+Indicates whether to pass the context information as query parameters.
+
+<a href="#">Link to this property</a>
+
+msg: optional string
+
+Customize the message shown in the notification.
+
+<a href="#">Link to this property</a>
+
+support\_url: optional string
+
+Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+override\_host: optional string
+
+Defines a hostname for override, for the matching DNS queries. Settable only for <code>dns</code> rules with the action set to <code>override</code>.
+
+<a href="#">Link to this property</a>
+
+override\_ips: optional array of string
+
+Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for <code>dns</code> rules with the action set to <code>override</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+payload\_log: optional object {enabled }
+
+Configure DLP payload logging. Settable only for <code>http</code> rules.
+
+</summary>
+
+enabled: optional boolean
+
+Enable DLP payload logging for this rule.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+quarantine: optional object {file\_types }
+
+Configure settings that apply to quarantine rules. Settable only for <code>http</code> rules.
+
+</summary>
+
+<details>
+
+<summary>
+
+file\_types: optional array of "exe"or "pdf"or "doc"or 10 more
+
+Specify the types of files to sandbox.
+
+</summary>
+
+One of the following:
+
+"exe"
+
+<a href="#">Link to this property</a>
+
+"pdf"
+
+<a href="#">Link to this property</a>
+
+"doc"
+
+<a href="#">Link to this property</a>
+
+"docm"
+
+<a href="#">Link to this property</a>
+
+"docx"
+
+<a href="#">Link to this property</a>
+
+"rtf"
+
+<a href="#">Link to this property</a>
+
+"ppt"
+
+<a href="#">Link to this property</a>
+
+"pptx"
+
+<a href="#">Link to this property</a>
+
+"xls"
+
+<a href="#">Link to this property</a>
+
+"xlsm"
+
+<a href="#">Link to this property</a>
+
+"xlsx"
+
+<a href="#">Link to this property</a>
+
+"zip"
+
+<a href="#">Link to this property</a>
+
+"rar"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+redirect: optional object {target\_uri, include\_context, preserve\_path\_and\_query }
+
+Apply settings to redirect rules. Settable only for <code>http</code> rules with the action set to <code>redirect</code>.
+
+</summary>
+
+target\_uri: string
+
+Specify the URI to which the user is redirected.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+include\_context: optional boolean
+
+Specify whether to pass the context information as query parameters.
+
+<a href="#">Link to this property</a>
+
+preserve\_path\_and\_query: optional boolean
+
+Specify whether to append the path and query parameters from the original request to target\_uri.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resolve\_dns\_internally: optional object {fallback, view\_id }
+
+Configure to forward the query to the internal DNS service, passing the specified ‘view\_id’ as input. Not used when ‘dns\_resolvers’ is specified or ‘resolve\_dns\_through\_cloudflare’ is set. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: optional "none"or "public\_dns"
+
+Specify the fallback behavior to apply when the internal DNS response code differs from ‘NOERROR’ or when the response data contains only CNAME records for ‘A’ or ‘AAAA’ queries.
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"public\_dns"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+view\_id: optional string
+
+Specify the internal DNS view identifier to pass to the internal DNS service.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+resolve\_dns\_through\_cloudflare: optional boolean
+
+Enable to send queries that match the policy to Cloudflare’s default 1.1.1.1 DNS resolver. Cannot set when ‘dns\_resolvers’ specified or ‘resolve\_dns\_internally’ is set. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
+
+<a href="#">Link to this property</a>
+
+set\_headers: optional map\[array of string]
+
+Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain <code>@{selector.name}</code> variable references that are interpolated at the edge. Use <code>@@{</code> to escape a literal <code>@{</code>. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+untrusted\_cert: optional object {action }
+
+Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
+
+</summary>
+
+<details>
+
+<summary>
+
+action: optional "pass\_through"or "block"or "error"
+
+Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
+
+</summary>
+
+One of the following:
+
+"pass\_through"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schedule: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20schedule%20%3E%20(schema)">Schedule</a> { fri, mon, sat, 5 more }
+
+Defines the schedule for activating DNS policies. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
+
+</summary>
+
+fri: optional string
+
+Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+mon: optional string
+
+Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+sat: optional string
+
+Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+sun: optional string
+
+Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+thu: optional string
+
+Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+time\_zone: optional string
+
+Specify the time zone for rule evaluation. When a <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List">valid time zone city name</a> is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user’s IP address. Colo time zone is used when the user’s IP address does not resolve to a location.
+
+<a href="#">Link to this property</a>
+
+tue: optional string
+
+Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+wed: optional string
+
+Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+sharable: optional boolean
+
+Indicate that this rule is sharable via the Orgs API.
+
+<a href="#">Link to this property</a>
+
+source\_account: optional string
+
+Provide the account tag of the account that created the rule.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+Indicate the version number of the rule(read-only).
+
+<a href="#">Link to this property</a>
+
+warning\_status: optional string
+
+Indicate a warning for a misconfigured rule, if any.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a Zero Trust Gateway rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/$RULE_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -1075,9 +2435,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/$RU
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -1161,6 +2521,10 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/$RU
         "duration": "300s",
         "enforce": true
       },
+      "delete_headers": [
+        "X-Old-Header",
+        "X-Remove-Me"
+      ],
       "dns_resolvers": {
         "ipv4": [
           {
@@ -1224,6 +2588,194 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/$RU
         "view_id": "view_id"
       },
       "resolve_dns_through_cloudflare": true,
+      "set_headers": {
+        "X-User-Identity": [
+          "user=@{identity.name}"
+        ]
+      },
+      "untrusted_cert": {
+        "action": "error"
+      }
+    },
+    "schedule": {
+      "fri": "08:00-12:30,13:30-17:00",
+      "mon": "08:00-12:30,13:30-17:00",
+      "sat": "08:00-12:30,13:30-17:00",
+      "sun": "08:00-12:30,13:30-17:00",
+      "thu": "08:00-12:30,13:30-17:00",
+      "time_zone": "America/New York",
+      "tue": "08:00-12:30,13:30-17:00",
+      "wed": "08:00-12:30,13:30-17:00"
+    },
+    "sharable": true,
+    "source_account": "source_account",
+    "updated_at": "2014-01-01T05:20:00.12345Z",
+    "version": 1,
+    "warning_status": "warning_status"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "action": "allow",
+    "enabled": true,
+    "filters": [
+      "http"
+    ],
+    "name": "block bad websites",
+    "precedence": 0,
+    "traffic": "http.request.uri matches \".*a/partial/uri.*\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10",
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "deleted_at": "2019-12-27T18:11:19.117Z",
+    "description": "Block bad websites based on their host name.",
+    "device_posture": "any(device_posture.checks.passed[*] in {\"1308749e-fcfb-4ebc-b051-fe022b632644\"})",
+    "expiration": {
+      "expires_at": "2014-01-01T05:20:20Z",
+      "duration": 10,
+      "expired": false
+    },
+    "identity": "any(identity.groups.name[*] in {\"finance\"})",
+    "read_only": true,
+    "rule_settings": {
+      "add_headers": {
+        "My-Next-Header": [
+          "foo",
+          "bar"
+        ],
+        "X-Custom-Header-Name": [
+          "somecustomvalue"
+        ]
+      },
+      "allow_child_bypass": false,
+      "audit_ssh": {
+        "command_logging": false
+      },
+      "biso_admin_controls": {
+        "copy": "remote_only",
+        "dcp": true,
+        "dd": true,
+        "dk": true,
+        "download": "enabled",
+        "dp": false,
+        "du": true,
+        "keyboard": "enabled",
+        "paste": "enabled",
+        "printing": "enabled",
+        "upload": "enabled",
+        "version": "v1",
+        "wm_id": "475345dc-5299-4b6e-8f6a-3d3e4c8e9f1a"
+      },
+      "block_page": {
+        "target_uri": "https://example.com",
+        "include_context": true
+      },
+      "block_page_enabled": true,
+      "block_reason": "This website is a security risk",
+      "bypass_parent_rule": false,
+      "check_session": {
+        "duration": "300s",
+        "enforce": true
+      },
+      "delete_headers": [
+        "X-Old-Header",
+        "X-Remove-Me"
+      ],
+      "dns_resolvers": {
+        "ipv4": [
+          {
+            "ip": "2.2.2.2",
+            "port": 5053,
+            "route_through_private_network": true,
+            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+          }
+        ],
+        "ipv6": [
+          {
+            "ip": "2001:DB8::",
+            "port": 5053,
+            "route_through_private_network": true,
+            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+          }
+        ]
+      },
+      "egress": {
+        "ipv4": "192.0.2.2",
+        "ipv4_fallback": "192.0.2.3",
+        "ipv6": "2001:DB8::/64"
+      },
+      "forensic_copy": {
+        "enabled": true
+      },
+      "ignore_cname_category_matches": true,
+      "insecure_disable_dnssec_validation": false,
+      "ip_categories": true,
+      "ip_indicator_feeds": true,
+      "l4override": {
+        "ip": "1.1.1.1",
+        "port": 0
+      },
+      "notification_settings": {
+        "enabled": true,
+        "include_context": true,
+        "msg": "msg",
+        "support_url": "support_url"
+      },
+      "override_host": "example.com",
+      "override_ips": [
+        "1.1.1.1",
+        "2.2.2.2"
+      ],
+      "payload_log": {
+        "enabled": true
+      },
+      "quarantine": {
+        "file_types": [
+          "exe"
+        ]
+      },
+      "redirect": {
+        "target_uri": "https://example.com",
+        "include_context": true,
+        "preserve_path_and_query": true
+      },
+      "resolve_dns_internally": {
+        "fallback": "none",
+        "view_id": "view_id"
+      },
+      "resolve_dns_through_cloudflare": true,
+      "set_headers": {
+        "X-User-Identity": [
+          "user=@{identity.name}"
+        ]
+      },
       "untrusted_cert": {
         "action": "error"
       }

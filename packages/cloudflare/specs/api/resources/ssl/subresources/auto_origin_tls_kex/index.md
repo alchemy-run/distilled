@@ -1,186 +1,89 @@
+---
+title: Auto Origin TLS Kex
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[SSL](https://developers.cloudflare.com/api/resources/ssl)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Auto Origin TLS Kex
 
-## Get Auto-Origin TLS KEX enrollment status for the given zone
+##### [Get Auto-Origin TLS KEX enrollment status for the given zone](https://developers.cloudflare.com/api/resources/ssl/subresources/auto_origin_tls_kex/methods/get)
 
-**get** `/zones/{zone_id}/settings/auto_origin_tls_kex`
+GET/zones/{zone\_id}/settings/auto\_origin\_tls\_kex
 
-When enabled, Cloudflare automatically selects the preferred TLS key-exchange algorithm to use when establishing the TLS connection to the zone's origin, picking from the algorithms permitted by the zone's `origin_tls_compliance_modes` setting. When disabled, the default key-exchange ordering is used.
+##### [Patch Auto-Origin TLS KEX enrollment status for the given zone](https://developers.cloudflare.com/api/resources/ssl/subresources/auto_origin_tls_kex/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/settings/auto\_origin\_tls\_kex
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+AutoOriginTLSKexGetResponse object {id, enabled, modified\_on }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+enabled: boolean
 
-- `messages: array of ResponseInfo`
+Whether Auto-Origin TLS KEX selection is enabled for the zone.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: string
 
-  - `documentation_url: optional string`
+Last time this setting was modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-- `result: object { id, enabled, modified_on }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-  - `enabled: boolean`
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(model)%20auto_origin_tls_kex_get_response%20%3E%20(schema)>)
 
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
+<details>
 
-  - `modified_on: string`
+<summary>
 
-    Last time this setting was modified.
+AutoOriginTLSKexEditResponse object {id, enabled, modified\_on }
 
-- `success: boolean`
+</summary>
 
-  Indicates the API call's success or failure.
+id: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/auto_origin_tls_kex \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+enabled: boolean
 
-#### Response
+Whether Auto-Origin TLS KEX selection is enabled for the zone.
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "enabled": false,
-    "id": "auto_origin_tls_kex",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Patch Auto-Origin TLS KEX enrollment status for the given zone
+modified\_on: string
 
-**patch** `/zones/{zone_id}/settings/auto_origin_tls_kex`
+Last time this setting was modified.
 
-Enable or disable Auto-Origin TLS KEX selection for the zone by sending `{"enabled": true}` or `{"enabled": false}`. When enabled, Cloudflare runs a periodic scan of the zone's origins to determine the preferred key-exchange algorithm and writes that preference to the edge so it is sent first in the TLS ClientHello to the origin.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-### Body Parameters
-
-- `enabled: boolean`
-
-  Controls enablement of Auto-Origin TLS KEX selection for the zone.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, enabled, modified_on }`
-
-  - `id: string`
-
-  - `enabled: boolean`
-
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
-
-- `success: boolean`
-
-  Indicates the API call's success or failure.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/auto_origin_tls_kex \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "enabled": false,
-    "id": "auto_origin_tls_kex",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Auto Origin TLS Kex Get Response
-
-- `AutoOriginTLSKexGetResponse object { id, enabled, modified_on }`
-
-  - `id: string`
-
-  - `enabled: boolean`
-
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
-
-### Auto Origin TLS Kex Edit Response
-
-- `AutoOriginTLSKexEditResponse object { id, enabled, modified_on }`
-
-  - `id: string`
-
-  - `enabled: boolean`
-
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(model)%20auto_origin_tls_kex_edit_response%20%3E%20(schema)>)

@@ -1,25603 +1,15936 @@
+---
+title: DLP
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # DLP
 
-# Custom Prompt Topics
+#### DLPCustom Prompt Topics
 
-## List custom prompt topics
+##### [List custom prompt topics](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/list)
 
-**get** `/accounts/{account_id}/dlp/custom_prompt_topics`
+GET/accounts/{account\_id}/dlp/custom\_prompt\_topics
 
-Lists all DLP custom prompt topic entries in an account.
+##### [Get custom prompt topic](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dlp/custom\_prompt\_topics/{entry\_id}
 
-- `account_id: string`
+##### [Create custom prompt topic](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/dlp/custom\_prompt\_topics
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Update custom prompt topic](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/dlp/custom\_prompt\_topics/{entry\_id}
 
-  - `message: string`
+##### [Delete custom prompt topic](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/dlp/custom\_prompt\_topics/{entry\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+CustomPromptTopic object {id, created\_at, enabled, 5 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of CustomPromptTopic`
+Deprecatedenabled: boolean
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+name: string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+topic: string
 
-  - `topic: string`
+maxLength50
 
-  - `updated_at: string`
+minLength2
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `profile_id: optional string`
+updated\_at: string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+description: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "name": "name",
-      "topic": "topic",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Get custom prompt topic
+Deprecatedprofile\_id: optional string
 
-**get** `/accounts/{account_id}/dlp/custom_prompt_topics/{entry_id}`
+formatuuid
 
-Fetches a DLP custom prompt topic entry by ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20zero_trust.dlp.custom_prompt_topics%20%3E%20(model)%20custom_prompt_topic%20%3E%20(schema)>)
 
-- `entry_id: string`
+CustomPromptTopicDeleteResponse = unknown
 
-### Returns
+[Link to this property](#)%20zero_trust.dlp.custom_prompt_topics%20%3E%20(model)%20custom_prompt_topic_delete_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+#### DLPDatasets
 
-  - `code: number`
+##### [Fetch all datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/methods/list)
 
-  - `message: string`
+GET/accounts/{account\_id}/dlp/datasets
 
-  - `documentation_url: optional string`
+##### [Fetch a specific dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/methods/get)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/dlp/datasets/{dataset\_id}
 
-    - `pointer: optional string`
+##### [Create a new dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/methods/create)
 
-- `messages: array of object { code, message, documentation_url, source }`
+POST/accounts/{account\_id}/dlp/datasets
 
-  - `code: number`
+##### [Update details about a dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/methods/update)
 
-  - `message: string`
+PUT/accounts/{account\_id}/dlp/datasets/{dataset\_id}
 
-  - `documentation_url: optional string`
+##### [Delete a dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/methods/delete)
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/dlp/datasets/{dataset\_id}
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+Dataset object {id, columns, created\_at, 9 more }
 
-- `result: optional CustomPromptTopic`
+</summary>
 
-  - `id: string`
+id: string
 
-  - `created_at: string`
+formatuuid
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-  - `topic: string`
+<summary>
 
-  - `updated_at: string`
+columns: array of object {entry\_id, header\_name, num\_cells, upload\_status }
 
-  - `description: optional string`
+</summary>
 
-  - `profile_id: optional string`
+entry\_id: string
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics/$ENTRY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+header\_name: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "topic": "topic",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create custom prompt topic
+num\_cells: number
 
-**post** `/accounts/{account_id}/dlp/custom_prompt_topics`
+formatint64
 
-Creates a DLP custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-- `enabled: boolean`
+</summary>
 
-- `name: string`
+One of the following:
 
-- `topic: string`
+"empty"
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-- `profile_id: optional string`
+"uploading"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"pending"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"processing"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"failed"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"complete"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional CustomPromptTopic`
+encoding\_version: number
 
-  - `id: string`
+formatint32
 
-  - `created_at: string`
+minimum0
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-  - `topic: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+num\_cells: number
 
-  - `description: optional string`
+formatint64
 
-  - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+secret: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "name": "name",
-          "topic": "topic"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "topic": "topic",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+<summary>
 
-## Update custom prompt topic
+status: "empty"or "uploading"or "pending"or 3 more
 
-**put** `/accounts/{account_id}/dlp/custom_prompt_topics/{entry_id}`
+</summary>
 
-Updates a DLP custom prompt topic entry.
+One of the following:
 
-### Path Parameters
+"empty"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `entry_id: string`
+"uploading"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+"pending"
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `topic: string`
+"processing"
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+"failed"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"complete"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+updated\_at: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Stores when the dataset was last updated.
 
-  - `code: number`
+This includes name or description changes as well as uploads.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+uploads: array of object {num\_cells, status, version }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+num\_cells: number
 
-- `result: optional CustomPromptTopic`
+formatint64
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `enabled: boolean`
+<summary>
 
-  - `name: string`
+status: "empty"or "uploading"or "pending"or 3 more
 
-  - `topic: string`
+</summary>
 
-  - `updated_at: string`
+One of the following:
 
-  - `description: optional string`
+"empty"
 
-  - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"uploading"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics/$ENTRY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "name": "name",
-          "topic": "topic"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"pending"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "topic": "topic",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete custom prompt topic
+"processing"
 
-**delete** `/accounts/{account_id}/dlp/custom_prompt_topics/{entry_id}`
+<a href="#">Link to this property</a>
 
-Deletes a DLP custom prompt topic entry.
+"failed"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"complete"
 
-- `entry_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+version: number
 
-  - `message: string`
+formatint64
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+case\_sensitive: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+The description of the dataset.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional unknown`
+DatasetArray = array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset%20%3E%20(schema)">Dataset</a> { id, columns, created\_at, 9 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics/$ENTRY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: string
 
-#### Response
+formatuuid
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Custom Prompt Topic
+<summary>
 
-- `CustomPromptTopic object { id, created_at, enabled, 5 more }`
+columns: array of object {entry\_id, header\_name, num\_cells, upload\_status }
 
-  - `id: string`
+</summary>
 
-  - `created_at: string`
+entry\_id: string
 
-  - `enabled: boolean`
+formatuuid
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `topic: string`
+header\_name: string
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+num\_cells: number
 
-  - `profile_id: optional string`
+formatint64
 
-### Custom Prompt Topic Delete Response
+<a href="#">Link to this property</a>
 
-- `CustomPromptTopicDeleteResponse = unknown`
+<details>
 
-# Datasets
+<summary>
 
-## Fetch all datasets
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-**get** `/accounts/{account_id}/dlp/datasets`
+</summary>
 
-Lists all DLP datasets configured for the account, including custom word lists and EDM datasets.
+One of the following:
 
-### Path Parameters
+"empty"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"uploading"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"pending"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"processing"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"failed"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"complete"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+created\_at: string
 
-  - `true`
+formatdate-time
 
-- `result: optional DatasetArray`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+encoding\_version: number
 
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+formatint32
 
-    - `entry_id: string`
+minimum0
 
-    - `header_name: string`
+<a href="#">Link to this property</a>
 
-    - `num_cells: number`
+name: string
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+num\_cells: number
 
-      - `"uploading"`
+formatint64
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+secret: boolean
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `encoding_version: number`
+status: "empty"or "uploading"or "pending"or 3 more
 
-  - `name: string`
+</summary>
 
-  - `num_cells: number`
+One of the following:
 
-  - `secret: boolean`
+"empty"
 
-  - `status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-    - `"empty"`
+"uploading"
 
-    - `"uploading"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"pending"
 
-    - `"processing"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+"processing"
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+"failed"
 
-    Stores when the dataset was last updated.
+<a href="#">Link to this property</a>
 
-    This includes name or description changes as well as uploads.
+"complete"
 
-  - `uploads: array of object { num_cells, status, version }`
+<a href="#">Link to this property</a>
 
-    - `num_cells: number`
+</details>
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+updated\_at: string
 
-      - `"uploading"`
+Stores when the dataset was last updated.
 
-      - `"pending"`
+This includes name or description changes as well as uploads.
 
-      - `"processing"`
+formatdate-time
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+<details>
 
-    - `version: number`
+<summary>
 
-  - `case_sensitive: optional boolean`
+uploads: array of object {num\_cells, status, version }
 
-  - `description: optional string`
+</summary>
 
-    The description of the dataset.
+num\_cells: number
 
-### Example
+formatint64
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "columns": [
-        {
-          "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "header_name": "header_name",
-          "num_cells": 0,
-          "upload_status": "empty"
-        }
-      ],
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "encoding_version": 0,
-      "name": "name",
-      "num_cells": 0,
-      "secret": true,
-      "status": "empty",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "uploads": [
-        {
-          "num_cells": 0,
-          "status": "empty",
-          "version": 0
-        }
-      ],
-      "case_sensitive": true,
-      "description": "description"
-    }
-  ]
-}
-```
+<summary>
 
-## Fetch a specific dataset
+status: "empty"or "uploading"or "pending"or 3 more
 
-**get** `/accounts/{account_id}/dlp/datasets/{dataset_id}`
+</summary>
 
-Fetch a specific dataset
+One of the following:
 
-### Path Parameters
+"empty"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `dataset_id: string`
+"uploading"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"pending"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"processing"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"failed"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"complete"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+version: number
 
-    - `pointer: optional string`
+formatint64
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Dataset`
+case\_sensitive: optional boolean
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+description: optional string
 
-    - `entry_id: string`
+The description of the dataset.
 
-    - `header_name: string`
+<a href="#">Link to this property</a>
 
-    - `num_cells: number`
+</details>
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset_array%20%3E%20(schema)>)
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+DatasetCreation object {dataset, encoding\_version, max\_cells, 2 more }
 
-      - `"processing"`
+</summary>
 
-      - `"failed"`
+dataset: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset%20%3E%20(schema)">Dataset</a> { id, columns, created\_at, 9 more }
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+encoding\_version: number
 
-  - `encoding_version: number`
+Encoding version to use for dataset.
 
-  - `name: string`
+formatint32
 
-  - `num_cells: number`
+minimum0
 
-  - `secret: boolean`
+<a href="#">Link to this property</a>
 
-  - `status: "empty" or "uploading" or "pending" or 3 more`
+max\_cells: number
 
-    - `"empty"`
+formatint64
 
-    - `"uploading"`
+minimum0
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"processing"`
+version: number
 
-    - `"failed"`
+The version to use when uploading the dataset.
 
-    - `"complete"`
+formatint64
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Stores when the dataset was last updated.
+secret: optional string
 
-    This includes name or description changes as well as uploads.
+The secret to use for Exact Data Match datasets.
 
-  - `uploads: array of object { num_cells, status, version }`
+This is not present in Custom Wordlists.
 
-    - `num_cells: number`
+formatpassword
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+</details>
 
-      - `"uploading"`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset_creation%20%3E%20(schema)>)
 
-      - `"pending"`
+#### DLPDatasetsUpload
 
-      - `"processing"`
+##### [Prepare to upload a new version of a dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/upload/methods/create)
 
-      - `"failed"`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/upload
 
-      - `"complete"`
+##### [Upload a new version of a dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/upload/methods/edit)
 
-    - `version: number`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/upload/{version}
 
-  - `case_sensitive: optional boolean`
+##### ModelsExpand Collapse
 
-  - `description: optional string`
+<details>
 
-    The description of the dataset.
+<summary>
 
-### Example
+NewVersion object {encoding\_version, max\_cells, version, 3 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+encoding\_version: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "columns": [
-      {
-        "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "header_name": "header_name",
-        "num_cells": 0,
-        "upload_status": "empty"
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "encoding_version": 0,
-    "name": "name",
-    "num_cells": 0,
-    "secret": true,
-    "status": "empty",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "uploads": [
-      {
-        "num_cells": 0,
-        "status": "empty",
-        "version": 0
-      }
-    ],
-    "case_sensitive": true,
-    "description": "description"
-  }
-}
-```
+formatint32
 
-## Create a new dataset
+minimum0
 
-**post** `/accounts/{account_id}/dlp/datasets`
+<a href="#">Link to this property</a>
 
-Creates a new DLP (Data Loss Prevention) dataset for storing custom detection patterns. Datasets can contain exact match data, word lists, or EDM (Exact Data Match) configurations.
+max\_cells: number
 
-### Path Parameters
+formatint64
 
-- `account_id: string`
+minimum0
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: string`
+version: number
 
-- `case_sensitive: optional boolean`
+formatint64
 
-  Only applies to custom word lists.
-  Determines if the words should be matched in a case-sensitive manner
-  Cannot be set to false if `secret` is true or undefined
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+case\_sensitive: optional boolean
 
-  The description of the dataset.
+<a href="#">Link to this property</a>
 
-- `encoding_version: optional number`
+<details>
 
-  Dataset encoding version
+<summary>
 
-  Non-secret custom word lists with no header are always version 1.
-  Secret EDM lists with no header are version 1.
-  Multicolumn CSV with headers are version 2.
-  Omitting this field provides the default value 0, which is interpreted
-  the same as 1.
+columns: optional array of object {entry\_id, header\_name, num\_cells, upload\_status }
 
-- `secret: optional boolean`
+</summary>
 
-  Generate a secret dataset.
+entry\_id: string
 
-  If true, the response will include a secret to use with the EDM encoder.
-  If false, the response has no secret and the dataset is uploaded in plaintext.
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+header\_name: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+num\_cells: number
 
-  - `documentation_url: optional string`
+formatint64
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"empty"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"uploading"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"pending"
 
-- `result: optional DatasetCreation`
+<a href="#">Link to this property</a>
 
-  - `dataset: Dataset`
+"processing"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+"failed"
 
-      - `entry_id: string`
+<a href="#">Link to this property</a>
 
-      - `header_name: string`
+"complete"
 
-      - `num_cells: number`
+<a href="#">Link to this property</a>
 
-      - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+</details>
 
-        - `"empty"`
+<a href="#">Link to this property</a>
 
-        - `"uploading"`
+</details>
 
-        - `"pending"`
+<a href="#">Link to this property</a>
 
-        - `"processing"`
+secret: optional string
 
-        - `"failed"`
+formatpassword
 
-        - `"complete"`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-    - `encoding_version: number`
+[Link to this property](#)%20zero_trust.dlp.datasets.upload%20%3E%20(model)%20new_version%20%3E%20(schema)>)
 
-    - `name: string`
+#### DLPDatasetsVersions
 
-    - `num_cells: number`
+##### [Sets the column information for a multi-column upload](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions/methods/create)
 
-    - `secret: boolean`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/versions/{version}
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+##### ModelsExpand Collapse
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+VersionCreateResponse object {entry\_id, header\_name, num\_cells, upload\_status }
 
-      - `"processing"`
+</summary>
 
-      - `"failed"`
+entry\_id: string
 
-      - `"complete"`
+formatuuid
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      Stores when the dataset was last updated.
+header\_name: string
 
-      This includes name or description changes as well as uploads.
+<a href="#">Link to this property</a>
 
-    - `uploads: array of object { num_cells, status, version }`
+num\_cells: number
 
-      - `num_cells: number`
+formatint64
 
-      - `status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-        - `"empty"`
+<details>
 
-        - `"uploading"`
+<summary>
 
-        - `"pending"`
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-        - `"processing"`
+</summary>
 
-        - `"failed"`
+One of the following:
 
-        - `"complete"`
+"empty"
 
-      - `version: number`
+<a href="#">Link to this property</a>
 
-    - `case_sensitive: optional boolean`
+"uploading"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The description of the dataset.
+"pending"
 
-  - `encoding_version: number`
+<a href="#">Link to this property</a>
 
-    Encoding version to use for dataset.
+"processing"
 
-  - `max_cells: number`
+<a href="#">Link to this property</a>
 
-  - `version: number`
+"failed"
 
-    The version to use when uploading the dataset.
+<a href="#">Link to this property</a>
 
-  - `secret: optional string`
+"complete"
 
-    The secret to use for Exact Data Match datasets.
+<a href="#">Link to this property</a>
 
-    This is not present in Custom Wordlists.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
+</details>
 
-#### Response
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(model)%20version_create_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dataset": {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "columns": [
-        {
-          "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "header_name": "header_name",
-          "num_cells": 0,
-          "upload_status": "empty"
-        }
-      ],
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "encoding_version": 0,
-      "name": "name",
-      "num_cells": 0,
-      "secret": true,
-      "status": "empty",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "uploads": [
-        {
-          "num_cells": 0,
-          "status": "empty",
-          "version": 0
-        }
-      ],
-      "case_sensitive": true,
-      "description": "description"
-    },
-    "encoding_version": 0,
-    "max_cells": 0,
-    "version": 0,
-    "secret": "secret"
-  }
-}
-```
+#### DLPDatasetsVersionsEntries
 
-## Update details about a dataset
+##### [Upload a new version of a multi-column dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions/subresources/entries/methods/create)
 
-**put** `/accounts/{account_id}/dlp/datasets/{dataset_id}`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/versions/{version}/entries/{entry\_id}
 
-Updates the configuration of an existing DLP dataset, such as its name, description, or detection settings.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `dataset_id: string`
+EntryCreateResponse object {entry\_id, header\_name, num\_cells, upload\_status }
 
-### Body Parameters
+</summary>
 
-- `case_sensitive: optional boolean`
+entry\_id: string
 
-  Determines if the words should be matched in a case-sensitive manner.
+formatuuid
 
-  Only required for custom word lists.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+header\_name: string
 
-  The description of the dataset.
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+num\_cells: number
 
-  The name of the dataset, must be unique.
+formatint64
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"empty"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"uploading"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"pending"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"processing"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"failed"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Dataset`
+"complete"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+</details>
 
-    - `entry_id: string`
+<a href="#">Link to this property</a>
 
-    - `header_name: string`
+</details>
 
-    - `num_cells: number`
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(model)%20entry_create_response%20%3E%20(schema)>)
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+#### DLPPatterns
 
-      - `"empty"`
+##### [Validate a DLP regex pattern](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/patterns/methods/validate)
 
-      - `"uploading"`
+POST/accounts/{account\_id}/dlp/patterns/validate
 
-      - `"pending"`
+##### ModelsExpand Collapse
 
-      - `"processing"`
+<details>
 
-      - `"failed"`
+<summary>
 
-      - `"complete"`
+PatternValidateResponse object {valid }
 
-  - `created_at: string`
+</summary>
 
-  - `encoding_version: number`
+valid: boolean
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `num_cells: number`
+</details>
 
-  - `secret: boolean`
+[Link to this property](#)%20zero_trust.dlp.patterns%20%3E%20(model)%20pattern_validate_response%20%3E%20(schema)>)
 
-  - `status: "empty" or "uploading" or "pending" or 3 more`
+#### DLPPayload Logs
 
-    - `"empty"`
+##### [Get payload log settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/payload_logs/methods/get)
 
-    - `"uploading"`
+GET/accounts/{account\_id}/dlp/payload\_log
 
-    - `"pending"`
+##### [Set payload log settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/payload_logs/methods/update)
 
-    - `"processing"`
+PUT/accounts/{account\_id}/dlp/payload\_log
 
-    - `"failed"`
+##### ModelsExpand Collapse
 
-    - `"complete"`
+<details>
 
-  - `updated_at: string`
+<summary>
 
-    Stores when the dataset was last updated.
+PayloadLogGetResponse object {updated\_at, masking\_level, public\_key }
 
-    This includes name or description changes as well as uploads.
+</summary>
 
-  - `uploads: array of object { num_cells, status, version }`
+updated\_at: string
 
-    - `num_cells: number`
+formatdate-time
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+masking\_level: optional "full"or "partial"or "clear"or "default"
 
-      - `"processing"`
+Masking level for payload logs.
 
-      - `"failed"`
+- <code>full</code>: The entire payload is masked.
+- <code>partial</code>: Only partial payload content is masked.
+- <code>clear</code>: No masking is applied to the payload content.
+- <code>default</code>: DLP uses its default masking behavior.
 
-      - `"complete"`
+</summary>
 
-    - `version: number`
+One of the following:
 
-  - `case_sensitive: optional boolean`
+"full"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    The description of the dataset.
+"partial"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+"clear"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "columns": [
-      {
-        "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "header_name": "header_name",
-        "num_cells": 0,
-        "upload_status": "empty"
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "encoding_version": 0,
-    "name": "name",
-    "num_cells": 0,
-    "secret": true,
-    "status": "empty",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "uploads": [
-      {
-        "num_cells": 0,
-        "status": "empty",
-        "version": 0
-      }
-    ],
-    "case_sensitive": true,
-    "description": "description"
-  }
-}
-```
+"default"
 
-## Delete a dataset
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/dlp/datasets/{dataset_id}`
+</details>
 
-This deletes all versions of the dataset.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+public\_key: optional string
 
-- `account_id: string`
+Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
 
-- `dataset_id: string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20zero_trust.dlp.payload_logs%20%3E%20(model)%20payload_log_get_response%20%3E%20(schema)>)
 
-## Domain Types
+<details>
 
-### Dataset
+<summary>
 
-- `Dataset object { id, columns, created_at, 9 more }`
+PayloadLogUpdateResponse object {updated\_at, masking\_level, public\_key }
 
-  - `id: string`
+</summary>
 
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+updated\_at: string
 
-    - `entry_id: string`
+formatdate-time
 
-    - `header_name: string`
+<a href="#">Link to this property</a>
 
-    - `num_cells: number`
+<details>
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+<summary>
 
-      - `"empty"`
+masking\_level: optional "full"or "partial"or "clear"or "default"
 
-      - `"uploading"`
+Masking level for payload logs.
 
-      - `"pending"`
+- <code>full</code>: The entire payload is masked.
+- <code>partial</code>: Only partial payload content is masked.
+- <code>clear</code>: No masking is applied to the payload content.
+- <code>default</code>: DLP uses its default masking behavior.
 
-      - `"processing"`
+</summary>
 
-      - `"failed"`
+One of the following:
 
-      - `"complete"`
+"full"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `encoding_version: number`
+"partial"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `num_cells: number`
+"clear"
 
-  - `secret: boolean`
+<a href="#">Link to this property</a>
 
-  - `status: "empty" or "uploading" or "pending" or 3 more`
+"default"
 
-    - `"empty"`
+<a href="#">Link to this property</a>
 
-    - `"uploading"`
+</details>
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"processing"`
+public\_key: optional string
 
-    - `"failed"`
+Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+</details>
 
-    Stores when the dataset was last updated.
+[Link to this property](#)%20zero_trust.dlp.payload_logs%20%3E%20(model)%20payload_log_update_response%20%3E%20(schema)>)
 
-    This includes name or description changes as well as uploads.
+#### DLPSettings
 
-  - `uploads: array of object { num_cells, status, version }`
+##### [Get DLP account-level settings.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings/methods/get)
 
-    - `num_cells: number`
+GET/accounts/{account\_id}/dlp/settings
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+##### [Update DLP account-level settings (full replacement).](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings/methods/update)
 
-      - `"empty"`
+PUT/accounts/{account\_id}/dlp/settings
 
-      - `"uploading"`
+##### [Partially update DLP account-level settings.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings/methods/edit)
 
-      - `"pending"`
+PATCH/accounts/{account\_id}/dlp/settings
 
-      - `"processing"`
+##### [Delete (reset) DLP account-level settings to initial values.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings/methods/delete)
 
-      - `"failed"`
+DELETE/accounts/{account\_id}/dlp/settings
 
-      - `"complete"`
+##### ModelsExpand Collapse
 
-    - `version: number`
+<details>
 
-  - `case_sensitive: optional boolean`
+<summary>
 
-  - `description: optional string`
+DLPSettings object {ai\_context\_analysis, ocr, payload\_logging }
 
-    The description of the dataset.
+DLP account-level settings response.
 
-### Dataset Array
+</summary>
 
-- `DatasetArray = array of Dataset`
+ai\_context\_analysis: boolean
 
-  - `id: string`
+Whether AI context analysis is enabled at the account level.
 
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+<a href="#">Link to this property</a>
 
-    - `entry_id: string`
+ocr: boolean
 
-    - `header_name: string`
+Whether OCR is enabled at the account level.
 
-    - `num_cells: number`
+<a href="#">Link to this property</a>
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+<details>
 
-      - `"empty"`
+<summary>
 
-      - `"uploading"`
+payload\_logging: object {updated\_at, masking\_level, public\_key }
 
-      - `"pending"`
+</summary>
 
-      - `"processing"`
+updated\_at: string
 
-      - `"failed"`
+formatdate-time
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `encoding_version: number`
+<summary>
 
-  - `name: string`
+masking\_level: optional "full"or "partial"or "clear"or "default"
 
-  - `num_cells: number`
+Masking level for payload logs.
 
-  - `secret: boolean`
+- <code>full</code>: The entire payload is masked.
+- <code>partial</code>: Only partial payload content is masked.
+- <code>clear</code>: No masking is applied to the payload content.
+- <code>default</code>: DLP uses its default masking behavior.
 
-  - `status: "empty" or "uploading" or "pending" or 3 more`
+</summary>
 
-    - `"empty"`
+One of the following:
 
-    - `"uploading"`
+"full"
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"processing"`
+"partial"
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+"clear"
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Stores when the dataset was last updated.
+"default"
 
-    This includes name or description changes as well as uploads.
+<a href="#">Link to this property</a>
 
-  - `uploads: array of object { num_cells, status, version }`
+</details>
 
-    - `num_cells: number`
+<a href="#">Link to this property</a>
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+public\_key: optional string
 
-      - `"empty"`
+Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+</details>
 
-      - `"complete"`
+[Link to this property](#)%20zero_trust.dlp.settings%20%3E%20(model)%20dlp_settings%20%3E%20(schema)>)
 
-    - `version: number`
+#### DLPEmail
 
-  - `case_sensitive: optional boolean`
+#### DLPEmailAccount Mapping
 
-  - `description: optional string`
+##### [Get mapping](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/account_mapping/methods/get)
 
-    The description of the dataset.
+GET/accounts/{account\_id}/dlp/email/account\_mapping
 
-### Dataset Creation
+##### [Create mapping](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/account_mapping/methods/create)
 
-- `DatasetCreation object { dataset, encoding_version, max_cells, 2 more }`
+POST/accounts/{account\_id}/dlp/email/account\_mapping
 
-  - `dataset: Dataset`
+##### ModelsExpand Collapse
 
-    - `id: string`
+<details>
 
-    - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+<summary>
 
-      - `entry_id: string`
+AccountMappingGetResponse object {addin\_identifier\_token, auth\_requirements }
 
-      - `header_name: string`
+</summary>
 
-      - `num_cells: number`
+addin\_identifier\_token: string
 
-      - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+formatuuid
 
-        - `"empty"`
+<a href="#">Link to this property</a>
 
-        - `"uploading"`
+<details>
 
-        - `"pending"`
+<summary>
 
-        - `"processing"`
+auth\_requirements: object {allowed\_microsoft\_organizations, type } or object {type }
 
-        - `"failed"`
+</summary>
 
-        - `"complete"`
+One of the following:
 
-    - `created_at: string`
+<details>
 
-    - `encoding_version: number`
+<summary>
 
-    - `name: string`
+object {allowed\_microsoft\_organizations, type }
 
-    - `num_cells: number`
+</summary>
 
-    - `secret: boolean`
+allowed\_microsoft\_organizations: array of string
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+type: "Org"
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+<details>
 
-      - `"complete"`
+<summary>
 
-    - `updated_at: string`
+Type object {type }
 
-      Stores when the dataset was last updated.
+</summary>
 
-      This includes name or description changes as well as uploads.
+type: "NoAuth"
 
-    - `uploads: array of object { num_cells, status, version }`
+<a href="#">Link to this property</a>
 
-      - `num_cells: number`
+</details>
 
-      - `status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-        - `"empty"`
+</details>
 
-        - `"uploading"`
+<a href="#">Link to this property</a>
 
-        - `"pending"`
+</details>
 
-        - `"processing"`
+[Link to this property](#)%20zero_trust.dlp.email.account_mapping%20%3E%20(model)%20account_mapping_get_response%20%3E%20(schema)>)
 
-        - `"failed"`
+<details>
 
-        - `"complete"`
+<summary>
 
-      - `version: number`
+AccountMappingCreateResponse object {addin\_identifier\_token, auth\_requirements }
 
-    - `case_sensitive: optional boolean`
+</summary>
 
-    - `description: optional string`
+addin\_identifier\_token: string
 
-      The description of the dataset.
+formatuuid
 
-  - `encoding_version: number`
+<a href="#">Link to this property</a>
 
-    Encoding version to use for dataset.
+<details>
 
-  - `max_cells: number`
+<summary>
 
-  - `version: number`
+auth\_requirements: object {allowed\_microsoft\_organizations, type } or object {type }
 
-    The version to use when uploading the dataset.
+</summary>
 
-  - `secret: optional string`
+One of the following:
 
-    The secret to use for Exact Data Match datasets.
+<details>
 
-    This is not present in Custom Wordlists.
+<summary>
 
-# Upload
+object {allowed\_microsoft\_organizations, type }
 
-## Prepare to upload a new version of a dataset
+</summary>
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/upload`
+allowed\_microsoft\_organizations: array of string
 
-Creates a new version of a DLP dataset, allowing you to stage changes before activation. Used for single-column EDM and custom word lists.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+type: "Org"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `dataset_id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+Type object {type }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+type: "NoAuth"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.dlp.email.account_mapping%20%3E%20(model)%20account_mapping_create_response%20%3E%20(schema)>)
 
-- `success: true`
+#### DLPEmailRules
 
-  Whether the API call was successful.
+##### [List all email scanner rules](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/list)
 
-  - `true`
+GET/accounts/{account\_id}/dlp/email/rules
 
-- `result: optional NewVersion`
+##### [Get an email scanner rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/get)
 
-  - `encoding_version: number`
+GET/accounts/{account\_id}/dlp/email/rules/{rule\_id}
 
-  - `max_cells: number`
+##### [Create email scanner rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/create)
 
-  - `version: number`
+POST/accounts/{account\_id}/dlp/email/rules
 
-  - `case_sensitive: optional boolean`
+##### [Update email scanner rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/update)
 
-  - `columns: optional array of object { entry_id, header_name, num_cells, upload_status }`
+PUT/accounts/{account\_id}/dlp/email/rules/{rule\_id}
 
-    - `entry_id: string`
+##### [Delete email scanner rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/delete)
 
-    - `header_name: string`
+DELETE/accounts/{account\_id}/dlp/email/rules/{rule\_id}
 
-    - `num_cells: number`
+##### [Update email scanner rule priorities](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/bulk_edit)
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+PATCH/accounts/{account\_id}/dlp/email/rules
 
-      - `"empty"`
+##### ModelsExpand Collapse
 
-      - `"uploading"`
+<details>
 
-      - `"pending"`
+<summary>
 
-      - `"processing"`
+RuleListResponse object {action, conditions, created\_at, 6 more }
 
-      - `"failed"`
+</summary>
 
-      - `"complete"`
+<details>
 
-  - `secret: optional string`
+<summary>
 
-### Example
+action: object {action, message }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/upload \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+action: "Block"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "encoding_version": 0,
-    "max_cells": 0,
-    "version": 0,
-    "case_sensitive": true,
-    "columns": [
-      {
-        "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "header_name": "header_name",
-        "num_cells": 0,
-        "upload_status": "empty"
-      }
-    ],
-    "secret": "secret"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Upload a new version of a dataset
+message: optional string
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/upload/{version}`
+<a href="#">Link to this property</a>
 
-This is used for single-column EDMv1 and Custom Word Lists. The EDM format
-can only be created in the Cloudflare dashboard. For other clients, this
-operation can only be used for non-secret Custom Word Lists. The body must
-be a UTF-8 encoded, newline (NL or CRNL) separated list of words to be matched.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-- `dataset_id: string`
+<summary>
 
-- `version: number`
+conditions: array of object {operator, selector, value }
 
-### Returns
+Triggered if all conditions match.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"InList"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"NotInList"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"MatchRegex"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"NotMatchRegex"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional Dataset`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+<summary>
 
-    - `entry_id: string`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-    - `header_name: string`
+</summary>
 
-    - `num_cells: number`
+One of the following:
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+"Recipients"
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+"Sender"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+"DLPProfiles"
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `encoding_version: number`
+<details>
 
-  - `name: string`
+<summary>
 
-  - `num_cells: number`
+value: array of stringor string
 
-  - `secret: boolean`
+</summary>
 
-  - `status: "empty" or "uploading" or "pending" or 3 more`
+One of the following:
 
-    - `"empty"`
+array of string
 
-    - `"uploading"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+string
 
-    - `"processing"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+</details>
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+</details>
 
-    Stores when the dataset was last updated.
+<a href="#">Link to this property</a>
 
-    This includes name or description changes as well as uploads.
+created\_at: string
 
-  - `uploads: array of object { num_cells, status, version }`
+formatdate-time
 
-    - `num_cells: number`
+<a href="#">Link to this property</a>
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+enabled: boolean
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+name: string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+priority: number
 
-      - `"failed"`
+formatint32
 
-      - `"complete"`
+minimum0
 
-    - `version: number`
+<a href="#">Link to this property</a>
 
-  - `case_sensitive: optional boolean`
+rule\_id: string
 
-  - `description: optional string`
+formatuuid
 
-    The description of the dataset.
+<a href="#">Link to this property</a>
 
-### Example
+updated\_at: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/upload/$VERSION \
-    -H 'Content-Type: application/octet-stream' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'dataset=@/path/to/dataset'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "columns": [
-      {
-        "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "header_name": "header_name",
-        "num_cells": 0,
-        "upload_status": "empty"
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "encoding_version": 0,
-    "name": "name",
-    "num_cells": 0,
-    "secret": true,
-    "status": "empty",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "uploads": [
-      {
-        "num_cells": 0,
-        "status": "empty",
-        "version": 0
-      }
-    ],
-    "case_sensitive": true,
-    "description": "description"
-  }
-}
-```
+description: optional string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### New Version
+</details>
 
-- `NewVersion object { encoding_version, max_cells, version, 3 more }`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-  - `encoding_version: number`
+<details>
 
-  - `max_cells: number`
+<summary>
 
-  - `version: number`
+RuleGetResponse object {action, conditions, created\_at, 6 more }
 
-  - `case_sensitive: optional boolean`
+</summary>
 
-  - `columns: optional array of object { entry_id, header_name, num_cells, upload_status }`
+<details>
 
-    - `entry_id: string`
+<summary>
 
-    - `header_name: string`
+action: object {action, message }
 
-    - `num_cells: number`
+</summary>
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+action: "Block"
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+message: optional string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+</details>
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+<details>
 
-  - `secret: optional string`
+<summary>
 
-# Versions
+conditions: array of object {operator, selector, value }
 
-## Sets the column information for a multi-column upload
+Triggered if all conditions match.
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/versions/{version}`
+</summary>
 
-This is used for multi-column EDMv2 datasets. The EDMv2 format can only be
-created in the Cloudflare dashboard. The columns in the response appear in
-the same order as in the request.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-- `dataset_id: string`
+</summary>
 
-- `version: number`
+One of the following:
 
-### Body Parameters
+"InList"
 
-- `body: array of object { entry_id, header_name, num_cells }  or object { entry_name, header_name, num_cells }`
+<a href="#">Link to this property</a>
 
-  - `ExistingColumn object { entry_id, header_name, num_cells }`
+"NotInList"
 
-    - `entry_id: string`
+<a href="#">Link to this property</a>
 
-    - `header_name: optional string`
+"MatchRegex"
 
-    - `num_cells: optional number`
+<a href="#">Link to this property</a>
 
-  - `NewColumn object { entry_name, header_name, num_cells }`
+"NotMatchRegex"
 
-    - `entry_name: string`
+<a href="#">Link to this property</a>
 
-    - `header_name: optional string`
+</details>
 
-    - `num_cells: optional number`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"Recipients"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"Sender"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"DLPProfiles"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+value: array of stringor string
 
-- `result: optional array of object { entry_id, header_name, num_cells, upload_status }`
+</summary>
 
-  - `entry_id: string`
+One of the following:
 
-  - `header_name: string`
+array of string
 
-  - `num_cells: number`
+<a href="#">Link to this property</a>
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+string
 
-    - `"empty"`
+<a href="#">Link to this property</a>
 
-    - `"uploading"`
+</details>
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"processing"`
+</details>
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+created\_at: string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/versions/$VERSION \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            "header_name": "header_name",
-            "num_cells": 0
-          }
-        ]'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+enabled: boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "header_name": "header_name",
-      "num_cells": 0,
-      "upload_status": "empty"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+name: string
 
-### Version Create Response
+<a href="#">Link to this property</a>
 
-- `VersionCreateResponse object { entry_id, header_name, num_cells, upload_status }`
+priority: number
 
-  - `entry_id: string`
+formatint32
 
-  - `header_name: string`
+minimum0
 
-  - `num_cells: number`
+<a href="#">Link to this property</a>
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+rule\_id: string
 
-    - `"empty"`
+formatuuid
 
-    - `"uploading"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+updated\_at: string
 
-    - `"processing"`
+formatdate-time
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+description: optional string
 
-# Entries
+<a href="#">Link to this property</a>
 
-## Upload a new version of a multi-column dataset
+</details>
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/versions/{version}/entries/{entry_id}`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_get_response%20%3E%20(schema)>)
 
-This is used for multi-column EDMv2 datasets. The EDMv2 format can only be
-created in the Cloudflare dashboard.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+RuleCreateResponse object {action, conditions, created\_at, 6 more }
 
-- `dataset_id: string`
+</summary>
 
-- `version: number`
+<details>
 
-- `entry_id: string`
+<summary>
 
-### Returns
+action: object {action, message }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+action: "Block"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+message: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+conditions: array of object {operator, selector, value }
 
-  - `source: optional object { pointer }`
+Triggered if all conditions match.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-- `result: optional object { entry_id, header_name, num_cells, upload_status }`
+</summary>
 
-  - `entry_id: string`
+One of the following:
 
-  - `header_name: string`
+"InList"
 
-  - `num_cells: number`
+<a href="#">Link to this property</a>
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+"NotInList"
 
-    - `"empty"`
+<a href="#">Link to this property</a>
 
-    - `"uploading"`
+"MatchRegex"
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"processing"`
+"NotMatchRegex"
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/versions/$VERSION/entries/$ENTRY_ID \
-    -H 'Content-Type: application/octet-stream' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'dataset_version_entry=@/path/to/dataset_version_entry'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "header_name": "header_name",
-    "num_cells": 0,
-    "upload_status": "empty"
-  }
-}
-```
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-## Domain Types
+</summary>
 
-### Entry Create Response
+One of the following:
 
-- `EntryCreateResponse object { entry_id, header_name, num_cells, upload_status }`
+"Recipients"
 
-  - `entry_id: string`
+<a href="#">Link to this property</a>
 
-  - `header_name: string`
+"Sender"
 
-  - `num_cells: number`
+<a href="#">Link to this property</a>
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+"DLPProfiles"
 
-    - `"empty"`
+<a href="#">Link to this property</a>
 
-    - `"uploading"`
+</details>
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"processing"`
+<details>
 
-    - `"failed"`
+<summary>
 
-    - `"complete"`
+value: array of stringor string
 
-# Patterns
+</summary>
 
-## Validate a DLP regex pattern
+One of the following:
 
-**post** `/accounts/{account_id}/dlp/patterns/validate`
+array of string
 
-Validates whether this pattern is a valid regular expression. Rejects it if
-the regular expression is too complex or can match an unbounded-length
-string. The regex will be rejected if it uses `*` or `+`. Bound the maximum
-number of characters that can be matched using a range, e.g. `{1,100}`.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `regex: string`
+<a href="#">Link to this property</a>
 
-- `max_match_bytes: optional number`
+</details>
 
-  Maximum number of bytes that the regular expression can match.
+<a href="#">Link to this property</a>
 
-  If this is `null` then there is no limit on the length. Patterns can use
-  `*` and `+`. Otherwise repeats should use a range `{m,n}` to restrict
-  patterns to the length. If this field is missing, then a default length
-  limit is used.
+created\_at: string
 
-  Note that the length is specified in bytes. Since regular expressions
-  use UTF-8 the pattern `.` can match up to 4 bytes. Hence `.{1,256}`
-  has a maximum length of 1024 bytes.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+enabled: boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+priority: number
 
-    - `pointer: optional string`
+formatint32
 
-- `messages: array of object { code, message, documentation_url, source }`
+minimum0
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+rule\_id: string
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+updated\_at: string
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+description: optional string
 
-- `result: optional object { valid }`
+<a href="#">Link to this property</a>
 
-  - `valid: boolean`
+</details>
 
-### Example
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_create_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/patterns/validate \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "regex": "regex"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "valid": true
-  }
-}
-```
+RuleUpdateResponse object {action, conditions, created\_at, 6 more }
 
-## Domain Types
+</summary>
 
-### Pattern Validate Response
+<details>
 
-- `PatternValidateResponse object { valid }`
+<summary>
 
-  - `valid: boolean`
+action: object {action, message }
 
-# Payload Logs
+</summary>
 
-## Get payload log settings
+action: "Block"
 
-**get** `/accounts/{account_id}/dlp/payload_log`
+<a href="#">Link to this property</a>
 
-Gets the current payload logging configuration for DLP, showing whether matched content is being logged.
+message: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+conditions: array of object {operator, selector, value }
 
-  - `documentation_url: optional string`
+Triggered if all conditions match.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"InList"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"NotInList"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"MatchRegex"
 
-- `result: optional object { updated_at, masking_level, public_key }`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+"NotMatchRegex"
 
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
+<a href="#">Link to this property</a>
 
-    Masking level for payload logs.
+</details>
 
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
+<a href="#">Link to this property</a>
 
-    - `"full"`
+<details>
 
-    - `"partial"`
+<summary>
 
-    - `"clear"`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-    - `"default"`
+</summary>
 
-  - `public_key: optional string`
+One of the following:
 
-    Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+"Recipients"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/payload_log \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"Sender"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "masking_level": "full",
-    "public_key": "public_key"
-  }
-}
-```
+"DLPProfiles"
 
-## Set payload log settings
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/dlp/payload_log`
+</details>
 
-Enables or disables payload logging for DLP matches. When enabled, matched content is stored for review.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+value: array of stringor string
 
-- `masking_level: optional "full" or "partial" or "clear" or "default"`
+</summary>
 
-  Masking level for payload logs.
+One of the following:
 
-  - `full`: The entire payload is masked.
-  - `partial`: Only partial payload content is masked.
-  - `clear`: No masking is applied to the payload content.
-  - `default`: DLP uses its default masking behavior.
+array of string
 
-  - `"full"`
+<a href="#">Link to this property</a>
 
-  - `"partial"`
+string
 
-  - `"clear"`
+<a href="#">Link to this property</a>
 
-  - `"default"`
+</details>
 
-- `public_key: optional string`
+<a href="#">Link to this property</a>
 
-  Base64-encoded public key for encrypting payload logs.
+</details>
 
-  - Set to null or empty string to disable payload logging.
-  - Set to a non-empty base64 string to enable payload logging with the given key.
+<a href="#">Link to this property</a>
 
-  For customers with configurable payload masking feature rolled out:
+created\_at: string
 
-  - If the field is missing, the existing setting will be kept. Note that this is different from setting to null or empty string.
+formatdate-time
 
-  For all other customers:
+<a href="#">Link to this property</a>
 
-  - If the field is missing, the existing setting will be cleared.
+enabled: boolean
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+name: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+priority: number
 
-  - `documentation_url: optional string`
+formatint32
 
-  - `source: optional object { pointer }`
+minimum0
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+rule\_id: string
 
-  - `code: number`
+formatuuid
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+updated\_at: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+description: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { updated_at, masking_level, public_key }`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_update_response%20%3E%20(schema)>)
 
-  - `updated_at: string`
+<details>
 
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
+<summary>
 
-    Masking level for payload logs.
+RuleDeleteResponse object {action, conditions, created\_at, 6 more }
 
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
+</summary>
 
-    - `"full"`
+<details>
 
-    - `"partial"`
+<summary>
 
-    - `"clear"`
+action: object {action, message }
 
-    - `"default"`
+</summary>
 
-  - `public_key: optional string`
+action: "Block"
 
-    Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+<a href="#">Link to this property</a>
 
-### Example
+message: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/payload_log \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "masking_level": "full",
-    "public_key": "public_key"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Payload Log Get Response
+<summary>
 
-- `PayloadLogGetResponse object { updated_at, masking_level, public_key }`
+conditions: array of object {operator, selector, value }
 
-  - `updated_at: string`
+Triggered if all conditions match.
 
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
+</summary>
 
-    Masking level for payload logs.
+<details>
 
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
+<summary>
 
-    - `"full"`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-    - `"partial"`
+</summary>
 
-    - `"clear"`
+One of the following:
 
-    - `"default"`
+"InList"
 
-  - `public_key: optional string`
+<a href="#">Link to this property</a>
 
-    Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+"NotInList"
 
-### Payload Log Update Response
+<a href="#">Link to this property</a>
 
-- `PayloadLogUpdateResponse object { updated_at, masking_level, public_key }`
+"MatchRegex"
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
+"NotMatchRegex"
 
-    Masking level for payload logs.
+<a href="#">Link to this property</a>
 
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
+</details>
 
-    - `"full"`
+<a href="#">Link to this property</a>
 
-    - `"partial"`
+<details>
 
-    - `"clear"`
+<summary>
 
-    - `"default"`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-  - `public_key: optional string`
+</summary>
 
-    Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+One of the following:
 
-# Settings
+"Recipients"
 
-## Get DLP account-level settings.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dlp/settings`
+"Sender"
 
-Get DLP account-level settings.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"DLPProfiles"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+value: array of stringor string
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+array of string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+created\_at: string
 
-- `result: optional DLPSettings`
+formatdate-time
 
-  DLP account-level settings response.
+<a href="#">Link to this property</a>
 
-  - `ai_context_analysis: boolean`
+enabled: boolean
 
-    Whether AI context analysis is enabled at the account level.
+<a href="#">Link to this property</a>
 
-  - `ocr: boolean`
+name: string
 
-    Whether OCR is enabled at the account level.
+<a href="#">Link to this property</a>
 
-  - `payload_logging: object { updated_at, masking_level, public_key }`
+priority: number
 
-    - `updated_at: string`
+formatint32
 
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
+minimum0
 
-      Masking level for payload logs.
+<a href="#">Link to this property</a>
 
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
+rule\_id: string
 
-      - `"full"`
+formatuuid
 
-      - `"partial"`
+<a href="#">Link to this property</a>
 
-      - `"clear"`
+updated\_at: string
 
-      - `"default"`
+formatdate-time
 
-    - `public_key: optional string`
+<a href="#">Link to this property</a>
 
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+description: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_delete_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_context_analysis": true,
-    "ocr": true,
-    "payload_logging": {
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "masking_level": "full",
-      "public_key": "public_key"
-    }
-  }
-}
-```
+<details>
 
-## Update DLP account-level settings (full replacement).
+<summary>
 
-**put** `/accounts/{account_id}/dlp/settings`
+RuleBulkEditResponse object {action, conditions, created\_at, 6 more }
 
-Missing fields are reset to initial (unconfigured) values.
+</summary>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+action: object {action, message }
 
-- `ai_context_analysis: optional boolean`
+</summary>
 
-  Whether AI context analysis is enabled at the account level.
+action: "Block"
 
-- `ocr: optional boolean`
+<a href="#">Link to this property</a>
 
-  Whether OCR is enabled at the account level.
+message: optional string
 
-- `payload_logging: optional object { masking_level, public_key }`
+<a href="#">Link to this property</a>
 
-  Request model for payload log settings within the DLP settings endpoint.
-  Unlike the legacy endpoint, null and missing are treated identically here
-  (both mean "not provided" for PATCH, "reset to default" for PUT).
+</details>
 
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
+<a href="#">Link to this property</a>
 
-    Masking level for payload logs.
+<details>
 
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
+<summary>
 
-    - `"full"`
+conditions: array of object {operator, selector, value }
 
-    - `"partial"`
+Triggered if all conditions match.
 
-    - `"clear"`
+</summary>
 
-    - `"default"`
+<details>
 
-  - `public_key: optional string`
+<summary>
 
-    Base64-encoded public key for encrypting payload logs.
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-    - Set to a non-empty base64 string to enable payload logging with the given key.
-    - Set to an empty string to disable payload logging.
-    - Omit or set to null to leave unchanged (PATCH) or reset to disabled (PUT).
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { code, message, documentation_url, source }`
+"InList"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"NotInList"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"MatchRegex"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"NotMatchRegex"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional DLPSettings`
+"Recipients"
 
-  DLP account-level settings response.
+<a href="#">Link to this property</a>
 
-  - `ai_context_analysis: boolean`
+"Sender"
 
-    Whether AI context analysis is enabled at the account level.
+<a href="#">Link to this property</a>
 
-  - `ocr: boolean`
+"DLPProfiles"
 
-    Whether OCR is enabled at the account level.
+<a href="#">Link to this property</a>
 
-  - `payload_logging: object { updated_at, masking_level, public_key }`
+</details>
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
+<details>
 
-      Masking level for payload logs.
+<summary>
 
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
+value: array of stringor string
 
-      - `"full"`
+</summary>
 
-      - `"partial"`
+One of the following:
 
-      - `"clear"`
+array of string
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `public_key: optional string`
+string
 
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_context_analysis": true,
-    "ocr": true,
-    "payload_logging": {
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "masking_level": "full",
-      "public_key": "public_key"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Partially update DLP account-level settings.
+created\_at: string
 
-**patch** `/accounts/{account_id}/dlp/settings`
+formatdate-time
 
-Missing fields keep their existing values.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+enabled: boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+name: string
 
-- `ai_context_analysis: optional boolean`
+<a href="#">Link to this property</a>
 
-  Whether AI context analysis is enabled at the account level.
+priority: number
 
-- `ocr: optional boolean`
+formatint32
 
-  Whether OCR is enabled at the account level.
+minimum0
 
-- `payload_logging: optional object { masking_level, public_key }`
+<a href="#">Link to this property</a>
 
-  Request model for payload log settings within the DLP settings endpoint.
-  Unlike the legacy endpoint, null and missing are treated identically here
-  (both mean "not provided" for PATCH, "reset to default" for PUT).
+rule\_id: string
 
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
+formatuuid
 
-    Masking level for payload logs.
+<a href="#">Link to this property</a>
 
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
+updated\_at: string
 
-    - `"full"`
+formatdate-time
 
-    - `"partial"`
+<a href="#">Link to this property</a>
 
-    - `"clear"`
+description: optional string
 
-    - `"default"`
+<a href="#">Link to this property</a>
 
-  - `public_key: optional string`
+</details>
 
-    Base64-encoded public key for encrypting payload logs.
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_bulk_edit_response%20%3E%20(schema)>)
 
-    - Set to a non-empty base64 string to enable payload logging with the given key.
-    - Set to an empty string to disable payload logging.
-    - Omit or set to null to leave unchanged (PATCH) or reset to disabled (PUT).
+#### DLPProfiles
 
-### Returns
+##### [List all profiles](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/methods/list)
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/dlp/profiles
 
-  - `code: number`
+##### [Get DLP Profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/methods/get)
 
-  - `message: string`
+GET/accounts/{account\_id}/dlp/profiles/{profile\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+ContextAwareness object {enabled, skip }
 
-  - `code: number`
+Scan the context of predefined entries to only return matches surrounded by keywords.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+enabled: boolean
 
-  - `source: optional object { pointer }`
+If true, scan the context of predefined entries to only return matches surrounded by keywords.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+skip: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles%20%3E%20(model)%20skip_configuration%20%3E%20(schema)">SkipConfiguration</a> { files }
 
-  Whether the API call was successful.
+Content types to exclude from context analysis and return all matches.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional DLPSettings`
+</details>
 
-  DLP account-level settings response.
+[Link to this property](#)%20zero_trust.dlp.profiles%20%3E%20(model)%20context_awareness%20%3E%20(schema)>)
 
-  - `ai_context_analysis: boolean`
+<details>
 
-    Whether AI context analysis is enabled at the account level.
+<summary>
 
-  - `ocr: boolean`
+Profile = object {id, allowed\_match\_count, created\_at, 13 more } or object {id, allowed\_match\_count, entries, 7 more } or object {id, created\_at, entries, 5 more }
 
-    Whether OCR is enabled at the account level.
+</summary>
 
-  - `payload_logging: object { updated_at, masking_level, public_key }`
+One of the following:
 
-    - `updated_at: string`
+<details>
 
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
+<summary>
 
-      Masking level for payload logs.
+CustomProfile object {id, allowed\_match\_count, created\_at, 13 more }
 
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
+</summary>
 
-      - `"full"`
+id: string
 
-      - `"partial"`
+The id of the profile (uuid).
 
-      - `"clear"`
+formatuuid
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `public_key: optional string`
+allowed\_match\_count: number
 
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+Related DLP policies will trigger when the match count exceeds the number set.
 
-### Example
+formatint32
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+maximum1000
 
-#### Response
+minimum0
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_context_analysis": true,
-    "ocr": true,
-    "payload_logging": {
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "masking_level": "full",
-      "public_key": "public_key"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete (reset) DLP account-level settings to initial values.
+created\_at: string
 
-**delete** `/accounts/{account_id}/dlp/settings`
+When the profile was created.
 
-Delete (reset) DLP account-level settings to initial values.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: string
 
-### Returns
+The name of the profile.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+ocr\_enabled: boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+type: "custom"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+updated\_at: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+When the profile was lasted updated.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+ai\_context\_enabled: optional boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+confidence\_threshold: optional "low"or "medium"or "high"or "very\_high"
 
-  - `true`
+</summary>
 
-- `result: optional DLPSettings`
+One of the following:
 
-  DLP account-level settings response.
+"low"
 
-  - `ai_context_analysis: boolean`
+<a href="#">Link to this property</a>
 
-    Whether AI context analysis is enabled at the account level.
+"medium"
 
-  - `ocr: boolean`
+<a href="#">Link to this property</a>
 
-    Whether OCR is enabled at the account level.
+"high"
 
-  - `payload_logging: object { updated_at, masking_level, public_key }`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+"very\_high"
 
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
+<a href="#">Link to this property</a>
 
-      Masking level for payload logs.
+</details>
 
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
+<a href="#">Link to this property</a>
 
-      - `"full"`
+Deprecatedcontext\_awareness: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles%20%3E%20(model)%20context_awareness%20%3E%20(schema)">ContextAwareness</a> { enabled, skip }
 
-      - `"partial"`
+Scan the context of predefined entries to only return matches surrounded by keywords.
 
-      - `"clear"`
+<a href="#">Link to this property</a>
 
-      - `"default"`
+data\_classes: optional array of string
 
-    - `public_key: optional string`
+Data classes associated with this profile.
 
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+<a href="#">Link to this property</a>
 
-### Example
+data\_tags: optional array of string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Data tags associated with this profile.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_context_analysis": true,
-    "ocr": true,
-    "payload_logging": {
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "masking_level": "full",
-      "public_key": "public_key"
-    }
-  }
-}
-```
+description: optional string
 
-## Domain Types
+The description of the profile.
 
-### DLP Settings
+<a href="#">Link to this property</a>
 
-- `DLPSettings object { ai_context_analysis, ocr, payload_logging }`
+<details>
 
-  DLP account-level settings response.
+<summary>
 
-  - `ai_context_analysis: boolean`
+Deprecatedentries: optional array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-    Whether AI context analysis is enabled at the account level.
+</summary>
 
-  - `ocr: boolean`
+One of the following:
 
-    Whether OCR is enabled at the account level.
+<details>
 
-  - `payload_logging: object { updated_at, masking_level, public_key }`
+<summary>
 
-    - `updated_at: string`
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
+</summary>
 
-      Masking level for payload logs.
+id: string
 
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
+formatuuid
 
-      - `"full"`
+<a href="#">Link to this property</a>
 
-      - `"partial"`
+created\_at: string
 
-      - `"clear"`
+formatdate-time
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `public_key: optional string`
+Deprecatedenabled: boolean
 
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+<a href="#">Link to this property</a>
 
-# Email
+name: string
 
-# Account Mapping
+<a href="#">Link to this property</a>
 
-## Get mapping
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-**get** `/accounts/{account_id}/dlp/email/account_mapping`
+<a href="#">Link to this property</a>
 
-Retrieves the email provider mapping configuration for DLP email scanning.
+type: "custom"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+updated\_at: string
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+description: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedprofile\_id: optional string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+id: string
 
-  Whether the API call was successful.
+formatuuid
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { addin_identifier_token, auth_requirements }`
+created\_at: string
 
-  - `addin_identifier_token: string`
+formatdate-time
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+<a href="#">Link to this property</a>
 
-    - `object { allowed_microsoft_organizations, type }`
+Deprecatedenabled: boolean
 
-      - `allowed_microsoft_organizations: array of string`
+<a href="#">Link to this property</a>
 
-      - `type: "Org"`
+name: string
 
-        - `"Org"`
+<a href="#">Link to this property</a>
 
-    - `Type object { type }`
+type: "custom\_prompt\_topic"
 
-      - `type: "NoAuth"`
+<a href="#">Link to this property</a>
 
-        - `"NoAuth"`
+updated\_at: string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/account_mapping \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+description: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "addin_identifier_token": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "auth_requirements": {
-      "allowed_microsoft_organizations": [
-        "string"
-      ],
-      "type": "Org"
-    }
-  }
-}
-```
+The optional description of the custom prompt topic entry.
 
-## Create mapping
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dlp/email/account_mapping`
+</details>
 
-Creates a mapping between a Cloudflare account and an email provider for DLP email scanning integration.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-- `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+</summary>
 
-  - `object { allowed_microsoft_organizations, type }`
+id: string
 
-    - `allowed_microsoft_organizations: array of string`
+formatuuid
 
-    - `type: "Org"`
+<a href="#">Link to this property</a>
 
-      - `"Org"`
+<details>
 
-  - `Type object { type }`
+<summary>
 
-    - `type: "NoAuth"`
+confidence: object {ai\_context\_available, available }
 
-      - `"NoAuth"`
+</summary>
 
-### Returns
+ai\_context\_available: boolean
 
-- `errors: array of object { code, message, documentation_url, source }`
+Indicates whether this entry has AI remote service validation.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+available: boolean
 
-  - `documentation_url: optional string`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+enabled: boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+type: "predefined"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+deprecated: optional boolean
 
-  - `true`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-- `result: optional object { addin_identifier_token, auth_requirements }`
+<a href="#">Link to this property</a>
 
-  - `addin_identifier_token: string`
+Deprecatedprofile\_id: optional string
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+formatuuid
 
-    - `object { allowed_microsoft_organizations, type }`
+<a href="#">Link to this property</a>
 
-      - `allowed_microsoft_organizations: array of string`
+<details>
 
-      - `type: "Org"`
+<summary>
 
-        - `"Org"`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-    - `Type object { type }`
+A Predefined AI prompt classification topic entry.
 
-      - `type: "NoAuth"`
+</summary>
 
-        - `"NoAuth"`
+One of the following:
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/account_mapping \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auth_requirements": {
-            "allowed_microsoft_organizations": [
-              "string"
-            ],
-            "type": "Org"
-          }
-        }'
-```
+<summary>
 
-#### Response
+object {topic\_type, type, description }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "addin_identifier_token": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "auth_requirements": {
-      "allowed_microsoft_organizations": [
-        "string"
-      ],
-      "type": "Org"
-    }
-  }
-}
-```
+A Predefined AI prompt classification topic entry.
 
-## Domain Types
+</summary>
 
-### Account Mapping Get Response
+<details>
 
-- `AccountMappingGetResponse object { addin_identifier_token, auth_requirements }`
+<summary>
 
-  - `addin_identifier_token: string`
+topic\_type: "Intent"or "Content"
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+</summary>
 
-    - `object { allowed_microsoft_organizations, type }`
+One of the following:
 
-      - `allowed_microsoft_organizations: array of string`
+"Intent"
 
-      - `type: "Org"`
+<a href="#">Link to this property</a>
 
-        - `"Org"`
+"Content"
 
-    - `Type object { type }`
+<a href="#">Link to this property</a>
 
-      - `type: "NoAuth"`
+</details>
 
-        - `"NoAuth"`
+<a href="#">Link to this property</a>
 
-### Account Mapping Create Response
+type: "PromptTopic"
 
-- `AccountMappingCreateResponse object { addin_identifier_token, auth_requirements }`
+<a href="#">Link to this property</a>
 
-  - `addin_identifier_token: string`
+description: optional string
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-    - `object { allowed_microsoft_organizations, type }`
+<a href="#">Link to this property</a>
 
-      - `allowed_microsoft_organizations: array of string`
+</details>
 
-      - `type: "Org"`
+<a href="#">Link to this property</a>
 
-        - `"Org"`
+<details>
 
-    - `Type object { type }`
+<summary>
 
-      - `type: "NoAuth"`
+object {type, description }
 
-        - `"NoAuth"`
+A general predefined entry.
 
-# Rules
+</summary>
 
-## List all email scanner rules
+type: "General"
 
-**get** `/accounts/{account_id}/dlp/email/rules`
+<a href="#">Link to this property</a>
 
-Lists all email scanner rules for an account.
+description: optional string
 
-### Path Parameters
+A customer-facing explanation of what this predefined entry represents.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { action, conditions, created_at, 6 more }`
+enabled: boolean
 
-  - `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-    - `action: "Block"`
+name: string
 
-      - `"Block"`
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+type: "integration"
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+updated\_at: string
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+formatdate-time
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+profile\_id: optional string
 
-      - `"MatchRegex"`
+formatuuid
 
-      - `"NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+</details>
 
-      - `"Recipients"`
+<a href="#">Link to this property</a>
 
-      - `"Sender"`
+<details>
 
-      - `"DLPProfiles"`
+<summary>
 
-    - `value: array of string or string`
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-      - `array of string`
+</summary>
 
-      - `string`
+id: string
 
-  - `created_at: string`
+formatuuid
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+case\_sensitive: boolean
 
-  - `priority: number`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+created\_at: string
 
-  - `description: optional string`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+enabled: boolean
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "action": {
-        "action": "Block",
-        "message": "message"
-      },
-      "conditions": [
-        {
-          "operator": "InList",
-          "selector": "Recipients",
-          "value": [
-            "string"
-          ]
-        }
-      ],
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "name": "name",
-      "priority": 0,
-      "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description"
-    }
-  ]
-}
-```
+name: string
 
-## Get an email scanner rule
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dlp/email/rules/{rule_id}`
+secret: boolean
 
-Gets detailed configuration for a specific DLP email scanning rule, including detection patterns and actions.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+type: "exact\_data"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+updated\_at: string
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+description: optional string
 
-  - `message: string`
+The optional description of the exact data entry.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+formatuuid
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+created\_at: string
 
-  - `true`
+formatdate-time
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `action: object { action, message }`
+enabled: boolean
 
-    - `action: "Block"`
+<a href="#">Link to this property</a>
 
-      - `"Block"`
+name: string
 
-    - `message: optional string`
+<a href="#">Link to this property</a>
 
-  - `conditions: array of object { operator, selector, value }`
+type: "document\_fingerprint"
 
-    Triggered if all conditions match.
+<a href="#">Link to this property</a>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+updated\_at: string
 
-      - `"InList"`
+formatdate-time
 
-      - `"NotInList"`
+<a href="#">Link to this property</a>
 
-      - `"MatchRegex"`
+description: optional string
 
-      - `"NotMatchRegex"`
+The optional description of the document fingerprint entry.
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<a href="#">Link to this property</a>
 
-      - `"Recipients"`
+</details>
 
-      - `"Sender"`
+<a href="#">Link to this property</a>
 
-      - `"DLPProfiles"`
+<details>
 
-    - `value: array of string or string`
+<summary>
 
-      - `array of string`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-      - `string`
+</summary>
 
-  - `created_at: string`
+id: string
 
-  - `enabled: boolean`
+formatuuid
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+created\_at: string
 
-  - `rule_id: string`
+formatdate-time
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+enabled: boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+type: "word\_list"
 
-## Create email scanner rule
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dlp/email/rules`
+updated\_at: string
 
-Creates a new DLP email scanning rule that defines what content patterns to detect in email messages and what actions to take.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+word\_list: unknown
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `action: object { action, message }`
+profile\_id: optional string
 
-  - `action: "Block"`
+formatuuid
 
-    - `"Block"`
+<a href="#">Link to this property</a>
 
-  - `message: optional string`
+</details>
 
-- `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-  Triggered if all conditions match.
+</details>
 
-  - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `"InList"`
+<details>
 
-    - `"NotInList"`
+<summary>
 
-    - `"MatchRegex"`
+sensitivity\_levels: optional array of object {group\_id, level\_id }
 
-    - `"NotMatchRegex"`
+Sensitivity levels associated with this profile.
 
-  - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+</summary>
 
-    - `"Recipients"`
+group\_id: string
 
-    - `"Sender"`
+formatuuid
 
-    - `"DLPProfiles"`
+<a href="#">Link to this property</a>
 
-  - `value: array of string or string`
+level\_id: string
 
-    - `array of string`
+formatuuid
 
-    - `string`
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+shared\_entries: optional array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+Deprecatedenabled: boolean
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+name: string
 
-  - `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-    - `action: "Block"`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-      - `"Block"`
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+type: "custom"
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+updated\_at: string
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+formatdate-time
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+description: optional string
 
-      - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"NotMatchRegex"`
+Deprecatedprofile\_id: optional string
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+formatuuid
 
-      - `"Recipients"`
+<a href="#">Link to this property</a>
 
-      - `"Sender"`
+</details>
 
-      - `"DLPProfiles"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or string`
+<details>
 
-      - `array of string`
+<summary>
 
-      - `string`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-  - `created_at: string`
+</summary>
 
-  - `enabled: boolean`
+id: string
 
-  - `name: string`
+formatuuid
 
-  - `priority: number`
+<a href="#">Link to this property</a>
 
-  - `rule_id: string`
+created\_at: string
 
-  - `updated_at: string`
+formatdate-time
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+Deprecatedenabled: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": {
-            "action": "Block"
-          },
-          "conditions": [
-            {
-              "operator": "InList",
-              "selector": "Recipients",
-              "value": [
-                "string"
-              ]
-            }
-          ],
-          "enabled": true,
-          "name": "name"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update email scanner rule
+type: "custom\_prompt\_topic"
 
-**put** `/accounts/{account_id}/dlp/email/rules/{rule_id}`
+<a href="#">Link to this property</a>
 
-Update email scanner rule
+updated\_at: string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+description: optional string
 
-### Body Parameters
+The optional description of the custom prompt topic entry.
 
-- `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-  - `action: "Block"`
+</details>
 
-    - `"Block"`
+<a href="#">Link to this property</a>
 
-  - `message: optional string`
+<details>
 
-- `conditions: array of object { operator, selector, value }`
+<summary>
 
-  Triggered if all conditions match.
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-  - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+</summary>
 
-    - `"InList"`
+id: string
 
-    - `"NotInList"`
+formatuuid
 
-    - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `"NotMatchRegex"`
+<details>
 
-  - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<summary>
 
-    - `"Recipients"`
+confidence: object {ai\_context\_available, available }
 
-    - `"Sender"`
+</summary>
 
-    - `"DLPProfiles"`
+ai\_context\_available: boolean
 
-  - `value: array of string or string`
+Indicates whether this entry has AI remote service validation.
 
-    - `array of string`
+<a href="#">Link to this property</a>
 
-    - `string`
+available: boolean
 
-- `enabled: boolean`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+enabled: boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+type: "predefined"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+deprecated: optional boolean
 
-  - `code: number`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedprofile\_id: optional string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+A Predefined AI prompt classification topic entry.
 
-  - `action: object { action, message }`
+</summary>
 
-    - `action: "Block"`
+One of the following:
 
-      - `"Block"`
+<details>
 
-    - `message: optional string`
+<summary>
 
-  - `conditions: array of object { operator, selector, value }`
+object {topic\_type, type, description }
 
-    Triggered if all conditions match.
+A Predefined AI prompt classification topic entry.
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+</summary>
 
-      - `"InList"`
+<details>
 
-      - `"NotInList"`
+<summary>
 
-      - `"MatchRegex"`
+topic\_type: "Intent"or "Content"
 
-      - `"NotMatchRegex"`
+</summary>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+One of the following:
 
-      - `"Recipients"`
+"Intent"
 
-      - `"Sender"`
+<a href="#">Link to this property</a>
 
-      - `"DLPProfiles"`
+"Content"
 
-    - `value: array of string or string`
+<a href="#">Link to this property</a>
 
-      - `array of string`
+</details>
 
-      - `string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+type: "PromptTopic"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+description: optional string
 
-  - `priority: number`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules/$RULE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": {
-            "action": "Block"
-          },
-          "conditions": [
-            {
-              "operator": "InList",
-              "selector": "Recipients",
-              "value": [
-                "string"
-              ]
-            }
-          ],
-          "enabled": true,
-          "name": "name"
-        }'
-```
+<summary>
 
-#### Response
+object {type, description }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+A general predefined entry.
 
-## Delete email scanner rule
+</summary>
 
-**delete** `/accounts/{account_id}/dlp/email/rules/{rule_id}`
+type: "General"
 
-Removes a DLP email scanning rule. The rule will no longer be applied to email messages.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+description: optional string
 
-- `account_id: string`
+A customer-facing explanation of what this predefined entry represents.
 
-- `rule_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+enabled: boolean
 
-  - `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-    - `action: "Block"`
+name: string
 
-      - `"Block"`
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+type: "integration"
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+updated\_at: string
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+formatdate-time
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+profile\_id: optional string
 
-      - `"MatchRegex"`
+formatuuid
 
-      - `"NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+</details>
 
-      - `"Recipients"`
+<a href="#">Link to this property</a>
 
-      - `"Sender"`
+<details>
 
-      - `"DLPProfiles"`
+<summary>
 
-    - `value: array of string or string`
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-      - `array of string`
+</summary>
 
-      - `string`
+id: string
 
-  - `created_at: string`
+formatuuid
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+case\_sensitive: boolean
 
-  - `priority: number`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+created\_at: string
 
-  - `description: optional string`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+enabled: boolean
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+name: string
 
-## Update email scanner rule priorities
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/dlp/email/rules`
+secret: boolean
 
-Reorders DLP email scanning rules by updating their priority values. Higher priority rules are evaluated first.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+type: "exact\_data"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+updated\_at: string
 
-- `new_priorities: map[number]`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+description: optional string
 
-  - `code: number`
+The optional description of the exact data entry.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+enabled: boolean
 
-  - `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-    - `action: "Block"`
+name: string
 
-      - `"Block"`
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+type: "document\_fingerprint"
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+updated\_at: string
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+formatdate-time
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+description: optional string
 
-      - `"MatchRegex"`
+The optional description of the document fingerprint entry.
 
-      - `"NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+</details>
 
-      - `"Recipients"`
+<a href="#">Link to this property</a>
 
-      - `"Sender"`
+<details>
 
-      - `"DLPProfiles"`
+<summary>
 
-    - `value: array of string or string`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-      - `array of string`
+</summary>
 
-      - `string`
+id: string
 
-  - `created_at: string`
+formatuuid
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+created\_at: string
 
-  - `priority: number`
+formatdate-time
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+enabled: boolean
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+name: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "new_priorities": {
-            "foo": 0
-          }
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+type: "word\_list"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+updated\_at: string
 
-### Rule List Response
+formatdate-time
 
-- `RuleListResponse object { action, conditions, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `action: object { action, message }`
+word\_list: unknown
 
-    - `action: "Block"`
+<a href="#">Link to this property</a>
 
-      - `"Block"`
+profile\_id: optional string
 
-    - `message: optional string`
+formatuuid
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+</details>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"InList"`
+</details>
 
-      - `"NotInList"`
+<a href="#">Link to this property</a>
 
-      - `"MatchRegex"`
+</details>
 
-      - `"NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<details>
 
-      - `"Recipients"`
+<summary>
 
-      - `"Sender"`
+PredefinedProfile object {id, allowed\_match\_count, entries, 7 more }
 
-      - `"DLPProfiles"`
+</summary>
 
-    - `value: array of string or string`
+id: string
 
-      - `array of string`
+The id of the predefined profile (uuid).
 
-      - `string`
+formatuuid
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+allowed\_match\_count: number
 
-  - `name: string`
+formatint32
 
-  - `priority: number`
+<a href="#">Link to this property</a>
 
-  - `rule_id: string`
+<details>
 
-  - `updated_at: string`
+<summary>
 
-  - `description: optional string`
+Deprecatedentries: array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-### Rule Get Response
+</summary>
 
-- `RuleGetResponse object { action, conditions, created_at, 6 more }`
+One of the following:
 
-  - `action: object { action, message }`
+<details>
 
-    - `action: "Block"`
+<summary>
 
-      - `"Block"`
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-    - `message: optional string`
+</summary>
 
-  - `conditions: array of object { operator, selector, value }`
+id: string
 
-    Triggered if all conditions match.
+formatuuid
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"InList"`
+created\_at: string
 
-      - `"NotInList"`
+formatdate-time
 
-      - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"NotMatchRegex"`
+Deprecatedenabled: boolean
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<a href="#">Link to this property</a>
 
-      - `"Recipients"`
+name: string
 
-      - `"Sender"`
+<a href="#">Link to this property</a>
 
-      - `"DLPProfiles"`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-    - `value: array of string or string`
+<a href="#">Link to this property</a>
 
-      - `array of string`
+type: "custom"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+updated\_at: string
 
-  - `enabled: boolean`
+formatdate-time
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+description: optional string
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+Deprecatedprofile\_id: optional string
 
-  - `description: optional string`
+formatuuid
 
-### Rule Create Response
+<a href="#">Link to this property</a>
 
-- `RuleCreateResponse object { action, conditions, created_at, 6 more }`
+</details>
 
-  - `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-    - `action: "Block"`
+<details>
 
-      - `"Block"`
+<summary>
 
-    - `message: optional string`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-  - `conditions: array of object { operator, selector, value }`
+</summary>
 
-    Triggered if all conditions match.
+id: string
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+formatuuid
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+created\_at: string
 
-      - `"MatchRegex"`
+formatdate-time
 
-      - `"NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+Deprecatedenabled: boolean
 
-      - `"Recipients"`
+<a href="#">Link to this property</a>
 
-      - `"Sender"`
+name: string
 
-      - `"DLPProfiles"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or string`
+type: "custom\_prompt\_topic"
 
-      - `array of string`
+<a href="#">Link to this property</a>
 
-      - `string`
+updated\_at: string
 
-  - `created_at: string`
+formatdate-time
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+description: optional string
 
-  - `priority: number`
+The optional description of the custom prompt topic entry.
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Rule Update Response
+<details>
 
-- `RuleUpdateResponse object { action, conditions, created_at, 6 more }`
+<summary>
 
-  - `action: object { action, message }`
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-    - `action: "Block"`
+</summary>
 
-      - `"Block"`
+id: string
 
-    - `message: optional string`
+formatuuid
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+<details>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<summary>
 
-      - `"InList"`
+confidence: object {ai\_context\_available, available }
 
-      - `"NotInList"`
+</summary>
 
-      - `"MatchRegex"`
+ai\_context\_available: boolean
 
-      - `"NotMatchRegex"`
+Indicates whether this entry has AI remote service validation.
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<a href="#">Link to this property</a>
 
-      - `"Recipients"`
+available: boolean
 
-      - `"Sender"`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-      - `"DLPProfiles"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or string`
+</details>
 
-      - `array of string`
+<a href="#">Link to this property</a>
 
-      - `string`
+enabled: boolean
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+name: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+type: "predefined"
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+deprecated: optional boolean
 
-  - `description: optional string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-### Rule Delete Response
+<a href="#">Link to this property</a>
 
-- `RuleDeleteResponse object { action, conditions, created_at, 6 more }`
+Deprecatedprofile\_id: optional string
 
-  - `action: object { action, message }`
+formatuuid
 
-    - `action: "Block"`
+<a href="#">Link to this property</a>
 
-      - `"Block"`
+<details>
 
-    - `message: optional string`
+<summary>
 
-  - `conditions: array of object { operator, selector, value }`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-    Triggered if all conditions match.
+A Predefined AI prompt classification topic entry.
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+</summary>
 
-      - `"InList"`
+One of the following:
 
-      - `"NotInList"`
+<details>
 
-      - `"MatchRegex"`
+<summary>
 
-      - `"NotMatchRegex"`
+object {topic\_type, type, description }
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+A Predefined AI prompt classification topic entry.
 
-      - `"Recipients"`
+</summary>
 
-      - `"Sender"`
+<details>
 
-      - `"DLPProfiles"`
+<summary>
 
-    - `value: array of string or string`
+topic\_type: "Intent"or "Content"
 
-      - `array of string`
+</summary>
 
-      - `string`
+One of the following:
 
-  - `created_at: string`
+"Intent"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"Content"
 
-  - `priority: number`
+<a href="#">Link to this property</a>
 
-  - `rule_id: string`
+</details>
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+type: "PromptTopic"
 
-### Rule Bulk Edit Response
+<a href="#">Link to this property</a>
 
-- `RuleBulkEditResponse object { action, conditions, created_at, 6 more }`
+description: optional string
 
-  - `action: object { action, message }`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-    - `action: "Block"`
+<a href="#">Link to this property</a>
 
-      - `"Block"`
+</details>
 
-    - `message: optional string`
+<a href="#">Link to this property</a>
 
-  - `conditions: array of object { operator, selector, value }`
+<details>
 
-    Triggered if all conditions match.
+<summary>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+object {type, description }
 
-      - `"InList"`
+A general predefined entry.
 
-      - `"NotInList"`
+</summary>
 
-      - `"MatchRegex"`
+type: "General"
 
-      - `"NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+description: optional string
 
-      - `"Recipients"`
+A customer-facing explanation of what this predefined entry represents.
 
-      - `"Sender"`
+<a href="#">Link to this property</a>
 
-      - `"DLPProfiles"`
+</details>
 
-    - `value: array of string or string`
+<a href="#">Link to this property</a>
 
-      - `array of string`
+</details>
 
-      - `string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-  - `priority: number`
+<summary>
 
-  - `rule_id: string`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-  - `updated_at: string`
+</summary>
 
-  - `description: optional string`
+id: string
 
-# Profiles
+formatuuid
 
-## List all profiles
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dlp/profiles`
+created\_at: string
 
-Lists all DLP profiles in an account.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+enabled: boolean
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `all: optional boolean`
+name: string
 
-  Return all profiles, including those that current account does not have access to.
+<a href="#">Link to this property</a>
 
-### Returns
+type: "integration"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+updated\_at: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+profile\_id: optional string
 
-    - `pointer: optional string`
+formatuuid
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: string
 
-  - `true`
+formatuuid
 
-- `result: optional array of Profile`
+<a href="#">Link to this property</a>
 
-  - `CustomProfile object { id, allowed_match_count, created_at, 13 more }`
+case\_sensitive: boolean
 
-    - `id: string`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-      The id of the profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+created\_at: string
 
-      Related DLP policies will trigger when the match count exceeds the number set.
+formatdate-time
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-      When the profile was created.
+enabled: boolean
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the profile.
+name: string
 
-    - `ocr_enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `type: "custom"`
+secret: boolean
 
-      - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+type: "exact\_data"
 
-      When the profile was lasted updated.
+<a href="#">Link to this property</a>
 
-    - `ai_context_enabled: optional boolean`
+updated\_at: string
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+formatdate-time
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+description: optional string
 
-      - `"high"`
+The optional description of the exact data entry.
 
-      - `"very_high"`
+<a href="#">Link to this property</a>
 
-    - `context_awareness: optional ContextAwareness`
+</details>
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+<details>
 
-        If true, scan the context of predefined entries to only return matches surrounded by keywords.
+<summary>
 
-      - `skip: SkipConfiguration`
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-        Content types to exclude from context analysis and return all matches.
+</summary>
 
-        - `files: boolean`
+id: string
 
-          If the content type is a file, skip context analysis and return all matches.
+formatuuid
 
-    - `data_classes: optional array of string`
+<a href="#">Link to this property</a>
 
-      Data classes associated with this profile.
+created\_at: string
 
-    - `data_tags: optional array of string`
+formatdate-time
 
-      Data tags associated with this profile.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+enabled: boolean
 
-      The description of the profile.
+<a href="#">Link to this property</a>
 
-    - `entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+name: string
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+type: "document\_fingerprint"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+updated\_at: string
 
-        - `name: string`
+formatdate-time
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-          - `regex: string`
+description: optional string
 
-          - `validation: optional "luhn"`
+The optional description of the document fingerprint entry.
 
-            - `"luhn"`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+</details>
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-        - `profile_id: optional string`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+created\_at: string
 
-        - `type: "custom_prompt_topic"`
+formatdate-time
 
-          - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+enabled: boolean
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the custom prompt topic entry.
+name: string
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+type: "word\_list"
 
-        - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-          - `ai_context_available: boolean`
+updated\_at: string
 
-            Indicates whether this entry has AI remote service validation.
+formatdate-time
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+word\_list: unknown
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+profile\_id: optional string
 
-        - `type: "predefined"`
+formatuuid
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+</details>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+</details>
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+name: string
 
-            - `topic_type: "Intent" or "Content"`
+The name of the predefined profile.
 
-              - `"Intent"`
+<a href="#">Link to this property</a>
 
-              - `"Content"`
+type: "predefined"
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+ai\_context\_enabled: optional boolean
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<details>
 
-          - `object { type, description }`
+<summary>
 
-            A general predefined entry.
+confidence\_threshold: optional "low"or "medium"or "high"or "very\_high"
 
-            - `type: "General"`
+</summary>
 
-              - `"General"`
+One of the following:
 
-            - `description: optional string`
+"low"
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+"medium"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+"high"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"very\_high"
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+</details>
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+Deprecatedcontext\_awareness: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles%20%3E%20(model)%20context_awareness%20%3E%20(schema)">ContextAwareness</a> { enabled, skip }
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+Scan the context of predefined entries to only return matches surrounded by keywords.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+ocr\_enabled: optional boolean
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+open\_access: optional boolean
 
-        - `enabled: boolean`
+Whether this profile can be accessed by anyone.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+</details>
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+IntegrationProfile object {id, created\_at, entries, 5 more }
 
-          The optional description of the exact data entry.
+</summary>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+id: string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+created\_at: string
 
-        - `name: string`
+formatdate-time
 
-        - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-          - `"document_fingerprint"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+Deprecatedentries: array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-          The optional description of the document fingerprint entry.
+</summary>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+One of the following:
 
-        - `id: string`
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-        - `name: string`
+</summary>
 
-        - `type: "word_list"`
+id: string
 
-          - `"word_list"`
+formatuuid
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `word_list: unknown`
+created\_at: string
 
-        - `profile_id: optional string`
+formatdate-time
 
-    - `sensitivity_levels: optional array of object { group_id, level_id }`
+<a href="#">Link to this property</a>
 
-      Sensitivity levels associated with this profile.
+Deprecatedenabled: boolean
 
-      - `group_id: string`
+<a href="#">Link to this property</a>
 
-      - `level_id: string`
+name: string
 
-    - `shared_entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+type: "custom"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+updated\_at: string
 
-        - `pattern: Pattern`
+formatdate-time
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+description: optional string
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+Deprecatedprofile\_id: optional string
 
-        - `profile_id: optional string`
+formatuuid
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "custom_prompt_topic"`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-          - `"custom_prompt_topic"`
+</summary>
 
-        - `updated_at: string`
+id: string
 
-        - `description: optional string`
+formatuuid
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+created\_at: string
 
-        - `id: string`
+formatdate-time
 
-        - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-          - `ai_context_available: boolean`
+Deprecatedenabled: boolean
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+name: string
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+type: "custom\_prompt\_topic"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+updated\_at: string
 
-          - `"predefined"`
+formatdate-time
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+description: optional string
 
-          A Predefined AI prompt classification topic entry.
+The optional description of the custom prompt topic entry.
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+</details>
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+<details>
 
-              - `"Content"`
+<summary>
 
-            - `type: "PromptTopic"`
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-              - `"PromptTopic"`
+</summary>
 
-            - `description: optional string`
+id: string
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+formatuuid
 
-          - `object { type, description }`
+<a href="#">Link to this property</a>
 
-            A general predefined entry.
+<details>
 
-            - `type: "General"`
+<summary>
 
-              - `"General"`
+confidence: object {ai\_context\_available, available }
 
-            - `description: optional string`
+</summary>
 
-              A customer-facing explanation of what this predefined entry represents.
+ai\_context\_available: boolean
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+Indicates whether this entry has AI remote service validation.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+available: boolean
 
-        - `enabled: boolean`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "integration"`
+</details>
 
-          - `"integration"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+enabled: boolean
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+name: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+type: "predefined"
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+deprecated: optional boolean
 
-        - `enabled: boolean`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+Deprecatedprofile\_id: optional string
 
-        - `type: "exact_data"`
+formatuuid
 
-          - `"exact_data"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          The optional description of the exact data entry.
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+A Predefined AI prompt classification topic entry.
 
-        - `id: string`
+</summary>
 
-        - `created_at: string`
+One of the following:
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "document_fingerprint"`
+object {topic\_type, type, description }
 
-          - `"document_fingerprint"`
+A Predefined AI prompt classification topic entry.
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+<details>
 
-          The optional description of the document fingerprint entry.
+<summary>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+topic\_type: "Intent"or "Content"
 
-        - `id: string`
+</summary>
 
-        - `created_at: string`
+One of the following:
 
-        - `enabled: boolean`
+"Intent"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+"Content"
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+type: "PromptTopic"
 
-  - `PredefinedProfile object { id, allowed_match_count, entries, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+description: optional string
 
-      The id of the predefined profile (uuid).
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-    - `allowed_match_count: number`
+<a href="#">Link to this property</a>
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+</details>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+object {type, description }
 
-        - `name: string`
+A general predefined entry.
 
-        - `pattern: Pattern`
+</summary>
 
-        - `type: "custom"`
+type: "General"
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+description: optional string
 
-        - `description: optional string`
+A customer-facing explanation of what this predefined entry represents.
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-          - `"custom_prompt_topic"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-          The optional description of the custom prompt topic entry.
+</summary>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+id: string
 
-        - `id: string`
+formatuuid
 
-        - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-          - `ai_context_available: boolean`
+created\_at: string
 
-            Indicates whether this entry has AI remote service validation.
+formatdate-time
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+enabled: boolean
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+name: string
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+type: "integration"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+updated\_at: string
 
-          A Predefined AI prompt classification topic entry.
+formatdate-time
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+profile\_id: optional string
 
-            - `topic_type: "Intent" or "Content"`
+formatuuid
 
-              - `"Intent"`
+<a href="#">Link to this property</a>
 
-              - `"Content"`
+</details>
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+<details>
 
-            - `description: optional string`
+<summary>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-          - `object { type, description }`
+</summary>
 
-            A general predefined entry.
+id: string
 
-            - `type: "General"`
+formatuuid
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+case\_sensitive: boolean
 
-              A customer-facing explanation of what this predefined entry represents.
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+created\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+enabled: boolean
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+name: string
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+secret: boolean
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+type: "exact\_data"
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+updated\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+description: optional string
 
-        - `secret: boolean`
+The optional description of the exact data entry.
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+</details>
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+<details>
 
-          The optional description of the exact data entry.
+<summary>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-        - `id: string`
+</summary>
 
-        - `created_at: string`
+id: string
 
-        - `enabled: boolean`
+formatuuid
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+created\_at: string
 
-          - `"document_fingerprint"`
+formatdate-time
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+enabled: boolean
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+name: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+type: "document\_fingerprint"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+updated\_at: string
 
-        - `type: "word_list"`
+formatdate-time
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+description: optional string
 
-        - `word_list: unknown`
+The optional description of the document fingerprint entry.
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      The name of the predefined profile.
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+<details>
 
-      - `"predefined"`
+<summary>
 
-    - `ai_context_enabled: optional boolean`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+</summary>
 
-      - `"low"`
+id: string
 
-      - `"medium"`
+formatuuid
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-      - `"very_high"`
+created\_at: string
 
-    - `context_awareness: optional ContextAwareness`
+formatdate-time
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-    - `ocr_enabled: optional boolean`
+enabled: boolean
 
-    - `open_access: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether this profile can be accessed by anyone.
+name: string
 
-  - `IntegrationProfile object { id, created_at, entries, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+type: "word\_list"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+updated\_at: string
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+formatdate-time
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+word\_list: unknown
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+profile\_id: optional string
 
-        - `pattern: Pattern`
+formatuuid
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+</details>
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+</details>
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+name: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+shared\_entries: array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-        - `type: "custom_prompt_topic"`
+</summary>
 
-          - `"custom_prompt_topic"`
+One of the following:
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          The optional description of the custom prompt topic entry.
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `confidence: object { ai_context_available, available }`
+formatuuid
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+created\_at: string
 
-          - `available: boolean`
+formatdate-time
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+Deprecatedenabled: boolean
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+name: string
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+type: "custom"
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+updated\_at: string
 
-            - `topic_type: "Intent" or "Content"`
+formatdate-time
 
-              - `"Intent"`
+<a href="#">Link to this property</a>
 
-              - `"Content"`
+description: optional string
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+Deprecatedprofile\_id: optional string
 
-            - `description: optional string`
+formatuuid
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+</details>
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+<details>
 
-              - `"General"`
+<summary>
 
-            - `description: optional string`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-              A customer-facing explanation of what this predefined entry represents.
+</summary>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+id: string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+created\_at: string
 
-        - `name: string`
+formatdate-time
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+Deprecatedenabled: boolean
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+name: string
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+type: "custom\_prompt\_topic"
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+updated\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+description: optional string
 
-        - `secret: boolean`
+The optional description of the custom prompt topic entry.
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+</details>
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+<details>
 
-          The optional description of the exact data entry.
+<summary>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-        - `id: string`
+</summary>
 
-        - `created_at: string`
+id: string
 
-        - `enabled: boolean`
+formatuuid
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+<details>
 
-          - `"document_fingerprint"`
+<summary>
 
-        - `updated_at: string`
+confidence: object {ai\_context\_available, available }
 
-        - `description: optional string`
+</summary>
 
-          The optional description of the document fingerprint entry.
+ai\_context\_available: boolean
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+Indicates whether this entry has AI remote service validation.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+available: boolean
 
-        - `enabled: boolean`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+</details>
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+enabled: boolean
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+name: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `shared_entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+type: "predefined"
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+deprecated: optional boolean
 
-        - `created_at: string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+Deprecatedprofile\_id: optional string
 
-        - `pattern: Pattern`
+formatuuid
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-        - `profile_id: optional string`
+A Predefined AI prompt classification topic entry.
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+object {topic\_type, type, description }
 
-        - `type: "custom_prompt_topic"`
+A Predefined AI prompt classification topic entry.
 
-          - `"custom_prompt_topic"`
+</summary>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          The optional description of the custom prompt topic entry.
+topic\_type: "Intent"or "Content"
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `confidence: object { ai_context_available, available }`
+"Intent"
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+"Content"
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+type: "PromptTopic"
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+description: optional string
 
-        - `profile_id: optional string`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+</details>
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+<details>
 
-            - `topic_type: "Intent" or "Content"`
+<summary>
 
-              - `"Intent"`
+object {type, description }
 
-              - `"Content"`
+A general predefined entry.
 
-            - `type: "PromptTopic"`
+</summary>
 
-              - `"PromptTopic"`
+type: "General"
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+description: optional string
 
-          - `object { type, description }`
+A customer-facing explanation of what this predefined entry represents.
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+</details>
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+</details>
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-        - `type: "integration"`
+</summary>
 
-          - `"integration"`
+id: string
 
-        - `updated_at: string`
+formatuuid
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+created\_at: string
 
-        - `id: string`
+formatdate-time
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+enabled: boolean
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+name: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+type: "integration"
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+updated\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the exact data entry.
+profile\_id: optional string
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `type: "document_fingerprint"`
+<summary>
 
-          - `"document_fingerprint"`
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+id: string
 
-          The optional description of the document fingerprint entry.
+formatuuid
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+case\_sensitive: boolean
 
-        - `created_at: string`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+created\_at: string
 
-        - `type: "word_list"`
+formatdate-time
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+enabled: boolean
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+name: string
 
-    - `type: "integration"`
+<a href="#">Link to this property</a>
 
-      - `"integration"`
+secret: boolean
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+type: "exact\_data"
 
-      The description of the profile.
+<a href="#">Link to this property</a>
 
-### Example
+updated\_at: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "allowed_match_count": 5,
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "ocr_enabled": true,
-      "type": "custom",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "ai_context_enabled": true,
-      "confidence_threshold": "low",
-      "context_awareness": {
-        "enabled": true,
-        "skip": {
-          "files": true
-        }
-      },
-      "data_classes": [
-        "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      ],
-      "data_tags": [
-        "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      ],
-      "description": "description",
-      "entries": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "enabled": true,
-          "name": "name",
-          "pattern": {
-            "regex": "regex",
-            "validation": "luhn"
-          },
-          "type": "custom",
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "description": "description",
-          "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-        }
-      ],
-      "sensitivity_levels": [
-        {
-          "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-        }
-      ],
-      "shared_entries": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "enabled": true,
-          "name": "name",
-          "pattern": {
-            "regex": "regex",
-            "validation": "luhn"
-          },
-          "type": "custom",
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "description": "description",
-          "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-        }
-      ]
-    }
-  ]
-}
-```
+description: optional string
 
-## Get DLP Profile
+The optional description of the exact data entry.
 
-**get** `/accounts/{account_id}/dlp/profiles/{profile_id}`
+<a href="#">Link to this property</a>
 
-Fetches a DLP profile by ID.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-- `profile_id: string`
+<summary>
 
-### Returns
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+enabled: boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+type: "document\_fingerprint"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+updated\_at: string
 
-  - `true`
+formatdate-time
 
-- `result: optional Profile`
+<a href="#">Link to this property</a>
 
-  - `CustomProfile object { id, allowed_match_count, created_at, 13 more }`
+description: optional string
 
-    - `id: string`
+The optional description of the document fingerprint entry.
 
-      The id of the profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+</details>
 
-      Related DLP policies will trigger when the match count exceeds the number set.
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+<details>
 
-      When the profile was created.
+<summary>
 
-    - `name: string`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-      The name of the profile.
+</summary>
 
-    - `ocr_enabled: boolean`
+id: string
 
-    - `type: "custom"`
+formatuuid
 
-      - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+created\_at: string
 
-      When the profile was lasted updated.
+formatdate-time
 
-    - `ai_context_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+enabled: boolean
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+name: string
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-      - `"very_high"`
+type: "word\_list"
 
-    - `context_awareness: optional ContextAwareness`
+<a href="#">Link to this property</a>
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+updated\_at: string
 
-      - `enabled: boolean`
+formatdate-time
 
-        If true, scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-      - `skip: SkipConfiguration`
+word\_list: unknown
 
-        Content types to exclude from context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-        - `files: boolean`
+profile\_id: optional string
 
-          If the content type is a file, skip context analysis and return all matches.
+formatuuid
 
-    - `data_classes: optional array of string`
+<a href="#">Link to this property</a>
 
-      Data classes associated with this profile.
+</details>
 
-    - `data_tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      Data tags associated with this profile.
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The description of the profile.
+type: "integration"
 
-    - `entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+updated\_at: string
 
-        - `id: string`
+formatdate-time
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+description: optional string
 
-        - `name: string`
+The description of the profile.
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-          - `regex: string`
+</details>
 
-          - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-            - `"luhn"`
+</details>
 
-        - `type: "custom"`
+[Link to this property](#)%20zero_trust.dlp.profiles%20%3E%20(model)%20profile%20%3E%20(schema)>)
 
-          - `"custom"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+SkipConfiguration object {files }
 
-        - `profile_id: optional string`
+Content types to exclude from context analysis and return all matches.
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+files: boolean
 
-        - `created_at: string`
+If the content type is a file, skip context analysis and return all matches.
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `type: "custom_prompt_topic"`
+[Link to this property](#)%20zero_trust.dlp.profiles%20%3E%20(model)%20skip_configuration%20%3E%20(schema)>)
 
-          - `"custom_prompt_topic"`
+#### DLPProfilesCustom
 
-        - `updated_at: string`
+##### [Get custom profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/custom/methods/get)
 
-        - `description: optional string`
+GET/accounts/{account\_id}/dlp/profiles/custom/{profile\_id}
 
-          The optional description of the custom prompt topic entry.
+##### [Create custom profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/custom/methods/create)
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+POST/accounts/{account\_id}/dlp/profiles/custom
 
-        - `id: string`
+##### [Update custom profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/custom/methods/update)
 
-        - `confidence: object { ai_context_available, available }`
+PUT/accounts/{account\_id}/dlp/profiles/custom/{profile\_id}
 
-          - `ai_context_available: boolean`
+##### [Delete custom profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/custom/methods/delete)
 
-            Indicates whether this entry has AI remote service validation.
+DELETE/accounts/{account\_id}/dlp/profiles/custom/{profile\_id}
 
-          - `available: boolean`
+##### ModelsExpand Collapse
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+CustomProfile object {id, allowed\_match\_count, created\_at, 12 more }
 
-        - `type: "predefined"`
+</summary>
 
-          - `"predefined"`
+id: string
 
-        - `profile_id: optional string`
+The id of the profile (uuid).
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+formatuuid
 
-          A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-          - `object { topic_type, type, description }`
+allowed\_match\_count: number
 
-            A Predefined AI prompt classification topic entry.
+Related DLP policies will trigger when the match count exceeds the number set.
 
-            - `topic_type: "Intent" or "Content"`
+formatint32
 
-              - `"Intent"`
+maximum1000
 
-              - `"Content"`
+minimum0
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+created\_at: string
 
-            - `description: optional string`
+When the profile was created.
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+formatdate-time
 
-          - `object { type, description }`
+<a href="#">Link to this property</a>
 
-            A general predefined entry.
+name: string
 
-            - `type: "General"`
+The name of the profile.
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+ocr\_enabled: boolean
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+updated\_at: string
 
-        - `id: string`
+When the profile was lasted updated.
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+ai\_context\_enabled: optional boolean
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `profile_id: optional string`
+confidence\_threshold: optional "low"or "medium"or "high"or "very\_high"
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `case_sensitive: boolean`
+"low"
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+"medium"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"high"
 
-        - `secret: boolean`
+<a href="#">Link to this property</a>
 
-        - `type: "exact_data"`
+"very\_high"
 
-          - `"exact_data"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the exact data entry.
+Deprecatedcontext\_awareness: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles%20%3E%20(model)%20context_awareness%20%3E%20(schema)">ContextAwareness</a> { enabled, skip }
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+Scan the context of predefined entries to only return matches surrounded by keywords.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+data\_classes: optional array of string
 
-        - `enabled: boolean`
+Data classes associated with this profile.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+data\_tags: optional array of string
 
-          - `"document_fingerprint"`
+Data tags associated with this profile.
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+description: optional string
 
-          The optional description of the document fingerprint entry.
+The description of the profile.
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+Deprecatedentries: optional array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-        - `name: string`
+</summary>
 
-        - `type: "word_list"`
+One of the following:
 
-          - `"word_list"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `word_list: unknown`
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-        - `profile_id: optional string`
+</summary>
 
-    - `sensitivity_levels: optional array of object { group_id, level_id }`
+id: string
 
-      Sensitivity levels associated with this profile.
+formatuuid
 
-      - `group_id: string`
+<a href="#">Link to this property</a>
 
-      - `level_id: string`
+created\_at: string
 
-    - `shared_entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+formatdate-time
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+Deprecatedenabled: boolean
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+name: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `pattern: Pattern`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+type: "custom"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+updated\_at: string
 
-        - `profile_id: optional string`
+formatdate-time
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+description: optional string
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+Deprecatedprofile\_id: optional string
 
-        - `name: string`
+formatuuid
 
-        - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-          - `"custom_prompt_topic"`
+</details>
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+<details>
 
-          The optional description of the custom prompt topic entry.
+<summary>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-        - `id: string`
+</summary>
 
-        - `confidence: object { ai_context_available, available }`
+id: string
 
-          - `ai_context_available: boolean`
+formatuuid
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+created\_at: string
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+Deprecatedenabled: boolean
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+name: string
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+type: "custom\_prompt\_topic"
 
-          A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-          - `object { topic_type, type, description }`
+updated\_at: string
 
-            A Predefined AI prompt classification topic entry.
+formatdate-time
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+description: optional string
 
-              - `"Content"`
+The optional description of the custom prompt topic entry.
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+</details>
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<details>
 
-          - `object { type, description }`
+<summary>
 
-            A general predefined entry.
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-            - `type: "General"`
+</summary>
 
-              - `"General"`
+id: string
 
-            - `description: optional string`
+formatuuid
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `created_at: string`
+confidence: object {ai\_context\_available, available }
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+ai\_context\_available: boolean
 
-        - `type: "integration"`
+Indicates whether this entry has AI remote service validation.
 
-          - `"integration"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+available: boolean
 
-        - `profile_id: optional string`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+enabled: boolean
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+name: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+type: "predefined"
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+deprecated: optional boolean
 
-        - `updated_at: string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the exact data entry.
+Deprecatedprofile\_id: optional string
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-        - `type: "document_fingerprint"`
+A Predefined AI prompt classification topic entry.
 
-          - `"document_fingerprint"`
+</summary>
 
-        - `updated_at: string`
+One of the following:
 
-        - `description: optional string`
+<details>
 
-          The optional description of the document fingerprint entry.
+<summary>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+object {topic\_type, type, description }
 
-        - `id: string`
+A Predefined AI prompt classification topic entry.
 
-        - `created_at: string`
+</summary>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "word_list"`
+topic\_type: "Intent"or "Content"
 
-          - `"word_list"`
+</summary>
 
-        - `updated_at: string`
+One of the following:
 
-        - `word_list: unknown`
+"Intent"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `PredefinedProfile object { id, allowed_match_count, entries, 7 more }`
+"Content"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      The id of the predefined profile (uuid).
+</details>
 
-    - `allowed_match_count: number`
+<a href="#">Link to this property</a>
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+type: "PromptTopic"
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+description: optional string
 
-        - `created_at: string`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+<details>
 
-          - `"custom"`
+<summary>
 
-        - `updated_at: string`
+object {type, description }
 
-        - `description: optional string`
+A general predefined entry.
 
-        - `profile_id: optional string`
+</summary>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+type: "General"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+description: optional string
 
-        - `enabled: boolean`
+A customer-facing explanation of what this predefined entry represents.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+</details>
 
-          - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the custom prompt topic entry.
+</details>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `confidence: object { ai_context_available, available }`
+<summary>
 
-          - `ai_context_available: boolean`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-            Indicates whether this entry has AI remote service validation.
+</summary>
 
-          - `available: boolean`
+id: string
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+created\_at: string
 
-        - `type: "predefined"`
+formatdate-time
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+enabled: boolean
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+name: string
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+type: "integration"
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+updated\_at: string
 
-              - `"Content"`
+formatdate-time
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+profile\_id: optional string
 
-            - `description: optional string`
+formatuuid
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+</details>
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+<details>
 
-              - `"General"`
+<summary>
 
-            - `description: optional string`
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-              A customer-facing explanation of what this predefined entry represents.
+</summary>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+id: string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+case\_sensitive: boolean
 
-        - `name: string`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+created\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+enabled: boolean
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+name: string
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+secret: boolean
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+type: "exact\_data"
 
-        - `secret: boolean`
+<a href="#">Link to this property</a>
 
-        - `type: "exact_data"`
+updated\_at: string
 
-          - `"exact_data"`
+formatdate-time
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+description: optional string
 
-          The optional description of the exact data entry.
+The optional description of the exact data entry.
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "document_fingerprint"`
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-          - `"document_fingerprint"`
+</summary>
 
-        - `updated_at: string`
+id: string
 
-        - `description: optional string`
+formatuuid
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+created\_at: string
 
-        - `id: string`
+formatdate-time
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+enabled: boolean
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+name: string
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+type: "document\_fingerprint"
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+updated\_at: string
 
-    - `name: string`
+formatdate-time
 
-      The name of the predefined profile.
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+description: optional string
 
-      - `"predefined"`
+The optional description of the document fingerprint entry.
 
-    - `ai_context_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+</details>
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+<details>
 
-      - `"high"`
+<summary>
 
-      - `"very_high"`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-    - `context_awareness: optional ContextAwareness`
+</summary>
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+id: string
 
-    - `ocr_enabled: optional boolean`
+formatuuid
 
-    - `open_access: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether this profile can be accessed by anyone.
+created\_at: string
 
-  - `IntegrationProfile object { id, created_at, entries, 5 more }`
+formatdate-time
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+enabled: boolean
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+name: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+type: "word\_list"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+updated\_at: string
 
-        - `pattern: Pattern`
+formatdate-time
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+word\_list: unknown
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+profile\_id: optional string
 
-        - `profile_id: optional string`
+formatuuid
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+<details>
 
-          - `"custom_prompt_topic"`
+<summary>
 
-        - `updated_at: string`
+sensitivity\_levels: optional array of object {group\_id, level\_id }
 
-        - `description: optional string`
+Sensitivity levels associated with this profile.
 
-          The optional description of the custom prompt topic entry.
+</summary>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+group\_id: string
 
-        - `id: string`
+formatuuid
 
-        - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-          - `ai_context_available: boolean`
+level\_id: string
 
-            Indicates whether this entry has AI remote service validation.
+formatuuid
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `type: "predefined"`
+<summary>
 
-          - `"predefined"`
+shared\_entries: optional array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-        - `profile_id: optional string`
+</summary>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+One of the following:
 
-          A Predefined AI prompt classification topic entry.
+<details>
 
-          - `object { topic_type, type, description }`
+<summary>
 
-            A Predefined AI prompt classification topic entry.
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-            - `topic_type: "Intent" or "Content"`
+</summary>
 
-              - `"Intent"`
+id: string
 
-              - `"Content"`
+formatuuid
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+created\_at: string
 
-            - `description: optional string`
+formatdate-time
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+Deprecatedenabled: boolean
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+name: string
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+type: "custom"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+updated\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "integration"`
+description: optional string
 
-          - `"integration"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+Deprecatedprofile\_id: optional string
 
-        - `profile_id: optional string`
+formatuuid
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-        - `name: string`
+</summary>
 
-        - `secret: boolean`
+id: string
 
-        - `type: "exact_data"`
+formatuuid
 
-          - `"exact_data"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+created\_at: string
 
-        - `description: optional string`
+formatdate-time
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+Deprecatedenabled: boolean
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+name: string
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+type: "custom\_prompt\_topic"
 
-        - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-          - `"document_fingerprint"`
+updated\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the document fingerprint entry.
+description: optional string
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+The optional description of the custom prompt topic entry.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `type: "word_list"`
+<summary>
 
-          - `"word_list"`
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-        - `updated_at: string`
+</summary>
 
-        - `word_list: unknown`
+id: string
 
-        - `profile_id: optional string`
+formatuuid
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `shared_entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<details>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<summary>
 
-        - `id: string`
+confidence: object {ai\_context\_available, available }
 
-        - `created_at: string`
+</summary>
 
-        - `enabled: boolean`
+ai\_context\_available: boolean
 
-        - `name: string`
+Indicates whether this entry has AI remote service validation.
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+available: boolean
 
-          - `"custom"`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+</details>
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+enabled: boolean
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+name: string
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+type: "predefined"
 
-        - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-          - `"custom_prompt_topic"`
+deprecated: optional boolean
 
-        - `updated_at: string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the custom prompt topic entry.
+Deprecatedprofile\_id: optional string
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `confidence: object { ai_context_available, available }`
+<details>
 
-          - `ai_context_available: boolean`
+<summary>
 
-            Indicates whether this entry has AI remote service validation.
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-          - `available: boolean`
+A Predefined AI prompt classification topic entry.
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+</summary>
 
-        - `enabled: boolean`
+One of the following:
 
-        - `name: string`
+<details>
 
-        - `type: "predefined"`
+<summary>
 
-          - `"predefined"`
+object {topic\_type, type, description }
 
-        - `profile_id: optional string`
+A Predefined AI prompt classification topic entry.
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+</summary>
 
-          A Predefined AI prompt classification topic entry.
+<details>
 
-          - `object { topic_type, type, description }`
+<summary>
 
-            A Predefined AI prompt classification topic entry.
+topic\_type: "Intent"or "Content"
 
-            - `topic_type: "Intent" or "Content"`
+</summary>
 
-              - `"Intent"`
+One of the following:
 
-              - `"Content"`
+"Intent"
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+"Content"
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+</details>
 
-          - `object { type, description }`
+<a href="#">Link to this property</a>
 
-            A general predefined entry.
+type: "PromptTopic"
 
-            - `type: "General"`
+<a href="#">Link to this property</a>
 
-              - `"General"`
+description: optional string
 
-            - `description: optional string`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+object {type, description }
 
-        - `type: "integration"`
+A general predefined entry.
 
-          - `"integration"`
+</summary>
 
-        - `updated_at: string`
+type: "General"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+description: optional string
 
-        - `id: string`
+A customer-facing explanation of what this predefined entry represents.
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+</details>
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-          The optional description of the exact data entry.
+</summary>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+id: string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+created\_at: string
 
-        - `name: string`
+formatdate-time
 
-        - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-          - `"document_fingerprint"`
+enabled: boolean
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+name: string
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+type: "integration"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+updated\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+profile\_id: optional string
 
-          - `"word_list"`
+formatuuid
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `word_list: unknown`
+</details>
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: "integration"`
+<details>
 
-      - `"integration"`
+<summary>
 
-    - `updated_at: string`
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-    - `description: optional string`
+</summary>
 
-      The description of the profile.
+id: string
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/$PROFILE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+case\_sensitive: boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "allowed_match_count": 5,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "ocr_enabled": true,
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_context_enabled": true,
-    "confidence_threshold": "low",
-    "context_awareness": {
-      "enabled": true,
-      "skip": {
-        "files": true
-      }
-    },
-    "data_classes": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "description": "description",
-    "entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "shared_entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ]
-  }
-}
-```
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Context Awareness
+created\_at: string
 
-- `ContextAwareness object { enabled, skip }`
+formatdate-time
 
-  Scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+enabled: boolean
 
-    If true, scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-  - `skip: SkipConfiguration`
+name: string
 
-    Content types to exclude from context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-    - `files: boolean`
+secret: boolean
 
-      If the content type is a file, skip context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-### Profile
+type: "exact\_data"
 
-- `Profile = object { id, allowed_match_count, created_at, 13 more }  or object { id, allowed_match_count, entries, 7 more }  or object { id, created_at, entries, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `CustomProfile object { id, allowed_match_count, created_at, 13 more }`
+updated\_at: string
 
-    - `id: string`
+formatdate-time
 
-      The id of the profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+description: optional string
 
-      Related DLP policies will trigger when the match count exceeds the number set.
+The optional description of the exact data entry.
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-      When the profile was created.
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the profile.
+<details>
 
-    - `ocr_enabled: boolean`
+<summary>
 
-    - `type: "custom"`
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-      - `"custom"`
+</summary>
 
-    - `updated_at: string`
+id: string
 
-      When the profile was lasted updated.
+formatuuid
 
-    - `ai_context_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+created\_at: string
 
-      - `"low"`
+formatdate-time
 
-      - `"medium"`
+<a href="#">Link to this property</a>
 
-      - `"high"`
+enabled: boolean
 
-      - `"very_high"`
+<a href="#">Link to this property</a>
 
-    - `context_awareness: optional ContextAwareness`
+name: string
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+type: "document\_fingerprint"
 
-        If true, scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-      - `skip: SkipConfiguration`
+updated\_at: string
 
-        Content types to exclude from context analysis and return all matches.
+formatdate-time
 
-        - `files: boolean`
+<a href="#">Link to this property</a>
 
-          If the content type is a file, skip context analysis and return all matches.
+description: optional string
 
-    - `data_classes: optional array of string`
+The optional description of the document fingerprint entry.
 
-      Data classes associated with this profile.
+<a href="#">Link to this property</a>
 
-    - `data_tags: optional array of string`
+</details>
 
-      Data tags associated with this profile.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+<details>
 
-      The description of the profile.
+<summary>
 
-    - `entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+created\_at: string
 
-        - `pattern: Pattern`
+formatdate-time
 
-          - `regex: string`
+<a href="#">Link to this property</a>
 
-          - `validation: optional "luhn"`
+enabled: boolean
 
-            - `"luhn"`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+name: string
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+type: "word\_list"
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+updated\_at: string
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+formatdate-time
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+word\_list: unknown
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+profile\_id: optional string
 
-        - `type: "custom_prompt_topic"`
+formatuuid
 
-          - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the custom prompt topic entry.
+</details>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `confidence: object { ai_context_available, available }`
+[Link to this property](#)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20custom_profile%20%3E%20(schema)>)
 
-          - `ai_context_available: boolean`
+<details>
 
-            Indicates whether this entry has AI remote service validation.
+<summary>
 
-          - `available: boolean`
+Pattern object {regex, validation }
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+</summary>
 
-        - `enabled: boolean`
+regex: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+Deprecatedvalidation: optional "luhn"
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+</details>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+[Link to this property](#)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)>)
 
-          A Predefined AI prompt classification topic entry.
+CustomDeleteResponse = unknown
 
-          - `object { topic_type, type, description }`
+[Link to this property](#)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20custom_delete_response%20%3E%20(schema)>)
 
-            A Predefined AI prompt classification topic entry.
+#### DLPProfilesPredefined
 
-            - `topic_type: "Intent" or "Content"`
+##### [Get predefined profile config](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/predefined/methods/get)
 
-              - `"Intent"`
+GET/accounts/{account\_id}/dlp/profiles/predefined/{profile\_id}/config
 
-              - `"Content"`
+##### [Update predefined profile config](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/predefined/methods/update)
 
-            - `type: "PromptTopic"`
+PUT/accounts/{account\_id}/dlp/profiles/predefined/{profile\_id}/config
 
-              - `"PromptTopic"`
+##### [Delete predefined profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/predefined/methods/delete)
 
-            - `description: optional string`
+DELETE/accounts/{account\_id}/dlp/profiles/predefined/{profile\_id}
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+##### ModelsExpand Collapse
 
-          - `object { type, description }`
+<details>
 
-            A general predefined entry.
+<summary>
 
-            - `type: "General"`
+PredefinedProfile object {id, allowed\_match\_count, confidence\_threshold, 6 more }
 
-              - `"General"`
+</summary>
 
-            - `description: optional string`
+id: string
 
-              A customer-facing explanation of what this predefined entry represents.
+The id of the predefined profile (uuid).
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+allowed\_match\_count: number
 
-        - `enabled: boolean`
+formatint32
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "integration"`
+confidence\_threshold: string
 
-          - `"integration"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+enabled\_entries: array of string
 
-        - `profile_id: optional string`
+Entries to enable for this predefined profile. Any entries not provided will be disabled.
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `case_sensitive: boolean`
+<summary>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+Deprecatedentries: array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-        - `created_at: string`
+This field has been deprecated for <code>enabled_entries</code>.
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+One of the following:
 
-        - `secret: boolean`
+<details>
 
-        - `type: "exact_data"`
+<summary>
 
-          - `"exact_data"`
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+id: string
 
-          The optional description of the exact data entry.
+formatuuid
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+created\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+Deprecatedenabled: boolean
 
-        - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-          - `"document_fingerprint"`
+name: string
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+type: "custom"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+updated\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+description: optional string
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+Deprecatedprofile\_id: optional string
 
-        - `word_list: unknown`
+formatuuid
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `sensitivity_levels: optional array of object { group_id, level_id }`
+</details>
 
-      Sensitivity levels associated with this profile.
+<a href="#">Link to this property</a>
 
-      - `group_id: string`
+<details>
 
-      - `level_id: string`
+<summary>
 
-    - `shared_entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+created\_at: string
 
-        - `pattern: Pattern`
+formatdate-time
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+Deprecatedenabled: boolean
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+name: string
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+type: "custom\_prompt\_topic"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+updated\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+description: optional string
 
-          - `"custom_prompt_topic"`
+The optional description of the custom prompt topic entry.
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+</details>
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `confidence: object { ai_context_available, available }`
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-          - `ai_context_available: boolean`
+</summary>
 
-            Indicates whether this entry has AI remote service validation.
+id: string
 
-          - `available: boolean`
+formatuuid
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "predefined"`
+confidence: object {ai\_context\_available, available }
 
-          - `"predefined"`
+</summary>
 
-        - `profile_id: optional string`
+ai\_context\_available: boolean
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+Indicates whether this entry has AI remote service validation.
 
-          A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-          - `object { topic_type, type, description }`
+available: boolean
 
-            A Predefined AI prompt classification topic entry.
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+</details>
 
-              - `"Content"`
+<a href="#">Link to this property</a>
 
-            - `type: "PromptTopic"`
+enabled: boolean
 
-              - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+name: string
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+type: "predefined"
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+deprecated: optional boolean
 
-              - `"General"`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined entry represents.
+Deprecatedprofile\_id: optional string
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-        - `type: "integration"`
+A Predefined AI prompt classification topic entry.
 
-          - `"integration"`
+</summary>
 
-        - `updated_at: string`
+One of the following:
 
-        - `profile_id: optional string`
+<details>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<summary>
 
-        - `id: string`
+object {topic\_type, type, description }
 
-        - `case_sensitive: boolean`
+A Predefined AI prompt classification topic entry.
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+</summary>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+topic\_type: "Intent"or "Content"
 
-        - `secret: boolean`
+</summary>
 
-        - `type: "exact_data"`
+One of the following:
 
-          - `"exact_data"`
+"Intent"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+"Content"
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+type: "PromptTopic"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+description: optional string
 
-        - `type: "document_fingerprint"`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-          - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the document fingerprint entry.
+<details>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<summary>
 
-        - `id: string`
+object {type, description }
 
-        - `created_at: string`
+A general predefined entry.
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+type: "General"
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+description: optional string
 
-        - `updated_at: string`
+A customer-facing explanation of what this predefined entry represents.
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+</details>
 
-  - `PredefinedProfile object { id, allowed_match_count, entries, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      The id of the predefined profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+</details>
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `created_at: string`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+id: string
 
-        - `pattern: Pattern`
+formatuuid
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+created\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+enabled: boolean
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+name: string
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+type: "integration"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+updated\_at: string
 
-          - `"custom_prompt_topic"`
+formatdate-time
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+profile\_id: optional string
 
-          The optional description of the custom prompt topic entry.
+formatuuid
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-          - `ai_context_available: boolean`
+<details>
 
-            Indicates whether this entry has AI remote service validation.
+<summary>
 
-          - `available: boolean`
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+</summary>
 
-        - `enabled: boolean`
+id: string
 
-        - `name: string`
+formatuuid
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+case\_sensitive: boolean
 
-        - `profile_id: optional string`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+created\_at: string
 
-          - `object { topic_type, type, description }`
+formatdate-time
 
-            A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-            - `topic_type: "Intent" or "Content"`
+enabled: boolean
 
-              - `"Intent"`
+<a href="#">Link to this property</a>
 
-              - `"Content"`
+name: string
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+secret: boolean
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+type: "exact\_data"
 
-          - `object { type, description }`
+<a href="#">Link to this property</a>
 
-            A general predefined entry.
+updated\_at: string
 
-            - `type: "General"`
+formatdate-time
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+description: optional string
 
-              A customer-facing explanation of what this predefined entry represents.
+The optional description of the exact data entry.
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "integration"`
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-          - `"integration"`
+</summary>
 
-        - `updated_at: string`
+id: string
 
-        - `profile_id: optional string`
+formatuuid
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+created\_at: string
 
-        - `case_sensitive: boolean`
+formatdate-time
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+enabled: boolean
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+name: string
 
-        - `secret: boolean`
+<a href="#">Link to this property</a>
 
-        - `type: "exact_data"`
+type: "document\_fingerprint"
 
-          - `"exact_data"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+updated\_at: string
 
-        - `description: optional string`
+formatdate-time
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+description: optional string
 
-        - `id: string`
+The optional description of the document fingerprint entry.
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+<details>
 
-          - `"document_fingerprint"`
+<summary>
 
-        - `updated_at: string`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-        - `description: optional string`
+</summary>
 
-          The optional description of the document fingerprint entry.
+id: string
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+created\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+enabled: boolean
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+name: string
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+type: "word\_list"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the predefined profile.
+updated\_at: string
 
-    - `type: "predefined"`
+formatdate-time
 
-      - `"predefined"`
+<a href="#">Link to this property</a>
 
-    - `ai_context_enabled: optional boolean`
+word\_list: unknown
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+<a href="#">Link to this property</a>
 
-      - `"low"`
+profile\_id: optional string
 
-      - `"medium"`
+formatuuid
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-      - `"very_high"`
+</details>
 
-    - `context_awareness: optional ContextAwareness`
+<a href="#">Link to this property</a>
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+</details>
 
-    - `ocr_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `open_access: optional boolean`
+name: string
 
-      Whether this profile can be accessed by anyone.
+The name of the predefined profile.
 
-  - `IntegrationProfile object { id, created_at, entries, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+ai\_context\_enabled: optional boolean
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+ocr\_enabled: optional boolean
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+open\_access: optional boolean
 
-        - `created_at: string`
+Whether this profile can be accessed by anyone.
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `pattern: Pattern`
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(model)%20predefined_profile%20%3E%20(schema)>)
 
-        - `type: "custom"`
+PredefinedDeleteResponse = unknown
 
-          - `"custom"`
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(model)%20predefined_delete_response%20%3E%20(schema)>)
 
-        - `updated_at: string`
+#### DLPLimits
 
-        - `description: optional string`
+##### [Fetch limits associated with DLP for account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/limits/methods/list)
 
-        - `profile_id: optional string`
+GET/accounts/{account\_id}/dlp/limits
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+##### ModelsExpand Collapse
 
-        - `id: string`
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+LimitListResponse object {max\_custom\_regex\_entries, max\_dataset\_cells, max\_document\_fingerprints, 3 more }
 
-        - `name: string`
+</summary>
 
-        - `type: "custom_prompt_topic"`
+max\_custom\_regex\_entries: number
 
-          - `"custom_prompt_topic"`
+Maximum number of custom regex entries allowed for the account.
 
-        - `updated_at: string`
+formatint64
 
-        - `description: optional string`
+minimum0
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+max\_dataset\_cells: number
 
-        - `id: string`
+Maximum number of dataset cells allowed for the account, across all EDM and CWL datasets.
 
-        - `confidence: object { ai_context_available, available }`
+formatint64
 
-          - `ai_context_available: boolean`
+minimum0
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+max\_document\_fingerprints: number
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+Maximum number of document fingerprints allowed for the account.
 
-        - `enabled: boolean`
+formatint64
 
-        - `name: string`
+minimum0
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+used\_custom\_regex\_entries: number
 
-        - `profile_id: optional string`
+Number of custom regex entries currently configured for the account.
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+formatint64
 
-          A Predefined AI prompt classification topic entry.
+minimum0
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+used\_dataset\_cells: number
 
-            - `topic_type: "Intent" or "Content"`
+Number of dataset cells currently configured for the account, across all EDM and CWL datasets. Document fingerprints do not count towards this limit.
 
-              - `"Intent"`
+formatint64
 
-              - `"Content"`
+minimum0
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+used\_document\_fingerprints: number
 
-            - `description: optional string`
+Number of document fingerprints currently configured for the account.
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+formatint64
 
-          - `object { type, description }`
+minimum0
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+</details>
 
-              - `"General"`
+[Link to this property](#)%20zero_trust.dlp.limits%20%3E%20(model)%20limit_list_response%20%3E%20(schema)>)
 
-            - `description: optional string`
+#### DLPEntries
 
-              A customer-facing explanation of what this predefined entry represents.
+##### [List all entries](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/methods/list)
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+GET/accounts/{account\_id}/dlp/entries
 
-        - `id: string`
+##### [Get DLP Entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/methods/get)
 
-        - `created_at: string`
+GET/accounts/{account\_id}/dlp/entries/{entry\_id}
 
-        - `enabled: boolean`
+##### [Create custom entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/methods/create)
 
-        - `name: string`
+POST/accounts/{account\_id}/dlp/entries
 
-        - `type: "integration"`
+##### [Update entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/methods/update)
 
-          - `"integration"`
+PUT/accounts/{account\_id}/dlp/entries/{entry\_id}
 
-        - `updated_at: string`
+##### [Delete custom entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/methods/delete)
 
-        - `profile_id: optional string`
+DELETE/accounts/{account\_id}/dlp/entries/{entry\_id}
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+##### ModelsExpand Collapse
 
-        - `id: string`
+<details>
 
-        - `case_sensitive: boolean`
+<summary>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+EntryListResponse = object {id, created\_at, enabled, 7 more } or object {id, created\_at, enabled, 5 more } or object {id, confidence, enabled, 6 more } or 4 more
 
-        - `created_at: string`
+</summary>
 
-        - `enabled: boolean`
+One of the following:
 
-        - `name: string`
+<details>
 
-        - `secret: boolean`
+<summary>
 
-        - `type: "exact_data"`
+object {id, created\_at, enabled, 7 more }
 
-          - `"exact_data"`
+</summary>
 
-        - `updated_at: string`
+id: string
 
-        - `description: optional string`
+formatuuid
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+created\_at: string
 
-        - `id: string`
+formatdate-time
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+Deprecatedenabled: boolean
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+name: string
 
-          - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the document fingerprint entry.
+type: "custom"
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+updated\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+description: optional string
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+Deprecatedprofile\_id: optional string
 
-        - `updated_at: string`
+formatuuid
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `shared_entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `created_at: string`
+"empty"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"uploading"
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+"pending"
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+"processing"
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+"failed"
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"complete"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+</details>
 
-          - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          The optional description of the custom prompt topic entry.
+object {id, created\_at, enabled, 5 more }
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `confidence: object { ai_context_available, available }`
+formatuuid
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+created\_at: string
 
-          - `available: boolean`
+formatdate-time
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+Deprecatedenabled: boolean
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+name: string
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+type: "custom\_prompt\_topic"
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+updated\_at: string
 
-          - `object { topic_type, type, description }`
+formatdate-time
 
-            A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-            - `topic_type: "Intent" or "Content"`
+description: optional string
 
-              - `"Intent"`
+The optional description of the custom prompt topic entry.
 
-              - `"Content"`
+<a href="#">Link to this property</a>
 
-            - `type: "PromptTopic"`
+<details>
 
-              - `"PromptTopic"`
+<summary>
 
-            - `description: optional string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+</summary>
 
-          - `object { type, description }`
+One of the following:
 
-            A general predefined entry.
+"empty"
 
-            - `type: "General"`
+<a href="#">Link to this property</a>
 
-              - `"General"`
+"uploading"
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined entry represents.
+"pending"
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"processing"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"failed"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "integration"`
+"complete"
 
-          - `"integration"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+<details>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<summary>
 
-        - `created_at: string`
+object {id, confidence, enabled, 6 more }
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+id: string
 
-        - `secret: boolean`
+formatuuid
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+confidence: object {ai\_context\_available, available }
 
-          The optional description of the exact data entry.
+</summary>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+ai\_context\_available: boolean
 
-        - `id: string`
+Indicates whether this entry has AI remote service validation.
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+available: boolean
 
-        - `name: string`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-        - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-          - `"document_fingerprint"`
+</details>
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+enabled: boolean
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+name: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+type: "predefined"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+deprecated: optional boolean
 
-        - `type: "word_list"`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+Deprecatedprofile\_id: optional string
 
-        - `word_list: unknown`
+formatuuid
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: "integration"`
+<details>
 
-      - `"integration"`
+<summary>
 
-    - `updated_at: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `description: optional string`
+</summary>
 
-      The description of the profile.
+One of the following:
 
-### Skip Configuration
+"empty"
 
-- `SkipConfiguration object { files }`
+<a href="#">Link to this property</a>
 
-  Content types to exclude from context analysis and return all matches.
+"uploading"
 
-  - `files: boolean`
+<a href="#">Link to this property</a>
 
-    If the content type is a file, skip context analysis and return all matches.
+"pending"
 
-# Custom
+<a href="#">Link to this property</a>
 
-## Get custom profile
+"processing"
 
-**get** `/accounts/{account_id}/dlp/profiles/custom/{profile_id}`
+<a href="#">Link to this property</a>
 
-Fetches a custom DLP profile by id.
+"failed"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"complete"
 
-- `profile_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-  - `source: optional object { pointer }`
+A Predefined AI prompt classification topic entry.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+object {topic\_type, type, description }
 
-  - `source: optional object { pointer }`
+A Predefined AI prompt classification topic entry.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+topic\_type: "Intent"or "Content"
 
-- `result: optional Profile`
+</summary>
 
-  - `CustomProfile object { id, allowed_match_count, created_at, 13 more }`
+One of the following:
 
-    - `id: string`
+"Intent"
 
-      The id of the profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+"Content"
 
-      Related DLP policies will trigger when the match count exceeds the number set.
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-      When the profile was created.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+type: "PromptTopic"
 
-      The name of the profile.
+<a href="#">Link to this property</a>
 
-    - `ocr_enabled: boolean`
+description: optional string
 
-    - `type: "custom"`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-      - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-      When the profile was lasted updated.
+<a href="#">Link to this property</a>
 
-    - `ai_context_enabled: optional boolean`
+<details>
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+<summary>
 
-      - `"low"`
+object {type, description }
 
-      - `"medium"`
+A general predefined entry.
 
-      - `"high"`
+</summary>
 
-      - `"very_high"`
+type: "General"
 
-    - `context_awareness: optional ContextAwareness`
+<a href="#">Link to this property</a>
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+description: optional string
 
-      - `enabled: boolean`
+A customer-facing explanation of what this predefined entry represents.
 
-        If true, scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-      - `skip: SkipConfiguration`
+</details>
 
-        Content types to exclude from context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-        - `files: boolean`
+</details>
 
-          If the content type is a file, skip context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-    - `data_classes: optional array of string`
+</details>
 
-      Data classes associated with this profile.
+<a href="#">Link to this property</a>
 
-    - `data_tags: optional array of string`
+<details>
 
-      Data tags associated with this profile.
+<summary>
 
-    - `description: optional string`
+object {id, created\_at, enabled, 5 more }
 
-      The description of the profile.
+</summary>
 
-    - `entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+id: string
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+created\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `pattern: Pattern`
+enabled: boolean
 
-          - `regex: string`
+<a href="#">Link to this property</a>
 
-          - `validation: optional "luhn"`
+name: string
 
-            - `"luhn"`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+type: "integration"
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+updated\_at: string
 
-        - `description: optional string`
+formatdate-time
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+profile\_id: optional string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "custom_prompt_topic"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-          - `"custom_prompt_topic"`
+</summary>
 
-        - `updated_at: string`
+One of the following:
 
-        - `description: optional string`
+"empty"
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+"uploading"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `confidence: object { ai_context_available, available }`
+"pending"
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+"processing"
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+"failed"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"complete"
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+</details>
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+</details>
 
-          A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-          - `object { topic_type, type, description }`
+<details>
 
-            A Predefined AI prompt classification topic entry.
+<summary>
 
-            - `topic_type: "Intent" or "Content"`
+object {id, case\_sensitive, created\_at, 7 more }
 
-              - `"Intent"`
+</summary>
 
-              - `"Content"`
+id: string
 
-            - `type: "PromptTopic"`
+formatuuid
 
-              - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+case\_sensitive: boolean
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-          - `object { type, description }`
+<a href="#">Link to this property</a>
 
-            A general predefined entry.
+created\_at: string
 
-            - `type: "General"`
+formatdate-time
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+enabled: boolean
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+name: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+secret: boolean
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+type: "exact\_data"
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+updated\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+description: optional string
 
-        - `id: string`
+The optional description of the exact data entry.
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `name: string`
+</summary>
 
-        - `secret: boolean`
+One of the following:
 
-        - `type: "exact_data"`
+"empty"
 
-          - `"exact_data"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+"uploading"
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the exact data entry.
+"pending"
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"processing"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"failed"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+"complete"
 
-          - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the document fingerprint entry.
+</details>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+object {id, created\_at, enabled, 5 more }
 
-        - `name: string`
+</summary>
 
-        - `type: "word_list"`
+id: string
 
-          - `"word_list"`
+formatuuid
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `word_list: unknown`
+created\_at: string
 
-        - `profile_id: optional string`
+formatdate-time
 
-    - `sensitivity_levels: optional array of object { group_id, level_id }`
+<a href="#">Link to this property</a>
 
-      Sensitivity levels associated with this profile.
+enabled: boolean
 
-      - `group_id: string`
+<a href="#">Link to this property</a>
 
-      - `level_id: string`
+name: string
 
-    - `shared_entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+type: "document\_fingerprint"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+updated\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `pattern: Pattern`
+description: optional string
 
-        - `type: "custom"`
+The optional description of the document fingerprint entry.
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-        - `profile_id: optional string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `created_at: string`
+"empty"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"uploading"
 
-        - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-          - `"custom_prompt_topic"`
+"pending"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+"processing"
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+"failed"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `confidence: object { ai_context_available, available }`
+"complete"
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+</details>
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `type: "predefined"`
+<summary>
 
-          - `"predefined"`
+object {id, created\_at, enabled, 6 more }
 
-        - `profile_id: optional string`
+</summary>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+id: string
 
-          A Predefined AI prompt classification topic entry.
+formatuuid
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+created\_at: string
 
-            - `topic_type: "Intent" or "Content"`
+formatdate-time
 
-              - `"Intent"`
+<a href="#">Link to this property</a>
 
-              - `"Content"`
+enabled: boolean
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+name: string
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+type: "word\_list"
 
-          - `object { type, description }`
+<a href="#">Link to this property</a>
 
-            A general predefined entry.
+updated\_at: string
 
-            - `type: "General"`
+formatdate-time
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+word\_list: unknown
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+profile\_id: optional string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "integration"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-          - `"integration"`
+</summary>
 
-        - `updated_at: string`
+One of the following:
 
-        - `profile_id: optional string`
+"empty"
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"uploading"
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+"pending"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"processing"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+"failed"
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+"complete"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+</details>
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(model)%20entry_list_response%20%3E%20(schema)>)
 
-        - `name: string`
+<details>
 
-        - `type: "document_fingerprint"`
+<summary>
 
-          - `"document_fingerprint"`
+EntryGetResponse = object {id, created\_at, enabled, 8 more } or object {id, created\_at, enabled, 6 more } or object {id, confidence, enabled, 7 more } or 4 more
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+One of the following:
 
-          The optional description of the document fingerprint entry.
+<details>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<summary>
 
-        - `id: string`
+object {id, created\_at, enabled, 8 more }
 
-        - `created_at: string`
+</summary>
 
-        - `enabled: boolean`
+id: string
 
-        - `name: string`
+formatuuid
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+created\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+Deprecatedenabled: boolean
 
-  - `PredefinedProfile object { id, allowed_match_count, entries, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+name: string
 
-      The id of the predefined profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+type: "custom"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+updated\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `pattern: Pattern`
+description: optional string
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+Deprecatedprofile\_id: optional string
 
-        - `updated_at: string`
+formatuuid
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+<details>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<summary>
 
-        - `id: string`
+profiles: optional array of object {id, name }
 
-        - `created_at: string`
+</summary>
 
-        - `enabled: boolean`
+id: string
 
-        - `name: string`
+formatuuid
 
-        - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-          - `"custom_prompt_topic"`
+name: string
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+</details>
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `confidence: object { ai_context_available, available }`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-          - `ai_context_available: boolean`
+</summary>
 
-            Indicates whether this entry has AI remote service validation.
+One of the following:
 
-          - `available: boolean`
+"empty"
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"uploading"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+"pending"
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+"processing"
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+"failed"
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+"complete"
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+</details>
 
-              - `"Content"`
+<a href="#">Link to this property</a>
 
-            - `type: "PromptTopic"`
+</details>
 
-              - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+<details>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<summary>
 
-          - `object { type, description }`
+object {id, created\_at, enabled, 6 more }
 
-            A general predefined entry.
+</summary>
 
-            - `type: "General"`
+id: string
 
-              - `"General"`
+formatuuid
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined entry represents.
+created\_at: string
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+formatdate-time
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+Deprecatedenabled: boolean
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+name: string
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+type: "custom\_prompt\_topic"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+updated\_at: string
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+formatdate-time
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+description: optional string
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+The optional description of the custom prompt topic entry.
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `secret: boolean`
+profiles: optional array of object {id, name }
 
-        - `type: "exact_data"`
+</summary>
 
-          - `"exact_data"`
+id: string
 
-        - `updated_at: string`
+formatuuid
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the exact data entry.
+name: string
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "document_fingerprint"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-          - `"document_fingerprint"`
+</summary>
 
-        - `updated_at: string`
+One of the following:
 
-        - `description: optional string`
+"empty"
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+"uploading"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+"pending"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"processing"
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+"failed"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `word_list: unknown`
+"complete"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      The name of the predefined profile.
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+</details>
 
-      - `"predefined"`
+<a href="#">Link to this property</a>
 
-    - `ai_context_enabled: optional boolean`
+<details>
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+<summary>
 
-      - `"low"`
+object {id, confidence, enabled, 7 more }
 
-      - `"medium"`
+</summary>
 
-      - `"high"`
+id: string
 
-      - `"very_high"`
+formatuuid
 
-    - `context_awareness: optional ContextAwareness`
+<a href="#">Link to this property</a>
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+<details>
 
-    - `ocr_enabled: optional boolean`
+<summary>
 
-    - `open_access: optional boolean`
+confidence: object {ai\_context\_available, available }
 
-      Whether this profile can be accessed by anyone.
+</summary>
 
-  - `IntegrationProfile object { id, created_at, entries, 5 more }`
+ai\_context\_available: boolean
 
-    - `id: string`
+Indicates whether this entry has AI remote service validation.
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+available: boolean
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+enabled: boolean
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+name: string
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+type: "predefined"
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+deprecated: optional boolean
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+Deprecatedprofile\_id: optional string
 
-        - `enabled: boolean`
+formatuuid
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+<details>
 
-          - `"custom_prompt_topic"`
+<summary>
 
-        - `updated_at: string`
+profiles: optional array of object {id, name }
 
-        - `description: optional string`
+</summary>
 
-          The optional description of the custom prompt topic entry.
+id: string
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `confidence: object { ai_context_available, available }`
+name: string
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+</details>
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `type: "predefined"`
+</summary>
 
-          - `"predefined"`
+One of the following:
 
-        - `profile_id: optional string`
+"empty"
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+"uploading"
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+"pending"
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+"processing"
 
-              - `"Content"`
+<a href="#">Link to this property</a>
 
-            - `type: "PromptTopic"`
+"failed"
 
-              - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+"complete"
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+</details>
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+<details>
 
-              - `"General"`
+<summary>
 
-            - `description: optional string`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-              A customer-facing explanation of what this predefined entry represents.
+A Predefined AI prompt classification topic entry.
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+object {topic\_type, type, description }
 
-        - `type: "integration"`
+A Predefined AI prompt classification topic entry.
 
-          - `"integration"`
+</summary>
 
-        - `updated_at: string`
+<details>
 
-        - `profile_id: optional string`
+<summary>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+topic\_type: "Intent"or "Content"
 
-        - `id: string`
+</summary>
 
-        - `case_sensitive: boolean`
+One of the following:
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+"Intent"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"Content"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+</details>
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+type: "PromptTopic"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+description: optional string
 
-          The optional description of the exact data entry.
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "document_fingerprint"`
+object {type, description }
 
-          - `"document_fingerprint"`
+A general predefined entry.
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+type: "General"
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+description: optional string
 
-        - `id: string`
+A customer-facing explanation of what this predefined entry represents.
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+</details>
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `shared_entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+object {id, created\_at, enabled, 6 more }
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+created\_at: string
 
-        - `pattern: Pattern`
+formatdate-time
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+enabled: boolean
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+name: string
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+type: "integration"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+updated\_at: string
 
-        - `enabled: boolean`
+formatdate-time
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+profile\_id: optional string
 
-          - `"custom_prompt_topic"`
+formatuuid
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+<details>
 
-          The optional description of the custom prompt topic entry.
+<summary>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+profiles: optional array of object {id, name }
 
-        - `id: string`
+</summary>
 
-        - `confidence: object { ai_context_available, available }`
+id: string
 
-          - `ai_context_available: boolean`
+formatuuid
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+name: string
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+<details>
 
-          - `"predefined"`
+<summary>
 
-        - `profile_id: optional string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+</summary>
 
-          A Predefined AI prompt classification topic entry.
+One of the following:
 
-          - `object { topic_type, type, description }`
+"empty"
 
-            A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-            - `topic_type: "Intent" or "Content"`
+"uploading"
 
-              - `"Intent"`
+<a href="#">Link to this property</a>
 
-              - `"Content"`
+"pending"
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+"processing"
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+"failed"
 
-          - `object { type, description }`
+<a href="#">Link to this property</a>
 
-            A general predefined entry.
+"complete"
 
-            - `type: "General"`
+<a href="#">Link to this property</a>
 
-              - `"General"`
+</details>
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined entry represents.
+</details>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+object {id, case\_sensitive, created\_at, 8 more }
 
-        - `name: string`
+</summary>
 
-        - `type: "integration"`
+id: string
 
-          - `"integration"`
+formatuuid
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+case\_sensitive: boolean
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+created\_at: string
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+formatdate-time
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+enabled: boolean
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+name: string
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+secret: boolean
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+type: "exact\_data"
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+updated\_at: string
 
-        - `id: string`
+formatdate-time
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+description: optional string
 
-        - `name: string`
+The optional description of the exact data entry.
 
-        - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-          - `"document_fingerprint"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+profiles: optional array of object {id, name }
 
-          The optional description of the document fingerprint entry.
+</summary>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+id: string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+name: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+</details>
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `word_list: unknown`
+<summary>
 
-        - `profile_id: optional string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `type: "integration"`
+</summary>
 
-      - `"integration"`
+One of the following:
 
-    - `updated_at: string`
+"empty"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The description of the profile.
+"uploading"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/custom/$PROFILE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"pending"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "allowed_match_count": 5,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "ocr_enabled": true,
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_context_enabled": true,
-    "confidence_threshold": "low",
-    "context_awareness": {
-      "enabled": true,
-      "skip": {
-        "files": true
-      }
-    },
-    "data_classes": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "description": "description",
-    "entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "shared_entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ]
-  }
-}
-```
+"processing"
 
-## Create custom profile
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dlp/profiles/custom`
+"failed"
 
-Creates a DLP custom profile.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"complete"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `ai_context_enabled: optional boolean`
+</details>
 
-- `allowed_match_count: optional number`
+<a href="#">Link to this property</a>
 
-  Related DLP policies will trigger when the match count exceeds the number set.
+<details>
 
-- `confidence_threshold: optional string`
+<summary>
 
-- `context_awareness: optional ContextAwareness`
+object {id, created\_at, enabled, 6 more }
 
-  Scan the context of predefined entries to only return matches surrounded by keywords.
+</summary>
 
-  - `enabled: boolean`
+id: string
 
-    If true, scan the context of predefined entries to only return matches surrounded by keywords.
+formatuuid
 
-  - `skip: SkipConfiguration`
+<a href="#">Link to this property</a>
 
-    Content types to exclude from context analysis and return all matches.
+created\_at: string
 
-    - `files: boolean`
+formatdate-time
 
-      If the content type is a file, skip context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-- `data_classes: optional array of string`
+enabled: boolean
 
-  Data class IDs to associate with the profile.
+<a href="#">Link to this property</a>
 
-- `data_tags: optional array of string`
+name: string
 
-  Data tag IDs to associate with the profile.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+type: "document\_fingerprint"
 
-  The description of the profile.
+<a href="#">Link to this property</a>
 
-- `entries: optional array of object { enabled, name, pattern, description }  or object { enabled, name, words }`
+updated\_at: string
 
-  - `DLPNewCustomEntry object { enabled, name, pattern, description }`
+formatdate-time
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+description: optional string
 
-    - `pattern: Pattern`
+The optional description of the document fingerprint entry.
 
-      - `regex: string`
+<a href="#">Link to this property</a>
 
-      - `validation: optional "luhn"`
+<details>
 
-        - `"luhn"`
+<summary>
 
-    - `description: optional string`
+profiles: optional array of object {id, name }
 
-  - `DLPNewWordListEntry object { enabled, name, words }`
+</summary>
 
-    - `enabled: boolean`
+id: string
 
-    - `name: string`
+formatuuid
 
-    - `words: array of string`
+<a href="#">Link to this property</a>
 
-- `ocr_enabled: optional boolean`
+name: string
 
-- `sensitivity_levels: optional array of object { group_id, level_id }`
+<a href="#">Link to this property</a>
 
-  Sensitivity levels to associate with the profile.
+</details>
 
-  - `group_id: string`
+<a href="#">Link to this property</a>
 
-  - `level_id: string`
+<details>
 
-- `shared_entries: optional array of object { enabled, entry_id }`
+<summary>
 
-  Entries from other profiles (e.g. pre-defined Cloudflare profiles, or your Microsoft Information Protection profiles).
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-  - `enabled: boolean`
+</summary>
 
-  - `entry_id: string`
+One of the following:
 
-### Returns
+"empty"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"uploading"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"pending"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"processing"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"failed"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"complete"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Profile`
+<details>
 
-  - `CustomProfile object { id, allowed_match_count, created_at, 13 more }`
+<summary>
 
-    - `id: string`
+object {id, created\_at, enabled, 7 more }
 
-      The id of the profile (uuid).
+</summary>
 
-    - `allowed_match_count: number`
+id: string
 
-      Related DLP policies will trigger when the match count exceeds the number set.
+formatuuid
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-      When the profile was created.
+created\_at: string
 
-    - `name: string`
+formatdate-time
 
-      The name of the profile.
+<a href="#">Link to this property</a>
 
-    - `ocr_enabled: boolean`
+enabled: boolean
 
-    - `type: "custom"`
+<a href="#">Link to this property</a>
 
-      - `"custom"`
+name: string
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      When the profile was lasted updated.
+type: "word\_list"
 
-    - `ai_context_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+updated\_at: string
 
-      - `"low"`
+formatdate-time
 
-      - `"medium"`
+<a href="#">Link to this property</a>
 
-      - `"high"`
+word\_list: unknown
 
-      - `"very_high"`
+<a href="#">Link to this property</a>
 
-    - `context_awareness: optional ContextAwareness`
+profile\_id: optional string
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+formatuuid
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        If true, scan the context of predefined entries to only return matches surrounded by keywords.
+<details>
 
-      - `skip: SkipConfiguration`
+<summary>
 
-        Content types to exclude from context analysis and return all matches.
+profiles: optional array of object {id, name }
 
-        - `files: boolean`
+</summary>
 
-          If the content type is a file, skip context analysis and return all matches.
+id: string
 
-    - `data_classes: optional array of string`
+formatuuid
 
-      Data classes associated with this profile.
+<a href="#">Link to this property</a>
 
-    - `data_tags: optional array of string`
+name: string
 
-      Data tags associated with this profile.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      The description of the profile.
+<a href="#">Link to this property</a>
 
-    - `entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<details>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<summary>
 
-        - `id: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `created_at: string`
+</summary>
 
-        - `enabled: boolean`
+One of the following:
 
-        - `name: string`
+"empty"
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-          - `regex: string`
+"uploading"
 
-          - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-            - `"luhn"`
+"pending"
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+"processing"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+"failed"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+"complete"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-          - `"custom_prompt_topic"`
+</details>
 
-        - `updated_at: string`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(model)%20entry_get_response%20%3E%20(schema)>)
 
-        - `description: optional string`
+<details>
 
-          The optional description of the custom prompt topic entry.
+<summary>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+EntryCreateResponse object {id, created\_at, enabled, 5 more }
 
-        - `id: string`
+</summary>
 
-        - `confidence: object { ai_context_available, available }`
+id: string
 
-          - `ai_context_available: boolean`
+formatuuid
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+created\_at: string
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+Deprecatedenabled: boolean
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+name: string
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-          A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-          - `object { topic_type, type, description }`
+updated\_at: string
 
-            A Predefined AI prompt classification topic entry.
+formatdate-time
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+description: optional string
 
-              - `"Content"`
+<a href="#">Link to this property</a>
 
-            - `type: "PromptTopic"`
+Deprecatedprofile\_id: optional string
 
-              - `"PromptTopic"`
+formatuuid
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+</details>
 
-          - `object { type, description }`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(model)%20entry_create_response%20%3E%20(schema)>)
 
-            A general predefined entry.
+<details>
 
-            - `type: "General"`
+<summary>
 
-              - `"General"`
+EntryUpdateResponse = object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-            - `description: optional string`
+</summary>
 
-              A customer-facing explanation of what this predefined entry represents.
+One of the following:
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `created_at: string`
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+id: string
 
-        - `type: "integration"`
+formatuuid
 
-          - `"integration"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+created\_at: string
 
-        - `profile_id: optional string`
+formatdate-time
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+Deprecatedenabled: boolean
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+name: string
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+type: "custom"
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+updated\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the exact data entry.
+description: optional string
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+Deprecatedprofile\_id: optional string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-          - `"document_fingerprint"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
 
-          The optional description of the document fingerprint entry.
+</summary>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+id: string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+created\_at: string
 
-        - `name: string`
+formatdate-time
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+Deprecatedenabled: boolean
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `word_list: unknown`
+name: string
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `sensitivity_levels: optional array of object { group_id, level_id }`
+type: "custom\_prompt\_topic"
 
-      Sensitivity levels associated with this profile.
+<a href="#">Link to this property</a>
 
-      - `group_id: string`
+updated\_at: string
 
-      - `level_id: string`
+formatdate-time
 
-    - `shared_entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+description: optional string
 
-        - `id: string`
+The optional description of the custom prompt topic entry.
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `pattern: Pattern`
+<details>
 
-        - `type: "custom"`
+<summary>
 
-          - `"custom"`
+PredefinedEntry object {id, confidence, enabled, 5 more }
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+id: string
 
-        - `profile_id: optional string`
+formatuuid
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+confidence: object {ai\_context\_available, available }
 
-        - `name: string`
+</summary>
 
-        - `type: "custom_prompt_topic"`
+ai\_context\_available: boolean
 
-          - `"custom_prompt_topic"`
+Indicates whether this entry has AI remote service validation.
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+available: boolean
 
-          The optional description of the custom prompt topic entry.
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-          - `ai_context_available: boolean`
+enabled: boolean
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+name: string
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+type: "predefined"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+deprecated: optional boolean
 
-          - `"predefined"`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+Deprecatedprofile\_id: optional string
 
-          A Predefined AI prompt classification topic entry.
+formatuuid
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+<details>
 
-            - `topic_type: "Intent" or "Content"`
+<summary>
 
-              - `"Intent"`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-              - `"Content"`
+A Predefined AI prompt classification topic entry.
 
-            - `type: "PromptTopic"`
+</summary>
 
-              - `"PromptTopic"`
+One of the following:
 
-            - `description: optional string`
+<details>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<summary>
 
-          - `object { type, description }`
+object {topic\_type, type, description }
 
-            A general predefined entry.
+A Predefined AI prompt classification topic entry.
 
-            - `type: "General"`
+</summary>
 
-              - `"General"`
+<details>
 
-            - `description: optional string`
+<summary>
 
-              A customer-facing explanation of what this predefined entry represents.
+topic\_type: "Intent"or "Content"
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `created_at: string`
+"Intent"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"Content"
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+</details>
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+type: "PromptTopic"
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+description: optional string
 
-        - `case_sensitive: boolean`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `secret: boolean`
+<summary>
 
-        - `type: "exact_data"`
+object {type, description }
 
-          - `"exact_data"`
+A general predefined entry.
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+type: "General"
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+description: optional string
 
-        - `id: string`
+A customer-facing explanation of what this predefined entry represents.
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+</details>
 
-          - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+</details>
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the document fingerprint entry.
+<details>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<summary>
 
-        - `id: string`
+IntegrationEntry object {id, created\_at, enabled, 4 more }
 
-        - `created_at: string`
+</summary>
 
-        - `enabled: boolean`
+id: string
 
-        - `name: string`
+formatuuid
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+created\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+enabled: boolean
 
-  - `PredefinedProfile object { id, allowed_match_count, entries, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+name: string
 
-      The id of the predefined profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+type: "integration"
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+updated\_at: string
 
-        - `id: string`
+formatdate-time
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+profile\_id: optional string
 
-        - `name: string`
+formatuuid
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+</details>
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-        - `profile_id: optional string`
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+case\_sensitive: boolean
 
-        - `type: "custom_prompt_topic"`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-          - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+created\_at: string
 
-        - `description: optional string`
+formatdate-time
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+enabled: boolean
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `confidence: object { ai_context_available, available }`
+name: string
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+secret: boolean
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+type: "exact\_data"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+updated\_at: string
 
-        - `type: "predefined"`
+formatdate-time
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+description: optional string
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+The optional description of the exact data entry.
 
-          A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-          - `object { topic_type, type, description }`
+</details>
 
-            A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-            - `topic_type: "Intent" or "Content"`
+<details>
 
-              - `"Intent"`
+<summary>
 
-              - `"Content"`
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
 
-            - `type: "PromptTopic"`
+</summary>
 
-              - `"PromptTopic"`
+id: string
 
-            - `description: optional string`
+formatuuid
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+created\_at: string
 
-            A general predefined entry.
+formatdate-time
 
-            - `type: "General"`
+<a href="#">Link to this property</a>
 
-              - `"General"`
+enabled: boolean
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined entry represents.
+name: string
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+type: "document\_fingerprint"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+updated\_at: string
 
-        - `name: string`
+formatdate-time
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+description: optional string
 
-        - `updated_at: string`
+The optional description of the document fingerprint entry.
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+<details>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<summary>
 
-        - `created_at: string`
+WordListEntry object {id, created\_at, enabled, 5 more }
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+id: string
 
-        - `secret: boolean`
+formatuuid
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+created\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the exact data entry.
+enabled: boolean
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+name: string
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+type: "word\_list"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+updated\_at: string
 
-          - `"document_fingerprint"`
+formatdate-time
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+word\_list: unknown
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+profile\_id: optional string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+</details>
 
-          - `"word_list"`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(model)%20entry_update_response%20%3E%20(schema)>)
 
-        - `updated_at: string`
+EntryDeleteResponse = unknown
 
-        - `word_list: unknown`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(model)%20entry_delete_response%20%3E%20(schema)>)
 
-        - `profile_id: optional string`
+#### DLPEntriesCustom
 
-    - `name: string`
+##### [Create custom entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/custom/methods/create)
 
-      The name of the predefined profile.
+POST/accounts/{account\_id}/dlp/entries
 
-    - `type: "predefined"`
+##### [Update custom entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/custom/methods/update)
 
-      - `"predefined"`
+PUT/accounts/{account\_id}/dlp/entries/custom/{entry\_id}
 
-    - `ai_context_enabled: optional boolean`
+##### [Delete custom entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/custom/methods/delete)
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+DELETE/accounts/{account\_id}/dlp/entries/{entry\_id}
 
-      - `"low"`
+##### [Get DLP Entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/custom/methods/get)
 
-      - `"medium"`
+GET/accounts/{account\_id}/dlp/entries/{entry\_id}
 
-      - `"high"`
+##### [List all entries](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/custom/methods/list)
 
-      - `"very_high"`
+GET/accounts/{account\_id}/dlp/entries
 
-    - `context_awareness: optional ContextAwareness`
+##### ModelsExpand Collapse
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+<details>
 
-    - `ocr_enabled: optional boolean`
+<summary>
 
-    - `open_access: optional boolean`
+CustomCreateResponse object {id, created\_at, enabled, 5 more }
 
-      Whether this profile can be accessed by anyone.
+</summary>
 
-  - `IntegrationProfile object { id, created_at, entries, 5 more }`
+id: string
 
-    - `id: string`
+formatuuid
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+created\_at: string
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+formatdate-time
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+Deprecatedenabled: boolean
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+name: string
 
-        - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-        - `type: "custom"`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-          - `"custom"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+updated\_at: string
 
-        - `description: optional string`
+formatdate-time
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+description: optional string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+Deprecatedprofile\_id: optional string
 
-        - `enabled: boolean`
+formatuuid
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+</details>
 
-          - `"custom_prompt_topic"`
+[Link to this property](#)%20zero_trust.dlp.entries.custom%20%3E%20(model)%20custom_create_response%20%3E%20(schema)>)
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          The optional description of the custom prompt topic entry.
+CustomUpdateResponse object {id, created\_at, enabled, 5 more }
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `confidence: object { ai_context_available, available }`
+formatuuid
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+created\_at: string
 
-          - `available: boolean`
+formatdate-time
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+Deprecatedenabled: boolean
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+name: string
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+updated\_at: string
 
-          - `object { topic_type, type, description }`
+formatdate-time
 
-            A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-            - `topic_type: "Intent" or "Content"`
+description: optional string
 
-              - `"Intent"`
+<a href="#">Link to this property</a>
 
-              - `"Content"`
+Deprecatedprofile\_id: optional string
 
-            - `type: "PromptTopic"`
+formatuuid
 
-              - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+</details>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+[Link to this property](#)%20zero_trust.dlp.entries.custom%20%3E%20(model)%20custom_update_response%20%3E%20(schema)>)
 
-          - `object { type, description }`
+CustomDeleteResponse = unknown
 
-            A general predefined entry.
+[Link to this property](#)%20zero_trust.dlp.entries.custom%20%3E%20(model)%20custom_delete_response%20%3E%20(schema)>)
 
-            - `type: "General"`
+<details>
 
-              - `"General"`
+<summary>
 
-            - `description: optional string`
+CustomGetResponse = object {id, created\_at, enabled, 8 more } or object {id, created\_at, enabled, 6 more } or object {id, confidence, enabled, 7 more } or 4 more
 
-              A customer-facing explanation of what this predefined entry represents.
+</summary>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+One of the following:
 
-        - `id: string`
+<details>
 
-        - `created_at: string`
+<summary>
 
-        - `enabled: boolean`
+object {id, created\_at, enabled, 8 more }
 
-        - `name: string`
+</summary>
 
-        - `type: "integration"`
+id: string
 
-          - `"integration"`
+formatuuid
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+created\_at: string
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+formatdate-time
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+Deprecatedenabled: boolean
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+name: string
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-        - `secret: boolean`
+<a href="#">Link to this property</a>
 
-        - `type: "exact_data"`
+type: "custom"
 
-          - `"exact_data"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+updated\_at: string
 
-        - `description: optional string`
+formatdate-time
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+description: optional string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+Deprecatedprofile\_id: optional string
 
-        - `enabled: boolean`
+formatuuid
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+<details>
 
-          - `"document_fingerprint"`
+<summary>
 
-        - `updated_at: string`
+profiles: optional array of object {id, name }
 
-        - `description: optional string`
+</summary>
 
-          The optional description of the document fingerprint entry.
+id: string
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+formatuuid
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+name: string
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `word_list: unknown`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `profile_id: optional string`
+</summary>
 
-    - `name: string`
+One of the following:
 
-    - `shared_entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+"empty"
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"uploading"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"pending"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `pattern: Pattern`
+"processing"
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+"failed"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+"complete"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `type: "custom_prompt_topic"`
+<summary>
 
-          - `"custom_prompt_topic"`
+object {id, created\_at, enabled, 6 more }
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+id: string
 
-          The optional description of the custom prompt topic entry.
+formatuuid
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+created\_at: string
 
-        - `confidence: object { ai_context_available, available }`
+formatdate-time
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+Deprecatedenabled: boolean
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+name: string
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+type: "custom\_prompt\_topic"
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+updated\_at: string
 
-        - `profile_id: optional string`
+formatdate-time
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+description: optional string
 
-          - `object { topic_type, type, description }`
+The optional description of the custom prompt topic entry.
 
-            A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-            - `topic_type: "Intent" or "Content"`
+<details>
 
-              - `"Intent"`
+<summary>
 
-              - `"Content"`
+profiles: optional array of object {id, name }
 
-            - `type: "PromptTopic"`
+</summary>
 
-              - `"PromptTopic"`
+id: string
 
-            - `description: optional string`
+formatuuid
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+name: string
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+</details>
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+<details>
 
-              A customer-facing explanation of what this predefined entry represents.
+<summary>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `id: string`
+</summary>
 
-        - `created_at: string`
+One of the following:
 
-        - `enabled: boolean`
+"empty"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "integration"`
+"uploading"
 
-          - `"integration"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+"pending"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+"processing"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+"failed"
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+"complete"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `secret: boolean`
+<a href="#">Link to this property</a>
 
-        - `type: "exact_data"`
+</details>
 
-          - `"exact_data"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          The optional description of the exact data entry.
+object {id, confidence, enabled, 7 more }
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `type: "document_fingerprint"`
+<summary>
 
-          - `"document_fingerprint"`
+confidence: object {ai\_context\_available, available }
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+ai\_context\_available: boolean
 
-          The optional description of the document fingerprint entry.
+Indicates whether this entry has AI remote service validation.
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+available: boolean
 
-        - `created_at: string`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+enabled: boolean
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `word_list: unknown`
+name: string
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: "integration"`
+type: "predefined"
 
-      - `"integration"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+deprecated: optional boolean
 
-    - `description: optional string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-      The description of the profile.
+<a href="#">Link to this property</a>
 
-### Example
+Deprecatedprofile\_id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/custom \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name",
-          "allowed_match_count": 5
-        }'
-```
+formatuuid
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "allowed_match_count": 5,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "ocr_enabled": true,
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_context_enabled": true,
-    "confidence_threshold": "low",
-    "context_awareness": {
-      "enabled": true,
-      "skip": {
-        "files": true
-      }
-    },
-    "data_classes": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "description": "description",
-    "entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "shared_entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ]
-  }
-}
-```
+<details>
 
-## Update custom profile
+<summary>
 
-**put** `/accounts/{account_id}/dlp/profiles/custom/{profile_id}`
+profiles: optional array of object {id, name }
 
-Updates a DLP custom profile.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+formatuuid
 
-- `profile_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+name: string
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `ai_context_enabled: optional boolean`
+</details>
 
-- `allowed_match_count: optional number`
+<a href="#">Link to this property</a>
 
-- `confidence_threshold: optional string`
+<details>
 
-- `context_awareness: optional ContextAwareness`
+<summary>
 
-  Scan the context of predefined entries to only return matches surrounded by keywords.
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-  - `enabled: boolean`
+</summary>
 
-    If true, scan the context of predefined entries to only return matches surrounded by keywords.
+One of the following:
 
-  - `skip: SkipConfiguration`
+"empty"
 
-    Content types to exclude from context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-    - `files: boolean`
+"uploading"
 
-      If the content type is a file, skip context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-- `data_classes: optional array of string`
+"pending"
 
-  Data class IDs to associate with the profile. If omitted, existing associations are unchanged.
+<a href="#">Link to this property</a>
 
-- `data_tags: optional array of string`
+"processing"
 
-  Data tag IDs to associate with the profile. If omitted, existing associations are unchanged.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+"failed"
 
-  The description of the profile.
+<a href="#">Link to this property</a>
 
-- `entries: optional array of object { enabled, entry_id, name, 2 more }  or object { enabled, name, pattern, description }`
+"complete"
 
-  Custom entries from this profile.
-  If this field is omitted, entries owned by this profile will not be changed.
+<a href="#">Link to this property</a>
 
-  - `DLPNewCustomEntryWithID object { enabled, entry_id, name, 2 more }`
+</details>
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `entry_id: string`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `pattern: Pattern`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-      - `regex: string`
+A Predefined AI prompt classification topic entry.
 
-      - `validation: optional "luhn"`
+</summary>
 
-        - `"luhn"`
+One of the following:
 
-    - `description: optional string`
+<details>
 
-  - `DLPNewCustomEntry object { enabled, name, pattern, description }`
+<summary>
 
-    - `enabled: boolean`
+object {topic\_type, type, description }
 
-    - `name: string`
+A Predefined AI prompt classification topic entry.
 
-    - `pattern: Pattern`
+</summary>
 
-    - `description: optional string`
+<details>
 
-- `ocr_enabled: optional boolean`
+<summary>
 
-- `sensitivity_levels: optional array of object { group_id, level_id }`
+topic\_type: "Intent"or "Content"
 
-  Sensitivity levels to associate with the profile. If omitted, existing associations are unchanged.
+</summary>
 
-  - `group_id: string`
+One of the following:
 
-  - `level_id: string`
+"Intent"
 
-- `shared_entries: optional array of object { enabled, entry_id }`
+<a href="#">Link to this property</a>
 
-  Other entries, e.g. predefined or integration.
+"Content"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `entry_id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+type: "PromptTopic"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+object {type, description }
 
-  - `source: optional object { pointer }`
+A general predefined entry.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+type: "General"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+description: optional string
 
-- `result: optional Profile`
+A customer-facing explanation of what this predefined entry represents.
 
-  - `CustomProfile object { id, allowed_match_count, created_at, 13 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      The id of the profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+</details>
 
-      Related DLP policies will trigger when the match count exceeds the number set.
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-      When the profile was created.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-      The name of the profile.
+<summary>
 
-    - `ocr_enabled: boolean`
+object {id, created\_at, enabled, 6 more }
 
-    - `type: "custom"`
+</summary>
 
-      - `"custom"`
+id: string
 
-    - `updated_at: string`
+formatuuid
 
-      When the profile was lasted updated.
+<a href="#">Link to this property</a>
 
-    - `ai_context_enabled: optional boolean`
+created\_at: string
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+formatdate-time
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+enabled: boolean
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-      - `"very_high"`
+name: string
 
-    - `context_awareness: optional ContextAwareness`
+<a href="#">Link to this property</a>
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+type: "integration"
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        If true, scan the context of predefined entries to only return matches surrounded by keywords.
+updated\_at: string
 
-      - `skip: SkipConfiguration`
+formatdate-time
 
-        Content types to exclude from context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-        - `files: boolean`
+profile\_id: optional string
 
-          If the content type is a file, skip context analysis and return all matches.
+formatuuid
 
-    - `data_classes: optional array of string`
+<a href="#">Link to this property</a>
 
-      Data classes associated with this profile.
+<details>
 
-    - `data_tags: optional array of string`
+<summary>
 
-      Data tags associated with this profile.
+profiles: optional array of object {id, name }
 
-    - `description: optional string`
+</summary>
 
-      The description of the profile.
+id: string
 
-    - `entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+formatuuid
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+name: string
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `pattern: Pattern`
+<details>
 
-          - `regex: string`
+<summary>
 
-          - `validation: optional "luhn"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-            - `"luhn"`
+</summary>
 
-        - `type: "custom"`
+One of the following:
 
-          - `"custom"`
+"empty"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+"uploading"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+"pending"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+"processing"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"failed"
 
-        - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-          - `"custom_prompt_topic"`
+"complete"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+</details>
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `confidence: object { ai_context_available, available }`
+<details>
 
-          - `ai_context_available: boolean`
+<summary>
 
-            Indicates whether this entry has AI remote service validation.
+object {id, case\_sensitive, created\_at, 8 more }
 
-          - `available: boolean`
+</summary>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+id: string
 
-        - `enabled: boolean`
+formatuuid
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+case\_sensitive: boolean
 
-          - `"predefined"`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+created\_at: string
 
-          A Predefined AI prompt classification topic entry.
+formatdate-time
 
-          - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-            A Predefined AI prompt classification topic entry.
+enabled: boolean
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+name: string
 
-              - `"Content"`
+<a href="#">Link to this property</a>
 
-            - `type: "PromptTopic"`
+secret: boolean
 
-              - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+type: "exact\_data"
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+updated\_at: string
 
-            A general predefined entry.
+formatdate-time
 
-            - `type: "General"`
+<a href="#">Link to this property</a>
 
-              - `"General"`
+description: optional string
 
-            - `description: optional string`
+The optional description of the exact data entry.
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `created_at: string`
+profiles: optional array of object {id, name }
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+id: string
 
-        - `type: "integration"`
+formatuuid
 
-          - `"integration"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+name: string
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+<details>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<summary>
 
-        - `created_at: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+One of the following:
 
-        - `secret: boolean`
+"empty"
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+"uploading"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+"pending"
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+"processing"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+"failed"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"complete"
 
-        - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-          - `"document_fingerprint"`
+</details>
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+</details>
 
-          The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `created_at: string`
+object {id, created\_at, enabled, 6 more }
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+id: string
 
-        - `type: "word_list"`
+formatuuid
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+created\_at: string
 
-        - `word_list: unknown`
+formatdate-time
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `sensitivity_levels: optional array of object { group_id, level_id }`
+enabled: boolean
 
-      Sensitivity levels associated with this profile.
+<a href="#">Link to this property</a>
 
-      - `group_id: string`
+name: string
 
-      - `level_id: string`
+<a href="#">Link to this property</a>
 
-    - `shared_entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+type: "document\_fingerprint"
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+updated\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+description: optional string
 
-        - `pattern: Pattern`
+The optional description of the document fingerprint entry.
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+profiles: optional array of object {id, name }
 
-        - `profile_id: optional string`
+</summary>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+id: string
 
-        - `id: string`
+formatuuid
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+name: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+</details>
 
-          - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          The optional description of the custom prompt topic entry.
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `confidence: object { ai_context_available, available }`
+"empty"
 
-          - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has AI remote service validation.
+"uploading"
 
-          - `available: boolean`
+<a href="#">Link to this property</a>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+"pending"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"processing"
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+"failed"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+"complete"
 
-          A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-          - `object { topic_type, type, description }`
+</details>
 
-            A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-            - `topic_type: "Intent" or "Content"`
+</details>
 
-              - `"Intent"`
+<a href="#">Link to this property</a>
 
-              - `"Content"`
+<details>
 
-            - `type: "PromptTopic"`
+<summary>
 
-              - `"PromptTopic"`
+object {id, created\_at, enabled, 7 more }
 
-            - `description: optional string`
+</summary>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+id: string
 
-          - `object { type, description }`
+formatuuid
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+created\_at: string
 
-              - `"General"`
+formatdate-time
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined entry represents.
+enabled: boolean
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+name: string
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+type: "word\_list"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "integration"`
+updated\_at: string
 
-          - `"integration"`
+formatdate-time
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+word\_list: unknown
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+profile\_id: optional string
 
-        - `case_sensitive: boolean`
+formatuuid
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+profiles: optional array of object {id, name }
 
-        - `secret: boolean`
+</summary>
 
-        - `type: "exact_data"`
+id: string
 
-          - `"exact_data"`
+formatuuid
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+name: string
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `type: "document_fingerprint"`
+</summary>
 
-          - `"document_fingerprint"`
+One of the following:
 
-        - `updated_at: string`
+"empty"
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the document fingerprint entry.
+"uploading"
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"pending"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"processing"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+"failed"
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+"complete"
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+</details>
 
-  - `PredefinedProfile object { id, allowed_match_count, entries, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      The id of the predefined profile (uuid).
+<a href="#">Link to this property</a>
 
-    - `allowed_match_count: number`
+</details>
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+[Link to this property](#)%20zero_trust.dlp.entries.custom%20%3E%20(model)%20custom_get_response%20%3E%20(schema)>)
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `created_at: string`
+CustomListResponse = object {id, created\_at, enabled, 7 more } or object {id, created\_at, enabled, 5 more } or object {id, confidence, enabled, 6 more } or 4 more
 
-        - `enabled: boolean`
+</summary>
 
-        - `name: string`
+One of the following:
 
-        - `pattern: Pattern`
+<details>
 
-        - `type: "custom"`
+<summary>
 
-          - `"custom"`
+object {id, created\_at, enabled, 7 more }
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+id: string
 
-        - `profile_id: optional string`
+formatuuid
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+created\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+Deprecatedenabled: boolean
 
-        - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-          - `"custom_prompt_topic"`
+name: string
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-          The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+type: "custom"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `confidence: object { ai_context_available, available }`
+updated\_at: string
 
-          - `ai_context_available: boolean`
+formatdate-time
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+description: optional string
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+Deprecatedprofile\_id: optional string
 
-        - `name: string`
+formatuuid
 
-        - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-          - `"predefined"`
+<details>
 
-        - `profile_id: optional string`
+<summary>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-          A Predefined AI prompt classification topic entry.
+</summary>
 
-          - `object { topic_type, type, description }`
+One of the following:
 
-            A Predefined AI prompt classification topic entry.
+"empty"
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+"uploading"
 
-              - `"Content"`
+<a href="#">Link to this property</a>
 
-            - `type: "PromptTopic"`
+"pending"
 
-              - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+"processing"
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-          - `object { type, description }`
+"failed"
 
-            A general predefined entry.
+<a href="#">Link to this property</a>
 
-            - `type: "General"`
+"complete"
 
-              - `"General"`
+<a href="#">Link to this property</a>
 
-            - `description: optional string`
+</details>
 
-              A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+object {id, created\_at, enabled, 5 more }
 
-        - `type: "integration"`
+</summary>
 
-          - `"integration"`
+id: string
 
-        - `updated_at: string`
+formatuuid
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+created\_at: string
 
-        - `id: string`
+formatdate-time
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+Deprecatedenabled: boolean
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+name: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+type: "custom\_prompt\_topic"
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+updated\_at: string
 
-        - `updated_at: string`
+formatdate-time
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the exact data entry.
+description: optional string
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+The optional description of the custom prompt topic entry.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `type: "document_fingerprint"`
+</summary>
 
-          - `"document_fingerprint"`
+One of the following:
 
-        - `updated_at: string`
+"empty"
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the document fingerprint entry.
+"uploading"
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"pending"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"processing"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "word_list"`
+"failed"
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+"complete"
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the predefined profile.
+</details>
 
-    - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-      - `"predefined"`
+<details>
 
-    - `ai_context_enabled: optional boolean`
+<summary>
 
-    - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+object {id, confidence, enabled, 6 more }
 
-      - `"low"`
+</summary>
 
-      - `"medium"`
+id: string
 
-      - `"high"`
+formatuuid
 
-      - `"very_high"`
+<a href="#">Link to this property</a>
 
-    - `context_awareness: optional ContextAwareness`
+<details>
 
-      Scan the context of predefined entries to only return matches surrounded by keywords.
+<summary>
 
-    - `ocr_enabled: optional boolean`
+confidence: object {ai\_context\_available, available }
 
-    - `open_access: optional boolean`
+</summary>
 
-      Whether this profile can be accessed by anyone.
+ai\_context\_available: boolean
 
-  - `IntegrationProfile object { id, created_at, entries, 5 more }`
+Indicates whether this entry has AI remote service validation.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+available: boolean
 
-    - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+enabled: boolean
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `pattern: Pattern`
+name: string
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+type: "predefined"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+deprecated: optional boolean
 
-        - `profile_id: optional string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+Deprecatedprofile\_id: optional string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `type: "custom_prompt_topic"`
+<summary>
 
-          - `"custom_prompt_topic"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+One of the following:
 
-          The optional description of the custom prompt topic entry.
+"empty"
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"uploading"
 
-        - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-          - `ai_context_available: boolean`
+"pending"
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+"processing"
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"failed"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "predefined"`
+"complete"
 
-          - `"predefined"`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+</details>
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+<details>
 
-          - `object { topic_type, type, description }`
+<summary>
 
-            A Predefined AI prompt classification topic entry.
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-            - `topic_type: "Intent" or "Content"`
+A Predefined AI prompt classification topic entry.
 
-              - `"Intent"`
+</summary>
 
-              - `"Content"`
+One of the following:
 
-            - `type: "PromptTopic"`
+<details>
 
-              - `"PromptTopic"`
+<summary>
 
-            - `description: optional string`
+object {topic\_type, type, description }
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+A Predefined AI prompt classification topic entry.
 
-          - `object { type, description }`
+</summary>
 
-            A general predefined entry.
+<details>
 
-            - `type: "General"`
+<summary>
 
-              - `"General"`
+topic\_type: "Intent"or "Content"
 
-            - `description: optional string`
+</summary>
 
-              A customer-facing explanation of what this predefined entry represents.
+One of the following:
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+"Intent"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+"Content"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `type: "integration"`
+<a href="#">Link to this property</a>
 
-          - `"integration"`
+type: "PromptTopic"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+description: optional string
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `case_sensitive: boolean`
+</details>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `name: string`
+object {type, description }
 
-        - `secret: boolean`
+A general predefined entry.
 
-        - `type: "exact_data"`
+</summary>
 
-          - `"exact_data"`
+type: "General"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+description: optional string
 
-          The optional description of the exact data entry.
+A customer-facing explanation of what this predefined entry represents.
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "document_fingerprint"`
+</details>
 
-          - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          The optional description of the document fingerprint entry.
+object {id, created\_at, enabled, 5 more }
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `created_at: string`
+formatuuid
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+created\_at: string
 
-        - `type: "word_list"`
+formatdate-time
 
-          - `"word_list"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+enabled: boolean
 
-        - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-        - `profile_id: optional string`
+name: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `shared_entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+type: "integration"
 
-      - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+updated\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+profile\_id: optional string
 
-        - `pattern: Pattern`
+formatuuid
 
-        - `type: "custom"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+<details>
 
-        - `updated_at: string`
+<summary>
 
-        - `description: optional string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `profile_id: optional string`
+</summary>
 
-      - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+One of the following:
 
-        - `id: string`
+"empty"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"uploading"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "custom_prompt_topic"`
+"pending"
 
-          - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-        - `updated_at: string`
+"processing"
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          The optional description of the custom prompt topic entry.
+"failed"
 
-      - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"complete"
 
-        - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-          - `ai_context_available: boolean`
+</details>
 
-            Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-          - `available: boolean`
+</details>
 
-            Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "predefined"`
+object {id, case\_sensitive, created\_at, 7 more }
 
-          - `"predefined"`
+</summary>
 
-        - `profile_id: optional string`
+id: string
 
-        - `variant: optional object { topic_type, type, description }  or object { type, description }`
+formatuuid
 
-          A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-          - `object { topic_type, type, description }`
+case\_sensitive: boolean
 
-            A Predefined AI prompt classification topic entry.
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-            - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-              - `"Intent"`
+created\_at: string
 
-              - `"Content"`
+formatdate-time
 
-            - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-              - `"PromptTopic"`
+enabled: boolean
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined AI prompt topic represents.
+name: string
 
-          - `object { type, description }`
+<a href="#">Link to this property</a>
 
-            A general predefined entry.
+secret: boolean
 
-            - `type: "General"`
+<a href="#">Link to this property</a>
 
-              - `"General"`
+type: "exact\_data"
 
-            - `description: optional string`
+<a href="#">Link to this property</a>
 
-              A customer-facing explanation of what this predefined entry represents.
+updated\_at: string
 
-      - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+formatdate-time
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+description: optional string
 
-        - `enabled: boolean`
+The optional description of the exact data entry.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "integration"`
+<details>
 
-          - `"integration"`
+<summary>
 
-        - `updated_at: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        - `profile_id: optional string`
+</summary>
 
-      - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+One of the following:
 
-        - `id: string`
+"empty"
 
-        - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-          Only applies to custom word lists.
-          Determines if the words should be matched in a case-sensitive manner
-          Cannot be set to false if secret is true
+"uploading"
 
-        - `created_at: string`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"pending"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `secret: boolean`
+"processing"
 
-        - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-          - `"exact_data"`
+"failed"
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+"complete"
 
-          The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-      - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-        - `type: "document_fingerprint"`
+<summary>
 
-          - `"document_fingerprint"`
+object {id, created\_at, enabled, 5 more }
 
-        - `updated_at: string`
+</summary>
 
-        - `description: optional string`
+id: string
 
-          The optional description of the document fingerprint entry.
+formatuuid
 
-      - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+created\_at: string
 
-        - `created_at: string`
+formatdate-time
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+enabled: boolean
 
-        - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-          - `"word_list"`
+name: string
 
-        - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        - `word_list: unknown`
+type: "document\_fingerprint"
 
-        - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: "integration"`
+updated\_at: string
 
-      - `"integration"`
+formatdate-time
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+description: optional string
 
-      The description of the profile.
+The optional description of the document fingerprint entry.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/custom/$PROFILE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "allowed_match_count": 5,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "ocr_enabled": true,
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_context_enabled": true,
-    "confidence_threshold": "low",
-    "context_awareness": {
-      "enabled": true,
-      "skip": {
-        "files": true
-      }
-    },
-    "data_classes": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "description": "description",
-    "entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "shared_entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ]
-  }
-}
-```
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-## Delete custom profile
+</summary>
 
-**delete** `/accounts/{account_id}/dlp/profiles/custom/{profile_id}`
+One of the following:
 
-Deletes a DLP custom profile.
+"empty"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"uploading"
 
-- `profile_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"pending"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"processing"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"failed"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"complete"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+object {id, created\_at, enabled, 6 more }
 
-  - `true`
+</summary>
 
-- `result: optional unknown`
+id: string
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/custom/$PROFILE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_at: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+formatdate-time
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Custom Profile
+enabled: boolean
 
-- `CustomProfile object { id, allowed_match_count, created_at, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+name: string
 
-    The id of the profile (uuid).
+<a href="#">Link to this property</a>
 
-  - `allowed_match_count: number`
+type: "word\_list"
 
-    Related DLP policies will trigger when the match count exceeds the number set.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+updated\_at: string
 
-    When the profile was created.
+formatdate-time
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the profile.
+word\_list: unknown
 
-  - `ocr_enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+profile\_id: optional string
 
-    When the profile was lasted updated.
+formatuuid
 
-  - `ai_context_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `confidence_threshold: optional "low" or "medium" or "high" or "very_high"`
+<details>
 
-    - `"low"`
+<summary>
 
-    - `"medium"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `"high"`
+</summary>
 
-    - `"very_high"`
+One of the following:
 
-  - `context_awareness: optional ContextAwareness`
+"empty"
 
-    Scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+"uploading"
 
-      If true, scan the context of predefined entries to only return matches surrounded by keywords.
+<a href="#">Link to this property</a>
 
-    - `skip: SkipConfiguration`
+"pending"
 
-      Content types to exclude from context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-      - `files: boolean`
+"processing"
 
-        If the content type is a file, skip context analysis and return all matches.
+<a href="#">Link to this property</a>
 
-  - `data_classes: optional array of string`
+"failed"
 
-    Data classes associated with this profile.
+<a href="#">Link to this property</a>
 
-  - `data_tags: optional array of string`
+"complete"
 
-    Data tags associated with this profile.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    The description of the profile.
+<a href="#">Link to this property</a>
 
-  - `entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+</details>
 
-    - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `created_at: string`
+[Link to this property](#)%20zero_trust.dlp.entries.custom%20%3E%20(model)%20custom_list_response%20%3E%20(schema)>)
 
-      - `enabled: boolean`
+#### DLPEntriesPredefined
 
-      - `name: string`
+##### [Create predefined entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/predefined/methods/create)
 
-      - `pattern: Pattern`
+POST/accounts/{account\_id}/dlp/entries/predefined
 
-        - `regex: string`
+##### [Update predefined entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/predefined/methods/update)
 
-        - `validation: optional "luhn"`
+PUT/accounts/{account\_id}/dlp/entries/predefined/{entry\_id}
 
-          - `"luhn"`
+##### [Delete predefined entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/predefined/methods/delete)
 
-      - `type: "custom"`
+DELETE/accounts/{account\_id}/dlp/entries/predefined/{entry\_id}
 
-        - `"custom"`
+##### [Get DLP Entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/predefined/methods/get)
 
-      - `updated_at: string`
+GET/accounts/{account\_id}/dlp/entries/{entry\_id}
 
-      - `description: optional string`
+##### [List all entries](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/predefined/methods/list)
 
-      - `profile_id: optional string`
+GET/accounts/{account\_id}/dlp/entries
 
-    - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+##### ModelsExpand Collapse
 
-      - `id: string`
+<details>
 
-      - `created_at: string`
+<summary>
 
-      - `enabled: boolean`
+PredefinedCreateResponse object {id, confidence, enabled, 4 more }
 
-      - `name: string`
+</summary>
 
-      - `type: "custom_prompt_topic"`
+id: string
 
-        - `"custom_prompt_topic"`
+formatuuid
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+<details>
 
-        The optional description of the custom prompt topic entry.
+<summary>
 
-    - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+confidence: object {ai\_context\_available, available }
 
-      - `id: string`
+</summary>
 
-      - `confidence: object { ai_context_available, available }`
+ai\_context\_available: boolean
 
-        - `ai_context_available: boolean`
+Indicates whether this entry has AI remote service validation.
 
-          Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-        - `available: boolean`
+available: boolean
 
-          Indicates whether this entry has any form of validation that is not an AI remote service.
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-      - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-        - `"predefined"`
+enabled: boolean
 
-      - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `variant: optional object { topic_type, type, description }  or object { type, description }`
+name: string
 
-        A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-        - `object { topic_type, type, description }`
+deprecated: optional boolean
 
-          A Predefined AI prompt classification topic entry.
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-          - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-            - `"Intent"`
+Deprecatedprofile\_id: optional string
 
-            - `"Content"`
+formatuuid
 
-          - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-            - `"PromptTopic"`
+<details>
 
-          - `description: optional string`
+<summary>
 
-            A customer-facing explanation of what this predefined AI prompt topic represents.
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-        - `object { type, description }`
+A Predefined AI prompt classification topic entry.
 
-          A general predefined entry.
+</summary>
 
-          - `type: "General"`
+One of the following:
 
-            - `"General"`
+<details>
 
-          - `description: optional string`
+<summary>
 
-            A customer-facing explanation of what this predefined entry represents.
+object {topic\_type, type, description }
 
-    - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+A Predefined AI prompt classification topic entry.
 
-      - `id: string`
+</summary>
 
-      - `created_at: string`
+<details>
 
-      - `enabled: boolean`
+<summary>
 
-      - `name: string`
+topic\_type: "Intent"or "Content"
 
-      - `type: "integration"`
+</summary>
 
-        - `"integration"`
+One of the following:
 
-      - `updated_at: string`
+"Intent"
 
-      - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+"Content"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `case_sensitive: boolean`
+</details>
 
-        Only applies to custom word lists.
-        Determines if the words should be matched in a case-sensitive manner
-        Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+type: "PromptTopic"
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+description: optional string
 
-      - `secret: boolean`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-      - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-        - `"exact_data"`
+</details>
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+<details>
 
-        The optional description of the exact data entry.
+<summary>
 
-    - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+object {type, description }
 
-      - `id: string`
+A general predefined entry.
 
-      - `created_at: string`
+</summary>
 
-      - `enabled: boolean`
+type: "General"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "document_fingerprint"`
+description: optional string
 
-        - `"document_fingerprint"`
+A customer-facing explanation of what this predefined entry represents.
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+</details>
 
-        The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-    - `WordListEntry object { id, created_at, enabled, 5 more }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+</details>
 
-      - `enabled: boolean`
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(model)%20predefined_create_response%20%3E%20(schema)>)
 
-      - `name: string`
+<details>
 
-      - `type: "word_list"`
+<summary>
 
-        - `"word_list"`
+PredefinedUpdateResponse object {id, confidence, enabled, 4 more }
 
-      - `updated_at: string`
+</summary>
 
-      - `word_list: unknown`
+id: string
 
-      - `profile_id: optional string`
+formatuuid
 
-  - `sensitivity_levels: optional array of object { group_id, level_id }`
+<a href="#">Link to this property</a>
 
-    Sensitivity levels associated with this profile.
+<details>
 
-    - `group_id: string`
+<summary>
 
-    - `level_id: string`
+confidence: object {ai\_context\_available, available }
 
-  - `shared_entries: optional array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+</summary>
 
-    - `CustomEntry object { id, created_at, enabled, 6 more }`
+ai\_context\_available: boolean
 
-      - `id: string`
+Indicates whether this entry has AI remote service validation.
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+available: boolean
 
-      - `name: string`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-      - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-      - `type: "custom"`
+</details>
 
-        - `"custom"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+enabled: boolean
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-      - `profile_id: optional string`
+name: string
 
-    - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+deprecated: optional boolean
 
-      - `created_at: string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+Deprecatedprofile\_id: optional string
 
-      - `type: "custom_prompt_topic"`
+formatuuid
 
-        - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+<details>
 
-      - `description: optional string`
+<summary>
 
-        The optional description of the custom prompt topic entry.
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-    - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+A Predefined AI prompt classification topic entry.
 
-      - `id: string`
+</summary>
 
-      - `confidence: object { ai_context_available, available }`
+One of the following:
 
-        - `ai_context_available: boolean`
+<details>
 
-          Indicates whether this entry has AI remote service validation.
+<summary>
 
-        - `available: boolean`
+object {topic\_type, type, description }
 
-          Indicates whether this entry has any form of validation that is not an AI remote service.
+A Predefined AI prompt classification topic entry.
 
-      - `enabled: boolean`
+</summary>
 
-      - `name: string`
+<details>
 
-      - `type: "predefined"`
+<summary>
 
-        - `"predefined"`
+topic\_type: "Intent"or "Content"
 
-      - `profile_id: optional string`
+</summary>
 
-      - `variant: optional object { topic_type, type, description }  or object { type, description }`
+One of the following:
 
-        A Predefined AI prompt classification topic entry.
+"Intent"
 
-        - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+"Content"
 
-          - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-            - `"Intent"`
+</details>
 
-            - `"Content"`
+<a href="#">Link to this property</a>
 
-          - `type: "PromptTopic"`
+type: "PromptTopic"
 
-            - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-          - `description: optional string`
+description: optional string
 
-            A customer-facing explanation of what this predefined AI prompt topic represents.
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-        - `object { type, description }`
+<a href="#">Link to this property</a>
 
-          A general predefined entry.
+</details>
 
-          - `type: "General"`
+<a href="#">Link to this property</a>
 
-            - `"General"`
+<details>
 
-          - `description: optional string`
+<summary>
 
-            A customer-facing explanation of what this predefined entry represents.
+object {type, description }
 
-    - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+A general predefined entry.
 
-      - `id: string`
+</summary>
 
-      - `created_at: string`
+type: "General"
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+description: optional string
 
-      - `type: "integration"`
+A customer-facing explanation of what this predefined entry represents.
 
-        - `"integration"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+</details>
 
-      - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `case_sensitive: boolean`
+</details>
 
-        Only applies to custom word lists.
-        Determines if the words should be matched in a case-sensitive manner
-        Cannot be set to false if secret is true
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(model)%20predefined_update_response%20%3E%20(schema)>)
 
-      - `created_at: string`
+PredefinedDeleteResponse = unknown
 
-      - `enabled: boolean`
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(model)%20predefined_delete_response%20%3E%20(schema)>)
 
-      - `name: string`
+<details>
 
-      - `secret: boolean`
+<summary>
 
-      - `type: "exact_data"`
+PredefinedGetResponse = object {id, created\_at, enabled, 8 more } or object {id, created\_at, enabled, 6 more } or object {id, confidence, enabled, 7 more } or 4 more
 
-        - `"exact_data"`
+</summary>
 
-      - `updated_at: string`
+One of the following:
 
-      - `description: optional string`
+<details>
 
-        The optional description of the exact data entry.
+<summary>
 
-    - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+object {id, created\_at, enabled, 8 more }
 
-      - `id: string`
+</summary>
 
-      - `created_at: string`
+id: string
 
-      - `enabled: boolean`
+formatuuid
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "document_fingerprint"`
+created\_at: string
 
-        - `"document_fingerprint"`
+formatdate-time
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+Deprecatedenabled: boolean
 
-        The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-    - `WordListEntry object { id, created_at, enabled, 5 more }`
+name: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+type: "custom"
 
-      - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-        - `"word_list"`
+updated\_at: string
 
-      - `updated_at: string`
+formatdate-time
 
-      - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-      - `profile_id: optional string`
+description: optional string
 
-### Pattern
+<a href="#">Link to this property</a>
 
-- `Pattern object { regex, validation }`
+Deprecatedprofile\_id: optional string
 
-  - `regex: string`
+formatuuid
 
-  - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-    - `"luhn"`
+<details>
 
-### Custom Delete Response
+<summary>
 
-- `CustomDeleteResponse = unknown`
+profiles: optional array of object {id, name }
 
-# Predefined
+</summary>
 
-## Get predefined profile config
+id: string
 
-**get** `/accounts/{account_id}/dlp/profiles/predefined/{profile_id}/config`
+formatuuid
 
-This is similar to `get_predefined` but only returns entries that are enabled.
-This is needed for our terraform API
-Fetches a predefined DLP profile by id.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+name: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `profile_id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"empty"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"uploading"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"pending"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"processing"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"failed"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional PredefinedProfile`
+"complete"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The id of the predefined profile (uuid).
+</details>
 
-  - `allowed_match_count: number`
+<a href="#">Link to this property</a>
 
-  - `confidence_threshold: string`
+</details>
 
-  - `enabled_entries: array of string`
+<a href="#">Link to this property</a>
 
-    Entries to enable for this predefined profile. Any entries not provided will be disabled.
+<details>
 
-  - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<summary>
 
-    This field has been deprecated for `enabled_entries`.
+object {id, created\_at, enabled, 6 more }
 
-    - `CustomEntry object { id, created_at, enabled, 6 more }`
+</summary>
 
-      - `id: string`
+id: string
 
-      - `created_at: string`
+formatuuid
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+created\_at: string
 
-      - `pattern: Pattern`
+formatdate-time
 
-        - `regex: string`
+<a href="#">Link to this property</a>
 
-        - `validation: optional "luhn"`
+Deprecatedenabled: boolean
 
-          - `"luhn"`
+<a href="#">Link to this property</a>
 
-      - `type: "custom"`
+name: string
 
-        - `"custom"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+type: "custom\_prompt\_topic"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-      - `profile_id: optional string`
+updated\_at: string
 
-    - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+description: optional string
 
-      - `enabled: boolean`
+The optional description of the custom prompt topic entry.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "custom_prompt_topic"`
+<details>
 
-        - `"custom_prompt_topic"`
+<summary>
 
-      - `updated_at: string`
+profiles: optional array of object {id, name }
 
-      - `description: optional string`
+</summary>
 
-        The optional description of the custom prompt topic entry.
+id: string
 
-    - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+formatuuid
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `confidence: object { ai_context_available, available }`
+name: string
 
-        - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this entry has AI remote service validation.
+</details>
 
-        - `available: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this entry has any form of validation that is not an AI remote service.
+<details>
 
-      - `enabled: boolean`
+<summary>
 
-      - `name: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `type: "predefined"`
+</summary>
 
-        - `"predefined"`
+One of the following:
 
-      - `profile_id: optional string`
+"empty"
 
-      - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-        A Predefined AI prompt classification topic entry.
+"uploading"
 
-        - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+"pending"
 
-          - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-            - `"Intent"`
+"processing"
 
-            - `"Content"`
+<a href="#">Link to this property</a>
 
-          - `type: "PromptTopic"`
+"failed"
 
-            - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-          - `description: optional string`
+"complete"
 
-            A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-        - `object { type, description }`
+</details>
 
-          A general predefined entry.
+<a href="#">Link to this property</a>
 
-          - `type: "General"`
+</details>
 
-            - `"General"`
+<a href="#">Link to this property</a>
 
-          - `description: optional string`
+<details>
 
-            A customer-facing explanation of what this predefined entry represents.
+<summary>
 
-    - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+object {id, confidence, enabled, 7 more }
 
-      - `id: string`
+</summary>
 
-      - `created_at: string`
+id: string
 
-      - `enabled: boolean`
+formatuuid
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "integration"`
+<details>
 
-        - `"integration"`
+<summary>
 
-      - `updated_at: string`
+confidence: object {ai\_context\_available, available }
 
-      - `profile_id: optional string`
+</summary>
 
-    - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+ai\_context\_available: boolean
 
-      - `id: string`
+Indicates whether this entry has AI remote service validation.
 
-      - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-        Only applies to custom word lists.
-        Determines if the words should be matched in a case-sensitive manner
-        Cannot be set to false if secret is true
+available: boolean
 
-      - `created_at: string`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-      - `secret: boolean`
+<a href="#">Link to this property</a>
 
-      - `type: "exact_data"`
+enabled: boolean
 
-        - `"exact_data"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+name: string
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        The optional description of the exact data entry.
+type: "predefined"
 
-    - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+deprecated: optional boolean
 
-      - `created_at: string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+Deprecatedprofile\_id: optional string
 
-      - `type: "document_fingerprint"`
+formatuuid
 
-        - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+<details>
 
-      - `description: optional string`
+<summary>
 
-        The optional description of the document fingerprint entry.
+profiles: optional array of object {id, name }
 
-    - `WordListEntry object { id, created_at, enabled, 5 more }`
+</summary>
 
-      - `id: string`
+id: string
 
-      - `created_at: string`
+formatuuid
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+name: string
 
-      - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-        - `"word_list"`
+</details>
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `word_list: unknown`
+<details>
 
-      - `profile_id: optional string`
+<summary>
 
-  - `name: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    The name of the predefined profile.
+</summary>
 
-  - `ai_context_enabled: optional boolean`
+One of the following:
 
-  - `ocr_enabled: optional boolean`
+"empty"
 
-  - `open_access: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether this profile can be accessed by anyone.
+"uploading"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/predefined/$PROFILE_ID/config \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"pending"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "allowed_match_count": 0,
-    "confidence_threshold": "confidence_threshold",
-    "enabled_entries": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "name": "name",
-    "ai_context_enabled": true,
-    "ocr_enabled": true,
-    "open_access": true
-  }
-}
-```
+"processing"
 
-## Update predefined profile config
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/dlp/profiles/predefined/{profile_id}/config`
+"failed"
 
-This is similar to `update_predefined` but only returns entries that are enabled.
-This is needed for our terraform API
-Updates a DLP predefined profile. Only supports enabling/disabling entries.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"complete"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `profile_id: string`
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `ai_context_enabled: optional boolean`
+<details>
 
-- `allowed_match_count: optional number`
+<summary>
 
-- `confidence_threshold: optional string`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-- `enabled_entries: optional array of string`
+A Predefined AI prompt classification topic entry.
 
-- `entries: optional array of object { id, enabled }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-  - `enabled: boolean`
+<details>
 
-- `ocr_enabled: optional boolean`
+<summary>
 
-### Returns
+object {topic\_type, type, description }
 
-- `errors: array of object { code, message, documentation_url, source }`
+A Predefined AI prompt classification topic entry.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+topic\_type: "Intent"or "Content"
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"Intent"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"Content"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+type: "PromptTopic"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional PredefinedProfile`
+description: optional string
 
-  - `id: string`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-    The id of the predefined profile (uuid).
+<a href="#">Link to this property</a>
 
-  - `allowed_match_count: number`
+</details>
 
-  - `confidence_threshold: string`
+<a href="#">Link to this property</a>
 
-  - `enabled_entries: array of string`
+<details>
 
-    Entries to enable for this predefined profile. Any entries not provided will be disabled.
+<summary>
 
-  - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+object {type, description }
 
-    This field has been deprecated for `enabled_entries`.
+A general predefined entry.
 
-    - `CustomEntry object { id, created_at, enabled, 6 more }`
+</summary>
 
-      - `id: string`
+type: "General"
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+description: optional string
 
-      - `name: string`
+A customer-facing explanation of what this predefined entry represents.
 
-      - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-        - `regex: string`
+</details>
 
-        - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-          - `"luhn"`
+</details>
 
-      - `type: "custom"`
+<a href="#">Link to this property</a>
 
-        - `"custom"`
+</details>
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+<details>
 
-      - `profile_id: optional string`
+<summary>
 
-    - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+object {id, created\_at, enabled, 6 more }
 
-      - `id: string`
+</summary>
 
-      - `created_at: string`
+id: string
 
-      - `enabled: boolean`
+formatuuid
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "custom_prompt_topic"`
+created\_at: string
 
-        - `"custom_prompt_topic"`
+formatdate-time
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+enabled: boolean
 
-        The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-    - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+name: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `confidence: object { ai_context_available, available }`
+type: "integration"
 
-        - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this entry has AI remote service validation.
+updated\_at: string
 
-        - `available: boolean`
+formatdate-time
 
-          Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+profile\_id: optional string
 
-      - `name: string`
+formatuuid
 
-      - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-        - `"predefined"`
+<details>
 
-      - `profile_id: optional string`
+<summary>
 
-      - `variant: optional object { topic_type, type, description }  or object { type, description }`
+profiles: optional array of object {id, name }
 
-        A Predefined AI prompt classification topic entry.
+</summary>
 
-        - `object { topic_type, type, description }`
+id: string
 
-          A Predefined AI prompt classification topic entry.
+formatuuid
 
-          - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-            - `"Intent"`
+name: string
 
-            - `"Content"`
+<a href="#">Link to this property</a>
 
-          - `type: "PromptTopic"`
+</details>
 
-            - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-          - `description: optional string`
+<details>
 
-            A customer-facing explanation of what this predefined AI prompt topic represents.
+<summary>
 
-        - `object { type, description }`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-          A general predefined entry.
+</summary>
 
-          - `type: "General"`
+One of the following:
 
-            - `"General"`
+"empty"
 
-          - `description: optional string`
+<a href="#">Link to this property</a>
 
-            A customer-facing explanation of what this predefined entry represents.
+"uploading"
 
-    - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"pending"
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+"processing"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "integration"`
+"failed"
 
-        - `"integration"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+"complete"
 
-      - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `case_sensitive: boolean`
+</details>
 
-        Only applies to custom word lists.
-        Determines if the words should be matched in a case-sensitive manner
-        Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+<details>
 
-      - `enabled: boolean`
+<summary>
 
-      - `name: string`
+object {id, case\_sensitive, created\_at, 8 more }
 
-      - `secret: boolean`
+</summary>
 
-      - `type: "exact_data"`
+id: string
 
-        - `"exact_data"`
+formatuuid
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+case\_sensitive: boolean
 
-        The optional description of the exact data entry.
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-    - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+created\_at: string
 
-      - `created_at: string`
+formatdate-time
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+enabled: boolean
 
-      - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-        - `"document_fingerprint"`
+name: string
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+secret: boolean
 
-        The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-    - `WordListEntry object { id, created_at, enabled, 5 more }`
+type: "exact\_data"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+updated\_at: string
 
-      - `enabled: boolean`
+formatdate-time
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "word_list"`
+description: optional string
 
-        - `"word_list"`
+The optional description of the exact data entry.
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `word_list: unknown`
+<details>
 
-      - `profile_id: optional string`
+<summary>
 
-  - `name: string`
+profiles: optional array of object {id, name }
 
-    The name of the predefined profile.
+</summary>
 
-  - `ai_context_enabled: optional boolean`
+id: string
 
-  - `ocr_enabled: optional boolean`
+formatuuid
 
-  - `open_access: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether this profile can be accessed by anyone.
+name: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/predefined/$PROFILE_ID/config \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allowed_match_count": 5
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "allowed_match_count": 0,
-    "confidence_threshold": "confidence_threshold",
-    "enabled_entries": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "entries": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enabled": true,
-        "name": "name",
-        "pattern": {
-          "regex": "regex",
-          "validation": "luhn"
-        },
-        "type": "custom",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description",
-        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "name": "name",
-    "ai_context_enabled": true,
-    "ocr_enabled": true,
-    "open_access": true
-  }
-}
-```
+<details>
 
-## Delete predefined profile
+<summary>
 
-**delete** `/accounts/{account_id}/dlp/profiles/predefined/{profile_id}`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-This is a no-op as predefined profiles can't be deleted but is needed for our generated terraform API.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"empty"
 
-- `profile_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"uploading"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"pending"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"processing"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"failed"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"complete"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional unknown`
+object {id, created\_at, enabled, 6 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/predefined/$PROFILE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: string
 
-#### Response
+formatuuid
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+created\_at: string
 
-### Predefined Profile
+formatdate-time
 
-- `PredefinedProfile object { id, allowed_match_count, confidence_threshold, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+enabled: boolean
 
-    The id of the predefined profile (uuid).
+<a href="#">Link to this property</a>
 
-  - `allowed_match_count: number`
+name: string
 
-  - `confidence_threshold: string`
+<a href="#">Link to this property</a>
 
-  - `enabled_entries: array of string`
+type: "document\_fingerprint"
 
-    Entries to enable for this predefined profile. Any entries not provided will be disabled.
+<a href="#">Link to this property</a>
 
-  - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+updated\_at: string
 
-    This field has been deprecated for `enabled_entries`.
+formatdate-time
 
-    - `CustomEntry object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+description: optional string
 
-      - `created_at: string`
+The optional description of the document fingerprint entry.
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+<details>
 
-      - `pattern: Pattern`
+<summary>
 
-        - `regex: string`
+profiles: optional array of object {id, name }
 
-        - `validation: optional "luhn"`
+</summary>
 
-          - `"luhn"`
+id: string
 
-      - `type: "custom"`
+formatuuid
 
-        - `"custom"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+name: string
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-      - `profile_id: optional string`
+</details>
 
-    - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-      - `created_at: string`
+<summary>
 
-      - `enabled: boolean`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `name: string`
+</summary>
 
-      - `type: "custom_prompt_topic"`
+One of the following:
 
-        - `"custom_prompt_topic"`
+"empty"
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+"uploading"
 
-        The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-    - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+"pending"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `confidence: object { ai_context_available, available }`
+"processing"
 
-        - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this entry has AI remote service validation.
+"failed"
 
-        - `available: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this entry has any form of validation that is not an AI remote service.
+"complete"
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-      - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-        - `"predefined"`
+</details>
 
-      - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<details>
 
-        A Predefined AI prompt classification topic entry.
+<summary>
 
-        - `object { topic_type, type, description }`
+object {id, created\_at, enabled, 7 more }
 
-          A Predefined AI prompt classification topic entry.
+</summary>
 
-          - `topic_type: "Intent" or "Content"`
+id: string
 
-            - `"Intent"`
+formatuuid
 
-            - `"Content"`
+<a href="#">Link to this property</a>
 
-          - `type: "PromptTopic"`
+created\_at: string
 
-            - `"PromptTopic"`
+formatdate-time
 
-          - `description: optional string`
+<a href="#">Link to this property</a>
 
-            A customer-facing explanation of what this predefined AI prompt topic represents.
+enabled: boolean
 
-        - `object { type, description }`
+<a href="#">Link to this property</a>
 
-          A general predefined entry.
+name: string
 
-          - `type: "General"`
+<a href="#">Link to this property</a>
 
-            - `"General"`
+type: "word\_list"
 
-          - `description: optional string`
+<a href="#">Link to this property</a>
 
-            A customer-facing explanation of what this predefined entry represents.
+updated\_at: string
 
-    - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+word\_list: unknown
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+profile\_id: optional string
 
-      - `type: "integration"`
+formatuuid
 
-        - `"integration"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+<details>
 
-      - `profile_id: optional string`
+<summary>
 
-    - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+profiles: optional array of object {id, name }
 
-      - `id: string`
+</summary>
 
-      - `case_sensitive: boolean`
+id: string
 
-        Only applies to custom word lists.
-        Determines if the words should be matched in a case-sensitive manner
-        Cannot be set to false if secret is true
+formatuuid
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+name: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `secret: boolean`
+</details>
 
-      - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-        - `"exact_data"`
+<details>
 
-      - `updated_at: string`
+<summary>
 
-      - `description: optional string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        The optional description of the exact data entry.
+</summary>
 
-    - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+One of the following:
 
-      - `id: string`
+"empty"
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+"uploading"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "document_fingerprint"`
+"pending"
 
-        - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+"processing"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        The optional description of the document fingerprint entry.
+"failed"
 
-    - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"complete"
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "word_list"`
+</details>
 
-        - `"word_list"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+</details>
 
-      - `word_list: unknown`
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(model)%20predefined_get_response%20%3E%20(schema)>)
 
-      - `profile_id: optional string`
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the predefined profile.
+PredefinedListResponse = object {id, created\_at, enabled, 7 more } or object {id, created\_at, enabled, 5 more } or object {id, confidence, enabled, 6 more } or 4 more
 
-  - `ai_context_enabled: optional boolean`
+</summary>
 
-  - `ocr_enabled: optional boolean`
+One of the following:
 
-  - `open_access: optional boolean`
+<details>
 
-    Whether this profile can be accessed by anyone.
+<summary>
 
-### Predefined Delete Response
+object {id, created\_at, enabled, 7 more }
 
-- `PredefinedDeleteResponse = unknown`
+</summary>
 
-# Limits
+id: string
 
-## Fetch limits associated with DLP for account
+formatuuid
 
-**get** `/accounts/{account_id}/dlp/limits`
+<a href="#">Link to this property</a>
 
-Retrieves current DLP usage limits and quotas for the account, including
-maximum allowed counts and current usage for custom entries, dataset cells,
-and document fingerprints.
+created\_at: string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+Deprecatedenabled: boolean
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+type: "custom"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+updated\_at: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+description: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+Deprecatedprofile\_id: optional string
 
-  Whether the API call was successful.
+formatuuid
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { max_custom_regex_entries, max_dataset_cells, max_document_fingerprints, 3 more }`
+<details>
 
-  - `max_custom_regex_entries: number`
+<summary>
 
-    Maximum number of custom regex entries allowed for the account.
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-  - `max_dataset_cells: number`
+</summary>
 
-    Maximum number of dataset cells allowed for the account, across all EDM and CWL datasets.
+One of the following:
 
-  - `max_document_fingerprints: number`
+"empty"
 
-    Maximum number of document fingerprints allowed for the account.
+<a href="#">Link to this property</a>
 
-  - `used_custom_regex_entries: number`
+"uploading"
 
-    Number of custom regex entries currently configured for the account.
+<a href="#">Link to this property</a>
 
-  - `used_dataset_cells: number`
+"pending"
 
-    Number of dataset cells currently configured for the account, across all EDM and CWL datasets. Document fingerprints do not count towards this limit.
+<a href="#">Link to this property</a>
 
-  - `used_document_fingerprints: number`
+"processing"
 
-    Number of document fingerprints currently configured for the account.
+<a href="#">Link to this property</a>
 
-### Example
+"failed"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/limits \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"complete"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "max_custom_regex_entries": 0,
-    "max_dataset_cells": 0,
-    "max_document_fingerprints": 0,
-    "used_custom_regex_entries": 0,
-    "used_dataset_cells": 0,
-    "used_document_fingerprints": 0
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Limit List Response
+<a href="#">Link to this property</a>
 
-- `LimitListResponse object { max_custom_regex_entries, max_dataset_cells, max_document_fingerprints, 3 more }`
+</details>
 
-  - `max_custom_regex_entries: number`
+<a href="#">Link to this property</a>
 
-    Maximum number of custom regex entries allowed for the account.
+<details>
 
-  - `max_dataset_cells: number`
+<summary>
 
-    Maximum number of dataset cells allowed for the account, across all EDM and CWL datasets.
+object {id, created\_at, enabled, 5 more }
 
-  - `max_document_fingerprints: number`
+</summary>
 
-    Maximum number of document fingerprints allowed for the account.
+id: string
 
-  - `used_custom_regex_entries: number`
+formatuuid
 
-    Number of custom regex entries currently configured for the account.
+<a href="#">Link to this property</a>
 
-  - `used_dataset_cells: number`
+created\_at: string
 
-    Number of dataset cells currently configured for the account, across all EDM and CWL datasets. Document fingerprints do not count towards this limit.
+formatdate-time
 
-  - `used_document_fingerprints: number`
+<a href="#">Link to this property</a>
 
-    Number of document fingerprints currently configured for the account.
+Deprecatedenabled: boolean
 
-# Entries
+<a href="#">Link to this property</a>
 
-## List all entries
+name: string
 
-**get** `/accounts/{account_id}/dlp/entries`
+<a href="#">Link to this property</a>
 
-Lists all DLP entries in an account.
+type: "custom\_prompt\_topic"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+updated\_at: string
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+description: optional string
 
-  - `message: string`
+The optional description of the custom prompt topic entry.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"empty"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"uploading"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"pending"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_at, enabled, 7 more }  or object { id, created_at, enabled, 5 more }  or object { id, confidence, enabled, 5 more }  or 4 more`
+"processing"
 
-  - `object { id, created_at, enabled, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"failed"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+"complete"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `pattern: Pattern`
+</details>
 
-      - `regex: string`
+<a href="#">Link to this property</a>
 
-      - `validation: optional "luhn"`
+</details>
 
-        - `"luhn"`
+<a href="#">Link to this property</a>
 
-    - `type: "custom"`
+<details>
 
-      - `"custom"`
+<summary>
 
-    - `updated_at: string`
+object {id, confidence, enabled, 6 more }
 
-    - `description: optional string`
+</summary>
 
-    - `profile_id: optional string`
+id: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+formatuuid
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+<details>
 
-      - `"pending"`
+<summary>
 
-      - `"processing"`
+confidence: object {ai\_context\_available, available }
 
-      - `"failed"`
+</summary>
 
-      - `"complete"`
+ai\_context\_available: boolean
 
-  - `object { id, created_at, enabled, 5 more }`
+Indicates whether this entry has AI remote service validation.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+available: boolean
 
-    - `enabled: boolean`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "custom_prompt_topic"`
+</details>
 
-      - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+enabled: boolean
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the custom prompt topic entry.
+name: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+type: "predefined"
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+deprecated: optional boolean
 
-      - `"processing"`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+Deprecatedprofile\_id: optional string
 
-  - `object { id, confidence, enabled, 5 more }`
+formatuuid
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `confidence: object { ai_context_available, available }`
+<details>
 
-      - `ai_context_available: boolean`
+<summary>
 
-        Indicates whether this entry has AI remote service validation.
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `available: boolean`
+</summary>
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+One of the following:
 
-    - `enabled: boolean`
+"empty"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+"uploading"
 
-      - `"predefined"`
+<a href="#">Link to this property</a>
 
-    - `profile_id: optional string`
+"pending"
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+"processing"
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+"failed"
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+"complete"
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+</details>
 
-      A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-      - `object { topic_type, type, description }`
+<details>
 
-        A Predefined AI prompt classification topic entry.
+<summary>
 
-        - `topic_type: "Intent" or "Content"`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-          - `"Intent"`
+A Predefined AI prompt classification topic entry.
 
-          - `"Content"`
+</summary>
 
-        - `type: "PromptTopic"`
+One of the following:
 
-          - `"PromptTopic"`
+<details>
 
-        - `description: optional string`
+<summary>
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+object {topic\_type, type, description }
 
-      - `object { type, description }`
+A Predefined AI prompt classification topic entry.
 
-        A general predefined entry.
+</summary>
 
-        - `type: "General"`
+<details>
 
-          - `"General"`
+<summary>
 
-        - `description: optional string`
+topic\_type: "Intent"or "Content"
 
-          A customer-facing explanation of what this predefined entry represents.
+</summary>
 
-  - `object { id, created_at, enabled, 5 more }`
+One of the following:
 
-    - `id: string`
+"Intent"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+"Content"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "integration"`
+</details>
 
-      - `"integration"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+type: "PromptTopic"
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+description: optional string
 
-      - `"empty"`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+<details>
 
-      - `"complete"`
+<summary>
 
-  - `object { id, case_sensitive, created_at, 7 more }`
+object {type, description }
 
-    - `id: string`
+A general predefined entry.
 
-    - `case_sensitive: boolean`
+</summary>
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+type: "General"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+description: optional string
 
-    - `name: string`
+A customer-facing explanation of what this predefined entry represents.
 
-    - `secret: boolean`
+<a href="#">Link to this property</a>
 
-    - `type: "exact_data"`
+</details>
 
-      - `"exact_data"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the exact data entry.
+</details>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+object {id, created\_at, enabled, 5 more }
 
-      - `"processing"`
+</summary>
 
-      - `"failed"`
+id: string
 
-      - `"complete"`
+formatuuid
 
-  - `object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+created\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+enabled: boolean
 
-    - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-      - `"document_fingerprint"`
+name: string
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+type: "integration"
 
-      The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+updated\_at: string
 
-      - `"empty"`
+formatdate-time
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+profile\_id: optional string
 
-      - `"processing"`
+formatuuid
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+<details>
 
-  - `object { id, created_at, enabled, 6 more }`
+<summary>
 
-    - `id: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `created_at: string`
+</summary>
 
-    - `enabled: boolean`
+One of the following:
 
-    - `name: string`
+"empty"
 
-    - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-      - `"word_list"`
+"uploading"
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `word_list: unknown`
+"pending"
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+"processing"
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+"failed"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+"complete"
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "name": "name",
-      "pattern": {
-        "regex": "regex",
-        "validation": "luhn"
-      },
-      "type": "custom",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "upload_status": "empty"
-    }
-  ]
-}
-```
+<details>
 
-## Get DLP Entry
+<summary>
 
-**get** `/accounts/{account_id}/dlp/entries/{entry_id}`
+object {id, case\_sensitive, created\_at, 7 more }
 
-Fetches a DLP entry by ID.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+formatuuid
 
-- `entry_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+case\_sensitive: boolean
 
-- `errors: array of object { code, message, documentation_url, source }`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_at: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+enabled: boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+secret: boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+type: "exact\_data"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+updated\_at: string
 
-  - `true`
+formatdate-time
 
-- `result: optional object { id, created_at, enabled, 8 more }  or object { id, created_at, enabled, 6 more }  or object { id, confidence, enabled, 6 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 8 more }`
+description: optional string
 
-    - `id: string`
+The optional description of the exact data entry.
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `pattern: Pattern`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `regex: string`
+</summary>
 
-      - `validation: optional "luhn"`
+One of the following:
 
-        - `"luhn"`
+"empty"
 
-    - `type: "custom"`
+<a href="#">Link to this property</a>
 
-      - `"custom"`
+"uploading"
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"pending"
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `profiles: optional array of object { id, name }`
+"processing"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"failed"
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+"complete"
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+</details>
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 6 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `created_at: string`
+object {id, created\_at, enabled, 5 more }
 
-    - `enabled: boolean`
+</summary>
 
-    - `name: string`
+id: string
 
-    - `type: "custom_prompt_topic"`
+formatuuid
 
-      - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+created\_at: string
 
-    - `description: optional string`
+formatdate-time
 
-      The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-    - `profiles: optional array of object { id, name }`
+enabled: boolean
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+name: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+type: "document\_fingerprint"
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+updated\_at: string
 
-      - `"processing"`
+formatdate-time
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+description: optional string
 
-  - `object { id, confidence, enabled, 6 more }`
+The optional description of the document fingerprint entry.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `confidence: object { ai_context_available, available }`
+<details>
 
-      - `ai_context_available: boolean`
+<summary>
 
-        Indicates whether this entry has AI remote service validation.
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `available: boolean`
+</summary>
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+One of the following:
 
-    - `enabled: boolean`
+"empty"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+"uploading"
 
-      - `"predefined"`
+<a href="#">Link to this property</a>
 
-    - `profile_id: optional string`
+"pending"
 
-    - `profiles: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"processing"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+"failed"
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+"complete"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+</details>
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+</details>
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-      A Predefined AI prompt classification topic entry.
+<details>
 
-      - `object { topic_type, type, description }`
+<summary>
 
-        A Predefined AI prompt classification topic entry.
+object {id, created\_at, enabled, 6 more }
 
-        - `topic_type: "Intent" or "Content"`
+</summary>
 
-          - `"Intent"`
+id: string
 
-          - `"Content"`
+formatuuid
 
-        - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-          - `"PromptTopic"`
+created\_at: string
 
-        - `description: optional string`
+formatdate-time
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-      - `object { type, description }`
+enabled: boolean
 
-        A general predefined entry.
+<a href="#">Link to this property</a>
 
-        - `type: "General"`
+name: string
 
-          - `"General"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+type: "word\_list"
 
-          A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 6 more }`
+updated\_at: string
 
-    - `id: string`
+formatdate-time
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+word\_list: unknown
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "integration"`
+profile\_id: optional string
 
-      - `"integration"`
+formatuuid
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `profile_id: optional string`
+<details>
 
-    - `profiles: optional array of object { id, name }`
+<summary>
 
-      - `id: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `name: string`
+</summary>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+One of the following:
 
-      - `"empty"`
+"empty"
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+"uploading"
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+"pending"
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, case_sensitive, created_at, 8 more }`
+"processing"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `case_sensitive: boolean`
+"failed"
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"complete"
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `secret: boolean`
+<a href="#">Link to this property</a>
 
-    - `type: "exact_data"`
+</details>
 
-      - `"exact_data"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-    - `description: optional string`
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(model)%20predefined_list_response%20%3E%20(schema)>)
 
-      The optional description of the exact data entry.
+#### DLPEntriesIntegration
 
-    - `profiles: optional array of object { id, name }`
+##### [Create integration entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/integration/methods/create)
 
-      - `id: string`
+POST/accounts/{account\_id}/dlp/entries/integration
 
-      - `name: string`
+##### [Update integration entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/integration/methods/update)
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+PUT/accounts/{account\_id}/dlp/entries/integration/{entry\_id}
 
-      - `"empty"`
+##### [Delete integration entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/integration/methods/delete)
 
-      - `"uploading"`
+DELETE/accounts/{account\_id}/dlp/entries/integration/{entry\_id}
 
-      - `"pending"`
+##### [Get DLP Entry](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/integration/methods/get)
 
-      - `"processing"`
+GET/accounts/{account\_id}/dlp/entries/{entry\_id}
 
-      - `"failed"`
+##### [List all entries](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/integration/methods/list)
 
-      - `"complete"`
+GET/accounts/{account\_id}/dlp/entries
 
-  - `object { id, created_at, enabled, 6 more }`
+##### ModelsExpand Collapse
 
-    - `id: string`
+<details>
 
-    - `created_at: string`
+<summary>
 
-    - `enabled: boolean`
+IntegrationCreateResponse object {id, created\_at, enabled, 3 more }
 
-    - `name: string`
+</summary>
 
-    - `type: "document_fingerprint"`
+id: string
 
-      - `"document_fingerprint"`
+formatuuid
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+created\_at: string
 
-      The optional description of the document fingerprint entry.
+formatdate-time
 
-    - `profiles: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+enabled: boolean
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+name: string
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+updated\_at: string
 
-      - `"pending"`
+formatdate-time
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+profile\_id: optional string
 
-      - `"complete"`
+formatuuid
 
-  - `object { id, created_at, enabled, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `created_at: string`
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(model)%20integration_create_response%20%3E%20(schema)>)
 
-    - `enabled: boolean`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `type: "word_list"`
+IntegrationUpdateResponse object {id, created\_at, enabled, 3 more }
 
-      - `"word_list"`
+</summary>
 
-    - `updated_at: string`
+id: string
 
-    - `word_list: unknown`
+formatuuid
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `profiles: optional array of object { id, name }`
+created\_at: string
 
-      - `id: string`
+formatdate-time
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+enabled: boolean
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+name: string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+updated\_at: string
 
-      - `"failed"`
+formatdate-time
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-### Example
+profile\_id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/$ENTRY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatuuid
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "pattern": {
-      "regex": "regex",
-      "validation": "luhn"
-    },
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "profiles": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "name": "name"
-      }
-    ],
-    "upload_status": "empty"
-  }
-}
-```
+</details>
 
-## Create custom entry
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(model)%20integration_update_response%20%3E%20(schema)>)
 
-**post** `/accounts/{account_id}/dlp/entries`
+IntegrationDeleteResponse = unknown
 
-Creates a DLP custom entry.
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(model)%20integration_delete_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+IntegrationGetResponse = object {id, created\_at, enabled, 8 more } or object {id, created\_at, enabled, 6 more } or object {id, confidence, enabled, 7 more } or 4 more
 
-- `enabled: boolean`
+</summary>
 
-- `name: string`
+One of the following:
 
-- `pattern: Pattern`
+<details>
 
-  - `regex: string`
+<summary>
 
-  - `validation: optional "luhn"`
+object {id, created\_at, enabled, 8 more }
 
-    - `"luhn"`
+</summary>
 
-- `description: optional string`
+id: string
 
-- `profile_id: optional string`
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+created\_at: string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedenabled: boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+type: "custom"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+updated\_at: string
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+description: optional string
 
-- `result: optional object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+Deprecatedprofile\_id: optional string
 
-  - `created_at: string`
+formatuuid
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-  - `pattern: Pattern`
+<summary>
 
-    - `regex: string`
+profiles: optional array of object {id, name }
 
-    - `validation: optional "luhn"`
+</summary>
 
-      - `"luhn"`
+id: string
 
-  - `updated_at: string`
+formatuuid
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `profile_id: optional string`
+name: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "name": "name",
-          "pattern": {
-            "regex": "regex"
-          }
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "pattern": {
-      "regex": "regex",
-      "validation": "luhn"
-    },
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+<details>
 
-## Update entry
+<summary>
 
-**put** `/accounts/{account_id}/dlp/entries/{entry_id}`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-Updates a DLP entry.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"empty"
 
-- `entry_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"uploading"
 
-- `body: object { name, pattern, type, 2 more }  or object { type, enabled }  or object { type, enabled }`
+<a href="#">Link to this property</a>
 
-  - `Custom object { name, pattern, type, 2 more }`
+"pending"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `pattern: Pattern`
+"processing"
 
-      - `regex: string`
+<a href="#">Link to this property</a>
 
-      - `validation: optional "luhn"`
+"failed"
 
-        - `"luhn"`
+<a href="#">Link to this property</a>
 
-    - `type: "custom"`
+"complete"
 
-      - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `Predefined object { type, enabled }`
+</details>
 
-    - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-      - `"predefined"`
+<details>
 
-    - `enabled: optional boolean`
+<summary>
 
-  - `Integration object { type, enabled }`
+object {id, created\_at, enabled, 6 more }
 
-    - `type: "integration"`
+</summary>
 
-      - `"integration"`
+id: string
 
-    - `enabled: optional boolean`
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+created\_at: string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedenabled: boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+type: "custom\_prompt\_topic"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+updated\_at: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+description: optional string
 
-  Whether the API call was successful.
+The optional description of the custom prompt topic entry.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<details>
 
-  - `CustomEntry object { id, created_at, enabled, 6 more }`
+<summary>
 
-    - `id: string`
+profiles: optional array of object {id, name }
 
-    - `created_at: string`
+</summary>
 
-    - `enabled: boolean`
+id: string
 
-    - `name: string`
+formatuuid
 
-    - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-      - `regex: string`
+name: string
 
-      - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-        - `"luhn"`
+</details>
 
-    - `type: "custom"`
+<a href="#">Link to this property</a>
 
-      - `"custom"`
+<details>
 
-    - `updated_at: string`
+<summary>
 
-    - `description: optional string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `profile_id: optional string`
+</summary>
 
-  - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+One of the following:
 
-    - `id: string`
+"empty"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+"uploading"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "custom_prompt_topic"`
+"pending"
 
-      - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+"processing"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the custom prompt topic entry.
+"failed"
 
-  - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"complete"
 
-    - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-      - `ai_context_available: boolean`
+</details>
 
-        Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-      - `available: boolean`
+</details>
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `type: "predefined"`
+object {id, confidence, enabled, 7 more }
 
-      - `"predefined"`
+</summary>
 
-    - `profile_id: optional string`
+id: string
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+formatuuid
 
-      A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-      - `object { topic_type, type, description }`
+<details>
 
-        A Predefined AI prompt classification topic entry.
+<summary>
 
-        - `topic_type: "Intent" or "Content"`
+confidence: object {ai\_context\_available, available }
 
-          - `"Intent"`
+</summary>
 
-          - `"Content"`
+ai\_context\_available: boolean
 
-        - `type: "PromptTopic"`
+Indicates whether this entry has AI remote service validation.
 
-          - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+available: boolean
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-      - `object { type, description }`
+<a href="#">Link to this property</a>
 
-        A general predefined entry.
+</details>
 
-        - `type: "General"`
+<a href="#">Link to this property</a>
 
-          - `"General"`
+enabled: boolean
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          A customer-facing explanation of what this predefined entry represents.
+name: string
 
-  - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+type: "predefined"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+deprecated: optional boolean
 
-    - `name: string`
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-    - `type: "integration"`
+<a href="#">Link to this property</a>
 
-      - `"integration"`
+Deprecatedprofile\_id: optional string
 
-    - `updated_at: string`
+formatuuid
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `case_sensitive: boolean`
+profiles: optional array of object {id, name }
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+</summary>
 
-    - `created_at: string`
+id: string
 
-    - `enabled: boolean`
+formatuuid
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `secret: boolean`
+name: string
 
-    - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-      - `"exact_data"`
+</details>
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+<details>
 
-      The optional description of the exact data entry.
+<summary>
 
-  - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `id: string`
+</summary>
 
-    - `created_at: string`
+One of the following:
 
-    - `enabled: boolean`
+"empty"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "document_fingerprint"`
+"uploading"
 
-      - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+"pending"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the document fingerprint entry.
+"processing"
 
-  - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"failed"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+"complete"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "word_list"`
+</details>
 
-      - `"word_list"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+<details>
 
-    - `word_list: unknown`
+<summary>
 
-    - `profile_id: optional string`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-### Example
+A Predefined AI prompt classification topic entry.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/$ENTRY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name",
-          "pattern": {
-            "regex": "regex"
-          },
-          "type": "custom"
-        }'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "pattern": {
-      "regex": "regex",
-      "validation": "luhn"
-    },
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+<details>
 
-## Delete custom entry
+<summary>
 
-**delete** `/accounts/{account_id}/dlp/entries/{entry_id}`
+object {topic\_type, type, description }
 
-Deletes a DLP custom entry.
+A Predefined AI prompt classification topic entry.
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+<details>
 
-- `entry_id: string`
+<summary>
 
-### Returns
+topic\_type: "Intent"or "Content"
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"Intent"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"Content"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+type: "PromptTopic"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+description: optional string
 
-    - `pointer: optional string`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional unknown`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/$ENTRY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+object {type, description }
 
-#### Response
+A general predefined entry.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+</summary>
 
-## Domain Types
+type: "General"
 
-### Entry List Response
+<a href="#">Link to this property</a>
 
-- `EntryListResponse = object { id, created_at, enabled, 7 more }  or object { id, created_at, enabled, 5 more }  or object { id, confidence, enabled, 5 more }  or 4 more`
+description: optional string
 
-  - `object { id, created_at, enabled, 7 more }`
+A customer-facing explanation of what this predefined entry represents.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-      - `regex: string`
+</details>
 
-      - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-        - `"luhn"`
+<details>
 
-    - `type: "custom"`
+<summary>
 
-      - `"custom"`
+object {id, created\_at, enabled, 6 more }
 
-    - `updated_at: string`
+</summary>
 
-    - `description: optional string`
+id: string
 
-    - `profile_id: optional string`
+formatuuid
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+created\_at: string
 
-      - `"uploading"`
+formatdate-time
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+enabled: boolean
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+name: string
 
-  - `object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+type: "integration"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+updated\_at: string
 
-    - `name: string`
+formatdate-time
 
-    - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-      - `"custom_prompt_topic"`
+profile\_id: optional string
 
-    - `updated_at: string`
+formatuuid
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the custom prompt topic entry.
+<details>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<summary>
 
-      - `"empty"`
+profiles: optional array of object {id, name }
 
-      - `"uploading"`
+</summary>
 
-      - `"pending"`
+id: string
 
-      - `"processing"`
+formatuuid
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+name: string
 
-  - `object { id, confidence, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-      - `ai_context_available: boolean`
+<details>
 
-        Indicates whether this entry has AI remote service validation.
+<summary>
 
-      - `available: boolean`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+</summary>
 
-    - `enabled: boolean`
+One of the following:
 
-    - `name: string`
+"empty"
 
-    - `type: "predefined"`
+<a href="#">Link to this property</a>
 
-      - `"predefined"`
+"uploading"
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+"pending"
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+"processing"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+"failed"
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+"complete"
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-      A Predefined AI prompt classification topic entry.
+</details>
 
-      - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-        A Predefined AI prompt classification topic entry.
+</details>
 
-        - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-          - `"Intent"`
+<details>
 
-          - `"Content"`
+<summary>
 
-        - `type: "PromptTopic"`
+object {id, case\_sensitive, created\_at, 8 more }
 
-          - `"PromptTopic"`
+</summary>
 
-        - `description: optional string`
+id: string
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+formatuuid
 
-      - `object { type, description }`
+<a href="#">Link to this property</a>
 
-        A general predefined entry.
+case\_sensitive: boolean
 
-        - `type: "General"`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-          - `"General"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+created\_at: string
 
-          A customer-facing explanation of what this predefined entry represents.
+formatdate-time
 
-  - `object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+enabled: boolean
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+name: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "integration"`
+secret: boolean
 
-      - `"integration"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+type: "exact\_data"
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+updated\_at: string
 
-      - `"empty"`
+formatdate-time
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+description: optional string
 
-      - `"processing"`
+The optional description of the exact data entry.
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+<details>
 
-  - `object { id, case_sensitive, created_at, 7 more }`
+<summary>
 
-    - `id: string`
+profiles: optional array of object {id, name }
 
-    - `case_sensitive: boolean`
+</summary>
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+id: string
 
-    - `created_at: string`
+formatuuid
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+name: string
 
-    - `secret: boolean`
+<a href="#">Link to this property</a>
 
-    - `type: "exact_data"`
+</details>
 
-      - `"exact_data"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+<details>
 
-    - `description: optional string`
+<summary>
 
-      The optional description of the exact data entry.
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+</summary>
 
-      - `"empty"`
+One of the following:
 
-      - `"uploading"`
+"empty"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+"uploading"
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+"pending"
 
-  - `object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"processing"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+"failed"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "document_fingerprint"`
+"complete"
 
-      - `"document_fingerprint"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the document fingerprint entry.
+</details>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+object {id, created\_at, enabled, 6 more }
 
-      - `"processing"`
+</summary>
 
-      - `"failed"`
+id: string
 
-      - `"complete"`
+formatuuid
 
-  - `object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+created\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+enabled: boolean
 
-    - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-      - `"word_list"`
+name: string
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `word_list: unknown`
+type: "document\_fingerprint"
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+updated\_at: string
 
-      - `"empty"`
+formatdate-time
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+description: optional string
 
-      - `"processing"`
+The optional description of the document fingerprint entry.
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+<details>
 
-### Entry Get Response
+<summary>
 
-- `EntryGetResponse = object { id, created_at, enabled, 8 more }  or object { id, created_at, enabled, 6 more }  or object { id, confidence, enabled, 6 more }  or 4 more`
+profiles: optional array of object {id, name }
 
-  - `object { id, created_at, enabled, 8 more }`
+</summary>
 
-    - `id: string`
+id: string
 
-    - `created_at: string`
+formatuuid
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+name: string
 
-    - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-      - `regex: string`
+</details>
 
-      - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-        - `"luhn"`
+<details>
 
-    - `type: "custom"`
+<summary>
 
-      - `"custom"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `updated_at: string`
+</summary>
 
-    - `description: optional string`
+One of the following:
 
-    - `profile_id: optional string`
+"empty"
 
-    - `profiles: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"uploading"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+"pending"
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+"processing"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+"failed"
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+"complete"
 
-  - `object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "custom_prompt_topic"`
+<details>
 
-      - `"custom_prompt_topic"`
+<summary>
 
-    - `updated_at: string`
+object {id, created\_at, enabled, 7 more }
 
-    - `description: optional string`
+</summary>
 
-      The optional description of the custom prompt topic entry.
+id: string
 
-    - `profiles: optional array of object { id, name }`
+formatuuid
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+created\_at: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+formatdate-time
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+enabled: boolean
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+name: string
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+type: "word\_list"
 
-  - `object { id, confidence, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+updated\_at: string
 
-    - `confidence: object { ai_context_available, available }`
+formatdate-time
 
-      - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-        Indicates whether this entry has AI remote service validation.
+word\_list: unknown
 
-      - `available: boolean`
+<a href="#">Link to this property</a>
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+profile\_id: optional string
 
-    - `enabled: boolean`
+formatuuid
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+<details>
 
-      - `"predefined"`
+<summary>
 
-    - `profile_id: optional string`
+profiles: optional array of object {id, name }
 
-    - `profiles: optional array of object { id, name }`
+</summary>
 
-      - `id: string`
+id: string
 
-      - `name: string`
+formatuuid
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+name: string
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+<details>
 
-      - `"complete"`
+<summary>
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      A Predefined AI prompt classification topic entry.
+</summary>
 
-      - `object { topic_type, type, description }`
+One of the following:
 
-        A Predefined AI prompt classification topic entry.
+"empty"
 
-        - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-          - `"Intent"`
+"uploading"
 
-          - `"Content"`
+<a href="#">Link to this property</a>
 
-        - `type: "PromptTopic"`
+"pending"
 
-          - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+"processing"
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-      - `object { type, description }`
+"failed"
 
-        A general predefined entry.
+<a href="#">Link to this property</a>
 
-        - `type: "General"`
+"complete"
 
-          - `"General"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+</details>
 
-          A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 6 more }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-    - `enabled: boolean`
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(model)%20integration_get_response%20%3E%20(schema)>)
 
-    - `name: string`
+<details>
 
-    - `type: "integration"`
+<summary>
 
-      - `"integration"`
+IntegrationListResponse = object {id, created\_at, enabled, 7 more } or object {id, created\_at, enabled, 5 more } or object {id, confidence, enabled, 6 more } or 4 more
 
-    - `updated_at: string`
+</summary>
 
-    - `profile_id: optional string`
+One of the following:
 
-    - `profiles: optional array of object { id, name }`
+<details>
 
-      - `id: string`
+<summary>
 
-      - `name: string`
+object {id, created\_at, enabled, 7 more }
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+</summary>
 
-      - `"empty"`
+id: string
 
-      - `"uploading"`
+formatuuid
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+created\_at: string
 
-      - `"failed"`
+formatdate-time
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, case_sensitive, created_at, 8 more }`
+Deprecatedenabled: boolean
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `case_sensitive: boolean`
+name: string
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+type: "custom"
 
-    - `secret: boolean`
+<a href="#">Link to this property</a>
 
-    - `type: "exact_data"`
+updated\_at: string
 
-      - `"exact_data"`
+formatdate-time
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+description: optional string
 
-      The optional description of the exact data entry.
+<a href="#">Link to this property</a>
 
-    - `profiles: optional array of object { id, name }`
+Deprecatedprofile\_id: optional string
 
-      - `id: string`
+formatuuid
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<details>
 
-      - `"empty"`
+<summary>
 
-      - `"uploading"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `"pending"`
+</summary>
 
-      - `"processing"`
+One of the following:
 
-      - `"failed"`
+"empty"
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 6 more }`
+"uploading"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"pending"
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"processing"
 
-    - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-      - `"document_fingerprint"`
+"failed"
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"complete"
 
-      The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-    - `profiles: optional array of object { id, name }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+object {id, created\_at, enabled, 5 more }
 
-      - `"processing"`
+</summary>
 
-      - `"failed"`
+id: string
 
-      - `"complete"`
+formatuuid
 
-  - `object { id, created_at, enabled, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+created\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+Deprecatedenabled: boolean
 
-    - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-      - `"word_list"`
+name: string
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `word_list: unknown`
+type: "custom\_prompt\_topic"
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `profiles: optional array of object { id, name }`
+updated\_at: string
 
-      - `id: string`
+formatdate-time
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+description: optional string
 
-      - `"empty"`
+The optional description of the custom prompt topic entry.
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+<details>
 
-      - `"processing"`
+<summary>
 
-      - `"failed"`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `"complete"`
+</summary>
 
-### Entry Create Response
+One of the following:
 
-- `EntryCreateResponse object { id, created_at, enabled, 5 more }`
+"empty"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"uploading"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"pending"
 
-  - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-    - `regex: string`
+"processing"
 
-    - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-      - `"luhn"`
+"failed"
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"complete"
 
-  - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-### Entry Update Response
+</details>
 
-- `EntryUpdateResponse = object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-  - `CustomEntry object { id, created_at, enabled, 6 more }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-    - `name: string`
+object {id, confidence, enabled, 6 more }
 
-    - `pattern: Pattern`
+</summary>
 
-      - `regex: string`
+id: string
 
-      - `validation: optional "luhn"`
+formatuuid
 
-        - `"luhn"`
+<a href="#">Link to this property</a>
 
-    - `type: "custom"`
+<details>
 
-      - `"custom"`
+<summary>
 
-    - `updated_at: string`
+confidence: object {ai\_context\_available, available }
 
-    - `description: optional string`
+</summary>
 
-    - `profile_id: optional string`
+ai\_context\_available: boolean
 
-  - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+Indicates whether this entry has AI remote service validation.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+available: boolean
 
-    - `enabled: boolean`
+Indicates whether this entry has any form of validation that is not an AI remote service.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "custom_prompt_topic"`
+</details>
 
-      - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+enabled: boolean
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the custom prompt topic entry.
+name: string
 
-  - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+type: "predefined"
 
-    - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-      - `ai_context_available: boolean`
+deprecated: optional boolean
 
-        Indicates whether this entry has AI remote service validation.
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
 
-      - `available: boolean`
+<a href="#">Link to this property</a>
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+Deprecatedprofile\_id: optional string
 
-    - `enabled: boolean`
+formatuuid
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+<details>
 
-      - `"predefined"`
+<summary>
 
-    - `profile_id: optional string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+</summary>
 
-      A Predefined AI prompt classification topic entry.
+One of the following:
 
-      - `object { topic_type, type, description }`
+"empty"
 
-        A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-        - `topic_type: "Intent" or "Content"`
+"uploading"
 
-          - `"Intent"`
+<a href="#">Link to this property</a>
 
-          - `"Content"`
+"pending"
 
-        - `type: "PromptTopic"`
+<a href="#">Link to this property</a>
 
-          - `"PromptTopic"`
+"processing"
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+"failed"
 
-      - `object { type, description }`
+<a href="#">Link to this property</a>
 
-        A general predefined entry.
+"complete"
 
-        - `type: "General"`
+<a href="#">Link to this property</a>
 
-          - `"General"`
+</details>
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          A customer-facing explanation of what this predefined entry represents.
+<details>
 
-  - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+<summary>
 
-    - `id: string`
+variant: optional object {topic\_type, type, description } or object {type, description }
 
-    - `created_at: string`
+A Predefined AI prompt classification topic entry.
 
-    - `enabled: boolean`
+</summary>
 
-    - `name: string`
+One of the following:
 
-    - `type: "integration"`
+<details>
 
-      - `"integration"`
+<summary>
 
-    - `updated_at: string`
+object {topic\_type, type, description }
 
-    - `profile_id: optional string`
+A Predefined AI prompt classification topic entry.
 
-  - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+</summary>
 
-    - `id: string`
+<details>
 
-    - `case_sensitive: boolean`
+<summary>
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+topic\_type: "Intent"or "Content"
 
-    - `created_at: string`
+</summary>
 
-    - `enabled: boolean`
+One of the following:
 
-    - `name: string`
+"Intent"
 
-    - `secret: boolean`
+<a href="#">Link to this property</a>
 
-    - `type: "exact_data"`
+"Content"
 
-      - `"exact_data"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the exact data entry.
+type: "PromptTopic"
 
-  - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+description: optional string
 
-    - `created_at: string`
+A customer-facing explanation of what this predefined AI prompt topic represents.
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-      - `"document_fingerprint"`
+<details>
 
-    - `updated_at: string`
+<summary>
 
-    - `description: optional string`
+object {type, description }
 
-      The optional description of the document fingerprint entry.
+A general predefined entry.
 
-  - `WordListEntry object { id, created_at, enabled, 5 more }`
+</summary>
 
-    - `id: string`
+type: "General"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+description: optional string
 
-    - `name: string`
+A customer-facing explanation of what this predefined entry represents.
 
-    - `type: "word_list"`
+<a href="#">Link to this property</a>
 
-      - `"word_list"`
+</details>
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `word_list: unknown`
+</details>
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-### Entry Delete Response
+</details>
 
-- `EntryDeleteResponse = unknown`
+<a href="#">Link to this property</a>
 
-# Custom
+<details>
 
-## Create custom entry
+<summary>
 
-**post** `/accounts/{account_id}/dlp/entries`
+object {id, created\_at, enabled, 5 more }
 
-Creates a DLP custom entry.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+formatuuid
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+created\_at: string
 
-- `name: string`
+formatdate-time
 
-- `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-  - `regex: string`
+enabled: boolean
 
-  - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-    - `"luhn"`
+name: string
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-- `profile_id: optional string`
+type: "integration"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+updated\_at: string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+profile\_id: optional string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"empty"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"uploading"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, enabled, 5 more }`
+"pending"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"processing"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"failed"
 
-  - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-    - `regex: string`
+"complete"
 
-    - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-      - `"luhn"`
+</details>
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "name": "name",
-          "pattern": {
-            "regex": "regex"
-          }
-        }'
-```
+<summary>
 
-#### Response
+object {id, case\_sensitive, created\_at, 7 more }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "pattern": {
-      "regex": "regex",
-      "validation": "luhn"
-    },
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+</summary>
 
-## Update custom entry
+id: string
 
-**put** `/accounts/{account_id}/dlp/entries/custom/{entry_id}`
+formatuuid
 
-Updates a DLP custom entry.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+case\_sensitive: boolean
 
-- `account_id: string`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
 
-- `entry_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+created\_at: string
 
-- `enabled: boolean`
+formatdate-time
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `pattern: Pattern`
+enabled: boolean
 
-  - `regex: string`
+<a href="#">Link to this property</a>
 
-  - `validation: optional "luhn"`
+name: string
 
-    - `"luhn"`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+secret: boolean
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+type: "exact\_data"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+updated\_at: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+description: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The optional description of the exact data entry.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"empty"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, enabled, 5 more }`
+"uploading"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"pending"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"processing"
 
-  - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-    - `regex: string`
+"failed"
 
-    - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-      - `"luhn"`
+"complete"
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/custom/$ENTRY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "name": "name",
-          "pattern": {
-            "regex": "regex"
-          }
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "pattern": {
-      "regex": "regex",
-      "validation": "luhn"
-    },
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+<summary>
 
-## Delete custom entry
+object {id, created\_at, enabled, 5 more }
 
-**delete** `/accounts/{account_id}/dlp/entries/{entry_id}`
+</summary>
 
-Deletes a DLP custom entry.
+id: string
 
-### Path Parameters
+formatuuid
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `entry_id: string`
+created\_at: string
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+enabled: boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+type: "document\_fingerprint"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+updated\_at: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+description: optional string
 
-    - `pointer: optional string`
+The optional description of the document fingerprint entry.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional unknown`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/$ENTRY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"empty"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+<a href="#">Link to this property</a>
 
-## Get DLP Entry
+"uploading"
 
-**get** `/accounts/{account_id}/dlp/entries/{entry_id}`
+<a href="#">Link to this property</a>
 
-Fetches a DLP entry by ID.
+"pending"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"processing"
 
-- `entry_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"failed"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"complete"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+object {id, created\_at, enabled, 6 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `success: true`
+formatuuid
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+created\_at: string
 
-- `result: optional object { id, created_at, enabled, 8 more }  or object { id, created_at, enabled, 6 more }  or object { id, confidence, enabled, 6 more }  or 4 more`
+formatdate-time
 
-  - `object { id, created_at, enabled, 8 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+enabled: boolean
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+name: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `pattern: Pattern`
+type: "word\_list"
 
-      - `regex: string`
+<a href="#">Link to this property</a>
 
-      - `validation: optional "luhn"`
+updated\_at: string
 
-        - `"luhn"`
+formatdate-time
 
-    - `type: "custom"`
+<a href="#">Link to this property</a>
 
-      - `"custom"`
+word\_list: unknown
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+profile\_id: optional string
 
-    - `profile_id: optional string`
+formatuuid
 
-    - `profiles: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-      - `name: string`
+<summary>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+upload\_status: optional "empty"or "uploading"or "pending"or 3 more
 
-      - `"empty"`
+</summary>
 
-      - `"uploading"`
+One of the following:
 
-      - `"pending"`
+"empty"
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+"uploading"
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 6 more }`
+"pending"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"processing"
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"failed"
 
-    - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-      - `"custom_prompt_topic"`
+"complete"
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-    - `profiles: optional array of object { id, name }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(model)%20integration_list_response%20%3E%20(schema)>)
 
-      - `"empty"`
+#### DLPSensitivity Groups
 
-      - `"uploading"`
+##### [Retrieve all sensitivity groups in an account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/methods/list)
 
-      - `"pending"`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups
 
-      - `"processing"`
+##### [Retrieve a specific sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/methods/get)
 
-      - `"failed"`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}
 
-      - `"complete"`
+##### [Creates a new sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/methods/create)
 
-  - `object { id, confidence, enabled, 6 more }`
+POST/accounts/{account\_id}/dlp/sensitivity\_groups
 
-    - `id: string`
+##### [Update the attributes of a single sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/methods/update)
 
-    - `confidence: object { ai_context_available, available }`
+PUT/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}
 
-      - `ai_context_available: boolean`
+##### [Delete a single sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/methods/delete)
 
-        Indicates whether this entry has AI remote service validation.
+DELETE/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}
 
-      - `available: boolean`
+##### ModelsExpand Collapse
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-    - `name: string`
+SensitivityGroupListResponse object {id, created\_at, levels, 4 more }
 
-    - `type: "predefined"`
+</summary>
 
-      - `"predefined"`
+id: string
 
-    - `profile_id: optional string`
+formatuuid
 
-    - `profiles: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+created\_at: string
 
-      - `name: string`
+formatdate-time
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+levels: array of object {id, created\_at, name, 2 more }
 
-      - `"processing"`
+</summary>
 
-      - `"failed"`
+id: string
 
-      - `"complete"`
+formatuuid
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-      A Predefined AI prompt classification topic entry.
+created\_at: string
 
-      - `object { topic_type, type, description }`
+formatdate-time
 
-        A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-        - `topic_type: "Intent" or "Content"`
+name: string
 
-          - `"Intent"`
+<a href="#">Link to this property</a>
 
-          - `"Content"`
+updated\_at: string
 
-        - `type: "PromptTopic"`
+formatdate-time
 
-          - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+description: optional string
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-      - `object { type, description }`
+</details>
 
-        A general predefined entry.
+<a href="#">Link to this property</a>
 
-        - `type: "General"`
+name: string
 
-          - `"General"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+updated\_at: string
 
-          A customer-facing explanation of what this predefined entry represents.
+formatdate-time
 
-  - `object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+description: optional string
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+template\_id: optional string
 
-    - `name: string`
+formatuuid
 
-    - `type: "integration"`
+<a href="#">Link to this property</a>
 
-      - `"integration"`
+</details>
 
-    - `updated_at: string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups%20%3E%20(model)%20sensitivity_group_list_response%20%3E%20(schema)>)
 
-    - `profile_id: optional string`
+<details>
 
-    - `profiles: optional array of object { id, name }`
+<summary>
 
-      - `id: string`
+SensitivityGroupGetResponse object {id, created\_at, levels, 4 more }
 
-      - `name: string`
+</summary>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+id: string
 
-      - `"empty"`
+formatuuid
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+created\_at: string
 
-      - `"processing"`
+formatdate-time
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+<details>
 
-  - `object { id, case_sensitive, created_at, 8 more }`
+<summary>
 
-    - `id: string`
+levels: array of object {id, created\_at, name, 2 more }
 
-    - `case_sensitive: boolean`
+</summary>
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+id: string
 
-    - `created_at: string`
+formatuuid
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+created\_at: string
 
-    - `secret: boolean`
+formatdate-time
 
-    - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-      - `"exact_data"`
+name: string
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+updated\_at: string
 
-      The optional description of the exact data entry.
+formatdate-time
 
-    - `profiles: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+description: optional string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+</details>
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+name: string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+updated\_at: string
 
-      - `"failed"`
+formatdate-time
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 6 more }`
+description: optional string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+template\_id: optional string
 
-    - `enabled: boolean`
+formatuuid
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "document_fingerprint"`
+</details>
 
-      - `"document_fingerprint"`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups%20%3E%20(model)%20sensitivity_group_get_response%20%3E%20(schema)>)
 
-    - `updated_at: string`
+<details>
 
-    - `description: optional string`
+<summary>
 
-      The optional description of the document fingerprint entry.
+SensitivityGroupCreateResponse object {id, created\_at, levels, 4 more }
 
-    - `profiles: optional array of object { id, name }`
+</summary>
 
-      - `id: string`
+id: string
 
-      - `name: string`
+formatuuid
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+created\_at: string
 
-      - `"uploading"`
+formatdate-time
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+<details>
 
-      - `"failed"`
+<summary>
 
-      - `"complete"`
+levels: array of object {id, created\_at, name, 2 more }
 
-  - `object { id, created_at, enabled, 7 more }`
+</summary>
 
-    - `id: string`
+id: string
 
-    - `created_at: string`
+formatuuid
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+created\_at: string
 
-    - `type: "word_list"`
+formatdate-time
 
-      - `"word_list"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+name: string
 
-    - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-    - `profile_id: optional string`
+updated\_at: string
 
-    - `profiles: optional array of object { id, name }`
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+description: optional string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+</details>
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+name: string
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+updated\_at: string
 
-      - `"complete"`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/$ENTRY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+description: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "pattern": {
-      "regex": "regex",
-      "validation": "luhn"
-    },
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "profiles": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "name": "name"
-      }
-    ],
-    "upload_status": "empty"
-  }
-}
-```
+template\_id: optional string
 
-## List all entries
+formatuuid
 
-**get** `/accounts/{account_id}/dlp/entries`
+<a href="#">Link to this property</a>
 
-Lists all DLP entries in an account.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups%20%3E%20(model)%20sensitivity_group_create_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+SensitivityGroupUpdateResponse object {id, created\_at, levels, 4 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_at: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+levels: array of object {id, created\_at, name, 2 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+id: string
 
-  Whether the API call was successful.
+formatuuid
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_at, enabled, 7 more }  or object { id, created_at, enabled, 5 more }  or object { id, confidence, enabled, 5 more }  or 4 more`
+created\_at: string
 
-  - `object { id, created_at, enabled, 7 more }`
+formatdate-time
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+name: string
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+updated\_at: string
 
-    - `pattern: Pattern`
+formatdate-time
 
-      - `regex: string`
+<a href="#">Link to this property</a>
 
-      - `validation: optional "luhn"`
+description: optional string
 
-        - `"luhn"`
+<a href="#">Link to this property</a>
 
-    - `type: "custom"`
+</details>
 
-      - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+name: string
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-    - `profile_id: optional string`
+updated\_at: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+formatdate-time
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+description: optional string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+template\_id: optional string
 
-      - `"failed"`
+formatuuid
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 5 more }`
+</details>
 
-    - `id: string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups%20%3E%20(model)%20sensitivity_group_update_response%20%3E%20(schema)>)
 
-    - `created_at: string`
+SensitivityGroupDeleteResponse = unknown
 
-    - `enabled: boolean`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups%20%3E%20(model)%20sensitivity_group_delete_response%20%3E%20(schema)>)
 
-    - `name: string`
+#### DLPSensitivity GroupsLevels
 
-    - `type: "custom_prompt_topic"`
+##### [Retrieve all sensitivity levels in a sensitivity group](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/list)
 
-      - `"custom_prompt_topic"`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels
 
-    - `updated_at: string`
+##### [Retrieve a specific sensitivity level.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/get)
 
-    - `description: optional string`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels/{sensitivity\_level\_id}
 
-      The optional description of the custom prompt topic entry.
+##### [Creates a new sensitivity level.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/create)
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+POST/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels
 
-      - `"empty"`
+##### [Update the attributes of a single sensitivity level.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/update)
 
-      - `"uploading"`
+PUT/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels/{sensitivity\_level\_id}
 
-      - `"pending"`
+##### [Delete a single sensitivity level.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/delete)
 
-      - `"processing"`
+DELETE/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels/{sensitivity\_level\_id}
 
-      - `"failed"`
+##### ModelsExpand Collapse
 
-      - `"complete"`
+<details>
 
-  - `object { id, confidence, enabled, 5 more }`
+<summary>
 
-    - `id: string`
+LevelListResponse object {id, created\_at, name, 2 more }
 
-    - `confidence: object { ai_context_available, available }`
+</summary>
 
-      - `ai_context_available: boolean`
+id: string
 
-        Indicates whether this entry has AI remote service validation.
+formatuuid
 
-      - `available: boolean`
+<a href="#">Link to this property</a>
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+created\_at: string
 
-    - `enabled: boolean`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+name: string
 
-      - `"predefined"`
+<a href="#">Link to this property</a>
 
-    - `profile_id: optional string`
+updated\_at: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+formatdate-time
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+description: optional string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+</details>
 
-      - `"failed"`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_list_response%20%3E%20(schema)>)
 
-      - `"complete"`
+<details>
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<summary>
 
-      A Predefined AI prompt classification topic entry.
+LevelGetResponse object {id, created\_at, name, 2 more }
 
-      - `object { topic_type, type, description }`
+</summary>
 
-        A Predefined AI prompt classification topic entry.
+id: string
 
-        - `topic_type: "Intent" or "Content"`
+formatuuid
 
-          - `"Intent"`
+<a href="#">Link to this property</a>
 
-          - `"Content"`
+created\_at: string
 
-        - `type: "PromptTopic"`
+formatdate-time
 
-          - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+name: string
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-      - `object { type, description }`
+updated\_at: string
 
-        A general predefined entry.
+formatdate-time
 
-        - `type: "General"`
+<a href="#">Link to this property</a>
 
-          - `"General"`
+description: optional string
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          A customer-facing explanation of what this predefined entry represents.
+</details>
 
-  - `object { id, created_at, enabled, 5 more }`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_get_response%20%3E%20(schema)>)
 
-    - `id: string`
+<details>
 
-    - `created_at: string`
+<summary>
 
-    - `enabled: boolean`
+LevelCreateResponse object {id, created\_at, name, 2 more }
 
-    - `name: string`
+</summary>
 
-    - `type: "integration"`
+id: string
 
-      - `"integration"`
+formatuuid
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `profile_id: optional string`
+created\_at: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+formatdate-time
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+name: string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+updated\_at: string
 
-      - `"failed"`
+formatdate-time
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, case_sensitive, created_at, 7 more }`
+description: optional string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `case_sensitive: boolean`
+</details>
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_create_response%20%3E%20(schema)>)
 
-    - `created_at: string`
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-    - `name: string`
+LevelUpdateResponse object {id, created\_at, name, 2 more }
 
-    - `secret: boolean`
+</summary>
 
-    - `type: "exact_data"`
+id: string
 
-      - `"exact_data"`
+formatuuid
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+created\_at: string
 
-      The optional description of the exact data entry.
+formatdate-time
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+name: string
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+updated\_at: string
 
-      - `"processing"`
+formatdate-time
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+description: optional string
 
-  - `object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `created_at: string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_update_response%20%3E%20(schema)>)
 
-    - `enabled: boolean`
+LevelDeleteResponse = unknown
 
-    - `name: string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_delete_response%20%3E%20(schema)>)
 
-    - `type: "document_fingerprint"`
+#### DLPSensitivity GroupsLevelsOrder
 
-      - `"document_fingerprint"`
+##### [Retrieve the ordered list of level IDs for a sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/subresources/order/methods/get)
 
-    - `updated_at: string`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/level\_order
 
-    - `description: optional string`
+##### [Set the ordering of levels within a sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/subresources/order/methods/update)
 
-      The optional description of the document fingerprint entry.
+PUT/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/level\_order
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+##### ModelsExpand Collapse
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+OrderGetResponse object {level\_ids }
 
-      - `"processing"`
+The ordered list of level IDs for a sensitivity group. Used to get and set the ordering of levels independently of level attributes.
 
-      - `"failed"`
+</summary>
 
-      - `"complete"`
+level\_ids: array of string
 
-  - `object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `created_at: string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels.order%20%3E%20(model)%20order_get_response%20%3E%20(schema)>)
 
-    - `enabled: boolean`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `type: "word_list"`
+OrderUpdateResponse object {level\_ids }
 
-      - `"word_list"`
+The ordered list of level IDs for a sensitivity group. Used to get and set the ordering of levels independently of level attributes.
 
-    - `updated_at: string`
+</summary>
 
-    - `word_list: unknown`
+level\_ids: array of string
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+</details>
 
-      - `"empty"`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels.order%20%3E%20(model)%20order_update_response%20%3E%20(schema)>)
 
-      - `"uploading"`
+#### DLPData Tag Categories
 
-      - `"pending"`
+##### [Retrieve all data tag categories in an account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/list)
 
-      - `"processing"`
+GET/accounts/{account\_id}/dlp/data\_tag\_categories
 
-      - `"failed"`
+##### [Retrieve a specific data tag category.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/get)
 
-      - `"complete"`
+GET/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}
 
-### Example
+##### [Creates a new data tag category.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/create)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+POST/accounts/{account\_id}/dlp/data\_tag\_categories
 
-#### Response
+##### [Update the attributes of a single data tag category.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/update)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "name": "name",
-      "pattern": {
-        "regex": "regex",
-        "validation": "luhn"
-      },
-      "type": "custom",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "upload_status": "empty"
-    }
-  ]
-}
-```
+PUT/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}
 
-## Domain Types
+##### [Delete a single data tag category.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/delete)
 
-### Custom Create Response
+DELETE/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}
 
-- `CustomCreateResponse object { id, created_at, enabled, 5 more }`
+##### ModelsExpand Collapse
 
-  - `id: string`
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `enabled: boolean`
+DataTagCategoryListResponse object {id, created\_at, name, 4 more }
 
-  - `name: string`
+</summary>
 
-  - `pattern: Pattern`
+id: string
 
-    - `regex: string`
+formatuuid
 
-    - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-      - `"luhn"`
+created\_at: string
 
-  - `updated_at: string`
+formatdate-time
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `profile_id: optional string`
+name: string
 
-### Custom Update Response
+<a href="#">Link to this property</a>
 
-- `CustomUpdateResponse object { id, created_at, enabled, 5 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `created_at: string`
+tags: array of object {id, created\_at, name, 2 more }
 
-  - `enabled: boolean`
+</summary>
 
-  - `name: string`
+id: string
 
-  - `pattern: Pattern`
+formatuuid
 
-    - `regex: string`
+<a href="#">Link to this property</a>
 
-    - `validation: optional "luhn"`
+created\_at: string
 
-      - `"luhn"`
+formatdate-time
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+name: string
 
-  - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-### Custom Delete Response
+updated\_at: string
 
-- `CustomDeleteResponse = unknown`
+formatdate-time
 
-### Custom Get Response
+<a href="#">Link to this property</a>
 
-- `CustomGetResponse = object { id, created_at, enabled, 8 more }  or object { id, created_at, enabled, 6 more }  or object { id, confidence, enabled, 6 more }  or 4 more`
+description: optional string
 
-  - `object { id, created_at, enabled, 8 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+updated\_at: string
 
-    - `name: string`
+formatdate-time
 
-    - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-      - `regex: string`
+description: optional string
 
-      - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-        - `"luhn"`
+template\_id: optional string
 
-    - `type: "custom"`
+formatuuid
 
-      - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-    - `description: optional string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_list_response%20%3E%20(schema)>)
 
-    - `profile_id: optional string`
+<details>
 
-    - `profiles: optional array of object { id, name }`
+<summary>
 
-      - `id: string`
+DataTagCategoryGetResponse object {id, created\_at, name, 4 more }
 
-      - `name: string`
+</summary>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+id: string
 
-      - `"empty"`
+formatuuid
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+created\_at: string
 
-      - `"processing"`
+formatdate-time
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+name: string
 
-  - `object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+<details>
 
-    - `created_at: string`
+<summary>
 
-    - `enabled: boolean`
+tags: array of object {id, created\_at, name, 2 more }
 
-    - `name: string`
+</summary>
 
-    - `type: "custom_prompt_topic"`
+id: string
 
-      - `"custom_prompt_topic"`
+formatuuid
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+created\_at: string
 
-      The optional description of the custom prompt topic entry.
+formatdate-time
 
-    - `profiles: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+name: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+updated\_at: string
 
-      - `"empty"`
+formatdate-time
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+description: optional string
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+</details>
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, confidence, enabled, 6 more }`
+updated\_at: string
 
-    - `id: string`
+formatdate-time
 
-    - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-      - `ai_context_available: boolean`
+description: optional string
 
-        Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-      - `available: boolean`
+template\_id: optional string
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+formatuuid
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `type: "predefined"`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_get_response%20%3E%20(schema)>)
 
-      - `"predefined"`
+<details>
 
-    - `profile_id: optional string`
+<summary>
 
-    - `profiles: optional array of object { id, name }`
+DataTagCategoryCreateResponse object {id, created\_at, name, 4 more }
 
-      - `id: string`
+</summary>
 
-      - `name: string`
+id: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+formatuuid
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+created\_at: string
 
-      - `"pending"`
+formatdate-time
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+name: string
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<details>
 
-      A Predefined AI prompt classification topic entry.
+<summary>
 
-      - `object { topic_type, type, description }`
+tags: array of object {id, created\_at, name, 2 more }
 
-        A Predefined AI prompt classification topic entry.
+</summary>
 
-        - `topic_type: "Intent" or "Content"`
+id: string
 
-          - `"Intent"`
+formatuuid
 
-          - `"Content"`
+<a href="#">Link to this property</a>
 
-        - `type: "PromptTopic"`
+created\_at: string
 
-          - `"PromptTopic"`
+formatdate-time
 
-        - `description: optional string`
+<a href="#">Link to this property</a>
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+name: string
 
-      - `object { type, description }`
+<a href="#">Link to this property</a>
 
-        A general predefined entry.
+updated\_at: string
 
-        - `type: "General"`
+formatdate-time
 
-          - `"General"`
+<a href="#">Link to this property</a>
 
-        - `description: optional string`
+description: optional string
 
-          A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 6 more }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+updated\_at: string
 
-    - `enabled: boolean`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "integration"`
+description: optional string
 
-      - `"integration"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+template\_id: optional string
 
-    - `profile_id: optional string`
+formatuuid
 
-    - `profiles: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `name: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_create_response%20%3E%20(schema)>)
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<details>
 
-      - `"empty"`
+<summary>
 
-      - `"uploading"`
+DataTagCategoryUpdateResponse object {id, created\_at, name, 4 more }
 
-      - `"pending"`
+</summary>
 
-      - `"processing"`
+id: string
 
-      - `"failed"`
+formatuuid
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, case_sensitive, created_at, 8 more }`
+created\_at: string
 
-    - `id: string`
+formatdate-time
 
-    - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+name: string
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `secret: boolean`
+tags: array of object {id, created\_at, name, 2 more }
 
-    - `type: "exact_data"`
+</summary>
 
-      - `"exact_data"`
+id: string
 
-    - `updated_at: string`
+formatuuid
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the exact data entry.
+created\_at: string
 
-    - `profiles: optional array of object { id, name }`
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+name: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+updated\_at: string
 
-      - `"uploading"`
+formatdate-time
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+description: optional string
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+</details>
 
-  - `object { id, created_at, enabled, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+updated\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+description: optional string
 
-    - `type: "document_fingerprint"`
+<a href="#">Link to this property</a>
 
-      - `"document_fingerprint"`
+template\_id: optional string
 
-    - `updated_at: string`
+formatuuid
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      The optional description of the document fingerprint entry.
+</details>
 
-    - `profiles: optional array of object { id, name }`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_update_response%20%3E%20(schema)>)
 
-      - `id: string`
+DataTagCategoryDeleteResponse = unknown
 
-      - `name: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_delete_response%20%3E%20(schema)>)
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+#### DLPData Tag CategoriesData Tags
 
-      - `"empty"`
+##### [Retrieve all data tags in a data tag category](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/list)
 
-      - `"uploading"`
+GET/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags
 
-      - `"pending"`
+##### [Retrieve a specific data tag.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/get)
 
-      - `"processing"`
+GET/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags/{tag\_id}
 
-      - `"failed"`
+##### [Creates a new data tag.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/create)
 
-      - `"complete"`
+POST/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags
 
-  - `object { id, created_at, enabled, 7 more }`
+##### [Update the attributes of a single data tag.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/update)
 
-    - `id: string`
+PUT/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags/{tag\_id}
 
-    - `created_at: string`
+##### [Delete a single data tag.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/delete)
 
-    - `enabled: boolean`
+DELETE/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags/{tag\_id}
 
-    - `name: string`
+##### ModelsExpand Collapse
 
-    - `type: "word_list"`
+<details>
 
-      - `"word_list"`
+<summary>
 
-    - `updated_at: string`
+DataTagListResponse object {id, created\_at, name, 2 more }
 
-    - `word_list: unknown`
+</summary>
 
-    - `profile_id: optional string`
+id: string
 
-    - `profiles: optional array of object { id, name }`
+formatuuid
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+created\_at: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+formatdate-time
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+name: string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+updated\_at: string
 
-      - `"failed"`
+formatdate-time
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-### Custom List Response
+description: optional string
 
-- `CustomListResponse = object { id, created_at, enabled, 7 more }  or object { id, created_at, enabled, 5 more }  or object { id, confidence, enabled, 5 more }  or 4 more`
+<a href="#">Link to this property</a>
 
-  - `object { id, created_at, enabled, 7 more }`
+</details>
 
-    - `id: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_list_response%20%3E%20(schema)>)
 
-    - `created_at: string`
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-    - `name: string`
+DataTagGetResponse object {id, created\_at, name, 2 more }
 
-    - `pattern: Pattern`
+</summary>
 
-      - `regex: string`
+id: string
 
-      - `validation: optional "luhn"`
+formatuuid
 
-        - `"luhn"`
+<a href="#">Link to this property</a>
 
-    - `type: "custom"`
+created\_at: string
 
-      - `"custom"`
+formatdate-time
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+name: string
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+updated\_at: string
 
-      - `"empty"`
+formatdate-time
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+description: optional string
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+</details>
 
-      - `"complete"`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_get_response%20%3E%20(schema)>)
 
-  - `object { id, created_at, enabled, 5 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `created_at: string`
+DataTagCreateResponse object {id, created\_at, name, 2 more }
 
-    - `enabled: boolean`
+</summary>
 
-    - `name: string`
+id: string
 
-    - `type: "custom_prompt_topic"`
+formatuuid
 
-      - `"custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+created\_at: string
 
-    - `description: optional string`
+formatdate-time
 
-      The optional description of the custom prompt topic entry.
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+name: string
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+updated\_at: string
 
-      - `"pending"`
+formatdate-time
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+description: optional string
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `object { id, confidence, enabled, 5 more }`
+</details>
 
-    - `id: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_create_response%20%3E%20(schema)>)
 
-    - `confidence: object { ai_context_available, available }`
+<details>
 
-      - `ai_context_available: boolean`
+<summary>
 
-        Indicates whether this entry has AI remote service validation.
+DataTagUpdateResponse object {id, created\_at, name, 2 more }
 
-      - `available: boolean`
+</summary>
 
-        Indicates whether this entry has any form of validation that is not an AI remote service.
+id: string
 
-    - `enabled: boolean`
+formatuuid
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "predefined"`
+created\_at: string
 
-      - `"predefined"`
+formatdate-time
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+name: string
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+updated\_at: string
 
-      - `"pending"`
+formatdate-time
 
-      - `"processing"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+description: optional string
 
-      - `"complete"`
+<a href="#">Link to this property</a>
 
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
+</details>
 
-      A Predefined AI prompt classification topic entry.
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_update_response%20%3E%20(schema)>)
 
-      - `object { topic_type, type, description }`
+DataTagDeleteResponse = unknown
 
-        A Predefined AI prompt classification topic entry.
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_delete_response%20%3E%20(schema)>)
 
-        - `topic_type: "Intent" or "Content"`
+#### DLPData Classes
 
-          - `"Intent"`
+##### [Retrieve all data classes in an account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/list)
 
-          - `"Content"`
+GET/accounts/{account\_id}/dlp/data\_classes
 
-        - `type: "PromptTopic"`
+##### [Retrieve a specific data class](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/get)
 
-          - `"PromptTopic"`
+GET/accounts/{account\_id}/dlp/data\_classes/{data\_class\_id}
 
-        - `description: optional string`
+##### [Creates a new data class](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/create)
 
-          A customer-facing explanation of what this predefined AI prompt topic represents.
+POST/accounts/{account\_id}/dlp/data\_classes
 
-      - `object { type, description }`
+##### [Update the attributes of a single data class](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/update)
 
-        A general predefined entry.
+PUT/accounts/{account\_id}/dlp/data\_classes/{data\_class\_id}
 
-        - `type: "General"`
+##### [Delete a single data class](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/delete)
 
-          - `"General"`
+DELETE/accounts/{account\_id}/dlp/data\_classes/{data\_class\_id}
 
-        - `description: optional string`
+##### ModelsExpand Collapse
 
-          A customer-facing explanation of what this predefined entry represents.
+<details>
 
-  - `object { id, created_at, enabled, 5 more }`
+<summary>
 
-    - `id: string`
+DataClassListResponse object {id, created\_at, data\_tags, 5 more }
 
-    - `created_at: string`
+</summary>
 
-    - `enabled: boolean`
+id: string
 
-    - `name: string`
+formatuuid
 
-    - `type: "integration"`
+<a href="#">Link to this property</a>
 
-      - `"integration"`
+created\_at: string
 
-    - `updated_at: string`
+formatdate-time
 
-    - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+data\_tags: array of string
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+expression: string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+name: string
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+<details>
 
-  - `object { id, case_sensitive, created_at, 7 more }`
+<summary>
 
-    - `id: string`
+sensitivity\_levels: array of object {group\_id, level\_id }
 
-    - `case_sensitive: boolean`
+</summary>
 
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
+group\_id: string
 
-    - `created_at: string`
+formatuuid
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+level\_id: string
 
-    - `secret: boolean`
+formatuuid
 
-    - `type: "exact_data"`
+<a href="#">Link to this property</a>
 
-      - `"exact_data"`
+</details>
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+updated\_at: string
 
-      The optional description of the exact data entry.
+formatdate-time
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"empty"`
+description: optional string
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"processing"`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_list_response%20%3E%20(schema)>)
 
-      - `"failed"`
+<details>
 
-      - `"complete"`
+<summary>
 
-  - `object { id, created_at, enabled, 5 more }`
+DataClassGetResponse object {id, created\_at, data\_tags, 5 more }
 
-    - `id: string`
+</summary>
 
-    - `created_at: string`
+id: string
 
-    - `enabled: boolean`
+formatuuid
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "document_fingerprint"`
+created\_at: string
 
-      - `"document_fingerprint"`
+formatdate-time
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+data\_tags: array of string
 
-      The optional description of the document fingerprint entry.
+<a href="#">Link to this property</a>
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+expression: string
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+name: string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+<details>
 
-      - `"failed"`
+<summary>
 
-      - `"complete"`
+sensitivity\_levels: array of object {group\_id, level\_id }
 
-  - `object { id, created_at, enabled, 6 more }`
+</summary>
 
-    - `id: string`
+group\_id: string
 
-    - `created_at: string`
+formatuuid
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+level\_id: string
 
-    - `type: "word_list"`
+formatuuid
 
-      - `"word_list"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-    - `word_list: unknown`
+<a href="#">Link to this property</a>
 
-    - `profile_id: optional string`
+updated\_at: string
 
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
+formatdate-time
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+description: optional string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+</details>
 
-      - `"failed"`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_get_response%20%3E%20(schema)>)
 
-      - `"complete"`
+<details>
 
-# Predefined
+<summary>
 
-## Create predefined entry
+DataClassCreateResponse object {id, created\_at, data\_tags, 5 more }
 
-**post** `/accounts/{account_id}/dlp/entries/predefined`
+</summary>
 
-Predefined entries can't be created, this will update an existing predefined entry.
-This is needed for our generated terraform API.
+id: string
 
-### Path Parameters
+formatuuid
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+created\_at: string
 
-- `enabled: boolean`
+formatdate-time
 
-- `entry_id: string`
+<a href="#">Link to this property</a>
 
-- `profile_id: optional string`
+data\_tags: array of string
 
-  This field is not used as the owning profile.
-  For predefined entries it is already set to a predefined profile.
+<a href="#">Link to this property</a>
 
-### Returns
+expression: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+sensitivity\_levels: array of object {group\_id, level\_id }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+group\_id: string
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+level\_id: string
 
-    - `pointer: optional string`
+formatuuid
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, confidence, enabled, 3 more }`
+updated\_at: string
 
-  - `id: string`
+formatdate-time
 
-  - `confidence: object { ai_context_available, available }`
+<a href="#">Link to this property</a>
 
-    - `ai_context_available: boolean`
+description: optional string
 
-      Indicates whether this entry has AI remote service validation.
+<a href="#">Link to this property</a>
 
-    - `available: boolean`
+</details>
 
-      Indicates whether this entry has any form of validation that is not an AI remote service.
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_create_response%20%3E%20(schema)>)
 
-  - `enabled: boolean`
+<details>
 
-  - `name: string`
+<summary>
 
-  - `profile_id: optional string`
+DataClassUpdateResponse object {id, created\_at, data\_tags, 5 more }
 
-  - `variant: optional object { topic_type, type, description }  or object { type, description }`
+</summary>
 
-    A Predefined AI prompt classification topic entry.
+id: string
 
-    - `object { topic_type, type, description }`
+formatuuid
 
-      A Predefined AI prompt classification topic entry.
+<a href="#">Link to this property</a>
 
-      - `topic_type: "Intent" or "Content"`
+created\_at: string
 
-        - `"Intent"`
+formatdate-time
 
-        - `"Content"`
+<a href="#">Link to this property</a>
 
-      - `type: "PromptTopic"`
+data\_tags: array of string
 
-        - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+expression: string
 
-        A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-    - `object { type, description }`
+name: string
 
-      A general predefined entry.
+<a href="#">Link to this property</a>
 
-      - `type: "General"`
+<details>
 
-        - `"General"`
+<summary>
 
-      - `description: optional string`
+sensitivity\_levels: array of object {group\_id, level\_id }
 
-        A customer-facing explanation of what this predefined entry represents.
+</summary>
 
-### Example
+group\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/predefined \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-        }'
-```
+formatuuid
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "confidence": {
-      "ai_context_available": true,
-      "available": true
-    },
-    "enabled": true,
-    "name": "name",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "variant": {
-      "topic_type": "Intent",
-      "type": "PromptTopic",
-      "description": "description"
-    }
-  }
-}
-```
+level\_id: string
 
-## Update predefined entry
+formatuuid
 
-**put** `/accounts/{account_id}/dlp/entries/predefined/{entry_id}`
+<a href="#">Link to this property</a>
 
-Updates a DLP entry.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+updated\_at: string
 
-- `entry_id: string`
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+description: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_update_response%20%3E%20(schema)>)
 
-  - `message: string`
+DataClassDeleteResponse = unknown
 
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, confidence, enabled, 3 more }`
-
-  - `id: string`
-
-  - `confidence: object { ai_context_available, available }`
-
-    - `ai_context_available: boolean`
-
-      Indicates whether this entry has AI remote service validation.
-
-    - `available: boolean`
-
-      Indicates whether this entry has any form of validation that is not an AI remote service.
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `profile_id: optional string`
-
-  - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-    A Predefined AI prompt classification topic entry.
-
-    - `object { topic_type, type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `topic_type: "Intent" or "Content"`
-
-        - `"Intent"`
-
-        - `"Content"`
-
-      - `type: "PromptTopic"`
-
-        - `"PromptTopic"`
-
-      - `description: optional string`
-
-        A customer-facing explanation of what this predefined AI prompt topic represents.
-
-    - `object { type, description }`
-
-      A general predefined entry.
-
-      - `type: "General"`
-
-        - `"General"`
-
-      - `description: optional string`
-
-        A customer-facing explanation of what this predefined entry represents.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/predefined/$ENTRY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "confidence": {
-      "ai_context_available": true,
-      "available": true
-    },
-    "enabled": true,
-    "name": "name",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "variant": {
-      "topic_type": "Intent",
-      "type": "PromptTopic",
-      "description": "description"
-    }
-  }
-}
-```
-
-## Delete predefined entry
-
-**delete** `/accounts/{account_id}/dlp/entries/predefined/{entry_id}`
-
-This is a no-op as predefined entires can't be deleted but is needed for our generated terraform API.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `entry_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/predefined/$ENTRY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Get DLP Entry
-
-**get** `/accounts/{account_id}/dlp/entries/{entry_id}`
-
-Fetches a DLP entry by ID.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `entry_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, enabled, 8 more }  or object { id, created_at, enabled, 6 more }  or object { id, confidence, enabled, 6 more }  or 4 more`
-
-  - `object { id, created_at, enabled, 8 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `pattern: Pattern`
-
-      - `regex: string`
-
-      - `validation: optional "luhn"`
-
-        - `"luhn"`
-
-    - `type: "custom"`
-
-      - `"custom"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "custom_prompt_topic"`
-
-      - `"custom_prompt_topic"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the custom prompt topic entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, confidence, enabled, 6 more }`
-
-    - `id: string`
-
-    - `confidence: object { ai_context_available, available }`
-
-      - `ai_context_available: boolean`
-
-        Indicates whether this entry has AI remote service validation.
-
-      - `available: boolean`
-
-        Indicates whether this entry has any form of validation that is not an AI remote service.
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "predefined"`
-
-      - `"predefined"`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `object { topic_type, type, description }`
-
-        A Predefined AI prompt classification topic entry.
-
-        - `topic_type: "Intent" or "Content"`
-
-          - `"Intent"`
-
-          - `"Content"`
-
-        - `type: "PromptTopic"`
-
-          - `"PromptTopic"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined AI prompt topic represents.
-
-      - `object { type, description }`
-
-        A general predefined entry.
-
-        - `type: "General"`
-
-          - `"General"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined entry represents.
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "integration"`
-
-      - `"integration"`
-
-    - `updated_at: string`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, case_sensitive, created_at, 8 more }`
-
-    - `id: string`
-
-    - `case_sensitive: boolean`
-
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `secret: boolean`
-
-    - `type: "exact_data"`
-
-      - `"exact_data"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the exact data entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "document_fingerprint"`
-
-      - `"document_fingerprint"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the document fingerprint entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 7 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "word_list"`
-
-      - `"word_list"`
-
-    - `updated_at: string`
-
-    - `word_list: unknown`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/$ENTRY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "pattern": {
-      "regex": "regex",
-      "validation": "luhn"
-    },
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "profiles": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "name": "name"
-      }
-    ],
-    "upload_status": "empty"
-  }
-}
-```
-
-## List all entries
-
-**get** `/accounts/{account_id}/dlp/entries`
-
-Lists all DLP entries in an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, enabled, 7 more }  or object { id, created_at, enabled, 5 more }  or object { id, confidence, enabled, 5 more }  or 4 more`
-
-  - `object { id, created_at, enabled, 7 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `pattern: Pattern`
-
-      - `regex: string`
-
-      - `validation: optional "luhn"`
-
-        - `"luhn"`
-
-    - `type: "custom"`
-
-      - `"custom"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "custom_prompt_topic"`
-
-      - `"custom_prompt_topic"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the custom prompt topic entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, confidence, enabled, 5 more }`
-
-    - `id: string`
-
-    - `confidence: object { ai_context_available, available }`
-
-      - `ai_context_available: boolean`
-
-        Indicates whether this entry has AI remote service validation.
-
-      - `available: boolean`
-
-        Indicates whether this entry has any form of validation that is not an AI remote service.
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "predefined"`
-
-      - `"predefined"`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `object { topic_type, type, description }`
-
-        A Predefined AI prompt classification topic entry.
-
-        - `topic_type: "Intent" or "Content"`
-
-          - `"Intent"`
-
-          - `"Content"`
-
-        - `type: "PromptTopic"`
-
-          - `"PromptTopic"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined AI prompt topic represents.
-
-      - `object { type, description }`
-
-        A general predefined entry.
-
-        - `type: "General"`
-
-          - `"General"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined entry represents.
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "integration"`
-
-      - `"integration"`
-
-    - `updated_at: string`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, case_sensitive, created_at, 7 more }`
-
-    - `id: string`
-
-    - `case_sensitive: boolean`
-
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `secret: boolean`
-
-    - `type: "exact_data"`
-
-      - `"exact_data"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the exact data entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "document_fingerprint"`
-
-      - `"document_fingerprint"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the document fingerprint entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "word_list"`
-
-      - `"word_list"`
-
-    - `updated_at: string`
-
-    - `word_list: unknown`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "name": "name",
-      "pattern": {
-        "regex": "regex",
-        "validation": "luhn"
-      },
-      "type": "custom",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "upload_status": "empty"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Predefined Create Response
-
-- `PredefinedCreateResponse object { id, confidence, enabled, 3 more }`
-
-  - `id: string`
-
-  - `confidence: object { ai_context_available, available }`
-
-    - `ai_context_available: boolean`
-
-      Indicates whether this entry has AI remote service validation.
-
-    - `available: boolean`
-
-      Indicates whether this entry has any form of validation that is not an AI remote service.
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `profile_id: optional string`
-
-  - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-    A Predefined AI prompt classification topic entry.
-
-    - `object { topic_type, type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `topic_type: "Intent" or "Content"`
-
-        - `"Intent"`
-
-        - `"Content"`
-
-      - `type: "PromptTopic"`
-
-        - `"PromptTopic"`
-
-      - `description: optional string`
-
-        A customer-facing explanation of what this predefined AI prompt topic represents.
-
-    - `object { type, description }`
-
-      A general predefined entry.
-
-      - `type: "General"`
-
-        - `"General"`
-
-      - `description: optional string`
-
-        A customer-facing explanation of what this predefined entry represents.
-
-### Predefined Update Response
-
-- `PredefinedUpdateResponse object { id, confidence, enabled, 3 more }`
-
-  - `id: string`
-
-  - `confidence: object { ai_context_available, available }`
-
-    - `ai_context_available: boolean`
-
-      Indicates whether this entry has AI remote service validation.
-
-    - `available: boolean`
-
-      Indicates whether this entry has any form of validation that is not an AI remote service.
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `profile_id: optional string`
-
-  - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-    A Predefined AI prompt classification topic entry.
-
-    - `object { topic_type, type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `topic_type: "Intent" or "Content"`
-
-        - `"Intent"`
-
-        - `"Content"`
-
-      - `type: "PromptTopic"`
-
-        - `"PromptTopic"`
-
-      - `description: optional string`
-
-        A customer-facing explanation of what this predefined AI prompt topic represents.
-
-    - `object { type, description }`
-
-      A general predefined entry.
-
-      - `type: "General"`
-
-        - `"General"`
-
-      - `description: optional string`
-
-        A customer-facing explanation of what this predefined entry represents.
-
-### Predefined Delete Response
-
-- `PredefinedDeleteResponse = unknown`
-
-### Predefined Get Response
-
-- `PredefinedGetResponse = object { id, created_at, enabled, 8 more }  or object { id, created_at, enabled, 6 more }  or object { id, confidence, enabled, 6 more }  or 4 more`
-
-  - `object { id, created_at, enabled, 8 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `pattern: Pattern`
-
-      - `regex: string`
-
-      - `validation: optional "luhn"`
-
-        - `"luhn"`
-
-    - `type: "custom"`
-
-      - `"custom"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "custom_prompt_topic"`
-
-      - `"custom_prompt_topic"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the custom prompt topic entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, confidence, enabled, 6 more }`
-
-    - `id: string`
-
-    - `confidence: object { ai_context_available, available }`
-
-      - `ai_context_available: boolean`
-
-        Indicates whether this entry has AI remote service validation.
-
-      - `available: boolean`
-
-        Indicates whether this entry has any form of validation that is not an AI remote service.
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "predefined"`
-
-      - `"predefined"`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `object { topic_type, type, description }`
-
-        A Predefined AI prompt classification topic entry.
-
-        - `topic_type: "Intent" or "Content"`
-
-          - `"Intent"`
-
-          - `"Content"`
-
-        - `type: "PromptTopic"`
-
-          - `"PromptTopic"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined AI prompt topic represents.
-
-      - `object { type, description }`
-
-        A general predefined entry.
-
-        - `type: "General"`
-
-          - `"General"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined entry represents.
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "integration"`
-
-      - `"integration"`
-
-    - `updated_at: string`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, case_sensitive, created_at, 8 more }`
-
-    - `id: string`
-
-    - `case_sensitive: boolean`
-
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `secret: boolean`
-
-    - `type: "exact_data"`
-
-      - `"exact_data"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the exact data entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "document_fingerprint"`
-
-      - `"document_fingerprint"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the document fingerprint entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 7 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "word_list"`
-
-      - `"word_list"`
-
-    - `updated_at: string`
-
-    - `word_list: unknown`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-### Predefined List Response
-
-- `PredefinedListResponse = object { id, created_at, enabled, 7 more }  or object { id, created_at, enabled, 5 more }  or object { id, confidence, enabled, 5 more }  or 4 more`
-
-  - `object { id, created_at, enabled, 7 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `pattern: Pattern`
-
-      - `regex: string`
-
-      - `validation: optional "luhn"`
-
-        - `"luhn"`
-
-    - `type: "custom"`
-
-      - `"custom"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "custom_prompt_topic"`
-
-      - `"custom_prompt_topic"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the custom prompt topic entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, confidence, enabled, 5 more }`
-
-    - `id: string`
-
-    - `confidence: object { ai_context_available, available }`
-
-      - `ai_context_available: boolean`
-
-        Indicates whether this entry has AI remote service validation.
-
-      - `available: boolean`
-
-        Indicates whether this entry has any form of validation that is not an AI remote service.
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "predefined"`
-
-      - `"predefined"`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `object { topic_type, type, description }`
-
-        A Predefined AI prompt classification topic entry.
-
-        - `topic_type: "Intent" or "Content"`
-
-          - `"Intent"`
-
-          - `"Content"`
-
-        - `type: "PromptTopic"`
-
-          - `"PromptTopic"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined AI prompt topic represents.
-
-      - `object { type, description }`
-
-        A general predefined entry.
-
-        - `type: "General"`
-
-          - `"General"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined entry represents.
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "integration"`
-
-      - `"integration"`
-
-    - `updated_at: string`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, case_sensitive, created_at, 7 more }`
-
-    - `id: string`
-
-    - `case_sensitive: boolean`
-
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `secret: boolean`
-
-    - `type: "exact_data"`
-
-      - `"exact_data"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the exact data entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "document_fingerprint"`
-
-      - `"document_fingerprint"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the document fingerprint entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "word_list"`
-
-      - `"word_list"`
-
-    - `updated_at: string`
-
-    - `word_list: unknown`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-# Integration
-
-## Create integration entry
-
-**post** `/accounts/{account_id}/dlp/entries/integration`
-
-Integration entries can't be created, this will update an existing integration entry.
-This is needed for our generated terraform API.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `enabled: boolean`
-
-- `entry_id: string`
-
-- `profile_id: optional string`
-
-  This field is not used as the owning profile.
-  For predefined entries it is already set to a predefined profile.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, enabled, 3 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `profile_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/integration \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Update integration entry
-
-**put** `/accounts/{account_id}/dlp/entries/integration/{entry_id}`
-
-Updates a DLP entry.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `entry_id: string`
-
-### Body Parameters
-
-- `enabled: boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, enabled, 3 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `profile_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/integration/$ENTRY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Delete integration entry
-
-**delete** `/accounts/{account_id}/dlp/entries/integration/{entry_id}`
-
-This is a no-op as integration entires can't be deleted but is needed for our generated terraform API.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `entry_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/integration/$ENTRY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Get DLP Entry
-
-**get** `/accounts/{account_id}/dlp/entries/{entry_id}`
-
-Fetches a DLP entry by ID.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `entry_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, enabled, 8 more }  or object { id, created_at, enabled, 6 more }  or object { id, confidence, enabled, 6 more }  or 4 more`
-
-  - `object { id, created_at, enabled, 8 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `pattern: Pattern`
-
-      - `regex: string`
-
-      - `validation: optional "luhn"`
-
-        - `"luhn"`
-
-    - `type: "custom"`
-
-      - `"custom"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "custom_prompt_topic"`
-
-      - `"custom_prompt_topic"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the custom prompt topic entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, confidence, enabled, 6 more }`
-
-    - `id: string`
-
-    - `confidence: object { ai_context_available, available }`
-
-      - `ai_context_available: boolean`
-
-        Indicates whether this entry has AI remote service validation.
-
-      - `available: boolean`
-
-        Indicates whether this entry has any form of validation that is not an AI remote service.
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "predefined"`
-
-      - `"predefined"`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `object { topic_type, type, description }`
-
-        A Predefined AI prompt classification topic entry.
-
-        - `topic_type: "Intent" or "Content"`
-
-          - `"Intent"`
-
-          - `"Content"`
-
-        - `type: "PromptTopic"`
-
-          - `"PromptTopic"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined AI prompt topic represents.
-
-      - `object { type, description }`
-
-        A general predefined entry.
-
-        - `type: "General"`
-
-          - `"General"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined entry represents.
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "integration"`
-
-      - `"integration"`
-
-    - `updated_at: string`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, case_sensitive, created_at, 8 more }`
-
-    - `id: string`
-
-    - `case_sensitive: boolean`
-
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `secret: boolean`
-
-    - `type: "exact_data"`
-
-      - `"exact_data"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the exact data entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "document_fingerprint"`
-
-      - `"document_fingerprint"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the document fingerprint entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 7 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "word_list"`
-
-      - `"word_list"`
-
-    - `updated_at: string`
-
-    - `word_list: unknown`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/$ENTRY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "pattern": {
-      "regex": "regex",
-      "validation": "luhn"
-    },
-    "type": "custom",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "profiles": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "name": "name"
-      }
-    ],
-    "upload_status": "empty"
-  }
-}
-```
-
-## List all entries
-
-**get** `/accounts/{account_id}/dlp/entries`
-
-Lists all DLP entries in an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, enabled, 7 more }  or object { id, created_at, enabled, 5 more }  or object { id, confidence, enabled, 5 more }  or 4 more`
-
-  - `object { id, created_at, enabled, 7 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `pattern: Pattern`
-
-      - `regex: string`
-
-      - `validation: optional "luhn"`
-
-        - `"luhn"`
-
-    - `type: "custom"`
-
-      - `"custom"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "custom_prompt_topic"`
-
-      - `"custom_prompt_topic"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the custom prompt topic entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, confidence, enabled, 5 more }`
-
-    - `id: string`
-
-    - `confidence: object { ai_context_available, available }`
-
-      - `ai_context_available: boolean`
-
-        Indicates whether this entry has AI remote service validation.
-
-      - `available: boolean`
-
-        Indicates whether this entry has any form of validation that is not an AI remote service.
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "predefined"`
-
-      - `"predefined"`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `object { topic_type, type, description }`
-
-        A Predefined AI prompt classification topic entry.
-
-        - `topic_type: "Intent" or "Content"`
-
-          - `"Intent"`
-
-          - `"Content"`
-
-        - `type: "PromptTopic"`
-
-          - `"PromptTopic"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined AI prompt topic represents.
-
-      - `object { type, description }`
-
-        A general predefined entry.
-
-        - `type: "General"`
-
-          - `"General"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined entry represents.
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "integration"`
-
-      - `"integration"`
-
-    - `updated_at: string`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, case_sensitive, created_at, 7 more }`
-
-    - `id: string`
-
-    - `case_sensitive: boolean`
-
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `secret: boolean`
-
-    - `type: "exact_data"`
-
-      - `"exact_data"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the exact data entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "document_fingerprint"`
-
-      - `"document_fingerprint"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the document fingerprint entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "word_list"`
-
-      - `"word_list"`
-
-    - `updated_at: string`
-
-    - `word_list: unknown`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "name": "name",
-      "pattern": {
-        "regex": "regex",
-        "validation": "luhn"
-      },
-      "type": "custom",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "upload_status": "empty"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Integration Create Response
-
-- `IntegrationCreateResponse object { id, created_at, enabled, 3 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `profile_id: optional string`
-
-### Integration Update Response
-
-- `IntegrationUpdateResponse object { id, created_at, enabled, 3 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `profile_id: optional string`
-
-### Integration Delete Response
-
-- `IntegrationDeleteResponse = unknown`
-
-### Integration Get Response
-
-- `IntegrationGetResponse = object { id, created_at, enabled, 8 more }  or object { id, created_at, enabled, 6 more }  or object { id, confidence, enabled, 6 more }  or 4 more`
-
-  - `object { id, created_at, enabled, 8 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `pattern: Pattern`
-
-      - `regex: string`
-
-      - `validation: optional "luhn"`
-
-        - `"luhn"`
-
-    - `type: "custom"`
-
-      - `"custom"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "custom_prompt_topic"`
-
-      - `"custom_prompt_topic"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the custom prompt topic entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, confidence, enabled, 6 more }`
-
-    - `id: string`
-
-    - `confidence: object { ai_context_available, available }`
-
-      - `ai_context_available: boolean`
-
-        Indicates whether this entry has AI remote service validation.
-
-      - `available: boolean`
-
-        Indicates whether this entry has any form of validation that is not an AI remote service.
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "predefined"`
-
-      - `"predefined"`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `object { topic_type, type, description }`
-
-        A Predefined AI prompt classification topic entry.
-
-        - `topic_type: "Intent" or "Content"`
-
-          - `"Intent"`
-
-          - `"Content"`
-
-        - `type: "PromptTopic"`
-
-          - `"PromptTopic"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined AI prompt topic represents.
-
-      - `object { type, description }`
-
-        A general predefined entry.
-
-        - `type: "General"`
-
-          - `"General"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined entry represents.
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "integration"`
-
-      - `"integration"`
-
-    - `updated_at: string`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, case_sensitive, created_at, 8 more }`
-
-    - `id: string`
-
-    - `case_sensitive: boolean`
-
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `secret: boolean`
-
-    - `type: "exact_data"`
-
-      - `"exact_data"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the exact data entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "document_fingerprint"`
-
-      - `"document_fingerprint"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the document fingerprint entry.
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 7 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "word_list"`
-
-      - `"word_list"`
-
-    - `updated_at: string`
-
-    - `word_list: unknown`
-
-    - `profile_id: optional string`
-
-    - `profiles: optional array of object { id, name }`
-
-      - `id: string`
-
-      - `name: string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-### Integration List Response
-
-- `IntegrationListResponse = object { id, created_at, enabled, 7 more }  or object { id, created_at, enabled, 5 more }  or object { id, confidence, enabled, 5 more }  or 4 more`
-
-  - `object { id, created_at, enabled, 7 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `pattern: Pattern`
-
-      - `regex: string`
-
-      - `validation: optional "luhn"`
-
-        - `"luhn"`
-
-    - `type: "custom"`
-
-      - `"custom"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "custom_prompt_topic"`
-
-      - `"custom_prompt_topic"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the custom prompt topic entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, confidence, enabled, 5 more }`
-
-    - `id: string`
-
-    - `confidence: object { ai_context_available, available }`
-
-      - `ai_context_available: boolean`
-
-        Indicates whether this entry has AI remote service validation.
-
-      - `available: boolean`
-
-        Indicates whether this entry has any form of validation that is not an AI remote service.
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "predefined"`
-
-      - `"predefined"`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `variant: optional object { topic_type, type, description }  or object { type, description }`
-
-      A Predefined AI prompt classification topic entry.
-
-      - `object { topic_type, type, description }`
-
-        A Predefined AI prompt classification topic entry.
-
-        - `topic_type: "Intent" or "Content"`
-
-          - `"Intent"`
-
-          - `"Content"`
-
-        - `type: "PromptTopic"`
-
-          - `"PromptTopic"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined AI prompt topic represents.
-
-      - `object { type, description }`
-
-        A general predefined entry.
-
-        - `type: "General"`
-
-          - `"General"`
-
-        - `description: optional string`
-
-          A customer-facing explanation of what this predefined entry represents.
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "integration"`
-
-      - `"integration"`
-
-    - `updated_at: string`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, case_sensitive, created_at, 7 more }`
-
-    - `id: string`
-
-    - `case_sensitive: boolean`
-
-      Only applies to custom word lists.
-      Determines if the words should be matched in a case-sensitive manner
-      Cannot be set to false if secret is true
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `secret: boolean`
-
-    - `type: "exact_data"`
-
-      - `"exact_data"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the exact data entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 5 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "document_fingerprint"`
-
-      - `"document_fingerprint"`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-      The optional description of the document fingerprint entry.
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `object { id, created_at, enabled, 6 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `type: "word_list"`
-
-      - `"word_list"`
-
-    - `updated_at: string`
-
-    - `word_list: unknown`
-
-    - `profile_id: optional string`
-
-    - `upload_status: optional "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-# Sensitivity Groups
-
-## Retrieve all sensitivity groups in an account
-
-**get** `/accounts/{account_id}/dlp/sensitivity_groups`
-
-Retrieve all sensitivity groups in an account
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, levels, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `levels: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "levels": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "name": "name",
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "description": "description"
-        }
-      ],
-      "name": "name",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    }
-  ]
-}
-```
-
-## Retrieve a specific sensitivity group.
-
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}`
-
-Retrieve a specific sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, levels, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `levels: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "levels": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Creates a new sensitivity group.
-
-**post** `/accounts/{account_id}/dlp/sensitivity_groups`
-
-Creates a new sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-- `description: optional string`
-
-- `levels: optional array of object { name, description }`
-
-  Levels to create with the group. Mutually exclusive with `template_id`.
-
-  - `name: string`
-
-  - `description: optional string`
-
-- `template_id: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, levels, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `levels: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "levels": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Update the attributes of a single sensitivity group.
-
-**put** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}`
-
-Update the attributes of a single sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Body Parameters
-
-- `description: optional string`
-
-- `levels: optional array of object { id, description, name }`
-
-  The desired final state of levels.
-
-  - `None` (omitted): no level changes.
-  - `Some([])`: delete all levels.
-  - `Some([...])`: desired final set + order.
-
-  - `id: optional string`
-
-    If `None` (omitted), a new level will be created. Otherwise, an existing level will
-    be updated.
-
-  - `description: optional string`
-
-  - `name: optional string`
-
-- `name: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, levels, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `levels: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "levels": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Delete a single sensitivity group.
-
-**delete** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}`
-
-Delete a single sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Sensitivity Group List Response
-
-- `SensitivityGroupListResponse object { id, created_at, levels, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `levels: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Sensitivity Group Get Response
-
-- `SensitivityGroupGetResponse object { id, created_at, levels, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `levels: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Sensitivity Group Create Response
-
-- `SensitivityGroupCreateResponse object { id, created_at, levels, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `levels: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Sensitivity Group Update Response
-
-- `SensitivityGroupUpdateResponse object { id, created_at, levels, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `levels: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Sensitivity Group Delete Response
-
-- `SensitivityGroupDeleteResponse = unknown`
-
-# Levels
-
-## Retrieve all sensitivity levels in a sensitivity group
-
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels`
-
-Retrieve all sensitivity levels in a sensitivity group
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description"
-    }
-  ]
-}
-```
-
-## Retrieve a specific sensitivity level.
-
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels/{sensitivity_level_id}`
-
-Retrieve a specific sensitivity level.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-- `sensitivity_level_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels/$SENSITIVITY_LEVEL_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Creates a new sensitivity level.
-
-**post** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels`
-
-Creates a new sensitivity level.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-- `description: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Update the attributes of a single sensitivity level.
-
-**put** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels/{sensitivity_level_id}`
-
-Update the attributes of a single sensitivity level.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-- `sensitivity_level_id: string`
-
-### Body Parameters
-
-- `description: optional string`
-
-- `name: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels/$SENSITIVITY_LEVEL_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Delete a single sensitivity level.
-
-**delete** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels/{sensitivity_level_id}`
-
-Delete a single sensitivity level.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-- `sensitivity_level_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels/$SENSITIVITY_LEVEL_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Level List Response
-
-- `LevelListResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Level Get Response
-
-- `LevelGetResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Level Create Response
-
-- `LevelCreateResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Level Update Response
-
-- `LevelUpdateResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Level Delete Response
-
-- `LevelDeleteResponse = unknown`
-
-# Order
-
-## Retrieve the ordered list of level IDs for a sensitivity group.
-
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/level_order`
-
-Retrieve the ordered list of level IDs for a sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/level_order \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "level_ids": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ]
-  }
-}
-```
-
-## Set the ordering of levels within a sensitivity group.
-
-**put** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/level_order`
-
-Set the ordering of levels within a sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Body Parameters
-
-- `level_ids: array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/level_order \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "level_ids": [
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "level_ids": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Order Get Response
-
-- `OrderGetResponse object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Order Update Response
-
-- `OrderUpdateResponse object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-# Data Tag Categories
-
-## Retrieve all data tag categories in an account
-
-**get** `/accounts/{account_id}/dlp/data_tag_categories`
-
-Retrieve all data tag categories in an account
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, name, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `tags: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "tags": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "name": "name",
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "description": "description"
-        }
-      ],
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    }
-  ]
-}
-```
-
-## Retrieve a specific data tag category.
-
-**get** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}`
-
-Retrieve a specific data tag category.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `tags: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "tags": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Creates a new data tag category.
-
-**post** `/accounts/{account_id}/dlp/data_tag_categories`
-
-Creates a new data tag category.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-- `description: optional string`
-
-- `tags: optional array of object { name, description }`
-
-  Tags to create with the category. Mutually exclusive with `template_id`.
-
-  - `name: string`
-
-  - `description: optional string`
-
-- `template_id: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `tags: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "tags": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Update the attributes of a single data tag category.
-
-**put** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}`
-
-Update the attributes of a single data tag category.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-### Body Parameters
-
-- `description: optional string`
-
-- `name: optional string`
-
-- `tags: optional array of object { id, description, name }`
-
-  The desired final state of tags.
-
-  - `None` (omitted): no tag changes.
-  - `Some([])`: delete all tags.
-  - `Some([...])`: desired final set + order.
-
-  - `id: optional string`
-
-    If `None` (omitted), a new tag will be created. Otherwise, an existing tag will be
-    updated.
-
-  - `description: optional string`
-
-  - `name: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `tags: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "tags": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Delete a single data tag category.
-
-**delete** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}`
-
-Delete a single data tag category.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Data Tag Category List Response
-
-- `DataTagCategoryListResponse object { id, created_at, name, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `tags: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Data Tag Category Get Response
-
-- `DataTagCategoryGetResponse object { id, created_at, name, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `tags: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Data Tag Category Create Response
-
-- `DataTagCategoryCreateResponse object { id, created_at, name, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `tags: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Data Tag Category Update Response
-
-- `DataTagCategoryUpdateResponse object { id, created_at, name, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `tags: array of object { id, created_at, name, 2 more }`
-
-    - `id: string`
-
-    - `created_at: string`
-
-    - `name: string`
-
-    - `updated_at: string`
-
-    - `description: optional string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `template_id: optional string`
-
-### Data Tag Category Delete Response
-
-- `DataTagCategoryDeleteResponse = unknown`
-
-# Data Tags
-
-## Retrieve all data tags in a data tag category
-
-**get** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags`
-
-Retrieve all data tags in a data tag category
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description"
-    }
-  ]
-}
-```
-
-## Retrieve a specific data tag.
-
-**get** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags/{tag_id}`
-
-Retrieve a specific data tag.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-- `tag_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags/$TAG_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Creates a new data tag.
-
-**post** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags`
-
-Creates a new data tag.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-- `description: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Update the attributes of a single data tag.
-
-**put** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags/{tag_id}`
-
-Update the attributes of a single data tag.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-- `tag_id: string`
-
-### Body Parameters
-
-- `description: optional string`
-
-- `name: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags/$TAG_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Delete a single data tag.
-
-**delete** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags/{tag_id}`
-
-Delete a single data tag.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-- `tag_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags/$TAG_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Data Tag List Response
-
-- `DataTagListResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Tag Get Response
-
-- `DataTagGetResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Tag Create Response
-
-- `DataTagCreateResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Tag Update Response
-
-- `DataTagUpdateResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Tag Delete Response
-
-- `DataTagDeleteResponse = unknown`
-
-# Data Classes
-
-## Retrieve all data classes in an account
-
-**get** `/accounts/{account_id}/dlp/data_classes`
-
-Retrieve all data classes in an account
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "data_tags": [
-        "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      ],
-      "expression": "expression",
-      "name": "name",
-      "sensitivity_levels": [
-        {
-          "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-        }
-      ],
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description"
-    }
-  ]
-}
-```
-
-## Retrieve a specific data class
-
-**get** `/accounts/{account_id}/dlp/data_classes/{data_class_id}`
-
-Retrieve a specific data class
-
-### Path Parameters
-
-- `account_id: string`
-
-- `data_class_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes/$DATA_CLASS_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "expression": "expression",
-    "name": "name",
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Creates a new data class
-
-**post** `/accounts/{account_id}/dlp/data_classes`
-
-Creates a new data class
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `data_tags: array of string`
-
-- `expression: string`
-
-- `name: string`
-
-- `sensitivity_levels: array of object { group_id, level_id }`
-
-  - `group_id: string`
-
-  - `level_id: string`
-
-- `description: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "data_tags": [
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-          ],
-          "expression": "expression",
-          "name": "name",
-          "sensitivity_levels": [
-            {
-              "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-              "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "expression": "expression",
-    "name": "name",
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Update the attributes of a single data class
-
-**put** `/accounts/{account_id}/dlp/data_classes/{data_class_id}`
-
-Update the attributes of a single data class
-
-### Path Parameters
-
-- `account_id: string`
-
-- `data_class_id: string`
-
-### Body Parameters
-
-- `data_tags: optional array of string`
-
-- `description: optional string`
-
-- `expression: optional string`
-
-- `name: optional string`
-
-- `sensitivity_levels: optional array of object { group_id, level_id }`
-
-  - `group_id: string`
-
-  - `level_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes/$DATA_CLASS_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "expression": "expression",
-    "name": "name",
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Delete a single data class
-
-**delete** `/accounts/{account_id}/dlp/data_classes/{data_class_id}`
-
-Delete a single data class
-
-### Path Parameters
-
-- `account_id: string`
-
-- `data_class_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes/$DATA_CLASS_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Data Class List Response
-
-- `DataClassListResponse object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Class Get Response
-
-- `DataClassGetResponse object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Class Create Response
-
-- `DataClassCreateResponse object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Class Update Response
-
-- `DataClassUpdateResponse object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Class Delete Response
-
-- `DataClassDeleteResponse = unknown`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_delete_response%20%3E%20(schema)>)

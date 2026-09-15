@@ -1,131 +1,71 @@
+---
+title: Previews
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Previews
 
-## Preview Result
+##### [Preview Result](https://developers.cloudflare.com/api/resources/load_balancers/subresources/previews/methods/get)
 
-**get** `/accounts/{account_id}/load_balancers/preview/{preview_id}`
+GET/accounts/{account\_id}/load\_balancers/preview/{preview\_id}
 
-Get the result of a previous preview operation using the provided preview_id.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+PreviewGetResponse = map\[object {healthy, origins } ]
 
-- `preview_id: string`
+Resulting health data from a preview operation.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+healthy: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+origins: optional array of map\[object {failure\_reason, healthy, response\_code, rtt } ]
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+failure\_reason: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+healthy: optional boolean
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+response\_code: optional number
 
-- `result: map[object { healthy, origins } ]`
+<a href="#">Link to this property</a>
 
-  Resulting health data from a preview operation.
+rtt: optional string
 
-  - `healthy: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `origins: optional array of map[object { failure_reason, healthy, response_code, rtt } ]`
+</details>
 
-    - `failure_reason: optional string`
+<a href="#">Link to this property</a>
 
-    - `healthy: optional boolean`
+</details>
 
-    - `response_code: optional number`
-
-    - `rtt: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/preview/$PREVIEW_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "abwlnp5jbqn45ecgxd03erbgtxtqai0d": {
-      "healthy": true,
-      "origins": [
-        {
-          "originone.example.com.": {
-            "failure_reason": "No failures",
-            "healthy": true,
-            "response_code": 200,
-            "rtt": "66ms"
-          }
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Preview Get Response
-
-- `PreviewGetResponse = map[object { healthy, origins } ]`
-
-  Resulting health data from a preview operation.
-
-  - `healthy: optional boolean`
-
-  - `origins: optional array of map[object { failure_reason, healthy, response_code, rtt } ]`
-
-    - `failure_reason: optional string`
-
-    - `healthy: optional boolean`
-
-    - `response_code: optional number`
-
-    - `rtt: optional string`
+[Link to this property](#)%20load_balancers.previews%20%3E%20(model)%20preview_get_response%20%3E%20(schema)>)

@@ -1,262 +1,165 @@
+---
+title: Cache Reserve Clear
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Smart Shield](https://developers.cloudflare.com/api/resources/smart_shield)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Cache Reserve Clear
 
-## Get Cache Reserve Clear
+##### [Get Cache Reserve Clear](https://developers.cloudflare.com/api/resources/smart_shield/subresources/cache_reserve_clear/methods/status)
 
-**get** `/zones/{zone_id}/smart_shield/cache_reserve_clear`
+GET/zones/{zone\_id}/smart\_shield/cache\_reserve\_clear
 
-You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+##### [Start Cache Reserve Clear](https://developers.cloudflare.com/api/resources/smart_shield/subresources/cache_reserve_clear/methods/clear)
 
-### Path Parameters
+POST/zones/{zone\_id}/smart\_shield/cache\_reserve\_clear
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, start_ts, state, 2 more }`
-
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
-
-  - `id: CacheReserveClear`
-
-    ID of the zone setting.
-
-    - `"cache_reserve_clear"`
-
-  - `start_ts: string`
-
-    The time that the latest Cache Reserve Clear operation started.
-
-  - `state: "In-progress" or "Completed"`
-
-    The current state of the Cache Reserve Clear operation.
-
-    - `"In-progress"`
-
-    - `"Completed"`
-
-  - `end_ts: optional string`
-
-    The time that the latest Cache Reserve Clear operation completed.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/smart_shield/cache_reserve_clear \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "end_ts": "2023-10-02T12:00:00.12345Z",
-    "id": "cache_reserve_clear",
-    "start_ts": "2023-10-02T10:00:00.12345Z",
-    "state": "Completed"
-  },
-  "success": true
-}
-```
-
-## Start Cache Reserve Clear
-
-**post** `/zones/{zone_id}/smart_shield/cache_reserve_clear`
+CacheReserveClearStatusResponse object {id, start\_ts, state, 2 more }
 
 You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)">CacheReserveClear</a>
 
-  Identifier.
+ID of the zone setting.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: unknown`
+start\_ts: string
 
-### Returns
+The time that the latest Cache Reserve Clear operation started.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+state: "In-progress"or "Completed"
 
-    - `pointer: optional string`
+The current state of the Cache Reserve Clear operation.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"In-progress"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"Completed"
 
-- `result: object { id, start_ts, state, 2 more }`
+<a href="#">Link to this property</a>
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+</details>
 
-  - `id: CacheReserveClear`
+<a href="#">Link to this property</a>
 
-    ID of the zone setting.
+end\_ts: optional string
 
-    - `"cache_reserve_clear"`
+The time that the latest Cache Reserve Clear operation completed.
 
-  - `start_ts: string`
+formatdate-time
 
-    The time that the latest Cache Reserve Clear operation started.
+<a href="#">Link to this property</a>
 
-  - `state: "In-progress" or "Completed"`
+modified\_on: optional string
 
-    The current state of the Cache Reserve Clear operation.
+Last time this setting was modified.
 
-    - `"In-progress"`
+formatdate-time
 
-    - `"Completed"`
+<a href="#">Link to this property</a>
 
-  - `end_ts: optional string`
+</details>
 
-    The time that the latest Cache Reserve Clear operation completed.
+[Link to this property](#)%20smart_shield.cache_reserve_clear%20%3E%20(model)%20cache_reserve_clear_status_response%20%3E%20(schema)>)
 
-  - `modified_on: optional string`
+<details>
 
-    Last time this setting was modified.
+<summary>
 
-- `success: true`
+CacheReserveClearClearResponse object {id, start\_ts, state, 2 more }
 
-  Whether the API call was successful.
+You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
 
-  - `true`
+</summary>
 
-### Example
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)">CacheReserveClear</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/smart_shield/cache_reserve_clear \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+ID of the zone setting.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "id": "cache_reserve_clear",
-    "start_ts": "2023-10-02T10:00:00.12345Z",
-    "state": "In-progress"
-  },
-  "success": true
-}
-```
+start\_ts: string
 
-## Domain Types
+The time that the latest Cache Reserve Clear operation started.
 
-### Cache Reserve Clear Status Response
+formatdate-time
 
-- `CacheReserveClearStatusResponse object { id, start_ts, state, 2 more }`
+<a href="#">Link to this property</a>
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+<details>
 
-  - `id: CacheReserveClear`
+<summary>
 
-    ID of the zone setting.
+state: "In-progress"or "Completed"
 
-    - `"cache_reserve_clear"`
+The current state of the Cache Reserve Clear operation.
 
-  - `start_ts: string`
+</summary>
 
-    The time that the latest Cache Reserve Clear operation started.
+One of the following:
 
-  - `state: "In-progress" or "Completed"`
+"In-progress"
 
-    The current state of the Cache Reserve Clear operation.
+<a href="#">Link to this property</a>
 
-    - `"In-progress"`
+"Completed"
 
-    - `"Completed"`
+<a href="#">Link to this property</a>
 
-  - `end_ts: optional string`
+</details>
 
-    The time that the latest Cache Reserve Clear operation completed.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+end\_ts: optional string
 
-    Last time this setting was modified.
+The time that the latest Cache Reserve Clear operation completed.
 
-### Cache Reserve Clear Clear Response
+formatdate-time
 
-- `CacheReserveClearClearResponse object { id, start_ts, state, 2 more }`
+<a href="#">Link to this property</a>
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+modified\_on: optional string
 
-  - `id: CacheReserveClear`
+Last time this setting was modified.
 
-    ID of the zone setting.
+formatdate-time
 
-    - `"cache_reserve_clear"`
+<a href="#">Link to this property</a>
 
-  - `start_ts: string`
+</details>
 
-    The time that the latest Cache Reserve Clear operation started.
-
-  - `state: "In-progress" or "Completed"`
-
-    The current state of the Cache Reserve Clear operation.
-
-    - `"In-progress"`
-
-    - `"Completed"`
-
-  - `end_ts: optional string`
-
-    The time that the latest Cache Reserve Clear operation completed.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20smart_shield.cache_reserve_clear%20%3E%20(model)%20cache_reserve_clear_clear_response%20%3E%20(schema)>)

@@ -1,132 +1,352 @@
-## Move multiple messages
+---
+title: Move multiple messages
+---
 
-**post** `/accounts/{account_id}/email-security/investigate/move`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
+
+[Move](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/move)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Move multiple messages
+
+POST/accounts/{account\_id}/email-security/investigate/move
 
 Moves multiple messages to a specified mailbox folder (Inbox, JunkEmail, DeletedItems, RecoverableItemsDeletions, or RecoverableItemsPurges). Requires active integration.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `destination: "Inbox" or "JunkEmail" or "DeletedItems" or 2 more`
 
-  - `"Inbox"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"JunkEmail"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"DeletedItems"`
+</details>
 
-  - `"RecoverableItemsDeletions"`
+<details>
 
-  - `"RecoverableItemsPurges"`
+<summary>API Email + API Key</summary>
 
-- `expected_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
 
-  - `"MALICIOUS"`
 
-  - `"MALICIOUS-BEC"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"SUSPICIOUS"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"SPOOF"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"SPAM"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"BULK"`
+</details>
 
-  - `"ENCRYPTED"`
+##### Accepted Permissions (at least one required)
 
-  - `"EXTERNAL"`
+`Cloud Email Security: Write`
 
-  - `"UNKNOWN"`
+##### P ath ParametersExpand Collapse
 
-  - `"NONE"`
+account\_id: string
 
-- `ids: optional array of string`
+Identifier.
 
-  List of message IDs to move
+maxLength32
 
-- `postfix_ids: optional array of string`
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Deprecated, use `ids` instead. End of life: November 1, 2026. List of message IDs to move.
+##### Body ParametersJSONExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+destination: "Inbox"or "JunkEmail"or "DeletedItems"or 2 more
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"Inbox"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"JunkEmail"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"DeletedItems"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"RecoverableItemsDeletions"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of object { success, completed_at, completed_timestamp, 6 more }`
+"RecoverableItemsPurges"
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the operation succeeded
+</details>
 
-  - `completed_at: optional string`
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(params)%200%20%3E%20(param)%20destination%20%3E%20(schema)>)
 
-    When the move operation completed (UTC)
+<details>
 
-  - `completed_timestamp: optional string`
+<summary>
 
-    Deprecated, use `completed_at` instead. End of life: November 1, 2026.
+expected\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  - `destination: optional string`
+</summary>
 
-    Destination folder for the message
+One of the following:
 
-  - `item_count: optional number`
+"MALICIOUS"
 
-    Number of items moved. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `message_id: optional string`
+"MALICIOUS-BEC"
 
-    Message identifier
+<a href="#">Link to this property</a>
 
-  - `operation: optional string`
+"SUSPICIOUS"
 
-    Type of operation performed
+<a href="#">Link to this property</a>
 
-  - `recipient: optional string`
+"SPOOF"
 
-    Recipient email address
+<a href="#">Link to this property</a>
 
-  - `status: optional string`
+"SPAM"
 
-    Operation status
+<a href="#">Link to this property</a>
 
-- `success: true`
+"BULK"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"ENCRYPTED"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(params)%200%20%3E%20(param)%20expected_disposition%20%3E%20(schema)>)
+
+ids: optional array of string
+
+List of message IDs to move.
+
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(params)%200%20%3E%20(param)%20ids%20%3E%20(schema)>)
+
+Deprecatedpostfix\_ids: optional array of string
+
+Use `ids` instead.
+
+Deprecated, use `ids` instead. End of life: November 1, 2026.
+
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(params)%200%20%3E%20(param)%20postfix_ids%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {success, completed\_at, completed\_timestamp, 6 more }
+
+</summary>
+
+success: boolean
+
+Whether the operation succeeded.
+
+<a href="#">Link to this property</a>
+
+completed\_at: optional string
+
+When the move operation completed (UTC).
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+Deprecatedcompleted\_timestamp: optional string
+
+Use <code>completed_at</code> instead.
+
+Deprecated, use <code>completed_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+destination: optional string
+
+Destination folder for the message.
+
+<a href="#">Link to this property</a>
+
+Deprecateditem\_count: optional number
+
+This field is deprecated.
+
+Number of items moved. End of life: November 1, 2026.
+
+<a href="#">Link to this property</a>
+
+message\_id: optional string
+
+Message identifier.
+
+<a href="#">Link to this property</a>
+
+operation: optional string
+
+Type of operation performed.
+
+<a href="#">Link to this property</a>
+
+recipient: optional string
+
+Recipient email address.
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+Operation status.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(method)%20bulk%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Move multiple messages
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/move \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -135,9 +355,52 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/in
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "success": true,
+      "completed_at": "2019-12-27T18:11:19.117Z",
+      "completed_timestamp": "2019-12-27T18:11:19.117Z",
+      "destination": "destination",
+      "item_count": 0,
+      "message_id": "message_id",
+      "operation": "operation",
+      "recipient": "recipient",
+      "status": "status"
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

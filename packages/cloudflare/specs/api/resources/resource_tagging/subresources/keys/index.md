@@ -1,116 +1,29 @@
+---
+title: Keys
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Resource Tagging](https://developers.cloudflare.com/api/resources/resource_tagging)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Keys
 
-## List tag keys
+##### [List tag keys](https://developers.cloudflare.com/api/resources/resource_tagging/subresources/keys/methods/list)
 
-**get** `/accounts/{account_id}/tags/keys`
+GET/accounts/{account\_id}/tags/keys
 
-Lists all distinct tag keys used across resources in an account.
+##### ModelsExpand Collapse
 
-### Path Parameters
+KeyListResponse = string
 
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `cursor: optional string`
-
-  Cursor for pagination.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of string`
-
-  Contains an array of distinct tag keys.
-
-- `result_info: optional object { count, cursor }`
-
-  - `count: optional number`
-
-    Indicates the number of results returned in the current page.
-
-  - `cursor: optional string`
-
-    Provides a cursor for the next page of results. Include this value in the next request to continue pagination.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tags/keys \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    "environment",
-    "team",
-    "region"
-  ],
-  "result_info": {
-    "count": 20,
-    "cursor": "eyJhY2NvdW50X2lkIjoxMjM0NTY3ODkwfQ"
-  }
-}
-```
-
-## Domain Types
-
-### Key List Response
-
-- `KeyListResponse = string`
+[Link to this property](#)%20resource_tagging.keys%20%3E%20(model)%20key_list_response%20%3E%20(schema)>)

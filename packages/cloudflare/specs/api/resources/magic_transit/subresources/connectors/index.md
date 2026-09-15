@@ -1,7222 +1,4977 @@
+---
+title: Connectors
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Connectors
 
-## List Connectors
+##### [List Connectors](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/methods/list)
 
-**get** `/accounts/{account_id}/magic/connectors`
+GET/accounts/{account\_id}/magic/connectors
 
-List Connectors
+##### [Get Connector](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}
 
-- `account_id: string`
+##### [Create Connector](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/methods/create)
 
-  Account identifier
+POST/accounts/{account\_id}/magic/connectors
 
-### Query Parameters
+##### [Update Connector](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/methods/update)
 
-- `device_type: optional "MANAGED" or "LICENSED"`
+PUT/accounts/{account\_id}/magic/connectors/{connector\_id}
 
-  Filter connectors by device type.
+##### [Edit Connector](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/methods/edit)
 
-  - `"MANAGED"`
+PATCH/accounts/{account\_id}/magic/connectors/{connector\_id}
 
-  - `"LICENSED"`
+##### [Delete Connector](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/methods/delete)
 
-### Returns
+DELETE/accounts/{account\_id}/magic/connectors/{connector\_id}
 
-- `errors: array of object { code, message }`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-- `messages: array of object { code, message }`
+ConnectorListResponse object {id, activated, interrupt\_window\_days\_of\_week, 12 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-- `result: array of object { id, activated, interrupt_window_days_of_week, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+activated: boolean
 
-  - `activated: boolean`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<details>
 
-    Allowed days of the week for upgrades. Default is all days.
+<summary>
 
-    - `"Sunday"`
+interrupt\_window\_days\_of\_week: array of "Sunday"or "Monday"or "Tuesday"or 4 more
 
-    - `"Monday"`
+Allowed days of the week for upgrades. Default is all days.
 
-    - `"Tuesday"`
+</summary>
 
-    - `"Wednesday"`
+One of the following:
 
-    - `"Thursday"`
+"Sunday"
 
-    - `"Friday"`
+<a href="#">Link to this property</a>
 
-    - `"Saturday"`
+"Monday"
 
-  - `interrupt_window_duration_hours: number`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_embargo_dates: array of string`
+"Tuesday"
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_hour_of_day: number`
+"Wednesday"
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `notes: string`
+"Thursday"
 
-  - `primary: boolean`
+<a href="#">Link to this property</a>
 
-  - `timezone: string`
+"Friday"
 
-  - `device: optional object { id, serial_number, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"Saturday"
 
-    - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+</details>
 
-      - `"MANAGED"`
+<a href="#">Link to this property</a>
 
-      - `"LICENSED"`
+interrupt\_window\_duration\_hours: number
 
-  - `last_heartbeat: optional string`
+maximum24
 
-  - `last_seen_version: optional string`
+minimum1
 
-  - `license_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `site_id: optional string`
+interrupt\_window\_embargo\_dates: array of string
 
-- `success: boolean`
+List of dates (YYYY-MM-DD) when upgrades are blocked.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+interrupt\_window\_hour\_of\_day: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "activated": true,
-      "interrupt_window_days_of_week": [
-        "Sunday"
-      ],
-      "interrupt_window_duration_hours": 1,
-      "interrupt_window_embargo_dates": [
-        "string"
-      ],
-      "interrupt_window_hour_of_day": 0,
-      "last_updated": "last_updated",
-      "notes": "notes",
-      "primary": true,
-      "timezone": "timezone",
-      "device": {
-        "id": "id",
-        "serial_number": "serial_number",
-        "type": "MANAGED"
-      },
-      "last_heartbeat": "last_heartbeat",
-      "last_seen_version": "last_seen_version",
-      "license_key": "license_key",
-      "site_id": "site_id"
-    }
-  ],
-  "success": true
-}
-```
+last\_updated: string
 
-## Fetch Connector
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}`
+notes: string
 
-Fetch Connector
+<a href="#">Link to this property</a>
 
-### Path Parameters
+primary: boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier
+timezone: string
 
-- `connector_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message }`
+<summary>
 
-  - `code: number`
+device: optional object {id, serial\_number, type }
 
-  - `message: string`
+</summary>
 
-- `messages: array of object { code, message }`
+id: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+serial\_number: optional string
 
-- `result: object { id, activated, interrupt_window_days_of_week, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `activated: boolean`
+<summary>
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+type: optional "MANAGED"or "LICENSED"
 
-    Allowed days of the week for upgrades. Default is all days.
+</summary>
 
-    - `"Sunday"`
+One of the following:
 
-    - `"Monday"`
+"MANAGED"
 
-    - `"Tuesday"`
+<a href="#">Link to this property</a>
 
-    - `"Wednesday"`
+"LICENSED"
 
-    - `"Thursday"`
+<a href="#">Link to this property</a>
 
-    - `"Friday"`
+</details>
 
-    - `"Saturday"`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_duration_hours: number`
+</details>
 
-  - `interrupt_window_embargo_dates: array of string`
+<a href="#">Link to this property</a>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+last\_heartbeat: optional string
 
-  - `interrupt_window_hour_of_day: number`
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+last\_seen\_version: optional string
 
-  - `notes: string`
+<a href="#">Link to this property</a>
 
-  - `primary: boolean`
+license\_key: optional string
 
-  - `timezone: string`
+<a href="#">Link to this property</a>
 
-  - `device: optional object { id, serial_number, type }`
+site\_id: optional string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `serial_number: optional string`
+</details>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(model)%20connector_list_response%20%3E%20(schema)>)
 
-      - `"MANAGED"`
+<details>
 
-      - `"LICENSED"`
+<summary>
 
-  - `last_heartbeat: optional string`
+ConnectorGetResponse object {id, activated, interrupt\_window\_days\_of\_week, 12 more }
 
-  - `last_seen_version: optional string`
+</summary>
 
-  - `license_key: optional string`
+id: string
 
-  - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+activated: boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "id",
-    "activated": true,
-    "interrupt_window_days_of_week": [
-      "Sunday"
-    ],
-    "interrupt_window_duration_hours": 1,
-    "interrupt_window_embargo_dates": [
-      "string"
-    ],
-    "interrupt_window_hour_of_day": 0,
-    "last_updated": "last_updated",
-    "notes": "notes",
-    "primary": true,
-    "timezone": "timezone",
-    "device": {
-      "id": "id",
-      "serial_number": "serial_number",
-      "type": "MANAGED"
-    },
-    "last_heartbeat": "last_heartbeat",
-    "last_seen_version": "last_seen_version",
-    "license_key": "license_key",
-    "site_id": "site_id"
-  },
-  "success": true
-}
-```
+interrupt\_window\_days\_of\_week: array of "Sunday"or "Monday"or "Tuesday"or 4 more
 
-## Add a connector to your account
+Allowed days of the week for upgrades. Default is all days.
 
-**post** `/accounts/{account_id}/magic/connectors`
+</summary>
 
-Add a connector to your account
+One of the following:
 
-### Path Parameters
+"Sunday"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier
+"Monday"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `device: object { id, provision_license, serial_number }`
+"Tuesday"
 
-  Exactly one of id, serial_number, or provision_license must be provided.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"Wednesday"
 
-  - `provision_license: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, create and provision a new licence key for the connector.
+"Thursday"
 
-  - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-- `activated: optional boolean`
+"Friday"
 
-- `interrupt_window_days_of_week: optional array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-  Allowed days of the week for upgrades. Default is all days.
+"Saturday"
 
-  - `"Sunday"`
+<a href="#">Link to this property</a>
 
-  - `"Monday"`
+</details>
 
-  - `"Tuesday"`
+<a href="#">Link to this property</a>
 
-  - `"Wednesday"`
+interrupt\_window\_duration\_hours: number
 
-  - `"Thursday"`
+maximum24
 
-  - `"Friday"`
+minimum1
 
-  - `"Saturday"`
+<a href="#">Link to this property</a>
 
-- `interrupt_window_duration_hours: optional number`
+interrupt\_window\_embargo\_dates: array of string
 
-- `interrupt_window_embargo_dates: optional array of string`
+List of dates (YYYY-MM-DD) when upgrades are blocked.
 
-  List of dates (YYYY-MM-DD) when upgrades are blocked.
+<a href="#">Link to this property</a>
 
-- `interrupt_window_hour_of_day: optional number`
+interrupt\_window\_hour\_of\_day: number
 
-- `notes: optional string`
+<a href="#">Link to this property</a>
 
-- `primary: optional boolean`
+last\_updated: string
 
-- `site_id: optional string`
+<a href="#">Link to this property</a>
 
-- `timezone: optional string`
+notes: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+primary: boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+timezone: string
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-- `result: object { id, activated, interrupt_window_days_of_week, 12 more }`
+device: optional object {id, serial\_number, type }
 
-  - `id: string`
+</summary>
 
-  - `activated: boolean`
+id: string
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-    Allowed days of the week for upgrades. Default is all days.
+serial\_number: optional string
 
-    - `"Sunday"`
+<a href="#">Link to this property</a>
 
-    - `"Monday"`
+<details>
 
-    - `"Tuesday"`
+<summary>
 
-    - `"Wednesday"`
+type: optional "MANAGED"or "LICENSED"
 
-    - `"Thursday"`
+</summary>
 
-    - `"Friday"`
+One of the following:
 
-    - `"Saturday"`
+"MANAGED"
 
-  - `interrupt_window_duration_hours: number`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_embargo_dates: array of string`
+"LICENSED"
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_hour_of_day: number`
+</details>
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `notes: string`
+</details>
 
-  - `primary: boolean`
+<a href="#">Link to this property</a>
 
-  - `timezone: string`
+last\_heartbeat: optional string
 
-  - `device: optional object { id, serial_number, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+last\_seen\_version: optional string
 
-    - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+license\_key: optional string
 
-      - `"MANAGED"`
+<a href="#">Link to this property</a>
 
-      - `"LICENSED"`
+site\_id: optional string
 
-  - `last_heartbeat: optional string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_version: optional string`
+</details>
 
-  - `license_key: optional string`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(model)%20connector_get_response%20%3E%20(schema)>)
 
-  - `site_id: optional string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+ConnectorCreateResponse object {id, activated, interrupt\_window\_days\_of\_week, 12 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "device": {}
-        }'
-```
+</summary>
 
-#### Response
+id: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "id",
-    "activated": true,
-    "interrupt_window_days_of_week": [
-      "Sunday"
-    ],
-    "interrupt_window_duration_hours": 1,
-    "interrupt_window_embargo_dates": [
-      "string"
-    ],
-    "interrupt_window_hour_of_day": 0,
-    "last_updated": "last_updated",
-    "notes": "notes",
-    "primary": true,
-    "timezone": "timezone",
-    "device": {
-      "id": "id",
-      "serial_number": "serial_number",
-      "type": "MANAGED"
-    },
-    "last_heartbeat": "last_heartbeat",
-    "last_seen_version": "last_seen_version",
-    "license_key": "license_key",
-    "site_id": "site_id"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Replace Connector or Re-provision License Key
+activated: boolean
 
-**put** `/accounts/{account_id}/magic/connectors/{connector_id}`
+<a href="#">Link to this property</a>
 
-Replace Connector or Re-provision License Key
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+interrupt\_window\_days\_of\_week: array of "Sunday"or "Monday"or "Tuesday"or 4 more
 
-  Account identifier
+Allowed days of the week for upgrades. Default is all days.
 
-- `connector_id: string`
+</summary>
 
-### Body Parameters
+One of the following:
 
-- `activated: optional boolean`
+"Sunday"
 
-- `interrupt_window_days_of_week: optional array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-  Allowed days of the week for upgrades. Default is all days.
+"Monday"
 
-  - `"Sunday"`
+<a href="#">Link to this property</a>
 
-  - `"Monday"`
+"Tuesday"
 
-  - `"Tuesday"`
+<a href="#">Link to this property</a>
 
-  - `"Wednesday"`
+"Wednesday"
 
-  - `"Thursday"`
+<a href="#">Link to this property</a>
 
-  - `"Friday"`
+"Thursday"
 
-  - `"Saturday"`
+<a href="#">Link to this property</a>
 
-- `interrupt_window_duration_hours: optional number`
+"Friday"
 
-- `interrupt_window_embargo_dates: optional array of string`
+<a href="#">Link to this property</a>
 
-  List of dates (YYYY-MM-DD) when upgrades are blocked.
+"Saturday"
 
-- `interrupt_window_hour_of_day: optional number`
+<a href="#">Link to this property</a>
 
-- `notes: optional string`
+</details>
 
-- `primary: optional boolean`
+<a href="#">Link to this property</a>
 
-- `provision_license: optional boolean`
+interrupt\_window\_duration\_hours: number
 
-  When true, regenerate license key for the connector.
+maximum24
 
-- `site_id: optional string`
+minimum1
 
-- `timezone: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+interrupt\_window\_embargo\_dates: array of string
 
-- `errors: array of object { code, message }`
+List of dates (YYYY-MM-DD) when upgrades are blocked.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+interrupt\_window\_hour\_of\_day: number
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+last\_updated: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, activated, interrupt_window_days_of_week, 12 more }`
+notes: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `activated: boolean`
+primary: boolean
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-    Allowed days of the week for upgrades. Default is all days.
+timezone: string
 
-    - `"Sunday"`
+<a href="#">Link to this property</a>
 
-    - `"Monday"`
+<details>
 
-    - `"Tuesday"`
+<summary>
 
-    - `"Wednesday"`
+device: optional object {id, serial\_number, type }
 
-    - `"Thursday"`
+</summary>
 
-    - `"Friday"`
+id: string
 
-    - `"Saturday"`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_duration_hours: number`
+serial\_number: optional string
 
-  - `interrupt_window_embargo_dates: array of string`
+<a href="#">Link to this property</a>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+<details>
 
-  - `interrupt_window_hour_of_day: number`
+<summary>
 
-  - `last_updated: string`
+type: optional "MANAGED"or "LICENSED"
 
-  - `notes: string`
+</summary>
 
-  - `primary: boolean`
+One of the following:
 
-  - `timezone: string`
+"MANAGED"
 
-  - `device: optional object { id, serial_number, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"LICENSED"
 
-    - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+</details>
 
-      - `"MANAGED"`
+<a href="#">Link to this property</a>
 
-      - `"LICENSED"`
+</details>
 
-  - `last_heartbeat: optional string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_version: optional string`
+last\_heartbeat: optional string
 
-  - `license_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `site_id: optional string`
+last\_seen\_version: optional string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+license\_key: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+site\_id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "id",
-    "activated": true,
-    "interrupt_window_days_of_week": [
-      "Sunday"
-    ],
-    "interrupt_window_duration_hours": 1,
-    "interrupt_window_embargo_dates": [
-      "string"
-    ],
-    "interrupt_window_hour_of_day": 0,
-    "last_updated": "last_updated",
-    "notes": "notes",
-    "primary": true,
-    "timezone": "timezone",
-    "device": {
-      "id": "id",
-      "serial_number": "serial_number",
-      "type": "MANAGED"
-    },
-    "last_heartbeat": "last_heartbeat",
-    "last_seen_version": "last_seen_version",
-    "license_key": "license_key",
-    "site_id": "site_id"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Edit Connector to update specific properties or Re-provision License Key
+</details>
 
-**patch** `/accounts/{account_id}/magic/connectors/{connector_id}`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(model)%20connector_create_response%20%3E%20(schema)>)
 
-Edit Connector to update specific properties or Re-provision License Key
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+ConnectorUpdateResponse object {id, activated, interrupt\_window\_days\_of\_week, 12 more }
 
-  Account identifier
+</summary>
 
-- `connector_id: string`
+id: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `activated: optional boolean`
+activated: boolean
 
-- `interrupt_window_days_of_week: optional array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-  Allowed days of the week for upgrades. Default is all days.
+<details>
 
-  - `"Sunday"`
+<summary>
 
-  - `"Monday"`
+interrupt\_window\_days\_of\_week: array of "Sunday"or "Monday"or "Tuesday"or 4 more
 
-  - `"Tuesday"`
+Allowed days of the week for upgrades. Default is all days.
 
-  - `"Wednesday"`
+</summary>
 
-  - `"Thursday"`
+One of the following:
 
-  - `"Friday"`
+"Sunday"
 
-  - `"Saturday"`
+<a href="#">Link to this property</a>
 
-- `interrupt_window_duration_hours: optional number`
+"Monday"
 
-- `interrupt_window_embargo_dates: optional array of string`
+<a href="#">Link to this property</a>
 
-  List of dates (YYYY-MM-DD) when upgrades are blocked.
+"Tuesday"
 
-- `interrupt_window_hour_of_day: optional number`
+<a href="#">Link to this property</a>
 
-- `notes: optional string`
+"Wednesday"
 
-- `primary: optional boolean`
+<a href="#">Link to this property</a>
 
-- `provision_license: optional boolean`
+"Thursday"
 
-  When true, regenerate license key for the connector.
+<a href="#">Link to this property</a>
 
-- `site_id: optional string`
+"Friday"
 
-- `timezone: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+"Saturday"
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+interrupt\_window\_duration\_hours: number
 
-  - `code: number`
+maximum24
 
-  - `message: string`
+minimum1
 
-- `result: object { id, activated, interrupt_window_days_of_week, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+interrupt\_window\_embargo\_dates: array of string
 
-  - `activated: boolean`
+List of dates (YYYY-MM-DD) when upgrades are blocked.
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-    Allowed days of the week for upgrades. Default is all days.
+interrupt\_window\_hour\_of\_day: number
 
-    - `"Sunday"`
+<a href="#">Link to this property</a>
 
-    - `"Monday"`
+last\_updated: string
 
-    - `"Tuesday"`
+<a href="#">Link to this property</a>
 
-    - `"Wednesday"`
+notes: string
 
-    - `"Thursday"`
+<a href="#">Link to this property</a>
 
-    - `"Friday"`
+primary: boolean
 
-    - `"Saturday"`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_duration_hours: number`
+timezone: string
 
-  - `interrupt_window_embargo_dates: array of string`
+<a href="#">Link to this property</a>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+<details>
 
-  - `interrupt_window_hour_of_day: number`
+<summary>
 
-  - `last_updated: string`
+device: optional object {id, serial\_number, type }
 
-  - `notes: string`
+</summary>
 
-  - `primary: boolean`
+id: string
 
-  - `timezone: string`
+<a href="#">Link to this property</a>
 
-  - `device: optional object { id, serial_number, type }`
+serial\_number: optional string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `serial_number: optional string`
+<details>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+<summary>
 
-      - `"MANAGED"`
+type: optional "MANAGED"or "LICENSED"
 
-      - `"LICENSED"`
+</summary>
 
-  - `last_heartbeat: optional string`
+One of the following:
 
-  - `last_seen_version: optional string`
+"MANAGED"
 
-  - `license_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `site_id: optional string`
+"LICENSED"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "id",
-    "activated": true,
-    "interrupt_window_days_of_week": [
-      "Sunday"
-    ],
-    "interrupt_window_duration_hours": 1,
-    "interrupt_window_embargo_dates": [
-      "string"
-    ],
-    "interrupt_window_hour_of_day": 0,
-    "last_updated": "last_updated",
-    "notes": "notes",
-    "primary": true,
-    "timezone": "timezone",
-    "device": {
-      "id": "id",
-      "serial_number": "serial_number",
-      "type": "MANAGED"
-    },
-    "last_heartbeat": "last_heartbeat",
-    "last_seen_version": "last_seen_version",
-    "license_key": "license_key",
-    "site_id": "site_id"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Remove a connector from your account
+last\_heartbeat: optional string
 
-**delete** `/accounts/{account_id}/magic/connectors/{connector_id}`
+<a href="#">Link to this property</a>
 
-Remove a connector from your account
+last\_seen\_version: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+license\_key: optional string
 
-  Account identifier
+<a href="#">Link to this property</a>
 
-- `connector_id: string`
+site\_id: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(model)%20connector_update_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-- `messages: array of object { code, message }`
+<summary>
 
-  - `code: number`
+ConnectorEditResponse object {id, activated, interrupt\_window\_days\_of\_week, 12 more }
 
-  - `message: string`
+</summary>
 
-- `result: object { id, activated, interrupt_window_days_of_week, 12 more }`
+id: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `activated: boolean`
+activated: boolean
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-    Allowed days of the week for upgrades. Default is all days.
+<details>
 
-    - `"Sunday"`
+<summary>
 
-    - `"Monday"`
+interrupt\_window\_days\_of\_week: array of "Sunday"or "Monday"or "Tuesday"or 4 more
 
-    - `"Tuesday"`
+Allowed days of the week for upgrades. Default is all days.
 
-    - `"Wednesday"`
+</summary>
 
-    - `"Thursday"`
+One of the following:
 
-    - `"Friday"`
+"Sunday"
 
-    - `"Saturday"`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_duration_hours: number`
+"Monday"
 
-  - `interrupt_window_embargo_dates: array of string`
+<a href="#">Link to this property</a>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+"Tuesday"
 
-  - `interrupt_window_hour_of_day: number`
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+"Wednesday"
 
-  - `notes: string`
+<a href="#">Link to this property</a>
 
-  - `primary: boolean`
+"Thursday"
 
-  - `timezone: string`
+<a href="#">Link to this property</a>
 
-  - `device: optional object { id, serial_number, type }`
+"Friday"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `serial_number: optional string`
+"Saturday"
 
-    - `type: optional "MANAGED" or "LICENSED"`
+<a href="#">Link to this property</a>
 
-      - `"MANAGED"`
+</details>
 
-      - `"LICENSED"`
+<a href="#">Link to this property</a>
 
-  - `last_heartbeat: optional string`
+interrupt\_window\_duration\_hours: number
 
-  - `last_seen_version: optional string`
+maximum24
 
-  - `license_key: optional string`
+minimum1
 
-  - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+interrupt\_window\_embargo\_dates: array of string
 
-### Example
+List of dates (YYYY-MM-DD) when upgrades are blocked.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+interrupt\_window\_hour\_of\_day: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "id",
-    "activated": true,
-    "interrupt_window_days_of_week": [
-      "Sunday"
-    ],
-    "interrupt_window_duration_hours": 1,
-    "interrupt_window_embargo_dates": [
-      "string"
-    ],
-    "interrupt_window_hour_of_day": 0,
-    "last_updated": "last_updated",
-    "notes": "notes",
-    "primary": true,
-    "timezone": "timezone",
-    "device": {
-      "id": "id",
-      "serial_number": "serial_number",
-      "type": "MANAGED"
-    },
-    "last_heartbeat": "last_heartbeat",
-    "last_seen_version": "last_seen_version",
-    "license_key": "license_key",
-    "site_id": "site_id"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+last\_updated: string
 
-### Connector List Response
+<a href="#">Link to this property</a>
 
-- `ConnectorListResponse object { id, activated, interrupt_window_days_of_week, 12 more }`
+notes: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `activated: boolean`
+primary: boolean
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-    Allowed days of the week for upgrades. Default is all days.
+timezone: string
 
-    - `"Sunday"`
+<a href="#">Link to this property</a>
 
-    - `"Monday"`
+<details>
 
-    - `"Tuesday"`
+<summary>
 
-    - `"Wednesday"`
+device: optional object {id, serial\_number, type }
 
-    - `"Thursday"`
+</summary>
 
-    - `"Friday"`
+id: string
 
-    - `"Saturday"`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_duration_hours: number`
+serial\_number: optional string
 
-  - `interrupt_window_embargo_dates: array of string`
+<a href="#">Link to this property</a>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+<details>
 
-  - `interrupt_window_hour_of_day: number`
+<summary>
 
-  - `last_updated: string`
+type: optional "MANAGED"or "LICENSED"
 
-  - `notes: string`
+</summary>
 
-  - `primary: boolean`
+One of the following:
 
-  - `timezone: string`
+"MANAGED"
 
-  - `device: optional object { id, serial_number, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"LICENSED"
 
-    - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+</details>
 
-      - `"MANAGED"`
+<a href="#">Link to this property</a>
 
-      - `"LICENSED"`
+</details>
 
-  - `last_heartbeat: optional string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_version: optional string`
+last\_heartbeat: optional string
 
-  - `license_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `site_id: optional string`
+last\_seen\_version: optional string
 
-### Connector Get Response
+<a href="#">Link to this property</a>
 
-- `ConnectorGetResponse object { id, activated, interrupt_window_days_of_week, 12 more }`
+license\_key: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `activated: boolean`
+site\_id: optional string
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-    Allowed days of the week for upgrades. Default is all days.
+</details>
 
-    - `"Sunday"`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(model)%20connector_edit_response%20%3E%20(schema)>)
 
-    - `"Monday"`
+<details>
 
-    - `"Tuesday"`
+<summary>
 
-    - `"Wednesday"`
+ConnectorDeleteResponse object {id, activated, interrupt\_window\_days\_of\_week, 12 more }
 
-    - `"Thursday"`
+</summary>
 
-    - `"Friday"`
+id: string
 
-    - `"Saturday"`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_duration_hours: number`
+activated: boolean
 
-  - `interrupt_window_embargo_dates: array of string`
+<a href="#">Link to this property</a>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+<details>
 
-  - `interrupt_window_hour_of_day: number`
+<summary>
 
-  - `last_updated: string`
+interrupt\_window\_days\_of\_week: array of "Sunday"or "Monday"or "Tuesday"or 4 more
 
-  - `notes: string`
+Allowed days of the week for upgrades. Default is all days.
 
-  - `primary: boolean`
+</summary>
 
-  - `timezone: string`
+One of the following:
 
-  - `device: optional object { id, serial_number, type }`
+"Sunday"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `serial_number: optional string`
+"Monday"
 
-    - `type: optional "MANAGED" or "LICENSED"`
+<a href="#">Link to this property</a>
 
-      - `"MANAGED"`
+"Tuesday"
 
-      - `"LICENSED"`
+<a href="#">Link to this property</a>
 
-  - `last_heartbeat: optional string`
+"Wednesday"
 
-  - `last_seen_version: optional string`
+<a href="#">Link to this property</a>
 
-  - `license_key: optional string`
+"Thursday"
 
-  - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-### Connector Create Response
+"Friday"
 
-- `ConnectorCreateResponse object { id, activated, interrupt_window_days_of_week, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"Saturday"
 
-  - `activated: boolean`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+</details>
 
-    Allowed days of the week for upgrades. Default is all days.
+<a href="#">Link to this property</a>
 
-    - `"Sunday"`
+interrupt\_window\_duration\_hours: number
 
-    - `"Monday"`
+maximum24
 
-    - `"Tuesday"`
+minimum1
 
-    - `"Wednesday"`
+<a href="#">Link to this property</a>
 
-    - `"Thursday"`
+interrupt\_window\_embargo\_dates: array of string
 
-    - `"Friday"`
+List of dates (YYYY-MM-DD) when upgrades are blocked.
 
-    - `"Saturday"`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_duration_hours: number`
+interrupt\_window\_hour\_of\_day: number
 
-  - `interrupt_window_embargo_dates: array of string`
+<a href="#">Link to this property</a>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+last\_updated: string
 
-  - `interrupt_window_hour_of_day: number`
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+notes: string
 
-  - `notes: string`
+<a href="#">Link to this property</a>
 
-  - `primary: boolean`
+primary: boolean
 
-  - `timezone: string`
+<a href="#">Link to this property</a>
 
-  - `device: optional object { id, serial_number, type }`
+timezone: string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `serial_number: optional string`
+<details>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+<summary>
 
-      - `"MANAGED"`
+device: optional object {id, serial\_number, type }
 
-      - `"LICENSED"`
+</summary>
 
-  - `last_heartbeat: optional string`
+id: string
 
-  - `last_seen_version: optional string`
+<a href="#">Link to this property</a>
 
-  - `license_key: optional string`
+serial\_number: optional string
 
-  - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-### Connector Update Response
+<details>
 
-- `ConnectorUpdateResponse object { id, activated, interrupt_window_days_of_week, 12 more }`
+<summary>
 
-  - `id: string`
+type: optional "MANAGED"or "LICENSED"
 
-  - `activated: boolean`
+</summary>
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+One of the following:
 
-    Allowed days of the week for upgrades. Default is all days.
+"MANAGED"
 
-    - `"Sunday"`
+<a href="#">Link to this property</a>
 
-    - `"Monday"`
+"LICENSED"
 
-    - `"Tuesday"`
+<a href="#">Link to this property</a>
 
-    - `"Wednesday"`
+</details>
 
-    - `"Thursday"`
+<a href="#">Link to this property</a>
 
-    - `"Friday"`
+</details>
 
-    - `"Saturday"`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_duration_hours: number`
+last\_heartbeat: optional string
 
-  - `interrupt_window_embargo_dates: array of string`
+<a href="#">Link to this property</a>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+last\_seen\_version: optional string
 
-  - `interrupt_window_hour_of_day: number`
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+license\_key: optional string
 
-  - `notes: string`
+<a href="#">Link to this property</a>
 
-  - `primary: boolean`
+site\_id: optional string
 
-  - `timezone: string`
+<a href="#">Link to this property</a>
 
-  - `device: optional object { id, serial_number, type }`
+</details>
 
-    - `id: string`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(model)%20connector_delete_response%20%3E%20(schema)>)
 
-    - `serial_number: optional string`
+#### ConnectorsInterrupts
 
-    - `type: optional "MANAGED" or "LICENSED"`
+##### [List Interrupts](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/interrupts/methods/list)
 
-      - `"MANAGED"`
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/interrupts
 
-      - `"LICENSED"`
+##### [Create Interrupt](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/interrupts/methods/create)
 
-  - `last_heartbeat: optional string`
+POST/accounts/{account\_id}/magic/connectors/{connector\_id}/interrupts
 
-  - `last_seen_version: optional string`
+##### ModelsExpand Collapse
 
-  - `license_key: optional string`
+<details>
 
-  - `site_id: optional string`
+<summary>
 
-### Connector Edit Response
+InterruptListResponse object {submitted\_at, reboot, restart, 2 more }
 
-- `ConnectorEditResponse object { id, activated, interrupt_window_days_of_week, 12 more }`
+Interrupt action for a connector.
 
-  - `id: string`
+</summary>
 
-  - `activated: boolean`
+submitted\_at: string
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+<a href="#">Link to this property</a>
 
-    Allowed days of the week for upgrades. Default is all days.
+<details>
 
-    - `"Sunday"`
+<summary>
 
-    - `"Monday"`
+reboot: optional object {purge }
 
-    - `"Tuesday"`
+</summary>
 
-    - `"Wednesday"`
+purge: optional boolean
 
-    - `"Thursday"`
+Purge connector state.
 
-    - `"Friday"`
+<a href="#">Link to this property</a>
 
-    - `"Saturday"`
+</details>
 
-  - `interrupt_window_duration_hours: number`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_embargo_dates: array of string`
+<details>
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+<summary>
 
-  - `interrupt_window_hour_of_day: number`
+restart: optional object {purge }
 
-  - `last_updated: string`
+</summary>
 
-  - `notes: string`
+purge: optional boolean
 
-  - `primary: boolean`
+Purge connector state.
 
-  - `timezone: string`
+<a href="#">Link to this property</a>
 
-  - `device: optional object { id, serial_number, type }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `serial_number: optional string`
+<details>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+<summary>
 
-      - `"MANAGED"`
+shutdown: optional object {purge }
 
-      - `"LICENSED"`
+</summary>
 
-  - `last_heartbeat: optional string`
+purge: optional boolean
 
-  - `last_seen_version: optional string`
+Purge connector state.
 
-  - `license_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `site_id: optional string`
+</details>
 
-### Connector Delete Response
+<a href="#">Link to this property</a>
 
-- `ConnectorDeleteResponse object { id, activated, interrupt_window_days_of_week, 12 more }`
+triggered\_at: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `activated: boolean`
+</details>
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+[Link to this property](#)%20magic_transit.connectors.interrupts%20%3E%20(model)%20interrupt_list_response%20%3E%20(schema)>)
 
-    Allowed days of the week for upgrades. Default is all days.
+<details>
 
-    - `"Sunday"`
+<summary>
 
-    - `"Monday"`
+InterruptCreateResponse object {submitted\_at, reboot, restart, 2 more }
 
-    - `"Tuesday"`
+Interrupt action for a connector.
 
-    - `"Wednesday"`
+</summary>
 
-    - `"Thursday"`
+submitted\_at: string
 
-    - `"Friday"`
+<a href="#">Link to this property</a>
 
-    - `"Saturday"`
+<details>
 
-  - `interrupt_window_duration_hours: number`
+<summary>
 
-  - `interrupt_window_embargo_dates: array of string`
+reboot: optional object {purge }
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+</summary>
 
-  - `interrupt_window_hour_of_day: number`
+purge: optional boolean
 
-  - `last_updated: string`
+Purge connector state.
 
-  - `notes: string`
+<a href="#">Link to this property</a>
 
-  - `primary: boolean`
+</details>
 
-  - `timezone: string`
+<a href="#">Link to this property</a>
 
-  - `device: optional object { id, serial_number, type }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `serial_number: optional string`
+restart: optional object {purge }
 
-    - `type: optional "MANAGED" or "LICENSED"`
+</summary>
 
-      - `"MANAGED"`
+purge: optional boolean
 
-      - `"LICENSED"`
+Purge connector state.
 
-  - `last_heartbeat: optional string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_version: optional string`
+</details>
 
-  - `license_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `site_id: optional string`
+<details>
 
-# Events
+<summary>
 
-## List Events
+shutdown: optional object {purge }
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events`
+</summary>
 
-List Events
+purge: optional boolean
 
-### Path Parameters
+Purge connector state.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier
+</details>
 
-- `connector_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+triggered\_at: optional string
 
-- `from: number`
+<a href="#">Link to this property</a>
 
-- `to: number`
+</details>
 
-- `cursor: optional string`
+[Link to this property](#)%20magic_transit.connectors.interrupts%20%3E%20(model)%20interrupt_create_response%20%3E%20(schema)>)
 
-- `k: optional string`
+#### ConnectorsEvents
 
-  Filter by event kind
+##### [List Events](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/events/methods/list)
 
-- `limit: optional number`
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/events
 
-### Returns
+##### [Get Event](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/events/methods/get)
 
-- `result: object { count, items, cursor }`
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/events/{event\_t}.{event\_n}
 
-  - `count: number`
+##### ModelsExpand Collapse
 
-  - `items: array of object { a, k, n, t }`
+<details>
 
-    - `a: number`
+<summary>
 
-      Time the Event was collected (seconds since the Unix epoch)
+EventListResponse object {count, items, cursor }
 
-    - `k: string`
+</summary>
 
-      Kind
+count: number
 
-    - `n: number`
+<a href="#">Link to this property</a>
 
-      Sequence number, used to order events with the same timestamp
+<details>
 
-    - `t: number`
+<summary>
 
-      Time the Event was recorded (seconds since the Unix epoch)
+items: array of object {a, k, n, t }
 
-  - `cursor: optional string`
+</summary>
 
-- `success: boolean`
+a: number
 
-- `errors: optional array of object { code, message }`
+Time the Event was collected (seconds since the Unix epoch)
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+k: string
 
-- `messages: optional array of object { code, message }`
+Kind
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+n: number
 
-### Example
+Sequence number, used to order events with the same timestamp
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+t: number
 
-```json
-{
-  "result": {
-    "count": 0,
-    "items": [
-      {
-        "a": 0,
-        "k": "k",
-        "n": 0,
-        "t": 0
-      }
-    ],
-    "cursor": "cursor"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ]
-}
-```
+Time the Event was recorded (seconds since the Unix epoch)
 
-## Get Event
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events/{event_t}.{event_n}`
+</details>
 
-Get Event
+<a href="#">Link to this property</a>
 
-### Path Parameters
+cursor: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier
+</details>
 
-- `connector_id: string`
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(model)%20event_list_response%20%3E%20(schema)>)
 
-- `event_t: number`
+<details>
 
-- `event_n: number`
+<summary>
 
-### Returns
+EventGetResponse object {e, n, t, v }
 
-- `result: object { e, n, t, v }`
+Recorded Event
 
-  Recorded Event
+</summary>
 
-  - `e: object { k }  or object { k }  or object { k }  or 18 more`
+<details>
 
-    - `Init object { k }`
+<summary>
 
-      - `k: "Init"`
+e: object {k }
 
-        Initialized process
+Event kind plus event-specific payload fields.
 
-        - `"Init"`
+Event kinds:
 
-    - `Leave object { k }`
+- <code>Init</code>: Initialized process
+- <code>Leave</code>: Stopped process
+- <code>StartAttestation</code>: Started attestation
+- <code>FinishAttestationSuccess</code>: Finished attestation
+- <code>FinishAttestationFailure</code>: Failed attestation
+- <code>StartRotateCryptKey</code>: Started crypt key rotation
+- <code>FinishRotateCryptKeySuccess</code>: Finished crypt key rotation
+- <code>FinishRotateCryptKeyFailure</code>: Failed crypt key rotation
+- <code>StartRotatePki</code>: Started PKI rotation
+- <code>FinishRotatePkiSuccess</code>: Finished PKI rotation
+- <code>FinishRotatePkiFailure</code>: Failed PKI rotation
+- <code>StartUpgrade</code>: Started upgrade
+- <code>FinishUpgradeSuccess</code>: Finished upgrade
+- <code>FinishUpgradeFailure</code>: Failed upgrade
+- <code>BlessSlotSuccess</code>: Blessed boot entry slot
+- <code>BlessSlotPending</code>: Boot entry slot is not yet blessed
+- <code>BlessSlotFailure</code>: Failed to bless boot entry slot
+- <code>Reconcile</code>: Reconciled
+- <code>ConfigureCloudflaredTunnel</code>: Configured Cloudflared tunnel
+- <code>RekeyInstallBoth</code>: Installed initial inbound and outbound keys
+- <code>RekeyStart</code>: Installed new inbound key, kept old outbound
+- <code>RekeyRestart</code>: Restarted in-progress rekey with newer key material
+- <code>RekeyAdvance</code>: Confirmed traffic on new inbound key, swapped outbound to new
+- <code>RekeyComplete</code>: Deleted old keys
+- <code>RekeyReset</code>: Deleted all keys after receiving an unexpected key
+- <code>HaTransition</code>: Completed HA state transition
+- <code>HaError</code>: Received unexpected HA error
+- <code>HaInit</code>: Initialized HA subsystem
+- <code>HaLeave</code>: Stopped HA subsystem
 
-      - `k: "Leave"`
+</summary>
 
-        Stopped process
+<details>
 
-        - `"Leave"`
+<summary>
 
-    - `StartAttestation object { k }`
+k: "Init"or "Leave"or "StartAttestation"or 26 more
 
-      - `k: "StartAttestation"`
+Event kind
 
-        Started attestation
+</summary>
 
-        - `"StartAttestation"`
+One of the following:
 
-    - `FinishAttestationSuccess object { k }`
+"Init"
 
-      - `k: "FinishAttestationSuccess"`
+<a href="#">Link to this property</a>
 
-        Finished attestation
+"Leave"
 
-        - `"FinishAttestationSuccess"`
+<a href="#">Link to this property</a>
 
-    - `FinishAttestationFailure object { k }`
+"StartAttestation"
 
-      - `k: "FinishAttestationFailure"`
+<a href="#">Link to this property</a>
 
-        Failed attestation
+"FinishAttestationSuccess"
 
-        - `"FinishAttestationFailure"`
+<a href="#">Link to this property</a>
 
-    - `StartRotateCryptKey object { k }`
+"FinishAttestationFailure"
 
-      - `k: "StartRotateCryptKey"`
+<a href="#">Link to this property</a>
 
-        Started crypt key rotation
+"StartRotateCryptKey"
 
-        - `"StartRotateCryptKey"`
+<a href="#">Link to this property</a>
 
-    - `FinishRotateCryptKeySuccess object { k }`
+"FinishRotateCryptKeySuccess"
 
-      - `k: "FinishRotateCryptKeySuccess"`
+<a href="#">Link to this property</a>
 
-        Finished crypt key rotation
+"FinishRotateCryptKeyFailure"
 
-        - `"FinishRotateCryptKeySuccess"`
+<a href="#">Link to this property</a>
 
-    - `FinishRotateCryptKeyFailure object { k }`
+"StartRotatePki"
 
-      - `k: "FinishRotateCryptKeyFailure"`
+<a href="#">Link to this property</a>
 
-        Failed crypt key rotation
+"FinishRotatePkiSuccess"
 
-        - `"FinishRotateCryptKeyFailure"`
+<a href="#">Link to this property</a>
 
-    - `StartRotatePki object { k }`
+"FinishRotatePkiFailure"
 
-      - `k: "StartRotatePki"`
+<a href="#">Link to this property</a>
 
-        Started PKI rotation
+"StartUpgrade"
 
-        - `"StartRotatePki"`
+<a href="#">Link to this property</a>
 
-    - `FinishRotatePkiSuccess object { k }`
+"FinishUpgradeSuccess"
 
-      - `k: "FinishRotatePkiSuccess"`
+<a href="#">Link to this property</a>
 
-        Finished PKI rotation
+"FinishUpgradeFailure"
 
-        - `"FinishRotatePkiSuccess"`
+<a href="#">Link to this property</a>
 
-    - `FinishRotatePkiFailure object { k }`
+"BlessSlotSuccess"
 
-      - `k: "FinishRotatePkiFailure"`
+<a href="#">Link to this property</a>
 
-        Failed PKI rotation
+"BlessSlotPending"
 
-        - `"FinishRotatePkiFailure"`
+<a href="#">Link to this property</a>
 
-    - `StartUpgrade object { k, url }`
+"BlessSlotFailure"
 
-      - `k: "StartUpgrade"`
+<a href="#">Link to this property</a>
 
-        Started upgrade
+"Reconcile"
 
-        - `"StartUpgrade"`
+<a href="#">Link to this property</a>
 
-      - `url: string`
+"ConfigureCloudflaredTunnel"
 
-        Location of upgrade bundle
+<a href="#">Link to this property</a>
 
-    - `FinishUpgradeSuccess object { k }`
+"RekeyInstallBoth"
 
-      - `k: "FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-        Finished upgrade
+"RekeyStart"
 
-        - `"FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-    - `FinishUpgradeFailure object { k }`
+"RekeyRestart"
 
-      - `k: "FinishUpgradeFailure"`
+<a href="#">Link to this property</a>
 
-        Failed upgrade
+"RekeyAdvance"
 
-        - `"FinishUpgradeFailure"`
+<a href="#">Link to this property</a>
 
-    - `Reconcile object { k }`
+"RekeyComplete"
 
-      - `k: "Reconcile"`
+<a href="#">Link to this property</a>
 
-        Reconciled
+"RekeyReset"
 
-        - `"Reconcile"`
+<a href="#">Link to this property</a>
 
-    - `ConfigureCloudflaredTunnel object { k }`
+"HaTransition"
 
-      - `k: "ConfigureCloudflaredTunnel"`
+<a href="#">Link to this property</a>
 
-        Configured Cloudflared tunnel
+"HaError"
 
-        - `"ConfigureCloudflaredTunnel"`
+<a href="#">Link to this property</a>
 
-    - `RekeyInstallBoth object { k, tunnel_id }`
+"HaInit"
 
-      - `k: "RekeyInstallBoth"`
+<a href="#">Link to this property</a>
 
-        Installed initial inbound and outbound keys
+"HaLeave"
 
-        - `"RekeyInstallBoth"`
+<a href="#">Link to this property</a>
 
-      - `tunnel_id: string`
+</details>
 
-        Tunnel identifier
+<a href="#">Link to this property</a>
 
-    - `RekeyStart object { k, tunnel_id }`
+</details>
 
-      - `k: "RekeyStart"`
+<a href="#">Link to this property</a>
 
-        Installed new inbound key, kept old outbound
+n: number
 
-        - `"RekeyStart"`
+Sequence number, used to order events with the same timestamp
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+t: number
 
-    - `RekeyAdvance object { k, tunnel_id }`
+Time the Event was recorded (seconds since the Unix epoch)
 
-      - `k: "RekeyAdvance"`
+<a href="#">Link to this property</a>
 
-        Confirmed traffic on new inbound key, swapped outbound to new
+v: optional string
 
-        - `"RekeyAdvance"`
+Version
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+</details>
 
-    - `RekeyComplete object { k, tunnel_id }`
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(model)%20event_get_response%20%3E%20(schema)>)
 
-      - `k: "RekeyComplete"`
+#### ConnectorsEventsLatest
 
-        Deleted old keys
+##### [Get latest Events](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/events/subresources/latest/methods/list)
 
-        - `"RekeyComplete"`
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/events/latest
 
-      - `tunnel_id: string`
+##### ModelsExpand Collapse
 
-        Tunnel identifier
+<details>
 
-    - `RekeyReset object { k, tunnel_id }`
+<summary>
 
-      - `k: "RekeyReset"`
+LatestListResponse object {count, items }
 
-        Deleted all keys after receiving an unexpected key
+</summary>
 
-        - `"RekeyReset"`
+count: number
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+<details>
 
-  - `n: number`
+<summary>
 
-    Sequence number, used to order events with the same timestamp
+items: array of object {e, n, t, v }
 
-  - `t: number`
+</summary>
 
-    Time the Event was recorded (seconds since the Unix epoch)
+<details>
 
-  - `v: optional string`
+<summary>
 
-    Version
+e: object {k }
 
-- `success: boolean`
+Event kind plus event-specific payload fields.
 
-- `errors: optional array of object { code, message }`
+Event kinds:
 
-  - `code: number`
+- <code>Init</code>: Initialized process
+- <code>Leave</code>: Stopped process
+- <code>StartAttestation</code>: Started attestation
+- <code>FinishAttestationSuccess</code>: Finished attestation
+- <code>FinishAttestationFailure</code>: Failed attestation
+- <code>StartRotateCryptKey</code>: Started crypt key rotation
+- <code>FinishRotateCryptKeySuccess</code>: Finished crypt key rotation
+- <code>FinishRotateCryptKeyFailure</code>: Failed crypt key rotation
+- <code>StartRotatePki</code>: Started PKI rotation
+- <code>FinishRotatePkiSuccess</code>: Finished PKI rotation
+- <code>FinishRotatePkiFailure</code>: Failed PKI rotation
+- <code>StartUpgrade</code>: Started upgrade
+- <code>FinishUpgradeSuccess</code>: Finished upgrade
+- <code>FinishUpgradeFailure</code>: Failed upgrade
+- <code>BlessSlotSuccess</code>: Blessed boot entry slot
+- <code>BlessSlotPending</code>: Boot entry slot is not yet blessed
+- <code>BlessSlotFailure</code>: Failed to bless boot entry slot
+- <code>Reconcile</code>: Reconciled
+- <code>ConfigureCloudflaredTunnel</code>: Configured Cloudflared tunnel
+- <code>RekeyInstallBoth</code>: Installed initial inbound and outbound keys
+- <code>RekeyStart</code>: Installed new inbound key, kept old outbound
+- <code>RekeyRestart</code>: Restarted in-progress rekey with newer key material
+- <code>RekeyAdvance</code>: Confirmed traffic on new inbound key, swapped outbound to new
+- <code>RekeyComplete</code>: Deleted old keys
+- <code>RekeyReset</code>: Deleted all keys after receiving an unexpected key
+- <code>HaTransition</code>: Completed HA state transition
+- <code>HaError</code>: Received unexpected HA error
+- <code>HaInit</code>: Initialized HA subsystem
+- <code>HaLeave</code>: Stopped HA subsystem
 
-  - `message: string`
+</summary>
 
-- `messages: optional array of object { code, message }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+k: "Init"or "Leave"or "StartAttestation"or 26 more
 
-### Example
+Event kind
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/events/$EVENT_T.$EVENT_N \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "result": {
-    "e": {
-      "k": "Init"
-    },
-    "n": 0,
-    "t": 0,
-    "v": "v"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ]
-}
-```
+"Init"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Event List Response
+"Leave"
 
-- `EventListResponse object { count, items, cursor }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+"StartAttestation"
 
-  - `items: array of object { a, k, n, t }`
+<a href="#">Link to this property</a>
 
-    - `a: number`
+"FinishAttestationSuccess"
 
-      Time the Event was collected (seconds since the Unix epoch)
+<a href="#">Link to this property</a>
 
-    - `k: string`
+"FinishAttestationFailure"
 
-      Kind
+<a href="#">Link to this property</a>
 
-    - `n: number`
+"StartRotateCryptKey"
 
-      Sequence number, used to order events with the same timestamp
+<a href="#">Link to this property</a>
 
-    - `t: number`
+"FinishRotateCryptKeySuccess"
 
-      Time the Event was recorded (seconds since the Unix epoch)
+<a href="#">Link to this property</a>
 
-  - `cursor: optional string`
+"FinishRotateCryptKeyFailure"
 
-### Event Get Response
+<a href="#">Link to this property</a>
 
-- `EventGetResponse object { e, n, t, v }`
+"StartRotatePki"
 
-  Recorded Event
+<a href="#">Link to this property</a>
 
-  - `e: object { k }  or object { k }  or object { k }  or 18 more`
+"FinishRotatePkiSuccess"
 
-    - `Init object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "Init"`
+"FinishRotatePkiFailure"
 
-        Initialized process
+<a href="#">Link to this property</a>
 
-        - `"Init"`
+"StartUpgrade"
 
-    - `Leave object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "Leave"`
+"FinishUpgradeSuccess"
 
-        Stopped process
+<a href="#">Link to this property</a>
 
-        - `"Leave"`
+"FinishUpgradeFailure"
 
-    - `StartAttestation object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "StartAttestation"`
+"BlessSlotSuccess"
 
-        Started attestation
+<a href="#">Link to this property</a>
 
-        - `"StartAttestation"`
+"BlessSlotPending"
 
-    - `FinishAttestationSuccess object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "FinishAttestationSuccess"`
+"BlessSlotFailure"
 
-        Finished attestation
+<a href="#">Link to this property</a>
 
-        - `"FinishAttestationSuccess"`
+"Reconcile"
 
-    - `FinishAttestationFailure object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "FinishAttestationFailure"`
+"ConfigureCloudflaredTunnel"
 
-        Failed attestation
+<a href="#">Link to this property</a>
 
-        - `"FinishAttestationFailure"`
+"RekeyInstallBoth"
 
-    - `StartRotateCryptKey object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "StartRotateCryptKey"`
+"RekeyStart"
 
-        Started crypt key rotation
+<a href="#">Link to this property</a>
 
-        - `"StartRotateCryptKey"`
+"RekeyRestart"
 
-    - `FinishRotateCryptKeySuccess object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "FinishRotateCryptKeySuccess"`
+"RekeyAdvance"
 
-        Finished crypt key rotation
+<a href="#">Link to this property</a>
 
-        - `"FinishRotateCryptKeySuccess"`
+"RekeyComplete"
 
-    - `FinishRotateCryptKeyFailure object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "FinishRotateCryptKeyFailure"`
+"RekeyReset"
 
-        Failed crypt key rotation
+<a href="#">Link to this property</a>
 
-        - `"FinishRotateCryptKeyFailure"`
+"HaTransition"
 
-    - `StartRotatePki object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "StartRotatePki"`
+"HaError"
 
-        Started PKI rotation
+<a href="#">Link to this property</a>
 
-        - `"StartRotatePki"`
+"HaInit"
 
-    - `FinishRotatePkiSuccess object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "FinishRotatePkiSuccess"`
+"HaLeave"
 
-        Finished PKI rotation
+<a href="#">Link to this property</a>
 
-        - `"FinishRotatePkiSuccess"`
+</details>
 
-    - `FinishRotatePkiFailure object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "FinishRotatePkiFailure"`
+</details>
 
-        Failed PKI rotation
+<a href="#">Link to this property</a>
 
-        - `"FinishRotatePkiFailure"`
+n: number
 
-    - `StartUpgrade object { k, url }`
+Sequence number, used to order events with the same timestamp
 
-      - `k: "StartUpgrade"`
+<a href="#">Link to this property</a>
 
-        Started upgrade
+t: number
 
-        - `"StartUpgrade"`
+Time the Event was recorded (seconds since the Unix epoch)
 
-      - `url: string`
+<a href="#">Link to this property</a>
 
-        Location of upgrade bundle
+v: optional string
 
-    - `FinishUpgradeSuccess object { k }`
+Version
 
-      - `k: "FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-        Finished upgrade
+</details>
 
-        - `"FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-    - `FinishUpgradeFailure object { k }`
+</details>
 
-      - `k: "FinishUpgradeFailure"`
+[Link to this property](#)%20magic_transit.connectors.events.latest%20%3E%20(model)%20latest_list_response%20%3E%20(schema)>)
 
-        Failed upgrade
+#### ConnectorsSnapshots
 
-        - `"FinishUpgradeFailure"`
+##### [List Snapshots](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/snapshots/methods/list)
 
-    - `Reconcile object { k }`
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/snapshots
 
-      - `k: "Reconcile"`
+##### [Get Snapshot](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/snapshots/methods/get)
 
-        Reconciled
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/snapshots/{snapshot\_t}
 
-        - `"Reconcile"`
+##### ModelsExpand Collapse
 
-    - `ConfigureCloudflaredTunnel object { k }`
+<details>
 
-      - `k: "ConfigureCloudflaredTunnel"`
+<summary>
 
-        Configured Cloudflared tunnel
+SnapshotListResponse object {count, items, cursor }
 
-        - `"ConfigureCloudflaredTunnel"`
+</summary>
 
-    - `RekeyInstallBoth object { k, tunnel_id }`
+count: number
 
-      - `k: "RekeyInstallBoth"`
+<a href="#">Link to this property</a>
 
-        Installed initial inbound and outbound keys
+<details>
 
-        - `"RekeyInstallBoth"`
+<summary>
 
-      - `tunnel_id: string`
+items: array of object {a, t }
 
-        Tunnel identifier
+</summary>
 
-    - `RekeyStart object { k, tunnel_id }`
+a: number
 
-      - `k: "RekeyStart"`
+Time the Snapshot was collected (seconds since the Unix epoch)
 
-        Installed new inbound key, kept old outbound
+<a href="#">Link to this property</a>
 
-        - `"RekeyStart"`
+t: number
 
-      - `tunnel_id: string`
+Time the Snapshot was recorded (seconds since the Unix epoch)
 
-        Tunnel identifier
+<a href="#">Link to this property</a>
 
-    - `RekeyAdvance object { k, tunnel_id }`
+</details>
 
-      - `k: "RekeyAdvance"`
+<a href="#">Link to this property</a>
 
-        Confirmed traffic on new inbound key, swapped outbound to new
+cursor: optional string
 
-        - `"RekeyAdvance"`
+<a href="#">Link to this property</a>
 
-      - `tunnel_id: string`
+</details>
 
-        Tunnel identifier
+[Link to this property](#)%20magic_transit.connectors.snapshots%20%3E%20(model)%20snapshot_list_response%20%3E%20(schema)>)
 
-    - `RekeyComplete object { k, tunnel_id }`
+<details>
 
-      - `k: "RekeyComplete"`
+<summary>
 
-        Deleted old keys
+SnapshotGetResponse object {count\_reclaim\_failures, count\_reclaimed\_paths, count\_record\_failed, 172 more }
 
-        - `"RekeyComplete"`
+Snapshot
 
-      - `tunnel_id: string`
+</summary>
 
-        Tunnel identifier
+count\_reclaim\_failures: number
 
-    - `RekeyReset object { k, tunnel_id }`
+Count of failures to reclaim space
 
-      - `k: "RekeyReset"`
+<a href="#">Link to this property</a>
 
-        Deleted all keys after receiving an unexpected key
+count\_reclaimed\_paths: number
 
-        - `"RekeyReset"`
+Count of reclaimed paths
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+count\_record\_failed: number
 
-  - `n: number`
+Count of failed snapshot recordings
 
-    Sequence number, used to order events with the same timestamp
+<a href="#">Link to this property</a>
 
-  - `t: number`
+count\_transmit\_failures: number
 
-    Time the Event was recorded (seconds since the Unix epoch)
+Count of failed snapshot transmissions
 
-  - `v: optional string`
+<a href="#">Link to this property</a>
 
-    Version
+t: number
 
-# Latest
+Time the Snapshot was recorded (seconds since the Unix epoch)
 
-## Get latest Events
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events/latest`
+v: string
 
-Get latest Events
+Version
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Account identifier
+<summary>
 
-- `connector_id: string`
+bonds: optional array of object {name, status }
 
-### Returns
+</summary>
 
-- `result: object { count, items }`
+name: string
 
-  - `count: number`
+Name of the network interface
 
-  - `items: array of object { e, n, t, v }`
+<a href="#">Link to this property</a>
 
-    - `e: object { k }  or object { k }  or object { k }  or 18 more`
+status: string
 
-      - `Init object { k }`
+Current status of the network interface
 
-        - `k: "Init"`
+<a href="#">Link to this property</a>
 
-          Initialized process
+</details>
 
-          - `"Init"`
+<a href="#">Link to this property</a>
 
-      - `Leave object { k }`
+cpu\_count: optional number
 
-        - `k: "Leave"`
+Count of processors/cores
 
-          Stopped process
+<a href="#">Link to this property</a>
 
-          - `"Leave"`
+cpu\_pressure\_10s: optional number
 
-      - `StartAttestation object { k }`
+Percentage of time over a 10 second window that tasks were stalled
 
-        - `k: "StartAttestation"`
+<a href="#">Link to this property</a>
 
-          Started attestation
+cpu\_pressure\_300s: optional number
 
-          - `"StartAttestation"`
+Percentage of time over a 5 minute window that tasks were stalled
 
-      - `FinishAttestationSuccess object { k }`
+<a href="#">Link to this property</a>
 
-        - `k: "FinishAttestationSuccess"`
+cpu\_pressure\_60s: optional number
 
-          Finished attestation
+Percentage of time over a 1 minute window that tasks were stalled
 
-          - `"FinishAttestationSuccess"`
+<a href="#">Link to this property</a>
 
-      - `FinishAttestationFailure object { k }`
+cpu\_pressure\_total\_us: optional number
 
-        - `k: "FinishAttestationFailure"`
+Total stall time (microseconds)
 
-          Failed attestation
+<a href="#">Link to this property</a>
 
-          - `"FinishAttestationFailure"`
+cpu\_time\_guest\_ms: optional number
 
-      - `StartRotateCryptKey object { k }`
+Time spent running a virtual CPU or guest OS (milliseconds)
 
-        - `k: "StartRotateCryptKey"`
+<a href="#">Link to this property</a>
 
-          Started crypt key rotation
+cpu\_time\_guest\_nice\_ms: optional number
 
-          - `"StartRotateCryptKey"`
+Time spent running a niced guest (milliseconds)
 
-      - `FinishRotateCryptKeySuccess object { k }`
+<a href="#">Link to this property</a>
 
-        - `k: "FinishRotateCryptKeySuccess"`
+cpu\_time\_idle\_ms: optional number
 
-          Finished crypt key rotation
+Time spent in idle state (milliseconds)
 
-          - `"FinishRotateCryptKeySuccess"`
+<a href="#">Link to this property</a>
 
-      - `FinishRotateCryptKeyFailure object { k }`
+cpu\_time\_iowait\_ms: optional number
 
-        - `k: "FinishRotateCryptKeyFailure"`
+Time spent wait for I/O to complete (milliseconds)
 
-          Failed crypt key rotation
+<a href="#">Link to this property</a>
 
-          - `"FinishRotateCryptKeyFailure"`
+cpu\_time\_irq\_ms: optional number
 
-      - `StartRotatePki object { k }`
+Time spent servicing interrupts (milliseconds)
 
-        - `k: "StartRotatePki"`
+<a href="#">Link to this property</a>
 
-          Started PKI rotation
+cpu\_time\_nice\_ms: optional number
 
-          - `"StartRotatePki"`
+Time spent in low-priority user mode (milliseconds)
 
-      - `FinishRotatePkiSuccess object { k }`
+<a href="#">Link to this property</a>
 
-        - `k: "FinishRotatePkiSuccess"`
+cpu\_time\_softirq\_ms: optional number
 
-          Finished PKI rotation
+Time spent servicing softirqs (milliseconds)
 
-          - `"FinishRotatePkiSuccess"`
+<a href="#">Link to this property</a>
 
-      - `FinishRotatePkiFailure object { k }`
+cpu\_time\_steal\_ms: optional number
 
-        - `k: "FinishRotatePkiFailure"`
+Time stolen (milliseconds)
 
-          Failed PKI rotation
+<a href="#">Link to this property</a>
 
-          - `"FinishRotatePkiFailure"`
+cpu\_time\_system\_ms: optional number
 
-      - `StartUpgrade object { k, url }`
+Time spent in system mode (milliseconds)
 
-        - `k: "StartUpgrade"`
+<a href="#">Link to this property</a>
 
-          Started upgrade
+cpu\_time\_user\_ms: optional number
 
-          - `"StartUpgrade"`
+Time spent in user mode (milliseconds)
 
-        - `url: string`
+<a href="#">Link to this property</a>
 
-          Location of upgrade bundle
+delta: optional number
 
-      - `FinishUpgradeSuccess object { k }`
+Number of network operations applied during state transition
 
-        - `k: "FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-          Finished upgrade
+<details>
 
-          - `"FinishUpgradeSuccess"`
+<summary>
 
-      - `FinishUpgradeFailure object { k }`
+dhcp\_leases: optional array of object {client\_id, expiry\_time, hostname, 3 more }
 
-        - `k: "FinishUpgradeFailure"`
+</summary>
 
-          Failed upgrade
+client\_id: string
 
-          - `"FinishUpgradeFailure"`
+Client ID of the device the IP Address was leased to
 
-      - `Reconcile object { k }`
+<a href="#">Link to this property</a>
 
-        - `k: "Reconcile"`
+expiry\_time: number
 
-          Reconciled
+Expiry time of the DHCP lease (seconds since the Unix epoch)
 
-          - `"Reconcile"`
+<a href="#">Link to this property</a>
 
-      - `ConfigureCloudflaredTunnel object { k }`
+hostname: string
 
-        - `k: "ConfigureCloudflaredTunnel"`
+Hostname of the device the IP Address was leased to
 
-          Configured Cloudflared tunnel
+<a href="#">Link to this property</a>
 
-          - `"ConfigureCloudflaredTunnel"`
+interface\_name: string
 
-      - `RekeyInstallBoth object { k, tunnel_id }`
+Name of the network interface
 
-        - `k: "RekeyInstallBoth"`
+<a href="#">Link to this property</a>
 
-          Installed initial inbound and outbound keys
+ip\_address: string
 
-          - `"RekeyInstallBoth"`
+IP Address that was leased
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+mac\_address: string
 
-      - `RekeyStart object { k, tunnel_id }`
+MAC Address of the device the IP Address was leased to
 
-        - `k: "RekeyStart"`
+<a href="#">Link to this property</a>
 
-          Installed new inbound key, kept old outbound
+</details>
 
-          - `"RekeyStart"`
+<a href="#">Link to this property</a>
 
-        - `tunnel_id: string`
+<details>
 
-          Tunnel identifier
+<summary>
 
-      - `RekeyAdvance object { k, tunnel_id }`
+disks: optional array of object {in\_progress, major, merged, 17 more }
 
-        - `k: "RekeyAdvance"`
+</summary>
 
-          Confirmed traffic on new inbound key, swapped outbound to new
+in\_progress: number
 
-          - `"RekeyAdvance"`
+I/Os currently in progress
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+major: number
 
-      - `RekeyComplete object { k, tunnel_id }`
+Device major number
 
-        - `k: "RekeyComplete"`
+<a href="#">Link to this property</a>
 
-          Deleted old keys
+merged: number
 
-          - `"RekeyComplete"`
+Reads merged
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+minor: number
 
-      - `RekeyReset object { k, tunnel_id }`
+Device minor number
 
-        - `k: "RekeyReset"`
+<a href="#">Link to this property</a>
 
-          Deleted all keys after receiving an unexpected key
+name: string
 
-          - `"RekeyReset"`
+Device name
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+reads: number
 
-    - `n: number`
+Reads completed successfully
 
-      Sequence number, used to order events with the same timestamp
+<a href="#">Link to this property</a>
 
-    - `t: number`
+sectors\_read: number
 
-      Time the Event was recorded (seconds since the Unix epoch)
+Sectors read successfully
 
-    - `v: optional string`
+<a href="#">Link to this property</a>
 
-      Version
+sectors\_written: number
 
-- `success: boolean`
+Sectors written successfully
 
-- `errors: optional array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+time\_in\_progress\_ms: number
 
-  - `message: string`
+Time spent doing I/Os (milliseconds)
 
-- `messages: optional array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+time\_reading\_ms: number
 
-  - `message: string`
+Time spent reading (milliseconds)
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/events/latest \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+time\_writing\_ms: number
 
-#### Response
+Time spent writing (milliseconds)
 
-```json
-{
-  "result": {
-    "count": 0,
-    "items": [
-      {
-        "e": {
-          "k": "Init"
-        },
-        "n": 0,
-        "t": 0,
-        "v": "v"
-      }
-    ]
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+weighted\_time\_in\_progress\_ms: number
 
-### Latest List Response
+Weighted time spent doing I/Os (milliseconds)
 
-- `LatestListResponse object { count, items }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+writes: number
 
-  - `items: array of object { e, n, t, v }`
+Writes completed
 
-    - `e: object { k }  or object { k }  or object { k }  or 18 more`
+<a href="#">Link to this property</a>
 
-      - `Init object { k }`
+writes\_merged: number
 
-        - `k: "Init"`
+Writes merged
 
-          Initialized process
+<a href="#">Link to this property</a>
 
-          - `"Init"`
+discards: optional number
 
-      - `Leave object { k }`
+Discards completed successfully
 
-        - `k: "Leave"`
+<a href="#">Link to this property</a>
 
-          Stopped process
+discards\_merged: optional number
 
-          - `"Leave"`
+Discards merged
 
-      - `StartAttestation object { k }`
+<a href="#">Link to this property</a>
 
-        - `k: "StartAttestation"`
+flushes: optional number
 
-          Started attestation
+Flushes completed successfully
 
-          - `"StartAttestation"`
+<a href="#">Link to this property</a>
 
-      - `FinishAttestationSuccess object { k }`
+sectors\_discarded: optional number
 
-        - `k: "FinishAttestationSuccess"`
+Sectors discarded
 
-          Finished attestation
+<a href="#">Link to this property</a>
 
-          - `"FinishAttestationSuccess"`
+time\_discarding\_ms: optional number
 
-      - `FinishAttestationFailure object { k }`
+Time spent discarding (milliseconds)
 
-        - `k: "FinishAttestationFailure"`
+<a href="#">Link to this property</a>
 
-          Failed attestation
+time\_flushing\_ms: optional number
 
-          - `"FinishAttestationFailure"`
+Time spent flushing (milliseconds)
 
-      - `StartRotateCryptKey object { k }`
+<a href="#">Link to this property</a>
 
-        - `k: "StartRotateCryptKey"`
+</details>
 
-          Started crypt key rotation
+<a href="#">Link to this property</a>
 
-          - `"StartRotateCryptKey"`
+epsilon: optional number
 
-      - `FinishRotateCryptKeySuccess object { k }`
+Simulated number of network operations applied during state transition
 
-        - `k: "FinishRotateCryptKeySuccess"`
+<a href="#">Link to this property</a>
 
-          Finished crypt key rotation
+ha\_state: optional string
 
-          - `"FinishRotateCryptKeySuccess"`
+Name of high availability state
 
-      - `FinishRotateCryptKeyFailure object { k }`
+<a href="#">Link to this property</a>
 
-        - `k: "FinishRotateCryptKeyFailure"`
+ha\_value: optional number
 
-          Failed crypt key rotation
+Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
 
-          - `"FinishRotateCryptKeyFailure"`
+<a href="#">Link to this property</a>
 
-      - `StartRotatePki object { k }`
+<details>
 
-        - `k: "StartRotatePki"`
+<summary>
 
-          Started PKI rotation
+interfaces: optional array of object {name, operstate, ip\_addresses, speed }
 
-          - `"StartRotatePki"`
+</summary>
 
-      - `FinishRotatePkiSuccess object { k }`
+name: string
 
-        - `k: "FinishRotatePkiSuccess"`
+Name of the network interface
 
-          Finished PKI rotation
+<a href="#">Link to this property</a>
 
-          - `"FinishRotatePkiSuccess"`
+operstate: string
 
-      - `FinishRotatePkiFailure object { k }`
+UP/DOWN state of the network interface
 
-        - `k: "FinishRotatePkiFailure"`
+<a href="#">Link to this property</a>
 
-          Failed PKI rotation
+<details>
 
-          - `"FinishRotatePkiFailure"`
+<summary>
 
-      - `StartUpgrade object { k, url }`
+ip\_addresses: optional array of object {interface\_name, ip\_address }
 
-        - `k: "StartUpgrade"`
+</summary>
 
-          Started upgrade
+interface\_name: string
 
-          - `"StartUpgrade"`
+Name of the network interface
 
-        - `url: string`
+<a href="#">Link to this property</a>
 
-          Location of upgrade bundle
+ip\_address: string
 
-      - `FinishUpgradeSuccess object { k }`
+IP address of the network interface
 
-        - `k: "FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-          Finished upgrade
+</details>
 
-          - `"FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-      - `FinishUpgradeFailure object { k }`
+speed: optional number
 
-        - `k: "FinishUpgradeFailure"`
+Speed of the network interface (bits per second)
 
-          Failed upgrade
+<a href="#">Link to this property</a>
 
-          - `"FinishUpgradeFailure"`
+</details>
 
-      - `Reconcile object { k }`
+<a href="#">Link to this property</a>
 
-        - `k: "Reconcile"`
+io\_pressure\_full\_10s: optional number
 
-          Reconciled
+Percentage of time over a 10 second window that all tasks were stalled
 
-          - `"Reconcile"`
+<a href="#">Link to this property</a>
 
-      - `ConfigureCloudflaredTunnel object { k }`
+io\_pressure\_full\_300s: optional number
 
-        - `k: "ConfigureCloudflaredTunnel"`
+Percentage of time over a 5 minute window that all tasks were stalled
 
-          Configured Cloudflared tunnel
+<a href="#">Link to this property</a>
 
-          - `"ConfigureCloudflaredTunnel"`
+io\_pressure\_full\_60s: optional number
 
-      - `RekeyInstallBoth object { k, tunnel_id }`
+Percentage of time over a 1 minute window that all tasks were stalled
 
-        - `k: "RekeyInstallBoth"`
+<a href="#">Link to this property</a>
 
-          Installed initial inbound and outbound keys
+io\_pressure\_full\_total\_us: optional number
 
-          - `"RekeyInstallBoth"`
+Total stall time (microseconds)
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+io\_pressure\_some\_10s: optional number
 
-      - `RekeyStart object { k, tunnel_id }`
+Percentage of time over a 10 second window that some tasks were stalled
 
-        - `k: "RekeyStart"`
+<a href="#">Link to this property</a>
 
-          Installed new inbound key, kept old outbound
+io\_pressure\_some\_300s: optional number
 
-          - `"RekeyStart"`
+Percentage of time over a 3 minute window that some tasks were stalled
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+io\_pressure\_some\_60s: optional number
 
-      - `RekeyAdvance object { k, tunnel_id }`
+Percentage of time over a 1 minute window that some tasks were stalled
 
-        - `k: "RekeyAdvance"`
+<a href="#">Link to this property</a>
 
-          Confirmed traffic on new inbound key, swapped outbound to new
+io\_pressure\_some\_total\_us: optional number
 
-          - `"RekeyAdvance"`
+Total stall time (microseconds)
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+kernel\_btime: optional number
 
-      - `RekeyComplete object { k, tunnel_id }`
+Boot time (seconds since Unix epoch)
 
-        - `k: "RekeyComplete"`
+<a href="#">Link to this property</a>
 
-          Deleted old keys
+kernel\_ctxt: optional number
 
-          - `"RekeyComplete"`
+Number of context switches that the system underwent
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+kernel\_processes: optional number
 
-      - `RekeyReset object { k, tunnel_id }`
+Number of forks since boot
 
-        - `k: "RekeyReset"`
+<a href="#">Link to this property</a>
 
-          Deleted all keys after receiving an unexpected key
+kernel\_processes\_blocked: optional number
 
-          - `"RekeyReset"`
+Number of processes blocked waiting for I/O
 
-        - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-          Tunnel identifier
+kernel\_processes\_running: optional number
 
-    - `n: number`
+Number of processes in runnable state
 
-      Sequence number, used to order events with the same timestamp
+<a href="#">Link to this property</a>
 
-    - `t: number`
+load\_average\_15m: optional number
 
-      Time the Event was recorded (seconds since the Unix epoch)
+The fifteen-minute load average
 
-    - `v: optional string`
+<a href="#">Link to this property</a>
 
-      Version
+load\_average\_1m: optional number
 
-# Snapshots
+The one-minute load average
 
-## List Snapshots
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/snapshots`
+load\_average\_5m: optional number
 
-List Snapshots
+The five-minute load average
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+load\_average\_cur: optional number
 
-  Account identifier
+Number of currently runnable kernel scheduling entities
 
-- `connector_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+load\_average\_max: optional number
 
-- `from: number`
+Number of kernel scheduling entities that currently exist on the system
 
-- `to: number`
+<a href="#">Link to this property</a>
 
-- `cursor: optional string`
+memory\_active\_bytes: optional number
 
-- `limit: optional number`
+Memory that has been used more recently
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { count, items, cursor }`
+memory\_anon\_hugepages\_bytes: optional number
 
-  - `count: number`
+Non-file backed huge pages mapped into user-space page tables
 
-  - `items: array of object { a, t }`
+<a href="#">Link to this property</a>
 
-    - `a: number`
+memory\_anon\_pages\_bytes: optional number
 
-      Time the Snapshot was collected (seconds since the Unix epoch)
+Non-file backed pages mapped into user-space page tables
 
-    - `t: number`
+<a href="#">Link to this property</a>
 
-      Time the Snapshot was recorded (seconds since the Unix epoch)
+memory\_available\_bytes: optional number
 
-  - `cursor: optional string`
+Estimate of how much memory is available for starting new applications
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { code, message }`
+memory\_bounce\_bytes: optional number
 
-  - `code: number`
+Memory used for block device bounce buffers
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of object { code, message }`
+memory\_buffers\_bytes: optional number
 
-  - `code: number`
+Relatively temporary storage for raw disk blocks
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-### Example
+memory\_cached\_bytes: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/snapshots \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+In-memory cache for files read from the disk
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "count": 0,
-    "items": [
-      {
-        "a": 0,
-        "t": 0
-      }
-    ],
-    "cursor": "cursor"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ]
-}
-```
+memory\_cma\_free\_bytes: optional number
 
-## Get Snapshot
+Free CMA (Contiguous Memory Allocator) pages
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/snapshots/{snapshot_t}`
+<a href="#">Link to this property</a>
 
-Get Snapshot
+memory\_cma\_total\_bytes: optional number
 
-### Path Parameters
+Total CMA (Contiguous Memory Allocator) pages
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier
+memory\_commit\_limit\_bytes: optional number
 
-- `connector_id: string`
+Total amount of memory currently available to be allocated on the system
 
-- `snapshot_t: number`
+<a href="#">Link to this property</a>
 
-### Returns
+memory\_committed\_as\_bytes: optional number
 
-- `result: object { count_reclaim_failures, count_reclaimed_paths, count_record_failed, 170 more }`
+Amount of memory presently allocated on the system
 
-  Snapshot
+<a href="#">Link to this property</a>
 
-  - `count_reclaim_failures: number`
+memory\_dirty\_bytes: optional number
 
-    Count of failures to reclaim space
+Memory which is waiting to get written back to the disk
 
-  - `count_reclaimed_paths: number`
+<a href="#">Link to this property</a>
 
-    Count of reclaimed paths
+memory\_free\_bytes: optional number
 
-  - `count_record_failed: number`
+The sum of LowFree and HighFree
 
-    Count of failed snapshot recordings
+<a href="#">Link to this property</a>
 
-  - `count_transmit_failures: number`
+memory\_high\_free\_bytes: optional number
 
-    Count of failed snapshot transmissions
+Amount of free highmem
 
-  - `t: number`
+<a href="#">Link to this property</a>
 
-    Time the Snapshot was recorded (seconds since the Unix epoch)
+memory\_high\_total\_bytes: optional number
 
-  - `v: string`
+Total amount of highmem
 
-    Version
+<a href="#">Link to this property</a>
 
-  - `bonds: optional array of object { name, status }`
+memory\_hugepages\_free: optional number
 
-    - `name: string`
+The number of huge pages in the pool that are not yet allocated
 
-      Name of the network interface
+<a href="#">Link to this property</a>
 
-    - `status: string`
+memory\_hugepages\_rsvd: optional number
 
-      Current status of the network interface
+Number of huge pages for which a commitment has been made, but no allocation has yet been made
 
-  - `cpu_count: optional number`
+<a href="#">Link to this property</a>
 
-    Count of processors/cores
+memory\_hugepages\_surp: optional number
 
-  - `cpu_pressure_10s: optional number`
+Number of huge pages in the pool above the threshold
 
-    Percentage of time over a 10 second window that tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `cpu_pressure_300s: optional number`
+memory\_hugepages\_total: optional number
 
-    Percentage of time over a 5 minute window that tasks were stalled
+The size of the pool of huge pages
 
-  - `cpu_pressure_60s: optional number`
+<a href="#">Link to this property</a>
 
-    Percentage of time over a 1 minute window that tasks were stalled
+memory\_hugepagesize\_bytes: optional number
 
-  - `cpu_pressure_total_us: optional number`
+The size of huge pages
 
-    Total stall time (microseconds)
+<a href="#">Link to this property</a>
 
-  - `cpu_time_guest_ms: optional number`
+memory\_inactive\_bytes: optional number
 
-    Time spent running a virtual CPU or guest OS (milliseconds)
+Memory which has been less recently used
 
-  - `cpu_time_guest_nice_ms: optional number`
+<a href="#">Link to this property</a>
 
-    Time spent running a niced guest (milliseconds)
+memory\_k\_reclaimable\_bytes: optional number
 
-  - `cpu_time_idle_ms: optional number`
+Kernel allocations that the kernel will attempt to reclaim under memory pressure
 
-    Time spent in idle state (milliseconds)
+<a href="#">Link to this property</a>
 
-  - `cpu_time_iowait_ms: optional number`
+memory\_kernel\_stack\_bytes: optional number
 
-    Time spent wait for I/O to complete (milliseconds)
+Amount of memory allocated to kernel stacks
 
-  - `cpu_time_irq_ms: optional number`
+<a href="#">Link to this property</a>
 
-    Time spent servicing interrupts (milliseconds)
+memory\_low\_free\_bytes: optional number
 
-  - `cpu_time_nice_ms: optional number`
+Amount of free lowmem
 
-    Time spent in low-priority user mode (milliseconds)
+<a href="#">Link to this property</a>
 
-  - `cpu_time_softirq_ms: optional number`
+memory\_low\_total\_bytes: optional number
 
-    Time spent servicing softirqs (milliseconds)
+Total amount of lowmem
 
-  - `cpu_time_steal_ms: optional number`
+<a href="#">Link to this property</a>
 
-    Time stolen (milliseconds)
+memory\_mapped\_bytes: optional number
 
-  - `cpu_time_system_ms: optional number`
+Files which have been mapped into memory
 
-    Time spent in system mode (milliseconds)
+<a href="#">Link to this property</a>
 
-  - `cpu_time_user_ms: optional number`
+memory\_page\_tables\_bytes: optional number
 
-    Time spent in user mode (milliseconds)
+Amount of memory dedicated to the lowest level of page tables
 
-  - `delta: optional number`
+<a href="#">Link to this property</a>
 
-    Number of network operations applied during state transition
+memory\_per\_cpu\_bytes: optional number
 
-  - `dhcp_leases: optional array of object { client_id, expiry_time, hostname, 3 more }`
+Memory allocated to the per-cpu alloctor used to back per-cpu allocations
 
-    - `client_id: string`
+<a href="#">Link to this property</a>
 
-      Client ID of the device the IP Address was leased to
+memory\_pressure\_full\_10s: optional number
 
-    - `expiry_time: number`
+Percentage of time over a 10 second window that all tasks were stalled
 
-      Expiry time of the DHCP lease (seconds since the Unix epoch)
+<a href="#">Link to this property</a>
 
-    - `hostname: string`
+memory\_pressure\_full\_300s: optional number
 
-      Hostname of the device the IP Address was leased to
+Percentage of time over a 5 minute window that all tasks were stalled
 
-    - `interface_name: string`
+<a href="#">Link to this property</a>
 
-      Name of the network interface
+memory\_pressure\_full\_60s: optional number
 
-    - `ip_address: string`
+Percentage of time over a 1 minute window that all tasks were stalled
 
-      IP Address that was leased
+<a href="#">Link to this property</a>
 
-    - `mac_address: string`
+memory\_pressure\_full\_total\_us: optional number
 
-      MAC Address of the device the IP Address was leased to
+Total stall time (microseconds)
 
-  - `disks: optional array of object { in_progress, major, merged, 17 more }`
+<a href="#">Link to this property</a>
 
-    - `in_progress: number`
+memory\_pressure\_some\_10s: optional number
 
-      I/Os currently in progress
+Percentage of time over a 10 second window that some tasks were stalled
 
-    - `major: number`
+<a href="#">Link to this property</a>
 
-      Device major number
+memory\_pressure\_some\_300s: optional number
 
-    - `merged: number`
+Percentage of time over a 5 minute window that some tasks were stalled
 
-      Reads merged
+<a href="#">Link to this property</a>
 
-    - `minor: number`
+memory\_pressure\_some\_60s: optional number
 
-      Device minor number
+Percentage of time over a 1 minute window that some tasks were stalled
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Device name
+memory\_pressure\_some\_total\_us: optional number
 
-    - `reads: number`
+Total stall time (microseconds)
 
-      Reads completed successfully
+<a href="#">Link to this property</a>
 
-    - `sectors_read: number`
+memory\_s\_reclaimable\_bytes: optional number
 
-      Sectors read successfully
+Part of slab that can be reclaimed on memory pressure
 
-    - `sectors_written: number`
+<a href="#">Link to this property</a>
 
-      Sectors written successfully
+memory\_s\_unreclaim\_bytes: optional number
 
-    - `time_in_progress_ms: number`
+Part of slab that cannot be reclaimed on memory pressure
 
-      Time spent doing I/Os (milliseconds)
+<a href="#">Link to this property</a>
 
-    - `time_reading_ms: number`
+memory\_secondary\_page\_tables\_bytes: optional number
 
-      Time spent reading (milliseconds)
+Amount of memory dedicated to the lowest level of page tables
 
-    - `time_writing_ms: number`
+<a href="#">Link to this property</a>
 
-      Time spent writing (milliseconds)
+memory\_shmem\_bytes: optional number
 
-    - `weighted_time_in_progress_ms: number`
+Amount of memory consumed by tmpfs
 
-      Weighted time spent doing I/Os (milliseconds)
+<a href="#">Link to this property</a>
 
-    - `writes: number`
+memory\_shmem\_hugepages\_bytes: optional number
 
-      Writes completed
+Memory used by shmem and tmpfs, allocated with huge pages
 
-    - `writes_merged: number`
+<a href="#">Link to this property</a>
 
-      Writes merged
+memory\_shmem\_pmd\_mapped\_bytes: optional number
 
-    - `discards: optional number`
+Shared memory mapped into user space with huge pages
 
-      Discards completed successfully
+<a href="#">Link to this property</a>
 
-    - `discards_merged: optional number`
+memory\_slab\_bytes: optional number
 
-      Discards merged
+In-kernel data structures cache
 
-    - `flushes: optional number`
+<a href="#">Link to this property</a>
 
-      Flushes completed successfully
+memory\_swap\_cached\_bytes: optional number
 
-    - `sectors_discarded: optional number`
+Memory swapped out and back in while still in swap file
 
-      Sectors discarded
+<a href="#">Link to this property</a>
 
-    - `time_discarding_ms: optional number`
+memory\_swap\_free\_bytes: optional number
 
-      Time spent discarding (milliseconds)
+Amount of swap space that is currently unused
 
-    - `time_flushing_ms: optional number`
+<a href="#">Link to this property</a>
 
-      Time spent flushing (milliseconds)
+memory\_swap\_total\_bytes: optional number
 
-  - `epsilon: optional number`
+Total amount of swap space available
 
-    Simulated number of network operations applied during state transition
+<a href="#">Link to this property</a>
 
-  - `ha_state: optional string`
+memory\_total\_bytes: optional number
 
-    Name of high availability state
+Total usable RAM
 
-  - `ha_value: optional number`
+<a href="#">Link to this property</a>
 
-    Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
+memory\_vmalloc\_chunk\_bytes: optional number
 
-  - `interfaces: optional array of object { name, operstate, ip_addresses, speed }`
+Largest contiguous block of vmalloc area which is free
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the network interface
+memory\_vmalloc\_total\_bytes: optional number
 
-    - `operstate: string`
+Total size of vmalloc memory area
 
-      UP/DOWN state of the network interface
+<a href="#">Link to this property</a>
 
-    - `ip_addresses: optional array of object { interface_name, ip_address }`
+memory\_vmalloc\_used\_bytes: optional number
 
-      - `interface_name: string`
+Amount of vmalloc area which is used
 
-        Name of the network interface
+<a href="#">Link to this property</a>
 
-      - `ip_address: string`
+memory\_writeback\_bytes: optional number
 
-        IP address of the network interface
+Memory which is actively being written back to the disk
 
-    - `speed: optional number`
+<a href="#">Link to this property</a>
 
-      Speed of the network interface (bits per second)
+memory\_writeback\_tmp\_bytes: optional number
 
-  - `io_pressure_full_10s: optional number`
+Memory used by FUSE for temporary writeback buffers
 
-    Percentage of time over a 10 second window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `io_pressure_full_300s: optional number`
+memory\_z\_swap\_bytes: optional number
 
-    Percentage of time over a 5 minute window that all tasks were stalled
+Memory consumed by the zswap backend, compressed
 
-  - `io_pressure_full_60s: optional number`
+<a href="#">Link to this property</a>
 
-    Percentage of time over a 1 minute window that all tasks were stalled
+memory\_z\_swapped\_bytes: optional number
 
-  - `io_pressure_full_total_us: optional number`
+Amount of anonymous memory stored in zswap, uncompressed
 
-    Total stall time (microseconds)
+<a href="#">Link to this property</a>
 
-  - `io_pressure_some_10s: optional number`
+<details>
 
-    Percentage of time over a 10 second window that some tasks were stalled
+<summary>
 
-  - `io_pressure_some_300s: optional number`
+mounts: optional array of object {file\_system, kind, mount\_point, 7 more }
 
-    Percentage of time over a 3 minute window that some tasks were stalled
+</summary>
 
-  - `io_pressure_some_60s: optional number`
+file\_system: string
 
-    Percentage of time over a 1 minute window that some tasks were stalled
+File system on disk (EXT4, NTFS, etc.)
 
-  - `io_pressure_some_total_us: optional number`
+<a href="#">Link to this property</a>
 
-    Total stall time (microseconds)
+kind: string
 
-  - `kernel_btime: optional number`
+Kind of disk (HDD, SSD, etc.)
 
-    Boot time (seconds since Unix epoch)
+<a href="#">Link to this property</a>
 
-  - `kernel_ctxt: optional number`
+mount\_point: string
 
-    Number of context switches that the system underwent
+Path where disk is mounted
 
-  - `kernel_processes: optional number`
+<a href="#">Link to this property</a>
 
-    Number of forks since boot
+name: string
 
-  - `kernel_processes_blocked: optional number`
+Name of the disk mount
 
-    Number of processes blocked waiting for I/O
+<a href="#">Link to this property</a>
 
-  - `kernel_processes_running: optional number`
+available\_bytes: optional number
 
-    Number of processes in runnable state
+Available disk size (bytes)
 
-  - `load_average_15m: optional number`
+<a href="#">Link to this property</a>
 
-    The fifteen-minute load average
+available\_inodes: optional number
 
-  - `load_average_1m: optional number`
+Available inodes on filesystem
 
-    The one-minute load average
+<a href="#">Link to this property</a>
 
-  - `load_average_5m: optional number`
+is\_read\_only: optional boolean
 
-    The five-minute load average
+Determines whether the disk is read-only
 
-  - `load_average_cur: optional number`
+<a href="#">Link to this property</a>
 
-    Number of currently runnable kernel scheduling entities
+is\_removable: optional boolean
 
-  - `load_average_max: optional number`
+Determines whether the disk is removable
 
-    Number of kernel scheduling entities that currently exist on the system
+<a href="#">Link to this property</a>
 
-  - `memory_active_bytes: optional number`
+total\_bytes: optional number
 
-    Memory that has been used more recently
+Total disk size (bytes)
 
-  - `memory_anon_hugepages_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Non-file backed huge pages mapped into user-space page tables
+total\_inodes: optional number
 
-  - `memory_anon_pages_bytes: optional number`
+Total inodes on filesystem
 
-    Non-file backed pages mapped into user-space page tables
+<a href="#">Link to this property</a>
 
-  - `memory_available_bytes: optional number`
+</details>
 
-    Estimate of how much memory is available for starting new applications
+<a href="#">Link to this property</a>
 
-  - `memory_bounce_bytes: optional number`
+<details>
 
-    Memory used for block device bounce buffers
+<summary>
 
-  - `memory_buffers_bytes: optional number`
+netdevs: optional array of object {name, recv\_bytes, recv\_compressed, 14 more }
 
-    Relatively temporary storage for raw disk blocks
+</summary>
 
-  - `memory_cached_bytes: optional number`
+name: string
 
-    In-memory cache for files read from the disk
+Name of the network device
 
-  - `memory_cma_free_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Free CMA (Contiguous Memory Allocator) pages
+recv\_bytes: number
 
-  - `memory_cma_total_bytes: optional number`
+Total bytes received
 
-    Total CMA (Contiguous Memory Allocator) pages
+<a href="#">Link to this property</a>
 
-  - `memory_commit_limit_bytes: optional number`
+recv\_compressed: number
 
-    Total amount of memory currently available to be allocated on the system
+Compressed packets received
 
-  - `memory_committed_as_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of memory presently allocated on the system
+recv\_drop: number
 
-  - `memory_dirty_bytes: optional number`
+Packets dropped
 
-    Memory which is waiting to get written back to the disk
+<a href="#">Link to this property</a>
 
-  - `memory_free_bytes: optional number`
+recv\_errs: number
 
-    The sum of LowFree and HighFree
+Bad packets received
 
-  - `memory_high_free_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of free highmem
+recv\_fifo: number
 
-  - `memory_high_total_bytes: optional number`
+FIFO overruns
 
-    Total amount of highmem
+<a href="#">Link to this property</a>
 
-  - `memory_hugepages_free: optional number`
+recv\_frame: number
 
-    The number of huge pages in the pool that are not yet allocated
+Frame alignment errors
 
-  - `memory_hugepages_rsvd: optional number`
+<a href="#">Link to this property</a>
 
-    Number of huge pages for which a commitment has been made, but no allocation has yet been made
+recv\_multicast: number
 
-  - `memory_hugepages_surp: optional number`
+Multicast packets received
 
-    Number of huge pages in the pool above the threshold
+<a href="#">Link to this property</a>
 
-  - `memory_hugepages_total: optional number`
+recv\_packets: number
 
-    The size of the pool of huge pages
+Total packets received
 
-  - `memory_hugepagesize_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    The size of huge pages
+sent\_bytes: number
 
-  - `memory_inactive_bytes: optional number`
+Total bytes transmitted
 
-    Memory which has been less recently used
+<a href="#">Link to this property</a>
 
-  - `memory_k_reclaimable_bytes: optional number`
+sent\_carrier: number
 
-    Kernel allocations that the kernel will attempt to reclaim under memory pressure
+Number of packets not sent due to carrier errors
 
-  - `memory_kernel_stack_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of memory allocated to kernel stacks
+sent\_colls: number
 
-  - `memory_low_free_bytes: optional number`
+Number of collisions
 
-    Amount of free lowmem
+<a href="#">Link to this property</a>
 
-  - `memory_low_total_bytes: optional number`
+sent\_compressed: number
 
-    Total amount of lowmem
+Number of compressed packets transmitted
 
-  - `memory_mapped_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Files which have been mapped into memory
+sent\_drop: number
 
-  - `memory_page_tables_bytes: optional number`
+Number of packets dropped during transmission
 
-    Amount of memory dedicated to the lowest level of page tables
+<a href="#">Link to this property</a>
 
-  - `memory_per_cpu_bytes: optional number`
+sent\_errs: number
 
-    Memory allocated to the per-cpu alloctor used to back per-cpu allocations
+Number of transmission errors
 
-  - `memory_pressure_full_10s: optional number`
+<a href="#">Link to this property</a>
 
-    Percentage of time over a 10 second window that all tasks were stalled
+sent\_fifo: number
 
-  - `memory_pressure_full_300s: optional number`
+FIFO overruns
 
-    Percentage of time over a 5 minute window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `memory_pressure_full_60s: optional number`
+sent\_packets: number
 
-    Percentage of time over a 1 minute window that all tasks were stalled
+Total packets transmitted
 
-  - `memory_pressure_full_total_us: optional number`
+<a href="#">Link to this property</a>
 
-    Total stall time (microseconds)
+</details>
 
-  - `memory_pressure_some_10s: optional number`
+<a href="#">Link to this property</a>
 
-    Percentage of time over a 10 second window that some tasks were stalled
+platform: optional string
 
-  - `memory_pressure_some_300s: optional number`
+Platform identifier
 
-    Percentage of time over a 5 minute window that some tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `memory_pressure_some_60s: optional number`
+<details>
 
-    Percentage of time over a 1 minute window that some tasks were stalled
+<summary>
 
-  - `memory_pressure_some_total_us: optional number`
+routes: optional array of object {destination, interface\_name, kind, 3 more }
 
-    Total stall time (microseconds)
+</summary>
 
-  - `memory_s_reclaimable_bytes: optional number`
+destination: string
 
-    Part of slab that can be reclaimed on memory pressure
+Route destination as default or an IPv4 CIDR
 
-  - `memory_s_unreclaim_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Part of slab that cannot be reclaimed on memory pressure
+interface\_name: string
 
-  - `memory_secondary_page_tables_bytes: optional number`
+Interface used by the next hop
 
-    Amount of memory dedicated to the lowest level of page tables
+<a href="#">Link to this property</a>
 
-  - `memory_shmem_bytes: optional number`
+kind: string
 
-    Amount of memory consumed by tmpfs
+Routing decision type: tunnel, breakout, or lan
 
-  - `memory_shmem_hugepages_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Memory used by shmem and tmpfs, allocated with huge pages
+metric: number
 
-  - `memory_shmem_pmd_mapped_bytes: optional number`
+Route metric; lower metrics are preferred
 
-    Shared memory mapped into user space with huge pages
+<a href="#">Link to this property</a>
 
-  - `memory_slab_bytes: optional number`
+gateway: optional string
 
-    In-kernel data structures cache
+Gateway address for the next hop
 
-  - `memory_swap_cached_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Memory swapped out and back in while still in swap file
+weight: optional number
 
-  - `memory_swap_free_bytes: optional number`
+Relative weight within an equal-cost route
 
-    Amount of swap space that is currently unused
+<a href="#">Link to this property</a>
 
-  - `memory_swap_total_bytes: optional number`
+</details>
 
-    Total amount of swap space available
+<a href="#">Link to this property</a>
 
-  - `memory_total_bytes: optional number`
+site\_id: optional string
 
-    Total usable RAM
+Site identifier
 
-  - `memory_vmalloc_chunk_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Largest contiguous block of vmalloc area which is free
+snmp\_icmp\_in\_addr\_mask\_reps: optional number
 
-  - `memory_vmalloc_total_bytes: optional number`
+Number of ICMP Address Mask Reply messages received
 
-    Total size of vmalloc memory area
+<a href="#">Link to this property</a>
 
-  - `memory_vmalloc_used_bytes: optional number`
+snmp\_icmp\_in\_addr\_masks: optional number
 
-    Amount of vmalloc area which is used
+Number of ICMP Address Mask Request messages received
 
-  - `memory_writeback_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Memory which is actively being written back to the disk
+snmp\_icmp\_in\_csum\_errors: optional number
 
-  - `memory_writeback_tmp_bytes: optional number`
+Number of ICMP messages received with bad checksums
 
-    Memory used by FUSE for temporary writeback buffers
+<a href="#">Link to this property</a>
 
-  - `memory_z_swap_bytes: optional number`
+snmp\_icmp\_in\_dest\_unreachs: optional number
 
-    Memory consumed by the zswap backend, compressed
+Number of ICMP Destination Unreachable messages received
 
-  - `memory_z_swapped_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of anonymous memory stored in zswap, uncompressed
+snmp\_icmp\_in\_echo\_reps: optional number
 
-  - `mounts: optional array of object { file_system, kind, mount_point, 7 more }`
+Number of ICMP Echo Reply messages received
 
-    - `file_system: string`
+<a href="#">Link to this property</a>
 
-      File system on disk (EXT4, NTFS, etc.)
+snmp\_icmp\_in\_echos: optional number
 
-    - `kind: string`
+Number of ICMP Echo (request) messages received
 
-      Kind of disk (HDD, SSD, etc.)
+<a href="#">Link to this property</a>
 
-    - `mount_point: string`
+snmp\_icmp\_in\_errors: optional number
 
-      Path where disk is mounted
+Number of ICMP messages received with ICMP-specific errors
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the disk mount
+snmp\_icmp\_in\_msgs: optional number
 
-    - `available_bytes: optional number`
+Number of ICMP messages received
 
-      Available disk size (bytes)
+<a href="#">Link to this property</a>
 
-    - `available_inodes: optional number`
+snmp\_icmp\_in\_parm\_probs: optional number
 
-      Available inodes on filesystem
+Number of ICMP Parameter Problem messages received
 
-    - `is_read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-      Determines whether the disk is read-only
+snmp\_icmp\_in\_redirects: optional number
 
-    - `is_removable: optional boolean`
+Number of ICMP Redirect messages received
 
-      Determines whether the disk is removable
+<a href="#">Link to this property</a>
 
-    - `total_bytes: optional number`
+snmp\_icmp\_in\_src\_quenchs: optional number
 
-      Total disk size (bytes)
+Number of ICMP Source Quench messages received
 
-    - `total_inodes: optional number`
+<a href="#">Link to this property</a>
 
-      Total inodes on filesystem
+snmp\_icmp\_in\_time\_excds: optional number
 
-  - `netdevs: optional array of object { name, recv_bytes, recv_compressed, 14 more }`
+Number of ICMP Time Exceeded messages received
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the network device
+snmp\_icmp\_in\_timestamp\_reps: optional number
 
-    - `recv_bytes: number`
+Number of ICMP Address Mask Request messages received
 
-      Total bytes received
+<a href="#">Link to this property</a>
 
-    - `recv_compressed: number`
+snmp\_icmp\_in\_timestamps: optional number
 
-      Compressed packets received
+Number of ICMP Timestamp (request) messages received
 
-    - `recv_drop: number`
+<a href="#">Link to this property</a>
 
-      Packets dropped
+snmp\_icmp\_out\_addr\_mask\_reps: optional number
 
-    - `recv_errs: number`
+Number of ICMP Address Mask Reply messages sent
 
-      Bad packets received
+<a href="#">Link to this property</a>
 
-    - `recv_fifo: number`
+snmp\_icmp\_out\_addr\_masks: optional number
 
-      FIFO overruns
+Number of ICMP Address Mask Request messages sent
 
-    - `recv_frame: number`
+<a href="#">Link to this property</a>
 
-      Frame alignment errors
+snmp\_icmp\_out\_dest\_unreachs: optional number
 
-    - `recv_multicast: number`
+Number of ICMP Destination Unreachable messages sent
 
-      Multicast packets received
+<a href="#">Link to this property</a>
 
-    - `recv_packets: number`
+snmp\_icmp\_out\_echo\_reps: optional number
 
-      Total packets received
+Number of ICMP Echo Reply messages sent
 
-    - `sent_bytes: number`
+<a href="#">Link to this property</a>
 
-      Total bytes transmitted
+snmp\_icmp\_out\_echos: optional number
 
-    - `sent_carrier: number`
+Number of ICMP Echo (request) messages sent
 
-      Number of packets not sent due to carrier errors
+<a href="#">Link to this property</a>
 
-    - `sent_colls: number`
+snmp\_icmp\_out\_errors: optional number
 
-      Number of collisions
+Number of ICMP messages which this entity did not send due to ICMP-specific errors
 
-    - `sent_compressed: number`
+<a href="#">Link to this property</a>
 
-      Number of compressed packets transmitted
+snmp\_icmp\_out\_msgs: optional number
 
-    - `sent_drop: number`
+Number of ICMP messages attempted to send
 
-      Number of packets dropped during transmission
+<a href="#">Link to this property</a>
 
-    - `sent_errs: number`
+snmp\_icmp\_out\_parm\_probs: optional number
 
-      Number of transmission errors
+Number of ICMP Parameter Problem messages sent
 
-    - `sent_fifo: number`
+<a href="#">Link to this property</a>
 
-      FIFO overruns
+snmp\_icmp\_out\_redirects: optional number
 
-    - `sent_packets: number`
+Number of ICMP Redirect messages sent
 
-      Total packets transmitted
+<a href="#">Link to this property</a>
 
-  - `platform: optional string`
+snmp\_icmp\_out\_src\_quenchs: optional number
 
-    Platform identifier
+Number of ICMP Source Quench messages sent
 
-  - `snmp_icmp_in_addr_mask_reps: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Address Mask Reply messages received
+snmp\_icmp\_out\_time\_excds: optional number
 
-  - `snmp_icmp_in_addr_masks: optional number`
+Number of ICMP Time Exceeded messages sent
 
-    Number of ICMP Address Mask Request messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_in_csum_errors: optional number`
+snmp\_icmp\_out\_timestamp\_reps: optional number
 
-    Number of ICMP messages received with bad checksums
+Number of ICMP Timestamp Reply messages sent
 
-  - `snmp_icmp_in_dest_unreachs: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Destination Unreachable messages received
+snmp\_icmp\_out\_timestamps: optional number
 
-  - `snmp_icmp_in_echo_reps: optional number`
+Number of ICMP Timestamp (request) messages sent
 
-    Number of ICMP Echo Reply messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_in_echos: optional number`
+snmp\_ip\_default\_ttl: optional number
 
-    Number of ICMP Echo (request) messages received
+Default value of the Time-To-Live field of the IP header
 
-  - `snmp_icmp_in_errors: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP messages received with ICMP-specific errors
+snmp\_ip\_forw\_datagrams: optional number
 
-  - `snmp_icmp_in_msgs: optional number`
+Number of datagrams forwarded to their final destination
 
-    Number of ICMP messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_in_parm_probs: optional number`
+snmp\_ip\_forwarding\_enabled: optional boolean
 
-    Number of ICMP Parameter Problem messages received
+Set when acting as an IP gateway
 
-  - `snmp_icmp_in_redirects: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Redirect messages received
+snmp\_ip\_frag\_creates: optional number
 
-  - `snmp_icmp_in_src_quenchs: optional number`
+Number of datagrams generated by fragmentation
 
-    Number of ICMP Source Quench messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_in_time_excds: optional number`
+snmp\_ip\_frag\_fails: optional number
 
-    Number of ICMP Time Exceeded messages received
+Number of datagrams discarded because fragmentation failed
 
-  - `snmp_icmp_in_timestamp_reps: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Address Mask Request messages received
+snmp\_ip\_frag\_oks: optional number
 
-  - `snmp_icmp_in_timestamps: optional number`
+Number of datagrams successfully fragmented
 
-    Number of ICMP Timestamp (request) messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_addr_mask_reps: optional number`
+snmp\_ip\_in\_addr\_errors: optional number
 
-    Number of ICMP Address Mask Reply messages sent
+Number of input datagrams discarded due to errors in the IP address
 
-  - `snmp_icmp_out_addr_masks: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Address Mask Request messages sent
+snmp\_ip\_in\_delivers: optional number
 
-  - `snmp_icmp_out_dest_unreachs: optional number`
+Number of input datagrams successfully delivered to IP user-protocols
 
-    Number of ICMP Destination Unreachable messages sent
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_echo_reps: optional number`
+snmp\_ip\_in\_discards: optional number
 
-    Number of ICMP Echo Reply messages sent
+Number of input datagrams otherwise discarded
 
-  - `snmp_icmp_out_echos: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Echo (request) messages sent
+snmp\_ip\_in\_hdr\_errors: optional number
 
-  - `snmp_icmp_out_errors: optional number`
+Number of input datagrams discarded due to errors in the IP header
 
-    Number of ICMP messages which this entity did not send due to ICMP-specific errors
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_msgs: optional number`
+snmp\_ip\_in\_receives: optional number
 
-    Number of ICMP messages attempted to send
+Number of input datagrams received from interfaces
 
-  - `snmp_icmp_out_parm_probs: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Parameter Problem messages sent
+snmp\_ip\_in\_unknown\_protos: optional number
 
-  - `snmp_icmp_out_redirects: optional number`
+Number of input datagrams discarded due unknown or unsupported protocol
 
-    Number of ICMP Redirect messages sent
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_src_quenchs: optional number`
+snmp\_ip\_out\_discards: optional number
 
-    Number of ICMP Source Quench messages sent
+Number of output datagrams otherwise discarded
 
-  - `snmp_icmp_out_time_excds: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Time Exceeded messages sent
+snmp\_ip\_out\_no\_routes: optional number
 
-  - `snmp_icmp_out_timestamp_reps: optional number`
+Number of output datagrams discarded because no route matched
 
-    Number of ICMP Timestamp Reply messages sent
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_timestamps: optional number`
+snmp\_ip\_out\_requests: optional number
 
-    Number of ICMP Timestamp (request) messages sent
+Number of datagrams supplied for transmission
 
-  - `snmp_ip_default_ttl: optional number`
+<a href="#">Link to this property</a>
 
-    Default value of the Time-To-Live field of the IP header
+snmp\_ip\_reasm\_fails: optional number
 
-  - `snmp_ip_forw_datagrams: optional number`
+Number of failures detected by the reassembly algorithm
 
-    Number of datagrams forwarded to their final destination
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_forwarding_enabled: optional boolean`
+snmp\_ip\_reasm\_oks: optional number
 
-    Set when acting as an IP gateway
+Number of datagrams successfully reassembled
 
-  - `snmp_ip_frag_creates: optional number`
+<a href="#">Link to this property</a>
 
-    Number of datagrams generated by fragmentation
+snmp\_ip\_reasm\_reqds: optional number
 
-  - `snmp_ip_frag_fails: optional number`
+Number of fragments received which needed to be reassembled
 
-    Number of datagrams discarded because fragmentation failed
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_frag_oks: optional number`
+snmp\_ip\_reasm\_timeout: optional number
 
-    Number of datagrams successfully fragmented
+Number of seconds fragments are held while awaiting reassembly
 
-  - `snmp_ip_in_addr_errors: optional number`
+<a href="#">Link to this property</a>
 
-    Number of input datagrams discarded due to errors in the IP address
+snmp\_tcp\_active\_opens: optional number
 
-  - `snmp_ip_in_delivers: optional number`
+Number of times TCP transitions to SYN-SENT from CLOSED
 
-    Number of input datagrams successfully delivered to IP user-protocols
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_in_discards: optional number`
+snmp\_tcp\_attempt\_fails: optional number
 
-    Number of input datagrams otherwise discarded
+Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD
 
-  - `snmp_ip_in_hdr_errors: optional number`
+<a href="#">Link to this property</a>
 
-    Number of input datagrams discarded due to errors in the IP header
+snmp\_tcp\_curr\_estab: optional number
 
-  - `snmp_ip_in_receives: optional number`
+Number of TCP connections in ESTABLISHED or CLOSE-WAIT
 
-    Number of input datagrams received from interfaces
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_in_unknown_protos: optional number`
+snmp\_tcp\_estab\_resets: optional number
 
-    Number of input datagrams discarded due unknown or unsupported protocol
+Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT
 
-  - `snmp_ip_out_discards: optional number`
+<a href="#">Link to this property</a>
 
-    Number of output datagrams otherwise discarded
+snmp\_tcp\_in\_csum\_errors: optional number
 
-  - `snmp_ip_out_no_routes: optional number`
+Number of TCP segments received with checksum errors
 
-    Number of output datagrams discarded because no route matched
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_out_requests: optional number`
+snmp\_tcp\_in\_errs: optional number
 
-    Number of datagrams supplied for transmission
+Number of TCP segments received in error
 
-  - `snmp_ip_reasm_fails: optional number`
+<a href="#">Link to this property</a>
 
-    Number of failures detected by the reassembly algorithm
+snmp\_tcp\_in\_segs: optional number
 
-  - `snmp_ip_reasm_oks: optional number`
+Number of TCP segments received
 
-    Number of datagrams successfully reassembled
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_reasm_reqds: optional number`
+snmp\_tcp\_max\_conn: optional number
 
-    Number of fragments received which needed to be reassembled
+Limit on the total number of TCP connections
 
-  - `snmp_ip_reasm_timeout: optional number`
+<a href="#">Link to this property</a>
 
-    Number of seconds fragments are held while awaiting reassembly
+snmp\_tcp\_out\_rsts: optional number
 
-  - `snmp_tcp_active_opens: optional number`
+Number of TCP segments sent with RST flag
 
-    Number of times TCP transitions to SYN-SENT from CLOSED
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_attempt_fails: optional number`
+snmp\_tcp\_out\_segs: optional number
 
-    Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD
+Number of TCP segments sent
 
-  - `snmp_tcp_curr_estab: optional number`
+<a href="#">Link to this property</a>
 
-    Number of TCP connections in ESTABLISHED or CLOSE-WAIT
+snmp\_tcp\_passive\_opens: optional number
 
-  - `snmp_tcp_estab_resets: optional number`
+Number of times TCP transitions to SYN-RCVD from LISTEN
 
-    Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_in_csum_errors: optional number`
+snmp\_tcp\_retrans\_segs: optional number
 
-    Number of TCP segments received with checksum errors
+Number of TCP segments retransmitted
 
-  - `snmp_tcp_in_errs: optional number`
+<a href="#">Link to this property</a>
 
-    Number of TCP segments received in error
+snmp\_tcp\_rto\_max: optional number
 
-  - `snmp_tcp_in_segs: optional number`
+Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
 
-    Number of TCP segments received
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_max_conn: optional number`
+snmp\_tcp\_rto\_min: optional number
 
-    Limit on the total number of TCP connections
+Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
 
-  - `snmp_tcp_out_rsts: optional number`
+<a href="#">Link to this property</a>
 
-    Number of TCP segments sent with RST flag
+snmp\_udp\_in\_datagrams: optional number
 
-  - `snmp_tcp_out_segs: optional number`
+Number of UDP datagrams delivered to UDP applications
 
-    Number of TCP segments sent
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_passive_opens: optional number`
+snmp\_udp\_in\_errors: optional number
 
-    Number of times TCP transitions to SYN-RCVD from LISTEN
+Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port
 
-  - `snmp_tcp_retrans_segs: optional number`
+<a href="#">Link to this property</a>
 
-    Number of TCP segments retransmitted
+snmp\_udp\_no\_ports: optional number
 
-  - `snmp_tcp_rto_max: optional number`
+Number of UDP datagrams received for which there was not application at the destination port
 
-    Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_rto_min: optional number`
+snmp\_udp\_out\_datagrams: optional number
 
-    Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
+Number of UDP datagrams sent
 
-  - `snmp_udp_in_datagrams: optional number`
+<a href="#">Link to this property</a>
 
-    Number of UDP datagrams delivered to UDP applications
+system\_boot\_time\_s: optional number
 
-  - `snmp_udp_in_errors: optional number`
+Boottime of the system (seconds since the Unix epoch)
 
-    Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port
+<a href="#">Link to this property</a>
 
-  - `snmp_udp_no_ports: optional number`
+<details>
 
-    Number of UDP datagrams received for which there was not application at the destination port
+<summary>
 
-  - `snmp_udp_out_datagrams: optional number`
+thermals: optional array of object {label, critical\_celcius, current\_celcius, max\_celcius }
 
-    Number of UDP datagrams sent
+</summary>
 
-  - `system_boot_time_s: optional number`
+label: string
 
-    Boottime of the system (seconds since the Unix epoch)
+Sensor identifier for the component
 
-  - `thermals: optional array of object { label, critical_celcius, current_celcius, max_celcius }`
+<a href="#">Link to this property</a>
 
-    - `label: string`
+critical\_celcius: optional number
 
-      Sensor identifier for the component
+Critical failure temperature of the component (degrees Celsius)
 
-    - `critical_celcius: optional number`
+<a href="#">Link to this property</a>
 
-      Critical failure temperature of the component (degrees Celsius)
+current\_celcius: optional number
 
-    - `current_celcius: optional number`
+Current temperature of the component (degrees Celsius)
 
-      Current temperature of the component (degrees Celsius)
+<a href="#">Link to this property</a>
 
-    - `max_celcius: optional number`
+max\_celcius: optional number
 
-      Maximum temperature of the component (degrees Celsius)
+Maximum temperature of the component (degrees Celsius)
 
-  - `tunnels: optional array of object { health_state, health_value, interface_name, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `health_state: string`
+</details>
 
-      Name of tunnel health state (unknown, healthy, degraded, down)
+<a href="#">Link to this property</a>
 
-    - `health_value: number`
+<details>
 
-      Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
+<summary>
 
-    - `interface_name: string`
+tunnels: optional array of object {health\_state, health\_value, interface\_name, 9 more }
 
-      The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
+</summary>
 
-    - `tunnel_id: string`
+health\_state: string
 
-      Tunnel identifier
+Name of tunnel health state (unknown, healthy, degraded, down)
 
-    - `natd_result: optional string`
+<a href="#">Link to this property</a>
 
-      Public socket address returned by the NAT detector
+health\_value: number
 
-    - `natd_state: optional number`
+Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
 
-      Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
+<a href="#">Link to this property</a>
 
-    - `natd_target: optional string`
+interface\_name: string
 
-      Target socket address probed by the NAT detector, using the detector source port
+The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
 
-    - `probed_mtu: optional number`
+<a href="#">Link to this property</a>
 
-      MTU as measured between the two ends of the tunnel
+tunnel\_id: string
 
-    - `recent_healthy_pings: optional number`
+Tunnel identifier
 
-      Number of recent healthy pings for this tunnel
+<a href="#">Link to this property</a>
 
-    - `recent_unhealthy_pings: optional number`
+jitter\_ms: optional number
 
-      Number of recent unhealthy pings for this tunnel
+Tunnel round-trip latency variation in milliseconds
 
-  - `uptime_idle_ms: optional number`
+<a href="#">Link to this property</a>
 
-    Sum of how much time each core has spent idle
+latency\_ms: optional number
 
-  - `uptime_total_ms: optional number`
+50th percentile tunnel round-trip latency in milliseconds
 
-    Uptime of the system, including time spent in suspend
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+natd\_result: optional string
 
-- `errors: optional array of object { code, message }`
+Public socket address returned by the NAT detector
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+natd\_state: optional number
 
-- `messages: optional array of object { code, message }`
+Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+natd\_target: optional string
 
-### Example
+Target socket address probed by the NAT detector, using the detector source port
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/snapshots/$SNAPSHOT_T \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+probed\_mtu: optional number
 
-```json
-{
-  "result": {
-    "count_reclaim_failures": 0,
-    "count_reclaimed_paths": 0,
-    "count_record_failed": 0,
-    "count_transmit_failures": 0,
-    "t": 0,
-    "v": "v",
-    "bonds": [
-      {
-        "name": "name",
-        "status": "status"
-      }
-    ],
-    "cpu_count": 0,
-    "cpu_pressure_10s": 0,
-    "cpu_pressure_300s": 0,
-    "cpu_pressure_60s": 0,
-    "cpu_pressure_total_us": 0,
-    "cpu_time_guest_ms": 0,
-    "cpu_time_guest_nice_ms": 0,
-    "cpu_time_idle_ms": 0,
-    "cpu_time_iowait_ms": 0,
-    "cpu_time_irq_ms": 0,
-    "cpu_time_nice_ms": 0,
-    "cpu_time_softirq_ms": 0,
-    "cpu_time_steal_ms": 0,
-    "cpu_time_system_ms": 0,
-    "cpu_time_user_ms": 0,
-    "delta": 0,
-    "dhcp_leases": [
-      {
-        "client_id": "client_id",
-        "expiry_time": 0,
-        "hostname": "hostname",
-        "interface_name": "interface_name",
-        "ip_address": "ip_address",
-        "mac_address": "mac_address"
-      }
-    ],
-    "disks": [
-      {
-        "in_progress": 0,
-        "major": 0,
-        "merged": 0,
-        "minor": 0,
-        "name": "name",
-        "reads": 0,
-        "sectors_read": 0,
-        "sectors_written": 0,
-        "time_in_progress_ms": 0,
-        "time_reading_ms": 0,
-        "time_writing_ms": 0,
-        "weighted_time_in_progress_ms": 0,
-        "writes": 0,
-        "writes_merged": 0,
-        "discards": 0,
-        "discards_merged": 0,
-        "flushes": 0,
-        "sectors_discarded": 0,
-        "time_discarding_ms": 0,
-        "time_flushing_ms": 0
-      }
-    ],
-    "epsilon": 0,
-    "ha_state": "ha_state",
-    "ha_value": 0,
-    "interfaces": [
-      {
-        "name": "name",
-        "operstate": "operstate",
-        "ip_addresses": [
-          {
-            "interface_name": "interface_name",
-            "ip_address": "ip_address"
-          }
-        ],
-        "speed": 0
-      }
-    ],
-    "io_pressure_full_10s": 0,
-    "io_pressure_full_300s": 0,
-    "io_pressure_full_60s": 0,
-    "io_pressure_full_total_us": 0,
-    "io_pressure_some_10s": 0,
-    "io_pressure_some_300s": 0,
-    "io_pressure_some_60s": 0,
-    "io_pressure_some_total_us": 0,
-    "kernel_btime": 0,
-    "kernel_ctxt": 0,
-    "kernel_processes": 0,
-    "kernel_processes_blocked": 0,
-    "kernel_processes_running": 0,
-    "load_average_15m": 0,
-    "load_average_1m": 0,
-    "load_average_5m": 0,
-    "load_average_cur": 0,
-    "load_average_max": 0,
-    "memory_active_bytes": 0,
-    "memory_anon_hugepages_bytes": 0,
-    "memory_anon_pages_bytes": 0,
-    "memory_available_bytes": 0,
-    "memory_bounce_bytes": 0,
-    "memory_buffers_bytes": 0,
-    "memory_cached_bytes": 0,
-    "memory_cma_free_bytes": 0,
-    "memory_cma_total_bytes": 0,
-    "memory_commit_limit_bytes": 0,
-    "memory_committed_as_bytes": 0,
-    "memory_dirty_bytes": 0,
-    "memory_free_bytes": 0,
-    "memory_high_free_bytes": 0,
-    "memory_high_total_bytes": 0,
-    "memory_hugepages_free": 0,
-    "memory_hugepages_rsvd": 0,
-    "memory_hugepages_surp": 0,
-    "memory_hugepages_total": 0,
-    "memory_hugepagesize_bytes": 0,
-    "memory_inactive_bytes": 0,
-    "memory_k_reclaimable_bytes": 0,
-    "memory_kernel_stack_bytes": 0,
-    "memory_low_free_bytes": 0,
-    "memory_low_total_bytes": 0,
-    "memory_mapped_bytes": 0,
-    "memory_page_tables_bytes": 0,
-    "memory_per_cpu_bytes": 0,
-    "memory_pressure_full_10s": 0,
-    "memory_pressure_full_300s": 0,
-    "memory_pressure_full_60s": 0,
-    "memory_pressure_full_total_us": 0,
-    "memory_pressure_some_10s": 0,
-    "memory_pressure_some_300s": 0,
-    "memory_pressure_some_60s": 0,
-    "memory_pressure_some_total_us": 0,
-    "memory_s_reclaimable_bytes": 0,
-    "memory_s_unreclaim_bytes": 0,
-    "memory_secondary_page_tables_bytes": 0,
-    "memory_shmem_bytes": 0,
-    "memory_shmem_hugepages_bytes": 0,
-    "memory_shmem_pmd_mapped_bytes": 0,
-    "memory_slab_bytes": 0,
-    "memory_swap_cached_bytes": 0,
-    "memory_swap_free_bytes": 0,
-    "memory_swap_total_bytes": 0,
-    "memory_total_bytes": 0,
-    "memory_vmalloc_chunk_bytes": 0,
-    "memory_vmalloc_total_bytes": 0,
-    "memory_vmalloc_used_bytes": 0,
-    "memory_writeback_bytes": 0,
-    "memory_writeback_tmp_bytes": 0,
-    "memory_z_swap_bytes": 0,
-    "memory_z_swapped_bytes": 0,
-    "mounts": [
-      {
-        "file_system": "file_system",
-        "kind": "kind",
-        "mount_point": "mount_point",
-        "name": "name",
-        "available_bytes": 0,
-        "available_inodes": 0,
-        "is_read_only": true,
-        "is_removable": true,
-        "total_bytes": 0,
-        "total_inodes": 0
-      }
-    ],
-    "netdevs": [
-      {
-        "name": "name",
-        "recv_bytes": 0,
-        "recv_compressed": 0,
-        "recv_drop": 0,
-        "recv_errs": 0,
-        "recv_fifo": 0,
-        "recv_frame": 0,
-        "recv_multicast": 0,
-        "recv_packets": 0,
-        "sent_bytes": 0,
-        "sent_carrier": 0,
-        "sent_colls": 0,
-        "sent_compressed": 0,
-        "sent_drop": 0,
-        "sent_errs": 0,
-        "sent_fifo": 0,
-        "sent_packets": 0
-      }
-    ],
-    "platform": "platform",
-    "snmp_icmp_in_addr_mask_reps": 0,
-    "snmp_icmp_in_addr_masks": 0,
-    "snmp_icmp_in_csum_errors": 0,
-    "snmp_icmp_in_dest_unreachs": 0,
-    "snmp_icmp_in_echo_reps": 0,
-    "snmp_icmp_in_echos": 0,
-    "snmp_icmp_in_errors": 0,
-    "snmp_icmp_in_msgs": 0,
-    "snmp_icmp_in_parm_probs": 0,
-    "snmp_icmp_in_redirects": 0,
-    "snmp_icmp_in_src_quenchs": 0,
-    "snmp_icmp_in_time_excds": 0,
-    "snmp_icmp_in_timestamp_reps": 0,
-    "snmp_icmp_in_timestamps": 0,
-    "snmp_icmp_out_addr_mask_reps": 0,
-    "snmp_icmp_out_addr_masks": 0,
-    "snmp_icmp_out_dest_unreachs": 0,
-    "snmp_icmp_out_echo_reps": 0,
-    "snmp_icmp_out_echos": 0,
-    "snmp_icmp_out_errors": 0,
-    "snmp_icmp_out_msgs": 0,
-    "snmp_icmp_out_parm_probs": 0,
-    "snmp_icmp_out_redirects": 0,
-    "snmp_icmp_out_src_quenchs": 0,
-    "snmp_icmp_out_time_excds": 0,
-    "snmp_icmp_out_timestamp_reps": 0,
-    "snmp_icmp_out_timestamps": 0,
-    "snmp_ip_default_ttl": 0,
-    "snmp_ip_forw_datagrams": 0,
-    "snmp_ip_forwarding_enabled": true,
-    "snmp_ip_frag_creates": 0,
-    "snmp_ip_frag_fails": 0,
-    "snmp_ip_frag_oks": 0,
-    "snmp_ip_in_addr_errors": 0,
-    "snmp_ip_in_delivers": 0,
-    "snmp_ip_in_discards": 0,
-    "snmp_ip_in_hdr_errors": 0,
-    "snmp_ip_in_receives": 0,
-    "snmp_ip_in_unknown_protos": 0,
-    "snmp_ip_out_discards": 0,
-    "snmp_ip_out_no_routes": 0,
-    "snmp_ip_out_requests": 0,
-    "snmp_ip_reasm_fails": 0,
-    "snmp_ip_reasm_oks": 0,
-    "snmp_ip_reasm_reqds": 0,
-    "snmp_ip_reasm_timeout": 0,
-    "snmp_tcp_active_opens": 0,
-    "snmp_tcp_attempt_fails": 0,
-    "snmp_tcp_curr_estab": 0,
-    "snmp_tcp_estab_resets": 0,
-    "snmp_tcp_in_csum_errors": 0,
-    "snmp_tcp_in_errs": 0,
-    "snmp_tcp_in_segs": 0,
-    "snmp_tcp_max_conn": 0,
-    "snmp_tcp_out_rsts": 0,
-    "snmp_tcp_out_segs": 0,
-    "snmp_tcp_passive_opens": 0,
-    "snmp_tcp_retrans_segs": 0,
-    "snmp_tcp_rto_max": 0,
-    "snmp_tcp_rto_min": 0,
-    "snmp_udp_in_datagrams": 0,
-    "snmp_udp_in_errors": 0,
-    "snmp_udp_no_ports": 0,
-    "snmp_udp_out_datagrams": 0,
-    "system_boot_time_s": 0,
-    "thermals": [
-      {
-        "label": "label",
-        "critical_celcius": 0,
-        "current_celcius": 0,
-        "max_celcius": 0
-      }
-    ],
-    "tunnels": [
-      {
-        "health_state": "health_state",
-        "health_value": 0,
-        "interface_name": "interface_name",
-        "tunnel_id": "tunnel_id",
-        "natd_result": "natd_result",
-        "natd_state": 0,
-        "natd_target": "natd_target",
-        "probed_mtu": 0,
-        "recent_healthy_pings": 0,
-        "recent_unhealthy_pings": 0
-      }
-    ],
-    "uptime_idle_ms": 0,
-    "uptime_total_ms": 0
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ]
-}
-```
+MTU as measured between the two ends of the tunnel
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Snapshot List Response
+recent\_healthy\_pings: optional number
 
-- `SnapshotListResponse object { count, items, cursor }`
+Number of recent healthy pings for this tunnel
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `items: array of object { a, t }`
+recent\_unhealthy\_pings: optional number
 
-    - `a: number`
+Number of recent unhealthy pings for this tunnel
 
-      Time the Snapshot was collected (seconds since the Unix epoch)
+<a href="#">Link to this property</a>
 
-    - `t: number`
+</details>
 
-      Time the Snapshot was recorded (seconds since the Unix epoch)
+<a href="#">Link to this property</a>
 
-  - `cursor: optional string`
+uptime\_idle\_ms: optional number
 
-### Snapshot Get Response
+Sum of how much time each core has spent idle
 
-- `SnapshotGetResponse object { count_reclaim_failures, count_reclaimed_paths, count_record_failed, 170 more }`
+<a href="#">Link to this property</a>
 
-  Snapshot
+uptime\_total\_ms: optional number
 
-  - `count_reclaim_failures: number`
+Uptime of the system, including time spent in suspend
 
-    Count of failures to reclaim space
+<a href="#">Link to this property</a>
 
-  - `count_reclaimed_paths: number`
+</details>
 
-    Count of reclaimed paths
+[Link to this property](#)%20magic_transit.connectors.snapshots%20%3E%20(model)%20snapshot_get_response%20%3E%20(schema)>)
 
-  - `count_record_failed: number`
+#### ConnectorsSnapshotsLatest
 
-    Count of failed snapshot recordings
+##### [Get latest Snapshots](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/snapshots/subresources/latest/methods/list)
 
-  - `count_transmit_failures: number`
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/snapshots/latest
 
-    Count of failed snapshot transmissions
+##### ModelsExpand Collapse
 
-  - `t: number`
+<details>
 
-    Time the Snapshot was recorded (seconds since the Unix epoch)
+<summary>
 
-  - `v: string`
+LatestListResponse object {count, items }
 
-    Version
+</summary>
 
-  - `bonds: optional array of object { name, status }`
+count: number
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the network interface
+<details>
 
-    - `status: string`
+<summary>
 
-      Current status of the network interface
+items: array of object {count\_reclaim\_failures, count\_reclaimed\_paths, count\_record\_failed, 172 more }
 
-  - `cpu_count: optional number`
+</summary>
 
-    Count of processors/cores
+count\_reclaim\_failures: number
 
-  - `cpu_pressure_10s: optional number`
+Count of failures to reclaim space
 
-    Percentage of time over a 10 second window that tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `cpu_pressure_300s: optional number`
+count\_reclaimed\_paths: number
 
-    Percentage of time over a 5 minute window that tasks were stalled
+Count of reclaimed paths
 
-  - `cpu_pressure_60s: optional number`
+<a href="#">Link to this property</a>
 
-    Percentage of time over a 1 minute window that tasks were stalled
+count\_record\_failed: number
 
-  - `cpu_pressure_total_us: optional number`
+Count of failed snapshot recordings
 
-    Total stall time (microseconds)
+<a href="#">Link to this property</a>
 
-  - `cpu_time_guest_ms: optional number`
+count\_transmit\_failures: number
 
-    Time spent running a virtual CPU or guest OS (milliseconds)
+Count of failed snapshot transmissions
 
-  - `cpu_time_guest_nice_ms: optional number`
+<a href="#">Link to this property</a>
 
-    Time spent running a niced guest (milliseconds)
+t: number
 
-  - `cpu_time_idle_ms: optional number`
+Time the Snapshot was recorded (seconds since the Unix epoch)
 
-    Time spent in idle state (milliseconds)
+<a href="#">Link to this property</a>
 
-  - `cpu_time_iowait_ms: optional number`
+v: string
 
-    Time spent wait for I/O to complete (milliseconds)
+Version
 
-  - `cpu_time_irq_ms: optional number`
+<a href="#">Link to this property</a>
 
-    Time spent servicing interrupts (milliseconds)
+<details>
 
-  - `cpu_time_nice_ms: optional number`
+<summary>
 
-    Time spent in low-priority user mode (milliseconds)
+bonds: optional array of object {name, status }
 
-  - `cpu_time_softirq_ms: optional number`
+</summary>
 
-    Time spent servicing softirqs (milliseconds)
+name: string
 
-  - `cpu_time_steal_ms: optional number`
+Name of the network interface
 
-    Time stolen (milliseconds)
+<a href="#">Link to this property</a>
 
-  - `cpu_time_system_ms: optional number`
+status: string
 
-    Time spent in system mode (milliseconds)
+Current status of the network interface
 
-  - `cpu_time_user_ms: optional number`
+<a href="#">Link to this property</a>
 
-    Time spent in user mode (milliseconds)
+</details>
 
-  - `delta: optional number`
+<a href="#">Link to this property</a>
 
-    Number of network operations applied during state transition
+cpu\_count: optional number
 
-  - `dhcp_leases: optional array of object { client_id, expiry_time, hostname, 3 more }`
+Count of processors/cores
 
-    - `client_id: string`
+<a href="#">Link to this property</a>
 
-      Client ID of the device the IP Address was leased to
+cpu\_pressure\_10s: optional number
 
-    - `expiry_time: number`
+Percentage of time over a 10 second window that tasks were stalled
 
-      Expiry time of the DHCP lease (seconds since the Unix epoch)
+<a href="#">Link to this property</a>
 
-    - `hostname: string`
+cpu\_pressure\_300s: optional number
 
-      Hostname of the device the IP Address was leased to
+Percentage of time over a 5 minute window that tasks were stalled
 
-    - `interface_name: string`
+<a href="#">Link to this property</a>
 
-      Name of the network interface
+cpu\_pressure\_60s: optional number
 
-    - `ip_address: string`
+Percentage of time over a 1 minute window that tasks were stalled
 
-      IP Address that was leased
+<a href="#">Link to this property</a>
 
-    - `mac_address: string`
+cpu\_pressure\_total\_us: optional number
 
-      MAC Address of the device the IP Address was leased to
+Total stall time (microseconds)
 
-  - `disks: optional array of object { in_progress, major, merged, 17 more }`
+<a href="#">Link to this property</a>
 
-    - `in_progress: number`
+cpu\_time\_guest\_ms: optional number
 
-      I/Os currently in progress
+Time spent running a virtual CPU or guest OS (milliseconds)
 
-    - `major: number`
+<a href="#">Link to this property</a>
 
-      Device major number
+cpu\_time\_guest\_nice\_ms: optional number
 
-    - `merged: number`
+Time spent running a niced guest (milliseconds)
 
-      Reads merged
+<a href="#">Link to this property</a>
 
-    - `minor: number`
+cpu\_time\_idle\_ms: optional number
 
-      Device minor number
+Time spent in idle state (milliseconds)
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Device name
+cpu\_time\_iowait\_ms: optional number
 
-    - `reads: number`
+Time spent wait for I/O to complete (milliseconds)
 
-      Reads completed successfully
+<a href="#">Link to this property</a>
 
-    - `sectors_read: number`
+cpu\_time\_irq\_ms: optional number
 
-      Sectors read successfully
+Time spent servicing interrupts (milliseconds)
 
-    - `sectors_written: number`
+<a href="#">Link to this property</a>
 
-      Sectors written successfully
+cpu\_time\_nice\_ms: optional number
 
-    - `time_in_progress_ms: number`
+Time spent in low-priority user mode (milliseconds)
 
-      Time spent doing I/Os (milliseconds)
+<a href="#">Link to this property</a>
 
-    - `time_reading_ms: number`
+cpu\_time\_softirq\_ms: optional number
 
-      Time spent reading (milliseconds)
+Time spent servicing softirqs (milliseconds)
 
-    - `time_writing_ms: number`
+<a href="#">Link to this property</a>
 
-      Time spent writing (milliseconds)
+cpu\_time\_steal\_ms: optional number
 
-    - `weighted_time_in_progress_ms: number`
+Time stolen (milliseconds)
 
-      Weighted time spent doing I/Os (milliseconds)
+<a href="#">Link to this property</a>
 
-    - `writes: number`
+cpu\_time\_system\_ms: optional number
 
-      Writes completed
+Time spent in system mode (milliseconds)
 
-    - `writes_merged: number`
+<a href="#">Link to this property</a>
 
-      Writes merged
+cpu\_time\_user\_ms: optional number
 
-    - `discards: optional number`
+Time spent in user mode (milliseconds)
 
-      Discards completed successfully
+<a href="#">Link to this property</a>
 
-    - `discards_merged: optional number`
+delta: optional number
 
-      Discards merged
+Number of network operations applied during state transition
 
-    - `flushes: optional number`
+<a href="#">Link to this property</a>
 
-      Flushes completed successfully
+<details>
 
-    - `sectors_discarded: optional number`
+<summary>
 
-      Sectors discarded
+dhcp\_leases: optional array of object {client\_id, expiry\_time, hostname, 3 more }
 
-    - `time_discarding_ms: optional number`
+</summary>
 
-      Time spent discarding (milliseconds)
+client\_id: string
 
-    - `time_flushing_ms: optional number`
+Client ID of the device the IP Address was leased to
 
-      Time spent flushing (milliseconds)
+<a href="#">Link to this property</a>
 
-  - `epsilon: optional number`
+expiry\_time: number
 
-    Simulated number of network operations applied during state transition
+Expiry time of the DHCP lease (seconds since the Unix epoch)
 
-  - `ha_state: optional string`
+<a href="#">Link to this property</a>
 
-    Name of high availability state
+hostname: string
 
-  - `ha_value: optional number`
+Hostname of the device the IP Address was leased to
 
-    Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
+<a href="#">Link to this property</a>
 
-  - `interfaces: optional array of object { name, operstate, ip_addresses, speed }`
+interface\_name: string
 
-    - `name: string`
+Name of the network interface
 
-      Name of the network interface
+<a href="#">Link to this property</a>
 
-    - `operstate: string`
+ip\_address: string
 
-      UP/DOWN state of the network interface
+IP Address that was leased
 
-    - `ip_addresses: optional array of object { interface_name, ip_address }`
+<a href="#">Link to this property</a>
 
-      - `interface_name: string`
+mac\_address: string
 
-        Name of the network interface
+MAC Address of the device the IP Address was leased to
 
-      - `ip_address: string`
+<a href="#">Link to this property</a>
 
-        IP address of the network interface
+</details>
 
-    - `speed: optional number`
+<a href="#">Link to this property</a>
 
-      Speed of the network interface (bits per second)
+<details>
 
-  - `io_pressure_full_10s: optional number`
+<summary>
 
-    Percentage of time over a 10 second window that all tasks were stalled
+disks: optional array of object {in\_progress, major, merged, 17 more }
 
-  - `io_pressure_full_300s: optional number`
+</summary>
 
-    Percentage of time over a 5 minute window that all tasks were stalled
+in\_progress: number
 
-  - `io_pressure_full_60s: optional number`
+I/Os currently in progress
 
-    Percentage of time over a 1 minute window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `io_pressure_full_total_us: optional number`
+major: number
 
-    Total stall time (microseconds)
+Device major number
 
-  - `io_pressure_some_10s: optional number`
+<a href="#">Link to this property</a>
 
-    Percentage of time over a 10 second window that some tasks were stalled
+merged: number
 
-  - `io_pressure_some_300s: optional number`
+Reads merged
 
-    Percentage of time over a 3 minute window that some tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `io_pressure_some_60s: optional number`
+minor: number
 
-    Percentage of time over a 1 minute window that some tasks were stalled
+Device minor number
 
-  - `io_pressure_some_total_us: optional number`
+<a href="#">Link to this property</a>
 
-    Total stall time (microseconds)
+name: string
 
-  - `kernel_btime: optional number`
+Device name
 
-    Boot time (seconds since Unix epoch)
+<a href="#">Link to this property</a>
 
-  - `kernel_ctxt: optional number`
+reads: number
 
-    Number of context switches that the system underwent
+Reads completed successfully
 
-  - `kernel_processes: optional number`
+<a href="#">Link to this property</a>
 
-    Number of forks since boot
+sectors\_read: number
 
-  - `kernel_processes_blocked: optional number`
+Sectors read successfully
 
-    Number of processes blocked waiting for I/O
+<a href="#">Link to this property</a>
 
-  - `kernel_processes_running: optional number`
+sectors\_written: number
 
-    Number of processes in runnable state
+Sectors written successfully
 
-  - `load_average_15m: optional number`
+<a href="#">Link to this property</a>
 
-    The fifteen-minute load average
+time\_in\_progress\_ms: number
 
-  - `load_average_1m: optional number`
+Time spent doing I/Os (milliseconds)
 
-    The one-minute load average
+<a href="#">Link to this property</a>
 
-  - `load_average_5m: optional number`
+time\_reading\_ms: number
 
-    The five-minute load average
+Time spent reading (milliseconds)
 
-  - `load_average_cur: optional number`
+<a href="#">Link to this property</a>
 
-    Number of currently runnable kernel scheduling entities
+time\_writing\_ms: number
 
-  - `load_average_max: optional number`
+Time spent writing (milliseconds)
 
-    Number of kernel scheduling entities that currently exist on the system
+<a href="#">Link to this property</a>
 
-  - `memory_active_bytes: optional number`
+weighted\_time\_in\_progress\_ms: number
 
-    Memory that has been used more recently
+Weighted time spent doing I/Os (milliseconds)
 
-  - `memory_anon_hugepages_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Non-file backed huge pages mapped into user-space page tables
+writes: number
 
-  - `memory_anon_pages_bytes: optional number`
+Writes completed
 
-    Non-file backed pages mapped into user-space page tables
+<a href="#">Link to this property</a>
 
-  - `memory_available_bytes: optional number`
+writes\_merged: number
 
-    Estimate of how much memory is available for starting new applications
+Writes merged
 
-  - `memory_bounce_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Memory used for block device bounce buffers
+discards: optional number
 
-  - `memory_buffers_bytes: optional number`
+Discards completed successfully
 
-    Relatively temporary storage for raw disk blocks
+<a href="#">Link to this property</a>
 
-  - `memory_cached_bytes: optional number`
+discards\_merged: optional number
 
-    In-memory cache for files read from the disk
+Discards merged
 
-  - `memory_cma_free_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Free CMA (Contiguous Memory Allocator) pages
+flushes: optional number
 
-  - `memory_cma_total_bytes: optional number`
+Flushes completed successfully
 
-    Total CMA (Contiguous Memory Allocator) pages
+<a href="#">Link to this property</a>
 
-  - `memory_commit_limit_bytes: optional number`
+sectors\_discarded: optional number
 
-    Total amount of memory currently available to be allocated on the system
+Sectors discarded
 
-  - `memory_committed_as_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of memory presently allocated on the system
+time\_discarding\_ms: optional number
 
-  - `memory_dirty_bytes: optional number`
+Time spent discarding (milliseconds)
 
-    Memory which is waiting to get written back to the disk
+<a href="#">Link to this property</a>
 
-  - `memory_free_bytes: optional number`
+time\_flushing\_ms: optional number
 
-    The sum of LowFree and HighFree
+Time spent flushing (milliseconds)
 
-  - `memory_high_free_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of free highmem
+</details>
 
-  - `memory_high_total_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Total amount of highmem
+epsilon: optional number
 
-  - `memory_hugepages_free: optional number`
+Simulated number of network operations applied during state transition
 
-    The number of huge pages in the pool that are not yet allocated
+<a href="#">Link to this property</a>
 
-  - `memory_hugepages_rsvd: optional number`
+ha\_state: optional string
 
-    Number of huge pages for which a commitment has been made, but no allocation has yet been made
+Name of high availability state
 
-  - `memory_hugepages_surp: optional number`
+<a href="#">Link to this property</a>
 
-    Number of huge pages in the pool above the threshold
+ha\_value: optional number
 
-  - `memory_hugepages_total: optional number`
+Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
 
-    The size of the pool of huge pages
+<a href="#">Link to this property</a>
 
-  - `memory_hugepagesize_bytes: optional number`
+<details>
 
-    The size of huge pages
+<summary>
 
-  - `memory_inactive_bytes: optional number`
+interfaces: optional array of object {name, operstate, ip\_addresses, speed }
 
-    Memory which has been less recently used
+</summary>
 
-  - `memory_k_reclaimable_bytes: optional number`
+name: string
 
-    Kernel allocations that the kernel will attempt to reclaim under memory pressure
+Name of the network interface
 
-  - `memory_kernel_stack_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of memory allocated to kernel stacks
+operstate: string
 
-  - `memory_low_free_bytes: optional number`
+UP/DOWN state of the network interface
 
-    Amount of free lowmem
+<a href="#">Link to this property</a>
 
-  - `memory_low_total_bytes: optional number`
+<details>
 
-    Total amount of lowmem
+<summary>
 
-  - `memory_mapped_bytes: optional number`
+ip\_addresses: optional array of object {interface\_name, ip\_address }
 
-    Files which have been mapped into memory
+</summary>
 
-  - `memory_page_tables_bytes: optional number`
+interface\_name: string
 
-    Amount of memory dedicated to the lowest level of page tables
+Name of the network interface
 
-  - `memory_per_cpu_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Memory allocated to the per-cpu alloctor used to back per-cpu allocations
+ip\_address: string
 
-  - `memory_pressure_full_10s: optional number`
+IP address of the network interface
 
-    Percentage of time over a 10 second window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `memory_pressure_full_300s: optional number`
+</details>
 
-    Percentage of time over a 5 minute window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `memory_pressure_full_60s: optional number`
+speed: optional number
 
-    Percentage of time over a 1 minute window that all tasks were stalled
+Speed of the network interface (bits per second)
 
-  - `memory_pressure_full_total_us: optional number`
+<a href="#">Link to this property</a>
 
-    Total stall time (microseconds)
+</details>
 
-  - `memory_pressure_some_10s: optional number`
+<a href="#">Link to this property</a>
 
-    Percentage of time over a 10 second window that some tasks were stalled
+io\_pressure\_full\_10s: optional number
 
-  - `memory_pressure_some_300s: optional number`
+Percentage of time over a 10 second window that all tasks were stalled
 
-    Percentage of time over a 5 minute window that some tasks were stalled
+<a href="#">Link to this property</a>
 
-  - `memory_pressure_some_60s: optional number`
+io\_pressure\_full\_300s: optional number
 
-    Percentage of time over a 1 minute window that some tasks were stalled
+Percentage of time over a 5 minute window that all tasks were stalled
 
-  - `memory_pressure_some_total_us: optional number`
+<a href="#">Link to this property</a>
 
-    Total stall time (microseconds)
+io\_pressure\_full\_60s: optional number
 
-  - `memory_s_reclaimable_bytes: optional number`
+Percentage of time over a 1 minute window that all tasks were stalled
 
-    Part of slab that can be reclaimed on memory pressure
+<a href="#">Link to this property</a>
 
-  - `memory_s_unreclaim_bytes: optional number`
+io\_pressure\_full\_total\_us: optional number
 
-    Part of slab that cannot be reclaimed on memory pressure
+Total stall time (microseconds)
 
-  - `memory_secondary_page_tables_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of memory dedicated to the lowest level of page tables
+io\_pressure\_some\_10s: optional number
 
-  - `memory_shmem_bytes: optional number`
+Percentage of time over a 10 second window that some tasks were stalled
 
-    Amount of memory consumed by tmpfs
+<a href="#">Link to this property</a>
 
-  - `memory_shmem_hugepages_bytes: optional number`
+io\_pressure\_some\_300s: optional number
 
-    Memory used by shmem and tmpfs, allocated with huge pages
+Percentage of time over a 3 minute window that some tasks were stalled
 
-  - `memory_shmem_pmd_mapped_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Shared memory mapped into user space with huge pages
+io\_pressure\_some\_60s: optional number
 
-  - `memory_slab_bytes: optional number`
+Percentage of time over a 1 minute window that some tasks were stalled
 
-    In-kernel data structures cache
+<a href="#">Link to this property</a>
 
-  - `memory_swap_cached_bytes: optional number`
+io\_pressure\_some\_total\_us: optional number
 
-    Memory swapped out and back in while still in swap file
+Total stall time (microseconds)
 
-  - `memory_swap_free_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of swap space that is currently unused
+kernel\_btime: optional number
 
-  - `memory_swap_total_bytes: optional number`
+Boot time (seconds since Unix epoch)
 
-    Total amount of swap space available
+<a href="#">Link to this property</a>
 
-  - `memory_total_bytes: optional number`
+kernel\_ctxt: optional number
 
-    Total usable RAM
+Number of context switches that the system underwent
 
-  - `memory_vmalloc_chunk_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Largest contiguous block of vmalloc area which is free
+kernel\_processes: optional number
 
-  - `memory_vmalloc_total_bytes: optional number`
+Number of forks since boot
 
-    Total size of vmalloc memory area
+<a href="#">Link to this property</a>
 
-  - `memory_vmalloc_used_bytes: optional number`
+kernel\_processes\_blocked: optional number
 
-    Amount of vmalloc area which is used
+Number of processes blocked waiting for I/O
 
-  - `memory_writeback_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Memory which is actively being written back to the disk
+kernel\_processes\_running: optional number
 
-  - `memory_writeback_tmp_bytes: optional number`
+Number of processes in runnable state
 
-    Memory used by FUSE for temporary writeback buffers
+<a href="#">Link to this property</a>
 
-  - `memory_z_swap_bytes: optional number`
+load\_average\_15m: optional number
 
-    Memory consumed by the zswap backend, compressed
+The fifteen-minute load average
 
-  - `memory_z_swapped_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    Amount of anonymous memory stored in zswap, uncompressed
+load\_average\_1m: optional number
 
-  - `mounts: optional array of object { file_system, kind, mount_point, 7 more }`
+The one-minute load average
 
-    - `file_system: string`
+<a href="#">Link to this property</a>
 
-      File system on disk (EXT4, NTFS, etc.)
+load\_average\_5m: optional number
 
-    - `kind: string`
+The five-minute load average
 
-      Kind of disk (HDD, SSD, etc.)
+<a href="#">Link to this property</a>
 
-    - `mount_point: string`
+load\_average\_cur: optional number
 
-      Path where disk is mounted
+Number of currently runnable kernel scheduling entities
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the disk mount
+load\_average\_max: optional number
 
-    - `available_bytes: optional number`
+Number of kernel scheduling entities that currently exist on the system
 
-      Available disk size (bytes)
+<a href="#">Link to this property</a>
 
-    - `available_inodes: optional number`
+memory\_active\_bytes: optional number
 
-      Available inodes on filesystem
+Memory that has been used more recently
 
-    - `is_read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-      Determines whether the disk is read-only
+memory\_anon\_hugepages\_bytes: optional number
 
-    - `is_removable: optional boolean`
+Non-file backed huge pages mapped into user-space page tables
 
-      Determines whether the disk is removable
+<a href="#">Link to this property</a>
 
-    - `total_bytes: optional number`
+memory\_anon\_pages\_bytes: optional number
 
-      Total disk size (bytes)
+Non-file backed pages mapped into user-space page tables
 
-    - `total_inodes: optional number`
+<a href="#">Link to this property</a>
 
-      Total inodes on filesystem
+memory\_available\_bytes: optional number
 
-  - `netdevs: optional array of object { name, recv_bytes, recv_compressed, 14 more }`
+Estimate of how much memory is available for starting new applications
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the network device
+memory\_bounce\_bytes: optional number
 
-    - `recv_bytes: number`
+Memory used for block device bounce buffers
 
-      Total bytes received
+<a href="#">Link to this property</a>
 
-    - `recv_compressed: number`
+memory\_buffers\_bytes: optional number
 
-      Compressed packets received
+Relatively temporary storage for raw disk blocks
 
-    - `recv_drop: number`
+<a href="#">Link to this property</a>
 
-      Packets dropped
+memory\_cached\_bytes: optional number
 
-    - `recv_errs: number`
+In-memory cache for files read from the disk
 
-      Bad packets received
+<a href="#">Link to this property</a>
 
-    - `recv_fifo: number`
+memory\_cma\_free\_bytes: optional number
 
-      FIFO overruns
+Free CMA (Contiguous Memory Allocator) pages
 
-    - `recv_frame: number`
+<a href="#">Link to this property</a>
 
-      Frame alignment errors
+memory\_cma\_total\_bytes: optional number
 
-    - `recv_multicast: number`
+Total CMA (Contiguous Memory Allocator) pages
 
-      Multicast packets received
+<a href="#">Link to this property</a>
 
-    - `recv_packets: number`
+memory\_commit\_limit\_bytes: optional number
 
-      Total packets received
+Total amount of memory currently available to be allocated on the system
 
-    - `sent_bytes: number`
+<a href="#">Link to this property</a>
 
-      Total bytes transmitted
+memory\_committed\_as\_bytes: optional number
 
-    - `sent_carrier: number`
+Amount of memory presently allocated on the system
 
-      Number of packets not sent due to carrier errors
+<a href="#">Link to this property</a>
 
-    - `sent_colls: number`
+memory\_dirty\_bytes: optional number
 
-      Number of collisions
+Memory which is waiting to get written back to the disk
 
-    - `sent_compressed: number`
+<a href="#">Link to this property</a>
 
-      Number of compressed packets transmitted
+memory\_free\_bytes: optional number
 
-    - `sent_drop: number`
+The sum of LowFree and HighFree
 
-      Number of packets dropped during transmission
+<a href="#">Link to this property</a>
 
-    - `sent_errs: number`
+memory\_high\_free\_bytes: optional number
 
-      Number of transmission errors
+Amount of free highmem
 
-    - `sent_fifo: number`
+<a href="#">Link to this property</a>
 
-      FIFO overruns
+memory\_high\_total\_bytes: optional number
 
-    - `sent_packets: number`
+Total amount of highmem
 
-      Total packets transmitted
+<a href="#">Link to this property</a>
 
-  - `platform: optional string`
+memory\_hugepages\_free: optional number
 
-    Platform identifier
+The number of huge pages in the pool that are not yet allocated
 
-  - `snmp_icmp_in_addr_mask_reps: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Address Mask Reply messages received
+memory\_hugepages\_rsvd: optional number
 
-  - `snmp_icmp_in_addr_masks: optional number`
+Number of huge pages for which a commitment has been made, but no allocation has yet been made
 
-    Number of ICMP Address Mask Request messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_in_csum_errors: optional number`
+memory\_hugepages\_surp: optional number
 
-    Number of ICMP messages received with bad checksums
+Number of huge pages in the pool above the threshold
 
-  - `snmp_icmp_in_dest_unreachs: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Destination Unreachable messages received
+memory\_hugepages\_total: optional number
 
-  - `snmp_icmp_in_echo_reps: optional number`
+The size of the pool of huge pages
 
-    Number of ICMP Echo Reply messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_in_echos: optional number`
+memory\_hugepagesize\_bytes: optional number
 
-    Number of ICMP Echo (request) messages received
+The size of huge pages
 
-  - `snmp_icmp_in_errors: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP messages received with ICMP-specific errors
+memory\_inactive\_bytes: optional number
 
-  - `snmp_icmp_in_msgs: optional number`
+Memory which has been less recently used
 
-    Number of ICMP messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_in_parm_probs: optional number`
+memory\_k\_reclaimable\_bytes: optional number
 
-    Number of ICMP Parameter Problem messages received
+Kernel allocations that the kernel will attempt to reclaim under memory pressure
 
-  - `snmp_icmp_in_redirects: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Redirect messages received
+memory\_kernel\_stack\_bytes: optional number
 
-  - `snmp_icmp_in_src_quenchs: optional number`
+Amount of memory allocated to kernel stacks
 
-    Number of ICMP Source Quench messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_in_time_excds: optional number`
+memory\_low\_free\_bytes: optional number
 
-    Number of ICMP Time Exceeded messages received
+Amount of free lowmem
 
-  - `snmp_icmp_in_timestamp_reps: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Address Mask Request messages received
+memory\_low\_total\_bytes: optional number
 
-  - `snmp_icmp_in_timestamps: optional number`
+Total amount of lowmem
 
-    Number of ICMP Timestamp (request) messages received
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_addr_mask_reps: optional number`
+memory\_mapped\_bytes: optional number
 
-    Number of ICMP Address Mask Reply messages sent
+Files which have been mapped into memory
 
-  - `snmp_icmp_out_addr_masks: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Address Mask Request messages sent
+memory\_page\_tables\_bytes: optional number
 
-  - `snmp_icmp_out_dest_unreachs: optional number`
+Amount of memory dedicated to the lowest level of page tables
 
-    Number of ICMP Destination Unreachable messages sent
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_echo_reps: optional number`
+memory\_per\_cpu\_bytes: optional number
 
-    Number of ICMP Echo Reply messages sent
+Memory allocated to the per-cpu alloctor used to back per-cpu allocations
 
-  - `snmp_icmp_out_echos: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Echo (request) messages sent
+memory\_pressure\_full\_10s: optional number
 
-  - `snmp_icmp_out_errors: optional number`
+Percentage of time over a 10 second window that all tasks were stalled
 
-    Number of ICMP messages which this entity did not send due to ICMP-specific errors
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_msgs: optional number`
+memory\_pressure\_full\_300s: optional number
 
-    Number of ICMP messages attempted to send
+Percentage of time over a 5 minute window that all tasks were stalled
 
-  - `snmp_icmp_out_parm_probs: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Parameter Problem messages sent
+memory\_pressure\_full\_60s: optional number
 
-  - `snmp_icmp_out_redirects: optional number`
+Percentage of time over a 1 minute window that all tasks were stalled
 
-    Number of ICMP Redirect messages sent
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_src_quenchs: optional number`
+memory\_pressure\_full\_total\_us: optional number
 
-    Number of ICMP Source Quench messages sent
+Total stall time (microseconds)
 
-  - `snmp_icmp_out_time_excds: optional number`
+<a href="#">Link to this property</a>
 
-    Number of ICMP Time Exceeded messages sent
+memory\_pressure\_some\_10s: optional number
 
-  - `snmp_icmp_out_timestamp_reps: optional number`
+Percentage of time over a 10 second window that some tasks were stalled
 
-    Number of ICMP Timestamp Reply messages sent
+<a href="#">Link to this property</a>
 
-  - `snmp_icmp_out_timestamps: optional number`
+memory\_pressure\_some\_300s: optional number
 
-    Number of ICMP Timestamp (request) messages sent
+Percentage of time over a 5 minute window that some tasks were stalled
 
-  - `snmp_ip_default_ttl: optional number`
+<a href="#">Link to this property</a>
 
-    Default value of the Time-To-Live field of the IP header
+memory\_pressure\_some\_60s: optional number
 
-  - `snmp_ip_forw_datagrams: optional number`
+Percentage of time over a 1 minute window that some tasks were stalled
 
-    Number of datagrams forwarded to their final destination
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_forwarding_enabled: optional boolean`
+memory\_pressure\_some\_total\_us: optional number
 
-    Set when acting as an IP gateway
+Total stall time (microseconds)
 
-  - `snmp_ip_frag_creates: optional number`
+<a href="#">Link to this property</a>
 
-    Number of datagrams generated by fragmentation
+memory\_s\_reclaimable\_bytes: optional number
 
-  - `snmp_ip_frag_fails: optional number`
+Part of slab that can be reclaimed on memory pressure
 
-    Number of datagrams discarded because fragmentation failed
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_frag_oks: optional number`
+memory\_s\_unreclaim\_bytes: optional number
 
-    Number of datagrams successfully fragmented
+Part of slab that cannot be reclaimed on memory pressure
 
-  - `snmp_ip_in_addr_errors: optional number`
+<a href="#">Link to this property</a>
 
-    Number of input datagrams discarded due to errors in the IP address
+memory\_secondary\_page\_tables\_bytes: optional number
 
-  - `snmp_ip_in_delivers: optional number`
+Amount of memory dedicated to the lowest level of page tables
 
-    Number of input datagrams successfully delivered to IP user-protocols
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_in_discards: optional number`
+memory\_shmem\_bytes: optional number
 
-    Number of input datagrams otherwise discarded
+Amount of memory consumed by tmpfs
 
-  - `snmp_ip_in_hdr_errors: optional number`
+<a href="#">Link to this property</a>
 
-    Number of input datagrams discarded due to errors in the IP header
+memory\_shmem\_hugepages\_bytes: optional number
 
-  - `snmp_ip_in_receives: optional number`
+Memory used by shmem and tmpfs, allocated with huge pages
 
-    Number of input datagrams received from interfaces
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_in_unknown_protos: optional number`
+memory\_shmem\_pmd\_mapped\_bytes: optional number
 
-    Number of input datagrams discarded due unknown or unsupported protocol
+Shared memory mapped into user space with huge pages
 
-  - `snmp_ip_out_discards: optional number`
+<a href="#">Link to this property</a>
 
-    Number of output datagrams otherwise discarded
+memory\_slab\_bytes: optional number
 
-  - `snmp_ip_out_no_routes: optional number`
+In-kernel data structures cache
 
-    Number of output datagrams discarded because no route matched
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_out_requests: optional number`
+memory\_swap\_cached\_bytes: optional number
 
-    Number of datagrams supplied for transmission
+Memory swapped out and back in while still in swap file
 
-  - `snmp_ip_reasm_fails: optional number`
+<a href="#">Link to this property</a>
 
-    Number of failures detected by the reassembly algorithm
+memory\_swap\_free\_bytes: optional number
 
-  - `snmp_ip_reasm_oks: optional number`
+Amount of swap space that is currently unused
 
-    Number of datagrams successfully reassembled
+<a href="#">Link to this property</a>
 
-  - `snmp_ip_reasm_reqds: optional number`
+memory\_swap\_total\_bytes: optional number
 
-    Number of fragments received which needed to be reassembled
+Total amount of swap space available
 
-  - `snmp_ip_reasm_timeout: optional number`
+<a href="#">Link to this property</a>
 
-    Number of seconds fragments are held while awaiting reassembly
+memory\_total\_bytes: optional number
 
-  - `snmp_tcp_active_opens: optional number`
+Total usable RAM
 
-    Number of times TCP transitions to SYN-SENT from CLOSED
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_attempt_fails: optional number`
+memory\_vmalloc\_chunk\_bytes: optional number
 
-    Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD
+Largest contiguous block of vmalloc area which is free
 
-  - `snmp_tcp_curr_estab: optional number`
+<a href="#">Link to this property</a>
 
-    Number of TCP connections in ESTABLISHED or CLOSE-WAIT
+memory\_vmalloc\_total\_bytes: optional number
 
-  - `snmp_tcp_estab_resets: optional number`
+Total size of vmalloc memory area
 
-    Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_in_csum_errors: optional number`
+memory\_vmalloc\_used\_bytes: optional number
 
-    Number of TCP segments received with checksum errors
+Amount of vmalloc area which is used
 
-  - `snmp_tcp_in_errs: optional number`
+<a href="#">Link to this property</a>
 
-    Number of TCP segments received in error
+memory\_writeback\_bytes: optional number
 
-  - `snmp_tcp_in_segs: optional number`
+Memory which is actively being written back to the disk
 
-    Number of TCP segments received
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_max_conn: optional number`
+memory\_writeback\_tmp\_bytes: optional number
 
-    Limit on the total number of TCP connections
+Memory used by FUSE for temporary writeback buffers
 
-  - `snmp_tcp_out_rsts: optional number`
+<a href="#">Link to this property</a>
 
-    Number of TCP segments sent with RST flag
+memory\_z\_swap\_bytes: optional number
 
-  - `snmp_tcp_out_segs: optional number`
+Memory consumed by the zswap backend, compressed
 
-    Number of TCP segments sent
+<a href="#">Link to this property</a>
 
-  - `snmp_tcp_passive_opens: optional number`
+memory\_z\_swapped\_bytes: optional number
 
-    Number of times TCP transitions to SYN-RCVD from LISTEN
+Amount of anonymous memory stored in zswap, uncompressed
 
-  - `snmp_tcp_retrans_segs: optional number`
+<a href="#">Link to this property</a>
 
-    Number of TCP segments retransmitted
+<details>
 
-  - `snmp_tcp_rto_max: optional number`
+<summary>
 
-    Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
+mounts: optional array of object {file\_system, kind, mount\_point, 7 more }
 
-  - `snmp_tcp_rto_min: optional number`
+</summary>
 
-    Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
+file\_system: string
 
-  - `snmp_udp_in_datagrams: optional number`
+File system on disk (EXT4, NTFS, etc.)
 
-    Number of UDP datagrams delivered to UDP applications
+<a href="#">Link to this property</a>
 
-  - `snmp_udp_in_errors: optional number`
+kind: string
 
-    Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port
+Kind of disk (HDD, SSD, etc.)
 
-  - `snmp_udp_no_ports: optional number`
+<a href="#">Link to this property</a>
 
-    Number of UDP datagrams received for which there was not application at the destination port
+mount\_point: string
 
-  - `snmp_udp_out_datagrams: optional number`
+Path where disk is mounted
 
-    Number of UDP datagrams sent
+<a href="#">Link to this property</a>
 
-  - `system_boot_time_s: optional number`
+name: string
 
-    Boottime of the system (seconds since the Unix epoch)
+Name of the disk mount
 
-  - `thermals: optional array of object { label, critical_celcius, current_celcius, max_celcius }`
+<a href="#">Link to this property</a>
 
-    - `label: string`
+available\_bytes: optional number
 
-      Sensor identifier for the component
+Available disk size (bytes)
 
-    - `critical_celcius: optional number`
+<a href="#">Link to this property</a>
 
-      Critical failure temperature of the component (degrees Celsius)
+available\_inodes: optional number
 
-    - `current_celcius: optional number`
+Available inodes on filesystem
 
-      Current temperature of the component (degrees Celsius)
+<a href="#">Link to this property</a>
 
-    - `max_celcius: optional number`
+is\_read\_only: optional boolean
 
-      Maximum temperature of the component (degrees Celsius)
+Determines whether the disk is read-only
 
-  - `tunnels: optional array of object { health_state, health_value, interface_name, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `health_state: string`
+is\_removable: optional boolean
 
-      Name of tunnel health state (unknown, healthy, degraded, down)
+Determines whether the disk is removable
 
-    - `health_value: number`
+<a href="#">Link to this property</a>
 
-      Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
+total\_bytes: optional number
 
-    - `interface_name: string`
+Total disk size (bytes)
 
-      The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
+<a href="#">Link to this property</a>
 
-    - `tunnel_id: string`
+total\_inodes: optional number
 
-      Tunnel identifier
+Total inodes on filesystem
 
-    - `natd_result: optional string`
+<a href="#">Link to this property</a>
 
-      Public socket address returned by the NAT detector
+</details>
 
-    - `natd_state: optional number`
+<a href="#">Link to this property</a>
 
-      Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
+<details>
 
-    - `natd_target: optional string`
+<summary>
 
-      Target socket address probed by the NAT detector, using the detector source port
+netdevs: optional array of object {name, recv\_bytes, recv\_compressed, 14 more }
 
-    - `probed_mtu: optional number`
+</summary>
 
-      MTU as measured between the two ends of the tunnel
+name: string
 
-    - `recent_healthy_pings: optional number`
+Name of the network device
 
-      Number of recent healthy pings for this tunnel
+<a href="#">Link to this property</a>
 
-    - `recent_unhealthy_pings: optional number`
+recv\_bytes: number
 
-      Number of recent unhealthy pings for this tunnel
+Total bytes received
 
-  - `uptime_idle_ms: optional number`
+<a href="#">Link to this property</a>
 
-    Sum of how much time each core has spent idle
+recv\_compressed: number
 
-  - `uptime_total_ms: optional number`
+Compressed packets received
 
-    Uptime of the system, including time spent in suspend
+<a href="#">Link to this property</a>
 
-# Latest
+recv\_drop: number
 
-## Get latest Snapshots
+Packets dropped
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/snapshots/latest`
+<a href="#">Link to this property</a>
 
-Get latest Snapshots
+recv\_errs: number
 
-### Path Parameters
+Bad packets received
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier
+recv\_fifo: number
 
-- `connector_id: string`
+FIFO overruns
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { count, items }`
+recv\_frame: number
 
-  - `count: number`
+Frame alignment errors
 
-  - `items: array of object { count_reclaim_failures, count_reclaimed_paths, count_record_failed, 170 more }`
+<a href="#">Link to this property</a>
 
-    - `count_reclaim_failures: number`
+recv\_multicast: number
 
-      Count of failures to reclaim space
+Multicast packets received
 
-    - `count_reclaimed_paths: number`
+<a href="#">Link to this property</a>
 
-      Count of reclaimed paths
+recv\_packets: number
 
-    - `count_record_failed: number`
+Total packets received
 
-      Count of failed snapshot recordings
+<a href="#">Link to this property</a>
 
-    - `count_transmit_failures: number`
+sent\_bytes: number
 
-      Count of failed snapshot transmissions
+Total bytes transmitted
 
-    - `t: number`
+<a href="#">Link to this property</a>
 
-      Time the Snapshot was recorded (seconds since the Unix epoch)
+sent\_carrier: number
 
-    - `v: string`
+Number of packets not sent due to carrier errors
 
-      Version
+<a href="#">Link to this property</a>
 
-    - `bonds: optional array of object { name, status }`
+sent\_colls: number
 
-      - `name: string`
+Number of collisions
 
-        Name of the network interface
+<a href="#">Link to this property</a>
 
-      - `status: string`
+sent\_compressed: number
 
-        Current status of the network interface
+Number of compressed packets transmitted
 
-    - `cpu_count: optional number`
+<a href="#">Link to this property</a>
 
-      Count of processors/cores
+sent\_drop: number
 
-    - `cpu_pressure_10s: optional number`
+Number of packets dropped during transmission
 
-      Percentage of time over a 10 second window that tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `cpu_pressure_300s: optional number`
+sent\_errs: number
 
-      Percentage of time over a 5 minute window that tasks were stalled
+Number of transmission errors
 
-    - `cpu_pressure_60s: optional number`
+<a href="#">Link to this property</a>
 
-      Percentage of time over a 1 minute window that tasks were stalled
+sent\_fifo: number
 
-    - `cpu_pressure_total_us: optional number`
+FIFO overruns
 
-      Total stall time (microseconds)
+<a href="#">Link to this property</a>
 
-    - `cpu_time_guest_ms: optional number`
+sent\_packets: number
 
-      Time spent running a virtual CPU or guest OS (milliseconds)
+Total packets transmitted
 
-    - `cpu_time_guest_nice_ms: optional number`
+<a href="#">Link to this property</a>
 
-      Time spent running a niced guest (milliseconds)
+</details>
 
-    - `cpu_time_idle_ms: optional number`
+<a href="#">Link to this property</a>
 
-      Time spent in idle state (milliseconds)
+platform: optional string
 
-    - `cpu_time_iowait_ms: optional number`
+Platform identifier
 
-      Time spent wait for I/O to complete (milliseconds)
+<a href="#">Link to this property</a>
 
-    - `cpu_time_irq_ms: optional number`
+<details>
 
-      Time spent servicing interrupts (milliseconds)
+<summary>
 
-    - `cpu_time_nice_ms: optional number`
+routes: optional array of object {destination, interface\_name, kind, 3 more }
 
-      Time spent in low-priority user mode (milliseconds)
+</summary>
 
-    - `cpu_time_softirq_ms: optional number`
+destination: string
 
-      Time spent servicing softirqs (milliseconds)
+Route destination as default or an IPv4 CIDR
 
-    - `cpu_time_steal_ms: optional number`
+<a href="#">Link to this property</a>
 
-      Time stolen (milliseconds)
+interface\_name: string
 
-    - `cpu_time_system_ms: optional number`
+Interface used by the next hop
 
-      Time spent in system mode (milliseconds)
+<a href="#">Link to this property</a>
 
-    - `cpu_time_user_ms: optional number`
+kind: string
 
-      Time spent in user mode (milliseconds)
+Routing decision type: tunnel, breakout, or lan
 
-    - `delta: optional number`
+<a href="#">Link to this property</a>
 
-      Number of network operations applied during state transition
+metric: number
 
-    - `dhcp_leases: optional array of object { client_id, expiry_time, hostname, 3 more }`
+Route metric; lower metrics are preferred
 
-      - `client_id: string`
+<a href="#">Link to this property</a>
 
-        Client ID of the device the IP Address was leased to
+gateway: optional string
 
-      - `expiry_time: number`
+Gateway address for the next hop
 
-        Expiry time of the DHCP lease (seconds since the Unix epoch)
+<a href="#">Link to this property</a>
 
-      - `hostname: string`
+weight: optional number
 
-        Hostname of the device the IP Address was leased to
+Relative weight within an equal-cost route
 
-      - `interface_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the network interface
+</details>
 
-      - `ip_address: string`
+<a href="#">Link to this property</a>
 
-        IP Address that was leased
+site\_id: optional string
 
-      - `mac_address: string`
+Site identifier
 
-        MAC Address of the device the IP Address was leased to
+<a href="#">Link to this property</a>
 
-    - `disks: optional array of object { in_progress, major, merged, 17 more }`
+snmp\_icmp\_in\_addr\_mask\_reps: optional number
 
-      - `in_progress: number`
+Number of ICMP Address Mask Reply messages received
 
-        I/Os currently in progress
+<a href="#">Link to this property</a>
 
-      - `major: number`
+snmp\_icmp\_in\_addr\_masks: optional number
 
-        Device major number
+Number of ICMP Address Mask Request messages received
 
-      - `merged: number`
+<a href="#">Link to this property</a>
 
-        Reads merged
+snmp\_icmp\_in\_csum\_errors: optional number
 
-      - `minor: number`
+Number of ICMP messages received with bad checksums
 
-        Device minor number
+<a href="#">Link to this property</a>
 
-      - `name: string`
+snmp\_icmp\_in\_dest\_unreachs: optional number
 
-        Device name
+Number of ICMP Destination Unreachable messages received
 
-      - `reads: number`
+<a href="#">Link to this property</a>
 
-        Reads completed successfully
+snmp\_icmp\_in\_echo\_reps: optional number
 
-      - `sectors_read: number`
+Number of ICMP Echo Reply messages received
 
-        Sectors read successfully
+<a href="#">Link to this property</a>
 
-      - `sectors_written: number`
+snmp\_icmp\_in\_echos: optional number
 
-        Sectors written successfully
+Number of ICMP Echo (request) messages received
 
-      - `time_in_progress_ms: number`
+<a href="#">Link to this property</a>
 
-        Time spent doing I/Os (milliseconds)
+snmp\_icmp\_in\_errors: optional number
 
-      - `time_reading_ms: number`
+Number of ICMP messages received with ICMP-specific errors
 
-        Time spent reading (milliseconds)
+<a href="#">Link to this property</a>
 
-      - `time_writing_ms: number`
+snmp\_icmp\_in\_msgs: optional number
 
-        Time spent writing (milliseconds)
+Number of ICMP messages received
 
-      - `weighted_time_in_progress_ms: number`
+<a href="#">Link to this property</a>
 
-        Weighted time spent doing I/Os (milliseconds)
+snmp\_icmp\_in\_parm\_probs: optional number
 
-      - `writes: number`
+Number of ICMP Parameter Problem messages received
 
-        Writes completed
+<a href="#">Link to this property</a>
 
-      - `writes_merged: number`
+snmp\_icmp\_in\_redirects: optional number
 
-        Writes merged
+Number of ICMP Redirect messages received
 
-      - `discards: optional number`
+<a href="#">Link to this property</a>
 
-        Discards completed successfully
+snmp\_icmp\_in\_src\_quenchs: optional number
 
-      - `discards_merged: optional number`
+Number of ICMP Source Quench messages received
 
-        Discards merged
+<a href="#">Link to this property</a>
 
-      - `flushes: optional number`
+snmp\_icmp\_in\_time\_excds: optional number
 
-        Flushes completed successfully
+Number of ICMP Time Exceeded messages received
 
-      - `sectors_discarded: optional number`
+<a href="#">Link to this property</a>
 
-        Sectors discarded
+snmp\_icmp\_in\_timestamp\_reps: optional number
 
-      - `time_discarding_ms: optional number`
+Number of ICMP Address Mask Request messages received
 
-        Time spent discarding (milliseconds)
+<a href="#">Link to this property</a>
 
-      - `time_flushing_ms: optional number`
+snmp\_icmp\_in\_timestamps: optional number
 
-        Time spent flushing (milliseconds)
+Number of ICMP Timestamp (request) messages received
 
-    - `epsilon: optional number`
+<a href="#">Link to this property</a>
 
-      Simulated number of network operations applied during state transition
+snmp\_icmp\_out\_addr\_mask\_reps: optional number
 
-    - `ha_state: optional string`
+Number of ICMP Address Mask Reply messages sent
 
-      Name of high availability state
+<a href="#">Link to this property</a>
 
-    - `ha_value: optional number`
+snmp\_icmp\_out\_addr\_masks: optional number
 
-      Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
+Number of ICMP Address Mask Request messages sent
 
-    - `interfaces: optional array of object { name, operstate, ip_addresses, speed }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+snmp\_icmp\_out\_dest\_unreachs: optional number
 
-        Name of the network interface
+Number of ICMP Destination Unreachable messages sent
 
-      - `operstate: string`
+<a href="#">Link to this property</a>
 
-        UP/DOWN state of the network interface
+snmp\_icmp\_out\_echo\_reps: optional number
 
-      - `ip_addresses: optional array of object { interface_name, ip_address }`
+Number of ICMP Echo Reply messages sent
 
-        - `interface_name: string`
+<a href="#">Link to this property</a>
 
-          Name of the network interface
+snmp\_icmp\_out\_echos: optional number
 
-        - `ip_address: string`
+Number of ICMP Echo (request) messages sent
 
-          IP address of the network interface
+<a href="#">Link to this property</a>
 
-      - `speed: optional number`
+snmp\_icmp\_out\_errors: optional number
 
-        Speed of the network interface (bits per second)
+Number of ICMP messages which this entity did not send due to ICMP-specific errors
 
-    - `io_pressure_full_10s: optional number`
+<a href="#">Link to this property</a>
 
-      Percentage of time over a 10 second window that all tasks were stalled
+snmp\_icmp\_out\_msgs: optional number
 
-    - `io_pressure_full_300s: optional number`
+Number of ICMP messages attempted to send
 
-      Percentage of time over a 5 minute window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `io_pressure_full_60s: optional number`
+snmp\_icmp\_out\_parm\_probs: optional number
 
-      Percentage of time over a 1 minute window that all tasks were stalled
+Number of ICMP Parameter Problem messages sent
 
-    - `io_pressure_full_total_us: optional number`
+<a href="#">Link to this property</a>
 
-      Total stall time (microseconds)
+snmp\_icmp\_out\_redirects: optional number
 
-    - `io_pressure_some_10s: optional number`
+Number of ICMP Redirect messages sent
 
-      Percentage of time over a 10 second window that some tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `io_pressure_some_300s: optional number`
+snmp\_icmp\_out\_src\_quenchs: optional number
 
-      Percentage of time over a 3 minute window that some tasks were stalled
+Number of ICMP Source Quench messages sent
 
-    - `io_pressure_some_60s: optional number`
+<a href="#">Link to this property</a>
 
-      Percentage of time over a 1 minute window that some tasks were stalled
+snmp\_icmp\_out\_time\_excds: optional number
 
-    - `io_pressure_some_total_us: optional number`
+Number of ICMP Time Exceeded messages sent
 
-      Total stall time (microseconds)
+<a href="#">Link to this property</a>
 
-    - `kernel_btime: optional number`
+snmp\_icmp\_out\_timestamp\_reps: optional number
 
-      Boot time (seconds since Unix epoch)
+Number of ICMP Timestamp Reply messages sent
 
-    - `kernel_ctxt: optional number`
+<a href="#">Link to this property</a>
 
-      Number of context switches that the system underwent
+snmp\_icmp\_out\_timestamps: optional number
 
-    - `kernel_processes: optional number`
+Number of ICMP Timestamp (request) messages sent
 
-      Number of forks since boot
+<a href="#">Link to this property</a>
 
-    - `kernel_processes_blocked: optional number`
+snmp\_ip\_default\_ttl: optional number
 
-      Number of processes blocked waiting for I/O
+Default value of the Time-To-Live field of the IP header
 
-    - `kernel_processes_running: optional number`
+<a href="#">Link to this property</a>
 
-      Number of processes in runnable state
+snmp\_ip\_forw\_datagrams: optional number
 
-    - `load_average_15m: optional number`
+Number of datagrams forwarded to their final destination
 
-      The fifteen-minute load average
+<a href="#">Link to this property</a>
 
-    - `load_average_1m: optional number`
+snmp\_ip\_forwarding\_enabled: optional boolean
 
-      The one-minute load average
+Set when acting as an IP gateway
 
-    - `load_average_5m: optional number`
+<a href="#">Link to this property</a>
 
-      The five-minute load average
+snmp\_ip\_frag\_creates: optional number
 
-    - `load_average_cur: optional number`
+Number of datagrams generated by fragmentation
 
-      Number of currently runnable kernel scheduling entities
+<a href="#">Link to this property</a>
 
-    - `load_average_max: optional number`
+snmp\_ip\_frag\_fails: optional number
 
-      Number of kernel scheduling entities that currently exist on the system
+Number of datagrams discarded because fragmentation failed
 
-    - `memory_active_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Memory that has been used more recently
+snmp\_ip\_frag\_oks: optional number
 
-    - `memory_anon_hugepages_bytes: optional number`
+Number of datagrams successfully fragmented
 
-      Non-file backed huge pages mapped into user-space page tables
+<a href="#">Link to this property</a>
 
-    - `memory_anon_pages_bytes: optional number`
+snmp\_ip\_in\_addr\_errors: optional number
 
-      Non-file backed pages mapped into user-space page tables
+Number of input datagrams discarded due to errors in the IP address
 
-    - `memory_available_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Estimate of how much memory is available for starting new applications
+snmp\_ip\_in\_delivers: optional number
 
-    - `memory_bounce_bytes: optional number`
+Number of input datagrams successfully delivered to IP user-protocols
 
-      Memory used for block device bounce buffers
+<a href="#">Link to this property</a>
 
-    - `memory_buffers_bytes: optional number`
+snmp\_ip\_in\_discards: optional number
 
-      Relatively temporary storage for raw disk blocks
+Number of input datagrams otherwise discarded
 
-    - `memory_cached_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      In-memory cache for files read from the disk
+snmp\_ip\_in\_hdr\_errors: optional number
 
-    - `memory_cma_free_bytes: optional number`
+Number of input datagrams discarded due to errors in the IP header
 
-      Free CMA (Contiguous Memory Allocator) pages
+<a href="#">Link to this property</a>
 
-    - `memory_cma_total_bytes: optional number`
+snmp\_ip\_in\_receives: optional number
 
-      Total CMA (Contiguous Memory Allocator) pages
+Number of input datagrams received from interfaces
 
-    - `memory_commit_limit_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Total amount of memory currently available to be allocated on the system
+snmp\_ip\_in\_unknown\_protos: optional number
 
-    - `memory_committed_as_bytes: optional number`
+Number of input datagrams discarded due unknown or unsupported protocol
 
-      Amount of memory presently allocated on the system
+<a href="#">Link to this property</a>
 
-    - `memory_dirty_bytes: optional number`
+snmp\_ip\_out\_discards: optional number
 
-      Memory which is waiting to get written back to the disk
+Number of output datagrams otherwise discarded
 
-    - `memory_free_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      The sum of LowFree and HighFree
+snmp\_ip\_out\_no\_routes: optional number
 
-    - `memory_high_free_bytes: optional number`
+Number of output datagrams discarded because no route matched
 
-      Amount of free highmem
+<a href="#">Link to this property</a>
 
-    - `memory_high_total_bytes: optional number`
+snmp\_ip\_out\_requests: optional number
 
-      Total amount of highmem
+Number of datagrams supplied for transmission
 
-    - `memory_hugepages_free: optional number`
+<a href="#">Link to this property</a>
 
-      The number of huge pages in the pool that are not yet allocated
+snmp\_ip\_reasm\_fails: optional number
 
-    - `memory_hugepages_rsvd: optional number`
+Number of failures detected by the reassembly algorithm
 
-      Number of huge pages for which a commitment has been made, but no allocation has yet been made
+<a href="#">Link to this property</a>
 
-    - `memory_hugepages_surp: optional number`
+snmp\_ip\_reasm\_oks: optional number
 
-      Number of huge pages in the pool above the threshold
+Number of datagrams successfully reassembled
 
-    - `memory_hugepages_total: optional number`
+<a href="#">Link to this property</a>
 
-      The size of the pool of huge pages
+snmp\_ip\_reasm\_reqds: optional number
 
-    - `memory_hugepagesize_bytes: optional number`
+Number of fragments received which needed to be reassembled
 
-      The size of huge pages
+<a href="#">Link to this property</a>
 
-    - `memory_inactive_bytes: optional number`
+snmp\_ip\_reasm\_timeout: optional number
 
-      Memory which has been less recently used
+Number of seconds fragments are held while awaiting reassembly
 
-    - `memory_k_reclaimable_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Kernel allocations that the kernel will attempt to reclaim under memory pressure
+snmp\_tcp\_active\_opens: optional number
 
-    - `memory_kernel_stack_bytes: optional number`
+Number of times TCP transitions to SYN-SENT from CLOSED
 
-      Amount of memory allocated to kernel stacks
+<a href="#">Link to this property</a>
 
-    - `memory_low_free_bytes: optional number`
+snmp\_tcp\_attempt\_fails: optional number
 
-      Amount of free lowmem
+Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD
 
-    - `memory_low_total_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Total amount of lowmem
+snmp\_tcp\_curr\_estab: optional number
 
-    - `memory_mapped_bytes: optional number`
+Number of TCP connections in ESTABLISHED or CLOSE-WAIT
 
-      Files which have been mapped into memory
+<a href="#">Link to this property</a>
 
-    - `memory_page_tables_bytes: optional number`
+snmp\_tcp\_estab\_resets: optional number
 
-      Amount of memory dedicated to the lowest level of page tables
+Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT
 
-    - `memory_per_cpu_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Memory allocated to the per-cpu alloctor used to back per-cpu allocations
+snmp\_tcp\_in\_csum\_errors: optional number
 
-    - `memory_pressure_full_10s: optional number`
+Number of TCP segments received with checksum errors
 
-      Percentage of time over a 10 second window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `memory_pressure_full_300s: optional number`
+snmp\_tcp\_in\_errs: optional number
 
-      Percentage of time over a 5 minute window that all tasks were stalled
+Number of TCP segments received in error
 
-    - `memory_pressure_full_60s: optional number`
+<a href="#">Link to this property</a>
 
-      Percentage of time over a 1 minute window that all tasks were stalled
+snmp\_tcp\_in\_segs: optional number
 
-    - `memory_pressure_full_total_us: optional number`
+Number of TCP segments received
 
-      Total stall time (microseconds)
+<a href="#">Link to this property</a>
 
-    - `memory_pressure_some_10s: optional number`
+snmp\_tcp\_max\_conn: optional number
 
-      Percentage of time over a 10 second window that some tasks were stalled
+Limit on the total number of TCP connections
 
-    - `memory_pressure_some_300s: optional number`
+<a href="#">Link to this property</a>
 
-      Percentage of time over a 5 minute window that some tasks were stalled
+snmp\_tcp\_out\_rsts: optional number
 
-    - `memory_pressure_some_60s: optional number`
+Number of TCP segments sent with RST flag
 
-      Percentage of time over a 1 minute window that some tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `memory_pressure_some_total_us: optional number`
+snmp\_tcp\_out\_segs: optional number
 
-      Total stall time (microseconds)
+Number of TCP segments sent
 
-    - `memory_s_reclaimable_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Part of slab that can be reclaimed on memory pressure
+snmp\_tcp\_passive\_opens: optional number
 
-    - `memory_s_unreclaim_bytes: optional number`
+Number of times TCP transitions to SYN-RCVD from LISTEN
 
-      Part of slab that cannot be reclaimed on memory pressure
+<a href="#">Link to this property</a>
 
-    - `memory_secondary_page_tables_bytes: optional number`
+snmp\_tcp\_retrans\_segs: optional number
 
-      Amount of memory dedicated to the lowest level of page tables
+Number of TCP segments retransmitted
 
-    - `memory_shmem_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Amount of memory consumed by tmpfs
+snmp\_tcp\_rto\_max: optional number
 
-    - `memory_shmem_hugepages_bytes: optional number`
+Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
 
-      Memory used by shmem and tmpfs, allocated with huge pages
+<a href="#">Link to this property</a>
 
-    - `memory_shmem_pmd_mapped_bytes: optional number`
+snmp\_tcp\_rto\_min: optional number
 
-      Shared memory mapped into user space with huge pages
+Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
 
-    - `memory_slab_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      In-kernel data structures cache
+snmp\_udp\_in\_datagrams: optional number
 
-    - `memory_swap_cached_bytes: optional number`
+Number of UDP datagrams delivered to UDP applications
 
-      Memory swapped out and back in while still in swap file
+<a href="#">Link to this property</a>
 
-    - `memory_swap_free_bytes: optional number`
+snmp\_udp\_in\_errors: optional number
 
-      Amount of swap space that is currently unused
+Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port
 
-    - `memory_swap_total_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Total amount of swap space available
+snmp\_udp\_no\_ports: optional number
 
-    - `memory_total_bytes: optional number`
+Number of UDP datagrams received for which there was not application at the destination port
 
-      Total usable RAM
+<a href="#">Link to this property</a>
 
-    - `memory_vmalloc_chunk_bytes: optional number`
+snmp\_udp\_out\_datagrams: optional number
 
-      Largest contiguous block of vmalloc area which is free
+Number of UDP datagrams sent
 
-    - `memory_vmalloc_total_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Total size of vmalloc memory area
+system\_boot\_time\_s: optional number
 
-    - `memory_vmalloc_used_bytes: optional number`
+Boottime of the system (seconds since the Unix epoch)
 
-      Amount of vmalloc area which is used
+<a href="#">Link to this property</a>
 
-    - `memory_writeback_bytes: optional number`
+<details>
 
-      Memory which is actively being written back to the disk
+<summary>
 
-    - `memory_writeback_tmp_bytes: optional number`
+thermals: optional array of object {label, critical\_celcius, current\_celcius, max\_celcius }
 
-      Memory used by FUSE for temporary writeback buffers
+</summary>
 
-    - `memory_z_swap_bytes: optional number`
+label: string
 
-      Memory consumed by the zswap backend, compressed
+Sensor identifier for the component
 
-    - `memory_z_swapped_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Amount of anonymous memory stored in zswap, uncompressed
+critical\_celcius: optional number
 
-    - `mounts: optional array of object { file_system, kind, mount_point, 7 more }`
+Critical failure temperature of the component (degrees Celsius)
 
-      - `file_system: string`
+<a href="#">Link to this property</a>
 
-        File system on disk (EXT4, NTFS, etc.)
+current\_celcius: optional number
 
-      - `kind: string`
+Current temperature of the component (degrees Celsius)
 
-        Kind of disk (HDD, SSD, etc.)
+<a href="#">Link to this property</a>
 
-      - `mount_point: string`
+max\_celcius: optional number
 
-        Path where disk is mounted
+Maximum temperature of the component (degrees Celsius)
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        Name of the disk mount
+</details>
 
-      - `available_bytes: optional number`
+<a href="#">Link to this property</a>
 
-        Available disk size (bytes)
+<details>
 
-      - `available_inodes: optional number`
+<summary>
 
-        Available inodes on filesystem
+tunnels: optional array of object {health\_state, health\_value, interface\_name, 9 more }
 
-      - `is_read_only: optional boolean`
+</summary>
 
-        Determines whether the disk is read-only
+health\_state: string
 
-      - `is_removable: optional boolean`
+Name of tunnel health state (unknown, healthy, degraded, down)
 
-        Determines whether the disk is removable
+<a href="#">Link to this property</a>
 
-      - `total_bytes: optional number`
+health\_value: number
 
-        Total disk size (bytes)
+Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
 
-      - `total_inodes: optional number`
+<a href="#">Link to this property</a>
 
-        Total inodes on filesystem
+interface\_name: string
 
-    - `netdevs: optional array of object { name, recv_bytes, recv_compressed, 14 more }`
+The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        Name of the network device
+tunnel\_id: string
 
-      - `recv_bytes: number`
+Tunnel identifier
 
-        Total bytes received
+<a href="#">Link to this property</a>
 
-      - `recv_compressed: number`
+jitter\_ms: optional number
 
-        Compressed packets received
+Tunnel round-trip latency variation in milliseconds
 
-      - `recv_drop: number`
+<a href="#">Link to this property</a>
 
-        Packets dropped
+latency\_ms: optional number
 
-      - `recv_errs: number`
+50th percentile tunnel round-trip latency in milliseconds
 
-        Bad packets received
+<a href="#">Link to this property</a>
 
-      - `recv_fifo: number`
+natd\_result: optional string
 
-        FIFO overruns
+Public socket address returned by the NAT detector
 
-      - `recv_frame: number`
+<a href="#">Link to this property</a>
 
-        Frame alignment errors
+natd\_state: optional number
 
-      - `recv_multicast: number`
+Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
 
-        Multicast packets received
+<a href="#">Link to this property</a>
 
-      - `recv_packets: number`
+natd\_target: optional string
 
-        Total packets received
+Target socket address probed by the NAT detector, using the detector source port
 
-      - `sent_bytes: number`
+<a href="#">Link to this property</a>
 
-        Total bytes transmitted
+probed\_mtu: optional number
 
-      - `sent_carrier: number`
+MTU as measured between the two ends of the tunnel
 
-        Number of packets not sent due to carrier errors
+<a href="#">Link to this property</a>
 
-      - `sent_colls: number`
+recent\_healthy\_pings: optional number
 
-        Number of collisions
+Number of recent healthy pings for this tunnel
 
-      - `sent_compressed: number`
+<a href="#">Link to this property</a>
 
-        Number of compressed packets transmitted
+recent\_unhealthy\_pings: optional number
 
-      - `sent_drop: number`
+Number of recent unhealthy pings for this tunnel
 
-        Number of packets dropped during transmission
+<a href="#">Link to this property</a>
 
-      - `sent_errs: number`
+</details>
 
-        Number of transmission errors
+<a href="#">Link to this property</a>
 
-      - `sent_fifo: number`
+uptime\_idle\_ms: optional number
 
-        FIFO overruns
+Sum of how much time each core has spent idle
 
-      - `sent_packets: number`
+<a href="#">Link to this property</a>
 
-        Total packets transmitted
+uptime\_total\_ms: optional number
 
-    - `platform: optional string`
+Uptime of the system, including time spent in suspend
 
-      Platform identifier
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_in_addr_mask_reps: optional number`
+</details>
 
-      Number of ICMP Address Mask Reply messages received
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_in_addr_masks: optional number`
+</details>
 
-      Number of ICMP Address Mask Request messages received
-
-    - `snmp_icmp_in_csum_errors: optional number`
-
-      Number of ICMP messages received with bad checksums
-
-    - `snmp_icmp_in_dest_unreachs: optional number`
-
-      Number of ICMP Destination Unreachable messages received
-
-    - `snmp_icmp_in_echo_reps: optional number`
-
-      Number of ICMP Echo Reply messages received
-
-    - `snmp_icmp_in_echos: optional number`
-
-      Number of ICMP Echo (request) messages received
-
-    - `snmp_icmp_in_errors: optional number`
-
-      Number of ICMP messages received with ICMP-specific errors
-
-    - `snmp_icmp_in_msgs: optional number`
-
-      Number of ICMP messages received
-
-    - `snmp_icmp_in_parm_probs: optional number`
-
-      Number of ICMP Parameter Problem messages received
-
-    - `snmp_icmp_in_redirects: optional number`
-
-      Number of ICMP Redirect messages received
-
-    - `snmp_icmp_in_src_quenchs: optional number`
-
-      Number of ICMP Source Quench messages received
-
-    - `snmp_icmp_in_time_excds: optional number`
-
-      Number of ICMP Time Exceeded messages received
-
-    - `snmp_icmp_in_timestamp_reps: optional number`
-
-      Number of ICMP Address Mask Request messages received
-
-    - `snmp_icmp_in_timestamps: optional number`
-
-      Number of ICMP Timestamp (request) messages received
-
-    - `snmp_icmp_out_addr_mask_reps: optional number`
-
-      Number of ICMP Address Mask Reply messages sent
-
-    - `snmp_icmp_out_addr_masks: optional number`
-
-      Number of ICMP Address Mask Request messages sent
-
-    - `snmp_icmp_out_dest_unreachs: optional number`
-
-      Number of ICMP Destination Unreachable messages sent
-
-    - `snmp_icmp_out_echo_reps: optional number`
-
-      Number of ICMP Echo Reply messages sent
-
-    - `snmp_icmp_out_echos: optional number`
-
-      Number of ICMP Echo (request) messages sent
-
-    - `snmp_icmp_out_errors: optional number`
-
-      Number of ICMP messages which this entity did not send due to ICMP-specific errors
-
-    - `snmp_icmp_out_msgs: optional number`
-
-      Number of ICMP messages attempted to send
-
-    - `snmp_icmp_out_parm_probs: optional number`
-
-      Number of ICMP Parameter Problem messages sent
-
-    - `snmp_icmp_out_redirects: optional number`
-
-      Number of ICMP Redirect messages sent
-
-    - `snmp_icmp_out_src_quenchs: optional number`
-
-      Number of ICMP Source Quench messages sent
-
-    - `snmp_icmp_out_time_excds: optional number`
-
-      Number of ICMP Time Exceeded messages sent
-
-    - `snmp_icmp_out_timestamp_reps: optional number`
-
-      Number of ICMP Timestamp Reply messages sent
-
-    - `snmp_icmp_out_timestamps: optional number`
-
-      Number of ICMP Timestamp (request) messages sent
-
-    - `snmp_ip_default_ttl: optional number`
-
-      Default value of the Time-To-Live field of the IP header
-
-    - `snmp_ip_forw_datagrams: optional number`
-
-      Number of datagrams forwarded to their final destination
-
-    - `snmp_ip_forwarding_enabled: optional boolean`
-
-      Set when acting as an IP gateway
-
-    - `snmp_ip_frag_creates: optional number`
-
-      Number of datagrams generated by fragmentation
-
-    - `snmp_ip_frag_fails: optional number`
-
-      Number of datagrams discarded because fragmentation failed
-
-    - `snmp_ip_frag_oks: optional number`
-
-      Number of datagrams successfully fragmented
-
-    - `snmp_ip_in_addr_errors: optional number`
-
-      Number of input datagrams discarded due to errors in the IP address
-
-    - `snmp_ip_in_delivers: optional number`
-
-      Number of input datagrams successfully delivered to IP user-protocols
-
-    - `snmp_ip_in_discards: optional number`
-
-      Number of input datagrams otherwise discarded
-
-    - `snmp_ip_in_hdr_errors: optional number`
-
-      Number of input datagrams discarded due to errors in the IP header
-
-    - `snmp_ip_in_receives: optional number`
-
-      Number of input datagrams received from interfaces
-
-    - `snmp_ip_in_unknown_protos: optional number`
-
-      Number of input datagrams discarded due unknown or unsupported protocol
-
-    - `snmp_ip_out_discards: optional number`
-
-      Number of output datagrams otherwise discarded
-
-    - `snmp_ip_out_no_routes: optional number`
-
-      Number of output datagrams discarded because no route matched
-
-    - `snmp_ip_out_requests: optional number`
-
-      Number of datagrams supplied for transmission
-
-    - `snmp_ip_reasm_fails: optional number`
-
-      Number of failures detected by the reassembly algorithm
-
-    - `snmp_ip_reasm_oks: optional number`
-
-      Number of datagrams successfully reassembled
-
-    - `snmp_ip_reasm_reqds: optional number`
-
-      Number of fragments received which needed to be reassembled
-
-    - `snmp_ip_reasm_timeout: optional number`
-
-      Number of seconds fragments are held while awaiting reassembly
-
-    - `snmp_tcp_active_opens: optional number`
-
-      Number of times TCP transitions to SYN-SENT from CLOSED
-
-    - `snmp_tcp_attempt_fails: optional number`
-
-      Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD
-
-    - `snmp_tcp_curr_estab: optional number`
-
-      Number of TCP connections in ESTABLISHED or CLOSE-WAIT
-
-    - `snmp_tcp_estab_resets: optional number`
-
-      Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT
-
-    - `snmp_tcp_in_csum_errors: optional number`
-
-      Number of TCP segments received with checksum errors
-
-    - `snmp_tcp_in_errs: optional number`
-
-      Number of TCP segments received in error
-
-    - `snmp_tcp_in_segs: optional number`
-
-      Number of TCP segments received
-
-    - `snmp_tcp_max_conn: optional number`
-
-      Limit on the total number of TCP connections
-
-    - `snmp_tcp_out_rsts: optional number`
-
-      Number of TCP segments sent with RST flag
-
-    - `snmp_tcp_out_segs: optional number`
-
-      Number of TCP segments sent
-
-    - `snmp_tcp_passive_opens: optional number`
-
-      Number of times TCP transitions to SYN-RCVD from LISTEN
-
-    - `snmp_tcp_retrans_segs: optional number`
-
-      Number of TCP segments retransmitted
-
-    - `snmp_tcp_rto_max: optional number`
-
-      Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
-
-    - `snmp_tcp_rto_min: optional number`
-
-      Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
-
-    - `snmp_udp_in_datagrams: optional number`
-
-      Number of UDP datagrams delivered to UDP applications
-
-    - `snmp_udp_in_errors: optional number`
-
-      Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port
-
-    - `snmp_udp_no_ports: optional number`
-
-      Number of UDP datagrams received for which there was not application at the destination port
-
-    - `snmp_udp_out_datagrams: optional number`
-
-      Number of UDP datagrams sent
-
-    - `system_boot_time_s: optional number`
-
-      Boottime of the system (seconds since the Unix epoch)
-
-    - `thermals: optional array of object { label, critical_celcius, current_celcius, max_celcius }`
-
-      - `label: string`
-
-        Sensor identifier for the component
-
-      - `critical_celcius: optional number`
-
-        Critical failure temperature of the component (degrees Celsius)
-
-      - `current_celcius: optional number`
-
-        Current temperature of the component (degrees Celsius)
-
-      - `max_celcius: optional number`
-
-        Maximum temperature of the component (degrees Celsius)
-
-    - `tunnels: optional array of object { health_state, health_value, interface_name, 7 more }`
-
-      - `health_state: string`
-
-        Name of tunnel health state (unknown, healthy, degraded, down)
-
-      - `health_value: number`
-
-        Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
-
-      - `interface_name: string`
-
-        The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
-
-      - `tunnel_id: string`
-
-        Tunnel identifier
-
-      - `natd_result: optional string`
-
-        Public socket address returned by the NAT detector
-
-      - `natd_state: optional number`
-
-        Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
-
-      - `natd_target: optional string`
-
-        Target socket address probed by the NAT detector, using the detector source port
-
-      - `probed_mtu: optional number`
-
-        MTU as measured between the two ends of the tunnel
-
-      - `recent_healthy_pings: optional number`
-
-        Number of recent healthy pings for this tunnel
-
-      - `recent_unhealthy_pings: optional number`
-
-        Number of recent unhealthy pings for this tunnel
-
-    - `uptime_idle_ms: optional number`
-
-      Sum of how much time each core has spent idle
-
-    - `uptime_total_ms: optional number`
-
-      Uptime of the system, including time spent in suspend
-
-- `success: boolean`
-
-- `errors: optional array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: optional array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/snapshots/latest \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "count": 0,
-    "items": [
-      {
-        "count_reclaim_failures": 0,
-        "count_reclaimed_paths": 0,
-        "count_record_failed": 0,
-        "count_transmit_failures": 0,
-        "t": 0,
-        "v": "v",
-        "bonds": [
-          {
-            "name": "name",
-            "status": "status"
-          }
-        ],
-        "cpu_count": 0,
-        "cpu_pressure_10s": 0,
-        "cpu_pressure_300s": 0,
-        "cpu_pressure_60s": 0,
-        "cpu_pressure_total_us": 0,
-        "cpu_time_guest_ms": 0,
-        "cpu_time_guest_nice_ms": 0,
-        "cpu_time_idle_ms": 0,
-        "cpu_time_iowait_ms": 0,
-        "cpu_time_irq_ms": 0,
-        "cpu_time_nice_ms": 0,
-        "cpu_time_softirq_ms": 0,
-        "cpu_time_steal_ms": 0,
-        "cpu_time_system_ms": 0,
-        "cpu_time_user_ms": 0,
-        "delta": 0,
-        "dhcp_leases": [
-          {
-            "client_id": "client_id",
-            "expiry_time": 0,
-            "hostname": "hostname",
-            "interface_name": "interface_name",
-            "ip_address": "ip_address",
-            "mac_address": "mac_address"
-          }
-        ],
-        "disks": [
-          {
-            "in_progress": 0,
-            "major": 0,
-            "merged": 0,
-            "minor": 0,
-            "name": "name",
-            "reads": 0,
-            "sectors_read": 0,
-            "sectors_written": 0,
-            "time_in_progress_ms": 0,
-            "time_reading_ms": 0,
-            "time_writing_ms": 0,
-            "weighted_time_in_progress_ms": 0,
-            "writes": 0,
-            "writes_merged": 0,
-            "discards": 0,
-            "discards_merged": 0,
-            "flushes": 0,
-            "sectors_discarded": 0,
-            "time_discarding_ms": 0,
-            "time_flushing_ms": 0
-          }
-        ],
-        "epsilon": 0,
-        "ha_state": "ha_state",
-        "ha_value": 0,
-        "interfaces": [
-          {
-            "name": "name",
-            "operstate": "operstate",
-            "ip_addresses": [
-              {
-                "interface_name": "interface_name",
-                "ip_address": "ip_address"
-              }
-            ],
-            "speed": 0
-          }
-        ],
-        "io_pressure_full_10s": 0,
-        "io_pressure_full_300s": 0,
-        "io_pressure_full_60s": 0,
-        "io_pressure_full_total_us": 0,
-        "io_pressure_some_10s": 0,
-        "io_pressure_some_300s": 0,
-        "io_pressure_some_60s": 0,
-        "io_pressure_some_total_us": 0,
-        "kernel_btime": 0,
-        "kernel_ctxt": 0,
-        "kernel_processes": 0,
-        "kernel_processes_blocked": 0,
-        "kernel_processes_running": 0,
-        "load_average_15m": 0,
-        "load_average_1m": 0,
-        "load_average_5m": 0,
-        "load_average_cur": 0,
-        "load_average_max": 0,
-        "memory_active_bytes": 0,
-        "memory_anon_hugepages_bytes": 0,
-        "memory_anon_pages_bytes": 0,
-        "memory_available_bytes": 0,
-        "memory_bounce_bytes": 0,
-        "memory_buffers_bytes": 0,
-        "memory_cached_bytes": 0,
-        "memory_cma_free_bytes": 0,
-        "memory_cma_total_bytes": 0,
-        "memory_commit_limit_bytes": 0,
-        "memory_committed_as_bytes": 0,
-        "memory_dirty_bytes": 0,
-        "memory_free_bytes": 0,
-        "memory_high_free_bytes": 0,
-        "memory_high_total_bytes": 0,
-        "memory_hugepages_free": 0,
-        "memory_hugepages_rsvd": 0,
-        "memory_hugepages_surp": 0,
-        "memory_hugepages_total": 0,
-        "memory_hugepagesize_bytes": 0,
-        "memory_inactive_bytes": 0,
-        "memory_k_reclaimable_bytes": 0,
-        "memory_kernel_stack_bytes": 0,
-        "memory_low_free_bytes": 0,
-        "memory_low_total_bytes": 0,
-        "memory_mapped_bytes": 0,
-        "memory_page_tables_bytes": 0,
-        "memory_per_cpu_bytes": 0,
-        "memory_pressure_full_10s": 0,
-        "memory_pressure_full_300s": 0,
-        "memory_pressure_full_60s": 0,
-        "memory_pressure_full_total_us": 0,
-        "memory_pressure_some_10s": 0,
-        "memory_pressure_some_300s": 0,
-        "memory_pressure_some_60s": 0,
-        "memory_pressure_some_total_us": 0,
-        "memory_s_reclaimable_bytes": 0,
-        "memory_s_unreclaim_bytes": 0,
-        "memory_secondary_page_tables_bytes": 0,
-        "memory_shmem_bytes": 0,
-        "memory_shmem_hugepages_bytes": 0,
-        "memory_shmem_pmd_mapped_bytes": 0,
-        "memory_slab_bytes": 0,
-        "memory_swap_cached_bytes": 0,
-        "memory_swap_free_bytes": 0,
-        "memory_swap_total_bytes": 0,
-        "memory_total_bytes": 0,
-        "memory_vmalloc_chunk_bytes": 0,
-        "memory_vmalloc_total_bytes": 0,
-        "memory_vmalloc_used_bytes": 0,
-        "memory_writeback_bytes": 0,
-        "memory_writeback_tmp_bytes": 0,
-        "memory_z_swap_bytes": 0,
-        "memory_z_swapped_bytes": 0,
-        "mounts": [
-          {
-            "file_system": "file_system",
-            "kind": "kind",
-            "mount_point": "mount_point",
-            "name": "name",
-            "available_bytes": 0,
-            "available_inodes": 0,
-            "is_read_only": true,
-            "is_removable": true,
-            "total_bytes": 0,
-            "total_inodes": 0
-          }
-        ],
-        "netdevs": [
-          {
-            "name": "name",
-            "recv_bytes": 0,
-            "recv_compressed": 0,
-            "recv_drop": 0,
-            "recv_errs": 0,
-            "recv_fifo": 0,
-            "recv_frame": 0,
-            "recv_multicast": 0,
-            "recv_packets": 0,
-            "sent_bytes": 0,
-            "sent_carrier": 0,
-            "sent_colls": 0,
-            "sent_compressed": 0,
-            "sent_drop": 0,
-            "sent_errs": 0,
-            "sent_fifo": 0,
-            "sent_packets": 0
-          }
-        ],
-        "platform": "platform",
-        "snmp_icmp_in_addr_mask_reps": 0,
-        "snmp_icmp_in_addr_masks": 0,
-        "snmp_icmp_in_csum_errors": 0,
-        "snmp_icmp_in_dest_unreachs": 0,
-        "snmp_icmp_in_echo_reps": 0,
-        "snmp_icmp_in_echos": 0,
-        "snmp_icmp_in_errors": 0,
-        "snmp_icmp_in_msgs": 0,
-        "snmp_icmp_in_parm_probs": 0,
-        "snmp_icmp_in_redirects": 0,
-        "snmp_icmp_in_src_quenchs": 0,
-        "snmp_icmp_in_time_excds": 0,
-        "snmp_icmp_in_timestamp_reps": 0,
-        "snmp_icmp_in_timestamps": 0,
-        "snmp_icmp_out_addr_mask_reps": 0,
-        "snmp_icmp_out_addr_masks": 0,
-        "snmp_icmp_out_dest_unreachs": 0,
-        "snmp_icmp_out_echo_reps": 0,
-        "snmp_icmp_out_echos": 0,
-        "snmp_icmp_out_errors": 0,
-        "snmp_icmp_out_msgs": 0,
-        "snmp_icmp_out_parm_probs": 0,
-        "snmp_icmp_out_redirects": 0,
-        "snmp_icmp_out_src_quenchs": 0,
-        "snmp_icmp_out_time_excds": 0,
-        "snmp_icmp_out_timestamp_reps": 0,
-        "snmp_icmp_out_timestamps": 0,
-        "snmp_ip_default_ttl": 0,
-        "snmp_ip_forw_datagrams": 0,
-        "snmp_ip_forwarding_enabled": true,
-        "snmp_ip_frag_creates": 0,
-        "snmp_ip_frag_fails": 0,
-        "snmp_ip_frag_oks": 0,
-        "snmp_ip_in_addr_errors": 0,
-        "snmp_ip_in_delivers": 0,
-        "snmp_ip_in_discards": 0,
-        "snmp_ip_in_hdr_errors": 0,
-        "snmp_ip_in_receives": 0,
-        "snmp_ip_in_unknown_protos": 0,
-        "snmp_ip_out_discards": 0,
-        "snmp_ip_out_no_routes": 0,
-        "snmp_ip_out_requests": 0,
-        "snmp_ip_reasm_fails": 0,
-        "snmp_ip_reasm_oks": 0,
-        "snmp_ip_reasm_reqds": 0,
-        "snmp_ip_reasm_timeout": 0,
-        "snmp_tcp_active_opens": 0,
-        "snmp_tcp_attempt_fails": 0,
-        "snmp_tcp_curr_estab": 0,
-        "snmp_tcp_estab_resets": 0,
-        "snmp_tcp_in_csum_errors": 0,
-        "snmp_tcp_in_errs": 0,
-        "snmp_tcp_in_segs": 0,
-        "snmp_tcp_max_conn": 0,
-        "snmp_tcp_out_rsts": 0,
-        "snmp_tcp_out_segs": 0,
-        "snmp_tcp_passive_opens": 0,
-        "snmp_tcp_retrans_segs": 0,
-        "snmp_tcp_rto_max": 0,
-        "snmp_tcp_rto_min": 0,
-        "snmp_udp_in_datagrams": 0,
-        "snmp_udp_in_errors": 0,
-        "snmp_udp_no_ports": 0,
-        "snmp_udp_out_datagrams": 0,
-        "system_boot_time_s": 0,
-        "thermals": [
-          {
-            "label": "label",
-            "critical_celcius": 0,
-            "current_celcius": 0,
-            "max_celcius": 0
-          }
-        ],
-        "tunnels": [
-          {
-            "health_state": "health_state",
-            "health_value": 0,
-            "interface_name": "interface_name",
-            "tunnel_id": "tunnel_id",
-            "natd_result": "natd_result",
-            "natd_state": 0,
-            "natd_target": "natd_target",
-            "probed_mtu": 0,
-            "recent_healthy_pings": 0,
-            "recent_unhealthy_pings": 0
-          }
-        ],
-        "uptime_idle_ms": 0,
-        "uptime_total_ms": 0
-      }
-    ]
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Latest List Response
-
-- `LatestListResponse object { count, items }`
-
-  - `count: number`
-
-  - `items: array of object { count_reclaim_failures, count_reclaimed_paths, count_record_failed, 170 more }`
-
-    - `count_reclaim_failures: number`
-
-      Count of failures to reclaim space
-
-    - `count_reclaimed_paths: number`
-
-      Count of reclaimed paths
-
-    - `count_record_failed: number`
-
-      Count of failed snapshot recordings
-
-    - `count_transmit_failures: number`
-
-      Count of failed snapshot transmissions
-
-    - `t: number`
-
-      Time the Snapshot was recorded (seconds since the Unix epoch)
-
-    - `v: string`
-
-      Version
-
-    - `bonds: optional array of object { name, status }`
-
-      - `name: string`
-
-        Name of the network interface
-
-      - `status: string`
-
-        Current status of the network interface
-
-    - `cpu_count: optional number`
-
-      Count of processors/cores
-
-    - `cpu_pressure_10s: optional number`
-
-      Percentage of time over a 10 second window that tasks were stalled
-
-    - `cpu_pressure_300s: optional number`
-
-      Percentage of time over a 5 minute window that tasks were stalled
-
-    - `cpu_pressure_60s: optional number`
-
-      Percentage of time over a 1 minute window that tasks were stalled
-
-    - `cpu_pressure_total_us: optional number`
-
-      Total stall time (microseconds)
-
-    - `cpu_time_guest_ms: optional number`
-
-      Time spent running a virtual CPU or guest OS (milliseconds)
-
-    - `cpu_time_guest_nice_ms: optional number`
-
-      Time spent running a niced guest (milliseconds)
-
-    - `cpu_time_idle_ms: optional number`
-
-      Time spent in idle state (milliseconds)
-
-    - `cpu_time_iowait_ms: optional number`
-
-      Time spent wait for I/O to complete (milliseconds)
-
-    - `cpu_time_irq_ms: optional number`
-
-      Time spent servicing interrupts (milliseconds)
-
-    - `cpu_time_nice_ms: optional number`
-
-      Time spent in low-priority user mode (milliseconds)
-
-    - `cpu_time_softirq_ms: optional number`
-
-      Time spent servicing softirqs (milliseconds)
-
-    - `cpu_time_steal_ms: optional number`
-
-      Time stolen (milliseconds)
-
-    - `cpu_time_system_ms: optional number`
-
-      Time spent in system mode (milliseconds)
-
-    - `cpu_time_user_ms: optional number`
-
-      Time spent in user mode (milliseconds)
-
-    - `delta: optional number`
-
-      Number of network operations applied during state transition
-
-    - `dhcp_leases: optional array of object { client_id, expiry_time, hostname, 3 more }`
-
-      - `client_id: string`
-
-        Client ID of the device the IP Address was leased to
-
-      - `expiry_time: number`
-
-        Expiry time of the DHCP lease (seconds since the Unix epoch)
-
-      - `hostname: string`
-
-        Hostname of the device the IP Address was leased to
-
-      - `interface_name: string`
-
-        Name of the network interface
-
-      - `ip_address: string`
-
-        IP Address that was leased
-
-      - `mac_address: string`
-
-        MAC Address of the device the IP Address was leased to
-
-    - `disks: optional array of object { in_progress, major, merged, 17 more }`
-
-      - `in_progress: number`
-
-        I/Os currently in progress
-
-      - `major: number`
-
-        Device major number
-
-      - `merged: number`
-
-        Reads merged
-
-      - `minor: number`
-
-        Device minor number
-
-      - `name: string`
-
-        Device name
-
-      - `reads: number`
-
-        Reads completed successfully
-
-      - `sectors_read: number`
-
-        Sectors read successfully
-
-      - `sectors_written: number`
-
-        Sectors written successfully
-
-      - `time_in_progress_ms: number`
-
-        Time spent doing I/Os (milliseconds)
-
-      - `time_reading_ms: number`
-
-        Time spent reading (milliseconds)
-
-      - `time_writing_ms: number`
-
-        Time spent writing (milliseconds)
-
-      - `weighted_time_in_progress_ms: number`
-
-        Weighted time spent doing I/Os (milliseconds)
-
-      - `writes: number`
-
-        Writes completed
-
-      - `writes_merged: number`
-
-        Writes merged
-
-      - `discards: optional number`
-
-        Discards completed successfully
-
-      - `discards_merged: optional number`
-
-        Discards merged
-
-      - `flushes: optional number`
-
-        Flushes completed successfully
-
-      - `sectors_discarded: optional number`
-
-        Sectors discarded
-
-      - `time_discarding_ms: optional number`
-
-        Time spent discarding (milliseconds)
-
-      - `time_flushing_ms: optional number`
-
-        Time spent flushing (milliseconds)
-
-    - `epsilon: optional number`
-
-      Simulated number of network operations applied during state transition
-
-    - `ha_state: optional string`
-
-      Name of high availability state
-
-    - `ha_value: optional number`
-
-      Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
-
-    - `interfaces: optional array of object { name, operstate, ip_addresses, speed }`
-
-      - `name: string`
-
-        Name of the network interface
-
-      - `operstate: string`
-
-        UP/DOWN state of the network interface
-
-      - `ip_addresses: optional array of object { interface_name, ip_address }`
-
-        - `interface_name: string`
-
-          Name of the network interface
-
-        - `ip_address: string`
-
-          IP address of the network interface
-
-      - `speed: optional number`
-
-        Speed of the network interface (bits per second)
-
-    - `io_pressure_full_10s: optional number`
-
-      Percentage of time over a 10 second window that all tasks were stalled
-
-    - `io_pressure_full_300s: optional number`
-
-      Percentage of time over a 5 minute window that all tasks were stalled
-
-    - `io_pressure_full_60s: optional number`
-
-      Percentage of time over a 1 minute window that all tasks were stalled
-
-    - `io_pressure_full_total_us: optional number`
-
-      Total stall time (microseconds)
-
-    - `io_pressure_some_10s: optional number`
-
-      Percentage of time over a 10 second window that some tasks were stalled
-
-    - `io_pressure_some_300s: optional number`
-
-      Percentage of time over a 3 minute window that some tasks were stalled
-
-    - `io_pressure_some_60s: optional number`
-
-      Percentage of time over a 1 minute window that some tasks were stalled
-
-    - `io_pressure_some_total_us: optional number`
-
-      Total stall time (microseconds)
-
-    - `kernel_btime: optional number`
-
-      Boot time (seconds since Unix epoch)
-
-    - `kernel_ctxt: optional number`
-
-      Number of context switches that the system underwent
-
-    - `kernel_processes: optional number`
-
-      Number of forks since boot
-
-    - `kernel_processes_blocked: optional number`
-
-      Number of processes blocked waiting for I/O
-
-    - `kernel_processes_running: optional number`
-
-      Number of processes in runnable state
-
-    - `load_average_15m: optional number`
-
-      The fifteen-minute load average
-
-    - `load_average_1m: optional number`
-
-      The one-minute load average
-
-    - `load_average_5m: optional number`
-
-      The five-minute load average
-
-    - `load_average_cur: optional number`
-
-      Number of currently runnable kernel scheduling entities
-
-    - `load_average_max: optional number`
-
-      Number of kernel scheduling entities that currently exist on the system
-
-    - `memory_active_bytes: optional number`
-
-      Memory that has been used more recently
-
-    - `memory_anon_hugepages_bytes: optional number`
-
-      Non-file backed huge pages mapped into user-space page tables
-
-    - `memory_anon_pages_bytes: optional number`
-
-      Non-file backed pages mapped into user-space page tables
-
-    - `memory_available_bytes: optional number`
-
-      Estimate of how much memory is available for starting new applications
-
-    - `memory_bounce_bytes: optional number`
-
-      Memory used for block device bounce buffers
-
-    - `memory_buffers_bytes: optional number`
-
-      Relatively temporary storage for raw disk blocks
-
-    - `memory_cached_bytes: optional number`
-
-      In-memory cache for files read from the disk
-
-    - `memory_cma_free_bytes: optional number`
-
-      Free CMA (Contiguous Memory Allocator) pages
-
-    - `memory_cma_total_bytes: optional number`
-
-      Total CMA (Contiguous Memory Allocator) pages
-
-    - `memory_commit_limit_bytes: optional number`
-
-      Total amount of memory currently available to be allocated on the system
-
-    - `memory_committed_as_bytes: optional number`
-
-      Amount of memory presently allocated on the system
-
-    - `memory_dirty_bytes: optional number`
-
-      Memory which is waiting to get written back to the disk
-
-    - `memory_free_bytes: optional number`
-
-      The sum of LowFree and HighFree
-
-    - `memory_high_free_bytes: optional number`
-
-      Amount of free highmem
-
-    - `memory_high_total_bytes: optional number`
-
-      Total amount of highmem
-
-    - `memory_hugepages_free: optional number`
-
-      The number of huge pages in the pool that are not yet allocated
-
-    - `memory_hugepages_rsvd: optional number`
-
-      Number of huge pages for which a commitment has been made, but no allocation has yet been made
-
-    - `memory_hugepages_surp: optional number`
-
-      Number of huge pages in the pool above the threshold
-
-    - `memory_hugepages_total: optional number`
-
-      The size of the pool of huge pages
-
-    - `memory_hugepagesize_bytes: optional number`
-
-      The size of huge pages
-
-    - `memory_inactive_bytes: optional number`
-
-      Memory which has been less recently used
-
-    - `memory_k_reclaimable_bytes: optional number`
-
-      Kernel allocations that the kernel will attempt to reclaim under memory pressure
-
-    - `memory_kernel_stack_bytes: optional number`
-
-      Amount of memory allocated to kernel stacks
-
-    - `memory_low_free_bytes: optional number`
-
-      Amount of free lowmem
-
-    - `memory_low_total_bytes: optional number`
-
-      Total amount of lowmem
-
-    - `memory_mapped_bytes: optional number`
-
-      Files which have been mapped into memory
-
-    - `memory_page_tables_bytes: optional number`
-
-      Amount of memory dedicated to the lowest level of page tables
-
-    - `memory_per_cpu_bytes: optional number`
-
-      Memory allocated to the per-cpu alloctor used to back per-cpu allocations
-
-    - `memory_pressure_full_10s: optional number`
-
-      Percentage of time over a 10 second window that all tasks were stalled
-
-    - `memory_pressure_full_300s: optional number`
-
-      Percentage of time over a 5 minute window that all tasks were stalled
-
-    - `memory_pressure_full_60s: optional number`
-
-      Percentage of time over a 1 minute window that all tasks were stalled
-
-    - `memory_pressure_full_total_us: optional number`
-
-      Total stall time (microseconds)
-
-    - `memory_pressure_some_10s: optional number`
-
-      Percentage of time over a 10 second window that some tasks were stalled
-
-    - `memory_pressure_some_300s: optional number`
-
-      Percentage of time over a 5 minute window that some tasks were stalled
-
-    - `memory_pressure_some_60s: optional number`
-
-      Percentage of time over a 1 minute window that some tasks were stalled
-
-    - `memory_pressure_some_total_us: optional number`
-
-      Total stall time (microseconds)
-
-    - `memory_s_reclaimable_bytes: optional number`
-
-      Part of slab that can be reclaimed on memory pressure
-
-    - `memory_s_unreclaim_bytes: optional number`
-
-      Part of slab that cannot be reclaimed on memory pressure
-
-    - `memory_secondary_page_tables_bytes: optional number`
-
-      Amount of memory dedicated to the lowest level of page tables
-
-    - `memory_shmem_bytes: optional number`
-
-      Amount of memory consumed by tmpfs
-
-    - `memory_shmem_hugepages_bytes: optional number`
-
-      Memory used by shmem and tmpfs, allocated with huge pages
-
-    - `memory_shmem_pmd_mapped_bytes: optional number`
-
-      Shared memory mapped into user space with huge pages
-
-    - `memory_slab_bytes: optional number`
-
-      In-kernel data structures cache
-
-    - `memory_swap_cached_bytes: optional number`
-
-      Memory swapped out and back in while still in swap file
-
-    - `memory_swap_free_bytes: optional number`
-
-      Amount of swap space that is currently unused
-
-    - `memory_swap_total_bytes: optional number`
-
-      Total amount of swap space available
-
-    - `memory_total_bytes: optional number`
-
-      Total usable RAM
-
-    - `memory_vmalloc_chunk_bytes: optional number`
-
-      Largest contiguous block of vmalloc area which is free
-
-    - `memory_vmalloc_total_bytes: optional number`
-
-      Total size of vmalloc memory area
-
-    - `memory_vmalloc_used_bytes: optional number`
-
-      Amount of vmalloc area which is used
-
-    - `memory_writeback_bytes: optional number`
-
-      Memory which is actively being written back to the disk
-
-    - `memory_writeback_tmp_bytes: optional number`
-
-      Memory used by FUSE for temporary writeback buffers
-
-    - `memory_z_swap_bytes: optional number`
-
-      Memory consumed by the zswap backend, compressed
-
-    - `memory_z_swapped_bytes: optional number`
-
-      Amount of anonymous memory stored in zswap, uncompressed
-
-    - `mounts: optional array of object { file_system, kind, mount_point, 7 more }`
-
-      - `file_system: string`
-
-        File system on disk (EXT4, NTFS, etc.)
-
-      - `kind: string`
-
-        Kind of disk (HDD, SSD, etc.)
-
-      - `mount_point: string`
-
-        Path where disk is mounted
-
-      - `name: string`
-
-        Name of the disk mount
-
-      - `available_bytes: optional number`
-
-        Available disk size (bytes)
-
-      - `available_inodes: optional number`
-
-        Available inodes on filesystem
-
-      - `is_read_only: optional boolean`
-
-        Determines whether the disk is read-only
-
-      - `is_removable: optional boolean`
-
-        Determines whether the disk is removable
-
-      - `total_bytes: optional number`
-
-        Total disk size (bytes)
-
-      - `total_inodes: optional number`
-
-        Total inodes on filesystem
-
-    - `netdevs: optional array of object { name, recv_bytes, recv_compressed, 14 more }`
-
-      - `name: string`
-
-        Name of the network device
-
-      - `recv_bytes: number`
-
-        Total bytes received
-
-      - `recv_compressed: number`
-
-        Compressed packets received
-
-      - `recv_drop: number`
-
-        Packets dropped
-
-      - `recv_errs: number`
-
-        Bad packets received
-
-      - `recv_fifo: number`
-
-        FIFO overruns
-
-      - `recv_frame: number`
-
-        Frame alignment errors
-
-      - `recv_multicast: number`
-
-        Multicast packets received
-
-      - `recv_packets: number`
-
-        Total packets received
-
-      - `sent_bytes: number`
-
-        Total bytes transmitted
-
-      - `sent_carrier: number`
-
-        Number of packets not sent due to carrier errors
-
-      - `sent_colls: number`
-
-        Number of collisions
-
-      - `sent_compressed: number`
-
-        Number of compressed packets transmitted
-
-      - `sent_drop: number`
-
-        Number of packets dropped during transmission
-
-      - `sent_errs: number`
-
-        Number of transmission errors
-
-      - `sent_fifo: number`
-
-        FIFO overruns
-
-      - `sent_packets: number`
-
-        Total packets transmitted
-
-    - `platform: optional string`
-
-      Platform identifier
-
-    - `snmp_icmp_in_addr_mask_reps: optional number`
-
-      Number of ICMP Address Mask Reply messages received
-
-    - `snmp_icmp_in_addr_masks: optional number`
-
-      Number of ICMP Address Mask Request messages received
-
-    - `snmp_icmp_in_csum_errors: optional number`
-
-      Number of ICMP messages received with bad checksums
-
-    - `snmp_icmp_in_dest_unreachs: optional number`
-
-      Number of ICMP Destination Unreachable messages received
-
-    - `snmp_icmp_in_echo_reps: optional number`
-
-      Number of ICMP Echo Reply messages received
-
-    - `snmp_icmp_in_echos: optional number`
-
-      Number of ICMP Echo (request) messages received
-
-    - `snmp_icmp_in_errors: optional number`
-
-      Number of ICMP messages received with ICMP-specific errors
-
-    - `snmp_icmp_in_msgs: optional number`
-
-      Number of ICMP messages received
-
-    - `snmp_icmp_in_parm_probs: optional number`
-
-      Number of ICMP Parameter Problem messages received
-
-    - `snmp_icmp_in_redirects: optional number`
-
-      Number of ICMP Redirect messages received
-
-    - `snmp_icmp_in_src_quenchs: optional number`
-
-      Number of ICMP Source Quench messages received
-
-    - `snmp_icmp_in_time_excds: optional number`
-
-      Number of ICMP Time Exceeded messages received
-
-    - `snmp_icmp_in_timestamp_reps: optional number`
-
-      Number of ICMP Address Mask Request messages received
-
-    - `snmp_icmp_in_timestamps: optional number`
-
-      Number of ICMP Timestamp (request) messages received
-
-    - `snmp_icmp_out_addr_mask_reps: optional number`
-
-      Number of ICMP Address Mask Reply messages sent
-
-    - `snmp_icmp_out_addr_masks: optional number`
-
-      Number of ICMP Address Mask Request messages sent
-
-    - `snmp_icmp_out_dest_unreachs: optional number`
-
-      Number of ICMP Destination Unreachable messages sent
-
-    - `snmp_icmp_out_echo_reps: optional number`
-
-      Number of ICMP Echo Reply messages sent
-
-    - `snmp_icmp_out_echos: optional number`
-
-      Number of ICMP Echo (request) messages sent
-
-    - `snmp_icmp_out_errors: optional number`
-
-      Number of ICMP messages which this entity did not send due to ICMP-specific errors
-
-    - `snmp_icmp_out_msgs: optional number`
-
-      Number of ICMP messages attempted to send
-
-    - `snmp_icmp_out_parm_probs: optional number`
-
-      Number of ICMP Parameter Problem messages sent
-
-    - `snmp_icmp_out_redirects: optional number`
-
-      Number of ICMP Redirect messages sent
-
-    - `snmp_icmp_out_src_quenchs: optional number`
-
-      Number of ICMP Source Quench messages sent
-
-    - `snmp_icmp_out_time_excds: optional number`
-
-      Number of ICMP Time Exceeded messages sent
-
-    - `snmp_icmp_out_timestamp_reps: optional number`
-
-      Number of ICMP Timestamp Reply messages sent
-
-    - `snmp_icmp_out_timestamps: optional number`
-
-      Number of ICMP Timestamp (request) messages sent
-
-    - `snmp_ip_default_ttl: optional number`
-
-      Default value of the Time-To-Live field of the IP header
-
-    - `snmp_ip_forw_datagrams: optional number`
-
-      Number of datagrams forwarded to their final destination
-
-    - `snmp_ip_forwarding_enabled: optional boolean`
-
-      Set when acting as an IP gateway
-
-    - `snmp_ip_frag_creates: optional number`
-
-      Number of datagrams generated by fragmentation
-
-    - `snmp_ip_frag_fails: optional number`
-
-      Number of datagrams discarded because fragmentation failed
-
-    - `snmp_ip_frag_oks: optional number`
-
-      Number of datagrams successfully fragmented
-
-    - `snmp_ip_in_addr_errors: optional number`
-
-      Number of input datagrams discarded due to errors in the IP address
-
-    - `snmp_ip_in_delivers: optional number`
-
-      Number of input datagrams successfully delivered to IP user-protocols
-
-    - `snmp_ip_in_discards: optional number`
-
-      Number of input datagrams otherwise discarded
-
-    - `snmp_ip_in_hdr_errors: optional number`
-
-      Number of input datagrams discarded due to errors in the IP header
-
-    - `snmp_ip_in_receives: optional number`
-
-      Number of input datagrams received from interfaces
-
-    - `snmp_ip_in_unknown_protos: optional number`
-
-      Number of input datagrams discarded due unknown or unsupported protocol
-
-    - `snmp_ip_out_discards: optional number`
-
-      Number of output datagrams otherwise discarded
-
-    - `snmp_ip_out_no_routes: optional number`
-
-      Number of output datagrams discarded because no route matched
-
-    - `snmp_ip_out_requests: optional number`
-
-      Number of datagrams supplied for transmission
-
-    - `snmp_ip_reasm_fails: optional number`
-
-      Number of failures detected by the reassembly algorithm
-
-    - `snmp_ip_reasm_oks: optional number`
-
-      Number of datagrams successfully reassembled
-
-    - `snmp_ip_reasm_reqds: optional number`
-
-      Number of fragments received which needed to be reassembled
-
-    - `snmp_ip_reasm_timeout: optional number`
-
-      Number of seconds fragments are held while awaiting reassembly
-
-    - `snmp_tcp_active_opens: optional number`
-
-      Number of times TCP transitions to SYN-SENT from CLOSED
-
-    - `snmp_tcp_attempt_fails: optional number`
-
-      Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD
-
-    - `snmp_tcp_curr_estab: optional number`
-
-      Number of TCP connections in ESTABLISHED or CLOSE-WAIT
-
-    - `snmp_tcp_estab_resets: optional number`
-
-      Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT
-
-    - `snmp_tcp_in_csum_errors: optional number`
-
-      Number of TCP segments received with checksum errors
-
-    - `snmp_tcp_in_errs: optional number`
-
-      Number of TCP segments received in error
-
-    - `snmp_tcp_in_segs: optional number`
-
-      Number of TCP segments received
-
-    - `snmp_tcp_max_conn: optional number`
-
-      Limit on the total number of TCP connections
-
-    - `snmp_tcp_out_rsts: optional number`
-
-      Number of TCP segments sent with RST flag
-
-    - `snmp_tcp_out_segs: optional number`
-
-      Number of TCP segments sent
-
-    - `snmp_tcp_passive_opens: optional number`
-
-      Number of times TCP transitions to SYN-RCVD from LISTEN
-
-    - `snmp_tcp_retrans_segs: optional number`
-
-      Number of TCP segments retransmitted
-
-    - `snmp_tcp_rto_max: optional number`
-
-      Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
-
-    - `snmp_tcp_rto_min: optional number`
-
-      Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
-
-    - `snmp_udp_in_datagrams: optional number`
-
-      Number of UDP datagrams delivered to UDP applications
-
-    - `snmp_udp_in_errors: optional number`
-
-      Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port
-
-    - `snmp_udp_no_ports: optional number`
-
-      Number of UDP datagrams received for which there was not application at the destination port
-
-    - `snmp_udp_out_datagrams: optional number`
-
-      Number of UDP datagrams sent
-
-    - `system_boot_time_s: optional number`
-
-      Boottime of the system (seconds since the Unix epoch)
-
-    - `thermals: optional array of object { label, critical_celcius, current_celcius, max_celcius }`
-
-      - `label: string`
-
-        Sensor identifier for the component
-
-      - `critical_celcius: optional number`
-
-        Critical failure temperature of the component (degrees Celsius)
-
-      - `current_celcius: optional number`
-
-        Current temperature of the component (degrees Celsius)
-
-      - `max_celcius: optional number`
-
-        Maximum temperature of the component (degrees Celsius)
-
-    - `tunnels: optional array of object { health_state, health_value, interface_name, 7 more }`
-
-      - `health_state: string`
-
-        Name of tunnel health state (unknown, healthy, degraded, down)
-
-      - `health_value: number`
-
-        Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
-
-      - `interface_name: string`
-
-        The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
-
-      - `tunnel_id: string`
-
-        Tunnel identifier
-
-      - `natd_result: optional string`
-
-        Public socket address returned by the NAT detector
-
-      - `natd_state: optional number`
-
-        Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
-
-      - `natd_target: optional string`
-
-        Target socket address probed by the NAT detector, using the detector source port
-
-      - `probed_mtu: optional number`
-
-        MTU as measured between the two ends of the tunnel
-
-      - `recent_healthy_pings: optional number`
-
-        Number of recent healthy pings for this tunnel
-
-      - `recent_unhealthy_pings: optional number`
-
-        Number of recent unhealthy pings for this tunnel
-
-    - `uptime_idle_ms: optional number`
-
-      Sum of how much time each core has spent idle
-
-    - `uptime_total_ms: optional number`
-
-      Uptime of the system, including time spent in suspend
+[Link to this property](#)%20magic_transit.connectors.snapshots.latest%20%3E%20(model)%20latest_list_response%20%3E%20(schema)>)

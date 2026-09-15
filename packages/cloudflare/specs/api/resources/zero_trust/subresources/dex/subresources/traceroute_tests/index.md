@@ -1,889 +1,415 @@
+---
+title: Traceroute Tests
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Traceroute Tests
 
-## Get details and aggregate metrics for a traceroute test
+##### [Get details and aggregate metrics for a traceroute test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_tests/methods/get)
 
-**get** `/accounts/{account_id}/dex/traceroute-tests/{test_id}`
+GET/accounts/{account\_id}/dex/traceroute-tests/{test\_id}
 
-Get test details and aggregate performance metrics for a traceroute test for a given time period between 1 hour and 7 days.
+##### [Get percentiles for a traceroute test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_tests/methods/percentiles)
 
-### Path Parameters
+GET/accounts/{account\_id}/dex/traceroute-tests/{test\_id}/percentiles
 
-- `account_id: string`
+##### [Get network path breakdown for a traceroute test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_tests/methods/network_path)
 
-  Unique identifier linked to an account.
+GET/accounts/{account\_id}/dex/traceroute-tests/{test\_id}/network-path
 
-- `test_id: string`
+##### ModelsExpand Collapse
 
-  API Resource UUID tag.
+<details>
 
-### Query Parameters
+<summary>
 
-- `from: string`
+Traceroute object {host, interval, kind, 5 more }
 
-  Start time for aggregate metrics in ISO ms.
+</summary>
 
-- `interval: "minute" or "hour"`
+host: string
 
-  Time interval for aggregate time slots.
+The host of the Traceroute synthetic application test.
 
-  - `"minute"`
+<a href="#">Link to this property</a>
 
-  - `"hour"`
+interval: string
 
-- `to: string`
+The interval at which the Traceroute synthetic application test is set to run.
 
-  End time for aggregate metrics in ISO ms.
+<a href="#">Link to this property</a>
 
-- `colo: optional string`
+kind: "traceroute"
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+<a href="#">Link to this property</a>
 
-- `deviceId: optional array of string`
+name: string
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+The name of the Traceroute synthetic application test.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+target\_policies: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20digital_experience_monitor%20%3E%20(schema)">DigitalExperienceMonitor</a> { id, default, name }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+API Resource UUID tag.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength36
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+default: boolean
 
-  - `documentation_url: optional string`
+Whether the policy is the default for the account.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Traceroute`
+targeted: optional boolean
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    The host of the Traceroute synthetic application test.
+<details>
 
-  - `interval: string`
+<summary>
 
-    The interval at which the Traceroute synthetic application test is set to run.
+tracerouteStats: optional object {availabilityPct, hopsCount, packetLossPct, 2 more }
 
-  - `kind: "traceroute"`
+</summary>
 
-    - `"traceroute"`
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the Traceroute synthetic application test.
+availabilityPct: object {slots, avg, max, min }
 
-  - `target_policies: optional array of DigitalExperienceMonitor`
+</summary>
 
-    - `id: string`
+<details>
 
-      API Resource UUID tag.
+<summary>
 
-    - `default: boolean`
+slots: array of object {timestamp, value }
 
-      Whether the policy is the default for the account.
+</summary>
 
-    - `name: string`
+timestamp: string
 
-  - `targeted: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `tracerouteStats: optional object { availabilityPct, hopsCount, packetLossPct, 2 more }`
+value: number
 
-    - `availabilityPct: object { slots, avg, max, min }`
+formatfloat
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+</details>
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-      - `avg: optional number`
+avg: optional number
 
-        average observed in the time period.
+average observed in the time period.
 
-      - `max: optional number`
+formatfloat
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+max: optional number
 
-        lowest observed in the time period.
+highest observed in the time period.
 
-    - `hopsCount: TestStatOverTime`
+formatfloat
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+min: optional number
 
-        - `value: number`
+lowest observed in the time period.
 
-      - `avg: optional number`
+formatfloat
 
-        average observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `max: optional number`
+</details>
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+hopsCount: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-        lowest observed in the time period.
+<a href="#">Link to this property</a>
 
-    - `packetLossPct: object { slots, avg, max, min }`
+<details>
 
-      - `slots: array of object { timestamp, value }`
+<summary>
 
-        - `timestamp: string`
+packetLossPct: object {slots, avg, max, min }
 
-        - `value: number`
+</summary>
 
-      - `avg: optional number`
+<details>
 
-        average observed in the time period.
+<summary>
 
-      - `max: optional number`
+slots: array of object {timestamp, value }
 
-        highest observed in the time period.
+</summary>
 
-      - `min: optional number`
+timestamp: string
 
-        lowest observed in the time period.
+<a href="#">Link to this property</a>
 
-    - `roundTripTimeMs: TestStatOverTime`
+value: number
 
-    - `uniqueDevicesTotal: number`
+formatfloat
 
-      Count of unique devices that have run this test in the given time period.
+<a href="#">Link to this property</a>
 
-  - `tracerouteStatsByColo: optional array of object { availabilityPct, colo, hopsCount, 3 more }`
+</details>
 
-    - `availabilityPct: object { slots, avg, max, min }`
+<a href="#">Link to this property</a>
 
-      - `slots: array of object { timestamp, value }`
+avg: optional number
 
-        - `timestamp: string`
+average observed in the time period.
 
-        - `value: number`
+formatfloat
 
-      - `avg: optional number`
+<a href="#">Link to this property</a>
 
-        average observed in the time period.
+max: optional number
 
-      - `max: optional number`
+highest observed in the time period.
 
-        highest observed in the time period.
+formatfloat
 
-      - `min: optional number`
+<a href="#">Link to this property</a>
 
-        lowest observed in the time period.
+min: optional number
 
-    - `colo: string`
+lowest observed in the time period.
 
-    - `hopsCount: TestStatOverTime`
+formatfloat
 
-    - `packetLossPct: object { slots, avg, max, min }`
+<a href="#">Link to this property</a>
 
-      - `slots: array of object { timestamp, value }`
+</details>
 
-        - `timestamp: string`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+roundTripTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-      - `avg: optional number`
+<a href="#">Link to this property</a>
 
-        average observed in the time period.
+uniqueDevicesTotal: number
 
-      - `max: optional number`
+Count of unique devices that have run this test in the given time period.
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+</details>
 
-        lowest observed in the time period.
+<a href="#">Link to this property</a>
 
-    - `roundTripTimeMs: TestStatOverTime`
+<details>
 
-    - `uniqueDevicesTotal: number`
+<summary>
 
-      Count of unique devices that have run this test in the given time period.
+tracerouteStatsByColo: optional array of object {availabilityPct, colo, hopsCount, 3 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-tests/$TEST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "host": "1.1.1.1",
-    "interval": "0h5m0s",
-    "kind": "traceroute",
-    "name": "Atlassian Sign In Page",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true,
-    "tracerouteStats": {
-      "availabilityPct": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "hopsCount": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "packetLossPct": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "roundTripTimeMs": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "uniqueDevicesTotal": 57
-    },
-    "tracerouteStatsByColo": [
-      {
-        "availabilityPct": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "colo": "DFW",
-        "hopsCount": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "packetLossPct": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "roundTripTimeMs": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "uniqueDevicesTotal": 57
-      }
-    ]
-  }
-}
-```
+availabilityPct: object {slots, avg, max, min }
 
-## Get percentiles for a traceroute test
+</summary>
 
-**get** `/accounts/{account_id}/dex/traceroute-tests/{test_id}/percentiles`
+<details>
 
-Get percentiles for a traceroute test for a given time period between 1 hour and 7 days.
+<summary>
 
-### Path Parameters
+slots: array of object {timestamp, value }
 
-- `account_id: string`
+</summary>
 
-  Unique identifier linked to an account.
+timestamp: string
 
-- `test_id: string`
+<a href="#">Link to this property</a>
 
-  API Resource UUID tag.
+value: number
 
-### Query Parameters
+formatfloat
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+</details>
 
-- `to: string`
+<a href="#">Link to this property</a>
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+avg: optional number
 
-- `colo: optional string`
+average observed in the time period.
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+formatfloat
 
-- `deviceId: optional array of string`
+<a href="#">Link to this property</a>
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+max: optional number
 
-### Returns
+highest observed in the time period.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatfloat
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+min: optional number
 
-  - `documentation_url: optional string`
+lowest observed in the time period.
 
-  - `source: optional object { pointer }`
+formatfloat
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+colo: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+hopsCount: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+packetLossPct: object {slots, avg, max, min }
 
-- `result: optional object { hopsCount, packetLossPct, roundTripTimeMs }`
+</summary>
 
-  - `hopsCount: optional Percentiles`
+<details>
 
-    - `p50: optional number`
+<summary>
 
-      p50 observed in the time period.
+slots: array of object {timestamp, value }
 
-    - `p90: optional number`
+</summary>
 
-      p90 observed in the time period.
+timestamp: string
 
-    - `p95: optional number`
+<a href="#">Link to this property</a>
 
-      p95 observed in the time period.
+value: number
 
-    - `p99: optional number`
+formatfloat
 
-      p99 observed in the time period.
+<a href="#">Link to this property</a>
 
-  - `packetLossPct: optional Percentiles`
+</details>
 
-  - `roundTripTimeMs: optional Percentiles`
+<a href="#">Link to this property</a>
 
-### Example
+avg: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-tests/$TEST_ID/percentiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+average observed in the time period.
 
-#### Response
+formatfloat
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "hopsCount": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "packetLossPct": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "roundTripTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get network path breakdown for a traceroute test
+max: optional number
 
-**get** `/accounts/{account_id}/dex/traceroute-tests/{test_id}/network-path`
+highest observed in the time period.
 
-Get a breakdown of metrics by hop for individual traceroute test runs.
+formatfloat
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+min: optional number
 
-  Unique identifier linked to an account.
+lowest observed in the time period.
 
-- `test_id: string`
+formatfloat
 
-  API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `deviceId: string`
+<a href="#">Link to this property</a>
 
-  Device to filter traceroute result runs to.
+roundTripTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start time for aggregate metrics in ISO ms.
+uniqueDevicesTotal: number
 
-- `interval: "minute" or "hour"`
+Count of unique devices that have run this test in the given time period.
 
-  Time interval for aggregate time slots.
+<a href="#">Link to this property</a>
 
-  - `"minute"`
+</details>
 
-  - `"hour"`
+<a href="#">Link to this property</a>
 
-- `to: string`
+</details>
 
-  End time for aggregate metrics in ISO ms.
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(model)%20traceroute%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+TracerouteTestPercentilesResponse object {hopsCount, packetLossPct, roundTripTimeMs }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+hopsCount: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+packetLossPct: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+roundTripTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional NetworkPathResponse`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `deviceName: optional string`
-
-    Name of the device that ran the test.
-
-  - `interval: optional string`
-
-    The interval at which the Traceroute synthetic application test is set to run.
-
-  - `kind: optional "traceroute"`
-
-    - `"traceroute"`
-
-  - `name: optional string`
-
-  - `networkPath: optional NetworkPath`
-
-    - `slots: array of object { id, clientToAppRttMs, clientToCfEgressRttMs, 3 more }`
-
-      - `id: string`
-
-        API Resource UUID tag.
-
-      - `clientToAppRttMs: number`
-
-        Round trip time in ms of the client to app mile
-
-      - `clientToCfEgressRttMs: number`
-
-        Round trip time in ms of the client to Cloudflare egress mile
-
-      - `clientToCfIngressRttMs: number`
-
-        Round trip time in ms of the client to Cloudflare ingress mile
-
-      - `timestamp: string`
-
-      - `clientToIspRttMs: optional number`
-
-        Round trip time in ms of the client to ISP mile
-
-    - `sampling: optional object { unit, value }`
-
-      Specifies the sampling applied, if any, to the slots response. When sampled, results shown represent the first test run to the start of each sampling interval.
-
-      - `unit: "hours"`
-
-        - `"hours"`
-
-      - `value: number`
-
-  - `url: optional string`
-
-    The host of the Traceroute synthetic application test.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-tests/$TEST_ID/network-path \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "deviceName": "deviceName",
-    "interval": "0h5m0s",
-    "kind": "traceroute",
-    "name": "name",
-    "networkPath": {
-      "slots": [
-        {
-          "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-          "clientToAppRttMs": 0,
-          "clientToCfEgressRttMs": 0,
-          "clientToCfIngressRttMs": 0,
-          "timestamp": "2023-07-16 15:00:00+00",
-          "clientToIspRttMs": 0
-        }
-      ],
-      "sampling": {
-        "unit": "hours",
-        "value": 0
-      }
-    },
-    "url": "1.1.1.1"
-  }
-}
-```
-
-## Domain Types
-
-### Traceroute
-
-- `Traceroute object { host, interval, kind, 5 more }`
-
-  - `host: string`
-
-    The host of the Traceroute synthetic application test.
-
-  - `interval: string`
-
-    The interval at which the Traceroute synthetic application test is set to run.
-
-  - `kind: "traceroute"`
-
-    - `"traceroute"`
-
-  - `name: string`
-
-    The name of the Traceroute synthetic application test.
-
-  - `target_policies: optional array of DigitalExperienceMonitor`
-
-    - `id: string`
-
-      API Resource UUID tag.
-
-    - `default: boolean`
-
-      Whether the policy is the default for the account.
-
-    - `name: string`
-
-  - `targeted: optional boolean`
-
-  - `tracerouteStats: optional object { availabilityPct, hopsCount, packetLossPct, 2 more }`
-
-    - `availabilityPct: object { slots, avg, max, min }`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `hopsCount: TestStatOverTime`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `packetLossPct: object { slots, avg, max, min }`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `roundTripTimeMs: TestStatOverTime`
-
-    - `uniqueDevicesTotal: number`
-
-      Count of unique devices that have run this test in the given time period.
-
-  - `tracerouteStatsByColo: optional array of object { availabilityPct, colo, hopsCount, 3 more }`
-
-    - `availabilityPct: object { slots, avg, max, min }`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `colo: string`
-
-    - `hopsCount: TestStatOverTime`
-
-    - `packetLossPct: object { slots, avg, max, min }`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `roundTripTimeMs: TestStatOverTime`
-
-    - `uniqueDevicesTotal: number`
-
-      Count of unique devices that have run this test in the given time period.
-
-### Traceroute Test Percentiles Response
-
-- `TracerouteTestPercentilesResponse object { hopsCount, packetLossPct, roundTripTimeMs }`
-
-  - `hopsCount: optional Percentiles`
-
-    - `p50: optional number`
-
-      p50 observed in the time period.
-
-    - `p90: optional number`
-
-      p90 observed in the time period.
-
-    - `p95: optional number`
-
-      p95 observed in the time period.
-
-    - `p99: optional number`
-
-      p99 observed in the time period.
-
-  - `packetLossPct: optional Percentiles`
-
-  - `roundTripTimeMs: optional Percentiles`
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(model)%20traceroute_test_percentiles_response%20%3E%20(schema)>)

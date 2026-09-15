@@ -1,466 +1,507 @@
+---
+title: Verification
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[SSL](https://developers.cloudflare.com/api/resources/ssl)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Verification
 
-## SSL Verification Details
+##### [SSL Verification Details](https://developers.cloudflare.com/api/resources/ssl/subresources/verification/methods/get)
 
-**get** `/zones/{zone_id}/ssl/verification`
+GET/zones/{zone\_id}/ssl/verification
 
-Get SSL Verification Info for a Zone.
+##### [Edit SSL Certificate Pack Validation Method](https://developers.cloudflare.com/api/resources/ssl/subresources/verification/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/ssl/verification/{certificate\_pack\_id}
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Query Parameters
+<summary>
 
-- `retry: optional true`
+Verification object {certificate\_status, brand\_check, cert\_pack\_uuid, 5 more }
 
-  Immediately retry SSL Verification.
+</summary>
 
-  - `true`
+<details>
 
-### Returns
+<summary>
 
-- `result: optional array of Verification`
+certificate\_status: "initializing"or "authorizing"or "active"or 4 more
 
-  - `certificate_status: "initializing" or "authorizing" or "active" or 4 more`
+Current status of certificate.
 
-    Current status of certificate.
+</summary>
 
-    - `"initializing"`
+One of the following:
 
-    - `"authorizing"`
+"initializing"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"expired"`
+"authorizing"
 
-    - `"issuing"`
+<a href="#">Link to this property</a>
 
-    - `"timing_out"`
+"active"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-  - `brand_check: optional boolean`
+"expired"
 
-    Certificate Authority is manually reviewing the order.
+<a href="#">Link to this property</a>
 
-  - `cert_pack_uuid: optional string`
+"issuing"
 
-    Certificate Pack UUID.
+<a href="#">Link to this property</a>
 
-  - `signature: optional "ECDSAWithSHA256" or "SHA1WithRSA" or "SHA256WithRSA"`
+"timing\_out"
 
-    Certificate's signature algorithm.
+<a href="#">Link to this property</a>
 
-    - `"ECDSAWithSHA256"`
+"pending\_deployment"
 
-    - `"SHA1WithRSA"`
+<a href="#">Link to this property</a>
 
-    - `"SHA256WithRSA"`
+</details>
 
-  - `validation_method: optional ValidationMethod`
+<a href="#">Link to this property</a>
 
-    Validation method in use for a certificate pack order.
+brand\_check: optional boolean
 
-    - `"http"`
+Certificate Authority is manually reviewing the order.
 
-    - `"cname"`
+<a href="#">Link to this property</a>
 
-    - `"txt"`
+cert\_pack\_uuid: optional string
 
-  - `verification_info: optional object { record_name, record_target }`
+Certificate Pack UUID.
 
-    Certificate's required verification information.
+<a href="#">Link to this property</a>
 
-    - `record_name: optional "record_name" or "http_url" or "cname" or "txt_name"`
+<details>
 
-      Name of CNAME record.
+<summary>
 
-      - `"record_name"`
+signature: optional "ECDSAWithSHA256"or "SHA1WithRSA"or "SHA256WithRSA"
 
-      - `"http_url"`
+Certificate’s signature algorithm.
 
-      - `"cname"`
+</summary>
 
-      - `"txt_name"`
+One of the following:
 
-    - `record_target: optional "record_value" or "http_body" or "cname_target" or "txt_value"`
+"ECDSAWithSHA256"
 
-      Target of CNAME record.
+<a href="#">Link to this property</a>
 
-      - `"record_value"`
+"SHA1WithRSA"
 
-      - `"http_body"`
+<a href="#">Link to this property</a>
 
-      - `"cname_target"`
+"SHA256WithRSA"
 
-      - `"txt_value"`
+<a href="#">Link to this property</a>
 
-  - `verification_status: optional boolean`
+</details>
 
-    Status of the required verification information, omitted if verification status is unknown.
+<a href="#">Link to this property</a>
 
-  - `verification_type: optional "cname" or "meta tag"`
+validation\_method: optional <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20validation_method%20%3E%20(schema)">ValidationMethod</a>
 
-    Method of verification.
+Validation method in use for a certificate pack order.
 
-    - `"cname"`
+<a href="#">Link to this property</a>
 
-    - `"meta tag"`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/verification \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+verification\_info: optional object {record\_name, record\_target }
 
-#### Response
+Certificate’s required verification information.
 
-```json
-{
-  "result": [
-    {
-      "certificate_status": "active",
-      "brand_check": false,
-      "cert_pack_uuid": "a77f8bd7-3b47-46b4-a6f1-75cf98109948",
-      "signature": "ECDSAWithSHA256",
-      "validation_method": "txt",
-      "verification_info": {
-        "record_name": "record_name",
-        "record_target": "record_value"
-      },
-      "verification_status": true,
-      "verification_type": "cname"
-    }
-  ]
-}
-```
+</summary>
 
-## Edit SSL Certificate Pack Validation Method
+<details>
 
-**patch** `/zones/{zone_id}/ssl/verification/{certificate_pack_id}`
+<summary>
 
-Edit SSL validation method for a certificate pack. A PATCH request will request an immediate validation check on any certificate, and return the updated status. If a validation method is provided, the validation will be immediately attempted using that method.
+record\_name: optional "record\_name"or "http\_url"or "cname"or "txt\_name"
 
-### Path Parameters
+Name of CNAME record.
 
-- `zone_id: string`
+formathostname
 
-  Identifier.
+</summary>
 
-- `certificate_pack_id: string`
+One of the following:
 
-  Certificate Pack UUID.
+"record\_name"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `validation_method: "http" or "cname" or "txt" or "email"`
+"http\_url"
 
-  Desired validation method.
+<a href="#">Link to this property</a>
 
-  - `"http"`
+"cname"
 
-  - `"cname"`
+<a href="#">Link to this property</a>
 
-  - `"txt"`
+"txt\_name"
 
-  - `"email"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+record\_target: optional "record\_value"or "http\_body"or "cname\_target"or "txt\_value"
 
-  - `source: optional object { pointer }`
+Target of CNAME record.
 
-    - `pointer: optional string`
+formathostname
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"record\_value"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"http\_body"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"cname\_target"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"txt\_value"
 
-- `result: optional object { status, validation_method }`
+<a href="#">Link to this property</a>
 
-  - `status: optional string`
+</details>
 
-    Result status.
+<a href="#">Link to this property</a>
 
-  - `validation_method: optional "http" or "cname" or "txt" or "email"`
+</details>
 
-    Desired validation method.
+<a href="#">Link to this property</a>
 
-    - `"http"`
+verification\_status: optional boolean
 
-    - `"cname"`
+Status of the required verification information, omitted if verification status is unknown.
 
-    - `"txt"`
+<a href="#">Link to this property</a>
 
-    - `"email"`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/verification/$CERTIFICATE_PACK_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "validation_method": "txt"
-        }'
-```
+verification\_type: optional "cname"or "meta tag"
 
-#### Response
+Method of verification.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "status": "pending_validation",
-    "validation_method": "txt"
-  }
-}
-```
+</summary>
 
-## Domain Types
+One of the following:
 
-### Verification
+"cname"
 
-- `Verification object { certificate_status, brand_check, cert_pack_uuid, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `certificate_status: "initializing" or "authorizing" or "active" or 4 more`
+"meta tag"
 
-    Current status of certificate.
+<a href="#">Link to this property</a>
 
-    - `"initializing"`
+</details>
 
-    - `"authorizing"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+</details>
 
-    - `"expired"`
+[Link to this property](#)%20ssl.verification%20%3E%20(model)%20verification%20%3E%20(schema)>)
 
-    - `"issuing"`
+<details>
 
-    - `"timing_out"`
+<summary>
 
-    - `"pending_deployment"`
+VerificationGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.verification%20%3E%20(model)%20verification%20%3E%20(schema)">Verification</a> { certificate\_status, brand\_check, cert\_pack\_uuid, 5 more }
 
-  - `brand_check: optional boolean`
+</summary>
 
-    Certificate Authority is manually reviewing the order.
+<details>
 
-  - `cert_pack_uuid: optional string`
+<summary>
 
-    Certificate Pack UUID.
+certificate\_status: "initializing"or "authorizing"or "active"or 4 more
 
-  - `signature: optional "ECDSAWithSHA256" or "SHA1WithRSA" or "SHA256WithRSA"`
+Current status of certificate.
 
-    Certificate's signature algorithm.
+</summary>
 
-    - `"ECDSAWithSHA256"`
+One of the following:
 
-    - `"SHA1WithRSA"`
+"initializing"
 
-    - `"SHA256WithRSA"`
+<a href="#">Link to this property</a>
 
-  - `validation_method: optional ValidationMethod`
+"authorizing"
 
-    Validation method in use for a certificate pack order.
+<a href="#">Link to this property</a>
 
-    - `"http"`
+"active"
 
-    - `"cname"`
+<a href="#">Link to this property</a>
 
-    - `"txt"`
+"expired"
 
-  - `verification_info: optional object { record_name, record_target }`
+<a href="#">Link to this property</a>
 
-    Certificate's required verification information.
+"issuing"
 
-    - `record_name: optional "record_name" or "http_url" or "cname" or "txt_name"`
+<a href="#">Link to this property</a>
 
-      Name of CNAME record.
+"timing\_out"
 
-      - `"record_name"`
+<a href="#">Link to this property</a>
 
-      - `"http_url"`
+"pending\_deployment"
 
-      - `"cname"`
+<a href="#">Link to this property</a>
 
-      - `"txt_name"`
+</details>
 
-    - `record_target: optional "record_value" or "http_body" or "cname_target" or "txt_value"`
+<a href="#">Link to this property</a>
 
-      Target of CNAME record.
+brand\_check: optional boolean
 
-      - `"record_value"`
+Certificate Authority is manually reviewing the order.
 
-      - `"http_body"`
+<a href="#">Link to this property</a>
 
-      - `"cname_target"`
+cert\_pack\_uuid: optional string
 
-      - `"txt_value"`
+Certificate Pack UUID.
 
-  - `verification_status: optional boolean`
+<a href="#">Link to this property</a>
 
-    Status of the required verification information, omitted if verification status is unknown.
+<details>
 
-  - `verification_type: optional "cname" or "meta tag"`
+<summary>
 
-    Method of verification.
+signature: optional "ECDSAWithSHA256"or "SHA1WithRSA"or "SHA256WithRSA"
 
-    - `"cname"`
+Certificate’s signature algorithm.
 
-    - `"meta tag"`
+</summary>
 
-### Verification Get Response
+One of the following:
 
-- `VerificationGetResponse = array of Verification`
+"ECDSAWithSHA256"
 
-  - `certificate_status: "initializing" or "authorizing" or "active" or 4 more`
+<a href="#">Link to this property</a>
 
-    Current status of certificate.
+"SHA1WithRSA"
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-    - `"authorizing"`
+"SHA256WithRSA"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"expired"`
+</details>
 
-    - `"issuing"`
+<a href="#">Link to this property</a>
 
-    - `"timing_out"`
+validation\_method: optional <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20validation_method%20%3E%20(schema)">ValidationMethod</a>
 
-    - `"pending_deployment"`
+Validation method in use for a certificate pack order.
 
-  - `brand_check: optional boolean`
+<a href="#">Link to this property</a>
 
-    Certificate Authority is manually reviewing the order.
+<details>
 
-  - `cert_pack_uuid: optional string`
+<summary>
 
-    Certificate Pack UUID.
+verification\_info: optional object {record\_name, record\_target }
 
-  - `signature: optional "ECDSAWithSHA256" or "SHA1WithRSA" or "SHA256WithRSA"`
+Certificate’s required verification information.
 
-    Certificate's signature algorithm.
+</summary>
 
-    - `"ECDSAWithSHA256"`
+<details>
 
-    - `"SHA1WithRSA"`
+<summary>
 
-    - `"SHA256WithRSA"`
+record\_name: optional "record\_name"or "http\_url"or "cname"or "txt\_name"
 
-  - `validation_method: optional ValidationMethod`
+Name of CNAME record.
 
-    Validation method in use for a certificate pack order.
+formathostname
 
-    - `"http"`
+</summary>
 
-    - `"cname"`
+One of the following:
 
-    - `"txt"`
+"record\_name"
 
-  - `verification_info: optional object { record_name, record_target }`
+<a href="#">Link to this property</a>
 
-    Certificate's required verification information.
+"http\_url"
 
-    - `record_name: optional "record_name" or "http_url" or "cname" or "txt_name"`
+<a href="#">Link to this property</a>
 
-      Name of CNAME record.
+"cname"
 
-      - `"record_name"`
+<a href="#">Link to this property</a>
 
-      - `"http_url"`
+"txt\_name"
 
-      - `"cname"`
+<a href="#">Link to this property</a>
 
-      - `"txt_name"`
+</details>
 
-    - `record_target: optional "record_value" or "http_body" or "cname_target" or "txt_value"`
+<a href="#">Link to this property</a>
 
-      Target of CNAME record.
+<details>
 
-      - `"record_value"`
+<summary>
 
-      - `"http_body"`
+record\_target: optional "record\_value"or "http\_body"or "cname\_target"or "txt\_value"
 
-      - `"cname_target"`
+Target of CNAME record.
 
-      - `"txt_value"`
+formathostname
 
-  - `verification_status: optional boolean`
+</summary>
 
-    Status of the required verification information, omitted if verification status is unknown.
+One of the following:
 
-  - `verification_type: optional "cname" or "meta tag"`
+"record\_value"
 
-    Method of verification.
+<a href="#">Link to this property</a>
 
-    - `"cname"`
+"http\_body"
 
-    - `"meta tag"`
+<a href="#">Link to this property</a>
 
-### Verification Edit Response
+"cname\_target"
 
-- `VerificationEditResponse object { status, validation_method }`
+<a href="#">Link to this property</a>
 
-  - `status: optional string`
+"txt\_value"
 
-    Result status.
+<a href="#">Link to this property</a>
 
-  - `validation_method: optional "http" or "cname" or "txt" or "email"`
+</details>
 
-    Desired validation method.
+<a href="#">Link to this property</a>
 
-    - `"http"`
+</details>
 
-    - `"cname"`
+<a href="#">Link to this property</a>
 
-    - `"txt"`
+verification\_status: optional boolean
 
-    - `"email"`
+Status of the required verification information, omitted if verification status is unknown.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+verification\_type: optional "cname"or "meta tag"
+
+Method of verification.
+
+</summary>
+
+One of the following:
+
+"cname"
+
+<a href="#">Link to this property</a>
+
+"meta tag"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ssl.verification%20%3E%20(model)%20verification_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+VerificationEditResponse object {status, validation\_method }
+
+</summary>
+
+status: optional string
+
+Result status.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+validation\_method: optional "http"or "cname"or "txt"or "email"
+
+Desired validation method.
+
+</summary>
+
+One of the following:
+
+"http"
+
+<a href="#">Link to this property</a>
+
+"cname"
+
+<a href="#">Link to this property</a>
+
+"txt"
+
+<a href="#">Link to this property</a>
+
+"email"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ssl.verification%20%3E%20(model)%20verification_edit_response%20%3E%20(schema)>)

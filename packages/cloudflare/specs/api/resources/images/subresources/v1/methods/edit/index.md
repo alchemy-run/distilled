@@ -1,96 +1,262 @@
-## Update image
+---
+title: Update image
+---
 
-**patch** `/accounts/{account_id}/images/v1/{image_id}`
+[Skip to content](#_top)
 
-Update a CF Images image's metadata, creator, or access control. On access control change, all copies of the image are purged from cache.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Images](https://developers.cloudflare.com/api/resources/images)
 
-- `account_id: string`
+[V1](https://developers.cloudflare.com/api/resources/images/subresources/v1)
 
-  Account identifier tag.
+Copy Markdown
 
-- `image_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Image unique identifier.
+---
 
-### Body Parameters
+**Copy Markdown****View as Markdown**
 
-- `creator: optional string`
+# Update image
 
-  Can set the creator field with an internal user ID.
+PATCH/accounts/{account\_id}/images/v1/{image\_id}
 
-- `metadata: optional unknown`
+Update a CF Images image’s metadata, creator, or access control. On access control change, all copies of the image are purged from cache.
 
-  User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified.
+##### Security
 
-- `requireSignedURLs: optional boolean`
+<details>
 
-  Indicates whether the image can be accessed using only its UID. If set to `true`, a signed token needs to be generated with a signing key to view the image. Returns a new UID on a change. No change if not specified.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `result: Image`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `id: optional string`
+</details>
 
-    Image unique identifier.
+##### Accepted Permissions (at least one required)
 
-  - `creator: optional string`
+`Images Write`
 
-    Can set the creator field with an internal user ID.
+##### P ath ParametersExpand Collapse
 
-  - `filename: optional string`
+account\_id: string
 
-    Image file name.
+Account identifier tag.
 
-  - `meta: optional unknown`
+maxLength32
 
-    User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `requireSignedURLs: optional boolean`
+image\_id: string
 
-    Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+Image unique identifier.
 
-  - `uploaded: optional string`
+maxLength32
 
-    When the media item was uploaded.
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20image_id%20%3E%20(schema)>)
 
-  - `variants: optional array of string`
+##### Body ParametersJSONExpand Collapse
 
-    Object specifying available variants for an image.
+creator: optional string
 
-- `success: true`
+Can set the creator field with an internal user ID.
 
-  Whether the API call was successful
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20creator%20%3E%20(schema)>)
 
-  - `true`
+metadata: optional unknown
 
-### Example
+User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified.
 
-```http
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20metadata%20%3E%20(schema)>)
+
+requireSignedURLs: optional boolean
+
+Indicates whether the image can be accessed using only its UID. If set to `true`, a signed token needs to be generated with a signing key to view the image. Returns a new UID on a change. No change if not specified.
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20requireSignedURLs%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1%20%3E%20(model)%20image%20%3E%20(schema)">Image</a> { id, creator, filename, 4 more }
+
+</summary>
+
+id: optional string
+
+Image unique identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+creator: optional string
+
+Can set the creator field with an internal user ID.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+filename: optional string
+
+Image file name.
+
+maxLength255
+
+<a href="#">Link to this property</a>
+
+meta: optional unknown
+
+User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+
+<a href="#">Link to this property</a>
+
+requireSignedURLs: optional boolean
+
+Indicates whether the image can be a accessed only using it’s UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+
+<a href="#">Link to this property</a>
+
+uploaded: optional string
+
+When the media item was uploaded.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+variants: optional array of string
+
+Object specifying available variants for an image.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update image
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/$IMAGE_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -100,9 +266,54 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/$IMAGE_
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "id",
+    "creator": "107b9558-dd06-4bbd-5fef-9c2c16bb7900",
+    "filename": "logo.png",
+    "meta": {
+      "key": "value"
+    },
+    "requireSignedURLs": true,
+    "uploaded": "2014-01-02T02:20:00.123Z",
+    "variants": [
+      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/thumbnail",
+      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/hero",
+      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/original"
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,265 +1,125 @@
+---
+title: Traces
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Rules Trace](https://developers.cloudflare.com/api/resources/request_tracers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Traces
 
-## Request Trace
+##### [Request Trace](https://developers.cloudflare.com/api/resources/request_tracers/subresources/traces/methods/create)
 
-**post** `/accounts/{account_id}/request-tracer/trace`
+POST/accounts/{account\_id}/request-tracer/trace
 
-Request Trace
+##### ModelsExpand Collapse
 
-### Path Parameters
+Trace = array of [TraceItem](<https://developers.cloudflare.com/api/resources/request_tracers#(resource)%20request_tracers.traces%20%3E%20(model)%20trace_item%20%3E%20(schema)>) { action, action\_parameters, description, 7 more }
 
-- `account_id: string`
+[Link to this property](#)%20request_tracers.traces%20%3E%20(model)%20trace%20%3E%20(schema)>)
 
-  Identifier.
+<details>
 
-### Body Parameters
+<summary>
 
-- `method: string`
+TraceItem object {action, action\_parameters, description, 7 more }
 
-  HTTP Method of tracing request
+List of steps acting on request/response
 
-- `url: string`
+</summary>
 
-  URL to which perform tracing request
+action: optional string
 
-- `body: optional object { base64, json, plain_text }`
+If step type is rule, then action performed by this rule
 
-  - `base64: optional string`
+<a href="#">Link to this property</a>
 
-    Base64 encoded request body
+action\_parameters: optional unknown
 
-  - `json: optional unknown`
+If step type is rule, then action parameters of this rule as JSON
 
-    Arbitrary json as request body
+<a href="#">Link to this property</a>
 
-  - `plain_text: optional string`
+description: optional string
 
-    Request body as plain text
+If step type is rule or ruleset, the description of this entity
 
-- `context: optional object { bot_score, geoloc, skip_challenge, threat_score }`
+<a href="#">Link to this property</a>
 
-  Additional request parameters
+expression: optional string
 
-  - `bot_score: optional number`
+If step type is rule, then expression used to match for this rule
 
-    Bot score used for evaluating tracing request processing
+<a href="#">Link to this property</a>
 
-  - `geoloc: optional object { city, continent, is_eu_country, 7 more }`
+kind: optional string
 
-    Geodata for tracing request
+If step type is ruleset, then kind of this ruleset
 
-    - `city: optional string`
+<a href="#">Link to this property</a>
 
-    - `continent: optional string`
+matched: optional boolean
 
-    - `is_eu_country: optional boolean`
+Whether tracing step affected tracing request/response
 
-    - `iso_code: optional string`
+<a href="#">Link to this property</a>
 
-    - `latitude: optional number`
+name: optional string
 
-    - `longitude: optional number`
+If step type is ruleset, then name of this ruleset
 
-    - `postal_code: optional string`
+<a href="#">Link to this property</a>
 
-    - `region_code: optional string`
+step\_name: optional string
 
-    - `subdivision_2_iso_code: optional string`
+Tracing step identifying name
 
-    - `timezone: optional string`
+<a href="#">Link to this property</a>
 
-  - `skip_challenge: optional boolean`
+trace: optional <a href="https://developers.cloudflare.com/api/resources/request_tracers#(resource)%20request_tracers.traces%20%3E%20(model)%20trace%20%3E%20(schema)">Trace</a>
 
-    Whether to skip any challenges for tracing request (e.g.: captcha)
+<a href="#">Link to this property</a>
 
-  - `threat_score: optional number`
+type: optional string
 
-    Threat score used for evaluating tracing request processing
+Tracing step type
 
-- `cookies: optional map[string]`
+<a href="#">Link to this property</a>
 
-  Cookies added to tracing request
+</details>
 
-- `headers: optional map[string]`
+[Link to this property](#)%20request_tracers.traces%20%3E%20(model)%20trace_item%20%3E%20(schema)>)
 
-  Headers added to tracing request
+<details>
 
-- `protocol: optional string`
+<summary>
 
-  HTTP Protocol of tracing request
+TraceCreateResponse object {status\_code, trace }
 
-- `skip_response: optional boolean`
+Trace result with an origin status code
 
-  Skip sending the request to the Origin server after all rules evaluation
+</summary>
 
-### Returns
+status\_code: optional number
 
-- `errors: array of object { code, message, documentation_url, source }`
+HTTP Status code of zone response
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+trace: optional <a href="https://developers.cloudflare.com/api/resources/request_tracers#(resource)%20request_tracers.traces%20%3E%20(model)%20trace%20%3E%20(schema)">Trace</a>
 
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { status_code, trace }`
+</details>
 
-  Trace result with an origin status code
-
-  - `status_code: optional number`
-
-    HTTP Status code of zone response
-
-  - `trace: optional Trace`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/request-tracer/trace \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "method": "PUT",
-          "url": "https://some.zone/some_path",
-          "cookies": {
-            "cookie_name_1": "cookie_value_1",
-            "cookie_name_2": "cookie_value_2"
-          },
-          "headers": {
-            "header_name_1": "header_value_1",
-            "header_name_2": "header_value_2"
-          },
-          "protocol": "HTTP/1.1"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "status_code": 0,
-    "trace": [
-      {
-        "action": "execute",
-        "action_parameters": {
-          "id": "4814384a9e5d4991b9815dcfc25d2f1f"
-        },
-        "description": "some rule",
-        "expression": "ip.src ne 1.1.1.1",
-        "kind": "zone",
-        "matched": true,
-        "name": "some ruleset name",
-        "step_name": "rule_id01",
-        "type": "rule"
-      }
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Trace
-
-- `Trace = array of TraceItem`
-
-### Trace Item
-
-- `TraceItem object { action, action_parameters, description, 7 more }`
-
-  List of steps acting on request/response
-
-  - `action: optional string`
-
-    If step type is rule, then action performed by this rule
-
-  - `action_parameters: optional unknown`
-
-    If step type is rule, then action parameters of this rule as JSON
-
-  - `description: optional string`
-
-    If step type is rule or ruleset, the description of this entity
-
-  - `expression: optional string`
-
-    If step type is rule, then expression used to match for this rule
-
-  - `kind: optional string`
-
-    If step type is ruleset, then kind of this ruleset
-
-  - `matched: optional boolean`
-
-    Whether tracing step affected tracing request/response
-
-  - `name: optional string`
-
-    If step type is ruleset, then name of this ruleset
-
-  - `step_name: optional string`
-
-    Tracing step identifying name
-
-  - `trace: optional Trace`
-
-  - `type: optional string`
-
-    Tracing step type
-
-### Trace Create Response
-
-- `TraceCreateResponse object { status_code, trace }`
-
-  Trace result with an origin status code
-
-  - `status_code: optional number`
-
-    HTTP Status code of zone response
-
-  - `trace: optional Trace`
+[Link to this property](#)%20request_tracers.traces%20%3E%20(model)%20trace_create_response%20%3E%20(schema)>)

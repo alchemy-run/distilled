@@ -1,425 +1,1250 @@
-## Fetch details of a preset
+---
+title: Fetch details of a preset
+---
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+[Presets](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/presets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Fetch details of a preset
+
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/presets/{preset\_id}
 
 Fetches details of a preset using the provided preset ID
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  The account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `app_id: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  The app identifier tag.
+##### Accepted Permissions (at least one required)
 
-- `preset_id: string`
+`Realtime Admin``Realtime`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `data: object { id, config, created_at, 4 more }`
+account\_id: string
 
-  Data returned by the operation
+The account identifier tag.
 
-  - `id: string`
+maxLength32
 
-    ID of the preset
+[Link to this property](#)%20realtime_kit.presets%20%3E%20(method)%20get_preset_by_id%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `config: object { max_screenshare_count, max_video_streams, media, 2 more }`
+app\_id: string
 
-    - `max_screenshare_count: number`
+The app identifier tag.
 
-      Maximum number of screen shares that can be active at a given time
+maxLength32
 
-    - `max_video_streams: object { desktop, mobile }`
+[Link to this property](#)%20realtime_kit.presets%20%3E%20(method)%20get_preset_by_id%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
 
-      Maximum number of streams that are visible on a device
+preset\_id: string
 
-      - `desktop: number`
+formatuuid
 
-        Maximum number of video streams visible on desktop devices
+[Link to this property](#)%20realtime_kit.presets%20%3E%20(method)%20get_preset_by_id%20%3E%20(params)%20default%20%3E%20(param)%20preset_id%20%3E%20(schema)>)
 
-      - `mobile: number`
+##### ReturnsExpand Collapse
 
-        Maximum number of streams visible on mobile devices
+<details>
 
-    - `media: object { screenshare, video, audio }`
+<summary>
 
-      Media configuration options. eg: Video quality
+data: object {id, config, created\_at, 4 more }
 
-      - `screenshare: object { frame_rate, quality }`
+Data returned by the operation
 
-        Configuration options for participant screen shares
+</summary>
 
-        - `frame_rate: number`
+id: string
 
-          Frame rate of screen share
+ID of the preset
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+formatuuid
 
-          Quality of screen share
+<a href="#">Link to this property</a>
 
-          - `"hd"`
+<details>
 
-          - `"vga"`
+<summary>
 
-          - `"qvga"`
+config: object {max\_screenshare\_count, max\_video\_streams, media, 2 more }
 
-          - `"fhd"`
+</summary>
 
-          - `"uhd"`
+max\_screenshare\_count: number
 
-      - `video: object { frame_rate, quality, simulcast }`
+Maximum number of screen shares that can be active at a given time
 
-        Configuration options for participant videos
+<a href="#">Link to this property</a>
 
-        - `frame_rate: number`
+<details>
 
-          Frame rate of participants' video
+<summary>
 
-        - `quality: "hd" or "vga" or "qvga" or 2 more`
+max\_video\_streams: object {desktop, mobile }
 
-          Video quality of participants
+Maximum number of streams that are visible on a device
 
-          - `"hd"`
+</summary>
 
-          - `"vga"`
+desktop: number
 
-          - `"qvga"`
+Maximum number of video streams visible on desktop devices
 
-          - `"fhd"`
+<a href="#">Link to this property</a>
 
-          - `"uhd"`
+mobile: number
 
-        - `simulcast: optional boolean`
+Maximum number of streams visible on mobile devices
 
-          Enable simulcast for participant videos.
+<a href="#">Link to this property</a>
 
-      - `audio: optional object { enable_high_bitrate, enable_stereo }`
+</details>
 
-        Control options for Audio quality.
+<a href="#">Link to this property</a>
 
-        - `enable_high_bitrate: optional boolean`
+<details>
 
-          Enable High Quality Audio for your meetings
+<summary>
 
-        - `enable_stereo: optional boolean`
+media: object {screenshare, video, audio }
 
-          Enable Stereo for your meetings
+Media configuration options. eg: Video quality
 
-    - `view_type: "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or "LIVESTREAM"`
+</summary>
 
-      Type of the meeting
+<details>
 
-      - `"GROUP_CALL"`
+<summary>
 
-      - `"WEBINAR"`
+screenshare: object {frame\_rate, quality }
 
-      - `"AUDIO_ROOM"`
+Configuration options for participant screen shares
 
-      - `"LIVESTREAM"`
+</summary>
 
-    - `livestream_viewer_qualities: optional array of number`
+frame\_rate: number
 
-      Livestream viewer quality levels.
+Frame rate of screen share
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp this preset was created at
+<details>
 
-  - `name: string`
+<summary>
 
-    Name of the preset
+quality: "hd"or "vga"or "qvga"or 2 more
 
-  - `permissions: object { accept_waiting_requests, can_accept_production_requests, can_change_participant_permissions, 23 more }`
+Quality of screen share
 
-    - `accept_waiting_requests: boolean`
+</summary>
 
-      Whether this participant can accept waiting requests
+One of the following:
 
-    - `can_accept_production_requests: boolean`
+"hd"
 
-    - `can_change_participant_permissions: boolean`
+<a href="#">Link to this property</a>
 
-    - `can_edit_display_name: boolean`
+"vga"
 
-    - `can_livestream: boolean`
+<a href="#">Link to this property</a>
 
-    - `can_record: boolean`
+"qvga"
 
-    - `can_spotlight: boolean`
+<a href="#">Link to this property</a>
 
-    - `chat: object { private, public }`
+"fhd"
 
-      - `private: object { can_receive, can_send, files, text }`
+<a href="#">Link to this property</a>
 
-        - `can_receive: boolean`
+"uhd"
 
-        - `can_send: boolean`
+<a href="#">Link to this property</a>
 
-        - `files: boolean`
+</details>
 
-        - `text: boolean`
+<a href="#">Link to this property</a>
 
-      - `public: object { can_send, files, text }`
+</details>
 
-        - `can_send: boolean`
+<a href="#">Link to this property</a>
 
-          Can send messages in general
+<details>
 
-        - `files: boolean`
+<summary>
 
-          Can send file messages
+video: object {frame\_rate, quality, simulcast }
 
-        - `text: boolean`
+Configuration options for participant videos
 
-          Can send text messages
+</summary>
 
-    - `connected_meetings: object { can_alter_connected_meetings, can_switch_connected_meetings, can_switch_to_parent_meeting }`
+frame\_rate: number
 
-      - `can_alter_connected_meetings: boolean`
+Frame rate of participants’ video
 
-      - `can_switch_connected_meetings: boolean`
+maximum30
 
-      - `can_switch_to_parent_meeting: boolean`
+<a href="#">Link to this property</a>
 
-    - `disable_participant_audio: boolean`
+<details>
 
-    - `disable_participant_screensharing: boolean`
+<summary>
 
-    - `disable_participant_video: boolean`
+quality: "hd"or "vga"or "qvga"or 2 more
 
-    - `hidden_participant: boolean`
+Video quality of participants
 
-      Whether this participant is visible to others or not
+</summary>
 
-    - `kick_participant: boolean`
+One of the following:
 
-    - `media: object { audio, screenshare, video }`
+"hd"
 
-      Media permissions
+<a href="#">Link to this property</a>
 
-      - `audio: object { can_produce }`
+"vga"
 
-        Audio permissions
+<a href="#">Link to this property</a>
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+"qvga"
 
-          Can produce audio
+<a href="#">Link to this property</a>
 
-          - `"ALLOWED"`
+"fhd"
 
-          - `"NOT_ALLOWED"`
+<a href="#">Link to this property</a>
 
-          - `"CAN_REQUEST"`
+"uhd"
 
-      - `screenshare: object { can_produce }`
+<a href="#">Link to this property</a>
 
-        Screenshare permissions
+</details>
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<a href="#">Link to this property</a>
 
-          Can produce screen share video
+simulcast: optional boolean
 
-          - `"ALLOWED"`
+Enable simulcast for participant videos.
 
-          - `"NOT_ALLOWED"`
+<a href="#">Link to this property</a>
 
-          - `"CAN_REQUEST"`
+</details>
 
-      - `video: object { can_produce }`
+<a href="#">Link to this property</a>
 
-        Video permissions
+<details>
 
-        - `can_produce: "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<summary>
 
-          Can produce video
+audio: optional object {enable\_high\_bitrate, enable\_stereo }
 
-          - `"ALLOWED"`
+Control options for Audio quality.
 
-          - `"NOT_ALLOWED"`
+</summary>
 
-          - `"CAN_REQUEST"`
+enable\_high\_bitrate: optional boolean
 
-    - `pin_participant: boolean`
+Enable High Quality Audio for your meetings
 
-    - `plugins: object { can_close, can_edit_config, can_start, config }`
+<a href="#">Link to this property</a>
 
-      Plugin permissions
+enable\_stereo: optional boolean
 
-      - `can_close: boolean`
+Enable Stereo for your meetings
 
-        Can close plugins that are already open
+<a href="#">Link to this property</a>
 
-      - `can_edit_config: boolean`
+</details>
 
-        Can edit plugin config
+<a href="#">Link to this property</a>
 
-      - `can_start: boolean`
+</details>
 
-        Can start plugins
+<a href="#">Link to this property</a>
 
-      - `config: map[object { access_control, handles_view_only } ]`
+<details>
 
-        Plugin configuration keyed by plugin UUID.
+<summary>
 
-        - `access_control: optional "FULL_ACCESS" or "VIEW_ONLY"`
+view\_type: "GROUP\_CALL"or "WEBINAR"or "AUDIO\_ROOM"or "LIVESTREAM"
 
-          - `"FULL_ACCESS"`
+Type of the meeting
 
-          - `"VIEW_ONLY"`
+</summary>
 
-        - `handles_view_only: optional boolean`
+One of the following:
 
-    - `polls: object { can_create, can_view, can_vote }`
+"GROUP\_CALL"
 
-      Poll permissions
+<a href="#">Link to this property</a>
 
-      - `can_create: boolean`
+"WEBINAR"
 
-        Can create polls
+<a href="#">Link to this property</a>
 
-      - `can_view: boolean`
+"AUDIO\_ROOM"
 
-        Can view polls
+<a href="#">Link to this property</a>
 
-      - `can_vote: boolean`
+"LIVESTREAM"
 
-        Can vote on polls
+<a href="#">Link to this property</a>
 
-    - `recorder_type: "RECORDER" or "LIVESTREAMER" or "NONE"`
+</details>
 
-      Type of the recording peer
+<a href="#">Link to this property</a>
 
-      - `"RECORDER"`
+livestream\_viewer\_qualities: optional array of number
 
-      - `"LIVESTREAMER"`
+Livestream viewer quality levels.
 
-      - `"NONE"`
+<a href="#">Link to this property</a>
 
-    - `show_participant_list: boolean`
+</details>
 
-    - `waiting_room_type: "SKIP" or "ON_PRIVILEGED_USER_ENTRY" or "SKIP_ON_ACCEPT"`
+<a href="#">Link to this property</a>
 
-      Waiting room type
+created\_at: string
 
-      - `"SKIP"`
+Timestamp this preset was created at
 
-      - `"ON_PRIVILEGED_USER_ENTRY"`
+formatdate-time
 
-      - `"SKIP_ON_ACCEPT"`
+<a href="#">Link to this property</a>
 
-    - `accept_stage_requests: optional boolean`
+name: string
 
-    - `is_recorder: optional boolean`
+Name of the preset
 
-    - `stage_access: optional "ALLOWED" or "NOT_ALLOWED" or "CAN_REQUEST"`
+<a href="#">Link to this property</a>
 
-      - `"ALLOWED"`
+<details>
 
-      - `"NOT_ALLOWED"`
+<summary>
 
-      - `"CAN_REQUEST"`
+permissions: object {accept\_waiting\_requests, can\_accept\_production\_requests, can\_change\_participant\_permissions, 23 more }
 
-    - `stage_enabled: optional boolean`
+</summary>
 
-    - `transcription_enabled: optional boolean`
+accept\_waiting\_requests: boolean
 
-  - `ui: object { design_tokens }`
+Whether this participant can accept waiting requests
 
-    - `design_tokens: object { border_radius, border_width, colors, 5 more }`
+<a href="#">Link to this property</a>
 
-      - `border_radius: "sharp" or "rounded" or "extra-rounded" or "circular"`
+can\_accept\_production\_requests: boolean
 
-        - `"sharp"`
+<a href="#">Link to this property</a>
 
-        - `"rounded"`
+can\_change\_participant\_permissions: boolean
 
-        - `"extra-rounded"`
+<a href="#">Link to this property</a>
 
-        - `"circular"`
+can\_edit\_display\_name: boolean
 
-      - `border_width: "none" or "thin" or "fat"`
+<a href="#">Link to this property</a>
 
-        - `"none"`
+can\_livestream: boolean
 
-        - `"thin"`
+<a href="#">Link to this property</a>
 
-        - `"fat"`
+can\_record: boolean
 
-      - `colors: object { background, brand, danger, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `background: object { "1000", "600", "700", 2 more }`
+can\_spotlight: boolean
 
-          - `"1000": string`
+<a href="#">Link to this property</a>
 
-          - `"600": string`
+<details>
 
-          - `"700": string`
+<summary>
 
-          - `"800": string`
+chat: object {private, public }
 
-          - `"900": string`
+</summary>
 
-        - `brand: object { "300", "400", "500", 2 more }`
+<details>
 
-          - `"300": string`
+<summary>
 
-          - `"400": string`
+private: object {can\_receive, can\_send, files, text }
 
-          - `"500": string`
+</summary>
 
-          - `"600": string`
+can\_receive: boolean
 
-          - `"700": string`
+<a href="#">Link to this property</a>
 
-        - `danger: string`
+can\_send: boolean
 
-        - `success: string`
+<a href="#">Link to this property</a>
 
-        - `text: string`
+files: boolean
 
-        - `text_on_brand: string`
+<a href="#">Link to this property</a>
 
-        - `video_bg: string`
+text: boolean
 
-        - `warning: string`
+<a href="#">Link to this property</a>
 
-      - `spacing_base: number`
+</details>
 
-      - `theme: "darkest" or "dark" or "light"`
+<a href="#">Link to this property</a>
 
-        - `"darkest"`
+<details>
 
-        - `"dark"`
+<summary>
 
-        - `"light"`
+public: object {can\_send, files, text }
 
-      - `font_family: optional string`
+</summary>
 
-      - `google_font: optional string`
+can\_send: boolean
 
-      - `logo: optional string`
+Can send messages in general
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp this preset was last updated
+files: boolean
 
-- `success: boolean`
+Can send file messages
 
-  Success status of the operation
+<a href="#">Link to this property</a>
 
-### Example
+text: boolean
 
-```http
+Can send text messages
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+connected\_meetings: object {can\_alter\_connected\_meetings, can\_switch\_connected\_meetings, can\_switch\_to\_parent\_meeting }
+
+</summary>
+
+can\_alter\_connected\_meetings: boolean
+
+<a href="#">Link to this property</a>
+
+can\_switch\_connected\_meetings: boolean
+
+<a href="#">Link to this property</a>
+
+can\_switch\_to\_parent\_meeting: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+disable\_participant\_audio: boolean
+
+<a href="#">Link to this property</a>
+
+disable\_participant\_screensharing: boolean
+
+<a href="#">Link to this property</a>
+
+disable\_participant\_video: boolean
+
+<a href="#">Link to this property</a>
+
+hidden\_participant: boolean
+
+Whether this participant is visible to others or not
+
+<a href="#">Link to this property</a>
+
+kick\_participant: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+media: object {audio, screenshare, video }
+
+Media permissions
+
+</summary>
+
+<details>
+
+<summary>
+
+audio: object {can\_produce }
+
+Audio permissions
+
+</summary>
+
+<details>
+
+<summary>
+
+can\_produce: "ALLOWED"or "NOT\_ALLOWED"or "CAN\_REQUEST"
+
+Can produce audio
+
+</summary>
+
+One of the following:
+
+"ALLOWED"
+
+<a href="#">Link to this property</a>
+
+"NOT\_ALLOWED"
+
+<a href="#">Link to this property</a>
+
+"CAN\_REQUEST"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+screenshare: object {can\_produce }
+
+Screenshare permissions
+
+</summary>
+
+<details>
+
+<summary>
+
+can\_produce: "ALLOWED"or "NOT\_ALLOWED"or "CAN\_REQUEST"
+
+Can produce screen share video
+
+</summary>
+
+One of the following:
+
+"ALLOWED"
+
+<a href="#">Link to this property</a>
+
+"NOT\_ALLOWED"
+
+<a href="#">Link to this property</a>
+
+"CAN\_REQUEST"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+video: object {can\_produce }
+
+Video permissions
+
+</summary>
+
+<details>
+
+<summary>
+
+can\_produce: "ALLOWED"or "NOT\_ALLOWED"or "CAN\_REQUEST"
+
+Can produce video
+
+</summary>
+
+One of the following:
+
+"ALLOWED"
+
+<a href="#">Link to this property</a>
+
+"NOT\_ALLOWED"
+
+<a href="#">Link to this property</a>
+
+"CAN\_REQUEST"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+pin\_participant: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+plugins: object {can\_close, can\_edit\_config, can\_start, config }
+
+Plugin permissions
+
+</summary>
+
+can\_close: boolean
+
+Can close plugins that are already open
+
+<a href="#">Link to this property</a>
+
+can\_edit\_config: boolean
+
+Can edit plugin config
+
+<a href="#">Link to this property</a>
+
+can\_start: boolean
+
+Can start plugins
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+config: map\[object {access\_control, handles\_view\_only } ]
+
+Plugin configuration keyed by plugin UUID.
+
+</summary>
+
+<details>
+
+<summary>
+
+access\_control: optional "FULL\_ACCESS"or "VIEW\_ONLY"
+
+</summary>
+
+One of the following:
+
+"FULL\_ACCESS"
+
+<a href="#">Link to this property</a>
+
+"VIEW\_ONLY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+handles\_view\_only: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+polls: object {can\_create, can\_view, can\_vote }
+
+Poll permissions
+
+</summary>
+
+can\_create: boolean
+
+Can create polls
+
+<a href="#">Link to this property</a>
+
+can\_view: boolean
+
+Can view polls
+
+<a href="#">Link to this property</a>
+
+can\_vote: boolean
+
+Can vote on polls
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+recorder\_type: "RECORDER"or "LIVESTREAMER"or "NONE"
+
+Type of the recording peer
+
+</summary>
+
+One of the following:
+
+"RECORDER"
+
+<a href="#">Link to this property</a>
+
+"LIVESTREAMER"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+show\_participant\_list: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+waiting\_room\_type: "SKIP"or "ON\_PRIVILEGED\_USER\_ENTRY"or "SKIP\_ON\_ACCEPT"
+
+Waiting room type
+
+</summary>
+
+One of the following:
+
+"SKIP"
+
+<a href="#">Link to this property</a>
+
+"ON\_PRIVILEGED\_USER\_ENTRY"
+
+<a href="#">Link to this property</a>
+
+"SKIP\_ON\_ACCEPT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+accept\_stage\_requests: optional boolean
+
+<a href="#">Link to this property</a>
+
+is\_recorder: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stage\_access: optional "ALLOWED"or "NOT\_ALLOWED"or "CAN\_REQUEST"
+
+</summary>
+
+One of the following:
+
+"ALLOWED"
+
+<a href="#">Link to this property</a>
+
+"NOT\_ALLOWED"
+
+<a href="#">Link to this property</a>
+
+"CAN\_REQUEST"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+stage\_enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+transcription\_enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ui: object {design\_tokens }
+
+</summary>
+
+<details>
+
+<summary>
+
+design\_tokens: object {border\_radius, border\_width, colors, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+border\_radius: "sharp"or "rounded"or "extra-rounded"or "circular"
+
+</summary>
+
+One of the following:
+
+"sharp"
+
+<a href="#">Link to this property</a>
+
+"rounded"
+
+<a href="#">Link to this property</a>
+
+"extra-rounded"
+
+<a href="#">Link to this property</a>
+
+"circular"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+border\_width: "none"or "thin"or "fat"
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"thin"
+
+<a href="#">Link to this property</a>
+
+"fat"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+colors: object {background, brand, danger, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+background: object {"1000", "600", "700", 2 more }
+
+</summary>
+
+"1000": string
+
+<a href="#">Link to this property</a>
+
+"600": string
+
+<a href="#">Link to this property</a>
+
+"700": string
+
+<a href="#">Link to this property</a>
+
+"800": string
+
+<a href="#">Link to this property</a>
+
+"900": string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+brand: object {"300", "400", "500", 2 more }
+
+</summary>
+
+"300": string
+
+<a href="#">Link to this property</a>
+
+"400": string
+
+<a href="#">Link to this property</a>
+
+"500": string
+
+<a href="#">Link to this property</a>
+
+"600": string
+
+<a href="#">Link to this property</a>
+
+"700": string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+danger: string
+
+<a href="#">Link to this property</a>
+
+success: string
+
+<a href="#">Link to this property</a>
+
+text: string
+
+<a href="#">Link to this property</a>
+
+text\_on\_brand: string
+
+<a href="#">Link to this property</a>
+
+video\_bg: string
+
+<a href="#">Link to this property</a>
+
+warning: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+spacing\_base: number
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+theme: "darkest"or "dark"or "light"
+
+</summary>
+
+One of the following:
+
+"darkest"
+
+<a href="#">Link to this property</a>
+
+"dark"
+
+<a href="#">Link to this property</a>
+
+"light"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+font\_family: optional string
+
+<a href="#">Link to this property</a>
+
+google\_font: optional string
+
+<a href="#">Link to this property</a>
+
+logo: optional string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp this preset was last updated
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.presets%20%3E%20(model)%20preset_get_preset_by_id_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+success: boolean
+
+Success status of the operation
+
+[Link to this property](#)%20realtime_kit.presets%20%3E%20(model)%20preset_get_preset_by_id_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Fetch details of a preset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/presets/$PRESET_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "data": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "config": {
+      "max_screenshare_count": 0,
+      "max_video_streams": {
+        "desktop": 0,
+        "mobile": 0
+      },
+      "media": {
+        "screenshare": {
+          "frame_rate": 0,
+          "quality": "hd"
+        },
+        "video": {
+          "frame_rate": 30,
+          "quality": "hd",
+          "simulcast": true
+        },
+        "audio": {
+          "enable_high_bitrate": true,
+          "enable_stereo": true
+        }
+      },
+      "view_type": "GROUP_CALL",
+      "livestream_viewer_qualities": [
+        0
+      ]
+    },
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "name": "name",
+    "permissions": {
+      "accept_waiting_requests": true,
+      "can_accept_production_requests": true,
+      "can_change_participant_permissions": true,
+      "can_edit_display_name": true,
+      "can_livestream": true,
+      "can_record": true,
+      "can_spotlight": true,
+      "chat": {
+        "private": {
+          "can_receive": true,
+          "can_send": true,
+          "files": true,
+          "text": true
+        },
+        "public": {
+          "can_send": true,
+          "files": true,
+          "text": true
+        }
+      },
+      "connected_meetings": {
+        "can_alter_connected_meetings": true,
+        "can_switch_connected_meetings": true,
+        "can_switch_to_parent_meeting": true
+      },
+      "disable_participant_audio": true,
+      "disable_participant_screensharing": true,
+      "disable_participant_video": true,
+      "hidden_participant": true,
+      "kick_participant": true,
+      "media": {
+        "audio": {
+          "can_produce": "ALLOWED"
+        },
+        "screenshare": {
+          "can_produce": "ALLOWED"
+        },
+        "video": {
+          "can_produce": "ALLOWED"
+        }
+      },
+      "pin_participant": true,
+      "plugins": {
+        "can_close": true,
+        "can_edit_config": true,
+        "can_start": true,
+        "config": {
+          "foo": {
+            "access_control": "FULL_ACCESS",
+            "handles_view_only": true
+          }
+        }
+      },
+      "polls": {
+        "can_create": true,
+        "can_view": true,
+        "can_vote": true
+      },
+      "recorder_type": "RECORDER",
+      "show_participant_list": true,
+      "waiting_room_type": "SKIP",
+      "accept_stage_requests": true,
+      "is_recorder": true,
+      "stage_access": "ALLOWED",
+      "stage_enabled": true,
+      "transcription_enabled": true
+    },
+    "ui": {
+      "design_tokens": {
+        "border_radius": "sharp",
+        "border_width": "none",
+        "colors": {
+          "background": {
+            "600": "600",
+            "700": "700",
+            "800": "800",
+            "900": "900",
+            "1000": "1000"
+          },
+          "brand": {
+            "300": "300",
+            "400": "400",
+            "500": "500",
+            "600": "600",
+            "700": "700"
+          },
+          "danger": "danger",
+          "success": "success",
+          "text": "text",
+          "text_on_brand": "text_on_brand",
+          "video_bg": "video_bg",
+          "warning": "warning"
+        },
+        "spacing_base": 1,
+        "theme": "darkest",
+        "font_family": "font_family",
+        "google_font": "google_font",
+        "logo": "https://example.com"
+      }
+    },
+    "updated_at": "2019-12-27T18:11:19.117Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "data": {
     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

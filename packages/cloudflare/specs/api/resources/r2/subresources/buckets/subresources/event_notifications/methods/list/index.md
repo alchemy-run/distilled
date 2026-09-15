@@ -1,117 +1,293 @@
-## List Event Notification Rules
+---
+title: List Event Notification Rules
+---
 
-**get** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+[Event Notifications](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Event Notification Rules
+
+GET/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration
 
 List all event notification rules for a bucket.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account ID.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `bucket_name: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  Name of the bucket.
+##### Accepted Permissions (at least one required)
 
-### Header Parameters
+`Workers R2 Storage Write``Workers R2 Storage Read`
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+##### P ath ParametersExpand Collapse
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+account\_id: string
 
-  - `"default"`
+Account ID.
 
-  - `"eu"`
+maxLength32
 
-  - `"fedramp"`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-### Returns
+bucket\_name: string
 
-- `errors: array of ResponseInfo`
+Name of the bucket.
 
-  - `code: number`
+maxLength64
 
-  - `message: string`
+minLength3
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20bucket_name%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### H eader ParametersExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of string`
+<summary>
 
-- `result: object { bucketName, queues }`
+"cf-r2-jurisdiction": optional "default"or "eu"or "us"or 2 more
 
-  - `bucketName: optional string`
+Jurisdiction where objects in this bucket are guaranteed to be stored.
 
-    Name of the bucket.
+</summary>
 
-  - `queues: optional array of object { queueId, queueName, rules }`
+One of the following:
 
-    List of queues associated with the bucket.
+"default"
 
-    - `queueId: optional string`
+<a href="#">Link to this property</a>
 
-      Queue ID.
+"eu"
 
-    - `queueName: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the queue.
+"us"
 
-    - `rules: optional array of object { actions, createdAt, description, 3 more }`
+<a href="#">Link to this property</a>
 
-      - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
+"fedramp"
 
-        Array of R2 object actions that will trigger notifications.
+<a href="#">Link to this property</a>
 
-        - `"PutObject"`
+"fedramp-high"
 
-        - `"CopyObject"`
+<a href="#">Link to this property</a>
 
-        - `"DeleteObject"`
+</details>
 
-        - `"CompleteMultipartUpload"`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20jurisdiction%20%3E%20(schema)>)
 
-        - `"LifecycleDeletion"`
+##### ReturnsExpand Collapse
 
-      - `createdAt: optional string`
+<details>
 
-        Timestamp when the rule was created.
+<summary>
 
-      - `description: optional string`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-        A description that can be used to identify the event notification rule after creation.
+</summary>
 
-      - `prefix: optional string`
+code: number
 
-        Notifications will be sent only for objects with this prefix.
+minimum1000
 
-      - `ruleId: optional string`
+<a href="#">Link to this property</a>
 
-        Rule ID.
+message: string
 
-      - `suffix: optional string`
+<a href="#">Link to this property</a>
 
-        Notifications will be sent only for objects with this suffix.
+documentation\_url: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+source: optional object {pointer }
 
-```http
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {bucketName, queues }
+
+</summary>
+
+bucketName: optional string
+
+Name of the bucket.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+queues: optional array of object {queueId, queueName, rules }
+
+List of queues associated with the bucket.
+
+</summary>
+
+queueId: optional string
+
+Queue ID.
+
+<a href="#">Link to this property</a>
+
+queueName: optional string
+
+Name of the queue.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rules: optional array of object {actions, createdAt, description, 3 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+actions: array of "PutObject"or "CopyObject"or "DeleteObject"or 2 more
+
+Array of R2 object actions that will trigger notifications.
+
+</summary>
+
+One of the following:
+
+"PutObject"
+
+<a href="#">Link to this property</a>
+
+"CopyObject"
+
+<a href="#">Link to this property</a>
+
+"DeleteObject"
+
+<a href="#">Link to this property</a>
+
+"CompleteMultipartUpload"
+
+<a href="#">Link to this property</a>
+
+"LifecycleDeletion"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+Timestamp when the rule was created.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A description that can be used to identify the event notification rule after creation.
+
+<a href="#">Link to this property</a>
+
+prefix: optional string
+
+Notifications will be sent only for objects with this prefix.
+
+<a href="#">Link to this property</a>
+
+ruleId: optional string
+
+Rule ID.
+
+<a href="#">Link to this property</a>
+
+suffix: optional string
+
+Notifications will be sent only for objects with this suffix.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Event Notification Rules
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+404 example
+
+```
 {
   "errors": [
     {
@@ -149,5 +325,80 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notificatio
     ]
   },
   "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 11015,
+      "message": "workers.api.error.no_configs_found_for_bucket"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+404 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "bucketName": "bucketName",
+    "queues": [
+      {
+        "queueId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
+        "queueName": "first-queue",
+        "rules": [
+          {
+            "actions": [
+              "PutObject",
+              "CopyObject"
+            ],
+            "createdAt": "2024-09-19T21:54:48.405Z",
+            "description": "Notifications from source bucket to queue",
+            "prefix": "img/",
+            "ruleId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
+            "suffix": ".jpeg"
+          }
+        ]
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 11015,
+      "message": "workers.api.error.no_configs_found_for_bucket"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

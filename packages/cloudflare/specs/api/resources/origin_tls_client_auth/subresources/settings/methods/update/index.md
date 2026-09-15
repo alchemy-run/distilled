@@ -1,62 +1,198 @@
-## Set Enablement for Zone
+---
+title: Set Enablement for Zone
+---
 
-**put** `/zones/{zone_id}/origin_tls_client_auth/settings`
+[Skip to content](#_top)
 
-Enable or disable zone-level authenticated origin pulls. 'enabled' should be set true either before/after the certificate is uploaded to see the certificate in use.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Origin TLS Client Auth](https://developers.cloudflare.com/api/resources/origin_tls_client_auth)
 
-- `zone_id: string`
+[Settings](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/settings)
 
-  Identifier.
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `enabled: boolean`
+---
 
-  Indicates whether zone-level authenticated origin pulls is enabled.
+**Copy Markdown****View as Markdown**
 
-### Returns
+# Set Enablement for Zone
 
-- `errors: array of object { code, message, documentation_url, source }`
+PUT/zones/{zone\_id}/origin\_tls\_client\_auth/settings
 
-  - `code: number`
+Enable or disable zone-level authenticated origin pulls. ‘enabled’ should be set true either before/after the certificate is uploaded to see the certificate in use.
 
-  - `message: string`
+##### Security
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>API Token</summary>
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `success: true`
 
-  Whether the API call was successful.
 
-  - `true`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `result: optional object { enabled }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `enabled: optional boolean`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Indicates whether zone-level authenticated origin pulls is enabled.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Example
+</details>
 
-```http
+##### Accepted Permissions (at least one required)
+
+`SSL and Certificates Write`
+
+##### P ath ParametersExpand Collapse
+
+zone\_id: string
+
+Identifier.
+
+maxLength32
+
+[Link to this property](#)%20origin_tls_client_auth.settings%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+enabled: boolean
+
+Indicates whether zone-level authenticated origin pulls is enabled.
+
+[Link to this property](#)%20origin_tls_client_auth.settings%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_tls_client_auth.settings%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_tls_client_auth.settings%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20origin_tls_client_auth.settings%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {enabled }
+
+</summary>
+
+enabled: optional boolean
+
+Indicates whether zone-level authenticated origin pulls is enabled.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_tls_client_auth.settings%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Set Enablement for Zone
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/settings \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -66,9 +202,42 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "enabled": true
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,1976 +1,263 @@
+---
+title: Pages
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Speed](https://developers.cloudflare.com/api/resources/speed)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Pages
 
-## List tested webpages
+##### [List tested webpages](https://developers.cloudflare.com/api/resources/speed/subresources/pages/methods/list)
 
-**get** `/zones/{zone_id}/speed_api/pages`
+GET/zones/{zone\_id}/speed\_api/pages
 
-Lists all webpages which have been tested.
+##### [List core web vital metrics trend](https://developers.cloudflare.com/api/resources/speed/subresources/pages/methods/trend)
 
-### Path Parameters
+GET/zones/{zone\_id}/speed\_api/pages/{url}/trend
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+PageListResponse object {region, scheduleFrequency, tests, url }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+region: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
 
-  - `documentation_url: optional string`
+A test region with a label.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+scheduleFrequency: optional "DAILY"or "WEEKLY"
 
-  - `message: string`
+The frequency of the test.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-- `success: boolean`
+"DAILY"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { region, scheduleFrequency, tests, url }`
+"WEEKLY"
 
-  - `region: optional LabeledRegion`
+<a href="#">Link to this property</a>
 
-    A test region with a label.
+</details>
 
-    - `label: optional string`
+<a href="#">Link to this property</a>
 
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+<details>
 
-      A test region.
+<summary>
 
-      - `"asia-east1"`
+tests: optional array of <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed.pages.tests%20%3E%20(model)%20test%20%3E%20(schema)">Test</a> { id, date, desktopReport, 4 more }
 
-      - `"asia-northeast1"`
+</summary>
 
-      - `"asia-northeast2"`
+id: optional string
 
-      - `"asia-south1"`
+UUID.
 
-      - `"asia-southeast1"`
+maxLength36
 
-      - `"australia-southeast1"`
+<a href="#">Link to this property</a>
 
-      - `"europe-north1"`
+date: optional string
 
-      - `"europe-southwest1"`
+formatdate-time
 
-      - `"europe-west1"`
+<a href="#">Link to this property</a>
 
-      - `"europe-west2"`
+desktopReport: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20lighthouse_report%20%3E%20(schema)">LighthouseReport</a> { cls, deviceType, error, 9 more }
 
-      - `"europe-west3"`
+The Lighthouse report.
 
-      - `"europe-west4"`
+<a href="#">Link to this property</a>
 
-      - `"europe-west8"`
+mobileReport: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20lighthouse_report%20%3E%20(schema)">LighthouseReport</a> { cls, deviceType, error, 9 more }
 
-      - `"europe-west9"`
+The Lighthouse report.
 
-      - `"me-west1"`
+<a href="#">Link to this property</a>
 
-      - `"southamerica-east1"`
+region: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
 
-      - `"us-central1"`
+A test region with a label.
 
-      - `"us-east1"`
+<a href="#">Link to this property</a>
 
-      - `"us-east4"`
+<details>
 
-      - `"us-south1"`
+<summary>
 
-      - `"us-west1"`
+scheduleFrequency: optional "DAILY"or "WEEKLY"
 
-  - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
+The frequency of the test.
 
-    The frequency of the test.
+</summary>
 
-    - `"DAILY"`
+One of the following:
 
-    - `"WEEKLY"`
+"DAILY"
 
-  - `tests: optional array of Test`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"WEEKLY"
 
-      UUID.
+<a href="#">Link to this property</a>
 
-    - `date: optional string`
+</details>
 
-    - `desktopReport: optional LighthouseReport`
+<a href="#">Link to this property</a>
 
-      The Lighthouse report.
+url: optional string
 
-      - `cls: optional number`
+A URL.
 
-        Cumulative Layout Shift.
+<a href="#">Link to this property</a>
 
-      - `deviceType: optional "DESKTOP" or "MOBILE"`
+</details>
 
-        The type of device.
+<a href="#">Link to this property</a>
 
-        - `"DESKTOP"`
+url: optional string
 
-        - `"MOBILE"`
+A URL.
 
-      - `error: optional object { code, detail, finalDisplayedUrl }`
+<a href="#">Link to this property</a>
 
-        - `code: optional "NOT_REACHABLE" or "DNS_FAILURE" or "NOT_HTML" or 2 more`
+</details>
 
-          The error code of the Lighthouse result.
+[Link to this property](#)%20speed.pages%20%3E%20(model)%20page_list_response%20%3E%20(schema)>)
 
-          - `"NOT_REACHABLE"`
+#### PagesTests
 
-          - `"DNS_FAILURE"`
+##### [List page test history](https://developers.cloudflare.com/api/resources/speed/subresources/pages/subresources/tests/methods/list)
 
-          - `"NOT_HTML"`
+GET/zones/{zone\_id}/speed\_api/pages/{url}/tests
 
-          - `"LIGHTHOUSE_TIMEOUT"`
+##### [Get a page test result](https://developers.cloudflare.com/api/resources/speed/subresources/pages/subresources/tests/methods/get)
 
-          - `"UNKNOWN"`
+GET/zones/{zone\_id}/speed\_api/pages/{url}/tests/{test\_id}
 
-        - `detail: optional string`
+##### [Start page test](https://developers.cloudflare.com/api/resources/speed/subresources/pages/subresources/tests/methods/create)
 
-          Detailed error message.
+POST/zones/{zone\_id}/speed\_api/pages/{url}/tests
 
-        - `finalDisplayedUrl: optional string`
+##### [Delete all page tests](https://developers.cloudflare.com/api/resources/speed/subresources/pages/subresources/tests/methods/delete)
 
-          The final URL displayed to the user.
+DELETE/zones/{zone\_id}/speed\_api/pages/{url}/tests
 
-      - `fcp: optional number`
+##### ModelsExpand Collapse
 
-        First Contentful Paint.
+<details>
 
-      - `jsonReportUrl: optional string`
+<summary>
 
-        The URL to the full Lighthouse JSON report.
+Test object {id, date, desktopReport, 4 more }
 
-      - `lcp: optional number`
+</summary>
 
-        Largest Contentful Paint.
+id: optional string
 
-      - `performanceScore: optional number`
+UUID.
 
-        The Lighthouse performance score.
+maxLength36
 
-      - `si: optional number`
+<a href="#">Link to this property</a>
 
-        Speed Index.
+date: optional string
 
-      - `state: optional "RUNNING" or "COMPLETE" or "FAILED"`
+formatdate-time
 
-        The state of the Lighthouse report.
+<a href="#">Link to this property</a>
 
-        - `"RUNNING"`
+desktopReport: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20lighthouse_report%20%3E%20(schema)">LighthouseReport</a> { cls, deviceType, error, 9 more }
 
-        - `"COMPLETE"`
+The Lighthouse report.
 
-        - `"FAILED"`
+<a href="#">Link to this property</a>
 
-      - `tbt: optional number`
+mobileReport: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20lighthouse_report%20%3E%20(schema)">LighthouseReport</a> { cls, deviceType, error, 9 more }
 
-        Total Blocking Time.
+The Lighthouse report.
 
-      - `ttfb: optional number`
+<a href="#">Link to this property</a>
 
-        Time To First Byte.
+region: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
 
-      - `tti: optional number`
+A test region with a label.
 
-        Time To Interactive.
+<a href="#">Link to this property</a>
 
-    - `mobileReport: optional LighthouseReport`
+<details>
 
-      The Lighthouse report.
+<summary>
 
-    - `region: optional LabeledRegion`
+scheduleFrequency: optional "DAILY"or "WEEKLY"
 
-      A test region with a label.
+The frequency of the test.
 
-    - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
+</summary>
 
-      The frequency of the test.
+One of the following:
 
-      - `"DAILY"`
+"DAILY"
 
-      - `"WEEKLY"`
+<a href="#">Link to this property</a>
 
-    - `url: optional string`
+"WEEKLY"
 
-      A URL.
+<a href="#">Link to this property</a>
 
-  - `url: optional string`
+</details>
 
-    A URL.
+<a href="#">Link to this property</a>
 
-### Example
+url: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+A URL.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "region": {
-        "label": "Iowa, USA",
-        "value": "us-central1"
-      },
-      "scheduleFrequency": "DAILY",
-      "tests": [
-        {
-          "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-          "date": "2014-01-01T05:20:00.12345Z",
-          "desktopReport": {
-            "cls": 100,
-            "deviceType": "DESKTOP",
-            "error": {
-              "code": "NOT_REACHABLE",
-              "detail": "Details: net::ERR_CONNECTION_CLOSED",
-              "finalDisplayedUrl": "example.com"
-            },
-            "fcp": 100,
-            "jsonReportUrl": "jsonReportUrl",
-            "lcp": 100,
-            "performanceScore": 90,
-            "si": 100,
-            "state": "COMPLETE",
-            "tbt": 100,
-            "ttfb": 100,
-            "tti": 100
-          },
-          "mobileReport": {
-            "cls": 100,
-            "deviceType": "DESKTOP",
-            "error": {
-              "code": "NOT_REACHABLE",
-              "detail": "Details: net::ERR_CONNECTION_CLOSED",
-              "finalDisplayedUrl": "example.com"
-            },
-            "fcp": 100,
-            "jsonReportUrl": "jsonReportUrl",
-            "lcp": 100,
-            "performanceScore": 90,
-            "si": 100,
-            "state": "COMPLETE",
-            "tbt": 100,
-            "ttfb": 100,
-            "tti": 100
-          },
-          "region": {
-            "label": "Iowa, USA",
-            "value": "us-central1"
-          },
-          "scheduleFrequency": "DAILY",
-          "url": "example.com"
-        }
-      ],
-      "url": "example.com"
-    }
-  ]
-}
-```
+</details>
 
-## List core web vital metrics trend
+[Link to this property](#)%20speed.pages.tests%20%3E%20(model)%20test%20%3E%20(schema)>)
 
-**get** `/zones/{zone_id}/speed_api/pages/{url}/trend`
+<details>
 
-Lists the core web vital metrics trend over time for a specific page.
+<summary>
 
-### Path Parameters
+TestDeleteResponse object {count }
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+count: optional number
 
-- `url: string`
+Number of items affected.
 
-  A URL.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `deviceType: "DESKTOP" or "MOBILE"`
-
-  The type of device.
-
-  - `"DESKTOP"`
-
-  - `"MOBILE"`
-
-- `metrics: string`
-
-  A comma-separated list of metrics to include in the results.
-
-- `region: "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-  A test region.
-
-  - `"asia-east1"`
-
-  - `"asia-northeast1"`
-
-  - `"asia-northeast2"`
-
-  - `"asia-south1"`
-
-  - `"asia-southeast1"`
-
-  - `"australia-southeast1"`
-
-  - `"europe-north1"`
-
-  - `"europe-southwest1"`
-
-  - `"europe-west1"`
-
-  - `"europe-west2"`
-
-  - `"europe-west3"`
-
-  - `"europe-west4"`
-
-  - `"europe-west8"`
-
-  - `"europe-west9"`
-
-  - `"me-west1"`
-
-  - `"southamerica-east1"`
-
-  - `"us-central1"`
-
-  - `"us-east1"`
-
-  - `"us-east4"`
-
-  - `"us-south1"`
-
-  - `"us-west1"`
-
-- `start: string`
-
-- `tz: string`
-
-  The timezone of the start and end timestamps.
-
-- `end: optional string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional Trend`
-
-  - `cls: optional array of number`
-
-    Cumulative Layout Shift trend.
-
-  - `fcp: optional array of number`
-
-    First Contentful Paint trend.
-
-  - `lcp: optional array of number`
-
-    Largest Contentful Paint trend.
-
-  - `performanceScore: optional array of number`
-
-    The Lighthouse score trend.
-
-  - `si: optional array of number`
-
-    Speed Index trend.
-
-  - `tbt: optional array of number`
-
-    Total Blocking Time trend.
-
-  - `ttfb: optional array of number`
-
-    Time To First Byte trend.
-
-  - `tti: optional array of number`
-
-    Time To Interactive trend.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages/$URL/trend \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "cls": [
-      0
-    ],
-    "fcp": [
-      0
-    ],
-    "lcp": [
-      0
-    ],
-    "performanceScore": [
-      0
-    ],
-    "si": [
-      0
-    ],
-    "tbt": [
-      0
-    ],
-    "ttfb": [
-      0
-    ],
-    "tti": [
-      0
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Page List Response
-
-- `PageListResponse object { region, scheduleFrequency, tests, url }`
-
-  - `region: optional LabeledRegion`
-
-    A test region with a label.
-
-    - `label: optional string`
-
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-      A test region.
-
-      - `"asia-east1"`
-
-      - `"asia-northeast1"`
-
-      - `"asia-northeast2"`
-
-      - `"asia-south1"`
-
-      - `"asia-southeast1"`
-
-      - `"australia-southeast1"`
-
-      - `"europe-north1"`
-
-      - `"europe-southwest1"`
-
-      - `"europe-west1"`
-
-      - `"europe-west2"`
-
-      - `"europe-west3"`
-
-      - `"europe-west4"`
-
-      - `"europe-west8"`
-
-      - `"europe-west9"`
-
-      - `"me-west1"`
-
-      - `"southamerica-east1"`
-
-      - `"us-central1"`
-
-      - `"us-east1"`
-
-      - `"us-east4"`
-
-      - `"us-south1"`
-
-      - `"us-west1"`
-
-  - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
-
-    The frequency of the test.
-
-    - `"DAILY"`
-
-    - `"WEEKLY"`
-
-  - `tests: optional array of Test`
-
-    - `id: optional string`
-
-      UUID.
-
-    - `date: optional string`
-
-    - `desktopReport: optional LighthouseReport`
-
-      The Lighthouse report.
-
-      - `cls: optional number`
-
-        Cumulative Layout Shift.
-
-      - `deviceType: optional "DESKTOP" or "MOBILE"`
-
-        The type of device.
-
-        - `"DESKTOP"`
-
-        - `"MOBILE"`
-
-      - `error: optional object { code, detail, finalDisplayedUrl }`
-
-        - `code: optional "NOT_REACHABLE" or "DNS_FAILURE" or "NOT_HTML" or 2 more`
-
-          The error code of the Lighthouse result.
-
-          - `"NOT_REACHABLE"`
-
-          - `"DNS_FAILURE"`
-
-          - `"NOT_HTML"`
-
-          - `"LIGHTHOUSE_TIMEOUT"`
-
-          - `"UNKNOWN"`
-
-        - `detail: optional string`
-
-          Detailed error message.
-
-        - `finalDisplayedUrl: optional string`
-
-          The final URL displayed to the user.
-
-      - `fcp: optional number`
-
-        First Contentful Paint.
-
-      - `jsonReportUrl: optional string`
-
-        The URL to the full Lighthouse JSON report.
-
-      - `lcp: optional number`
-
-        Largest Contentful Paint.
-
-      - `performanceScore: optional number`
-
-        The Lighthouse performance score.
-
-      - `si: optional number`
-
-        Speed Index.
-
-      - `state: optional "RUNNING" or "COMPLETE" or "FAILED"`
-
-        The state of the Lighthouse report.
-
-        - `"RUNNING"`
-
-        - `"COMPLETE"`
-
-        - `"FAILED"`
-
-      - `tbt: optional number`
-
-        Total Blocking Time.
-
-      - `ttfb: optional number`
-
-        Time To First Byte.
-
-      - `tti: optional number`
-
-        Time To Interactive.
-
-    - `mobileReport: optional LighthouseReport`
-
-      The Lighthouse report.
-
-    - `region: optional LabeledRegion`
-
-      A test region with a label.
-
-    - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
-
-      The frequency of the test.
-
-      - `"DAILY"`
-
-      - `"WEEKLY"`
-
-    - `url: optional string`
-
-      A URL.
-
-  - `url: optional string`
-
-    A URL.
-
-# Tests
-
-## List page test history
-
-**get** `/zones/{zone_id}/speed_api/pages/{url}/tests`
-
-Test history (list of tests) for a specific webpage.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `url: string`
-
-  A URL.
-
-### Query Parameters
-
-- `page: optional number`
-
-- `per_page: optional number`
-
-- `region: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-  A test region.
-
-  - `"asia-east1"`
-
-  - `"asia-northeast1"`
-
-  - `"asia-northeast2"`
-
-  - `"asia-south1"`
-
-  - `"asia-southeast1"`
-
-  - `"australia-southeast1"`
-
-  - `"europe-north1"`
-
-  - `"europe-southwest1"`
-
-  - `"europe-west1"`
-
-  - `"europe-west2"`
-
-  - `"europe-west3"`
-
-  - `"europe-west4"`
-
-  - `"europe-west8"`
-
-  - `"europe-west9"`
-
-  - `"me-west1"`
-
-  - `"southamerica-east1"`
-
-  - `"us-central1"`
-
-  - `"us-east1"`
-
-  - `"us-east4"`
-
-  - `"us-south1"`
-
-  - `"us-west1"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional array of Test`
-
-  - `id: optional string`
-
-    UUID.
-
-  - `date: optional string`
-
-  - `desktopReport: optional LighthouseReport`
-
-    The Lighthouse report.
-
-    - `cls: optional number`
-
-      Cumulative Layout Shift.
-
-    - `deviceType: optional "DESKTOP" or "MOBILE"`
-
-      The type of device.
-
-      - `"DESKTOP"`
-
-      - `"MOBILE"`
-
-    - `error: optional object { code, detail, finalDisplayedUrl }`
-
-      - `code: optional "NOT_REACHABLE" or "DNS_FAILURE" or "NOT_HTML" or 2 more`
-
-        The error code of the Lighthouse result.
-
-        - `"NOT_REACHABLE"`
-
-        - `"DNS_FAILURE"`
-
-        - `"NOT_HTML"`
-
-        - `"LIGHTHOUSE_TIMEOUT"`
-
-        - `"UNKNOWN"`
-
-      - `detail: optional string`
-
-        Detailed error message.
-
-      - `finalDisplayedUrl: optional string`
-
-        The final URL displayed to the user.
-
-    - `fcp: optional number`
-
-      First Contentful Paint.
-
-    - `jsonReportUrl: optional string`
-
-      The URL to the full Lighthouse JSON report.
-
-    - `lcp: optional number`
-
-      Largest Contentful Paint.
-
-    - `performanceScore: optional number`
-
-      The Lighthouse performance score.
-
-    - `si: optional number`
-
-      Speed Index.
-
-    - `state: optional "RUNNING" or "COMPLETE" or "FAILED"`
-
-      The state of the Lighthouse report.
-
-      - `"RUNNING"`
-
-      - `"COMPLETE"`
-
-      - `"FAILED"`
-
-    - `tbt: optional number`
-
-      Total Blocking Time.
-
-    - `ttfb: optional number`
-
-      Time To First Byte.
-
-    - `tti: optional number`
-
-      Time To Interactive.
-
-  - `mobileReport: optional LighthouseReport`
-
-    The Lighthouse report.
-
-  - `region: optional LabeledRegion`
-
-    A test region with a label.
-
-    - `label: optional string`
-
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-      A test region.
-
-      - `"asia-east1"`
-
-      - `"asia-northeast1"`
-
-      - `"asia-northeast2"`
-
-      - `"asia-south1"`
-
-      - `"asia-southeast1"`
-
-      - `"australia-southeast1"`
-
-      - `"europe-north1"`
-
-      - `"europe-southwest1"`
-
-      - `"europe-west1"`
-
-      - `"europe-west2"`
-
-      - `"europe-west3"`
-
-      - `"europe-west4"`
-
-      - `"europe-west8"`
-
-      - `"europe-west9"`
-
-      - `"me-west1"`
-
-      - `"southamerica-east1"`
-
-      - `"us-central1"`
-
-      - `"us-east1"`
-
-      - `"us-east4"`
-
-      - `"us-south1"`
-
-      - `"us-west1"`
-
-  - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
-
-    The frequency of the test.
-
-    - `"DAILY"`
-
-    - `"WEEKLY"`
-
-  - `url: optional string`
-
-    A URL.
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-  - `page: optional number`
-
-  - `per_page: optional number`
-
-  - `total_count: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages/$URL/tests \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "date": "2014-01-01T05:20:00.12345Z",
-      "desktopReport": {
-        "cls": 100,
-        "deviceType": "DESKTOP",
-        "error": {
-          "code": "NOT_REACHABLE",
-          "detail": "Details: net::ERR_CONNECTION_CLOSED",
-          "finalDisplayedUrl": "example.com"
-        },
-        "fcp": 100,
-        "jsonReportUrl": "jsonReportUrl",
-        "lcp": 100,
-        "performanceScore": 90,
-        "si": 100,
-        "state": "COMPLETE",
-        "tbt": 100,
-        "ttfb": 100,
-        "tti": 100
-      },
-      "mobileReport": {
-        "cls": 100,
-        "deviceType": "DESKTOP",
-        "error": {
-          "code": "NOT_REACHABLE",
-          "detail": "Details: net::ERR_CONNECTION_CLOSED",
-          "finalDisplayedUrl": "example.com"
-        },
-        "fcp": 100,
-        "jsonReportUrl": "jsonReportUrl",
-        "lcp": 100,
-        "performanceScore": 90,
-        "si": 100,
-        "state": "COMPLETE",
-        "tbt": 100,
-        "ttfb": 100,
-        "tti": 100
-      },
-      "region": {
-        "label": "Iowa, USA",
-        "value": "us-central1"
-      },
-      "scheduleFrequency": "DAILY",
-      "url": "example.com"
-    }
-  ],
-  "result_info": {
-    "count": 5,
-    "page": 1,
-    "per_page": 5,
-    "total_count": 3
-  }
-}
-```
-
-## Get a page test result
-
-**get** `/zones/{zone_id}/speed_api/pages/{url}/tests/{test_id}`
-
-Retrieves the result of a specific test.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `url: string`
-
-  A URL.
-
-- `test_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional Test`
-
-  - `id: optional string`
-
-    UUID.
-
-  - `date: optional string`
-
-  - `desktopReport: optional LighthouseReport`
-
-    The Lighthouse report.
-
-    - `cls: optional number`
-
-      Cumulative Layout Shift.
-
-    - `deviceType: optional "DESKTOP" or "MOBILE"`
-
-      The type of device.
-
-      - `"DESKTOP"`
-
-      - `"MOBILE"`
-
-    - `error: optional object { code, detail, finalDisplayedUrl }`
-
-      - `code: optional "NOT_REACHABLE" or "DNS_FAILURE" or "NOT_HTML" or 2 more`
-
-        The error code of the Lighthouse result.
-
-        - `"NOT_REACHABLE"`
-
-        - `"DNS_FAILURE"`
-
-        - `"NOT_HTML"`
-
-        - `"LIGHTHOUSE_TIMEOUT"`
-
-        - `"UNKNOWN"`
-
-      - `detail: optional string`
-
-        Detailed error message.
-
-      - `finalDisplayedUrl: optional string`
-
-        The final URL displayed to the user.
-
-    - `fcp: optional number`
-
-      First Contentful Paint.
-
-    - `jsonReportUrl: optional string`
-
-      The URL to the full Lighthouse JSON report.
-
-    - `lcp: optional number`
-
-      Largest Contentful Paint.
-
-    - `performanceScore: optional number`
-
-      The Lighthouse performance score.
-
-    - `si: optional number`
-
-      Speed Index.
-
-    - `state: optional "RUNNING" or "COMPLETE" or "FAILED"`
-
-      The state of the Lighthouse report.
-
-      - `"RUNNING"`
-
-      - `"COMPLETE"`
-
-      - `"FAILED"`
-
-    - `tbt: optional number`
-
-      Total Blocking Time.
-
-    - `ttfb: optional number`
-
-      Time To First Byte.
-
-    - `tti: optional number`
-
-      Time To Interactive.
-
-  - `mobileReport: optional LighthouseReport`
-
-    The Lighthouse report.
-
-  - `region: optional LabeledRegion`
-
-    A test region with a label.
-
-    - `label: optional string`
-
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-      A test region.
-
-      - `"asia-east1"`
-
-      - `"asia-northeast1"`
-
-      - `"asia-northeast2"`
-
-      - `"asia-south1"`
-
-      - `"asia-southeast1"`
-
-      - `"australia-southeast1"`
-
-      - `"europe-north1"`
-
-      - `"europe-southwest1"`
-
-      - `"europe-west1"`
-
-      - `"europe-west2"`
-
-      - `"europe-west3"`
-
-      - `"europe-west4"`
-
-      - `"europe-west8"`
-
-      - `"europe-west9"`
-
-      - `"me-west1"`
-
-      - `"southamerica-east1"`
-
-      - `"us-central1"`
-
-      - `"us-east1"`
-
-      - `"us-east4"`
-
-      - `"us-south1"`
-
-      - `"us-west1"`
-
-  - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
-
-    The frequency of the test.
-
-    - `"DAILY"`
-
-    - `"WEEKLY"`
-
-  - `url: optional string`
-
-    A URL.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages/$URL/tests/$TEST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "date": "2014-01-01T05:20:00.12345Z",
-    "desktopReport": {
-      "cls": 100,
-      "deviceType": "DESKTOP",
-      "error": {
-        "code": "NOT_REACHABLE",
-        "detail": "Details: net::ERR_CONNECTION_CLOSED",
-        "finalDisplayedUrl": "example.com"
-      },
-      "fcp": 100,
-      "jsonReportUrl": "jsonReportUrl",
-      "lcp": 100,
-      "performanceScore": 90,
-      "si": 100,
-      "state": "COMPLETE",
-      "tbt": 100,
-      "ttfb": 100,
-      "tti": 100
-    },
-    "mobileReport": {
-      "cls": 100,
-      "deviceType": "DESKTOP",
-      "error": {
-        "code": "NOT_REACHABLE",
-        "detail": "Details: net::ERR_CONNECTION_CLOSED",
-        "finalDisplayedUrl": "example.com"
-      },
-      "fcp": 100,
-      "jsonReportUrl": "jsonReportUrl",
-      "lcp": 100,
-      "performanceScore": 90,
-      "si": 100,
-      "state": "COMPLETE",
-      "tbt": 100,
-      "ttfb": 100,
-      "tti": 100
-    },
-    "region": {
-      "label": "Iowa, USA",
-      "value": "us-central1"
-    },
-    "scheduleFrequency": "DAILY",
-    "url": "example.com"
-  }
-}
-```
-
-## Start page test
-
-**post** `/zones/{zone_id}/speed_api/pages/{url}/tests`
-
-Starts a test for a specific webpage, in a specific region.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `url: string`
-
-  A URL.
-
-### Body Parameters
-
-- `region: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-  A test region.
-
-  - `"asia-east1"`
-
-  - `"asia-northeast1"`
-
-  - `"asia-northeast2"`
-
-  - `"asia-south1"`
-
-  - `"asia-southeast1"`
-
-  - `"australia-southeast1"`
-
-  - `"europe-north1"`
-
-  - `"europe-southwest1"`
-
-  - `"europe-west1"`
-
-  - `"europe-west2"`
-
-  - `"europe-west3"`
-
-  - `"europe-west4"`
-
-  - `"europe-west8"`
-
-  - `"europe-west9"`
-
-  - `"me-west1"`
-
-  - `"southamerica-east1"`
-
-  - `"us-central1"`
-
-  - `"us-east1"`
-
-  - `"us-east4"`
-
-  - `"us-south1"`
-
-  - `"us-west1"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional Test`
-
-  - `id: optional string`
-
-    UUID.
-
-  - `date: optional string`
-
-  - `desktopReport: optional LighthouseReport`
-
-    The Lighthouse report.
-
-    - `cls: optional number`
-
-      Cumulative Layout Shift.
-
-    - `deviceType: optional "DESKTOP" or "MOBILE"`
-
-      The type of device.
-
-      - `"DESKTOP"`
-
-      - `"MOBILE"`
-
-    - `error: optional object { code, detail, finalDisplayedUrl }`
-
-      - `code: optional "NOT_REACHABLE" or "DNS_FAILURE" or "NOT_HTML" or 2 more`
-
-        The error code of the Lighthouse result.
-
-        - `"NOT_REACHABLE"`
-
-        - `"DNS_FAILURE"`
-
-        - `"NOT_HTML"`
-
-        - `"LIGHTHOUSE_TIMEOUT"`
-
-        - `"UNKNOWN"`
-
-      - `detail: optional string`
-
-        Detailed error message.
-
-      - `finalDisplayedUrl: optional string`
-
-        The final URL displayed to the user.
-
-    - `fcp: optional number`
-
-      First Contentful Paint.
-
-    - `jsonReportUrl: optional string`
-
-      The URL to the full Lighthouse JSON report.
-
-    - `lcp: optional number`
-
-      Largest Contentful Paint.
-
-    - `performanceScore: optional number`
-
-      The Lighthouse performance score.
-
-    - `si: optional number`
-
-      Speed Index.
-
-    - `state: optional "RUNNING" or "COMPLETE" or "FAILED"`
-
-      The state of the Lighthouse report.
-
-      - `"RUNNING"`
-
-      - `"COMPLETE"`
-
-      - `"FAILED"`
-
-    - `tbt: optional number`
-
-      Total Blocking Time.
-
-    - `ttfb: optional number`
-
-      Time To First Byte.
-
-    - `tti: optional number`
-
-      Time To Interactive.
-
-  - `mobileReport: optional LighthouseReport`
-
-    The Lighthouse report.
-
-  - `region: optional LabeledRegion`
-
-    A test region with a label.
-
-    - `label: optional string`
-
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-      A test region.
-
-      - `"asia-east1"`
-
-      - `"asia-northeast1"`
-
-      - `"asia-northeast2"`
-
-      - `"asia-south1"`
-
-      - `"asia-southeast1"`
-
-      - `"australia-southeast1"`
-
-      - `"europe-north1"`
-
-      - `"europe-southwest1"`
-
-      - `"europe-west1"`
-
-      - `"europe-west2"`
-
-      - `"europe-west3"`
-
-      - `"europe-west4"`
-
-      - `"europe-west8"`
-
-      - `"europe-west9"`
-
-      - `"me-west1"`
-
-      - `"southamerica-east1"`
-
-      - `"us-central1"`
-
-      - `"us-east1"`
-
-      - `"us-east4"`
-
-      - `"us-south1"`
-
-      - `"us-west1"`
-
-  - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
-
-    The frequency of the test.
-
-    - `"DAILY"`
-
-    - `"WEEKLY"`
-
-  - `url: optional string`
-
-    A URL.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages/$URL/tests \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "date": "2014-01-01T05:20:00.12345Z",
-    "desktopReport": {
-      "cls": 100,
-      "deviceType": "DESKTOP",
-      "error": {
-        "code": "NOT_REACHABLE",
-        "detail": "Details: net::ERR_CONNECTION_CLOSED",
-        "finalDisplayedUrl": "example.com"
-      },
-      "fcp": 100,
-      "jsonReportUrl": "jsonReportUrl",
-      "lcp": 100,
-      "performanceScore": 90,
-      "si": 100,
-      "state": "COMPLETE",
-      "tbt": 100,
-      "ttfb": 100,
-      "tti": 100
-    },
-    "mobileReport": {
-      "cls": 100,
-      "deviceType": "DESKTOP",
-      "error": {
-        "code": "NOT_REACHABLE",
-        "detail": "Details: net::ERR_CONNECTION_CLOSED",
-        "finalDisplayedUrl": "example.com"
-      },
-      "fcp": 100,
-      "jsonReportUrl": "jsonReportUrl",
-      "lcp": 100,
-      "performanceScore": 90,
-      "si": 100,
-      "state": "COMPLETE",
-      "tbt": 100,
-      "ttfb": 100,
-      "tti": 100
-    },
-    "region": {
-      "label": "Iowa, USA",
-      "value": "us-central1"
-    },
-    "scheduleFrequency": "DAILY",
-    "url": "example.com"
-  }
-}
-```
-
-## Delete all page tests
-
-**delete** `/zones/{zone_id}/speed_api/pages/{url}/tests`
-
-Deletes all tests for a specific webpage from a specific region. Deleted tests are still counted as part of the quota.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `url: string`
-
-  A URL.
-
-### Query Parameters
-
-- `region: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-  A test region.
-
-  - `"asia-east1"`
-
-  - `"asia-northeast1"`
-
-  - `"asia-northeast2"`
-
-  - `"asia-south1"`
-
-  - `"asia-southeast1"`
-
-  - `"australia-southeast1"`
-
-  - `"europe-north1"`
-
-  - `"europe-southwest1"`
-
-  - `"europe-west1"`
-
-  - `"europe-west2"`
-
-  - `"europe-west3"`
-
-  - `"europe-west4"`
-
-  - `"europe-west8"`
-
-  - `"europe-west9"`
-
-  - `"me-west1"`
-
-  - `"southamerica-east1"`
-
-  - `"us-central1"`
-
-  - `"us-east1"`
-
-  - `"us-east4"`
-
-  - `"us-south1"`
-
-  - `"us-west1"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional object { count }`
-
-  - `count: optional number`
-
-    Number of items affected.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages/$URL/tests \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "count": 1
-  }
-}
-```
-
-## Domain Types
-
-### Test
-
-- `Test object { id, date, desktopReport, 4 more }`
-
-  - `id: optional string`
-
-    UUID.
-
-  - `date: optional string`
-
-  - `desktopReport: optional LighthouseReport`
-
-    The Lighthouse report.
-
-    - `cls: optional number`
-
-      Cumulative Layout Shift.
-
-    - `deviceType: optional "DESKTOP" or "MOBILE"`
-
-      The type of device.
-
-      - `"DESKTOP"`
-
-      - `"MOBILE"`
-
-    - `error: optional object { code, detail, finalDisplayedUrl }`
-
-      - `code: optional "NOT_REACHABLE" or "DNS_FAILURE" or "NOT_HTML" or 2 more`
-
-        The error code of the Lighthouse result.
-
-        - `"NOT_REACHABLE"`
-
-        - `"DNS_FAILURE"`
-
-        - `"NOT_HTML"`
-
-        - `"LIGHTHOUSE_TIMEOUT"`
-
-        - `"UNKNOWN"`
-
-      - `detail: optional string`
-
-        Detailed error message.
-
-      - `finalDisplayedUrl: optional string`
-
-        The final URL displayed to the user.
-
-    - `fcp: optional number`
-
-      First Contentful Paint.
-
-    - `jsonReportUrl: optional string`
-
-      The URL to the full Lighthouse JSON report.
-
-    - `lcp: optional number`
-
-      Largest Contentful Paint.
-
-    - `performanceScore: optional number`
-
-      The Lighthouse performance score.
-
-    - `si: optional number`
-
-      Speed Index.
-
-    - `state: optional "RUNNING" or "COMPLETE" or "FAILED"`
-
-      The state of the Lighthouse report.
-
-      - `"RUNNING"`
-
-      - `"COMPLETE"`
-
-      - `"FAILED"`
-
-    - `tbt: optional number`
-
-      Total Blocking Time.
-
-    - `ttfb: optional number`
-
-      Time To First Byte.
-
-    - `tti: optional number`
-
-      Time To Interactive.
-
-  - `mobileReport: optional LighthouseReport`
-
-    The Lighthouse report.
-
-  - `region: optional LabeledRegion`
-
-    A test region with a label.
-
-    - `label: optional string`
-
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-      A test region.
-
-      - `"asia-east1"`
-
-      - `"asia-northeast1"`
-
-      - `"asia-northeast2"`
-
-      - `"asia-south1"`
-
-      - `"asia-southeast1"`
-
-      - `"australia-southeast1"`
-
-      - `"europe-north1"`
-
-      - `"europe-southwest1"`
-
-      - `"europe-west1"`
-
-      - `"europe-west2"`
-
-      - `"europe-west3"`
-
-      - `"europe-west4"`
-
-      - `"europe-west8"`
-
-      - `"europe-west9"`
-
-      - `"me-west1"`
-
-      - `"southamerica-east1"`
-
-      - `"us-central1"`
-
-      - `"us-east1"`
-
-      - `"us-east4"`
-
-      - `"us-south1"`
-
-      - `"us-west1"`
-
-  - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
-
-    The frequency of the test.
-
-    - `"DAILY"`
-
-    - `"WEEKLY"`
-
-  - `url: optional string`
-
-    A URL.
-
-### Test Delete Response
-
-- `TestDeleteResponse object { count }`
-
-  - `count: optional number`
-
-    Number of items affected.
+[Link to this property](#)%20speed.pages.tests%20%3E%20(model)%20test_delete_response%20%3E%20(schema)>)

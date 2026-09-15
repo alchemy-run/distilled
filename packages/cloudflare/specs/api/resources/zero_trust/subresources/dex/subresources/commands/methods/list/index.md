@@ -1,151 +1,449 @@
-## List account commands
+---
+title: List account commands
+---
 
-**get** `/accounts/{account_id}/dex/commands`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List account commands
+
+GET/accounts/{account\_id}/dex/commands
 
 Retrieves a paginated list of commands issued to devices under the specified account, optionally filtered by time range, device, or other parameters
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Unique identifier linked to an account.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `page: number`
 
-  Page number of paginated results.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `per_page: number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Number of results per page.
+</details>
 
-- `command_type: optional "pcap" or "speed-test" or "warp-diag"`
+<details>
 
-  Optionally filter executed commands by command type.
+<summary>API Email + API Key</summary>
 
-  - `"pcap"`
 
-  - `"speed-test"`
 
-  - `"warp-diag"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `device_id: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Unique identifier for a device.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `from: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+</details>
 
-- `status: optional "PENDING_EXEC" or "PENDING_UPLOAD" or "SUCCESS" or "FAILED"`
+##### Accepted Permissions (at least one required)
 
-  Optionally filter executed commands by status.
+`Cloudflare DEX Write``Cloudflare DEX Read``Zero Trust Report``Zero Trust Read`
 
-  - `"PENDING_EXEC"`
+##### P ath ParametersExpand Collapse
 
-  - `"PENDING_UPLOAD"`
+account\_id: string
 
-  - `"SUCCESS"`
+Unique identifier linked to an account.
 
-  - `"FAILED"`
+maxLength32
 
-- `to: optional string`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+##### Q uery ParametersExpand Collapse
 
-- `user_email: optional string`
+page: number
 
-  Email tied to the device.
+Page number of paginated results.
 
-### Returns
+minimum1
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `code: number`
+per\_page: number
 
-  - `message: string`
+Number of results per page.
 
-  - `documentation_url: optional string`
+maximum50
 
-  - `source: optional object { pointer }`
+minimum1
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+command\_type: optional "pcap"or "speed-test"or "warp-diag"
 
-  - `documentation_url: optional string`
+Optionally filter executed commands by command type.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `success: true`
+"pcap"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"speed-test"
 
-- `result: optional object { commands }`
+<a href="#">Link to this property</a>
 
-  - `commands: optional array of object { id, completed_date, created_date, 6 more }`
+"warp-diag"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `completed_date: optional string`
+</details>
 
-    - `created_date: optional string`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20command_type%20%3E%20(schema)>)
 
-    - `device_id: optional string`
+device\_id: optional string
 
-    - `filename: optional string`
+Unique identifier for a device.
 
-    - `registration_id: optional string`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20device_id%20%3E%20(schema)>)
 
-      Unique identifier for the device registration
+from: optional string
 
-    - `status: optional string`
+Start time for the query in ISO (RFC3339 - ISO 8601) format.
 
-    - `type: optional string`
+formatdate-time
 
-    - `user_email: optional string`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20from%20%3E%20(schema)>)
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service.
+status: optional "PENDING\_EXEC"or "PENDING\_UPLOAD"or "SUCCESS"or "FAILED"
 
-  - `page: optional number`
+Optionally filter executed commands by status.
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+One of the following:
 
-    Number of results per page of results.
+"PENDING\_EXEC"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+"PENDING\_UPLOAD"
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+"SUCCESS"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
+
+to: optional string
+
+End time for the query in ISO (RFC3339 - ISO 8601) format.
+
+formatdate-time
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20to%20%3E%20(schema)>)
+
+user\_email: optional string
+
+Email tied to the device.
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20user_email%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {commands }
+
+</summary>
+
+<details>
+
+<summary>
+
+commands: optional array of object {id, completed\_date, created\_date, 6 more }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+completed\_date: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+created\_date: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+device\_id: optional string
+
+<a href="#">Link to this property</a>
+
+filename: optional string
+
+<a href="#">Link to this property</a>
+
+registration\_id: optional string
+
+Unique identifier for the device registration
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+<a href="#">Link to this property</a>
+
+user\_email: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List account commands
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "commands": [
+      {
+        "id": "id",
+        "completed_date": "2019-12-27T18:11:19.117Z",
+        "created_date": "2019-12-27T18:11:19.117Z",
+        "device_id": "device_id",
+        "filename": "filename",
+        "registration_id": "registration_id",
+        "status": "status",
+        "type": "type",
+        "user_email": "user_email"
+      }
+    ]
+  },
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

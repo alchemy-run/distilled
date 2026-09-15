@@ -49,9 +49,9 @@ export const CreateRequestActionResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreateRequestAction {
   /** The action to perform. */
   mode?: CreateRequestActionMode | (string & {});
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: CreateRequestActionResponse;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number;
 }
 export const CreateRequestAction = /*@__PURE__*/ S.suspend(() =>
@@ -132,7 +132,7 @@ export const CreateRequestMatchRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateRequestMatchRequest>;
 
 export interface CreateRequestMatchResponse {
-  /** When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. */
+  /** When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property. */
   originTraffic?: boolean;
 }
 export const CreateRequestMatchResponse = /*@__PURE__*/ S.suspend(() =>
@@ -216,9 +216,9 @@ export const CreateResponseActionResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreateResponseAction {
   /** The action to perform. */
   mode?: CreateResponseActionMode | null;
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: CreateResponseActionResponse | null;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number | null;
 }
 export const CreateResponseAction = /*@__PURE__*/ S.suspend(() =>
@@ -320,7 +320,7 @@ export const CreateResponseMatchRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateResponseMatchRequest>;
 
 export interface CreateResponseMatchResponse {
-  /** When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. */
+  /** When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property. */
   originTraffic?: boolean | null;
 }
 export const CreateResponseMatchResponse = /*@__PURE__*/ S.suspend(() =>
@@ -419,9 +419,9 @@ export const DeleteResponseActionResponse = CreateResponseActionResponse;
 export interface DeleteResponseAction {
   /** The action to perform. */
   mode?: DeleteResponseActionMode | null;
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: CreateResponseActionResponse | null;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number | null;
 }
 export const DeleteResponseAction = /*@__PURE__*/ S.suspend(() =>
@@ -588,9 +588,9 @@ export const EditRequestActionResponse = CreateRequestActionResponse;
 export interface EditRequestAction {
   /** The action to perform. */
   mode?: EditRequestActionMode | (string & {});
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: CreateRequestActionResponse;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number;
 }
 export const EditRequestAction = /*@__PURE__*/ S.suspend(() =>
@@ -736,9 +736,9 @@ export const EditResponseActionResponse = CreateResponseActionResponse;
 export interface EditResponseAction {
   /** The action to perform. */
   mode?: EditResponseActionMode | null;
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: CreateResponseActionResponse | null;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number | null;
 }
 export const EditResponseAction = /*@__PURE__*/ S.suspend(() =>
@@ -927,9 +927,9 @@ export const GetResponseActionResponse = CreateResponseActionResponse;
 export interface GetResponseAction {
   /** The action to perform. */
   mode?: GetResponseActionMode | null;
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: CreateResponseActionResponse | null;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number | null;
 }
 export const GetResponseAction = /*@__PURE__*/ S.suspend(() =>
@@ -1117,9 +1117,9 @@ export const ListResultItemActionResponse = CreateResponseActionResponse;
 export interface ListResultItemAction {
   /** The action to perform. */
   mode?: ListResultItemActionMode | null;
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: CreateResponseActionResponse | null;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number | null;
 }
 export const ListResultItemAction = /*@__PURE__*/ S.suspend(() =>
@@ -1290,7 +1290,7 @@ export const ListRateLimitsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListRateLimitsResponse>;
 
 export type CreateRateLimitError = CloudflareOpError;
-/** Creates a new rate limit for a zone. Refer to the object definition for a list of required attributes. */
+/** **Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead. */
 export const createRateLimit: API.OperationMethod<
   CreateRateLimitRequest,
   CreateRateLimitResponse,
@@ -1305,7 +1305,7 @@ export const createRateLimit: API.OperationMethod<
 }));
 
 export type DeleteRateLimitError = CloudflareOpError;
-/** Deletes an existing rate limit. */
+/** **Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead. */
 export const deleteRateLimit: API.OperationMethod<
   DeleteRateLimitRequest,
   DeleteRateLimitResponse,
@@ -1320,7 +1320,7 @@ export const deleteRateLimit: API.OperationMethod<
 }));
 
 export type EditRateLimitError = CloudflareOpError;
-/** Updates an existing rate limit. */
+/** **Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead. */
 export const editRateLimit: API.OperationMethod<
   EditRateLimitRequest,
   EditRateLimitResponse,
@@ -1335,7 +1335,7 @@ export const editRateLimit: API.OperationMethod<
 }));
 
 export type GetRateLimitError = CloudflareOpError;
-/** Fetches the details of a rate limit. */
+/** **Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead. */
 export const getRateLimit: API.OperationMethod<
   GetRateLimitRequest,
   GetRateLimitResponse,
@@ -1350,7 +1350,7 @@ export const getRateLimit: API.OperationMethod<
 }));
 
 export type ListRateLimitsError = CloudflareOpError;
-/** Fetches the rate limits for a zone. */
+/** **Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead. */
 export const listRateLimits: API.PaginatedOperationMethod<
   ListRateLimitsRequest,
   ListRateLimitsResponse,

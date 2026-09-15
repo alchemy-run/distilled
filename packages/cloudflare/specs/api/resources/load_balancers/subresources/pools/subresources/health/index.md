@@ -1,374 +1,141 @@
+---
+title: Health
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+[Pools](https://developers.cloudflare.com/api/resources/load_balancers/subresources/pools)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Health
 
-## Pool Health Details
+##### [Pool Health Details](https://developers.cloudflare.com/api/resources/load_balancers/subresources/pools/subresources/health/methods/get)
 
-**get** `/accounts/{account_id}/load_balancers/pools/{pool_id}/health`
+GET/accounts/{account\_id}/load\_balancers/pools/{pool\_id}/health
 
-Fetch the latest pool health status for a single pool.
+##### [Preview Pool](https://developers.cloudflare.com/api/resources/load_balancers/subresources/pools/subresources/health/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/load\_balancers/pools/{pool\_id}/preview
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `pool_id: string`
+<summary>
 
-### Returns
+HealthGetResponse object {pool\_id, pop\_health }
 
-- `errors: array of ResponseInfo`
+A list of regions from which to run health checks. Null means every Cloudflare data center.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+pool\_id: optional string
 
-  - `documentation_url: optional string`
+Pool ID.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+pop\_health: optional object {healthy, origins }
 
-  - `message: string`
+List of regions and associated health status.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+healthy: optional boolean
 
-- `result: object { pool_id, pop_health }`
+Whether health check in region is healthy.
 
-  A list of regions from which to run health checks. Null means every Cloudflare data center.
+<a href="#">Link to this property</a>
 
-  - `pool_id: optional string`
+<details>
 
-    Pool ID.
+<summary>
 
-  - `pop_health: optional object { healthy, origins }`
+origins: optional array of object {ip }
 
-    List of regions and associated health status.
+</summary>
 
-    - `healthy: optional boolean`
+<details>
 
-      Whether health check in region is healthy.
+<summary>
 
-    - `origins: optional array of object { ip }`
+ip: optional object {failure\_reason, healthy, response\_code, rtt }
 
-      - `ip: optional object { failure_reason, healthy, response_code, rtt }`
+</summary>
 
-        - `failure_reason: optional string`
+failure\_reason: optional string
 
-          Failure reason.
+Failure reason.
 
-        - `healthy: optional boolean`
+<a href="#">Link to this property</a>
 
-          Origin health status.
+healthy: optional boolean
 
-        - `response_code: optional number`
+Origin health status.
 
-          Response code from origin health check.
+<a href="#">Link to this property</a>
 
-        - `rtt: optional string`
+response\_code: optional number
 
-          Origin RTT (Round Trip Time) response.
+Response code from origin health check.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+rtt: optional string
 
-  - `true`
+Origin RTT (Round Trip Time) response.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/pools/$POOL_ID/health \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "pool_id": "17b5962d775c646f3f9725cbc7a53df4",
-    "pop_health": {
-      "healthy": true,
-      "origins": [
-        {
-          "ip": {
-            "failure_reason": "No failure reasons",
-            "healthy": true,
-            "response_code": 200,
-            "rtt": "201.5ms"
-          }
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
+</details>
 
-## Preview Pool
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/load_balancers/pools/{pool_id}/preview`
+</details>
 
-Preview pool health using provided monitor details. The returned preview_id can be used in the preview endpoint to retrieve the results.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20load_balancers.pools.health%20%3E%20(model)%20health_get_response%20%3E%20(schema)>)
 
-  Identifier.
+<details>
 
-- `pool_id: string`
+<summary>
 
-### Body Parameters
+HealthCreateResponse object {pools, preview\_id }
 
-- `allow_insecure: optional boolean`
+</summary>
 
-  Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors.
+pools: optional map\[string]
 
-- `consecutive_down: optional number`
+Monitored pool IDs mapped to their respective names.
 
-  To be marked unhealthy the monitored origin must fail this healthcheck N consecutive times.
+<a href="#">Link to this property</a>
 
-- `consecutive_up: optional number`
+preview\_id: optional string
 
-  To be marked healthy the monitored origin must pass this healthcheck N consecutive times.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+</details>
 
-  Object description.
-
-- `expected_body: optional string`
-
-  A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.
-
-- `expected_codes: optional string`
-
-  The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors.
-
-- `follow_redirects: optional boolean`
-
-  Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.
-
-- `header: optional map[array of string]`
-
-  The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors.
-
-- `interval: optional number`
-
-  The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations.
-
-- `method: optional string`
-
-  The method to use for the health check. This defaults to 'GET' for HTTP/HTTPS based checks and 'connection_established' for TCP based health checks.
-
-- `path: optional string`
-
-  The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors.
-
-- `port: optional number`
-
-  The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default 80, HTTPS: default 443).
-
-- `probe_zone: optional string`
-
-  Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors.
-
-- `retries: optional number`
-
-  The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-- `timeout: optional number`
-
-  The timeout (in seconds) before marking the health check as failed.
-
-- `type: optional "http" or "https" or "tcp" or 3 more`
-
-  The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS', 'TCP', 'ICMP-PING', 'UDP-ICMP', and 'SMTP'.
-
-  - `"http"`
-
-  - `"https"`
-
-  - `"tcp"`
-
-  - `"udp_icmp"`
-
-  - `"icmp_ping"`
-
-  - `"smtp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { pools, preview_id }`
-
-  - `pools: optional map[string]`
-
-    Monitored pool IDs mapped to their respective names.
-
-  - `preview_id: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/pools/$POOL_ID/preview \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allow_insecure": true,
-          "description": "Login page monitor",
-          "expected_body": "alive",
-          "expected_codes": "2xx",
-          "follow_redirects": true,
-          "header": {
-            "Host": [
-              "example.com"
-            ],
-            "X-App-ID": [
-              "abc123"
-            ]
-          },
-          "method": "GET",
-          "path": "/health",
-          "probe_zone": "example.com",
-          "type": "https"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "pools": {
-      "abwlnp5jbqn45ecgxd03erbgtxtqai0d": "WNAM Datacenter",
-      "ve8h9lrcip5n5bbga9yqmdws28ay5d0l": "EEU Datacenter"
-    },
-    "preview_id": "f1aba936b94213e5b8dca0c0dbf1f9cc"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Health Get Response
-
-- `HealthGetResponse object { pool_id, pop_health }`
-
-  A list of regions from which to run health checks. Null means every Cloudflare data center.
-
-  - `pool_id: optional string`
-
-    Pool ID.
-
-  - `pop_health: optional object { healthy, origins }`
-
-    List of regions and associated health status.
-
-    - `healthy: optional boolean`
-
-      Whether health check in region is healthy.
-
-    - `origins: optional array of object { ip }`
-
-      - `ip: optional object { failure_reason, healthy, response_code, rtt }`
-
-        - `failure_reason: optional string`
-
-          Failure reason.
-
-        - `healthy: optional boolean`
-
-          Origin health status.
-
-        - `response_code: optional number`
-
-          Response code from origin health check.
-
-        - `rtt: optional string`
-
-          Origin RTT (Round Trip Time) response.
-
-### Health Create Response
-
-- `HealthCreateResponse object { pools, preview_id }`
-
-  - `pools: optional map[string]`
-
-    Monitored pool IDs mapped to their respective names.
-
-  - `preview_id: optional string`
+[Link to this property](#)%20load_balancers.pools.health%20%3E%20(model)%20health_create_response%20%3E%20(schema)>)

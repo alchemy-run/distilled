@@ -1,51 +1,29 @@
+---
+title: Authors
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Authors
 
-## Author Search
+##### [Author Search](https://developers.cloudflare.com/api/resources/ai/subresources/authors/methods/list)
 
-**get** `/accounts/{account_id}/ai/authors/search`
+GET/accounts/{account\_id}/ai/authors/search
 
-Searches Workers AI models by author or organization name.
+##### ModelsExpand Collapse
 
-### Path Parameters
+AuthorListResponse = unknown
 
-- `account_id: string`
-
-### Returns
-
-- `errors: array of unknown`
-
-- `messages: array of string`
-
-- `result: array of unknown`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/authors/search \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {}
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {}
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Author List Response
-
-- `AuthorListResponse = unknown`
+[Link to this property](#)%20ai.authors%20%3E%20(model)%20author_list_response%20%3E%20(schema)>)

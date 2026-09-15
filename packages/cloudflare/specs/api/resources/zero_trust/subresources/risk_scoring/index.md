@@ -1,1668 +1,699 @@
+---
+title: Risk Scoring
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Risk Scoring
 
-## Get risk event/score information for a specific user
+##### [Get risk event/score information for a specific user](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/methods/get)
 
-**get** `/accounts/{account_id}/zt_risk_scoring/{user_id}`
+GET/accounts/{account\_id}/zt\_risk\_scoring/{user\_id}
 
-Retrieves the detailed risk score breakdown for a specific user, including contributing factors.
+##### [Clear the risk score for a particular user](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/methods/reset)
 
-### Path Parameters
+POST/accounts/{account\_id}/zt\_risk\_scoring/{user\_id}/reset
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-- `user_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+RiskScoringGetResponse object {email, events, name, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+email: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+events: array of object {id, name, risk\_level, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+risk\_level: "low"or "medium"or "high"
 
-- `result: optional object { email, events, name, 2 more }`
+</summary>
 
-  - `email: string`
+One of the following:
 
-  - `events: array of object { id, name, risk_level, 2 more }`
+"low"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"medium"
 
-    - `risk_level: "low" or "medium" or "high"`
+<a href="#">Link to this property</a>
 
-      - `"low"`
+"high"
 
-      - `"medium"`
+<a href="#">Link to this property</a>
 
-      - `"high"`
+</details>
 
-    - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `event_details: optional unknown`
+timestamp: string
 
-  - `name: string`
+formatdate-time
 
-  - `last_reset_time: optional string`
+<a href="#">Link to this property</a>
 
-  - `risk_level: optional "low" or "medium" or "high"`
+event\_details: optional unknown
 
-    - `"low"`
+<a href="#">Link to this property</a>
 
-    - `"medium"`
+</details>
 
-    - `"high"`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+name: string
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+last\_reset\_time: optional string
 
-  - `page: optional number`
+formatdate-time
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+risk\_level: optional "low"or "medium"or "high"
 
-    Total results available without any search parameters.
+</summary>
 
-  - `total_pages: optional number`
+One of the following:
 
-    The number of total pages in the entire result set.
+"low"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/$USER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"medium"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "email": "email",
-    "events": [
-      {
-        "id": "id",
-        "name": "name",
-        "risk_level": "low",
-        "timestamp": "2019-12-27T18:11:19.117Z",
-        "event_details": {}
-      }
-    ],
-    "name": "name",
-    "last_reset_time": "2019-12-27T18:11:19.117Z",
-    "risk_level": "low"
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+"high"
 
-## Clear the risk score for a particular user
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/zt_risk_scoring/{user_id}/reset`
+</details>
 
-Resets risk scores for specified users, clearing their accumulated risk history.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20zero_trust.risk_scoring%20%3E%20(model)%20risk_scoring_get_response%20%3E%20(schema)>)
 
-- `user_id: string`
+RiskScoringResetResponse = unknown
 
-### Returns
+[Link to this property](#)%20zero_trust.risk_scoring%20%3E%20(model)%20risk_scoring_reset_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+#### Risk ScoringBehaviours
 
-  - `code: number`
+##### [Get all behaviors and associated configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/behaviours/methods/get)
 
-  - `message: string`
+GET/accounts/{account\_id}/zt\_risk\_scoring/behaviors
 
-  - `documentation_url: optional string`
+##### [Update configuration for risk behaviors](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/behaviours/methods/update)
 
-  - `source: optional object { pointer }`
+PUT/accounts/{account\_id}/zt\_risk\_scoring/behaviors
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+BehaviourGetResponse object {behaviors }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+behaviors: map\[object {description, enabled, name, risk\_level } ]
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+description: string
 
-- `result: optional unknown`
+<a href="#">Link to this property</a>
 
-### Example
+enabled: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/$USER_ID/reset \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Risk Scoring Get Response
+<summary>
 
-- `RiskScoringGetResponse object { email, events, name, 2 more }`
+risk\_level: "low"or "medium"or "high"
 
-  - `email: string`
+</summary>
 
-  - `events: array of object { id, name, risk_level, 2 more }`
+One of the following:
 
-    - `id: string`
+"low"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `risk_level: "low" or "medium" or "high"`
+"medium"
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+"high"
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+</details>
 
-    - `event_details: optional unknown`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `last_reset_time: optional string`
+<a href="#">Link to this property</a>
 
-  - `risk_level: optional "low" or "medium" or "high"`
+</details>
 
-    - `"low"`
+[Link to this property](#)%20zero_trust.risk_scoring.behaviours%20%3E%20(model)%20behaviour_get_response%20%3E%20(schema)>)
 
-    - `"medium"`
+<details>
 
-    - `"high"`
+<summary>
 
-### Risk Scoring Reset Response
+BehaviourUpdateResponse object {behaviors }
 
-- `RiskScoringResetResponse = unknown`
+</summary>
 
-# Behaviours
+<details>
 
-## Get all behaviors and associated configuration
+<summary>
 
-**get** `/accounts/{account_id}/zt_risk_scoring/behaviors`
+behaviors: map\[object {enabled, risk\_level } ]
 
-Retrieves configured risk score behaviors that define how user actions affect their overall risk score.
+</summary>
 
-### Path Parameters
+enabled: boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+risk\_level: "low"or "medium"or "high"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"low"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"medium"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"high"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { behaviors }`
+[Link to this property](#)%20zero_trust.risk_scoring.behaviours%20%3E%20(model)%20behaviour_update_response%20%3E%20(schema)>)
 
-  - `behaviors: map[object { description, enabled, name, risk_level } ]`
+#### Risk ScoringSummary
 
-    - `description: string`
+##### [Get risk score info for all users in the account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/summary/methods/get)
 
-    - `enabled: boolean`
+GET/accounts/{account\_id}/zt\_risk\_scoring/summary
 
-    - `name: string`
+##### ModelsExpand Collapse
 
-    - `risk_level: "low" or "medium" or "high"`
+<details>
 
-      - `"low"`
+<summary>
 
-      - `"medium"`
+SummaryGetResponse object {users }
 
-      - `"high"`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/behaviors \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+users: array of object {email, event\_count, last\_event, 3 more }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "behaviors": {
-      "foo": {
-        "description": "description",
-        "enabled": true,
-        "name": "name",
-        "risk_level": "low"
-      }
-    }
-  }
-}
-```
+</summary>
 
-## Update configuration for risk behaviors
+email: string
 
-**put** `/accounts/{account_id}/zt_risk_scoring/behaviors`
+<a href="#">Link to this property</a>
 
-Updates risk score behavior configurations, defining weights and thresholds for risk calculation.
+event\_count: number
 
-### Path Parameters
+minimum0
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+last\_event: string
 
-- `behaviors: map[object { enabled, risk_level } ]`
+formatdate-time
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `risk_level: "low" or "medium" or "high"`
+<details>
 
-    - `"low"`
+<summary>
 
-    - `"medium"`
+max\_risk\_level: "low"or "medium"or "high"
 
-    - `"high"`
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { code, message, documentation_url, source }`
+"low"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"medium"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"high"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+user\_id: string
 
-    - `pointer: optional string`
+formatuuid
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { behaviors }`
+</details>
 
-  - `behaviors: map[object { enabled, risk_level } ]`
+[Link to this property](#)%20zero_trust.risk_scoring.summary%20%3E%20(model)%20summary_get_response%20%3E%20(schema)>)
 
-    - `enabled: boolean`
+#### Risk ScoringIntegrations
 
-    - `risk_level: "low" or "medium" or "high"`
+##### [List all risk score integrations for the account.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/integrations/methods/list)
 
-      - `"low"`
+GET/accounts/{account\_id}/zt\_risk\_scoring/integrations
 
-      - `"medium"`
+##### [Get risk score integration by id.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/integrations/methods/get)
 
-      - `"high"`
+GET/accounts/{account\_id}/zt\_risk\_scoring/integrations/{integration\_id}
 
-### Example
+##### [Create new risk score integration.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/integrations/methods/create)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/behaviors \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "behaviors": {
-            "foo": {
-              "enabled": true,
-              "risk_level": "low"
-            }
-          }
-        }'
-```
+POST/accounts/{account\_id}/zt\_risk\_scoring/integrations
 
-#### Response
+##### [Update a risk score integration.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/integrations/methods/update)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "behaviors": {
-      "foo": {
-        "enabled": true,
-        "risk_level": "low"
-      }
-    }
-  }
-}
-```
+PUT/accounts/{account\_id}/zt\_risk\_scoring/integrations/{integration\_id}
 
-## Domain Types
+##### [Delete a risk score integration.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/integrations/methods/delete)
 
-### Behaviour Get Response
+DELETE/accounts/{account\_id}/zt\_risk\_scoring/integrations/{integration\_id}
 
-- `BehaviourGetResponse object { behaviors }`
+##### ModelsExpand Collapse
 
-  - `behaviors: map[object { description, enabled, name, risk_level } ]`
+<details>
 
-    - `description: string`
+<summary>
 
-    - `enabled: boolean`
+IntegrationListResponse object {id, account\_tag, active, 5 more }
 
-    - `name: string`
+</summary>
 
-    - `risk_level: "low" or "medium" or "high"`
+id: string
 
-      - `"low"`
+The id of the integration, a UUIDv4.
 
-      - `"medium"`
+formatuuid
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-### Behaviour Update Response
+account\_tag: string
 
-- `BehaviourUpdateResponse object { behaviors }`
+The Cloudflare account tag.
 
-  - `behaviors: map[object { enabled, risk_level } ]`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+active: boolean
 
-    - `risk_level: "low" or "medium" or "high"`
+Whether this integration is enabled and should export changes in risk score.
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+created\_at: string
 
-      - `"high"`
+When the integration was created in RFC3339 format.
 
-# Summary
+formatdate-time
 
-## Get risk score info for all users in the account
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/zt_risk_scoring/summary`
+integration\_type: "Okta"
 
-Gets an aggregate summary of risk scores across the account, including distribution and trends.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+reference\_id: string
 
-- `account_id: string`
+A reference ID defined by the client. Should be set to the Access-Okta IDP integration ID. Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+tenant\_url: string
 
-  - `code: number`
+The base URL for the tenant. E.g. “<a href="https://tenant.okta.com">https://tenant.okta.com</a>”.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+well\_known\_url: string
 
-  - `source: optional object { pointer }`
+The URL for the Shared Signals Framework configuration, e.g. “/.well-known/sse-configuration/{integration\_uuid}/”. <a href="https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1">https://openid.net/specs/openid-sse-framework-1\_0.html#rfc.section.6.2.1</a>.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.risk_scoring.integrations%20%3E%20(model)%20integration_list_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+IntegrationGetResponse object {id, account\_tag, active, 5 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+id: string
 
-  Whether the API call was successful.
+The id of the integration, a UUIDv4.
 
-  - `true`
+formatuuid
 
-- `result: optional object { users }`
+<a href="#">Link to this property</a>
 
-  - `users: array of object { email, event_count, last_event, 3 more }`
+account\_tag: string
 
-    - `email: string`
+The Cloudflare account tag.
 
-    - `event_count: number`
+<a href="#">Link to this property</a>
 
-    - `last_event: string`
+active: boolean
 
-    - `max_risk_level: "low" or "medium" or "high"`
+Whether this integration is enabled and should export changes in risk score.
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+created\_at: string
 
-      - `"high"`
+When the integration was created in RFC3339 format.
 
-    - `name: string`
+formatdate-time
 
-    - `user_id: string`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+integration\_type: "Okta"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+reference\_id: string
 
-  - `page: optional number`
+A reference ID defined by the client. Should be set to the Access-Okta IDP integration ID. Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+tenant\_url: string
 
-    Number of results per page of results.
+The base URL for the tenant. E.g. “<a href="https://tenant.okta.com">https://tenant.okta.com</a>”.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+well\_known\_url: string
 
-  - `total_pages: optional number`
+The URL for the Shared Signals Framework configuration, e.g. “/.well-known/sse-configuration/{integration\_uuid}/”. <a href="https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1">https://openid.net/specs/openid-sse-framework-1\_0.html#rfc.section.6.2.1</a>.
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/summary \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20zero_trust.risk_scoring.integrations%20%3E%20(model)%20integration_get_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "users": [
-      {
-        "email": "email",
-        "event_count": 0,
-        "last_event": "2019-12-27T18:11:19.117Z",
-        "max_risk_level": "low",
-        "name": "name",
-        "user_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<summary>
 
-## Domain Types
+IntegrationCreateResponse object {id, account\_tag, active, 5 more }
 
-### Summary Get Response
+</summary>
 
-- `SummaryGetResponse object { users }`
+id: string
 
-  - `users: array of object { email, event_count, last_event, 3 more }`
+The id of the integration, a UUIDv4.
 
-    - `email: string`
+formatuuid
 
-    - `event_count: number`
+<a href="#">Link to this property</a>
 
-    - `last_event: string`
+account\_tag: string
 
-    - `max_risk_level: "low" or "medium" or "high"`
+The Cloudflare account tag.
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+active: boolean
 
-      - `"high"`
+Whether this integration is enabled and should export changes in risk score.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `user_id: string`
+created\_at: string
 
-# Integrations
+When the integration was created in RFC3339 format.
 
-## List all risk score integrations for the account.
+formatdate-time
 
-**get** `/accounts/{account_id}/zt_risk_scoring/integrations`
+<a href="#">Link to this property</a>
 
-Lists all configured Zero Trust risk score integrations for the account.
+integration\_type: "Okta"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+reference\_id: string
 
-### Returns
+A reference ID defined by the client. Should be set to the Access-Okta IDP integration ID. Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+tenant\_url: string
 
-  - `message: string`
+The base URL for the tenant. E.g. “<a href="https://tenant.okta.com">https://tenant.okta.com</a>”.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+well\_known\_url: string
 
-    - `pointer: optional string`
+The URL for the Shared Signals Framework configuration, e.g. “/.well-known/sse-configuration/{integration\_uuid}/”. <a href="https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1">https://openid.net/specs/openid-sse-framework-1\_0.html#rfc.section.6.2.1</a>.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.risk_scoring.integrations%20%3E%20(model)%20integration_create_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+IntegrationUpdateResponse object {id, account\_tag, active, 5 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: string
 
-  - `true`
+The id of the integration, a UUIDv4.
 
-- `result: optional array of object { id, account_tag, active, 5 more }`
+formatuuid
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The id of the integration, a UUIDv4.
+account\_tag: string
 
-  - `account_tag: string`
+The Cloudflare account tag.
 
-    The Cloudflare account tag.
+<a href="#">Link to this property</a>
 
-  - `active: boolean`
+active: boolean
 
-    Whether this integration is enabled and should export changes in risk score.
+Whether this integration is enabled and should export changes in risk score.
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    When the integration was created in RFC3339 format.
+created\_at: string
 
-  - `integration_type: "Okta"`
+When the integration was created in RFC3339 format.
 
-    - `"Okta"`
+formatdate-time
 
-  - `reference_id: string`
+<a href="#">Link to this property</a>
 
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
+integration\_type: "Okta"
 
-  - `tenant_url: string`
+<a href="#">Link to this property</a>
 
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
+reference\_id: string
 
-  - `well_known_url: string`
+A reference ID defined by the client. Should be set to the Access-Okta IDP integration ID. Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
 
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
+<a href="#">Link to this property</a>
 
-### Example
+tenant\_url: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/integrations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The base URL for the tenant. E.g. “<a href="https://tenant.okta.com">https://tenant.okta.com</a>”.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "account_tag": "account_tag",
-      "active": true,
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "integration_type": "Okta",
-      "reference_id": "reference_id",
-      "tenant_url": "tenant_url",
-      "well_known_url": "well_known_url"
-    }
-  ]
-}
-```
+well\_known\_url: string
 
-## Get risk score integration by id.
+The URL for the Shared Signals Framework configuration, e.g. “/.well-known/sse-configuration/{integration\_uuid}/”. <a href="https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1">https://openid.net/specs/openid-sse-framework-1\_0.html#rfc.section.6.2.1</a>.
 
-**get** `/accounts/{account_id}/zt_risk_scoring/integrations/{integration_id}`
+<a href="#">Link to this property</a>
 
-Get risk score integration by id.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.risk_scoring.integrations%20%3E%20(model)%20integration_update_response%20%3E%20(schema)>)
 
-- `account_id: string`
+IntegrationDeleteResponse = unknown
 
-- `integration_id: string`
+[Link to this property](#)%20zero_trust.risk_scoring.integrations%20%3E%20(model)%20integration_delete_response%20%3E%20(schema)>)
 
-### Returns
+#### Risk ScoringIntegrationsReferences
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Get risk score integration by reference id.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/integrations/subresources/references/methods/get)
 
-  - `code: number`
+GET/accounts/{account\_id}/zt\_risk\_scoring/integrations/reference\_id/{reference\_id}
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+ReferenceGetResponse object {id, account\_tag, active, 5 more }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+The id of the integration, a UUIDv4.
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+account\_tag: string
 
-- `success: true`
+The Cloudflare account tag.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+active: boolean
 
-- `result: optional object { id, account_tag, active, 5 more }`
+Whether this integration is enabled and should export changes in risk score.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The id of the integration, a UUIDv4.
+created\_at: string
 
-  - `account_tag: string`
+When the integration was created in RFC3339 format.
 
-    The Cloudflare account tag.
+formatdate-time
 
-  - `active: boolean`
+<a href="#">Link to this property</a>
 
-    Whether this integration is enabled and should export changes in risk score.
+integration\_type: "Okta"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    When the integration was created in RFC3339 format.
+reference\_id: string
 
-  - `integration_type: "Okta"`
+A reference ID defined by the client. Should be set to the Access-Okta IDP integration ID. Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
 
-    - `"Okta"`
+<a href="#">Link to this property</a>
 
-  - `reference_id: string`
+tenant\_url: string
 
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
+The base URL for the tenant. E.g. “<a href="https://tenant.okta.com">https://tenant.okta.com</a>”.
 
-  - `tenant_url: string`
+<a href="#">Link to this property</a>
 
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
+well\_known\_url: string
 
-  - `well_known_url: string`
+The URL for the Shared Signals Framework configuration, e.g. “/.well-known/sse-configuration/{integration\_uuid}/”. <a href="https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1">https://openid.net/specs/openid-sse-framework-1\_0.html#rfc.section.6.2.1</a>.
 
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/integrations/$INTEGRATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "account_tag": "account_tag",
-    "active": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "integration_type": "Okta",
-    "reference_id": "reference_id",
-    "tenant_url": "tenant_url",
-    "well_known_url": "well_known_url"
-  }
-}
-```
-
-## Create new risk score integration.
-
-**post** `/accounts/{account_id}/zt_risk_scoring/integrations`
-
-Creates a new Zero Trust risk score integration, connecting external risk signals to Cloudflare's risk scoring system.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `integration_type: "Okta"`
-
-  - `"Okta"`
-
-- `tenant_url: string`
-
-  The base url of the tenant, e.g. "https://tenant.okta.com".
-
-- `reference_id: optional string`
-
-  A reference id that can be supplied by the client. Currently this should be set to the Access-Okta IDP ID (a UUIDv4).
-  https://developers.cloudflare.com/api/operations/access-identity-providers-get-an-access-identity-provider
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/integrations \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "integration_type": "Okta",
-          "tenant_url": "https://example.com"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "account_tag": "account_tag",
-    "active": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "integration_type": "Okta",
-    "reference_id": "reference_id",
-    "tenant_url": "tenant_url",
-    "well_known_url": "well_known_url"
-  }
-}
-```
-
-## Update a risk score integration.
-
-**put** `/accounts/{account_id}/zt_risk_scoring/integrations/{integration_id}`
-
-Overwrite the reference_id, tenant_url, and active values with the ones provided.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `integration_id: string`
-
-### Body Parameters
-
-- `active: boolean`
-
-  Whether this integration is enabled. If disabled, no risk changes will be exported to the third-party.
-
-- `tenant_url: string`
-
-  The base url of the tenant, e.g. "https://tenant.okta.com".
-
-- `reference_id: optional string`
-
-  A reference id that can be supplied by the client. Currently this should be set to the Access-Okta IDP ID (a UUIDv4).
-  https://developers.cloudflare.com/api/operations/access-identity-providers-get-an-access-identity-provider
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/integrations/$INTEGRATION_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "active": true,
-          "tenant_url": "https://example.com"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "account_tag": "account_tag",
-    "active": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "integration_type": "Okta",
-    "reference_id": "reference_id",
-    "tenant_url": "tenant_url",
-    "well_known_url": "well_known_url"
-  }
-}
-```
-
-## Delete a risk score integration.
-
-**delete** `/accounts/{account_id}/zt_risk_scoring/integrations/{integration_id}`
-
-Removes a Zero Trust risk score integration, disconnecting the external risk signal source.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `integration_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/integrations/$INTEGRATION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Integration List Response
-
-- `IntegrationListResponse object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
-
-### Integration Get Response
-
-- `IntegrationGetResponse object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
-
-### Integration Create Response
-
-- `IntegrationCreateResponse object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
-
-### Integration Update Response
-
-- `IntegrationUpdateResponse object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
-
-### Integration Delete Response
-
-- `IntegrationDeleteResponse = unknown`
-
-# References
-
-## Get risk score integration by reference id.
-
-**get** `/accounts/{account_id}/zt_risk_scoring/integrations/reference_id/{reference_id}`
-
-Retrieves a Zero Trust risk score integration using its external reference ID.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `reference_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/integrations/reference_id/$REFERENCE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "account_tag": "account_tag",
-    "active": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "integration_type": "Okta",
-    "reference_id": "reference_id",
-    "tenant_url": "tenant_url",
-    "well_known_url": "well_known_url"
-  }
-}
-```
-
-## Domain Types
-
-### Reference Get Response
-
-- `ReferenceGetResponse object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
+[Link to this property](#)%20zero_trust.risk_scoring.integrations.references%20%3E%20(model)%20reference_get_response%20%3E%20(schema)>)

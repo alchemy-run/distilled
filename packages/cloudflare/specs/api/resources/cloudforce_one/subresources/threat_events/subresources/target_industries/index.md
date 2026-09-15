@@ -1,57 +1,139 @@
+---
+title: Target Industries
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Target Industries
 
-## Lists target industries across multiple datasets
+##### [Lists target industries across multiple datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/target_industries/methods/list)
 
-**get** `/accounts/{account_id}/cloudforce-one/events/targetIndustries`
+GET/accounts/{account\_id}/cloudforce-one/events/targetIndustries
 
-Lists target industries across multiple datasets
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+TargetIndustryListResponse object {items, type }
 
-### Query Parameters
+</summary>
 
-- `datasetIds: optional array of string`
+<details>
 
-  Array of dataset IDs to query target industries from. If not provided, uses the default dataset.
+<summary>
 
-### Returns
+items: object {type }
 
-- `items: object { type }`
+</summary>
 
-  - `type: string`
+type: string
 
-- `type: string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/targetIndustries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+type: string
 
-```json
-{
-  "items": {
-    "type": "string"
-  },
-  "type": "array"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Target Industry List Response
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries%20%3E%20(model)%20target_industry_list_response%20%3E%20(schema)>)
 
-- `TargetIndustryListResponse object { items, type }`
+#### Target IndustriesBy Dataset
 
-  - `items: object { type }`
+##### [Lists all target industries for a specific dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/target_industries/subresources/by_dataset/methods/list)
 
-    - `type: string`
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/targetIndustries
 
-  - `type: string`
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ByDatasetListResponse object {items, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+items: object {type }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries.by_dataset%20%3E%20(model)%20by_dataset_list_response%20%3E%20(schema)>)
+
+#### Target IndustriesCatalog
+
+##### [Lists all target industries from industry map catalog](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/target_industries/subresources/catalog/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/targetIndustries/catalog
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+CatalogListResponse object {items, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+items: object {type }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries.catalog%20%3E%20(model)%20catalog_list_response%20%3E%20(schema)>)

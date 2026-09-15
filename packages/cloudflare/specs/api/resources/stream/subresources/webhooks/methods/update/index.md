@@ -1,78 +1,232 @@
-## Create webhooks
+---
+title: Create VOD webhooks
+---
 
-**put** `/accounts/{account_id}/stream/webhook`
+[Skip to content](#_top)
 
-Creates a webhook notification.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Stream](https://developers.cloudflare.com/api/resources/stream)
 
-- `account_id: string`
+[Webhooks](https://developers.cloudflare.com/api/resources/stream/subresources/webhooks)
 
-  The account identifier tag.
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `notification_url: optional string`
+---
 
-  The URL where webhooks will be sent.
+**Copy Markdown****View as Markdown**
 
-- `notificationUrl: optional string`
+# Create VOD webhooks
 
-  The URL where webhooks will be sent.
+PUT/accounts/{account\_id}/stream/webhook
 
-### Returns
+Create a webhook for notifications about on-demand video uploads.
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `messages: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `success: true`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Whether the API call was successful.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `true`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `result: optional object { modified, notification_url, notificationUrl, secret }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `modified: optional string`
+</details>
 
-    The date and time the webhook was last modified.
+##### Accepted Permissions (at least one required)
 
-  - `notification_url: optional string`
+`Stream Write`
 
-    The URL where webhooks will be sent.
+##### P ath ParametersExpand Collapse
 
-  - `notificationUrl: optional string`
+account\_id: string
 
-    The URL where webhooks will be sent.
+The account identifier tag.
 
-  - `secret: optional string`
+maxLength32
 
-    The secret used to verify webhook signatures.
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-### Example
+##### Body ParametersJSONExpand Collapse
 
-```http
+notification\_url: optional string
+
+The URL where webhooks will be sent.
+
+formaturi
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20notification_url%20%3E%20(schema)>)
+
+notificationUrl: optional string
+
+The URL where webhooks will be sent.
+
+formaturi
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20notificationUrl%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {modified, notification\_url, notificationUrl, secret }
+
+</summary>
+
+modified: optional string
+
+The date and time the webhook was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+notification\_url: optional string
+
+The URL where webhooks will be sent.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+notificationUrl: optional string
+
+The URL where webhooks will be sent.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+The secret used to verify webhook signatures.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create VOD webhooks
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -83,9 +237,45 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "modified": "2014-01-02T02:20:00Z",
+    "notification_url": "https://example.com",
+    "notificationUrl": "https://example.com",
+    "secret": "secret"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

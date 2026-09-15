@@ -1,591 +1,175 @@
+---
+title: Sippy
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Sippy
 
-## Get Sippy Configuration
+##### [Get Sippy Configuration](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/sippy/methods/get)
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/sippy`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/sippy
 
-Gets configuration for Sippy for an existing R2 bucket.
+##### [Enable Sippy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/sippy/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/sippy
 
-- `account_id: string`
+##### [Disable Sippy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/sippy/methods/delete)
 
-  Account ID.
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/sippy
 
-- `bucket_name: string`
+##### ModelsExpand Collapse
 
-  Name of the bucket.
+Provider = "r2"
 
-### Header Parameters
+[Link to this property](#)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)>)
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<summary>
 
-  - `"default"`
+Sippy object {destination, enabled, source }
 
-  - `"eu"`
+</summary>
 
-  - `"fedramp"`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+destination: optional object {accessKeyId, account, bucket, provider }
 
-  - `code: number`
+Details about the configured destination bucket.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+accessKeyId: optional string
 
-  - `source: optional object { pointer }`
+ID of the Cloudflare API token used when writing objects to this bucket.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+account: optional string
 
-- `result: Sippy`
+<a href="#">Link to this property</a>
 
-  - `destination: optional object { accessKeyId, account, bucket, provider }`
+bucket: optional string
 
-    Details about the configured destination bucket.
+Name of the bucket on the provider.
 
-    - `accessKeyId: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the Cloudflare API token used when writing objects to this
-      bucket.
+provider: optional <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)">Provider</a>
 
-    - `account: optional string`
+<a href="#">Link to this property</a>
 
-    - `bucket: optional string`
+</details>
 
-      Name of the bucket on the provider.
+<a href="#">Link to this property</a>
 
-    - `provider: optional Provider`
+enabled: optional boolean
 
-      - `"r2"`
+State of Sippy for this bucket.
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    State of Sippy for this bucket.
+<details>
 
-  - `source: optional object { bucket, bucketUrl, provider, region }`
+<summary>
 
-    Details about the configured source bucket.
+source: optional object {bucket, bucketUrl, container, 2 more }
 
-    - `bucket: optional string`
+Details about the configured source bucket.
 
-      Name of the bucket on the provider (AWS, GCS only).
+</summary>
 
-    - `bucketUrl: optional string`
+bucket: optional string
 
-      S3-compatible URL (Generic S3-compatible providers only).
+Name of the bucket on the provider (AWS, GCS only).
 
-    - `provider: optional "aws" or "gcs" or "s3"`
+<a href="#">Link to this property</a>
 
-      - `"aws"`
+bucketUrl: optional string
 
-      - `"gcs"`
+S3-compatible URL (Generic S3-compatible providers only).
 
-      - `"s3"`
+<a href="#">Link to this property</a>
 
-    - `region: optional string`
+container: optional string
 
-      Region where the bucket resides (AWS only).
+Name of the Azure Blob Storage container (Azure only).
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+provider: optional "aws"or "gcs"or "s3"or "azure"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/sippy \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "destination": {
-      "accessKeyId": "accessKeyId",
-      "account": "account",
-      "bucket": "bucket",
-      "provider": "r2"
-    },
-    "enabled": true,
-    "source": {
-      "bucket": "bucket",
-      "bucketUrl": "bucketUrl",
-      "provider": "aws",
-      "region": "region"
-    }
-  },
-  "success": true
-}
-```
+"aws"
 
-## Enable Sippy
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/sippy`
+"gcs"
 
-Sets configuration for Sippy for an existing R2 bucket.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"s3"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+"azure"
 
-- `bucket_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the bucket.
+</details>
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+region: optional string
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+Region where the bucket resides (AWS only).
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"eu"`
+</details>
 
-  - `"fedramp"`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `body: object { destination, source }  or object { destination, source }  or object { destination, source }`
+[Link to this property](#)%20r2.buckets.sippy%20%3E%20(model)%20sippy%20%3E%20(schema)>)
 
-  - `R2EnableSippyAws object { destination, source }`
+<details>
 
-    - `destination: optional object { accessKeyId, provider, secretAccessKey }`
+<summary>
 
-      R2 bucket to copy objects to.
+SippyDeleteResponse object {enabled }
 
-      - `accessKeyId: optional string`
+</summary>
 
-        ID of a Cloudflare API token.
-        This is the value labelled "Access Key ID" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
+enabled: optional false
 
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
+<a href="#">Link to this property</a>
 
-      - `provider: optional Provider`
+</details>
 
-        - `"r2"`
-
-      - `secretAccessKey: optional string`
-
-        Value of a Cloudflare API token.
-        This is the value labelled "Secret Access Key" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-    - `source: optional object { accessKeyId, bucket, provider, 2 more }`
-
-      AWS S3 bucket to copy objects from.
-
-      - `accessKeyId: optional string`
-
-        Access Key ID of an IAM credential (ideally scoped to a single S3 bucket).
-
-      - `bucket: optional string`
-
-        Name of the AWS S3 bucket.
-
-      - `provider: optional "aws"`
-
-        - `"aws"`
-
-      - `region: optional string`
-
-        Name of the AWS availability zone.
-
-      - `secretAccessKey: optional string`
-
-        Secret Access Key of an IAM credential (ideally scoped to a single S3 bucket).
-
-  - `R2EnableSippyGcs object { destination, source }`
-
-    - `destination: optional object { accessKeyId, provider, secretAccessKey }`
-
-      R2 bucket to copy objects to.
-
-      - `accessKeyId: optional string`
-
-        ID of a Cloudflare API token.
-        This is the value labelled "Access Key ID" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-      - `provider: optional Provider`
-
-      - `secretAccessKey: optional string`
-
-        Value of a Cloudflare API token.
-        This is the value labelled "Secret Access Key" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-    - `source: optional object { bucket, clientEmail, privateKey, provider }`
-
-      GCS bucket to copy objects from.
-
-      - `bucket: optional string`
-
-        Name of the GCS bucket.
-
-      - `clientEmail: optional string`
-
-        Client email of an IAM credential (ideally scoped to a single GCS bucket).
-
-      - `privateKey: optional string`
-
-        Private Key of an IAM credential (ideally scoped to a single GCS bucket).
-
-      - `provider: optional "gcs"`
-
-        - `"gcs"`
-
-  - `R2EnableSippyS3 object { destination, source }`
-
-    - `destination: optional object { accessKeyId, provider, secretAccessKey }`
-
-      R2 bucket to copy objects to.
-
-      - `accessKeyId: optional string`
-
-        ID of a Cloudflare API token.
-        This is the value labelled "Access Key ID" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-      - `provider: optional Provider`
-
-      - `secretAccessKey: optional string`
-
-        Value of a Cloudflare API token.
-        This is the value labelled "Secret Access Key" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-    - `source: optional object { accessKeyId, bucketUrl, provider, secretAccessKey }`
-
-      General S3-compatible provider to copy objects from.
-
-      - `accessKeyId: optional string`
-
-        Access Key ID of an IAM credential (ideally scoped to a single S3 bucket).
-
-      - `bucketUrl: optional string`
-
-        URL to the S3-compatible API of the bucket.
-
-      - `provider: optional "s3"`
-
-        - `"s3"`
-
-      - `secretAccessKey: optional string`
-
-        Secret Access Key of an IAM credential (ideally scoped to a single S3 bucket).
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: Sippy`
-
-  - `destination: optional object { accessKeyId, account, bucket, provider }`
-
-    Details about the configured destination bucket.
-
-    - `accessKeyId: optional string`
-
-      ID of the Cloudflare API token used when writing objects to this
-      bucket.
-
-    - `account: optional string`
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider.
-
-    - `provider: optional Provider`
-
-      - `"r2"`
-
-  - `enabled: optional boolean`
-
-    State of Sippy for this bucket.
-
-  - `source: optional object { bucket, bucketUrl, provider, region }`
-
-    Details about the configured source bucket.
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider (AWS, GCS only).
-
-    - `bucketUrl: optional string`
-
-      S3-compatible URL (Generic S3-compatible providers only).
-
-    - `provider: optional "aws" or "gcs" or "s3"`
-
-      - `"aws"`
-
-      - `"gcs"`
-
-      - `"s3"`
-
-    - `region: optional string`
-
-      Region where the bucket resides (AWS only).
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/sippy \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "destination": {
-      "accessKeyId": "accessKeyId",
-      "account": "account",
-      "bucket": "bucket",
-      "provider": "r2"
-    },
-    "enabled": true,
-    "source": {
-      "bucket": "bucket",
-      "bucketUrl": "bucketUrl",
-      "provider": "aws",
-      "region": "region"
-    }
-  },
-  "success": true
-}
-```
-
-## Disable Sippy
-
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/sippy`
-
-Disables Sippy on this bucket.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { enabled }`
-
-  - `enabled: optional false`
-
-    - `false`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/sippy \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "enabled": false
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Provider
-
-- `Provider = "r2"`
-
-  - `"r2"`
-
-### Sippy
-
-- `Sippy object { destination, enabled, source }`
-
-  - `destination: optional object { accessKeyId, account, bucket, provider }`
-
-    Details about the configured destination bucket.
-
-    - `accessKeyId: optional string`
-
-      ID of the Cloudflare API token used when writing objects to this
-      bucket.
-
-    - `account: optional string`
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider.
-
-    - `provider: optional Provider`
-
-      - `"r2"`
-
-  - `enabled: optional boolean`
-
-    State of Sippy for this bucket.
-
-  - `source: optional object { bucket, bucketUrl, provider, region }`
-
-    Details about the configured source bucket.
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider (AWS, GCS only).
-
-    - `bucketUrl: optional string`
-
-      S3-compatible URL (Generic S3-compatible providers only).
-
-    - `provider: optional "aws" or "gcs" or "s3"`
-
-      - `"aws"`
-
-      - `"gcs"`
-
-      - `"s3"`
-
-    - `region: optional string`
-
-      Region where the bucket resides (AWS only).
-
-### Sippy Delete Response
-
-- `SippyDeleteResponse object { enabled }`
-
-  - `enabled: optional false`
-
-    - `false`
+[Link to this property](#)%20r2.buckets.sippy%20%3E%20(model)%20sippy_delete_response%20%3E%20(schema)>)

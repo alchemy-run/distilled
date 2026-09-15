@@ -1,223 +1,149 @@
+---
+title: Provider Configs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Provider Configs
 
-## List Provider Configs
+##### [List Provider Configs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/provider_configs/methods/list)
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/provider\_configs
 
-Lists all AI Gateway evaluator types configured for the account.
+##### [Create a new Provider Configs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/provider_configs/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/provider\_configs
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-- `gateway_id: string`
+<details>
 
-  gateway id
+<summary>
 
-### Query Parameters
+ProviderConfigListResponse object {id, alias, default\_config, 7 more }
 
-- `page: optional number`
+</summary>
 
-- `per_page: optional number`
+id: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, alias, default_config, 7 more }`
+alias: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `alias: string`
+default\_config: boolean
 
-  - `default_config: boolean`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+gateway\_id: string
 
-    gateway id
+gateway id
 
-  - `modified_at: string`
+maxLength64
 
-  - `provider_slug: string`
+minLength1
 
-  - `secret_id: string`
+<a href="#">Link to this property</a>
 
-  - `secret_preview: string`
+modified\_at: string
 
-  - `rate_limit: optional number`
+formatdate-time
 
-  - `rate_limit_period: optional number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+provider\_slug: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/provider_configs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+secret\_id: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "alias": "alias",
-      "default_config": true,
-      "gateway_id": "my-gateway",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "provider_slug": "provider_slug",
-      "secret_id": "secret_id",
-      "secret_preview": "secret_preview",
-      "rate_limit": 0,
-      "rate_limit_period": 0
-    }
-  ],
-  "success": true
-}
-```
+secret\_preview: string
 
-## Create a new Provider Configs
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs`
+rate\_limit: optional number
 
-Creates a new AI Gateway.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+rate\_limit\_period: optional number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+</details>
 
-  gateway id
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(model)%20provider_config_list_response%20%3E%20(schema)>)
 
-### Body Parameters
+<details>
 
-- `alias: string`
+<summary>
 
-- `default_config: boolean`
+ProviderConfigCreateResponse object {id, alias, default\_config, 7 more }
 
-- `provider_slug: string`
+</summary>
 
-- `rate_limit: optional number`
+id: string
 
-- `rate_limit_period: optional number`
+<a href="#">Link to this property</a>
 
-- `secret: optional string`
+alias: string
 
-- `secret_id: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+default\_config: boolean
 
-- `result: object { id, alias, default_config, 7 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+gateway\_id: string
 
-  - `alias: string`
+gateway id
 
-  - `default_config: boolean`
+maxLength64
 
-  - `gateway_id: string`
+minLength1
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+modified\_at: string
 
-  - `provider_slug: string`
+formatdate-time
 
-  - `secret_id: string`
+<a href="#">Link to this property</a>
 
-  - `secret_preview: string`
+provider\_slug: string
 
-  - `rate_limit: optional number`
+<a href="#">Link to this property</a>
 
-  - `rate_limit_period: optional number`
+secret\_id: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+secret\_preview: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/provider_configs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "alias": "alias",
-          "default_config": true,
-          "provider_slug": "provider_slug"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+rate\_limit: optional number
 
-```json
-{
-  "result": {
-    "id": "id",
-    "alias": "alias",
-    "default_config": true,
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "provider_slug": "provider_slug",
-    "secret_id": "secret_id",
-    "secret_preview": "secret_preview",
-    "rate_limit": 0,
-    "rate_limit_period": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+rate\_limit\_period: optional number
 
-### Provider Config List Response
+<a href="#">Link to this property</a>
 
-- `ProviderConfigListResponse object { id, alias, default_config, 7 more }`
+</details>
 
-  - `id: string`
-
-  - `alias: string`
-
-  - `default_config: boolean`
-
-  - `gateway_id: string`
-
-    gateway id
-
-  - `modified_at: string`
-
-  - `provider_slug: string`
-
-  - `secret_id: string`
-
-  - `secret_preview: string`
-
-  - `rate_limit: optional number`
-
-  - `rate_limit_period: optional number`
-
-### Provider Config Create Response
-
-- `ProviderConfigCreateResponse object { id, alias, default_config, 7 more }`
-
-  - `id: string`
-
-  - `alias: string`
-
-  - `default_config: boolean`
-
-  - `gateway_id: string`
-
-    gateway id
-
-  - `modified_at: string`
-
-  - `provider_slug: string`
-
-  - `secret_id: string`
-
-  - `secret_preview: string`
-
-  - `rate_limit: optional number`
-
-  - `rate_limit_period: optional number`
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(model)%20provider_config_create_response%20%3E%20(schema)>)

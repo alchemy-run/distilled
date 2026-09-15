@@ -1,315 +1,911 @@
-## Retrieve information about all operations on a zone
+---
+title: List web and API operations
+---
 
-**get** `/zones/{zone_id}/api_gateway/operations`
+[Skip to content](#_top)
 
-Lists all API operations tracked by API Shield for a zone with pagination. Returns operation details including method, path, and feature configurations.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
 
-- `zone_id: string`
+[Operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations)
 
-  Identifier.
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `direction: optional "asc" or "desc"`
+---
 
-  Direction to order results.
+**Copy Markdown****View as Markdown**
 
-  - `"asc"`
+# List web and API operations
 
-  - `"desc"`
+GET/zones/{zone\_id}/api\_gateway/operations
 
-- `endpoint: optional string`
+Lists web and API operations tracked for the zone, including each operation’s method, path, and feature configuration.
 
-  Filter results to only include endpoints containing this pattern.
+##### Security
 
-- `feature: optional array of "thresholds" or "parameter_schemas" or "schema_info"`
+<details>
 
-  Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.
+<summary>API Token</summary>
 
-  - `"thresholds"`
 
-  - `"parameter_schemas"`
 
-  - `"schema_info"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `host: optional array of string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Filter results to only include the specified hosts.
+</details>
 
-- `method: optional array of string`
+<details>
 
-  Filter results to only include the specified HTTP methods.
+<summary>API Email + API Key</summary>
 
-- `order: optional "method" or "host" or "endpoint" or "thresholds.$key"`
 
-  Field to order by. When requesting a feature, the feature keys are available for ordering as well, e.g., `thresholds.suggested_threshold`.
 
-  - `"method"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"host"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"endpoint"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"thresholds.$key"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `page: optional number`
+</details>
 
-  Page number of paginated results.
+##### Accepted Permissions (at least one required)
 
-- `per_page: optional number`
+`Account API Gateway``Account API Gateway Read``Domain API Gateway``Domain API Gateway Read`
 
-  Maximum number of results per page.
+##### P ath ParametersExpand Collapse
 
-### Returns
+zone\_id: string
 
-- `errors: Message`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### Q uery ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: Message`
+direction: optional "asc"or "desc"
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+Direction to order results.
 
-  - `endpoint: string`
+</summary>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+One of the following:
 
-  - `host: string`
+"asc"
 
-    RFC3986-compliant host.
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+"desc"
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<a href="#">Link to this property</a>
 
-    The HTTP method used to access the endpoint.
+</details>
 
-    - `"GET"`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-    - `"POST"`
+endpoint: optional string
 
-    - `"HEAD"`
+Filter results to only include endpoints containing this pattern.
 
-    - `"OPTIONS"`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20endpoint%20%3E%20(schema)>)
 
-    - `"PUT"`
+<details>
 
-    - `"DELETE"`
+<summary>
 
-    - `"CONNECT"`
+feature: optional array of "thresholds"or "parameter\_schemas"or "schema\_info"or "confidence\_intervals"
 
-    - `"PATCH"`
+Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.
 
-    - `"TRACE"`
+</summary>
 
-  - `operation_id: string`
+One of the following:
 
-    UUID.
+"thresholds"
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+<a href="#">Link to this property</a>
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+"parameter\_schemas"
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `auth_id_tokens: optional number`
+"schema\_info"
 
-          The total number of auth-ids seen across this calculation.
+<a href="#">Link to this property</a>
 
-        - `data_points: optional number`
+"confidence\_intervals"
 
-          The number of data points used for the threshold suggestion calculation.
+<a href="#">Link to this property</a>
 
-        - `last_updated: optional string`
+</details>
 
-        - `p50: optional number`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20feature%20%3E%20(schema)>)
 
-          The p50 quantile of requests (in period_seconds).
+host: optional array of string
 
-        - `p90: optional number`
+Filter results to only include the specified hosts.
 
-          The p90 quantile of requests (in period_seconds).
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20host%20%3E%20(schema)>)
 
-        - `p99: optional number`
+method: optional array of string
 
-          The p99 quantile of requests (in period_seconds).
+Filter results to only include the specified HTTP methods.
 
-        - `period_seconds: optional number`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20method%20%3E%20(schema)>)
 
-          The period over which this threshold is suggested.
+<details>
 
-        - `requests: optional number`
+<summary>
 
-          The estimated number of requests covered by these calculations.
+order: optional "method"or "host"or "endpoint"or "thresholds.$key"
 
-        - `suggested_threshold: optional number`
+Field to order by. When requesting a feature, the feature keys are available for ordering as well, e.g., <code>thresholds.suggested_threshold</code>.
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+</summary>
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+One of the following:
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+"method"
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `parameter_schemas: optional object { parameters, responses }`
+"host"
 
-          An operation schema object containing a response.
+<a href="#">Link to this property</a>
 
-          - `parameters: optional array of unknown`
+"endpoint"
 
-            An array containing the learned parameter schemas.
+<a href="#">Link to this property</a>
 
-          - `responses: optional unknown`
+"thresholds.$key"
 
-            An empty response object. This field is required to yield a valid operation schema.
+<a href="#">Link to this property</a>
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+</details>
 
-      - `api_routing: optional object { last_updated, route }`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-        API Routing settings on endpoint.
+page: optional number
 
-        - `last_updated: optional string`
+Page number of paginated results.
 
-        - `route: optional string`
+minimum1
 
-          Target route.
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+per\_page: optional number
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+Maximum number of results per page.
 
-        - `last_updated: optional string`
+maximum50
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+minimum5
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-            - `p90: optional object { lower, upper }`
+##### ReturnsExpand Collapse
 
-              Upper and lower bound for percentile estimate
+<details>
 
-              - `lower: optional number`
+<summary>
 
-                Lower bound for percentile estimate
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
 
-              - `upper: optional number`
+</summary>
 
-                Upper bound for percentile estimate
+code: number
 
-            - `p95: optional object { lower, upper }`
+minimum1000
 
-              Upper and lower bound for percentile estimate
+<a href="#">Link to this property</a>
 
-              - `lower: optional number`
+message: string
 
-                Lower bound for percentile estimate
+<a href="#">Link to this property</a>
 
-              - `upper: optional number`
+documentation\_url: optional string
 
-                Upper bound for percentile estimate
+<a href="#">Link to this property</a>
 
-            - `p99: optional object { lower, upper }`
+<details>
 
-              Upper and lower bound for percentile estimate
+<summary>
 
-              - `lower: optional number`
+source: optional object {pointer }
 
-                Lower bound for percentile estimate
+</summary>
 
-              - `upper: optional number`
+pointer: optional string
 
-                Upper bound for percentile estimate
+<a href="#">Link to this property</a>
 
-          - `mean: optional number`
+</details>
 
-            Suggested threshold.
+<a href="#">Link to this property</a>
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+</details>
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+<details>
 
-          Schema active on endpoint.
+<summary>
 
-          - `id: optional string`
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
 
-            UUID.
+</summary>
 
-          - `created_at: optional string`
+code: number
 
-          - `is_learned: optional boolean`
+minimum1000
 
-            True if schema is Cloudflare-provided.
+<a href="#">Link to this property</a>
 
-          - `name: optional string`
+message: string
 
-            Schema file name.
+<a href="#">Link to this property</a>
 
-        - `learned_available: optional boolean`
+documentation\_url: optional string
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+<a href="#">Link to this property</a>
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+<details>
 
-          Action taken on requests failing validation.
+<summary>
 
-          - `"none"`
+source: optional object {pointer }
 
-          - `"log"`
+</summary>
 
-          - `"block"`
+pointer: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</details>
 
-  - `count: optional number`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+result: array of object {endpoint, host, last\_updated, 3 more }
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+endpoint: string
 
-  - `total_count: optional number`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    Total results available without any search parameters.
+formaturi-template
 
-  - `total_pages: optional number`
+maxLength4096
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+host: string
 
-```http
+RFC3986-compliant host.
+
+formathostname
+
+maxLength255
+
+<a href="#">Link to this property</a>
+
+last\_updated: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+method: "GET"or "POST"or "HEAD"or 6 more
+
+The HTTP method used to access the endpoint.
+
+</summary>
+
+One of the following:
+
+"GET"
+
+<a href="#">Link to this property</a>
+
+"POST"
+
+<a href="#">Link to this property</a>
+
+"HEAD"
+
+<a href="#">Link to this property</a>
+
+"OPTIONS"
+
+<a href="#">Link to this property</a>
+
+"PUT"
+
+<a href="#">Link to this property</a>
+
+"DELETE"
+
+<a href="#">Link to this property</a>
+
+"CONNECT"
+
+<a href="#">Link to this property</a>
+
+"PATCH"
+
+<a href="#">Link to this property</a>
+
+"TRACE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+operation\_id: string
+
+UUID.
+
+maxLength36
+
+minLength36
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+features: optional object {thresholds } or object {parameter\_schemas } or object {api\_routing } or 2 more
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+APIShieldOperationFeatureThresholds object {thresholds }
+
+</summary>
+
+<details>
+
+<summary>
+
+thresholds: optional object {auth\_id\_tokens, data\_points, last\_updated, 6 more }
+
+</summary>
+
+auth\_id\_tokens: optional number
+
+The total number of auth-ids seen across this calculation.
+
+<a href="#">Link to this property</a>
+
+data\_points: optional number
+
+The number of data points used for the threshold suggestion calculation.
+
+<a href="#">Link to this property</a>
+
+last\_updated: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+p50: optional number
+
+The p50 quantile of requests (in period\_seconds).
+
+<a href="#">Link to this property</a>
+
+p90: optional number
+
+The p90 quantile of requests (in period\_seconds).
+
+<a href="#">Link to this property</a>
+
+p99: optional number
+
+The p99 quantile of requests (in period\_seconds).
+
+<a href="#">Link to this property</a>
+
+period\_seconds: optional number
+
+The period over which this threshold is suggested.
+
+<a href="#">Link to this property</a>
+
+requests: optional number
+
+The estimated number of requests covered by these calculations.
+
+<a href="#">Link to this property</a>
+
+suggested\_threshold: optional number
+
+The suggested threshold in requests done by the same auth\_id or period\_seconds.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+APIShieldOperationFeatureParameterSchemas object {parameter\_schemas }
+
+</summary>
+
+<details>
+
+<summary>
+
+parameter\_schemas: object {last\_updated, parameter\_schemas }
+
+</summary>
+
+last\_updated: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parameter\_schemas: optional object {parameters, responses }
+
+An operation schema object containing a response.
+
+</summary>
+
+parameters: optional array of unknown
+
+An array containing the learned parameter schemas.
+
+<a href="#">Link to this property</a>
+
+responses: optional unknown
+
+An empty response object. This field is required to yield a valid operation schema.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+APIShieldOperationFeatureAPIRouting object {api\_routing }
+
+</summary>
+
+<details>
+
+<summary>
+
+api\_routing: optional object {last\_updated, route }
+
+API Routing settings on endpoint.
+
+</summary>
+
+last\_updated: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+route: optional string
+
+Target route.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+APIShieldOperationFeatureConfidenceIntervals object {confidence\_intervals }
+
+</summary>
+
+<details>
+
+<summary>
+
+confidence\_intervals: optional object {last\_updated, suggested\_threshold }
+
+</summary>
+
+last\_updated: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+suggested\_threshold: optional object {confidence\_intervals, mean }
+
+</summary>
+
+<details>
+
+<summary>
+
+confidence\_intervals: optional object {p90, p95, p99 }
+
+</summary>
+
+<details>
+
+<summary>
+
+p90: optional object {lower, upper }
+
+Upper and lower bound for percentile estimate
+
+</summary>
+
+lower: optional number
+
+Lower bound for percentile estimate
+
+<a href="#">Link to this property</a>
+
+upper: optional number
+
+Upper bound for percentile estimate
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+p95: optional object {lower, upper }
+
+Upper and lower bound for percentile estimate
+
+</summary>
+
+lower: optional number
+
+Lower bound for percentile estimate
+
+<a href="#">Link to this property</a>
+
+upper: optional number
+
+Upper bound for percentile estimate
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+p99: optional object {lower, upper }
+
+Upper and lower bound for percentile estimate
+
+</summary>
+
+lower: optional number
+
+Lower bound for percentile estimate
+
+<a href="#">Link to this property</a>
+
+upper: optional number
+
+Upper bound for percentile estimate
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+mean: optional number
+
+Suggested threshold.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+APIShieldOperationFeatureSchemaInfo object {schema\_info }
+
+</summary>
+
+<details>
+
+<summary>
+
+schema\_info: optional object {active\_schema, mitigation\_action }
+
+</summary>
+
+<details>
+
+<summary>
+
+active\_schema: optional object {id, created\_at, name }
+
+Schema active on endpoint.
+
+</summary>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+minLength36
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Schema file name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mitigation\_action: optional "none"or "log"or "block"
+
+Action taken on requests failing validation.
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"log"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20api_gateway.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List web and API operations
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "endpoint": "/api/v1/users/{var1}",
+      "host": "www.example.com",
+      "last_updated": "2014-01-01T05:20:00.12345Z",
+      "method": "GET",
+      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "features": {
+        "api_routing": {
+          "last_updated": "2014-01-01T05:20:00.12345Z",
+          "route": "https://api.example.com/api/service"
+        }
+      }
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

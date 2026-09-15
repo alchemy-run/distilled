@@ -1,138 +1,382 @@
-## Delete Gateway Logs
+---
+title: Delete Gateway Logs
+---
 
-**delete** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs`
+[Skip to content](#_top)
 
-Delete Gateway Logs
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
 
-- `account_id: string`
+[Logs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs)
 
-- `gateway_id: string`
+Copy Markdown
 
-  gateway id
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Query Parameters
+---
 
-- `filters: optional array of object { key, operator, value }`
+**Copy Markdown****View as Markdown**
 
-  - `key: "id" or "created_at" or "request_content_type" or 21 more`
+# Delete Gateway Logs
 
-    - `"id"`
+DELETE/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs
 
-    - `"created_at"`
+Deletes gateway log entries matching the specified criteria.
 
-    - `"request_content_type"`
+##### Security
 
-    - `"response_content_type"`
+<details>
 
-    - `"request_type"`
+<summary>API Token</summary>
 
-    - `"success"`
 
-    - `"cached"`
 
-    - `"provider"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `"model"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `"model_type"`
+</details>
 
-    - `"cost"`
+<details>
 
-    - `"tokens"`
+<summary>API Email + API Key</summary>
 
-    - `"tokens_in"`
 
-    - `"tokens_out"`
 
-    - `"duration"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `"feedback"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `"event_id"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"metadata.key"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"metadata.value"`
+</details>
 
-    - `"authentication"`
+##### Accepted Permissions (at least one required)
 
-    - `"wholesale"`
+`AI Gateway Write`
 
-    - `"compatibilityMode"`
+##### P ath ParametersExpand Collapse
 
-    - `"dlp_action"`
+account\_id: string
 
-    - `"user_agent"`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `operator: "eq" or "neq" or "contains" or 2 more`
+gateway\_id: string
 
-    - `"eq"`
+gateway id
 
-    - `"neq"`
+maxLength64
 
-    - `"contains"`
+minLength1
 
-    - `"lt"`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20gateway_id%20%3E%20(schema)>)
 
-    - `"gt"`
+##### Q uery ParametersExpand Collapse
 
-  - `value: array of string or number or boolean`
+<details>
 
-    - `string`
+<summary>
 
-    - `number`
+filters: optional array of object {key, operator, value }
 
-    - `boolean`
+</summary>
 
-- `limit: optional number`
+<details>
 
-- `order_by: optional "created_at" or "provider" or "model" or 8 more`
+<summary>
 
-  - `"created_at"`
+key: "id"or "created\_at"or "request\_content\_type"or 21 more
 
-  - `"provider"`
+</summary>
 
-  - `"model"`
+One of the following:
 
-  - `"model_type"`
+"id"
 
-  - `"success"`
+<a href="#">Link to this property</a>
 
-  - `"cached"`
+"created\_at"
 
-  - `"cost"`
+<a href="#">Link to this property</a>
 
-  - `"tokens_in"`
+"request\_content\_type"
 
-  - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-  - `"duration"`
+"response\_content\_type"
 
-  - `"feedback"`
+<a href="#">Link to this property</a>
 
-- `order_by_direction: optional "asc" or "desc"`
+"request\_type"
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+"success"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"cached"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"provider"
+
+<a href="#">Link to this property</a>
+
+"model"
+
+<a href="#">Link to this property</a>
+
+"model\_type"
+
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+"tokens"
+
+<a href="#">Link to this property</a>
+
+"tokens\_in"
+
+<a href="#">Link to this property</a>
+
+"tokens\_out"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"feedback"
+
+<a href="#">Link to this property</a>
+
+"event\_id"
+
+<a href="#">Link to this property</a>
+
+"metadata.key"
+
+<a href="#">Link to this property</a>
+
+"metadata.value"
+
+<a href="#">Link to this property</a>
+
+"authentication"
+
+<a href="#">Link to this property</a>
+
+"wholesale"
+
+<a href="#">Link to this property</a>
+
+"compatibilityMode"
+
+<a href="#">Link to this property</a>
+
+"dlp\_action"
+
+<a href="#">Link to this property</a>
+
+"user\_agent"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "eq"or "neq"or "contains"or 2 more
+
+</summary>
+
+One of the following:
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: array of stringor numberor boolean
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20filters%20%3E%20(schema)>)
+
+limit: optional number
+
+maximum10000
+
+minimum1
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+order\_by: optional "created\_at"or "provider"or "model"or 8 more
+
+</summary>
+
+One of the following:
+
+"created\_at"
+
+<a href="#">Link to this property</a>
+
+"provider"
+
+<a href="#">Link to this property</a>
+
+"model"
+
+<a href="#">Link to this property</a>
+
+"model\_type"
+
+<a href="#">Link to this property</a>
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"cached"
+
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+"tokens\_in"
+
+<a href="#">Link to this property</a>
+
+"tokens\_out"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"feedback"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20order_by%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+order\_by\_direction: optional "asc"or "desc"
+
+</summary>
+
+One of the following:
+
+"asc"
+
+<a href="#">Link to this property</a>
+
+"desc"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20order_by_direction%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+success: boolean
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_delete_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Delete Gateway Logs
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "success": true
 }

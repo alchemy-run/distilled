@@ -1,242 +1,153 @@
+---
+title: Automatic Upgrader
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[SSL](https://developers.cloudflare.com/api/resources/ssl)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Automatic Upgrader
 
-## Get Automatic SSL/TLS enrollment status for the given zone
+##### [Get Automatic SSL/TLS enrollment status for the given zone](https://developers.cloudflare.com/api/resources/ssl/subresources/automatic_upgrader/methods/get)
 
-**get** `/zones/{zone_id}/settings/ssl_automatic_mode`
+GET/zones/{zone\_id}/settings/ssl\_automatic\_mode
 
-If the system is enabled, the response will include next_scheduled_scan, representing the next time this zone will be scanned and the zone's ssl/tls encryption mode is potentially upgraded by the system. If the system is disabled, next_scheduled_scan will not be present in the response body.
+##### [Patch Automatic SSL/TLS Enrollment status for given zone](https://developers.cloudflare.com/api/resources/ssl/subresources/automatic_upgrader/methods/patch)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/settings/ssl\_automatic\_mode
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+AutomaticUpgraderGetResponse object {id, editable, modified\_on, 2 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+editable: boolean
 
-- `messages: array of ResponseInfo`
+Whether this setting can be updated or not.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: string
 
-  - `documentation_url: optional string`
+Last time this setting was modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-- `result: object { id, editable, modified_on, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `editable: boolean`
+<summary>
 
-    Whether this setting can be updated or not.
+value: "auto"or "custom"
 
-  - `modified_on: string`
+Current setting of the automatic SSL/TLS.
 
-    Last time this setting was modified.
+</summary>
 
-  - `value: "auto" or "custom"`
+One of the following:
 
-    Current setting of the automatic SSL/TLS.
+"auto"
 
-    - `"auto"`
+<a href="#">Link to this property</a>
 
-    - `"custom"`
+"custom"
 
-  - `next_scheduled_scan: optional string`
+<a href="#">Link to this property</a>
 
-    Next time this zone will be scanned by the Automatic SSL/TLS.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates the API call's success or failure.
+next\_scheduled\_scan: optional string
 
-### Example
+Next time this zone will be scanned by the Automatic SSL/TLS.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/ssl_automatic_mode \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "ssl_automatic_mode",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "next_scheduled_scan": "2014-02-01T05:20:00.12345Z",
-    "value": "auto"
-  },
-  "success": true
-}
-```
+</details>
 
-## Patch Automatic SSL/TLS Enrollment status for given zone
+[Link to this property](#)%20ssl.automatic_upgrader%20%3E%20(model)%20automatic_upgrader_get_response%20%3E%20(schema)>)
 
-**patch** `/zones/{zone_id}/settings/ssl_automatic_mode`
+<details>
 
-The automatic system is enabled when this endpoint is hit with value in the request body is set to "auto", and disabled when the request body value is set to "custom".
+<summary>
 
-### Path Parameters
+AutomaticUpgraderPatchResponse object {id, editable, modified\_on, 2 more }
 
-- `zone_id: string`
+</summary>
 
-### Body Parameters
+id: string
 
-- `value: "auto" or "custom"`
+<a href="#">Link to this property</a>
 
-  Controls enablement of Automatic SSL/TLS.
+editable: boolean
 
-  - `"auto"`
+Whether this setting can be updated or not.
 
-  - `"custom"`
+<a href="#">Link to this property</a>
 
-### Returns
+modified\_on: string
 
-- `errors: array of ResponseInfo`
+Last time this setting was modified.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+value: "auto"or "custom"
 
-- `messages: array of ResponseInfo`
+Current setting of the automatic SSL/TLS.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"auto"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { id, editable, modified_on, 2 more }`
+"custom"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+</details>
 
-    Whether this setting can be updated or not.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+next\_scheduled\_scan: optional string
 
-    Last time this setting was modified.
+Next time this zone will be scanned by the Automatic SSL/TLS.
 
-  - `value: "auto" or "custom"`
+formatdate-time
 
-    Current setting of the automatic SSL/TLS.
+<a href="#">Link to this property</a>
 
-    - `"auto"`
+</details>
 
-    - `"custom"`
-
-  - `next_scheduled_scan: optional string`
-
-    Next time this zone will be scanned by the Automatic SSL/TLS.
-
-- `success: boolean`
-
-  Indicates the API call's success or failure.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/ssl_automatic_mode \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "auto"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "ssl_automatic_mode",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "next_scheduled_scan": "2014-02-01T05:20:00.12345Z",
-    "value": "auto"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Automatic Upgrader Get Response
-
-- `AutomaticUpgraderGetResponse object { id, editable, modified_on, 2 more }`
-
-  - `id: string`
-
-  - `editable: boolean`
-
-    Whether this setting can be updated or not.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
-
-  - `value: "auto" or "custom"`
-
-    Current setting of the automatic SSL/TLS.
-
-    - `"auto"`
-
-    - `"custom"`
-
-  - `next_scheduled_scan: optional string`
-
-    Next time this zone will be scanned by the Automatic SSL/TLS.
-
-### Automatic Upgrader Patch Response
-
-- `AutomaticUpgraderPatchResponse object { id, editable, modified_on, 2 more }`
-
-  - `id: string`
-
-  - `editable: boolean`
-
-    Whether this setting can be updated or not.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
-
-  - `value: "auto" or "custom"`
-
-    Current setting of the automatic SSL/TLS.
-
-    - `"auto"`
-
-    - `"custom"`
-
-  - `next_scheduled_scan: optional string`
-
-    Next time this zone will be scanned by the Automatic SSL/TLS.
+[Link to this property](#)%20ssl.automatic_upgrader%20%3E%20(model)%20automatic_upgrader_patch_response%20%3E%20(schema)>)

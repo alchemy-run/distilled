@@ -1,487 +1,325 @@
+---
+title: Active Sessions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Users](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Active Sessions
 
-## Get active sessions
+##### [Get active sessions](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/subresources/active_sessions/methods/list)
 
-**get** `/accounts/{account_id}/access/users/{user_id}/active_sessions`
+GET/accounts/{account\_id}/access/users/{user\_id}/active\_sessions
 
-Get active sessions for a single user.
+##### [Get single active session](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/subresources/active_sessions/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/access/users/{user\_id}/active\_sessions/{nonce}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `user_id: string`
+<summary>
 
-  UUID.
+ActiveSessionListResponse object {expiration, metadata, name }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+expiration: optional number
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+metadata: optional object {apps, expires, iat, 2 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+apps: optional map\[object {hostname, name, type, uid } ]
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+hostname: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+name: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+type: optional string
 
-- `result: optional array of object { expiration, metadata, name }`
+<a href="#">Link to this property</a>
 
-  - `expiration: optional number`
+uid: optional string
 
-  - `metadata: optional object { apps, expires, iat, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `apps: optional map[object { hostname, name, type, uid } ]`
+</details>
 
-      - `hostname: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+expires: optional number
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-      - `uid: optional string`
+iat: optional number
 
-    - `expires: optional number`
+<a href="#">Link to this property</a>
 
-    - `iat: optional number`
+nonce: optional string
 
-    - `nonce: optional string`
+<a href="#">Link to this property</a>
 
-    - `ttl: optional number`
+ttl: optional number
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+name: optional string
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+[Link to this property](#)%20zero_trust.access.users.active_sessions%20%3E%20(model)%20active_session_list_response%20%3E%20(schema)>)
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+ActiveSessionGetResponse object {account\_id, auth\_status, common\_name, 16 more }
 
-  - `total_pages: optional number`
+</summary>
 
-    The number of total pages in the entire result set.
+account\_id: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID/active_sessions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
+auth\_status: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "expiration": 1694813506,
-      "metadata": {
-        "apps": {
-          "foo": {
-            "hostname": "test.example.com",
-            "name": "app name",
-            "type": "self_hosted",
-            "uid": "cc2a8145-0128-4429-87f3-872c4d380c4e"
-          }
-        },
-        "expires": 1694813506,
-        "iat": 1694791905,
-        "nonce": "X1aXj1lFVcqqyoXF",
-        "ttl": 21600
-      },
-      "name": "name"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get single active session
+common\_name: optional string
 
-**get** `/accounts/{account_id}/access/users/{user_id}/active_sessions/{nonce}`
+<a href="#">Link to this property</a>
 
-Get an active session for a single user.
+device\_id: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `user_id: string`
+device\_sessions: optional map\[object {last\_authenticated } ]
 
-  UUID.
+</summary>
 
-- `nonce: string`
+last\_authenticated: optional number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+devicePosture: optional map\[object {id, check, data, 6 more } ]
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+check: optional object {exists, path }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+exists: optional boolean
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+path: optional string
 
-- `result: optional object { account_id, auth_status, common_name, 16 more }`
+<a href="#">Link to this property</a>
 
-  - `account_id: optional string`
+</details>
 
-  - `auth_status: optional string`
+<a href="#">Link to this property</a>
 
-  - `common_name: optional string`
+data: optional unknown
 
-  - `device_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_sessions: optional map[object { last_authenticated } ]`
+description: optional string
 
-    - `last_authenticated: optional number`
+<a href="#">Link to this property</a>
 
-  - `devicePosture: optional map[object { id, check, data, 6 more } ]`
+error: optional string
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `check: optional object { exists, path }`
+rule\_name: optional string
 
-      - `exists: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `path: optional string`
+success: optional boolean
 
-    - `data: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+timestamp: optional string
 
-    - `error: optional string`
+<a href="#">Link to this property</a>
 
-    - `rule_name: optional string`
+type: optional string
 
-    - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `timestamp: optional string`
+</details>
 
-    - `type: optional string`
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+email: optional string
 
-  - `geo: optional object { country }`
+<a href="#">Link to this property</a>
 
-    - `country: optional string`
+<details>
 
-  - `iat: optional number`
+<summary>
 
-  - `idp: optional object { id, type }`
+geo: optional object {country }
 
-    - `id: optional string`
+</summary>
 
-    - `type: optional string`
+country: optional string
 
-  - `ip: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_gateway: optional boolean`
+</details>
 
-  - `is_warp: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `isActive: optional boolean`
+iat: optional number
 
-  - `mtls_auth: optional object { auth_status, cert_issuer_dn, cert_issuer_ski, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `auth_status: optional string`
+<details>
 
-    - `cert_issuer_dn: optional string`
+<summary>
 
-    - `cert_issuer_ski: optional string`
+idp: optional object {id, type }
 
-    - `cert_presented: optional boolean`
+</summary>
 
-    - `cert_serial: optional string`
+id: optional string
 
-  - `service_token_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `service_token_status: optional boolean`
+type: optional string
 
-  - `user_uuid: optional string`
+<a href="#">Link to this property</a>
 
-  - `version: optional number`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID/active_sessions/$NONCE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+ip: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "account_id": "1234567890",
-    "auth_status": "NONE",
-    "common_name": "",
-    "device_id": "",
-    "device_sessions": {
-      "foo": {
-        "last_authenticated": 1638832687
-      }
-    },
-    "devicePosture": {
-      "foo": {
-        "id": "id",
-        "check": {
-          "exists": true,
-          "path": "path"
-        },
-        "data": {},
-        "description": "description",
-        "error": "error",
-        "rule_name": "rule_name",
-        "success": true,
-        "timestamp": "timestamp",
-        "type": "type"
-      }
-    },
-    "email": "test@cloudflare.com",
-    "geo": {
-      "country": "US"
-    },
-    "iat": 1694791905,
-    "idp": {
-      "id": "id",
-      "type": "type"
-    },
-    "ip": "127.0.0.0",
-    "is_gateway": false,
-    "is_warp": false,
-    "isActive": true,
-    "mtls_auth": {
-      "auth_status": "auth_status",
-      "cert_issuer_dn": "cert_issuer_dn",
-      "cert_issuer_ski": "cert_issuer_ski",
-      "cert_presented": true,
-      "cert_serial": "cert_serial"
-    },
-    "service_token_id": "",
-    "service_token_status": false,
-    "user_uuid": "57cf8cf2-f55a-4588-9ac9-f5e41e9f09b4",
-    "version": 2
-  }
-}
-```
+is\_gateway: optional boolean
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Active Session List Response
+is\_warp: optional boolean
 
-- `ActiveSessionListResponse object { expiration, metadata, name }`
+<a href="#">Link to this property</a>
 
-  - `expiration: optional number`
+isActive: optional boolean
 
-  - `metadata: optional object { apps, expires, iat, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `apps: optional map[object { hostname, name, type, uid } ]`
+<details>
 
-      - `hostname: optional string`
+<summary>
 
-      - `name: optional string`
+mtls\_auth: optional object {auth\_status, cert\_issuer\_dn, cert\_issuer\_ski, 2 more }
 
-      - `type: optional string`
+</summary>
 
-      - `uid: optional string`
+auth\_status: optional string
 
-    - `expires: optional number`
+<a href="#">Link to this property</a>
 
-    - `iat: optional number`
+cert\_issuer\_dn: optional string
 
-    - `nonce: optional string`
+<a href="#">Link to this property</a>
 
-    - `ttl: optional number`
+cert\_issuer\_ski: optional string
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-### Active Session Get Response
+cert\_presented: optional boolean
 
-- `ActiveSessionGetResponse object { account_id, auth_status, common_name, 16 more }`
+<a href="#">Link to this property</a>
 
-  - `account_id: optional string`
+cert\_serial: optional string
 
-  - `auth_status: optional string`
+<a href="#">Link to this property</a>
 
-  - `common_name: optional string`
+</details>
 
-  - `device_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_sessions: optional map[object { last_authenticated } ]`
+service\_token\_id: optional string
 
-    - `last_authenticated: optional number`
+<a href="#">Link to this property</a>
 
-  - `devicePosture: optional map[object { id, check, data, 6 more } ]`
+service\_token\_status: optional boolean
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `check: optional object { exists, path }`
+user\_uuid: optional string
 
-      - `exists: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `path: optional string`
+version: optional number
 
-    - `data: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-    - `error: optional string`
-
-    - `rule_name: optional string`
-
-    - `success: optional boolean`
-
-    - `timestamp: optional string`
-
-    - `type: optional string`
-
-  - `email: optional string`
-
-  - `geo: optional object { country }`
-
-    - `country: optional string`
-
-  - `iat: optional number`
-
-  - `idp: optional object { id, type }`
-
-    - `id: optional string`
-
-    - `type: optional string`
-
-  - `ip: optional string`
-
-  - `is_gateway: optional boolean`
-
-  - `is_warp: optional boolean`
-
-  - `isActive: optional boolean`
-
-  - `mtls_auth: optional object { auth_status, cert_issuer_dn, cert_issuer_ski, 2 more }`
-
-    - `auth_status: optional string`
-
-    - `cert_issuer_dn: optional string`
-
-    - `cert_issuer_ski: optional string`
-
-    - `cert_presented: optional boolean`
-
-    - `cert_serial: optional string`
-
-  - `service_token_id: optional string`
-
-  - `service_token_status: optional boolean`
-
-  - `user_uuid: optional string`
-
-  - `version: optional number`
+[Link to this property](#)%20zero_trust.access.users.active_sessions%20%3E%20(model)%20active_session_get_response%20%3E%20(schema)>)

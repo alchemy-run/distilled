@@ -1,346 +1,103 @@
+---
+title: Gateway CA
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Gateway CA
 
-## List SSH Certificate Authorities (CA)
+##### [List SSH Certificate Authorities (CA)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/gateway_ca/methods/list)
 
-**get** `/accounts/{account_id}/access/gateway_ca`
+GET/accounts/{account\_id}/access/gateway\_ca
 
-Lists SSH Certificate Authorities (CA).
+##### [Add a new SSH Certificate Authority (CA)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/gateway_ca/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/access/gateway\_ca
 
-- `account_id: string`
+##### [Delete an SSH Certificate Authority (CA)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/gateway_ca/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/access/gateway\_ca/{certificate\_id}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+GatewayCAListResponse object {id, public\_key }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+The key ID of this certificate.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+public\_key: optional string
 
-  - `message: string`
+The public key of this certificate.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.access.gateway_ca%20%3E%20(model)%20gateway_ca_list_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+GatewayCACreateResponse object {id, public\_key }
 
-- `result: optional array of object { id, public_key }`
+</summary>
 
-  - `id: optional string`
+id: optional string
 
-    The key ID of this certificate.
+The key ID of this certificate.
 
-  - `public_key: optional string`
+<a href="#">Link to this property</a>
 
-    The public key of this certificate.
+public\_key: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+The public key of this certificate.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20zero_trust.access.gateway_ca%20%3E%20(model)%20gateway_ca_create_response%20%3E%20(schema)>)
 
-    Current page within paginated list of results.
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    Number of results per page of results.
+GatewayCADeleteResponse object {id }
 
-  - `total_count: optional number`
+</summary>
 
-    Total results available without any search parameters.
+id: optional string
 
-  - `total_pages: optional number`
+UUID.
 
-    The number of total pages in the entire result set.
+maxLength36
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/gateway_ca \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "public_key": "public_key"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Add a new SSH Certificate Authority (CA)
-
-**post** `/accounts/{account_id}/access/gateway_ca`
-
-Adds a new SSH Certificate Authority (CA).
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, public_key }`
-
-  - `id: optional string`
-
-    The key ID of this certificate.
-
-  - `public_key: optional string`
-
-    The public key of this certificate.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/gateway_ca \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "public_key": "public_key"
-  }
-}
-```
-
-## Delete an SSH Certificate Authority (CA)
-
-**delete** `/accounts/{account_id}/access/gateway_ca/{certificate_id}`
-
-Deletes an SSH Certificate Authority.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `certificate_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    UUID.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/gateway_ca/$CERTIFICATE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
-
-## Domain Types
-
-### Gateway CA List Response
-
-- `GatewayCAListResponse object { id, public_key }`
-
-  - `id: optional string`
-
-    The key ID of this certificate.
-
-  - `public_key: optional string`
-
-    The public key of this certificate.
-
-### Gateway CA Create Response
-
-- `GatewayCACreateResponse object { id, public_key }`
-
-  - `id: optional string`
-
-    The key ID of this certificate.
-
-  - `public_key: optional string`
-
-    The public key of this certificate.
-
-### Gateway CA Delete Response
-
-- `GatewayCADeleteResponse object { id }`
-
-  - `id: optional string`
-
-    UUID.
+[Link to this property](#)%20zero_trust.access.gateway_ca%20%3E%20(model)%20gateway_ca_delete_response%20%3E%20(schema)>)

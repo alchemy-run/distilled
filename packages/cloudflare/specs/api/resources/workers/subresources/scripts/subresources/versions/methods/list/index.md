@@ -1,135 +1,391 @@
-## List Versions
+---
+title: List Versions
+---
 
-**get** `/accounts/{account_id}/workers/scripts/{script_name}/versions`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers/subresources/scripts)
+
+[Versions](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/versions)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Versions
+
+GET/accounts/{account\_id}/workers/scripts/{script\_name}/versions
 
 List of Worker Versions. The first version in the list is the latest version.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `script_name: string`
 
-  Name of the script.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `deployable: optional boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Only return versions that can be used in a deployment. Ignores pagination.
+</details>
 
-- `page: optional number`
+<details>
 
-  Current page.
+<summary>API Email + API Key</summary>
 
-- `per_page: optional number`
 
-  Items per-page.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Workers Tail Read``Workers Scripts Write``Workers Scripts Read`
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+Identifier.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+script\_name: string
 
-- `result: object { items }`
+Name of the script.
 
-  - `items: optional array of object { id, metadata, number }`
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20script_name%20%3E%20(schema)>)
 
-    - `id: optional string`
+##### Q uery ParametersExpand Collapse
 
-      Unique identifier for the version.
+deployable: optional boolean
 
-    - `metadata: optional object { author_email, author_id, created_on, 3 more }`
+Only return versions that can be used in a deployment. Ignores pagination.
 
-      - `author_email: optional string`
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20deployable%20%3E%20(schema)>)
 
-        Email of the user who created the version.
+page: optional number
 
-      - `author_id: optional string`
+Current page.
 
-        Identifier of the user who created the version.
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-      - `created_on: optional string`
+per\_page: optional number
 
-        When the version was created.
+Items per-page.
 
-      - `hasPreview: optional boolean`
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-        Whether the version can be previewed.
+##### ReturnsExpand Collapse
 
-      - `modified_on: optional string`
+<details>
 
-        When the version was last modified.
+<summary>
 
-      - `source: optional "unknown" or "api" or "wrangler" or 8 more`
+errors: array of object {code, message, documentation\_url, source }
 
-        The source of the version upload.
+</summary>
 
-        - `"unknown"`
+code: number
 
-        - `"api"`
+minimum1000
 
-        - `"wrangler"`
+<a href="#">Link to this property</a>
 
-        - `"terraform"`
+message: string
 
-        - `"dash"`
+<a href="#">Link to this property</a>
 
-        - `"cf_cli"`
+documentation\_url: optional string
 
-        - `"dash_template"`
+<a href="#">Link to this property</a>
 
-        - `"integration"`
+<details>
 
-        - `"quick_editor"`
+<summary>
 
-        - `"playground"`
+source: optional object {pointer }
 
-        - `"workersci"`
+</summary>
 
-    - `number: optional number`
+pointer: optional string
 
-      Sequential version number.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-```http
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {items }
+
+</summary>
+
+<details>
+
+<summary>
+
+items: optional array of object {id, metadata, number }
+
+</summary>
+
+id: optional string
+
+Unique identifier for the version.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+metadata: optional object {author\_email, author\_id, created\_on, 3 more }
+
+</summary>
+
+author\_email: optional string
+
+Email of the user who created the version.
+
+<a href="#">Link to this property</a>
+
+author\_id: optional string
+
+Identifier of the user who created the version.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+When the version was created.
+
+<a href="#">Link to this property</a>
+
+hasPreview: optional boolean
+
+Whether the version can be previewed.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+When the version was last modified.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional "unknown"or "api"or "wrangler"or 8 more
+
+The source of the version upload.
+
+</summary>
+
+One of the following:
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+"api"
+
+<a href="#">Link to this property</a>
+
+"wrangler"
+
+<a href="#">Link to this property</a>
+
+"terraform"
+
+<a href="#">Link to this property</a>
+
+"dash"
+
+<a href="#">Link to this property</a>
+
+"cf\_cli"
+
+<a href="#">Link to this property</a>
+
+"dash\_template"
+
+<a href="#">Link to this property</a>
+
+"integration"
+
+<a href="#">Link to this property</a>
+
+"quick\_editor"
+
+<a href="#">Link to this property</a>
+
+"playground"
+
+<a href="#">Link to this property</a>
+
+"workersci"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+number: optional number
+
+Sequential version number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers.scripts.versions%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Versions
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/versions \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "items": [
+      {
+        "id": "18f97339-c287-4872-9bdd-e2135c07ec12",
+        "metadata": {
+          "author_email": "user@example.com",
+          "author_id": "408cbcdfd4dda4617efef40b04d168a1",
+          "created_on": "2022-11-08T17:19:29.176266Z",
+          "hasPreview": true,
+          "modified_on": "2022-11-08T17:19:29.176266Z",
+          "source": "api"
+        },
+        "number": 1
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

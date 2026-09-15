@@ -1,118 +1,359 @@
-## Get Email Routing settings
+---
+title: Get Email Routing settings
+---
 
-**get** `/zones/{zone_id}/email/routing`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Email Routing settings
+
+GET/zones/{zone\_id}/email/routing
 
 Get information about the settings for your Email Routing zone.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Returns
+**Example:**`X-Auth-Email: user@example.com`
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Zone Settings Write``Zone Settings Read`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+zone\_id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20email_routing%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### ReturnsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+errors: array of object {code, message, documentation\_url, source }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+code: number
 
-- `result: optional Settings`
+minimum1000
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Email Routing settings identifier.
+message: string
 
-  - `enabled: true or false`
+<a href="#">Link to this property</a>
 
-    State of the zone settings for Email Routing.
+documentation\_url: optional string
 
-    - `true`
+<a href="#">Link to this property</a>
 
-    - `false`
+<details>
 
-  - `name: string`
+<summary>
 
-    Domain of your zone.
+source: optional object {pointer }
 
-  - `created: optional string`
+</summary>
 
-    The date and time the settings have been created.
+pointer: optional string
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the settings have been modified.
+</details>
 
-  - `skip_wizard: optional true or false`
+<a href="#">Link to this property</a>
 
-    Flag to check if the user skipped the configuration wizard.
+</details>
 
-    - `true`
+[Link to this property](#)%20email_routing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `false`
+<details>
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+<summary>
 
-    Show the state of your account, and the type or configuration error.
+messages: array of object {code, message, documentation\_url, source }
 
-    - `"ready"`
+</summary>
 
-    - `"unconfigured"`
+code: number
 
-    - `"misconfigured"`
+minimum1000
 
-    - `"misconfigured/locked"`
+<a href="#">Link to this property</a>
 
-    - `"unlocked"`
+message: string
 
-  - `support_subaddress: optional true or false`
+<a href="#">Link to this property</a>
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+documentation\_url: optional string
 
-    - `true`
+<a href="#">Link to this property</a>
 
-    - `false`
+<details>
 
-  - `tag: optional string`
+<summary>
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+source: optional object {pointer }
 
-### Example
+</summary>
 
-```http
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_routing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing%20%3E%20(model)%20settings%20%3E%20(schema)">Settings</a> { id, enabled, name, 6 more }
+
+</summary>
+
+id: string
+
+Email Routing settings identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enabled: trueor false
+
+State of the zone settings for Email Routing.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Domain of your zone.
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+The date and time the settings have been created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified: optional string
+
+The date and time the settings have been modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+skip\_wizard: optional trueor false
+
+Flag to check if the user skipped the configuration wizard.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "ready"or "unconfigured"or "misconfigured"or 2 more
+
+Show the state of your account, and the type or configuration error.
+
+</summary>
+
+One of the following:
+
+"ready"
+
+<a href="#">Link to this property</a>
+
+"unconfigured"
+
+<a href="#">Link to this property</a>
+
+"misconfigured"
+
+<a href="#">Link to this property</a>
+
+"misconfigured/locked"
+
+<a href="#">Link to this property</a>
+
+"unlocked"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+support\_subaddress: optional trueor false
+
+Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedtag: optional string
+
+Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get Email Routing settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "75610dab9e69410a82cf7e400a09ecec",
+    "enabled": true,
+    "name": "example.net",
+    "created": "2014-01-02T02:20:00Z",
+    "modified": "2014-01-02T02:20:00Z",
+    "skip_wizard": true,
+    "status": "ready",
+    "support_subaddress": true,
+    "tag": "75610dab9e69410a82cf7e400a09ecec"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

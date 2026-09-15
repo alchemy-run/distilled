@@ -1,512 +1,115 @@
+---
+title: Control
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Logs](https://developers.cloudflare.com/api/resources/logs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Control
 
-# Retention
+#### ControlRetention
 
-## Get log retention flag
+##### [Get log retention flag](https://developers.cloudflare.com/api/resources/logs/subresources/control/subresources/retention/methods/get)
 
-**get** `/zones/{zone_id}/logs/control/retention/flag`
+GET/zones/{zone\_id}/logs/control/retention/flag
 
-Gets log retention flag for Logpull API.
+##### [Update log retention flag](https://developers.cloudflare.com/api/resources/logs/subresources/control/subresources/retention/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/logs/control/retention/flag
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+RetentionGetResponse object {flag }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+flag: optional boolean
 
-  - `documentation_url: optional string`
+The log retention flag for Logpull API.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20logs.control.retention%20%3E%20(model)%20retention_get_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+RetentionCreateResponse object {flag }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+flag: optional boolean
 
-- `success: true`
+The log retention flag for Logpull API.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { flag }`
+[Link to this property](#)%20logs.control.retention%20%3E%20(model)%20retention_create_response%20%3E%20(schema)>)
 
-  - `flag: optional boolean`
+#### ControlCmb
 
-    The log retention flag for Logpull API.
+#### ControlCmbConfig
 
-### Example
+##### [Get CMB config](https://developers.cloudflare.com/api/resources/logs/subresources/control/subresources/cmb/subresources/config/methods/get)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/logs/control/retention/flag \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+GET/accounts/{account\_id}/logs/control/cmb/config
 
-#### Response
+##### [Update CMB config](https://developers.cloudflare.com/api/resources/logs/subresources/control/subresources/cmb/subresources/config/methods/create)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "flag": true
-  }
-}
-```
+POST/accounts/{account\_id}/logs/control/cmb/config
 
-## Update log retention flag
+##### [Delete CMB config](https://developers.cloudflare.com/api/resources/logs/subresources/control/subresources/cmb/subresources/config/methods/delete)
 
-**post** `/zones/{zone_id}/logs/control/retention/flag`
+DELETE/accounts/{account\_id}/logs/control/cmb/config
 
-Updates log retention flag for Logpull API.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+CmbConfig object {allow\_out\_of\_region\_access, regions }
 
-### Body Parameters
+</summary>
 
-- `flag: optional boolean`
+allow\_out\_of\_region\_access: optional boolean
 
-  The log retention flag for Logpull API.
+Allow out of region access
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+regions: optional string
 
-  - `code: number`
+Name of the region.
 
-  - `message: string`
+maxLength256
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20logs.control.cmb.config%20%3E%20(model)%20cmb_config%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+ConfigDeleteResponse = unknown
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { flag }`
-
-  - `flag: optional boolean`
-
-    The log retention flag for Logpull API.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/logs/control/retention/flag \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "flag": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "flag": true
-  }
-}
-```
-
-## Domain Types
-
-### Retention Get Response
-
-- `RetentionGetResponse object { flag }`
-
-  - `flag: optional boolean`
-
-    The log retention flag for Logpull API.
-
-### Retention Create Response
-
-- `RetentionCreateResponse object { flag }`
-
-  - `flag: optional boolean`
-
-    The log retention flag for Logpull API.
-
-# Cmb
-
-# Config
-
-## Get CMB config
-
-**get** `/accounts/{account_id}/logs/control/cmb/config`
-
-Gets CMB config.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CmbConfig`
-
-  - `allow_out_of_region_access: optional boolean`
-
-    Allow out of region access
-
-  - `regions: optional string`
-
-    Name of the region.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/logs/control/cmb/config \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allow_out_of_region_access": false,
-    "regions": "eu"
-  }
-}
-```
-
-## Update CMB config
-
-**post** `/accounts/{account_id}/logs/control/cmb/config`
-
-Updates CMB config.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `allow_out_of_region_access: optional boolean`
-
-  Allow out of region access
-
-- `regions: optional string`
-
-  Name of the region.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CmbConfig`
-
-  - `allow_out_of_region_access: optional boolean`
-
-    Allow out of region access
-
-  - `regions: optional string`
-
-    Name of the region.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/logs/control/cmb/config \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "regions": "eu"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allow_out_of_region_access": false,
-    "regions": "eu"
-  }
-}
-```
-
-## Delete CMB config
-
-**delete** `/accounts/{account_id}/logs/control/cmb/config`
-
-Deletes CMB config.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/logs/control/cmb/config \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Cmb Config
-
-- `CmbConfig object { allow_out_of_region_access, regions }`
-
-  - `allow_out_of_region_access: optional boolean`
-
-    Allow out of region access
-
-  - `regions: optional string`
-
-    Name of the region.
-
-### Config Delete Response
-
-- `ConfigDeleteResponse = unknown`
+[Link to this property](#)%20logs.control.cmb.config%20%3E%20(model)%20config_delete_response%20%3E%20(schema)>)

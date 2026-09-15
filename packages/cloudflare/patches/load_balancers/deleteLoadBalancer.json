@@ -1,14 +1,14 @@
 {
-  "description": "Align load_balancers#Delete with distilled cloudflare/load-balancers deleteLoadBalancer",
+  "description": "Align load_balancers#Delete with distilled cloudflare/load-balancers deleteLoadBalancer: the docs now offer this endpoint under both /zones and /accounts; keep the zone-scope operation the SDK already ships and drop the account twin (its per-scope copies fold back into the shared shapes).",
   "patches": [
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#Delete",
+      "from": "/shapes/com.cloudflare.load_balancers#DeleteForZone",
       "path": "/shapes/com.cloudflare.load_balancers#DeleteLoadBalancer"
     },
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#DeleteRequest",
+      "from": "/shapes/com.cloudflare.load_balancers#DeleteForZoneRequest",
       "path": "/shapes/com.cloudflare.load_balancers#DeleteLoadBalancerRequest"
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#DeleteResponse",
+      "from": "/shapes/com.cloudflare.load_balancers#DeleteForZoneResponse",
       "path": "/shapes/com.cloudflare.load_balancers#DeleteLoadBalancerResponse"
     },
     {
@@ -37,6 +37,18 @@
           "target": "com.cloudflare.load_balancers#Forbidden"
         }
       ]
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#DeleteForAccount"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#DeleteForAccountRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#DeleteForAccountResponse"
     }
   ]
 }

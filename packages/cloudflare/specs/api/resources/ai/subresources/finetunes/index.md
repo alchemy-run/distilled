@@ -1,293 +1,195 @@
+---
+title: Finetunes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Finetunes
 
-## List Finetunes
+##### [List Finetunes](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes/methods/list)
 
-**get** `/accounts/{account_id}/ai/finetunes`
+GET/accounts/{account\_id}/ai/finetunes
 
-Lists all fine-tuning jobs created by the account, including status and metrics.
+##### [Create a new Finetune](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/ai/finetunes
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `result: object { id, created_at, model, 3 more }`
+<summary>
 
-  - `id: string`
+FinetuneListResponse object {id, created\_at, model, 3 more }
 
-  - `created_at: string`
+</summary>
 
-  - `model: string`
+id: string
 
-  - `modified_at: string`
+formatuuid
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+created\_at: string
 
-- `success: boolean`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+model: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "model": "model",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "description": "description"
-  },
-  "success": true
-}
-```
+modified\_at: string
 
-## Create a new Finetune
+formatdate-time
 
-**post** `/accounts/{account_id}/ai/finetunes`
+<a href="#">Link to this property</a>
 
-Creates a new fine-tuning job for a Workers AI model using custom training data.
+name: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `model: string`
+</details>
 
-- `name: string`
+[Link to this property](#)%20ai.finetunes%20%3E%20(model)%20finetune_list_response%20%3E%20(schema)>)
 
-- `description: optional string`
+<details>
 
-- `public: optional boolean`
+<summary>
 
-### Returns
+FinetuneCreateResponse object {id, created\_at, model, 4 more }
 
-- `result: object { id, created_at, model, 4 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-  - `created_at: string`
+formatuuid
 
-  - `model: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+created\_at: string
 
-  - `name: string`
+formatdate-time
 
-  - `public: boolean`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+model: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+modified\_at: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "model": "model",
-          "name": "name"
-        }'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "model": "model",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "public": true,
-    "description": "description"
-  },
-  "success": true
-}
-```
+name: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Finetune List Response
+public: boolean
 
-- `FinetuneListResponse object { id, created_at, model, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+description: optional string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `model: string`
+</details>
 
-  - `modified_at: string`
+[Link to this property](#)%20ai.finetunes%20%3E%20(model)%20finetune_create_response%20%3E%20(schema)>)
 
-  - `name: string`
+#### FinetunesAssets
 
-  - `description: optional string`
+##### [Upload a Finetune Asset](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes/subresources/assets/methods/create)
 
-### Finetune Create Response
+POST/accounts/{account\_id}/ai/finetunes/{finetune\_id}/finetune-assets
 
-- `FinetuneCreateResponse object { id, created_at, model, 4 more }`
+##### ModelsExpand Collapse
 
-  - `id: string`
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `model: string`
+AssetCreateResponse object {success }
 
-  - `modified_at: string`
+</summary>
 
-  - `name: string`
+success: boolean
 
-  - `public: boolean`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-# Assets
+[Link to this property](#)%20ai.finetunes.assets%20%3E%20(model)%20asset_create_response%20%3E%20(schema)>)
 
-## Upload a Finetune Asset
+#### FinetunesPublic
 
-**post** `/accounts/{account_id}/ai/finetunes/{finetune_id}/finetune-assets`
+##### [List Public Finetunes](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes/subresources/public/methods/list)
 
-Uploads training data assets for a Workers AI fine-tuning job.
+GET/accounts/{account\_id}/ai/finetunes/public
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-- `finetune_id: string`
+<summary>
 
-### Returns
+PublicListResponse object {id, created\_at, model, 4 more }
 
-- `success: boolean`
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes/$FINETUNE_ID/finetune-assets \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'file=@/path/to/file' \
-    -F file_name=file_name
-```
+formatuuid
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "success": true
-}
-```
+created\_at: string
 
-## Domain Types
+formatdate-time
 
-### Asset Create Response
+<a href="#">Link to this property</a>
 
-- `AssetCreateResponse object { success }`
+model: string
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-# Public
+modified\_at: string
 
-## List Public Finetunes
+formatdate-time
 
-**get** `/accounts/{account_id}/ai/finetunes/public`
+<a href="#">Link to this property</a>
 
-Lists publicly available fine-tuned models that can be used with Workers AI.
+name: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+public: boolean
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+description: optional string
 
-  Pagination Limit
+<a href="#">Link to this property</a>
 
-- `offset: optional number`
+</details>
 
-  Pagination Offset
-
-- `orderBy: optional string`
-
-  Order By Column Name
-
-### Returns
-
-- `result: array of object { id, created_at, model, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `model: string`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `public: boolean`
-
-  - `description: optional string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes/public \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "model": "model",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "public": true,
-      "description": "description"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Public List Response
-
-- `PublicListResponse object { id, created_at, model, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `model: string`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `public: boolean`
-
-  - `description: optional string`
+[Link to this property](#)%20ai.finetunes.public%20%3E%20(model)%20public_list_response%20%3E%20(schema)>)

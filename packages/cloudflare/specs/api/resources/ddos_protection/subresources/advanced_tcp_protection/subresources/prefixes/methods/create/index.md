@@ -1,90 +1,246 @@
-## Create prefix.
+---
+title: Create prefix.
+---
 
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create prefix.
+
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes
 
 Create a prefix for an account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `comment: string`
 
-  A comment describing the prefix.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `excluded: boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Whether to exclude the prefix from protection.
+</details>
 
-- `prefix: string`
+<details>
 
-  The prefix to add in CIDR format.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`DDoS Protection Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `success: true`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+##### Body ParametersJSONExpand Collapse
 
-  - `true`
+comment: string
 
-- `result: optional object { id, comment, created_on, 3 more }`
+A comment describing the prefix.
 
-  - `id: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20comment%20%3E%20(schema)>)
 
-    The unique ID of the prefix.
+excluded: boolean
 
-  - `comment: string`
+Whether to exclude the prefix from protection.
 
-    A comment describing the prefix.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20excluded%20%3E%20(schema)>)
 
-  - `created_on: string`
+prefix: string
 
-    The creation timestamp of the prefix.
+The prefix to add in CIDR format.
 
-  - `excluded: boolean`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20prefix%20%3E%20(schema)>)
 
-    Whether to exclude the prefix from protection.
+##### ReturnsExpand Collapse
 
-  - `modified_on: string`
+<details>
 
-    The last modification timestamp of the prefix.
+<summary>
 
-  - `prefix: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    The prefix in CIDR format.
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, comment, created\_on, 3 more }
+
+</summary>
+
+id: string
+
+The unique ID of the prefix.
+
+<a href="#">Link to this property</a>
+
+comment: string
+
+A comment describing the prefix.
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The creation timestamp of the prefix.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+excluded: boolean
+
+Whether to exclude the prefix from protection.
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The last modification timestamp of the prefix.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+The prefix in CIDR format.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create prefix.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -95,9 +251,47 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tc
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "id",
+    "comment": "comment",
+    "created_on": "2019-12-27T18:11:19.117Z",
+    "excluded": true,
+    "modified_on": "2019-12-27T18:11:19.117Z",
+    "prefix": "192.0.2.0/24"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

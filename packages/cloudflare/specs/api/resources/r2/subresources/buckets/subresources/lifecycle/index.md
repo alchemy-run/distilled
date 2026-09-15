@@ -1,485 +1,283 @@
+---
+title: Lifecycle
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Lifecycle
 
-## Get Object Lifecycle Rules
+##### [Get Object Lifecycle Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/lifecycle/methods/get)
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/lifecycle`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/lifecycle
 
-Get object lifecycle rules for a bucket.
+##### [Put Object Lifecycle Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/lifecycle/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/lifecycle
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account ID.
+<details>
 
-- `bucket_name: string`
+<summary>
 
-  Name of the bucket.
+LifecycleGetResponse object {rules }
 
-### Header Parameters
+</summary>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<summary>
 
-  - `"default"`
+rules: optional array of object {id, conditions, enabled, 3 more }
 
-  - `"eu"`
+</summary>
 
-  - `"fedramp"`
+id: string
 
-### Returns
+Unique identifier for this rule.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+conditions: object {prefix }
 
-  - `source: optional object { pointer }`
+Conditions that apply to all transitions of this rule.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of string`
+prefix: string
 
-- `result: object { rules }`
+Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
 
-  - `rules: optional array of object { id, conditions, enabled, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Unique identifier for this rule.
+<a href="#">Link to this property</a>
 
-    - `conditions: object { prefix }`
+enabled: boolean
 
-      Conditions that apply to all transitions of this rule.
+Whether or not this rule is in effect.
 
-      - `prefix: string`
+<a href="#">Link to this property</a>
 
-        Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Whether or not this rule is in effect.
+abortMultipartUploadsTransition: optional object {condition }
 
-    - `abortMultipartUploadsTransition: optional object { condition }`
+Transition to abort ongoing multipart uploads.
 
-      Transition to abort ongoing multipart uploads.
+</summary>
 
-      - `condition: optional object { maxAge, type }`
+<details>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<summary>
 
-        - `maxAge: number`
+condition: optional object {maxAge, type }
 
-        - `type: "Age"`
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-          - `"Age"`
+</summary>
 
-    - `deleteObjectsTransition: optional object { condition }`
+maxAge: number
 
-      Transition to delete objects.
+<a href="#">Link to this property</a>
 
-      - `condition: optional object { maxAge, type }  or object { date, type }`
+type: "Age"
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-        - `R2LifecycleAgeCondition object { maxAge, type }`
+</details>
 
-          Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-          - `maxAge: number`
+</details>
 
-          - `type: "Age"`
+<a href="#">Link to this property</a>
 
-            - `"Age"`
+<details>
 
-        - `R2LifecycleDateCondition object { date, type }`
+<summary>
 
-          Condition for lifecycle transitions to apply on a specific date.
+deleteObjectsTransition: optional object {condition }
 
-          - `date: string`
-
-          - `type: "Date"`
-
-            - `"Date"`
-
-    - `storageClassTransitions: optional array of object { condition, storageClass }`
+Transition to delete objects.
 
-      Transitions to change the storage class of objects.
+</summary>
 
-      - `condition: object { maxAge, type }  or object { date, type }`
+<details>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<summary>
 
-        - `R2LifecycleAgeCondition object { maxAge, type }`
+condition: optional object {maxAge, type } or object {date, type }
 
-          Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-          - `maxAge: number`
+</summary>
 
-          - `type: "Age"`
+One of the following:
 
-            - `"Age"`
+<details>
 
-        - `R2LifecycleDateCondition object { date, type }`
+<summary>
 
-          Condition for lifecycle transitions to apply on a specific date.
+R2LifecycleAgeCondition object {maxAge, type }
 
-          - `date: string`
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-          - `type: "Date"`
+</summary>
 
-            - `"Date"`
+maxAge: number
 
-      - `storageClass: "InfrequentAccess"`
+<a href="#">Link to this property</a>
 
-        - `"InfrequentAccess"`
+type: "Age"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/lifecycle \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+R2LifecycleDateCondition object {date, type }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "rules": [
-      {
-        "id": "Expire all objects older than 24 hours",
-        "conditions": {
-          "prefix": "prefix"
-        },
-        "enabled": true,
-        "abortMultipartUploadsTransition": {
-          "condition": {
-            "maxAge": 0,
-            "type": "Age"
-          }
-        },
-        "deleteObjectsTransition": {
-          "condition": {
-            "maxAge": 0,
-            "type": "Age"
-          }
-        },
-        "storageClassTransitions": [
-          {
-            "condition": {
-              "maxAge": 0,
-              "type": "Age"
-            },
-            "storageClass": "InfrequentAccess"
-          }
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
+Condition for lifecycle transitions to apply on a specific date.
 
-## Put Object Lifecycle Rules
+</summary>
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/lifecycle`
+date: string
 
-Set the object lifecycle rules for a bucket.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+type: "Date"
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+</details>
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+</details>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+</details>
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"eu"`
+<details>
 
-  - `"fedramp"`
+<summary>
 
-### Body Parameters
+storageClassTransitions: optional array of object {condition, storageClass }
 
-- `rules: optional array of object { id, conditions, enabled, 3 more }`
+Transitions to change the storage class of objects.
 
-  - `id: string`
+</summary>
 
-    Unique identifier for this rule.
+<details>
 
-  - `conditions: object { prefix }`
+<summary>
 
-    Conditions that apply to all transitions of this rule.
+condition: object {maxAge, type } or object {date, type }
 
-    - `prefix: string`
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-      Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
+</summary>
 
-  - `enabled: boolean`
+One of the following:
 
-    Whether or not this rule is in effect.
+<details>
 
-  - `abortMultipartUploadsTransition: optional object { condition }`
+<summary>
 
-    Transition to abort ongoing multipart uploads.
+R2LifecycleAgeCondition object {maxAge, type }
 
-    - `condition: optional object { maxAge, type }`
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-      Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+</summary>
 
-      - `maxAge: number`
+maxAge: number
 
-      - `type: "Age"`
+<a href="#">Link to this property</a>
 
-        - `"Age"`
+type: "Age"
 
-  - `deleteObjectsTransition: optional object { condition }`
+<a href="#">Link to this property</a>
 
-    Transition to delete objects.
+</details>
 
-    - `condition: optional object { maxAge, type }  or object { date, type }`
+<a href="#">Link to this property</a>
 
-      Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<details>
 
-      - `R2LifecycleAgeCondition object { maxAge, type }`
+<summary>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+R2LifecycleDateCondition object {date, type }
 
-        - `maxAge: number`
+Condition for lifecycle transitions to apply on a specific date.
 
-        - `type: "Age"`
+</summary>
 
-          - `"Age"`
+date: string
 
-      - `R2LifecycleDateCondition object { date, type }`
+formatdate-time
 
-        Condition for lifecycle transitions to apply on a specific date.
+<a href="#">Link to this property</a>
 
-        - `date: string`
+type: "Date"
 
-        - `type: "Date"`
+<a href="#">Link to this property</a>
 
-          - `"Date"`
+</details>
 
-  - `storageClassTransitions: optional array of object { condition, storageClass }`
+<a href="#">Link to this property</a>
 
-    Transitions to change the storage class of objects.
+</details>
 
-    - `condition: object { maxAge, type }  or object { date, type }`
+<a href="#">Link to this property</a>
 
-      Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+storageClass: "InfrequentAccess"
 
-      - `R2LifecycleAgeCondition object { maxAge, type }`
+<a href="#">Link to this property</a>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+</details>
 
-        - `maxAge: number`
+<a href="#">Link to this property</a>
 
-        - `type: "Age"`
+</details>
 
-          - `"Age"`
+<a href="#">Link to this property</a>
 
-      - `R2LifecycleDateCondition object { date, type }`
+</details>
 
-        Condition for lifecycle transitions to apply on a specific date.
+[Link to this property](#)%20r2.buckets.lifecycle%20%3E%20(model)%20lifecycle_get_response%20%3E%20(schema)>)
 
-        - `date: string`
+LifecycleUpdateResponse = unknown
 
-        - `type: "Date"`
-
-          - `"Date"`
-
-    - `storageClass: "InfrequentAccess"`
-
-      - `"InfrequentAccess"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/lifecycle \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Lifecycle Get Response
-
-- `LifecycleGetResponse object { rules }`
-
-  - `rules: optional array of object { id, conditions, enabled, 3 more }`
-
-    - `id: string`
-
-      Unique identifier for this rule.
-
-    - `conditions: object { prefix }`
-
-      Conditions that apply to all transitions of this rule.
-
-      - `prefix: string`
-
-        Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
-
-    - `enabled: boolean`
-
-      Whether or not this rule is in effect.
-
-    - `abortMultipartUploadsTransition: optional object { condition }`
-
-      Transition to abort ongoing multipart uploads.
-
-      - `condition: optional object { maxAge, type }`
-
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
-
-        - `maxAge: number`
-
-        - `type: "Age"`
-
-          - `"Age"`
-
-    - `deleteObjectsTransition: optional object { condition }`
-
-      Transition to delete objects.
-
-      - `condition: optional object { maxAge, type }  or object { date, type }`
-
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
-
-        - `R2LifecycleAgeCondition object { maxAge, type }`
-
-          Condition for lifecycle transitions to apply after an object reaches an age in seconds.
-
-          - `maxAge: number`
-
-          - `type: "Age"`
-
-            - `"Age"`
-
-        - `R2LifecycleDateCondition object { date, type }`
-
-          Condition for lifecycle transitions to apply on a specific date.
-
-          - `date: string`
-
-          - `type: "Date"`
-
-            - `"Date"`
-
-    - `storageClassTransitions: optional array of object { condition, storageClass }`
-
-      Transitions to change the storage class of objects.
-
-      - `condition: object { maxAge, type }  or object { date, type }`
-
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
-
-        - `R2LifecycleAgeCondition object { maxAge, type }`
-
-          Condition for lifecycle transitions to apply after an object reaches an age in seconds.
-
-          - `maxAge: number`
-
-          - `type: "Age"`
-
-            - `"Age"`
-
-        - `R2LifecycleDateCondition object { date, type }`
-
-          Condition for lifecycle transitions to apply on a specific date.
-
-          - `date: string`
-
-          - `type: "Date"`
-
-            - `"Date"`
-
-      - `storageClass: "InfrequentAccess"`
-
-        - `"InfrequentAccess"`
-
-### Lifecycle Update Response
-
-- `LifecycleUpdateResponse = unknown`
+[Link to this property](#)%20r2.buckets.lifecycle%20%3E%20(model)%20lifecycle_update_response%20%3E%20(schema)>)

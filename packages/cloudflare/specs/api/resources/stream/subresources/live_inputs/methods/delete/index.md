@@ -1,29 +1,103 @@
-## Delete a live input
+---
+title: Delete a live input
+---
 
-**delete** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}`
+[Skip to content](#_top)
 
-Prevents a live input from being streamed to and makes the live input inaccessible to any future API calls.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Stream](https://developers.cloudflare.com/api/resources/stream)
 
-- `account_id: string`
+[Live Inputs](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs)
 
-  Identifier.
+Copy Markdown
 
-- `live_input_identifier: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  A unique identifier for a live input.
+---
 
-### Example
+**Copy Markdown****View as Markdown**
 
-```http
+# Delete a live input
+
+DELETE/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}
+
+Permanently delete a live input, making it inaccessible and blocking current and future broadcasts to it. Existing recordings will be retained.
+
+##### Security
+
+<details>
+
+<summary>API Token</summary>
+
+
+
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
+
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
+
+</details>
+
+<details>
+
+<summary>API Email + API Key</summary>
+
+
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Stream Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Identifier.
+
+maxLength32
+
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+live\_input\_identifier: string
+
+A unique identifier for a live input.
+
+maxLength32
+
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20live_input_identifier%20%3E%20(schema)>)
+
+### Delete a live input
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {}
 ```

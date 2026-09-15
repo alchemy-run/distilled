@@ -1,389 +1,141 @@
+---
+title: V2
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Images](https://developers.cloudflare.com/api/resources/images)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # V2
 
-## List images V2
+##### [List images V2](https://developers.cloudflare.com/api/resources/images/subresources/v2/methods/list)
 
-**get** `/accounts/{account_id}/images/v2`
+GET/accounts/{account\_id}/images/v2
 
-List up to 10000 images from CF Images, with up to 1000 results per page. Use the optional parameters below to get a specific range of images.
-Pagination is supported via continuation_token.
+##### ModelsExpand Collapse
 
-**Metadata Filtering (Optional):**
+<details>
 
-You can optionally filter images by custom metadata fields using the `meta.<field>[<operator>]=<value>` syntax.
+<summary>
 
-**Supported Operators:**
+V2ListResponse object {continuation\_token, images }
 
-- `eq` / `eq:string` / `eq:number` / `eq:boolean` - Exact match
-- `gt` / `gt:number` - Greater than (number only)
-- `gte` / `gte:number` - Greater than or equal (number only)
-- `lt` / `lt:number` - Less than (number only)
-- `lte` / `lte:number` - Less than or equal (number only)
-- `in` / `in:string` / `in:number` - Match any value in list (pipe-separated)
+</summary>
 
-**Metadata Filter Constraints:**
+continuation\_token: optional string
 
-- Maximum 5 metadata filters per request
-- Maximum 5 levels of nesting (e.g., `meta.first.second.third.fourth.fifth`)
-- Maximum 10 elements for list operators (`in`)
-- Supports string, number, and boolean value types
-- Range operators (`gt`, `gte`, `lt`, `lte`) only accept numeric values
+Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint.
 
-**Filter Consistency:**
-Filters are combined with AND logic. The system does not validate whether filter combinations are logically consistent. For example, `meta.priority[eq:number]=5&meta.priority[lte:number]=3` will return zero results because no value can satisfy both conditions simultaneously. It is the caller's responsibility to ensure filter combinations make sense.
+maxLength32
 
-**Examples:**
+<a href="#">Link to this property</a>
 
-```
-# List all images
-/images/v2
+<details>
 
-# Filter by metadata [eq]
-/images/v2?meta.status[eq:string]=active
+<summary>
 
-# Filter by metadata [in]
-/images/v2?meta.status[in]=pending|deleted|flagged
+images: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1%20%3E%20(model)%20image%20%3E%20(schema)">Image</a> { id, creator, filename, 4 more }
 
-# Filter by metadata [in:number]
-/images/v2?meta.ratings[in:number]=4|5
+</summary>
 
-# Filter by metadata range [gte:number]
-/images/v2?meta.priority[gte:number]=1
+id: optional string
 
-# Filter by bounded range
-/images/v2?meta.priority[gte:number]=1&meta.priority[lte:number]=5
+Image unique identifier.
 
-# Filter by nested metadata
-/images/v2?meta.region.name[eq]=eu-west
+maxLength32
 
-# Combine metadata filters with creator
-/images/v2?meta.status[eq]=active&creator=user123
+<a href="#">Link to this property</a>
 
-# Multiple metadata filters (AND logic)
-/images/v2?meta.status[eq]=active&meta.priority[eq:number]=5
-```
+creator: optional string
 
-### Path Parameters
+Can set the creator field with an internal user ID.
 
-- `account_id: string`
+maxLength1024
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+filename: optional string
 
-- `continuation_token: optional string`
+Image file name.
 
-  Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint.
+maxLength255
 
-- `creator: optional string`
+<a href="#">Link to this property</a>
 
-  Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set
+meta: optional unknown
 
-- `meta: optional object { "<field>[<operator>]" }`
+User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
 
-  - `"<field>[<operator>]": optional string`
+<a href="#">Link to this property</a>
 
-    Optional metadata filter(s). Multiple filters can be combined with AND logic.
+requireSignedURLs: optional boolean
 
-    **Operators:**
+Indicates whether the image can be a accessed only using it’s UID. If set to true, a signed token needs to be generated with a signing key to view the image.
 
-    - `eq`, `eq:string`, `eq:number`, `eq:boolean` - Exact match
-    - `gt`, `gt:number` - Greater than (number only)
-    - `gte`, `gte:number` - Greater than or equal (number only)
-    - `lt`, `lt:number` - Less than (number only)
-    - `lte`, `lte:number` - Less than or equal (number only)
-    - `in`, `in:string`, `in:number` - Match any value in pipe-separated list
+<a href="#">Link to this property</a>
 
-    **Examples:**
+uploaded: optional string
 
-    - `meta.status[eq]=active`
-    - `meta.priority[eq:number]=5`
-    - `meta.enabled[eq:boolean]=true`
-    - `meta.priority[gte:number]=1`
-    - `meta.score[lt:number]=100`
-    - `meta.region[in]=us-east|us-west|eu-west`
+When the media item was uploaded.
 
-    **Note:** Filter consistency is not validated. Contradictory filters (e.g., `meta.priority[eq:number]=5&meta.priority[lte:number]=3`) will return zero results.
+formatdate-time
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of items per page
+variants: optional array of string
 
-- `sort_order: optional "asc" or "desc"`
+Object specifying available variants for an image.
 
-  Sorting order by upload time
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+</details>
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20images.v2%20%3E%20(model)%20v2_list_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### V2Direct Uploads
 
-  - `message: string`
+##### [Create authenticated direct upload URL V2](https://developers.cloudflare.com/api/resources/images/subresources/v2/subresources/direct_uploads/methods/create)
 
-  - `documentation_url: optional string`
+POST/accounts/{account\_id}/images/v2/direct\_upload
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+DirectUploadCreateResponse object {id, uploadURL }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+Image unique identifier.
 
-- `result: object { continuation_token, images }`
+maxLength32
 
-  - `continuation_token: optional string`
+<a href="#">Link to this property</a>
 
-    Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint.
+uploadURL: optional string
 
-  - `images: optional array of Image`
+The URL the unauthenticated upload can be performed to using a single HTTP POST (multipart/form-data) request.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Image unique identifier.
+</details>
 
-    - `creator: optional string`
-
-      Can set the creator field with an internal user ID.
-
-    - `filename: optional string`
-
-      Image file name.
-
-    - `meta: optional unknown`
-
-      User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
-
-    - `requireSignedURLs: optional boolean`
-
-      Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
-
-    - `uploaded: optional string`
-
-      When the media item was uploaded.
-
-    - `variants: optional array of string`
-
-      Object specifying available variants for an image.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v2 \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "continuation_token": "continuation_token",
-    "images": [
-      {
-        "id": "id",
-        "creator": "107b9558-dd06-4bbd-5fef-9c2c16bb7900",
-        "filename": "logo.png",
-        "meta": {
-          "key": "value"
-        },
-        "requireSignedURLs": true,
-        "uploaded": "2014-01-02T02:20:00.123Z",
-        "variants": [
-          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/thumbnail",
-          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/hero",
-          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/original"
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### V2 List Response
-
-- `V2ListResponse object { continuation_token, images }`
-
-  - `continuation_token: optional string`
-
-    Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint.
-
-  - `images: optional array of Image`
-
-    - `id: optional string`
-
-      Image unique identifier.
-
-    - `creator: optional string`
-
-      Can set the creator field with an internal user ID.
-
-    - `filename: optional string`
-
-      Image file name.
-
-    - `meta: optional unknown`
-
-      User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
-
-    - `requireSignedURLs: optional boolean`
-
-      Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
-
-    - `uploaded: optional string`
-
-      When the media item was uploaded.
-
-    - `variants: optional array of string`
-
-      Object specifying available variants for an image.
-
-# Direct Uploads
-
-## Create authenticated direct upload URL V2
-
-**post** `/accounts/{account_id}/images/v2/direct_upload`
-
-Direct uploads allow users to upload images without API keys. A common use case are web apps, client-side applications, or mobile devices where users upload content directly to Cloudflare Images. This method creates a draft record for a future image. It returns an upload URL and an image identifier. To verify if the image itself has been uploaded, send an image details request (accounts/:account_identifier/images/v1/:identifier), and check that the `draft: true` property is not present.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, uploadURL }`
-
-  - `id: optional string`
-
-    Image unique identifier.
-
-  - `uploadURL: optional string`
-
-    The URL the unauthenticated upload can be performed to using a single HTTP POST (multipart/form-data) request.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v2/direct_upload \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F id=this/is/my-customid \
-    -F expiry=2021-01-02T02:20:00Z \
-    -F requireSignedURLs=true
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "uploadURL": "https://upload.imagedelivery.net/FxUufywByo0m2v3xhKSiU8/e22e9e6b-c02b-42fd-c405-6c32af5fe600"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Direct Upload Create Response
-
-- `DirectUploadCreateResponse object { id, uploadURL }`
-
-  - `id: optional string`
-
-    Image unique identifier.
-
-  - `uploadURL: optional string`
-
-    The URL the unauthenticated upload can be performed to using a single HTTP POST (multipart/form-data) request.
+[Link to this property](#)%20images.v2.direct_uploads%20%3E%20(model)%20direct_upload_create_response%20%3E%20(schema)>)

@@ -1,142 +1,121 @@
+---
+title: Accounts
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Tenants](https://developers.cloudflare.com/api/resources/tenants)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Accounts
 
-## List tenant accounts
+##### [List tenant accounts](https://developers.cloudflare.com/api/resources/tenants/subresources/accounts/methods/list)
 
-**get** `/tenants/{tenant_id}/accounts`
+GET/tenants/{tenant\_id}/accounts
 
-List of accounts for the Tenant.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `tenant_id: string`
+<summary>
 
-### Returns
+TenantAccount object {id, created\_on, name, 3 more }
 
-- `errors: array of unknown`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `result: array of TenantAccount`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `created_on: string`
+<summary>
 
-  - `name: string`
+settings: object {abuse\_contact\_email, access\_approval\_expiry, api\_access\_enabled, 3 more }
 
-  - `settings: object { abuse_contact_email, access_approval_expiry, api_access_enabled, 3 more }`
+</summary>
 
-    - `abuse_contact_email: string`
+abuse\_contact\_email: string
 
-    - `access_approval_expiry: string`
+<a href="#">Link to this property</a>
 
-    - `api_access_enabled: boolean`
+access\_approval\_expiry: string
 
-    - `default_nameservers: string`
+formatdate-time
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<a href="#">Link to this property</a>
 
-    - `enforce_twofactor: boolean`
+api\_access\_enabled: boolean
 
-    - `use_account_custom_ns_by_default: boolean`
+<a href="#">Link to this property</a>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+Deprecateddefault\_nameservers: string
 
-  - `type: "standard" or "enterprise"`
+Use <a href="https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings">DNS Settings</a> instead. Deprecated.
 
-    - `"standard"`
+<a href="#">Link to this property</a>
 
-    - `"enterprise"`
+enforce\_twofactor: boolean
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+Deprecateduse\_account\_custom\_ns\_by\_default: boolean
 
-### Example
+Use <a href="https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings">DNS Settings</a> instead. Deprecated.
 
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID/accounts \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "settings": {
-        "abuse_contact_email": "abuse_contact_email",
-        "access_approval_expiry": "2019-12-27T18:11:19.117Z",
-        "api_access_enabled": true,
-        "default_nameservers": "default_nameservers",
-        "enforce_twofactor": true,
-        "use_account_custom_ns_by_default": true
-      },
-      "type": "standard"
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Tenant Account
+<summary>
 
-- `TenantAccount object { id, created_on, name, 2 more }`
+type: "standard"or "enterprise"
 
-  - `id: string`
+</summary>
 
-  - `created_on: string`
+One of the following:
 
-  - `name: string`
+"standard"
 
-  - `settings: object { abuse_contact_email, access_approval_expiry, api_access_enabled, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `abuse_contact_email: string`
+"enterprise"
 
-    - `access_approval_expiry: string`
+<a href="#">Link to this property</a>
 
-    - `api_access_enabled: boolean`
+</details>
 
-    - `default_nameservers: string`
+<a href="#">Link to this property</a>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+tags: optional map\[string]
 
-    - `enforce_twofactor: boolean`
+Account tags, present only when <code>include_tags=true</code> is requested.
 
-    - `use_account_custom_ns_by_default: boolean`
+<a href="#">Link to this property</a>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+</details>
 
-  - `type: "standard" or "enterprise"`
-
-    - `"standard"`
-
-    - `"enterprise"`
+[Link to this property](#)%20tenants.accounts%20%3E%20(model)%20tenant_account%20%3E%20(schema)>)

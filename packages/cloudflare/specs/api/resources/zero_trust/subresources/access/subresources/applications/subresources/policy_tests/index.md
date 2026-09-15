@@ -1,1132 +1,229 @@
+---
+title: Policy Tests
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Policy Tests
 
-## Get the current status of a given Access policy test
+##### [Get the current status of a given Access policy test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/policy_tests/methods/get)
 
-**get** `/accounts/{account_id}/access/policy-tests/{policy_test_id}`
+GET/accounts/{account\_id}/access/policy-tests/{policy\_test\_id}
 
-Fetches the current status of a given Access policy test.
+##### [Start Access policy test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/policy_tests/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/access/policy-tests
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `policy_test_id: string`
+<summary>
 
-  The UUID of the policy test.
+PolicyTestGetResponse object {id, percent\_approved, percent\_blocked, 7 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+The UUID of the policy test.
 
-  - `message: string`
+maxLength64
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+percent\_approved: optional number
 
-    - `pointer: optional string`
+The percentage of (processed) users approved based on policy evaluation results.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+percent\_blocked: optional number
 
-  - `message: string`
+The percentage of (processed) users blocked based on policy evaluation results.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+percent\_errored: optional number
 
-    - `pointer: optional string`
+The percentage of (processed) users errored based on policy evaluation results.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+percent\_users\_processed: optional number
 
-  - `true`
+The percentage of users processed so far (of the entire user base).
 
-- `result: optional object { id, percent_approved, percent_blocked, 7 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    The UUID of the policy test.
+<summary>
 
-  - `percent_approved: optional number`
+status: optional "blocked"or "processing"or "exceeded time"or "complete"
 
-    The percentage of (processed) users approved based on policy evaluation results.
+The status of the policy test.
 
-  - `percent_blocked: optional number`
+</summary>
 
-    The percentage of (processed) users blocked based on policy evaluation results.
+One of the following:
 
-  - `percent_errored: optional number`
+"blocked"
 
-    The percentage of (processed) users errored based on policy evaluation results.
+<a href="#">Link to this property</a>
 
-  - `percent_users_processed: optional number`
+"processing"
 
-    The percentage of users processed so far (of the entire user base).
+<a href="#">Link to this property</a>
 
-  - `status: optional "blocked" or "processing" or "exceeded time" or "complete"`
+"exceeded time"
 
-    The status of the policy test.
+<a href="#">Link to this property</a>
 
-    - `"blocked"`
+"complete"
 
-    - `"processing"`
+<a href="#">Link to this property</a>
 
-    - `"exceeded time"`
+</details>
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-  - `total_users: optional number`
+total\_users: optional number
 
-    The total number of users in the user base.
+The total number of users in the user base.
 
-  - `users_approved: optional number`
+<a href="#">Link to this property</a>
 
-    The number of (processed) users approved based on policy evaluation results.
+users\_approved: optional number
 
-  - `users_blocked: optional number`
+The number of (processed) users approved based on policy evaluation results.
 
-    The number of (processed) users blocked based on policy evaluation results.
+<a href="#">Link to this property</a>
 
-  - `users_errored: optional number`
+users\_blocked: optional number
 
-    The number of (processed) users errored based on policy evaluation results.
+The number of (processed) users blocked based on policy evaluation results.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/policy-tests/$POLICY_TEST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+users\_errored: optional number
 
-#### Response
+The number of (processed) users errored based on policy evaluation results.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f1a8b3c9d4e5f6789a0b1c2d3e4f5678a9b0c1d2e3f4a5b67890c1d2e3f4b5a6",
-    "percent_approved": 25,
-    "percent_blocked": 25,
-    "percent_errored": 25,
-    "percent_users_processed": 50,
-    "status": "complete",
-    "total_users": 20,
-    "users_approved": 5,
-    "users_blocked": 5,
-    "users_errored": 5
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Start Access policy test
+</details>
 
-**post** `/accounts/{account_id}/access/policy-tests`
+[Link to this property](#)%20zero_trust.access.applications.policy_tests%20%3E%20(model)%20policy_test_get_response%20%3E%20(schema)>)
 
-Starts an Access policy test.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+PolicyTestCreateResponse object {id, status }
 
-  Identifier.
+</summary>
 
-### Body Parameters
+id: optional string
 
-- `policies: optional array of object { decision, include, name, 10 more }  or string`
+The UUID of the policy test.
 
-  - `object { decision, include, name, 10 more }`
+maxLength64
 
-    - `decision: Decision`
+<a href="#">Link to this property</a>
 
-      The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.
+status: optional "success"
 
-      - `"allow"`
+The status of the policy test request.
 
-      - `"deny"`
+<a href="#">Link to this property</a>
 
-      - `"non_identity"`
+</details>
 
-      - `"bypass"`
+[Link to this property](#)%20zero_trust.access.applications.policy_tests%20%3E%20(model)%20policy_test_create_response%20%3E%20(schema)>)
 
-    - `include: array of AccessRule`
+#### Policy TestsUsers
 
-      Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules.
+##### [Get an Access policy test users page](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/policy_tests/subresources/users/methods/list)
 
-      - `GroupRule object { group }`
+GET/accounts/{account\_id}/access/policy-tests/{policy\_test\_id}/users
 
-        Matches an Access group.
+##### ModelsExpand Collapse
 
-        - `group: object { id }`
+<details>
 
-          - `id: string`
+<summary>
 
-            The ID of a previously created Access group.
+UserListResponse object {id, email, name, status }
 
-      - `AnyValidServiceTokenRule object { any_valid_service_token }`
+</summary>
 
-        Matches any valid Access Service Token
+id: optional string
 
-        - `any_valid_service_token: object {  }`
+UUID.
 
-          An empty object which matches on all service tokens.
+maxLength36
 
-      - `AccessAuthContextRule object { auth_context }`
+<a href="#">Link to this property</a>
 
-        Matches an Azure Authentication Context.
-        Requires an Azure identity provider.
+email: optional string
 
-        - `auth_context: object { id, ac_id, identity_provider_id }`
+The email of the user.
 
-          - `id: string`
+formatemail
 
-            The ID of an Authentication context.
+<a href="#">Link to this property</a>
 
-          - `ac_id: string`
+name: optional string
 
-            The ACID of an Authentication context.
+The name of the user.
 
-          - `identity_provider_id: string`
+<a href="#">Link to this property</a>
 
-            The ID of your Azure identity provider.
+<details>
 
-      - `AuthenticationMethodRule object { auth_method }`
+<summary>
 
-        Enforce different MFA options
+status: optional "approved"or "blocked"or "error"
 
-        - `auth_method: object { auth_method }`
+Policy evaluation result for an individual user.
 
-          - `auth_method: string`
+</summary>
 
-            The type of authentication method https://datatracker.ietf.org/doc/html/rfc8176#section-2.
+One of the following:
 
-      - `AzureGroupRule object { azureAD }`
+"approved"
 
-        Matches an Azure group.
-        Requires an Azure identity provider.
+<a href="#">Link to this property</a>
 
-        - `azureAD: object { id, identity_provider_id }`
+"blocked"
 
-          - `id: string`
+<a href="#">Link to this property</a>
 
-            The ID of an Azure group.
+"error"
 
-          - `identity_provider_id: string`
+<a href="#">Link to this property</a>
 
-            The ID of your Azure identity provider.
+</details>
 
-      - `CertificateRule object { certificate }`
+<a href="#">Link to this property</a>
 
-        Matches any valid client certificate.
+</details>
 
-        - `certificate: object {  }`
-
-      - `AccessCommonNameRule object { common_name }`
-
-        Matches a specific common name.
-
-        - `common_name: object { common_name }`
-
-          - `common_name: string`
-
-            The common name to match.
-
-      - `CountryRule object { geo }`
-
-        Matches a specific country
-
-        - `geo: object { country_code }`
-
-          - `country_code: string`
-
-            The country code that should be matched.
-
-      - `AccessDevicePostureRule object { device_posture }`
-
-        Enforces a device posture rule has run successfully
-
-        - `device_posture: object { integration_uid }`
-
-          - `integration_uid: string`
-
-            The ID of a device posture integration.
-
-      - `DomainRule object { email_domain }`
-
-        Match an entire email domain.
-
-        - `email_domain: object { domain }`
-
-          - `domain: string`
-
-            The email domain to match.
-
-      - `EmailListRule object { email_list }`
-
-        Matches an email address from a list.
-
-        - `email_list: object { id }`
-
-          - `id: string`
-
-            The ID of a previously created email list.
-
-      - `EmailRule object { email }`
-
-        Matches a specific email.
-
-        - `email: object { email }`
-
-          - `email: string`
-
-            The email of the user.
-
-      - `EveryoneRule object { everyone }`
-
-        Matches everyone.
-
-        - `everyone: object {  }`
-
-          An empty object which matches on all users.
-
-      - `ExternalEvaluationRule object { external_evaluation }`
-
-        Create Allow or Block policies which evaluate the user based on custom criteria.
-
-        - `external_evaluation: object { evaluate_url, keys_url }`
-
-          - `evaluate_url: string`
-
-            The API endpoint containing your business logic.
-
-          - `keys_url: string`
-
-            The API endpoint containing the key that Access uses to verify that the response came from your API.
-
-      - `GitHubOrganizationRule object { "github-organization" }`
-
-        Matches a Github organization.
-        Requires a Github identity provider.
-
-        - `"github-organization": object { identity_provider_id, name, team }`
-
-          - `identity_provider_id: string`
-
-            The ID of your Github identity provider.
-
-          - `name: string`
-
-            The name of the organization.
-
-          - `team: optional string`
-
-            The name of the team
-
-      - `GSuiteGroupRule object { gsuite }`
-
-        Matches a group in Google Workspace.
-        Requires a Google Workspace identity provider.
-
-        - `gsuite: object { email, identity_provider_id }`
-
-          - `email: string`
-
-            The email of the Google Workspace group.
-
-          - `identity_provider_id: string`
-
-            The ID of your Google Workspace identity provider.
-
-      - `AccessLoginMethodRule object { login_method }`
-
-        Matches a specific identity provider id.
-
-        - `login_method: object { id }`
-
-          - `id: string`
-
-            The ID of an identity provider.
-
-      - `IPListRule object { ip_list }`
-
-        Matches an IP address from a list.
-
-        - `ip_list: object { id }`
-
-          - `id: string`
-
-            The ID of a previously created IP list.
-
-      - `IPRule object { ip }`
-
-        Matches an IP address block.
-
-        - `ip: object { ip }`
-
-          - `ip: string`
-
-            An IPv4 or IPv6 CIDR block.
-
-      - `OktaGroupRule object { okta }`
-
-        Matches an Okta group.
-        Requires an Okta identity provider.
-
-        - `okta: object { identity_provider_id, name }`
-
-          - `identity_provider_id: string`
-
-            The ID of your Okta identity provider.
-
-          - `name: string`
-
-            The name of the Okta group.
-
-      - `SAMLGroupRule object { saml }`
-
-        Matches a SAML group.
-        Requires a SAML identity provider.
-
-        - `saml: object { attribute_name, attribute_value, identity_provider_id }`
-
-          - `attribute_name: string`
-
-            The name of the SAML attribute.
-
-          - `attribute_value: string`
-
-            The SAML attribute value to look for.
-
-          - `identity_provider_id: string`
-
-            The ID of your SAML identity provider.
-
-      - `AccessOIDCClaimRule object { oidc }`
-
-        Matches an OIDC claim.
-        Requires an OIDC identity provider.
-
-        - `oidc: object { claim_name, claim_value, identity_provider_id }`
-
-          - `claim_name: string`
-
-            The name of the OIDC claim.
-
-          - `claim_value: string`
-
-            The OIDC claim value to look for.
-
-          - `identity_provider_id: string`
-
-            The ID of your OIDC identity provider.
-
-      - `ServiceTokenRule object { service_token }`
-
-        Matches a specific Access Service Token
-
-        - `service_token: object { token_id }`
-
-          - `token_id: string`
-
-            The ID of a Service Token.
-
-      - `AccessLinkedAppTokenRule object { linked_app_token }`
-
-        Matches OAuth 2.0 access tokens issued by the specified Access OIDC SaaS application. Only compatible with non_identity and bypass decisions.
-
-        - `linked_app_token: object { app_uid }`
-
-          - `app_uid: string`
-
-            The ID of an Access OIDC SaaS application
-
-      - `AccessUserRiskScoreRule object { user_risk_score }`
-
-        Matches a user's risk score.
-
-        - `user_risk_score: object { user_risk_score }`
-
-          - `user_risk_score: array of "low" or "medium" or "high" or "unscored"`
-
-            A list of risk score levels to match. Values can be low, medium, high, or unscored.
-
-            - `"low"`
-
-            - `"medium"`
-
-            - `"high"`
-
-            - `"unscored"`
-
-      - `AccessCloudflareAccountMemberRule object { cloudflare_account_member }`
-
-        Matches users who are members of a specific Cloudflare account.
-        Requires a Cloudflare identity provider.
-
-        - `cloudflare_account_member: object { account_id }`
-
-          - `account_id: optional string`
-
-            Identifier.
-
-    - `name: string`
-
-      The name of the Access policy.
-
-    - `approval_groups: optional array of ApprovalGroup`
-
-      Administrators who can approve a temporary authentication request.
-
-      - `approvals_needed: number`
-
-        The number of approvals needed to obtain access.
-
-      - `email_addresses: optional array of string`
-
-        A list of emails that can approve the access request.
-
-      - `email_list_uuid: optional string`
-
-        The UUID of an re-usable email list.
-
-    - `approval_required: optional boolean`
-
-      Requires the user to request access from an administrator at the start of each session.
-
-    - `connection_rules: optional object { rdp }`
-
-      The rules that define how users may connect to targets secured by your application.
-
-      - `rdp: optional object { allowed_clipboard_local_to_remote_formats, allowed_clipboard_remote_to_local_formats }`
-
-        The RDP-specific rules that define clipboard behavior for RDP connections.
-
-        - `allowed_clipboard_local_to_remote_formats: optional array of "text"`
-
-          Clipboard formats allowed when copying from local machine to remote RDP session.
-
-          - `"text"`
-
-        - `allowed_clipboard_remote_to_local_formats: optional array of "text"`
-
-          Clipboard formats allowed when copying from remote RDP session to local machine.
-
-          - `"text"`
-
-    - `exclude: optional array of AccessRule`
-
-      Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules.
-
-      - `GroupRule object { group }`
-
-        Matches an Access group.
-
-      - `AnyValidServiceTokenRule object { any_valid_service_token }`
-
-        Matches any valid Access Service Token
-
-      - `AccessAuthContextRule object { auth_context }`
-
-        Matches an Azure Authentication Context.
-        Requires an Azure identity provider.
-
-      - `AuthenticationMethodRule object { auth_method }`
-
-        Enforce different MFA options
-
-      - `AzureGroupRule object { azureAD }`
-
-        Matches an Azure group.
-        Requires an Azure identity provider.
-
-      - `CertificateRule object { certificate }`
-
-        Matches any valid client certificate.
-
-      - `AccessCommonNameRule object { common_name }`
-
-        Matches a specific common name.
-
-      - `CountryRule object { geo }`
-
-        Matches a specific country
-
-      - `AccessDevicePostureRule object { device_posture }`
-
-        Enforces a device posture rule has run successfully
-
-      - `DomainRule object { email_domain }`
-
-        Match an entire email domain.
-
-      - `EmailListRule object { email_list }`
-
-        Matches an email address from a list.
-
-      - `EmailRule object { email }`
-
-        Matches a specific email.
-
-      - `EveryoneRule object { everyone }`
-
-        Matches everyone.
-
-      - `ExternalEvaluationRule object { external_evaluation }`
-
-        Create Allow or Block policies which evaluate the user based on custom criteria.
-
-      - `GitHubOrganizationRule object { "github-organization" }`
-
-        Matches a Github organization.
-        Requires a Github identity provider.
-
-      - `GSuiteGroupRule object { gsuite }`
-
-        Matches a group in Google Workspace.
-        Requires a Google Workspace identity provider.
-
-      - `AccessLoginMethodRule object { login_method }`
-
-        Matches a specific identity provider id.
-
-      - `IPListRule object { ip_list }`
-
-        Matches an IP address from a list.
-
-      - `IPRule object { ip }`
-
-        Matches an IP address block.
-
-      - `OktaGroupRule object { okta }`
-
-        Matches an Okta group.
-        Requires an Okta identity provider.
-
-      - `SAMLGroupRule object { saml }`
-
-        Matches a SAML group.
-        Requires a SAML identity provider.
-
-      - `AccessOIDCClaimRule object { oidc }`
-
-        Matches an OIDC claim.
-        Requires an OIDC identity provider.
-
-      - `ServiceTokenRule object { service_token }`
-
-        Matches a specific Access Service Token
-
-      - `AccessLinkedAppTokenRule object { linked_app_token }`
-
-        Matches OAuth 2.0 access tokens issued by the specified Access OIDC SaaS application. Only compatible with non_identity and bypass decisions.
-
-      - `AccessUserRiskScoreRule object { user_risk_score }`
-
-        Matches a user's risk score.
-
-      - `AccessCloudflareAccountMemberRule object { cloudflare_account_member }`
-
-        Matches users who are members of a specific Cloudflare account.
-        Requires a Cloudflare identity provider.
-
-    - `isolation_required: optional boolean`
-
-      Require this application to be served in an isolated browser for users matching this policy. 'Client Web Isolation' must be on for the account in order to use this feature.
-
-    - `mfa_config: optional object { allowed_authenticators, mfa_disabled, session_duration }`
-
-      Configures multi-factor authentication (MFA) settings.
-
-      - `allowed_authenticators: optional array of "totp" or "biometrics" or "security_key"`
-
-        Lists the MFA methods that users can authenticate with.
-
-        - `"totp"`
-
-        - `"biometrics"`
-
-        - `"security_key"`
-
-      - `mfa_disabled: optional boolean`
-
-        Indicates whether to disable MFA for this resource. This option is available at the application and policy level.
-
-      - `session_duration: optional string`
-
-        Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`.
-
-    - `purpose_justification_prompt: optional string`
-
-      A custom message that will appear on the purpose justification screen.
-
-    - `purpose_justification_required: optional boolean`
-
-      Require users to enter a justification when they log in to the application.
-
-    - `require: optional array of AccessRule`
-
-      Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
-
-      - `GroupRule object { group }`
-
-        Matches an Access group.
-
-      - `AnyValidServiceTokenRule object { any_valid_service_token }`
-
-        Matches any valid Access Service Token
-
-      - `AccessAuthContextRule object { auth_context }`
-
-        Matches an Azure Authentication Context.
-        Requires an Azure identity provider.
-
-      - `AuthenticationMethodRule object { auth_method }`
-
-        Enforce different MFA options
-
-      - `AzureGroupRule object { azureAD }`
-
-        Matches an Azure group.
-        Requires an Azure identity provider.
-
-      - `CertificateRule object { certificate }`
-
-        Matches any valid client certificate.
-
-      - `AccessCommonNameRule object { common_name }`
-
-        Matches a specific common name.
-
-      - `CountryRule object { geo }`
-
-        Matches a specific country
-
-      - `AccessDevicePostureRule object { device_posture }`
-
-        Enforces a device posture rule has run successfully
-
-      - `DomainRule object { email_domain }`
-
-        Match an entire email domain.
-
-      - `EmailListRule object { email_list }`
-
-        Matches an email address from a list.
-
-      - `EmailRule object { email }`
-
-        Matches a specific email.
-
-      - `EveryoneRule object { everyone }`
-
-        Matches everyone.
-
-      - `ExternalEvaluationRule object { external_evaluation }`
-
-        Create Allow or Block policies which evaluate the user based on custom criteria.
-
-      - `GitHubOrganizationRule object { "github-organization" }`
-
-        Matches a Github organization.
-        Requires a Github identity provider.
-
-      - `GSuiteGroupRule object { gsuite }`
-
-        Matches a group in Google Workspace.
-        Requires a Google Workspace identity provider.
-
-      - `AccessLoginMethodRule object { login_method }`
-
-        Matches a specific identity provider id.
-
-      - `IPListRule object { ip_list }`
-
-        Matches an IP address from a list.
-
-      - `IPRule object { ip }`
-
-        Matches an IP address block.
-
-      - `OktaGroupRule object { okta }`
-
-        Matches an Okta group.
-        Requires an Okta identity provider.
-
-      - `SAMLGroupRule object { saml }`
-
-        Matches a SAML group.
-        Requires a SAML identity provider.
-
-      - `AccessOIDCClaimRule object { oidc }`
-
-        Matches an OIDC claim.
-        Requires an OIDC identity provider.
-
-      - `ServiceTokenRule object { service_token }`
-
-        Matches a specific Access Service Token
-
-      - `AccessLinkedAppTokenRule object { linked_app_token }`
-
-        Matches OAuth 2.0 access tokens issued by the specified Access OIDC SaaS application. Only compatible with non_identity and bypass decisions.
-
-      - `AccessUserRiskScoreRule object { user_risk_score }`
-
-        Matches a user's risk score.
-
-      - `AccessCloudflareAccountMemberRule object { cloudflare_account_member }`
-
-        Matches users who are members of a specific Cloudflare account.
-        Requires a Cloudflare identity provider.
-
-    - `session_duration: optional string`
-
-      The amount of time that tokens issued for the application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.
-
-  - `string`
-
-    The UUID of the reusable policy you wish to test
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, status }`
-
-  - `id: optional string`
-
-    The UUID of the policy test.
-
-  - `status: optional "success"`
-
-    The status of the policy test request.
-
-    - `"success"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/policy-tests \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f1a8b3c9d4e5f6789a0b1c2d3e4f5678a9b0c1d2e3f4a5b67890c1d2e3f4b5a6",
-    "status": "success"
-  }
-}
-```
-
-## Domain Types
-
-### Policy Test Get Response
-
-- `PolicyTestGetResponse object { id, percent_approved, percent_blocked, 7 more }`
-
-  - `id: optional string`
-
-    The UUID of the policy test.
-
-  - `percent_approved: optional number`
-
-    The percentage of (processed) users approved based on policy evaluation results.
-
-  - `percent_blocked: optional number`
-
-    The percentage of (processed) users blocked based on policy evaluation results.
-
-  - `percent_errored: optional number`
-
-    The percentage of (processed) users errored based on policy evaluation results.
-
-  - `percent_users_processed: optional number`
-
-    The percentage of users processed so far (of the entire user base).
-
-  - `status: optional "blocked" or "processing" or "exceeded time" or "complete"`
-
-    The status of the policy test.
-
-    - `"blocked"`
-
-    - `"processing"`
-
-    - `"exceeded time"`
-
-    - `"complete"`
-
-  - `total_users: optional number`
-
-    The total number of users in the user base.
-
-  - `users_approved: optional number`
-
-    The number of (processed) users approved based on policy evaluation results.
-
-  - `users_blocked: optional number`
-
-    The number of (processed) users blocked based on policy evaluation results.
-
-  - `users_errored: optional number`
-
-    The number of (processed) users errored based on policy evaluation results.
-
-### Policy Test Create Response
-
-- `PolicyTestCreateResponse object { id, status }`
-
-  - `id: optional string`
-
-    The UUID of the policy test.
-
-  - `status: optional "success"`
-
-    The status of the policy test request.
-
-    - `"success"`
-
-# Users
-
-## Get an Access policy test users page
-
-**get** `/accounts/{account_id}/access/policy-tests/{policy_test_id}/users`
-
-Fetches a single page of user results from an Access policy test.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `policy_test_id: string`
-
-  The UUID of the policy test.
-
-### Query Parameters
-
-- `page: optional number`
-
-  Page number of results.
-
-- `per_page: optional number`
-
-- `status: optional "success" or "fail" or "error"`
-
-  Filter users by their policy evaluation status.
-
-  - `"success"`
-
-  - `"fail"`
-
-  - `"error"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, email, name, status }`
-
-  Page of processed users.
-
-  - `id: optional string`
-
-    UUID.
-
-  - `email: optional string`
-
-    The email of the user.
-
-  - `name: optional string`
-
-    The name of the user.
-
-  - `status: optional "approved" or "blocked" or "error"`
-
-    Policy evaluation result for an individual user.
-
-    - `"approved"`
-
-    - `"blocked"`
-
-    - `"error"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/policy-tests/$POLICY_TEST_ID/users \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "email": "jdoe@example.com",
-      "name": "Jane Doe",
-      "status": "approved"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### User List Response
-
-- `UserListResponse object { id, email, name, status }`
-
-  - `id: optional string`
-
-    UUID.
-
-  - `email: optional string`
-
-    The email of the user.
-
-  - `name: optional string`
-
-    The name of the user.
-
-  - `status: optional "approved" or "blocked" or "error"`
-
-    Policy evaluation result for an individual user.
-
-    - `"approved"`
-
-    - `"blocked"`
-
-    - `"error"`
+[Link to this property](#)%20zero_trust.access.applications.policy_tests.users%20%3E%20(model)%20user_list_response%20%3E%20(schema)>)

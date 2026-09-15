@@ -1,110 +1,282 @@
-## Update an account or zone dataset
+---
+title: Update an account or zone dataset
+---
 
-**put** `/{accounts_or_zones}/{account_or_zone_id}/logs/explorer/datasets/{dataset_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Logs](https://developers.cloudflare.com/api/resources/logs)
+
+[Log Explorer](https://developers.cloudflare.com/api/resources/logs/subresources/log_explorer)
+
+[Datasets](https://developers.cloudflare.com/api/resources/logs/subresources/log_explorer/subresources/datasets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update an account or zone dataset
+
+PUT/{accounts\_or\_zones}/{account\_or\_zone\_id}/logs/explorer/datasets/{dataset\_id}
 
 Updates the enabled state and/or field configuration of an account or zone dataset.
 
-### Path Parameters
+##### Security
 
-- `dataset_id: string`
+API Token
 
-- `account_id: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `zone_id: optional string`
+##### Accepted Permissions (at least one required)
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+`Logs Write`
 
-### Body Parameters
+##### P ath ParametersExpand Collapse
 
-- `enabled: boolean`
+dataset\_id: string
 
-  Whether to enable or disable log ingest for this dataset.
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20dataset_id%20%3E%20(schema)>)
 
-- `fields: optional array of object { enabled, name }`
+account\_id: optional string
 
-  Controls which fields the API ingests after the update. Defaults
-  to all available fields when absent.
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-  - `enabled: boolean`
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    Whether the API includes this field in log ingest.
+zone\_id: optional string
 
-  - `name: string`
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-    Field name in lowercase.
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-### Returns
+##### Body ParametersJSONExpand Collapse
 
-- `errors: array of ResponseInfo`
+enabled: boolean
 
-  - `code: number`
+Whether to enable or disable log ingest for this dataset.
 
-  - `message: string`
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+deletion\_protection: optional boolean
 
-  - `source: optional object { pointer }`
+Set to `false` to allow deletion of this dataset.
 
-    - `pointer: optional string`
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20deletion_protection%20%3E%20(schema)>)
 
-- `messages: array of string`
+<details>
 
-- `success: boolean`
+<summary>
 
-- `result: optional Dataset`
+fields: optional array of object {enabled, name }
 
-  A Log Explorer dataset summary. List endpoints return this type and omit
-  field configuration; use the single-dataset endpoint to retrieve it.
+Controls which fields the API ingests after the update. Defaults to all available fields when absent.
 
-  - `created_at: string`
+</summary>
 
-    RFC3339 timestamp recording when the API created this dataset.
+enabled: boolean
 
-  - `dataset: string`
+Whether the API includes this field in log ingest.
 
-    Dataset type name (e.g. `http_requests`).
+<a href="#">Link to this property</a>
 
-  - `dataset_id: string`
+name: string
 
-    Unique dataset ID.
+Field name in lowercase.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether log ingest is currently active for this dataset.
+</details>
 
-  - `object_id: string`
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20fields%20%3E%20(schema)>)
 
-    Public ID of the account or zone that owns this dataset.
+filter: optional string
 
-  - `object_type: "account" or "zone"`
+Optional Logpush filter predicate to restrict which events are ingested. If omitted, the existing filter is left unchanged. Set to an empty string (`""`) to clear the filter. Otherwise, replaces the dataset’s filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples.
 
-    Whether this dataset belongs to an account or a zone.
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20filter%20%3E%20(schema)>)
 
-    - `"account"`
+##### ReturnsExpand Collapse
 
-    - `"zone"`
+<details>
 
-  - `updated_at: string`
+<summary>
 
-    RFC3339 timestamp recording when the API last updated this dataset.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `fields: optional array of object { enabled, name }`
+</summary>
 
-    The field configuration for this dataset.
+code: number
 
-    - `enabled: boolean`
+minimum1000
 
-      Whether the API includes this field in log ingest.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+message: string
 
-      Field name in lowercase.
+<a href="#">Link to this property</a>
 
-### Example
+documentation\_url: optional string
 
-```http
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/logs#(resource)%20logs.log_explorer.datasets%20%3E%20(model)%20dataset%20%3E%20(schema)">Dataset</a> { created\_at, dataset, dataset\_id, 7 more }
+
+A Log Explorer dataset summary. List endpoints return this type and omit field configuration; use the single-dataset endpoint to retrieve it.
+
+</summary>
+
+created\_at: string
+
+RFC3339 timestamp recording when the API created this dataset.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+dataset: string
+
+Dataset type name (e.g. <code>http_requests</code>).
+
+<a href="#">Link to this property</a>
+
+dataset\_id: string
+
+Unique dataset ID.
+
+<a href="#">Link to this property</a>
+
+deletion\_protection: boolean
+
+Whether deletion is blocked. Set to <code>false</code> before deleting the dataset.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether log ingest is currently active for this dataset.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fields: array of object {enabled, name }
+
+The field configuration for this dataset.
+
+</summary>
+
+enabled: boolean
+
+Whether the API includes this field in log ingest.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Field name in lowercase.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+object\_id: string
+
+Public ID of the account or zone that owns this dataset.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object\_type: "account"or "zone"
+
+Whether this dataset belongs to an account or a zone.
+
+</summary>
+
+One of the following:
+
+"account"
+
+<a href="#">Link to this property</a>
+
+"zone"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+RFC3339 timestamp recording when the API last updated this dataset.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+filter: optional string
+
+The Logpush filter predicate applied to this dataset. Omitted when no filter is set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20logs.log_explorer.datasets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update an account or zone dataset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logs/explorer/datasets/$DATASET_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -114,9 +286,9 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -136,16 +308,58 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
     "created_at": "2019-12-27T18:11:19.117Z",
     "dataset": "dataset",
     "dataset_id": "dataset_id",
+    "deletion_protection": true,
     "enabled": true,
-    "object_id": "object_id",
-    "object_type": "account",
-    "updated_at": "2019-12-27T18:11:19.117Z",
     "fields": [
       {
         "enabled": true,
         "name": "name"
       }
-    ]
+    ],
+    "object_id": "object_id",
+    "object_type": "account",
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "filter": "filter"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "success": true,
+  "result": {
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "dataset": "dataset",
+    "dataset_id": "dataset_id",
+    "deletion_protection": true,
+    "enabled": true,
+    "fields": [
+      {
+        "enabled": true,
+        "name": "name"
+      }
+    ],
+    "object_id": "object_id",
+    "object_type": "account",
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "filter": "filter"
   }
 }
 ```

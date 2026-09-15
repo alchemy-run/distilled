@@ -1,81 +1,265 @@
-## List autonomous systems
+---
+title: List autonomous systems
+---
 
-**get** `/radar/entities/asns`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Entities](https://developers.cloudflare.com/api/resources/radar/subresources/entities)
+
+[ASNs](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List autonomous systems
+
+GET/radar/entities/asns
 
 Retrieves a list of autonomous systems.
 
-### Query Parameters
+##### Security
 
-- `asn: optional string`
+<details>
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list.
+<summary>API Token</summary>
 
-- `format: optional "JSON" or "CSV"`
 
-  Format in which results will be returned.
 
-  - `"JSON"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"CSV"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `limit: optional number`
+</details>
 
-  Limits the number of objects returned in the response.
+<details>
 
-- `location: optional string`
+<summary>API Email + API Key</summary>
 
-  Filters results by location. Specify an alpha-2 location code.
 
-- `offset: optional number`
 
-  Skips the specified number of objects before fetching the results.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `orderBy: optional "ASN" or "POPULATION"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Specifies the metric to order the ASNs by.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"ASN"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"POPULATION"`
+</details>
 
-### Returns
+##### Accepted Permissions (at least one required)
 
-- `result: object { asns }`
+`User Details Write``User Details Read`
 
-  - `asns: array of object { asn, country, countryName, 5 more }`
+##### Q uery ParametersExpand Collapse
 
-    - `asn: number`
+asn: optional string
 
-    - `country: string`
+Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list.
 
-    - `countryName: string`
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20asn%20%3E%20(schema)>)
 
-    - `estimatedUsers: object { estimatedUsers }`
+<details>
 
-      - `estimatedUsers: optional number`
+<summary>
 
-        Total estimated users.
+format: optional "JSON"or "CSV"
 
-    - `name: string`
+Format in which results will be returned.
 
-    - `aka: optional string`
+</summary>
 
-    - `orgName: optional string`
+One of the following:
 
-    - `website: optional string`
+"JSON"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"CSV"
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+limit: optional number
+
+Limits the number of objects returned in the response.
+
+exclusiveMinimum
+
+minimum0
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+location: optional string
+
+Filters results by location. Specify an alpha-2 location code.
+
+maxLength2
+
+minLength2
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20location%20%3E%20(schema)>)
+
+offset: optional number
+
+Skips the specified number of objects before fetching the results.
+
+minimum0
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+orderBy: optional "ASN"or "POPULATION"
+
+Specifies the metric to order the ASNs by.
+
+</summary>
+
+One of the following:
+
+"ASN"
+
+<a href="#">Link to this property</a>
+
+"POPULATION"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20orderBy%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {asns }
+
+</summary>
+
+<details>
+
+<summary>
+
+asns: array of object {asn, country, countryName, 5 more }
+
+</summary>
+
+asn: number
+
+<a href="#">Link to this property</a>
+
+country: string
+
+<a href="#">Link to this property</a>
+
+countryName: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+estimatedUsers: object {estimatedUsers }
+
+</summary>
+
+estimatedUsers: optional number
+
+Total estimated users.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+aka: optional string
+
+<a href="#">Link to this property</a>
+
+orgName: optional string
+
+<a href="#">Link to this property</a>
+
+website: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List autonomous systems
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/entities/asns \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "asns": [
+      {
+        "asn": 714,
+        "country": "GB",
+        "countryName": "United Kingdom",
+        "estimatedUsers": {
+          "estimatedUsers": 86099
+        },
+        "name": "Apple Inc.",
+        "aka": "aka",
+        "orgName": "orgName",
+        "website": "https://www.apple.com/support/systemstatus/"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "asns": [

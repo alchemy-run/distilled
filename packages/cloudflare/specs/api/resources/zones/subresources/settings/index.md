@@ -1,19753 +1,23489 @@
-# Settings
+##### [Get all zone settings](/api/resources/zones/subresources/settings/methods/list)
 
-## Get all zone settings
+GET/zones/{zone_id}/settings
 
-**get** `/zones/{zone_id}/settings`
+##### [Get zone setting](/api/resources/zones/subresources/settings/methods/get)
 
-Available settings for your user in relation to a zone.
+GET/zones/{zone_id}/settings/{setting_id}
 
-### Path Parameters
+##### [Edit zone setting](/api/resources/zones/subresources/settings/methods/edit)
 
-- `zone_id: string`
+PATCH/zones/{zone_id}/settings/{setting_id}
 
-  Identifier
+##### [Edit multiple zone settings](/api/resources/zones/subresources/settings/methods/bulk_edit)
 
-### Returns
+PATCH/zones/{zone_id}/settings
 
-- `errors: array of ResponseInfo`
+##### Models
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+AdvancedDDoS object { id, value, editable, modified_on }
 
-  - `source: optional object { pointer }`
+Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is ‘on’ in the case of Business and Enterprise zones.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: "advanced_ddos"
 
-  - `code: number`
+ID of the zone setting.
 
-  - `message: string`
+[Link to this property](#)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `success: boolean`
+value: "on" or "off"
 
-  Whether the API call was successful
+Current value of the zone setting.
 
-- `result: optional array of ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 59 more`
+</summary>
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+One of the following:
 
-    0-RTT session resumption enabled for this zone.
+"on"
 
-    - `id: "0rtt"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"off"
 
-      - `"0rtt"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+false
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+[Link to this property](#)
 
-    - `id: "advanced_ddos"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"advanced_ddos"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+Aegis object { id, modified_on, value }
 
-    - `modified_on: optional string`
+Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+id: "aegis"
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+ID of the zone setting.
 
-    - `id: "aegis"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"aegis"`
+Last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      Last time this setting was modified.
+[Link to this property](#)
 
-    - `value: optional object { enabled, pool_id }`
+<details>
 
-      Value of the zone setting.
+<summary>
 
-      - `enabled: optional boolean`
+value: optional object { enabled, pool_id }
 
-        Whether the feature is enabled or not.
+Value of the zone setting.
 
-      - `pool_id: optional string`
+</summary>
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+enabled: optional boolean
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+Whether the feature is enabled or not.
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+[Link to this property](#)
 
-    - `id: "always_online"`
+pool_id: optional string
 
-      ID of the zone setting.
+Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
 
-      - `"always_online"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+AlwaysOnline object { id, value, editable, modified_on }
 
-      - `false`
+When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive’s Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "always_online"
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+[Link to this property](#)
 
-    - `id: "always_use_https"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"always_use_https"`
+value: "on" or "off"
 
-    - `value: "on" or "off"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+One of the following:
 
-      - `"off"`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+<summary>
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+editable: optional true or false
 
-    - `id: "automatic_https_rewrites"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"automatic_https_rewrites"`
+One of the following:
 
-    - `value: "on" or "off"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+false
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `Brotli object { id, value, editable, modified_on }`
+</details>
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+[Link to this property](#)
 
-    - `id: "brotli"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"brotli"`
+AlwaysUseHTTPS object { id }
 
-    - `value: "off" or "on"`
+</summary>
 
-      Current value of the zone setting.
+id: optional "always_use_https"
 
-      - `"off"`
+If enabled, any `http://`` URL is converted to `https://` through a 301 redirect.
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+AutomaticHTTPSRewrites object { id, value }
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+id: optional "automatic_https_rewrites"
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+Turn on or off Automatic HTTPS Rewrites.
 
-    - `id: "browser_cache_ttl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"browser_cache_ttl"`
+<summary>
 
-    - `value: number`
+value: optional "on" or "off"
 
-      Current value of the zone setting.
+The status of Automatic HTTPS Rewrites.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+</details>
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+[Link to this property](#)
 
-    - `id: "browser_check"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_check"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+AutomaticPlatformOptimization object { cache_by_device_type, cf, enabled, 3 more }
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+cache_by_device_type: boolean
 
-    - `editable: optional true or false`
+Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+cf: boolean
 
-      - `false`
+Indicates whether or not Cloudflare proxy is enabled.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+enabled: boolean
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+Indicates whether or not Automatic Platform Optimization is enabled.
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+[Link to this property](#)
 
-    - `id: "cache_level"`
+hostnames: array of string
 
-      ID of the zone setting.
+An array of hostnames where Automatic Platform Optimization for WordPress is activated.
 
-      - `"cache_level"`
+[Link to this property](#)
 
-    - `value: "aggressive" or "basic" or "simplified"`
+wordpress: boolean
 
-      Current value of the zone setting.
+Indicates whether or not site is powered by WordPress.
 
-      - `"aggressive"`
+[Link to this property](#)
 
-      - `"basic"`
+wp_plugin: boolean
 
-      - `"simplified"`
+Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+Brotli object { id, value, editable, modified_on }
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+</summary>
 
-    - `id: "challenge_ttl"`
+id: "brotli"
 
-      ID of the zone setting.
+ID of the zone setting.
 
-      - `"challenge_ttl"`
+[Link to this property](#)
 
-    - `value: 300 or 900 or 1800 or 11 more`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `300`
+value: "off" or "on"
 
-      - `900`
+Current value of the zone setting.
 
-      - `1800`
+</summary>
 
-      - `2700`
+One of the following:
 
-      - `3600`
+"off"
 
-      - `7200`
+[Link to this property](#)
 
-      - `10800`
+"on"
 
-      - `14400`
+[Link to this property](#)
 
-      - `28800`
+</details>
 
-      - `57600`
+[Link to this property](#)
 
-      - `86400`
+<details>
 
-      - `604800`
+<summary>
 
-      - `2592000`
+editable: optional true or false
 
-      - `31536000`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `Ciphers object { id, value, editable, modified_on }`
+</details>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+[Link to this property](#)
 
-    - `id: "ciphers"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"ciphers"`
+formatdate-time
 
-    - `value: array of string`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+BrowserCacheTTL object { id, value }
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: optional "browser_cache_ttl"
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+Control how long resources cached by client browsers remain valid.
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+[Link to this property](#)
 
-    - `id: "content_converter"`
+value: optional number
 
-      ID of the zone setting.
+The number of seconds to cache resources for. Setting this to 0 enables “Respect Existing Headers”.
 
-      - `"content_converter"`
+maximum31536000
 
-    - `value: "off" or "on"`
+minimum0
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+BrowserCheck object { id, value }
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: optional "browser_check"
 
-      last time this setting was modified.
+Inspect the visitor’s browser for headers commonly associated with spammers and certain bots.
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Whether or not cname flattening is on.
+<details>
 
-    - `id: "cname_flattening"`
+<summary>
 
-      How to flatten the cname destination.
+value: optional "on" or "off"
 
-      - `"cname_flattening"`
+The status of Browser Integrity Check.
 
-    - `value: "flatten_at_root" or "flatten_all"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"flatten_at_root"`
+"on"
 
-      - `"flatten_all"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+<details>
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+<summary>
 
-    - `id: "development_mode"`
+CacheLevel object { id, value }
 
-      ID of the zone setting.
+</summary>
 
-      - `"development_mode"`
+id: optional "cache_level"
 
-    - `value: "on" or "off"`
+Apply custom caching based on the option selected.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+value: optional "bypass" or "basic" or "simplified" or 2 more
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+`bypass`: Cloudflare does not cache.
 
-      - `true`
+`basic`: Delivers resources from cache when there is no query string.
 
-      - `false`
+`simplified`: Delivers the same resource to everyone independent of the query string.
 
-    - `modified_on: optional string`
+`aggressive`: Caches all static content that has a query string.
 
-      last time this setting was modified.
+`cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions).
 
-    - `time_remaining: optional number`
+</summary>
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+One of the following:
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+"bypass"
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+[Link to this property](#)
 
-    - `id: "early_hints"`
+"basic"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"early_hints"`
+"simplified"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"aggressive"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"cache_everything"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+<summary>
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+ChallengeTTL object { id, value, editable, modified_on }
 
-    - `id: "edge_cache_ttl"`
+Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
 
-      ID of the zone setting.
+</summary>
 
-      - `"edge_cache_ttl"`
+id: "challenge_ttl"
 
-    - `value: 30 or 60 or 300 or 18 more`
+ID of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `30`
+<details>
 
-      - `60`
+<summary>
 
-      - `300`
+value: 300 or 900 or 1800 or 11 more
 
-      - `1200`
+Current value of the zone setting.
 
-      - `1800`
+</summary>
 
-      - `3600`
+One of the following:
 
-      - `7200`
+300
 
-      - `10800`
+[Link to this property](#)
 
-      - `14400`
+900
 
-      - `18000`
+[Link to this property](#)
 
-      - `28800`
+1800
 
-      - `43200`
+[Link to this property](#)
 
-      - `57600`
+2700
 
-      - `72000`
+[Link to this property](#)
 
-      - `86400`
+3600
 
-      - `172800`
+[Link to this property](#)
 
-      - `259200`
+7200
 
-      - `345600`
+[Link to this property](#)
 
-      - `432000`
+10800
 
-      - `518400`
+[Link to this property](#)
 
-      - `604800`
+14400
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+28800
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+57600
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+86400
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+604800
 
-    - `id: "email_obfuscation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+2592000
 
-      - `"email_obfuscation"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+31536000
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+true
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+[Link to this property](#)
 
-    - `id: "h2_prioritization"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"h2_prioritization"`
+</details>
 
-    - `value: "on" or "off" or "custom"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"on"`
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-      - `"custom"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+Ciphers object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+</summary>
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+id: "ciphers"
 
-    - `id: "hotlink_protection"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"hotlink_protection"`
+value: array of string
 
-    - `value: "on" or "off"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+false
 
-    HTTP2 enabled for this zone.
+[Link to this property](#)
 
-    - `id: "http2"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"http2"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+DevelopmentMode object { id, value, editable, 2 more }
 
-    - `modified_on: optional string`
+Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare’s accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
 
-      last time this setting was modified.
+</summary>
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+id: "development_mode"
 
-    HTTP3 enabled for this zone.
+ID of the zone setting.
 
-    - `id: "http3"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"http3"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "on" or "off"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ImageResizing object { id, value, editable, modified_on }`
+<details>
 
-    Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+<summary>
 
-    - `id: "image_resizing"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"image_resizing"`
+</summary>
 
-    - `value: "on" or "off" or "open"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+false
 
-      - `"open"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+time_remaining: optional number
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
 
-    - `id: "ip_geolocation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"ip_geolocation"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+EarlyHints object { id, value, editable, modified_on }
 
-      - `"off"`
+When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "early_hints"
 
-      - `true`
+ID of the zone setting.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `IPV6 object { id, value, editable, modified_on }`
+value: "on" or "off"
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+Current value of the zone setting.
 
-    - `id: "ipv6"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"ipv6"`
+"on"
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"off"
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+One of the following:
 
-    Maximum size of an allowable upload.
+true
 
-    - `id: "max_upload"`
+[Link to this property](#)
 
-      identifier of the zone setting.
+false
 
-      - `"max_upload"`
+[Link to this property](#)
 
-    - `value: 100 or 125 or 150 or 15 more`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `100`
+modified_on: optional string
 
-      - `125`
+last time this setting was modified.
 
-      - `150`
+formatdate-time
 
-      - `175`
+[Link to this property](#)
 
-      - `200`
+</details>
 
-      - `225`
+[Link to this property](#)
 
-      - `250`
+<details>
 
-      - `275`
+<summary>
 
-      - `300`
+EmailObfuscation object { id, value }
 
-      - `325`
+</summary>
 
-      - `350`
+id: optional "email_obfuscation"
 
-      - `375`
+Turn on or off Email Obfuscation.
 
-      - `400`
+[Link to this property](#)
 
-      - `425`
+<details>
 
-      - `450`
+<summary>
 
-      - `475`
+value: optional "on" or "off"
 
-      - `500`
+The status of Email Obfuscation.
 
-      - `1000`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+</details>
 
-    - `id: "min_tls_version"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"min_tls_version"`
+<summary>
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+FontSettings object { id, editable, modified_on, value }
 
-      Current value of the zone setting.
+Enhance your website’s font delivery with Cloudflare Fonts. Deliver Google Hosted fonts from your own domain, boost performance, and enhance user privacy. Refer to the Cloudflare Fonts documentation for more information.
 
-      - `"1.0"`
+</summary>
 
-      - `"1.1"`
+id: optional "fonts"
 
-      - `"1.2"`
+ID of the zone setting.
 
-      - `"1.3"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+true
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+[Link to this property](#)
 
-    - `id: "mirage"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"mirage"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"on"`
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: optional "on" or "off"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `NEL object { id, value, editable, modified_on }`
+One of the following:
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+"on"
 
-    - `id: "nel"`
+[Link to this property](#)
 
-      Zone setting identifier.
+"off"
 
-      - `"nel"`
+[Link to this property](#)
 
-    - `value: object { enabled }`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `enabled: optional boolean`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+H2Prioritization object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+id: "h2_prioritization"
 
-    Enables the Opportunistic Encryption feature for a zone.
+ID of the zone setting.
 
-    - `id: "opportunistic_encryption"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"opportunistic_encryption"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "on" or "off" or "custom"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"custom"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+</details>
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+[Link to this property](#)
 
-    - `id: "opportunistic_onion"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"opportunistic_onion"`
+editable: optional true or false
 
-    - `value: "on" or "off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+One of the following:
 
-      - `"off"`
+true
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+false
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+formatdate-time
 
-    - `id: "orange_to_orange"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"orange_to_orange"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+HotlinkProtection object { id, value, editable, modified_on }
 
-      - `"off"`
+When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it’s not another site requesting them. People will still be able to download and view images from your page, but other sites won’t be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "hotlink_protection"
 
-      - `true`
+ID of the zone setting.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+value: "on" or "off"
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+Current value of the zone setting.
 
-    - `id: "origin_error_page_pass_thru"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"origin_error_page_pass_thru"`
+"on"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"off"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+One of the following:
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+true
 
-    - `id: "origin_h2_max_streams"`
+[Link to this property](#)
 
-      Value of the zone setting.
+false
 
-      - `"origin_h2_max_streams"`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      Last time this setting was modified.
+[Link to this property](#)
 
-    - `value: optional number`
+modified_on: optional string
 
-      Value of the Origin H2 Max Streams Setting.
+last time this setting was modified.
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+formatdate-time
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+[Link to this property](#)
 
-    - `id: "origin_max_http_version"`
+</details>
 
-      Value of the zone setting.
+[Link to this property](#)
 
-      - `"origin_max_http_version"`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      Last time this setting was modified.
+HTTP2 object { id, value, editable, modified_on }
 
-    - `value: optional "2" or "1"`
+HTTP2 enabled for this zone.
 
-      Value of the Origin Max HTTP Version Setting.
+</summary>
 
-      - `"2"`
+id: "http2"
 
-      - `"1"`
+ID of the zone setting.
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+<details>
 
-    - `id: "polish"`
+<summary>
 
-      ID of the zone setting.
+value: "on" or "off"
 
-      - `"polish"`
+Current value of the zone setting.
 
-    - `value: "off" or "lossless" or "lossy"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"off"`
+"on"
 
-      - `"lossless"`
+[Link to this property](#)
 
-      - `"lossy"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+</summary>
 
-    - `id: "prefetch_preload"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"prefetch_preload"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+<details>
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+<summary>
 
-    - `id: "privacy_pass"`
+HTTP3 object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+HTTP3 enabled for this zone.
 
-      - `"privacy_pass"`
+</summary>
 
-    - `value: "on" or "off"`
+id: "http3"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Maximum time between two read operations from origin.
+"off"
 
-    - `id: "proxy_read_timeout"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"proxy_read_timeout"`
+[Link to this property](#)
 
-    - `value: number`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+false
 
-    The value set for the Pseudo IPv4 setting.
+[Link to this property](#)
 
-    - `id: "pseudo_ipv4"`
+</details>
 
-      Value of the Pseudo IPv4 setting.
+[Link to this property](#)
 
-      - `"pseudo_ipv4"`
+modified_on: optional string
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"add_header"`
+</details>
 
-      - `"overwrite_header"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+ImageResizing object { id, value, editable, modified_on }
 
-      - `false`
+Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare’s network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "image_resizing"
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+[Link to this property](#)
 
-    - `id: "redirects_for_ai_training"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"redirects_for_ai_training"`
+value: "on" or "off" or "open"
 
-    - `value: "off" or "on"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"on"`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"open"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+<details>
 
-    - `id: "replace_insecure_js"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"replace_insecure_js"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+formatdate-time
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "response_buffering"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"response_buffering"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+IPGeolocation object { id, value }
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+id: optional "ip_geolocation"
 
-    - `editable: optional true or false`
+Cloudflare adds a CF-IPCountry HTTP header containing the country code that corresponds to the visitor.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: optional "on" or "off"
 
-      last time this setting was modified.
+The status of adding the IP Geolocation Header.
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+</summary>
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+One of the following:
 
-    - `id: "rocket_loader"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"rocket_loader"`
+"off"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+IPV6 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Enable IPv6 on all subdomains that are Cloudflare enabled. (https://support.cloudflare.com/hc/en-us/articles/200168586).
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+id: "ipv6"
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+ID of the zone setting.
 
-    - `id: "automatic_platform_optimization"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"automatic_platform_optimization"`
+<summary>
 
-    - `value: AutomaticPlatformOptimization`
+value: "off" or "on"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `cache_by_device_type: boolean`
+</summary>
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+One of the following:
 
-      - `cf: boolean`
+"off"
 
-        Indicates whether or not Cloudflare proxy is enabled.
+[Link to this property](#)
 
-      - `enabled: boolean`
+"on"
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+[Link to this property](#)
 
-      - `hostnames: array of string`
+</details>
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+[Link to this property](#)
 
-      - `wordpress: boolean`
+<details>
 
-        Indicates whether or not site is powered by WordPress.
+<summary>
 
-      - `wp_plugin: boolean`
+editable: optional true or false
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+</details>
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+[Link to this property](#)
 
-    - `id: "search_for_agents"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"search_for_agents"`
+formatdate-time
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+MinTLSVersion object { id, value, editable, modified_on }
 
-      - `true`
+Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "min_tls_version"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare security header for a zone.
+<details>
 
-    - `id: "security_header"`
+<summary>
 
-      ID of the zone's security header.
+value: "1.0" or "1.1" or "1.2" or "1.3"
 
-      - `"security_header"`
+Current value of the zone setting.
 
-    - `value: object { strict_transport_security }`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+"1.0"
 
-        Strict Transport Security.
+[Link to this property](#)
 
-        - `enabled: optional boolean`
+"1.1"
 
-          Whether or not strict transport security is enabled.
+[Link to this property](#)
 
-        - `include_subdomains: optional boolean`
+"1.2"
 
-          Include all subdomains for strict transport security.
+[Link to this property](#)
 
-        - `max_age: optional number`
+"1.3"
 
-          Max age in seconds of the strict transport security.
+[Link to this property](#)
 
-        - `nosniff: optional boolean`
+</details>
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+[Link to this property](#)
 
-        - `preload: optional boolean`
+<details>
 
-          Enable automatic preload of the HSTS configuration.
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+false
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+[Link to this property](#)
 
-    - `id: "security_level"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"security_level"`
+modified_on: optional string
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"essentially_off"`
+</details>
 
-      - `"low"`
+[Link to this property](#)
 
-      - `"medium"`
+<details>
 
-      - `"high"`
+<summary>
 
-      - `"under_attack"`
+Mirage object { id, value }
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: optional "mirage"
 
-      - `true`
+Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+value: optional "on" or "off"
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+The status of Mirage.
 
-    - `id: "server_side_exclude"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"server_side_exclude"`
+"on"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"off"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+NEL object { id, value, editable, modified_on }
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+Enable Network Error Logging reporting on your zone. (Beta)
 
-    Allow SHA1 support.
+</summary>
 
-    - `id: "sha1_support"`
+id: "nel"
 
-      Zone setting identifier.
+Zone setting identifier.
 
-      - `"sha1_support"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"off"`
+value: object { enabled }
 
-      - `"on"`
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+enabled: optional boolean
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+<summary>
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+editable: optional true or false
 
-    - `id: "sort_query_string_for_cache"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"sort_query_string_for_cache"`
+One of the following:
 
-    - `value: "on" or "off"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+false
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+</details>
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+[Link to this property](#)
 
-    - `id: "ssl"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"ssl"`
+OpportunisticEncryption object { id, value }
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+</summary>
 
-      Current value of the zone setting.
+id: optional "opportunistic_encryption"
 
-      - `"off"`
+Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It’s not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests.
 
-      - `"flexible"`
+[Link to this property](#)
 
-      - `"full"`
+<details>
 
-      - `"strict"`
+<summary>
 
-    - `editable: optional true or false`
+value: optional "on" or "off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+The status of Opportunistic Encryption.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"on"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `SSLRecommender object { id, enabled }`
+"off"
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+[Link to this property](#)
 
-    - `id: optional "ssl_recommender"`
+</details>
 
-      Enrollment value for SSL/TLS Recommender.
+[Link to this property](#)
 
-      - `"ssl_recommender"`
+</details>
 
-    - `enabled: optional boolean`
+[Link to this property](#)
 
-      ssl-recommender enrollment setting.
+<details>
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+<summary>
 
-    Only allows TLS1.2.
+OpportunisticOnion object { id, value, editable, modified_on }
 
-    - `id: "tls_1_2_only"`
+Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
 
-      Zone setting identifier.
+</summary>
 
-      - `"tls_1_2_only"`
+id: "opportunistic_onion"
 
-    - `value: "off" or "on"`
+ID of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+value: "on" or "off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"on"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+"off"
 
-    Enables Crypto TLS 1.3 feature for a zone.
+[Link to this property](#)
 
-    - `id: "tls_1_3"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"tls_1_3"`
+<details>
 
-    - `value: "on" or "off" or "zrt"`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-      - `"on"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-      - `"zrt"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+last time this setting was modified.
 
-    - `id: "tls_client_auth"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"tls_client_auth"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+OrangeToOrange object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "orange_to_orange"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesTransformations object { id, value, editable, modified_on }`
+<summary>
 
-    Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+Deprecatedvalue: "on" or "off"
 
-    - `id: "transformations"`
+This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+Current value of the zone setting.
 
-      - `"transformations"`
+</summary>
 
-    - `value: "on" or "off" or "open"`
+One of the following:
 
-      Current value of the zone setting.
+"on"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"off"
 
-      - `"open"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+editable: optional true or false
 
-      last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }`
+</summary>
 
-    Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+One of the following:
 
-    - `id: "transformations_allowed_origins"`
+true
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+[Link to this property](#)
 
-      - `"transformations_allowed_origins"`
+false
 
-    - `value: string`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+<details>
 
-    - `id: "true_client_ip_header"`
+<summary>
 
-      ID of the zone setting.
+OriginErrorPagePassThru object { id, value }
 
-      - `"true_client_ip_header"`
+</summary>
 
-    - `value: "on" or "off"`
+id: optional "origin_error_page_pass_thru"
 
-      Current value of the zone setting.
+Turn on or off Cloudflare error pages generated from issues sent from the origin server. If enabled, this setting triggers error pages issued by the origin.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: optional "on" or "off"
 
-      - `true`
+The status of Origin Error Page Passthru.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+"off"
 
-    - `id: "waf"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"waf"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+OriginMaxHTTPVersion object { id, editable, value, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "origin_max_http_version"
 
-      - `false`
+The identifier of the caching setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+editable: boolean
 
-  - `WebP object { id, value, editable, modified_on }`
+Whether the setting is editable.
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+[Link to this property](#)
 
-    - `id: "webp"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"webp"`
+value: "2" or "1"
 
-    - `value: "off" or "on"`
+Value of the Origin Max HTTP Version Setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"on"`
+"2"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"1"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `Websocket object { id, value, editable, modified_on }`
+Last time this setting was modified.
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+formatdate-time
 
-    - `id: "websockets"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"websockets"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"off"`
+Polish object { id, value }
 
-      - `"on"`
+</summary>
 
-    - `editable: optional true or false`
+id: optional "polish"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Apply options from the Polish feature of the Cloudflare Speed app.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: optional "off" or "lossless" or "lossy"
 
-### Example
+The level of Polish you want applied to your origin.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "0rtt",
-      "value": "on",
-      "editable": true,
-      "modified_on": "2014-01-01T05:20:00.12345Z"
-    }
-  ]
-}
-```
+"off"
 
-## Get zone setting
+[Link to this property](#)
 
-**get** `/zones/{zone_id}/settings/{setting_id}`
+"lossless"
 
-Fetch a single zone setting by name
+[Link to this property](#)
 
-### Path Parameters
+"lossy"
 
-- `zone_id: string`
+[Link to this property](#)
 
-  Identifier
+</details>
 
-- `setting_id: string`
+[Link to this property](#)
 
-  Setting name
+</details>
 
-### Returns
+[Link to this property](#)
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+PrefetchPreload object { id, value, editable, modified_on }
 
-  - `documentation_url: optional string`
+Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: "prefetch_preload"
 
-- `messages: array of ResponseInfo`
+ID of the zone setting.
 
-  - `code: number`
+[Link to this property](#)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+value: "on" or "off"
 
-- `success: boolean`
+Current value of the zone setting.
 
-  Whether the API call was successful
+</summary>
 
-- `result: optional ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 60 more`
+One of the following:
 
-  0-RTT session resumption enabled for this zone.
+"on"
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    0-RTT session resumption enabled for this zone.
+"off"
 
-    - `id: "0rtt"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"0rtt"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+editable: optional true or false
 
-      - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+</details>
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+[Link to this property](#)
 
-    - `id: "advanced_ddos"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"advanced_ddos"`
+formatdate-time
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ProxyReadTimeout object { id, value, editable, modified_on }
 
-      - `true`
+Maximum time between two read operations from origin.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "proxy_read_timeout"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+[Link to this property](#)
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+value: number
 
-    - `id: "aegis"`
+Current value of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"aegis"`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      Last time this setting was modified.
+editable: optional true or false
 
-    - `value: optional object { enabled, pool_id }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Value of the zone setting.
+</summary>
 
-      - `enabled: optional boolean`
+One of the following:
 
-        Whether the feature is enabled or not.
+true
 
-      - `pool_id: optional string`
+[Link to this property](#)
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+false
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+</details>
 
-    - `id: "always_online"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"always_online"`
+last time this setting was modified.
 
-    - `value: "on" or "off"`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+PseudoIPV4 object { id, value, editable, modified_on }
 
-      - `false`
+The value set for the Pseudo IPv4 setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "pseudo_ipv4"
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+Value of the Pseudo IPv4 setting.
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+[Link to this property](#)
 
-    - `id: "always_use_https"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"always_use_https"`
+value: "off" or "add_header" or "overwrite_header"
 
-    - `value: "on" or "off"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+One of the following:
 
-      - `"off"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"add_header"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"overwrite_header"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+<details>
 
-    - `id: "automatic_https_rewrites"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"automatic_https_rewrites"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `Brotli object { id, value, editable, modified_on }`
+formatdate-time
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+[Link to this property](#)
 
-    - `id: "brotli"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"brotli"`
+<details>
 
-    - `value: "off" or "on"`
+<summary>
 
-      Current value of the zone setting.
+ResponseBuffering object { id, value }
 
-      - `"off"`
+</summary>
 
-      - `"on"`
+id: optional "response_buffering"
 
-    - `editable: optional true or false`
+Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: optional "on" or "off"
 
-      last time this setting was modified.
+The status of Response Buffering
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+</summary>
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+One of the following:
 
-    - `id: "browser_cache_ttl"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_cache_ttl"`
+"off"
 
-    - `value: number`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+RocketLoader object { id, value }
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+</summary>
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+id: optional "rocket_loader"
 
-    - `id: "browser_check"`
+Turn on or off Rocket Loader in the Cloudflare Speed app.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_check"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+value: optional "on" or "off"
 
-      - `"on"`
+The status of Rocket Loader
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+</details>
 
-    - `id: "cache_level"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"cache_level"`
+<summary>
 
-    - `value: "aggressive" or "basic" or "simplified"`
+SecurityHeaders object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Cloudflare security header for a zone.
 
-      - `"aggressive"`
+</summary>
 
-      - `"basic"`
+id: "security_header"
 
-      - `"simplified"`
+ID of the zone’s security header.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: object { strict_transport_security }
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+<details>
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+<summary>
 
-    - `id: "challenge_ttl"`
+strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }
 
-      ID of the zone setting.
+Strict Transport Security.
 
-      - `"challenge_ttl"`
+</summary>
 
-    - `value: 300 or 900 or 1800 or 11 more`
+enabled: optional boolean
 
-      Current value of the zone setting.
+Whether or not strict transport security is enabled.
 
-      - `300`
+[Link to this property](#)
 
-      - `900`
+include_subdomains: optional boolean
 
-      - `1800`
+Include all subdomains for strict transport security.
 
-      - `2700`
+[Link to this property](#)
 
-      - `3600`
+max_age: optional number
 
-      - `7200`
+Max age in seconds of the strict transport security.
 
-      - `10800`
+[Link to this property](#)
 
-      - `14400`
+nosniff: optional boolean
 
-      - `28800`
+Whether or not to include ‘X-Content-Type-Options: nosniff’ header.
 
-      - `57600`
+[Link to this property](#)
 
-      - `86400`
+preload: optional boolean
 
-      - `604800`
+Enable automatic preload of the HSTS configuration.
 
-      - `2592000`
+[Link to this property](#)
 
-      - `31536000`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesChinaNetworkEnabled object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Determines whether or not the china network is enabled.
+</summary>
 
-    - `id: "china_network_enabled"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"china_network_enabled"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+<details>
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+<summary>
 
-    - `id: "content_converter"`
+SecurityLevel object { id, value }
 
-      ID of the zone setting.
+</summary>
 
-      - `"content_converter"`
+id: optional "security_level"
 
-    - `value: "off" or "on"`
+Control options for the Security Level feature from the Security app.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+value: optional "off" or "essentially_off" or "low" or 3 more
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"essentially_off"
 
-  - `Ciphers object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+"low"
 
-    - `id: "ciphers"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"medium"
 
-      - `"ciphers"`
+[Link to this property](#)
 
-    - `value: array of string`
+"high"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"under_attack"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+<details>
 
-    Whether or not cname flattening is on.
+<summary>
 
-    - `id: "cname_flattening"`
+ServerSideExcludes object { id, value, editable, modified_on }
 
-      How to flatten the cname destination.
+If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: . For example: Bad visitors won’t see my phone number, 555-555-5555 . Note: SSE only will work with HTML. If you have HTML minification enabled, you won’t see the SSE tags in your HTML source when it’s served through Cloudflare. SSE will still function in this case, as Cloudflare’s HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor’s computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
 
-      - `"cname_flattening"`
+</summary>
 
-    - `value: "flatten_at_root" or "flatten_all"`
+id: "server_side_exclude"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"flatten_at_root"`
+[Link to this property](#)
 
-      - `"flatten_all"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+[Link to this property](#)
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+"off"
 
-    - `id: "development_mode"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"development_mode"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+editable: optional true or false
 
-      - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-    - `time_remaining: optional number`
+</details>
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+[Link to this property](#)
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+last time this setting was modified.
 
-    - `id: "early_hints"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"early_hints"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+SortQueryStringForCache object { id, value }
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: optional "sort_query_string_for_cache"
 
-      - `true`
+Turn on or off the reordering of query strings. When query strings have the same structure, caching improves.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+value: optional "on" or "off"
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+The status of Query String Sort
 
-    - `id: "edge_cache_ttl"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"edge_cache_ttl"`
+"on"
 
-    - `value: 30 or 60 or 300 or 18 more`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"off"
 
-      - `30`
+[Link to this property](#)
 
-      - `60`
+</details>
 
-      - `300`
+[Link to this property](#)
 
-      - `1200`
+</details>
 
-      - `1800`
+[Link to this property](#)
 
-      - `3600`
+<details>
 
-      - `7200`
+<summary>
 
-      - `10800`
+SSL object { id, value }
 
-      - `14400`
+</summary>
 
-      - `18000`
+id: optional "ssl"
 
-      - `28800`
+Control options for the SSL feature of the Edge Certificates tab in the Cloudflare SSL/TLS app.
 
-      - `43200`
+[Link to this property](#)
 
-      - `57600`
+<details>
 
-      - `72000`
+<summary>
 
-      - `86400`
+value: optional "off" or "flexible" or "full" or 2 more
 
-      - `172800`
+The encryption mode that Cloudflare uses to connect to your origin server.
 
-      - `259200`
+</summary>
 
-      - `345600`
+One of the following:
 
-      - `432000`
+"off"
 
-      - `518400`
+[Link to this property](#)
 
-      - `604800`
+"flexible"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"full"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"strict"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"origin_pull"
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+</details>
 
-    - `id: "email_obfuscation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"email_obfuscation"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+SSLRecommender object { id, enabled }
 
-      - `"off"`
+Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: optional "ssl_recommender"
 
-      - `true`
+Enrollment value for SSL/TLS Recommender.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+enabled: optional boolean
 
-      last time this setting was modified.
+ssl-recommender enrollment setting.
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+</details>
 
-    - `id: "h2_prioritization"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"h2_prioritization"`
+<summary>
 
-    - `value: "on" or "off" or "custom"`
+TLS1_3 object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Enables Crypto TLS 1.3 feature for a zone.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+id: "tls_1_3"
 
-      - `"custom"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "on" or "off" or "zrt"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+One of the following:
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+"on"
 
-    - `id: "hotlink_protection"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"off"
 
-      - `"hotlink_protection"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+"zrt"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+true
 
-    HTTP2 enabled for this zone.
+[Link to this property](#)
 
-    - `id: "http2"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"http2"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"on"`
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+TLSClientAuth object { id, value, editable, modified_on }
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
 
-    HTTP3 enabled for this zone.
+</summary>
 
-    - `id: "http3"`
+id: "tls_client_auth"
 
-      ID of the zone setting.
+ID of the zone setting.
 
-      - `"http3"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+value: "on" or "off"
 
-      - `"off"`
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ImageResizing object { id, value, editable, modified_on }`
+</details>
 
-    Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+[Link to this property](#)
 
-    - `id: "image_resizing"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"image_resizing"`
+editable: optional true or false
 
-    - `value: "on" or "off" or "open"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+One of the following:
 
-      - `"off"`
+true
 
-      - `"open"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+formatdate-time
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+[Link to this property](#)
 
-    - `id: "ip_geolocation"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ip_geolocation"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+TrueClientIPHeader object { id, value }
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+id: optional "true_client_ip_header"
 
-    - `editable: optional true or false`
+Turn on or off the True-Client-IP Header feature of the Cloudflare Network app.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: optional "on" or "off"
 
-      last time this setting was modified.
+The status of True Client IP Header.
 
-  - `IPV6 object { id, value, editable, modified_on }`
+</summary>
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+One of the following:
 
-    - `id: "ipv6"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ipv6"`
+"off"
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+WAF object { id, value }
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: optional "waf"
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules.
 
-    Maximum size of an allowable upload.
+[Link to this property](#)
 
-    - `id: "max_upload"`
+<details>
 
-      identifier of the zone setting.
+<summary>
 
-      - `"max_upload"`
+value: optional "on" or "off"
 
-    - `value: 100 or 125 or 150 or 15 more`
+The status of WAF managed rules (previous version).
 
-      Current value of the zone setting.
+</summary>
 
-      - `100`
+One of the following:
 
-      - `125`
+"on"
 
-      - `150`
+[Link to this property](#)
 
-      - `175`
+"off"
 
-      - `200`
+[Link to this property](#)
 
-      - `225`
+</details>
 
-      - `250`
+[Link to this property](#)
 
-      - `275`
+</details>
 
-      - `300`
+[Link to this property](#)
 
-      - `325`
+<details>
 
-      - `350`
+<summary>
 
-      - `375`
+WebP object { id, value, editable, modified_on }
 
-      - `400`
+When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
 
-      - `425`
+</summary>
 
-      - `450`
+id: "webp"
 
-      - `475`
+ID of the zone setting.
 
-      - `500`
+[Link to this property](#)
 
-      - `1000`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "off" or "on"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"off"
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+"on"
 
-    - `id: "min_tls_version"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"min_tls_version"`
+[Link to this property](#)
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"1.0"`
+editable: optional true or false
 
-      - `"1.1"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"1.2"`
+</summary>
 
-      - `"1.3"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+last time this setting was modified.
 
-    - `id: "mirage"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"mirage"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+Websocket object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "websockets"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `NEL object { id, value, editable, modified_on }`
+<summary>
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+value: "off" or "on"
 
-    - `id: "nel"`
+Current value of the zone setting.
 
-      Zone setting identifier.
+</summary>
 
-      - `"nel"`
+One of the following:
 
-    - `value: object { enabled }`
+"off"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `enabled: optional boolean`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Enables the Opportunistic Encryption feature for a zone.
+</summary>
 
-    - `id: "opportunistic_encryption"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"opportunistic_encryption"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+<details>
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+<summary>
 
-    - `id: "opportunistic_onion"`
+ZeroRTT object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+0-RTT session resumption enabled for this zone.
 
-      - `"opportunistic_onion"`
+</summary>
 
-    - `value: "on" or "off"`
+id: "0rtt"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+"off"
 
-    - `id: "orange_to_orange"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"orange_to_orange"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+editable: optional true or false
 
-      - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+</details>
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "origin_error_page_pass_thru"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"origin_error_page_pass_thru"`
+formatdate-time
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+SettingListResponse = [ZeroRTT](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20zero_rtt%20%3E%20(schema)) { id, value, editable, modified_on } or [AdvancedDDoS](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20advanced_ddos%20%3E%20(schema)) { id, value, editable, modified_on } or object { id, modified_on, value } or 62 more
 
-      - `true`
+0-RTT session resumption enabled for this zone.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+<summary>
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+ZeroRTT object { id, value, editable, modified_on }
 
-    - `id: "origin_h2_max_streams"`
+0-RTT session resumption enabled for this zone.
 
-      Value of the zone setting.
+</summary>
 
-      - `"origin_h2_max_streams"`
+id: "0rtt"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      Last time this setting was modified.
+[Link to this property](#)
 
-    - `value: optional number`
+<details>
 
-      Value of the Origin H2 Max Streams Setting.
+<summary>
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+value: "on" or "off"
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+Current value of the zone setting.
 
-    - `id: "origin_max_http_version"`
+</summary>
 
-      Value of the zone setting.
+One of the following:
 
-      - `"origin_max_http_version"`
+"on"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      Last time this setting was modified.
+"off"
 
-    - `value: optional "2" or "1"`
+[Link to this property](#)
 
-      Value of the Origin Max HTTP Version Setting.
+</details>
 
-      - `"2"`
+[Link to this property](#)
 
-      - `"1"`
+<details>
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+<summary>
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+editable: optional true or false
 
-    - `id: "polish"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"polish"`
+One of the following:
 
-    - `value: "off" or "lossless" or "lossy"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+false
 
-      - `"lossless"`
+[Link to this property](#)
 
-      - `"lossy"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+<details>
 
-    - `id: "prefetch_preload"`
+<summary>
 
-      ID of the zone setting.
+AdvancedDDoS object { id, value, editable, modified_on }
 
-      - `"prefetch_preload"`
+Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is ‘on’ in the case of Business and Enterprise zones.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+id: "advanced_ddos"
 
-      - `"on"`
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "on" or "off"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+"on"
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+[Link to this property](#)
 
-    - `id: "privacy_pass"`
+"off"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"privacy_pass"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Maximum time between two read operations from origin.
+</details>
 
-    - `id: "proxy_read_timeout"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"proxy_read_timeout"`
+last time this setting was modified.
 
-    - `value: number`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesCacheRulesAegis object { id, modified_on, value }
 
-      last time this setting was modified.
+Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+</summary>
 
-    The value set for the Pseudo IPv4 setting.
+id: "aegis"
 
-    - `id: "pseudo_ipv4"`
+ID of the zone setting.
 
-      Value of the Pseudo IPv4 setting.
+[Link to this property](#)
 
-      - `"pseudo_ipv4"`
+modified_on: optional string
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+Last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"add_header"`
+<details>
 
-      - `"overwrite_header"`
+<summary>
 
-    - `editable: optional true or false`
+value: optional object { enabled, pool_id }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+enabled: optional boolean
 
-    - `modified_on: optional string`
+Whether the feature is enabled or not.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+pool_id: optional string
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
 
-    - `id: "redirects_for_ai_training"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"redirects_for_ai_training"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+AlwaysOnline object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive’s Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "always_online"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+<details>
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+<summary>
 
-    - `id: "replace_insecure_js"`
+value: "on" or "off"
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"replace_insecure_js"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+"on"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+</summary>
 
-    - `id: "response_buffering"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"response_buffering"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+<details>
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+<summary>
 
-    - `id: "rocket_loader"`
+ZonesAlwaysUseHTTPS2 object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Reply to all requests for URLs that use “http” with a 301 redirect to the equivalent “https” URL. If you only want to redirect for a subset of requests, consider creating an “Always use HTTPS” page rule.
 
-      - `"rocket_loader"`
+</summary>
 
-    - `value: "on" or "off"`
+id: "always_use_https"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+"off"
 
-    - `id: "automatic_platform_optimization"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"automatic_platform_optimization"`
+[Link to this property](#)
 
-    - `value: AutomaticPlatformOptimization`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `cache_by_device_type: boolean`
+editable: optional true or false
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `cf: boolean`
+</summary>
 
-        Indicates whether or not Cloudflare proxy is enabled.
+One of the following:
 
-      - `enabled: boolean`
+true
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+[Link to this property](#)
 
-      - `hostnames: array of string`
+false
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+[Link to this property](#)
 
-      - `wordpress: boolean`
+</details>
 
-        Indicates whether or not site is powered by WordPress.
+[Link to this property](#)
 
-      - `wp_plugin: boolean`
+modified_on: optional string
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+last time this setting was modified.
 
-    - `editable: optional true or false`
+formatdate-time
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+ZonesAutomaticHTTPSRewrites2 object { id, value, editable, modified_on }
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+Enable the Automatic HTTPS Rewrites feature for this zone.
 
-    - `id: "search_for_agents"`
+</summary>
 
-      ID of the zone setting.
+id: "automatic_https_rewrites"
 
-      - `"search_for_agents"`
+ID of the zone setting.
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"on"`
+value: "on" or "off"
 
-    - `editable: optional true or false`
+Current value of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+"on"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"off"
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare security header for a zone.
+</details>
 
-    - `id: "security_header"`
+[Link to this property](#)
 
-      ID of the zone's security header.
+<details>
 
-      - `"security_header"`
+<summary>
 
-    - `value: object { strict_transport_security }`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+</summary>
 
-        Strict Transport Security.
+One of the following:
 
-        - `enabled: optional boolean`
+true
 
-          Whether or not strict transport security is enabled.
+[Link to this property](#)
 
-        - `include_subdomains: optional boolean`
+false
 
-          Include all subdomains for strict transport security.
+[Link to this property](#)
 
-        - `max_age: optional number`
+</details>
 
-          Max age in seconds of the strict transport security.
+[Link to this property](#)
 
-        - `nosniff: optional boolean`
+modified_on: optional string
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+last time this setting was modified.
 
-        - `preload: optional boolean`
+formatdate-time
 
-          Enable automatic preload of the HSTS configuration.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+Brotli object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+</summary>
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+id: "brotli"
 
-    - `id: "security_level"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"security_level"`
+<details>
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+<summary>
 
-      Current value of the zone setting.
+value: "off" or "on"
 
-      - `"off"`
+Current value of the zone setting.
 
-      - `"essentially_off"`
+</summary>
 
-      - `"low"`
+One of the following:
 
-      - `"medium"`
+"off"
 
-      - `"high"`
+[Link to this property](#)
 
-      - `"under_attack"`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+</summary>
 
-    - `id: "server_side_exclude"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"server_side_exclude"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+<details>
 
-    Allow SHA1 support.
+<summary>
 
-    - `id: "sha1_support"`
+ZonesBrowserCacheTTL2 object { id, value, editable, modified_on }
 
-      Zone setting identifier.
+Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors’ computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
 
-      - `"sha1_support"`
+</summary>
 
-    - `value: "off" or "on"`
+id: "browser_cache_ttl"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+value: number
 
-    - `editable: optional true or false`
+Current value of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+maximum31536000
 
-      - `true`
+minimum0
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "sort_query_string_for_cache"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"sort_query_string_for_cache"`
+true
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+<details>
 
-    - `id: "ssl"`
+<summary>
 
-      ID of the zone setting.
+ZonesBrowserCheck2 object { id, value, editable, modified_on }
 
-      - `"ssl"`
+Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page. It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+</summary>
 
-      Current value of the zone setting.
+id: "browser_check"
 
-      - `"off"`
+ID of the zone setting.
 
-      - `"flexible"`
+[Link to this property](#)
 
-      - `"full"`
+<details>
 
-      - `"strict"`
+<summary>
 
-    - `editable: optional true or false`
+value: "on" or "off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"on"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `SSLRecommender object { id, enabled }`
+"off"
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+[Link to this property](#)
 
-    - `id: optional "ssl_recommender"`
+</details>
 
-      Enrollment value for SSL/TLS Recommender.
+[Link to this property](#)
 
-      - `"ssl_recommender"`
+<details>
 
-    - `enabled: optional boolean`
+<summary>
 
-      ssl-recommender enrollment setting.
+editable: optional true or false
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Only allows TLS1.2.
+</summary>
 
-    - `id: "tls_1_2_only"`
+One of the following:
 
-      Zone setting identifier.
+true
 
-      - `"tls_1_2_only"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+<details>
 
-    Enables Crypto TLS 1.3 feature for a zone.
+<summary>
 
-    - `id: "tls_1_3"`
+ZonesCacheLevel2 object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
 
-      - `"tls_1_3"`
+</summary>
 
-    - `value: "on" or "off" or "zrt"`
+id: "cache_level"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"zrt"`
+<summary>
 
-    - `editable: optional true or false`
+value: "aggressive" or "basic" or "simplified"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"aggressive"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+"basic"
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+[Link to this property](#)
 
-    - `id: "tls_client_auth"`
+"simplified"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"tls_client_auth"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `ZonesTransformations object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+</details>
 
-    - `id: "transformations"`
+[Link to this property](#)
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+modified_on: optional string
 
-      - `"transformations"`
+last time this setting was modified.
 
-    - `value: "on" or "off" or "open"`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"open"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ChallengeTTL object { id, value, editable, modified_on }
 
-      - `true`
+Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "challenge_ttl"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+<details>
 
-    - `id: "transformations_allowed_origins"`
+<summary>
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+value: 300 or 900 or 1800 or 11 more
 
-      - `"transformations_allowed_origins"`
+Current value of the zone setting.
 
-    - `value: string`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-    - `editable: optional true or false`
+300
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+900
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+1800
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+2700
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "true_client_ip_header"`
+3600
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"true_client_ip_header"`
+7200
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+10800
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+14400
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+28800
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+57600
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+86400
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+604800
 
-    - `id: "waf"`
+[Link to this property](#)
 
-      ID of the zone setting.
+2592000
 
-      - `"waf"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+31536000
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `WebP object { id, value, editable, modified_on }`
+true
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+[Link to this property](#)
 
-    - `id: "webp"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"webp"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"off"`
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+Ciphers object { id, value, editable, modified_on }
 
-  - `Websocket object { id, value, editable, modified_on }`
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+</summary>
 
-    - `id: "websockets"`
+id: "ciphers"
 
-      ID of the zone setting.
+ID of the zone setting.
 
-      - `"websockets"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+value: array of string
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-### Example
+[Link to this property](#)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/$SETTING_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+false
 
-#### Response
+[Link to this property](#)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "0rtt",
-    "value": "on",
-    "editable": true,
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+</details>
 
-## Edit zone setting
+[Link to this property](#)
 
-**patch** `/zones/{zone_id}/settings/{setting_id}`
+modified_on: optional string
 
-Updates a single zone setting by the identifier
+last time this setting was modified.
 
-### Path Parameters
+formatdate-time
 
-- `zone_id: string`
+[Link to this property](#)
 
-  Identifier
+</details>
 
-- `setting_id: string`
+[Link to this property](#)
 
-  Setting name
+<details>
 
-### Body Parameters
+<summary>
 
-- `body: object { enabled }  or object { value }`
+ZonesContentConverter object { id, value, editable, modified_on }
 
-  - `Enabled object { enabled }`
+When enabled and the client sends an Accept header requesting text/markdown, Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service. Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
 
-    - `enabled: optional boolean`
+</summary>
 
-      ssl-recommender enrollment setting.
+id: "content_converter"
 
-  - `Value object { value }`
+ID of the zone setting.
 
-    - `value: optional unknown or object { enabled, pool_id }  or array of string or 4 more`
+[Link to this property](#)
 
-      Value of the zone setting.
+<details>
 
-      - `unknown`
+<summary>
 
-      - `ZonesCacheRulesAegisValue object { enabled, pool_id }`
+value: "off" or "on"
 
-        Value of the zone setting.
+Current value of the zone setting.
 
-        - `enabled: optional boolean`
+</summary>
 
-          Whether the feature is enabled or not.
+One of the following:
 
-        - `pool_id: optional string`
+"off"
 
-          Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+[Link to this property](#)
 
-      - `ZonesCiphersValue = array of string`
+"on"
 
-        Value of the zone setting.
+[Link to this property](#)
 
-      - `ZonesNELValue object { enabled }`
+</details>
 
-        Value of the zone setting.
+[Link to this property](#)
 
-        - `enabled: optional boolean`
+<details>
 
-      - `ZonesProxyReadTimeoutValue = number`
+<summary>
 
-        Value of the zone setting.
-        Notes: Value must be between 1 and 6000
+editable: optional true or false
 
-      - `AutomaticPlatformOptimization object { cache_by_device_type, cf, enabled, 3 more }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-        - `cache_by_device_type: boolean`
+</summary>
 
-          Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+One of the following:
 
-        - `cf: boolean`
+true
 
-          Indicates whether or not Cloudflare proxy is enabled.
+[Link to this property](#)
 
-        - `enabled: boolean`
+false
 
-          Indicates whether or not Automatic Platform Optimization is enabled.
+[Link to this property](#)
 
-        - `hostnames: array of string`
+</details>
 
-          An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+[Link to this property](#)
 
-        - `wordpress: boolean`
+modified_on: optional string
 
-          Indicates whether or not site is powered by WordPress.
+last time this setting was modified.
 
-        - `wp_plugin: boolean`
+formatdate-time
 
-          Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+[Link to this property](#)
 
-      - `ZonesSecurityHeaderValue object { strict_transport_security }`
+</details>
 
-        - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+[Link to this property](#)
 
-          Strict Transport Security.
+<details>
 
-          - `enabled: optional boolean`
+<summary>
 
-            Whether or not strict transport security is enabled.
+ZonesCNAMEFlattening object { id, value, editable, modified_on }
 
-          - `include_subdomains: optional boolean`
+Whether or not cname flattening is on.
 
-            Include all subdomains for strict transport security.
+</summary>
 
-          - `max_age: optional number`
+id: "cname_flattening"
 
-            Max age in seconds of the strict transport security.
+How to flatten the cname destination.
 
-          - `nosniff: optional boolean`
+[Link to this property](#)
 
-            Whether or not to include 'X-Content-Type-Options: nosniff' header.
+<details>
 
-          - `preload: optional boolean`
+<summary>
 
-            Enable automatic preload of the HSTS configuration.
+Deprecatedvalue: "flatten_at_root" or "flatten_all"
 
-### Returns
+This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21
 
-- `errors: array of ResponseInfo`
+Current value of the zone setting.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"flatten_at_root"
 
-  - `source: optional object { pointer }`
+[Link to this property](#)
 
-    - `pointer: optional string`
+"flatten_all"
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `success: boolean`
+editable: optional true or false
 
-  Whether the API call was successful
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-- `result: optional ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 60 more`
+</summary>
 
-  0-RTT session resumption enabled for this zone.
+One of the following:
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+true
 
-    0-RTT session resumption enabled for this zone.
+[Link to this property](#)
 
-    - `id: "0rtt"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"0rtt"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"on"`
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+DevelopmentMode object { id, value, editable, 2 more }
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare’s accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+</summary>
 
-    - `id: "advanced_ddos"`
+id: "development_mode"
 
-      ID of the zone setting.
+ID of the zone setting.
 
-      - `"advanced_ddos"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+value: "on" or "off"
 
-      - `"off"`
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+</details>
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+[Link to this property](#)
 
-    - `id: "aegis"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"aegis"`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Last time this setting was modified.
+</summary>
 
-    - `value: optional object { enabled, pool_id }`
+One of the following:
 
-      Value of the zone setting.
+true
 
-      - `enabled: optional boolean`
+[Link to this property](#)
 
-        Whether the feature is enabled or not.
+false
 
-      - `pool_id: optional string`
+[Link to this property](#)
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+</details>
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+modified_on: optional string
 
-    - `id: "always_online"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"always_online"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+time_remaining: optional number
 
-      Current value of the zone setting.
+Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+EarlyHints object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+id: "early_hints"
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+ID of the zone setting.
 
-    - `id: "always_use_https"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"always_use_https"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "on" or "off"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+<details>
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+<summary>
 
-    - `id: "automatic_https_rewrites"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"automatic_https_rewrites"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `Brotli object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+</details>
 
-    - `id: "brotli"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"brotli"`
+<summary>
 
-    - `value: "off" or "on"`
+ZonesEdgeCacheTTL2 object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Time (in seconds) that a resource will be ensured to remain on Cloudflare’s cache servers.
 
-      - `"off"`
+</summary>
 
-      - `"on"`
+id: "edge_cache_ttl"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: 30 or 60 or 300 or 18 more
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+</summary>
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+One of the following:
 
-    - `id: "browser_cache_ttl"`
+30
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_cache_ttl"`
+60
 
-    - `value: number`
+[Link to this property](#)
 
-      Current value of the zone setting.
+300
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+1200
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+1800
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+3600
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+7200
 
-    - `id: "browser_check"`
+[Link to this property](#)
 
-      ID of the zone setting.
+10800
 
-      - `"browser_check"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+14400
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+18000
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+28800
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+43200
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+57600
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+72000
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+[Link to this property](#)
 
-    - `id: "cache_level"`
+86400
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"cache_level"`
+172800
 
-    - `value: "aggressive" or "basic" or "simplified"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+259200
 
-      - `"aggressive"`
+[Link to this property](#)
 
-      - `"basic"`
+345600
 
-      - `"simplified"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+432000
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+518400
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+604800
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+</details>
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+[Link to this property](#)
 
-    - `id: "challenge_ttl"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"challenge_ttl"`
+editable: optional true or false
 
-    - `value: 300 or 900 or 1800 or 11 more`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `300`
+One of the following:
 
-      - `900`
+true
 
-      - `1800`
+[Link to this property](#)
 
-      - `2700`
+false
 
-      - `3600`
+[Link to this property](#)
 
-      - `7200`
+</details>
 
-      - `10800`
+[Link to this property](#)
 
-      - `14400`
+modified_on: optional string
 
-      - `28800`
+last time this setting was modified.
 
-      - `57600`
+formatdate-time
 
-      - `86400`
+[Link to this property](#)
 
-      - `604800`
+</details>
 
-      - `2592000`
+[Link to this property](#)
 
-      - `31536000`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ZonesEmailObfuscation2 object { id, value, editable, modified_on }
 
-      - `true`
+Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "email_obfuscation"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `ZonesChinaNetworkEnabled object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Determines whether or not the china network is enabled.
+<details>
 
-    - `id: "china_network_enabled"`
+<summary>
 
-      ID of the zone setting.
+value: "on" or "off"
 
-      - `"china_network_enabled"`
+Current value of the zone setting.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+"on"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "content_converter"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"content_converter"`
+true
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `Ciphers object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+<details>
 
-    - `id: "ciphers"`
+<summary>
 
-      ID of the zone setting.
+H2Prioritization object { id, value, editable, modified_on }
 
-      - `"ciphers"`
+HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
 
-    - `value: array of string`
+</summary>
 
-      Current value of the zone setting.
+id: "h2_prioritization"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: "on" or "off" or "custom"
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+</summary>
 
-    Whether or not cname flattening is on.
+One of the following:
 
-    - `id: "cname_flattening"`
+"on"
 
-      How to flatten the cname destination.
+[Link to this property](#)
 
-      - `"cname_flattening"`
+"off"
 
-    - `value: "flatten_at_root" or "flatten_all"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"custom"
 
-      - `"flatten_at_root"`
+[Link to this property](#)
 
-      - `"flatten_all"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      last time this setting was modified.
+</summary>
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+One of the following:
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+true
 
-    - `id: "development_mode"`
+[Link to this property](#)
 
-      ID of the zone setting.
+false
 
-      - `"development_mode"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+modified_on: optional string
 
-      - `"off"`
+last time this setting was modified.
 
-    - `editable: optional true or false`
+formatdate-time
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-    - `time_remaining: optional number`
+HotlinkProtection object { id, value, editable, modified_on }
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it’s not another site requesting them. People will still be able to download and view images from your page, but other sites won’t be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+</summary>
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+id: "hotlink_protection"
 
-    - `id: "early_hints"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"early_hints"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off"
 
-      - `"on"`
+Current value of the zone setting.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+<details>
 
-    - `id: "edge_cache_ttl"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"edge_cache_ttl"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: 30 or 60 or 300 or 18 more`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `30`
+true
 
-      - `60`
+[Link to this property](#)
 
-      - `300`
+false
 
-      - `1200`
+[Link to this property](#)
 
-      - `1800`
+</details>
 
-      - `3600`
+[Link to this property](#)
 
-      - `7200`
+modified_on: optional string
 
-      - `10800`
+last time this setting was modified.
 
-      - `14400`
+formatdate-time
 
-      - `18000`
+[Link to this property](#)
 
-      - `28800`
+</details>
 
-      - `43200`
+[Link to this property](#)
 
-      - `57600`
+<details>
 
-      - `72000`
+<summary>
 
-      - `86400`
+HTTP2 object { id, value, editable, modified_on }
 
-      - `172800`
+HTTP2 enabled for this zone.
 
-      - `259200`
+</summary>
 
-      - `345600`
+id: "http2"
 
-      - `432000`
+ID of the zone setting.
 
-      - `518400`
+[Link to this property](#)
 
-      - `604800`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+"off"
 
-    - `id: "email_obfuscation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"email_obfuscation"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+editable: optional true or false
 
-      - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+</details>
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+[Link to this property](#)
 
-    - `id: "h2_prioritization"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"h2_prioritization"`
+formatdate-time
 
-    - `value: "on" or "off" or "custom"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"custom"`
+<summary>
 
-    - `editable: optional true or false`
+HTTP3 object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+HTTP3 enabled for this zone.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "http3"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+<details>
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+<summary>
 
-    - `id: "hotlink_protection"`
+value: "on" or "off"
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"hotlink_protection"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+"on"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    HTTP2 enabled for this zone.
+</summary>
 
-    - `id: "http2"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"http2"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+<details>
 
-    HTTP3 enabled for this zone.
+<summary>
 
-    - `id: "http3"`
+ImageResizing object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare’s network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
 
-      - `"http3"`
+</summary>
 
-    - `value: "on" or "off"`
+id: "image_resizing"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off" or "open"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ImageResizing object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+"off"
 
-    - `id: "image_resizing"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"open"
 
-      - `"image_resizing"`
+[Link to this property](#)
 
-    - `value: "on" or "off" or "open"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"open"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+</details>
 
-    - `id: "ip_geolocation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"ip_geolocation"`
+last time this setting was modified.
 
-    - `value: "on" or "off"`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+ZonesIPGeolocation2 object { id, value, editable, modified_on }
 
-      - `false`
+Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "ip_geolocation"
 
-  - `IPV6 object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+[Link to this property](#)
 
-    - `id: "ipv6"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"ipv6"`
+value: "on" or "off"
 
-    - `value: "off" or "on"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"on"`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+<summary>
 
-    Maximum size of an allowable upload.
+editable: optional true or false
 
-    - `id: "max_upload"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      identifier of the zone setting.
+</summary>
 
-      - `"max_upload"`
+One of the following:
 
-    - `value: 100 or 125 or 150 or 15 more`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `100`
+false
 
-      - `125`
+[Link to this property](#)
 
-      - `150`
+</details>
 
-      - `175`
+[Link to this property](#)
 
-      - `200`
+modified_on: optional string
 
-      - `225`
+last time this setting was modified.
 
-      - `250`
+formatdate-time
 
-      - `275`
+[Link to this property](#)
 
-      - `300`
+</details>
 
-      - `325`
+[Link to this property](#)
 
-      - `350`
+<details>
 
-      - `375`
+<summary>
 
-      - `400`
+IPV6 object { id, value, editable, modified_on }
 
-      - `425`
+Enable IPv6 on all subdomains that are Cloudflare enabled. (https://support.cloudflare.com/hc/en-us/articles/200168586).
 
-      - `450`
+</summary>
 
-      - `475`
+id: "ipv6"
 
-      - `500`
+ID of the zone setting.
 
-      - `1000`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "off" or "on"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+"off"
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+[Link to this property](#)
 
-    - `id: "min_tls_version"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"min_tls_version"`
+</details>
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"1.0"`
+<summary>
 
-      - `"1.1"`
+editable: optional true or false
 
-      - `"1.2"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"1.3"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+modified_on: optional string
 
-    - `id: "mirage"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"mirage"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+ZonesMaxUpload object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Maximum size of an allowable upload.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "max_upload"
 
-    - `modified_on: optional string`
+identifier of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `NEL object { id, value, editable, modified_on }`
+<details>
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+<summary>
 
-    - `id: "nel"`
+value: 100 or 125 or 150 or 23 more
 
-      Zone setting identifier.
+Current value of the zone setting.
 
-      - `"nel"`
+</summary>
 
-    - `value: object { enabled }`
+One of the following:
 
-      Current value of the zone setting.
+100
 
-      - `enabled: optional boolean`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+125
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+150
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+175
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+200
 
-    Enables the Opportunistic Encryption feature for a zone.
+[Link to this property](#)
 
-    - `id: "opportunistic_encryption"`
+225
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"opportunistic_encryption"`
+250
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+275
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+300
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+325
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+350
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+375
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+400
 
-    - `id: "opportunistic_onion"`
+[Link to this property](#)
 
-      ID of the zone setting.
+425
 
-      - `"opportunistic_onion"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+450
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+475
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+500
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+1000
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+1500
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+2000
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+[Link to this property](#)
 
-    - `id: "orange_to_orange"`
+2500
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"orange_to_orange"`
+3000
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+3500
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+4000
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+4500
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+5000
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+<details>
 
-    - `id: "origin_error_page_pass_thru"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"origin_error_page_pass_thru"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+formatdate-time
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+[Link to this property](#)
 
-    - `id: "origin_h2_max_streams"`
+</details>
 
-      Value of the zone setting.
+[Link to this property](#)
 
-      - `"origin_h2_max_streams"`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      Last time this setting was modified.
+MinTLSVersion object { id, value, editable, modified_on }
 
-    - `value: optional number`
+Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
 
-      Value of the Origin H2 Max Streams Setting.
+</summary>
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+id: "min_tls_version"
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+ID of the zone setting.
 
-    - `id: "origin_max_http_version"`
+[Link to this property](#)
 
-      Value of the zone setting.
+<details>
 
-      - `"origin_max_http_version"`
+<summary>
 
-    - `modified_on: optional string`
+value: "1.0" or "1.1" or "1.2" or "1.3"
 
-      Last time this setting was modified.
+Current value of the zone setting.
 
-    - `value: optional "2" or "1"`
+</summary>
 
-      Value of the Origin Max HTTP Version Setting.
+One of the following:
 
-      - `"2"`
+"1.0"
 
-      - `"1"`
+[Link to this property](#)
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+"1.1"
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+[Link to this property](#)
 
-    - `id: "polish"`
+"1.2"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"polish"`
+"1.3"
 
-    - `value: "off" or "lossless" or "lossy"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"lossless"`
+<details>
 
-      - `"lossy"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+false
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "prefetch_preload"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"prefetch_preload"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesMirage2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Automatically optimize image loading for website visitors on mobile devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed) for more information.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+id: "mirage"
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+ID of the zone setting.
 
-    - `id: "privacy_pass"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"privacy_pass"`
+<summary>
 
-    - `value: "on" or "off"`
+Deprecatedvalue: "on" or "off"
 
-      Current value of the zone setting.
+Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/
 
-      - `"on"`
+Current value of the zone setting.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Maximum time between two read operations from origin.
+<details>
 
-    - `id: "proxy_read_timeout"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"proxy_read_timeout"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: number`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    The value set for the Pseudo IPv4 setting.
+last time this setting was modified.
 
-    - `id: "pseudo_ipv4"`
+formatdate-time
 
-      Value of the Pseudo IPv4 setting.
+[Link to this property](#)
 
-      - `"pseudo_ipv4"`
+</details>
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"add_header"`
+NEL object { id, value, editable, modified_on }
 
-      - `"overwrite_header"`
+Enable Network Error Logging reporting on your zone. (Beta)
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "nel"
 
-      - `true`
+Zone setting identifier.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+value: object { enabled }
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+Current value of the zone setting.
 
-    - `id: "redirects_for_ai_training"`
+</summary>
 
-      ID of the zone setting.
+enabled: optional boolean
 
-      - `"redirects_for_ai_training"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+false
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+[Link to this property](#)
 
-    - `id: "replace_insecure_js"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"replace_insecure_js"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesOpportunisticEncryption2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Enables the Opportunistic Encryption feature for a zone.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+id: "opportunistic_encryption"
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+ID of the zone setting.
 
-    - `id: "response_buffering"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"response_buffering"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "on" or "off"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+<details>
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+<summary>
 
-    - `id: "rocket_loader"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"rocket_loader"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+</details>
 
-    - `id: "automatic_platform_optimization"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"automatic_platform_optimization"`
+<summary>
 
-    - `value: AutomaticPlatformOptimization`
+OpportunisticOnion object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
 
-      - `cache_by_device_type: boolean`
+</summary>
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+id: "opportunistic_onion"
 
-      - `cf: boolean`
+ID of the zone setting.
 
-        Indicates whether or not Cloudflare proxy is enabled.
+[Link to this property](#)
 
-      - `enabled: boolean`
+<details>
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+<summary>
 
-      - `hostnames: array of string`
+value: "on" or "off"
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+Current value of the zone setting.
 
-      - `wordpress: boolean`
+</summary>
 
-        Indicates whether or not site is powered by WordPress.
+One of the following:
 
-      - `wp_plugin: boolean`
+"on"
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "search_for_agents"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"search_for_agents"`
+true
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare security header for a zone.
+<details>
 
-    - `id: "security_header"`
+<summary>
 
-      ID of the zone's security header.
+OrangeToOrange object { id, value, editable, modified_on }
 
-      - `"security_header"`
+Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
 
-    - `value: object { strict_transport_security }`
+</summary>
 
-      Current value of the zone setting.
+id: "orange_to_orange"
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+ID of the zone setting.
 
-        Strict Transport Security.
+[Link to this property](#)
 
-        - `enabled: optional boolean`
+<details>
 
-          Whether or not strict transport security is enabled.
+<summary>
 
-        - `include_subdomains: optional boolean`
+Deprecatedvalue: "on" or "off"
 
-          Include all subdomains for strict transport security.
+This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/
 
-        - `max_age: optional number`
+Current value of the zone setting.
 
-          Max age in seconds of the strict transport security.
+</summary>
 
-        - `nosniff: optional boolean`
+One of the following:
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+"on"
 
-        - `preload: optional boolean`
+[Link to this property](#)
 
-          Enable automatic preload of the HSTS configuration.
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+</summary>
 
-    - `id: "security_level"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"security_level"`
+[Link to this property](#)
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"essentially_off"`
+[Link to this property](#)
 
-      - `"low"`
+modified_on: optional string
 
-      - `"medium"`
+last time this setting was modified.
 
-      - `"high"`
+formatdate-time
 
-      - `"under_attack"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesOriginErrorPagePassThru2 object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+</summary>
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+id: "origin_error_page_pass_thru"
 
-    - `id: "server_side_exclude"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"server_side_exclude"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off"
 
-      - `"on"`
+Current value of the zone setting.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Allow SHA1 support.
+<details>
 
-    - `id: "sha1_support"`
+<summary>
 
-      Zone setting identifier.
+editable: optional true or false
 
-      - `"sha1_support"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "off" or "on"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"off"`
+true
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+formatdate-time
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "sort_query_string_for_cache"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"sort_query_string_for_cache"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }
 
-      - `"on"`
+Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+id: "origin_h2_max_streams"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Value of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+Last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+value: optional number
 
-    - `id: "ssl"`
+Value of the Origin H2 Max Streams Setting.
 
-      ID of the zone setting.
+maximum1000
 
-      - `"ssl"`
+minimum1
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"flexible"`
+<details>
 
-      - `"full"`
+<summary>
 
-      - `"strict"`
+ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }
 
-    - `editable: optional true or false`
+Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is “2” for all plan types except Enterprise where it is “1”.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "origin_max_http_version"
 
-      - `false`
+Value of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `SSLRecommender object { id, enabled }`
+Last time this setting was modified.
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+formatdate-time
 
-    - `id: optional "ssl_recommender"`
+[Link to this property](#)
 
-      Enrollment value for SSL/TLS Recommender.
+<details>
 
-      - `"ssl_recommender"`
+<summary>
 
-    - `enabled: optional boolean`
+value: optional "2" or "1"
 
-      ssl-recommender enrollment setting.
+Value of the Origin Max HTTP Version Setting.
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+</summary>
 
-    Only allows TLS1.2.
+One of the following:
 
-    - `id: "tls_1_2_only"`
+"2"
 
-      Zone setting identifier.
+[Link to this property](#)
 
-      - `"tls_1_2_only"`
+"1"
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesPolish2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
 
-      last time this setting was modified.
+</summary>
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+id: "polish"
 
-    Enables Crypto TLS 1.3 feature for a zone.
+ID of the zone setting.
 
-    - `id: "tls_1_3"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"tls_1_3"`
+<summary>
 
-    - `value: "on" or "off" or "zrt"`
+value: "off" or "lossless" or "lossy"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"zrt"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"lossless"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"lossy"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+<details>
 
-    - `id: "tls_client_auth"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"tls_client_auth"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesTransformations object { id, value, editable, modified_on }`
+formatdate-time
 
-    Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+[Link to this property](#)
 
-    - `id: "transformations"`
+</details>
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+[Link to this property](#)
 
-      - `"transformations"`
+<details>
 
-    - `value: "on" or "off" or "open"`
+<summary>
 
-      Current value of the zone setting.
+PrefetchPreload object { id, value, editable, modified_on }
 
-      - `"on"`
+Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
 
-      - `"off"`
+</summary>
 
-      - `"open"`
+id: "prefetch_preload"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: "on" or "off"
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-  - `ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }`
+</summary>
 
-    Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+One of the following:
 
-    - `id: "transformations_allowed_origins"`
+"on"
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+[Link to this property](#)
 
-      - `"transformations_allowed_origins"`
+"off"
 
-    - `value: string`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+One of the following:
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+true
 
-    - `id: "true_client_ip_header"`
+[Link to this property](#)
 
-      ID of the zone setting.
+false
 
-      - `"true_client_ip_header"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+modified_on: optional string
 
-      - `"off"`
+last time this setting was modified.
 
-    - `editable: optional true or false`
+formatdate-time
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+ZonesPreRender object { id, value, editable, modified_on }
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+When enabled, Cloudflare serves pre-rendered HTML to eligible search and AI crawlers instead of the origin’s unrendered response.
 
-    - `id: "waf"`
+</summary>
 
-      ID of the zone setting.
+id: "pre_render"
 
-      - `"waf"`
+ID of the zone setting.
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+value: "off" or "on"
 
-    - `editable: optional true or false`
+Current value of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"on"
 
-  - `WebP object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+</details>
 
-    - `id: "webp"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"webp"`
+<summary>
 
-    - `value: "off" or "on"`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-      - `"on"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `Websocket object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+last time this setting was modified.
 
-    - `id: "websockets"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"websockets"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"on"`
+ZonesPrivacyPass object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "privacy_pass"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/$SETTING_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+Deprecatedvalue: "on" or "off"
 
-#### Response
+Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "0rtt",
-    "value": "on",
-    "editable": true,
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Current value of the zone setting.
 
-## Edit multiple zone settings
+</summary>
 
-**patch** `/zones/{zone_id}/settings`
+One of the following:
 
-Edit settings for a zone.
+"on"
 
-### Path Parameters
+[Link to this property](#)
 
-- `zone_id: string`
+"off"
 
-  Identifier
+[Link to this property](#)
 
-### Body Parameters
+</details>
 
-- `body: array of ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 57 more`
+[Link to this property](#)
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+<details>
 
-    0-RTT session resumption enabled for this zone.
+<summary>
 
-    - `id: "0rtt"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"0rtt"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+</details>
 
-    - `id: "advanced_ddos"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"advanced_ddos"`
+<summary>
 
-    - `value: "on" or "off"`
+ProxyReadTimeout object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Maximum time between two read operations from origin.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+id: "proxy_read_timeout"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+value: number
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+<summary>
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+editable: optional true or false
 
-    - `id: "aegis"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"aegis"`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      Last time this setting was modified.
+[Link to this property](#)
 
-    - `value: optional object { enabled, pool_id }`
+false
 
-      Value of the zone setting.
+[Link to this property](#)
 
-      - `enabled: optional boolean`
+</details>
 
-        Whether the feature is enabled or not.
+[Link to this property](#)
 
-      - `pool_id: optional string`
+modified_on: optional string
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+last time this setting was modified.
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+formatdate-time
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+[Link to this property](#)
 
-    - `id: "always_online"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"always_online"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+PseudoIPV4 object { id, value, editable, modified_on }
 
-      - `"on"`
+The value set for the Pseudo IPv4 setting.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+id: "pseudo_ipv4"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Value of the Pseudo IPv4 setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "off" or "add_header" or "overwrite_header"
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+</summary>
 
-    - `id: "always_use_https"`
+One of the following:
 
-      ID of the zone setting.
+"off"
 
-      - `"always_use_https"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+"add_header"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+"overwrite_header"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+editable: optional true or false
 
-      last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+</summary>
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+One of the following:
 
-    - `id: "automatic_https_rewrites"`
+true
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"automatic_https_rewrites"`
+false
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+modified_on: optional string
 
-    - `editable: optional true or false`
+last time this setting was modified.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+formatdate-time
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `Brotli object { id, value, editable, modified_on }`
+<summary>
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+ZonesRedirectsForAITraining object { id, value, editable, modified_on }
 
-    - `id: "brotli"`
+When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs found in the HTML response, ensuring AI models train on authoritative content.
 
-      ID of the zone setting.
+</summary>
 
-      - `"brotli"`
+id: "redirects_for_ai_training"
 
-    - `value: "off" or "on"`
+ID of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+value: "off" or "on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+"on"
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+[Link to this property](#)
 
-    - `id: "browser_cache_ttl"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_cache_ttl"`
+<details>
 
-    - `value: number`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+</details>
 
-    - `id: "browser_check"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"browser_check"`
+last time this setting was modified.
 
-    - `value: "on" or "off"`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+ZonesReplaceInsecureJS object { id, value, editable, modified_on }
 
-      - `false`
+Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "replace_insecure_js"
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+[Link to this property](#)
 
-    - `id: "cache_level"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"cache_level"`
+value: "on" or "off"
 
-    - `value: "aggressive" or "basic" or "simplified"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"aggressive"`
+One of the following:
 
-      - `"basic"`
+"on"
 
-      - `"simplified"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "challenge_ttl"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"challenge_ttl"`
+true
 
-    - `value: 300 or 900 or 1800 or 11 more`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `300`
+[Link to this property](#)
 
-      - `900`
+</details>
 
-      - `1800`
+[Link to this property](#)
 
-      - `2700`
+modified_on: optional string
 
-      - `3600`
+last time this setting was modified.
 
-      - `7200`
+formatdate-time
 
-      - `10800`
+[Link to this property](#)
 
-      - `14400`
+</details>
 
-      - `28800`
+[Link to this property](#)
 
-      - `57600`
+<details>
 
-      - `86400`
+<summary>
 
-      - `604800`
+ZonesResponseBuffering2 object { id, value, editable, modified_on }
 
-      - `2592000`
+Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
 
-      - `31536000`
+</summary>
 
-    - `editable: optional true or false`
+id: "response_buffering"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "on" or "off"
 
-  - `ZonesChinaNetworkEnabled object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Determines whether or not the china network is enabled.
+</summary>
 
-    - `id: "china_network_enabled"`
+One of the following:
 
-      ID of the zone setting.
+"on"
 
-      - `"china_network_enabled"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+"off"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+true
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+[Link to this property](#)
 
-    - `id: "content_converter"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"content_converter"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"off"`
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+ZonesRocketLoader2 object { id, value, editable, modified_on }
 
-  - `Ciphers object { id, value, editable, modified_on }`
+Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site’s Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page’s rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+</summary>
 
-    - `id: "ciphers"`
+id: "rocket_loader"
 
-      ID of the zone setting.
+ID of the zone setting.
 
-      - `"ciphers"`
+[Link to this property](#)
 
-    - `value: array of string`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-    - `editable: optional true or false`
+value: "on" or "off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"on"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+"off"
 
-    Whether or not cname flattening is on.
+[Link to this property](#)
 
-    - `id: "cname_flattening"`
+</details>
 
-      How to flatten the cname destination.
+[Link to this property](#)
 
-      - `"cname_flattening"`
+<details>
 
-    - `value: "flatten_at_root" or "flatten_all"`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-      - `"flatten_at_root"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"flatten_all"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+[Link to this property](#)
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+modified_on: optional string
 
-    - `id: "development_mode"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"development_mode"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare’s edge network and caches third-party fonts.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "automatic_platform_optimization"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-    - `time_remaining: optional number`
+value: [AutomaticPlatformOptimization](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20automatic_platform_optimization%20%3E%20(schema)) { cache_by_device_type, cf, enabled, 3 more }
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+Current value of the zone setting.
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+<details>
 
-    - `id: "early_hints"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"early_hints"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+formatdate-time
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+[Link to this property](#)
 
-    - `id: "edge_cache_ttl"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"edge_cache_ttl"`
+<details>
 
-    - `value: 30 or 60 or 300 or 18 more`
+<summary>
 
-      Current value of the zone setting.
+ZonesSearchForAgents object { id, value, editable, modified_on }
 
-      - `30`
+When enabled, Cloudflare provisions an AI Search instance for the zone and exposes a /.well-known/ai-search endpoint that AI agents can query. Markdown responses also receive an agent: YAML capability block advertising the search endpoint.
 
-      - `60`
+</summary>
 
-      - `300`
+id: "search_for_agents"
 
-      - `1200`
+ID of the zone setting.
 
-      - `1800`
+[Link to this property](#)
 
-      - `3600`
+<details>
 
-      - `7200`
+<summary>
 
-      - `10800`
+value: "off" or "on"
 
-      - `14400`
+Current value of the zone setting.
 
-      - `18000`
+</summary>
 
-      - `28800`
+One of the following:
 
-      - `43200`
+"off"
 
-      - `57600`
+[Link to this property](#)
 
-      - `72000`
+"on"
 
-      - `86400`
+[Link to this property](#)
 
-      - `172800`
+</details>
 
-      - `259200`
+[Link to this property](#)
 
-      - `345600`
+<details>
 
-      - `432000`
+<summary>
 
-      - `518400`
+editable: optional true or false
 
-      - `604800`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+</details>
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+[Link to this property](#)
 
-    - `id: "email_obfuscation"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"email_obfuscation"`
+formatdate-time
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+SecurityHeaders object { id, value, editable, modified_on }
 
-      - `true`
+Cloudflare security header for a zone.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "security_header"
 
-      last time this setting was modified.
+ID of the zone’s security header.
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+<details>
 
-    - `id: "h2_prioritization"`
+<summary>
 
-      ID of the zone setting.
+value: object { strict_transport_security }
 
-      - `"h2_prioritization"`
+Current value of the zone setting.
 
-    - `value: "on" or "off" or "custom"`
+</summary>
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }
 
-      - `"custom"`
+Strict Transport Security.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+enabled: optional boolean
 
-      - `true`
+Whether or not strict transport security is enabled.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+include_subdomains: optional boolean
 
-      last time this setting was modified.
+Include all subdomains for strict transport security.
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+max_age: optional number
 
-    - `id: "hotlink_protection"`
+Max age in seconds of the strict transport security.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"hotlink_protection"`
+nosniff: optional boolean
 
-    - `value: "on" or "off"`
+Whether or not to include ‘X-Content-Type-Options: nosniff’ header.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+preload: optional boolean
 
-      - `"off"`
+Enable automatic preload of the HSTS configuration.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+<summary>
 
-    HTTP2 enabled for this zone.
+editable: optional true or false
 
-    - `id: "http2"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"http2"`
+One of the following:
 
-    - `value: "on" or "off"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+false
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+</details>
 
-    HTTP3 enabled for this zone.
+[Link to this property](#)
 
-    - `id: "http3"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"http3"`
+ZonesSecurityLevel2 object { id, value, editable, modified_on }
 
-    - `value: "on" or "off"`
+Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "security_level"
 
-      - `"off"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "off" or "essentially_off" or "low" or 3 more
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+One of the following:
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+"off"
 
-    - `id: "ip_geolocation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"essentially_off"
 
-      - `"ip_geolocation"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+"low"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+"medium"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"high"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"under_attack"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `IPV6 object { id, value, editable, modified_on }`
+<details>
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+<summary>
 
-    - `id: "ipv6"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"ipv6"`
+</summary>
 
-    - `value: "off" or "on"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Maximum size of an allowable upload.
+</details>
 
-    - `id: "max_upload"`
+[Link to this property](#)
 
-      identifier of the zone setting.
+<details>
 
-      - `"max_upload"`
+<summary>
 
-    - `value: 100 or 125 or 150 or 15 more`
+ServerSideExcludes object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: . For example: Bad visitors won’t see my phone number, 555-555-5555 . Note: SSE only will work with HTML. If you have HTML minification enabled, you won’t see the SSE tags in your HTML source when it’s served through Cloudflare. SSE will still function in this case, as Cloudflare’s HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor’s computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
 
-      - `100`
+</summary>
 
-      - `125`
+id: "server_side_exclude"
 
-      - `150`
+ID of the zone setting.
 
-      - `175`
+[Link to this property](#)
 
-      - `200`
+<details>
 
-      - `225`
+<summary>
 
-      - `250`
+value: "on" or "off"
 
-      - `275`
+Current value of the zone setting.
 
-      - `300`
+</summary>
 
-      - `325`
+One of the following:
 
-      - `350`
+"on"
 
-      - `375`
+[Link to this property](#)
 
-      - `400`
+"off"
 
-      - `425`
+[Link to this property](#)
 
-      - `450`
+</details>
 
-      - `475`
+[Link to this property](#)
 
-      - `500`
+<details>
 
-      - `1000`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+false
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+[Link to this property](#)
 
-    - `id: "min_tls_version"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"min_tls_version"`
+modified_on: optional string
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"1.0"`
+[Link to this property](#)
 
-      - `"1.1"`
+</details>
 
-      - `"1.2"`
+[Link to this property](#)
 
-      - `"1.3"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ZonesSha1Support object { id, value, editable, modified_on }
 
-      - `true`
+Allow SHA1 support.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "sha1_support"
 
-      last time this setting was modified.
+Zone setting identifier.
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+<details>
 
-    - `id: "mirage"`
+<summary>
 
-      ID of the zone setting.
+value: "off" or "on"
 
-      - `"mirage"`
+Current value of the zone setting.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+"off"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `NEL object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "nel"`
+</summary>
 
-      Zone setting identifier.
+One of the following:
 
-      - `"nel"`
+true
 
-    - `value: object { enabled }`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `enabled: optional boolean`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+</details>
 
-    Enables the Opportunistic Encryption feature for a zone.
+[Link to this property](#)
 
-    - `id: "opportunistic_encryption"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"opportunistic_encryption"`
+ZonesSortQueryStringForCache2 object { id, value, editable, modified_on }
 
-    - `value: "on" or "off"`
+Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "sort_query_string_for_cache"
 
-      - `"off"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "on" or "off"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+One of the following:
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+"on"
 
-    - `id: "opportunistic_onion"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"off"
 
-      - `"opportunistic_onion"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+false
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+[Link to this property](#)
 
-    - `id: "orange_to_orange"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"orange_to_orange"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesSSL2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+SSL encrypts your visitor’s connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don’t need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full: SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You’ll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You’ll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+id: "ssl"
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+ID of the zone setting.
 
-    - `id: "origin_error_page_pass_thru"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"origin_error_page_pass_thru"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "off" or "flexible" or "full" or "strict"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"flexible"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"full"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+"strict"
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+[Link to this property](#)
 
-    - `id: "origin_h2_max_streams"`
+</details>
 
-      Value of the zone setting.
+[Link to this property](#)
 
-      - `"origin_h2_max_streams"`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      Last time this setting was modified.
+editable: optional true or false
 
-    - `value: optional number`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Value of the Origin H2 Max Streams Setting.
+</summary>
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+One of the following:
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+true
 
-    - `id: "origin_max_http_version"`
+[Link to this property](#)
 
-      Value of the zone setting.
+false
 
-      - `"origin_max_http_version"`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      Last time this setting was modified.
+[Link to this property](#)
 
-    - `value: optional "2" or "1"`
+modified_on: optional string
 
-      Value of the Origin Max HTTP Version Setting.
+last time this setting was modified.
 
-      - `"2"`
+formatdate-time
 
-      - `"1"`
+[Link to this property](#)
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+</details>
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+[Link to this property](#)
 
-    - `id: "polish"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"polish"`
+SSLRecommender object { id, enabled }
 
-    - `value: "off" or "lossless" or "lossy"`
+Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"off"`
+id: optional "ssl_recommender"
 
-      - `"lossless"`
+Enrollment value for SSL/TLS Recommender.
 
-      - `"lossy"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+enabled: optional boolean
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ssl-recommender enrollment setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+<summary>
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+ZonesTLS1_2Only object { id, value, editable, modified_on }
 
-    - `id: "prefetch_preload"`
+Only allows TLS1.2.
 
-      ID of the zone setting.
+</summary>
 
-      - `"prefetch_preload"`
+id: "tls_1_2_only"
 
-    - `value: "on" or "off"`
+Zone setting identifier.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+value: "off" or "on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+"on"
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+[Link to this property](#)
 
-    - `id: "privacy_pass"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"privacy_pass"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-      - `"on"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Maximum time between two read operations from origin.
+modified_on: optional string
 
-    - `id: "proxy_read_timeout"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"proxy_read_timeout"`
+[Link to this property](#)
 
-    - `value: number`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+TLS1_3 object { id, value, editable, modified_on }
 
-      - `false`
+Enables Crypto TLS 1.3 feature for a zone.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "tls_1_3"
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    The value set for the Pseudo IPv4 setting.
+[Link to this property](#)
 
-    - `id: "pseudo_ipv4"`
+<details>
 
-      Value of the Pseudo IPv4 setting.
+<summary>
 
-      - `"pseudo_ipv4"`
+value: "on" or "off" or "zrt"
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"add_header"`
+"on"
 
-      - `"overwrite_header"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"zrt"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+<details>
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+<summary>
 
-    - `id: "redirects_for_ai_training"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"redirects_for_ai_training"`
+</summary>
 
-    - `value: "off" or "on"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+</details>
 
-    - `id: "replace_insecure_js"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"replace_insecure_js"`
+<summary>
 
-    - `value: "on" or "off"`
+TLSClientAuth object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+id: "tls_client_auth"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: "on" or "off"
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+</summary>
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+One of the following:
 
-    - `id: "response_buffering"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"response_buffering"`
+"off"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+false
 
-    - `id: "rocket_loader"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"rocket_loader"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesTransformations object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare’s network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+</summary>
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+id: "transformations"
 
-    - `id: "automatic_platform_optimization"`
+ID of the zone setting. Shared between Image Transformations and Video Transformations.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"automatic_platform_optimization"`
+<details>
 
-    - `value: AutomaticPlatformOptimization`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off" or "open"
 
-      - `cache_by_device_type: boolean`
+Current value of the zone setting.
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+</summary>
 
-      - `cf: boolean`
+One of the following:
 
-        Indicates whether or not Cloudflare proxy is enabled.
+"on"
 
-      - `enabled: boolean`
+[Link to this property](#)
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+"off"
 
-      - `hostnames: array of string`
+[Link to this property](#)
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+"open"
 
-      - `wordpress: boolean`
+[Link to this property](#)
 
-        Indicates whether or not site is powered by WordPress.
+</details>
 
-      - `wp_plugin: boolean`
+[Link to this property](#)
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+false
 
-    - `id: "search_for_agents"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"search_for_agents"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare’s network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+</summary>
 
-    Cloudflare security header for a zone.
+id: "transformations_allowed_origins"
 
-    - `id: "security_header"`
+ID of the zone setting. Shared between Image Transformations and Video Transformations.
 
-      ID of the zone's security header.
+[Link to this property](#)
 
-      - `"security_header"`
+value: string
 
-    - `value: object { strict_transport_security }`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+<details>
 
-        Strict Transport Security.
+<summary>
 
-        - `enabled: optional boolean`
+editable: optional true or false
 
-          Whether or not strict transport security is enabled.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-        - `include_subdomains: optional boolean`
+</summary>
 
-          Include all subdomains for strict transport security.
+One of the following:
 
-        - `max_age: optional number`
+true
 
-          Max age in seconds of the strict transport security.
+[Link to this property](#)
 
-        - `nosniff: optional boolean`
+false
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+[Link to this property](#)
 
-        - `preload: optional boolean`
+</details>
 
-          Enable automatic preload of the HSTS configuration.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+<details>
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+<summary>
 
-    - `id: "security_level"`
+ZonesTrueClientIPHeader2 object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
 
-      - `"security_level"`
+</summary>
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+id: "true_client_ip_header"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"essentially_off"`
+<details>
 
-      - `"low"`
+<summary>
 
-      - `"medium"`
+value: "on" or "off"
 
-      - `"high"`
+Current value of the zone setting.
 
-      - `"under_attack"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+<details>
 
-    - `id: "server_side_exclude"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"server_side_exclude"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+formatdate-time
 
-    Allow SHA1 support.
+[Link to this property](#)
 
-    - `id: "sha1_support"`
+</details>
 
-      Zone setting identifier.
+[Link to this property](#)
 
-      - `"sha1_support"`
+<details>
 
-    - `value: "off" or "on"`
+<summary>
 
-      Current value of the zone setting.
+ZonesWAF2 object { id, value, editable, modified_on }
 
-      - `"off"`
+The WAF examines HTTP requests to your website. It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will ‘challenge’ the web visitor with a page that asks them to submit a CAPTCHA successfully to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare’s WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
 
-      - `"on"`
+</summary>
 
-    - `editable: optional true or false`
+id: "waf"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "on" or "off"
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+</summary>
 
-    - `id: "sort_query_string_for_cache"`
+One of the following:
 
-      ID of the zone setting.
+"on"
 
-      - `"sort_query_string_for_cache"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+"off"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+true
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+[Link to this property](#)
 
-    - `id: "ssl"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ssl"`
+</details>
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"off"`
+last time this setting was modified.
 
-      - `"flexible"`
+formatdate-time
 
-      - `"full"`
+[Link to this property](#)
 
-      - `"strict"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesWebmcpEnabled object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+When enabled, Cloudflare injects the WebMCP bridge (bridge.js) into HTML responses for this zone, exposing DOM and Content Credentials tools to an in-browser AI agent via navigator.modelContext. No origin-side code changes are required. This setting is currently in beta and its behavior may change.
 
-      last time this setting was modified.
+</summary>
 
-  - `SSLRecommender object { id, enabled }`
+id: "webmcp_enabled"
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+ID of the zone setting.
 
-    - `id: optional "ssl_recommender"`
+[Link to this property](#)
 
-      Enrollment value for SSL/TLS Recommender.
+<details>
 
-      - `"ssl_recommender"`
+<summary>
 
-    - `enabled: optional boolean`
+value: "off" or "on"
 
-      ssl-recommender enrollment setting.
+Current value of the zone setting.
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+</summary>
 
-    Only allows TLS1.2.
+One of the following:
 
-    - `id: "tls_1_2_only"`
+"off"
 
-      Zone setting identifier.
+[Link to this property](#)
 
-      - `"tls_1_2_only"`
+"on"
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enables Crypto TLS 1.3 feature for a zone.
+false
 
-    - `id: "tls_1_3"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"tls_1_3"`
+[Link to this property](#)
 
-    - `value: "on" or "off" or "zrt"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"zrt"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesWebmcpPacks object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Optional per-zone override of which bundled WebMCP tool packs the injected bridge.js activates. Only takes effect when webmcp_enabled is on. Leave empty to use the bridge’s default pack set. Unknown pack names are ignored by the bridge. This setting is currently in beta and its behavior may change.
 
-      last time this setting was modified.
+</summary>
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+id: "webmcp_packs"
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+ID of the zone setting.
 
-    - `id: "tls_client_auth"`
+[Link to this property](#)
 
-      ID of the zone setting.
+value: string
 
-      - `"tls_client_auth"`
+Current value of the zone setting.
 
-    - `value: "on" or "off"`
+maxLength256
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+false
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "true_client_ip_header"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"true_client_ip_header"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+WebP object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+id: "webp"
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+ID of the zone setting.
 
-    - `id: "waf"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"waf"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "off" or "on"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `WebP object { id, value, editable, modified_on }`
+<details>
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+<summary>
 
-    - `id: "webp"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"webp"`
+</summary>
 
-    - `value: "off" or "on"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `Websocket object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+</details>
 
-    - `id: "websockets"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"websockets"`
+<summary>
 
-    - `value: "off" or "on"`
+Websocket object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
 
-      - `"off"`
+</summary>
 
-      - `"on"`
+id: "websockets"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: "off" or "on"
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"off"
 
-  - `message: string`
+[Link to this property](#)
 
-  - `documentation_url: optional string`
+"on"
 
-  - `source: optional object { pointer }`
+[Link to this property](#)
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+editable: optional true or false
 
-  - `source: optional object { pointer }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-- `success: boolean`
+</summary>
 
-  Whether the API call was successful
+One of the following:
 
-- `result: optional array of ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 59 more`
+true
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    0-RTT session resumption enabled for this zone.
+false
 
-    - `id: "0rtt"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"0rtt"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+SettingGetResponse = [ZeroRTT](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20zero_rtt%20%3E%20(schema)) { id, value, editable, modified_on } or [AdvancedDDoS](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20advanced_ddos%20%3E%20(schema)) { id, value, editable, modified_on } or object { id, modified_on, value } or 63 more
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+0-RTT session resumption enabled for this zone.
 
-    - `id: "advanced_ddos"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"advanced_ddos"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+ZeroRTT object { id, value, editable, modified_on }
 
-      - `"on"`
+0-RTT session resumption enabled for this zone.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+id: "0rtt"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "on" or "off"
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+Current value of the zone setting.
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+</summary>
 
-    - `id: "aegis"`
+One of the following:
 
-      ID of the zone setting.
+"on"
 
-      - `"aegis"`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      Last time this setting was modified.
+[Link to this property](#)
 
-    - `value: optional object { enabled, pool_id }`
+</details>
 
-      Value of the zone setting.
+[Link to this property](#)
 
-      - `enabled: optional boolean`
+<details>
 
-        Whether the feature is enabled or not.
+<summary>
 
-      - `pool_id: optional string`
+editable: optional true or false
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+</summary>
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+One of the following:
 
-    - `id: "always_online"`
+true
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"always_online"`
+false
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+modified_on: optional string
 
-    - `editable: optional true or false`
+last time this setting was modified.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+formatdate-time
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+<summary>
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+AdvancedDDoS object { id, value, editable, modified_on }
 
-    - `id: "always_use_https"`
+Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is ‘on’ in the case of Business and Enterprise zones.
 
-      ID of the zone setting.
+</summary>
 
-      - `"always_use_https"`
+id: "advanced_ddos"
 
-    - `value: "on" or "off"`
+ID of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+value: "on" or "off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"on"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+"off"
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+[Link to this property](#)
 
-    - `id: "automatic_https_rewrites"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"automatic_https_rewrites"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-      - `"on"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `Brotli object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+modified_on: optional string
 
-    - `id: "brotli"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"brotli"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+ZonesCacheRulesAegis object { id, modified_on, value }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "aegis"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+Last time this setting was modified.
 
-    - `id: "browser_cache_ttl"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_cache_ttl"`
+<details>
 
-    - `value: number`
+<summary>
 
-      Current value of the zone setting.
+value: optional object { enabled, pool_id }
 
-    - `editable: optional true or false`
+Value of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+enabled: optional boolean
 
-      - `false`
+Whether the feature is enabled or not.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+pool_id: optional string
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+[Link to this property](#)
 
-    - `id: "browser_check"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_check"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+AlwaysOnline object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive’s Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "always_online"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+<summary>
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+value: "on" or "off"
 
-    - `id: "cache_level"`
+Current value of the zone setting.
 
-      ID of the zone setting.
+</summary>
 
-      - `"cache_level"`
+One of the following:
 
-    - `value: "aggressive" or "basic" or "simplified"`
+"on"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"aggressive"`
+"off"
 
-      - `"basic"`
+[Link to this property](#)
 
-      - `"simplified"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      last time this setting was modified.
+</summary>
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+One of the following:
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+true
 
-    - `id: "challenge_ttl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+false
 
-      - `"challenge_ttl"`
+[Link to this property](#)
 
-    - `value: 300 or 900 or 1800 or 11 more`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `300`
+modified_on: optional string
 
-      - `900`
+last time this setting was modified.
 
-      - `1800`
+formatdate-time
 
-      - `2700`
+[Link to this property](#)
 
-      - `3600`
+</details>
 
-      - `7200`
+[Link to this property](#)
 
-      - `10800`
+<details>
 
-      - `14400`
+<summary>
 
-      - `28800`
+ZonesAlwaysUseHTTPS2 object { id, value, editable, modified_on }
 
-      - `57600`
+Reply to all requests for URLs that use “http” with a 301 redirect to the equivalent “https” URL. If you only want to redirect for a subset of requests, consider creating an “Always use HTTPS” page rule.
 
-      - `86400`
+</summary>
 
-      - `604800`
+id: "always_use_https"
 
-      - `2592000`
+ID of the zone setting.
 
-      - `31536000`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "on" or "off"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `Ciphers object { id, value, editable, modified_on }`
+"on"
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+[Link to this property](#)
 
-    - `id: "ciphers"`
+"off"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ciphers"`
+</details>
 
-    - `value: array of string`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+false
 
-    - `id: "content_converter"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"content_converter"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesAutomaticHTTPSRewrites2 object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+Enable the Automatic HTTPS Rewrites feature for this zone.
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+</summary>
 
-    Whether or not cname flattening is on.
+id: "automatic_https_rewrites"
 
-    - `id: "cname_flattening"`
+ID of the zone setting.
 
-      How to flatten the cname destination.
+[Link to this property](#)
 
-      - `"cname_flattening"`
+<details>
 
-    - `value: "flatten_at_root" or "flatten_all"`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off"
 
-      - `"flatten_at_root"`
+Current value of the zone setting.
 
-      - `"flatten_all"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+[Link to this property](#)
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+<details>
 
-    - `id: "development_mode"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"development_mode"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-    - `time_remaining: optional number`
+formatdate-time
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+[Link to this property](#)
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+</details>
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+[Link to this property](#)
 
-    - `id: "early_hints"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"early_hints"`
+Brotli object { id, value, editable, modified_on }
 
-    - `value: "on" or "off"`
+When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "brotli"
 
-      - `"off"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "off" or "on"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+One of the following:
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+"off"
 
-    - `id: "edge_cache_ttl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"on"
 
-      - `"edge_cache_ttl"`
+[Link to this property](#)
 
-    - `value: 30 or 60 or 300 or 18 more`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `30`
+<details>
 
-      - `60`
+<summary>
 
-      - `300`
+editable: optional true or false
 
-      - `1200`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `1800`
+</summary>
 
-      - `3600`
+One of the following:
 
-      - `7200`
+true
 
-      - `10800`
+[Link to this property](#)
 
-      - `14400`
+false
 
-      - `18000`
+[Link to this property](#)
 
-      - `28800`
+</details>
 
-      - `43200`
+[Link to this property](#)
 
-      - `57600`
+modified_on: optional string
 
-      - `72000`
+last time this setting was modified.
 
-      - `86400`
+formatdate-time
 
-      - `172800`
+[Link to this property](#)
 
-      - `259200`
+</details>
 
-      - `345600`
+[Link to this property](#)
 
-      - `432000`
+<details>
 
-      - `518400`
+<summary>
 
-      - `604800`
+ZonesBrowserCacheTTL2 object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors’ computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "browser_cache_ttl"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+value: number
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+maximum31536000
 
-    - `id: "email_obfuscation"`
+minimum0
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"email_obfuscation"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-      - `"on"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+modified_on: optional string
 
-    - `id: "h2_prioritization"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"h2_prioritization"`
+[Link to this property](#)
 
-    - `value: "on" or "off" or "custom"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"custom"`
+ZonesBrowserCheck2 object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page. It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "browser_check"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+<summary>
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+value: "on" or "off"
 
-    - `id: "hotlink_protection"`
+Current value of the zone setting.
 
-      ID of the zone setting.
+</summary>
 
-      - `"hotlink_protection"`
+One of the following:
 
-    - `value: "on" or "off"`
+"on"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+"off"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+editable: optional true or false
 
-      last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+</summary>
 
-    HTTP2 enabled for this zone.
+One of the following:
 
-    - `id: "http2"`
+true
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"http2"`
+false
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+modified_on: optional string
 
-    - `editable: optional true or false`
+last time this setting was modified.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+formatdate-time
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+<summary>
 
-    HTTP3 enabled for this zone.
+ZonesCacheLevel2 object { id, value, editable, modified_on }
 
-    - `id: "http3"`
+Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
 
-      ID of the zone setting.
+</summary>
 
-      - `"http3"`
+id: "cache_level"
 
-    - `value: "on" or "off"`
+ID of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+value: "aggressive" or "basic" or "simplified"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"aggressive"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ImageResizing object { id, value, editable, modified_on }`
+"basic"
 
-    Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+[Link to this property](#)
 
-    - `id: "image_resizing"`
+"simplified"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"image_resizing"`
+</details>
 
-    - `value: "on" or "off" or "open"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-      - `"open"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+</details>
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+[Link to this property](#)
 
-    - `id: "ip_geolocation"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"ip_geolocation"`
+formatdate-time
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ChallengeTTL object { id, value, editable, modified_on }
 
-      - `true`
+Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "challenge_ttl"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `IPV6 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+<details>
 
-    - `id: "ipv6"`
+<summary>
 
-      ID of the zone setting.
+value: 300 or 900 or 1800 or 11 more
 
-      - `"ipv6"`
+Current value of the zone setting.
 
-    - `value: "off" or "on"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"off"`
+300
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+900
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+1800
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+2700
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+3600
 
-    Maximum size of an allowable upload.
+[Link to this property](#)
 
-    - `id: "max_upload"`
+7200
 
-      identifier of the zone setting.
+[Link to this property](#)
 
-      - `"max_upload"`
+10800
 
-    - `value: 100 or 125 or 150 or 15 more`
+[Link to this property](#)
 
-      Current value of the zone setting.
+14400
 
-      - `100`
+[Link to this property](#)
 
-      - `125`
+28800
 
-      - `150`
+[Link to this property](#)
 
-      - `175`
+57600
 
-      - `200`
+[Link to this property](#)
 
-      - `225`
+86400
 
-      - `250`
+[Link to this property](#)
 
-      - `275`
+604800
 
-      - `300`
+[Link to this property](#)
 
-      - `325`
+2592000
 
-      - `350`
+[Link to this property](#)
 
-      - `375`
+31536000
 
-      - `400`
+[Link to this property](#)
 
-      - `425`
+</details>
 
-      - `450`
+[Link to this property](#)
 
-      - `475`
+<details>
 
-      - `500`
+<summary>
 
-      - `1000`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+</details>
 
-    - `id: "min_tls_version"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"min_tls_version"`
+last time this setting was modified.
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"1.0"`
+</details>
 
-      - `"1.1"`
+[Link to this property](#)
 
-      - `"1.2"`
+<details>
 
-      - `"1.3"`
+<summary>
 
-    - `editable: optional true or false`
+ZonesChinaNetworkEnabled object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Determines whether or not the china network is enabled.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "china_network_enabled"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+<details>
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+<summary>
 
-    - `id: "mirage"`
+value: "on" or "off"
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"mirage"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+"on"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `NEL object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+</summary>
 
-    - `id: "nel"`
+One of the following:
 
-      Zone setting identifier.
+true
 
-      - `"nel"`
+[Link to this property](#)
 
-    - `value: object { enabled }`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `enabled: optional boolean`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enables the Opportunistic Encryption feature for a zone.
+<details>
 
-    - `id: "opportunistic_encryption"`
+<summary>
 
-      ID of the zone setting.
+ZonesContentConverter object { id, value, editable, modified_on }
 
-      - `"opportunistic_encryption"`
+When enabled and the client sends an Accept header requesting text/markdown, Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service. Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+id: "content_converter"
 
-      - `"on"`
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "off" or "on"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+"off"
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+[Link to this property](#)
 
-    - `id: "opportunistic_onion"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"opportunistic_onion"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+</details>
 
-    - `id: "orange_to_orange"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"orange_to_orange"`
+last time this setting was modified.
 
-    - `value: "on" or "off"`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+Ciphers object { id, value, editable, modified_on }
 
-      - `false`
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "ciphers"
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "origin_error_page_pass_thru"`
+value: array of string
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"origin_error_page_pass_thru"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+editable: optional true or false
 
-      - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+</details>
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+[Link to this property](#)
 
-    - `id: "origin_h2_max_streams"`
+modified_on: optional string
 
-      Value of the zone setting.
+last time this setting was modified.
 
-      - `"origin_h2_max_streams"`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      Last time this setting was modified.
+</details>
 
-    - `value: optional number`
+[Link to this property](#)
 
-      Value of the Origin H2 Max Streams Setting.
+<details>
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+<summary>
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+ZonesCNAMEFlattening object { id, value, editable, modified_on }
 
-    - `id: "origin_max_http_version"`
+Whether or not cname flattening is on.
 
-      Value of the zone setting.
+</summary>
 
-      - `"origin_max_http_version"`
+id: "cname_flattening"
 
-    - `modified_on: optional string`
+How to flatten the cname destination.
 
-      Last time this setting was modified.
+[Link to this property](#)
 
-    - `value: optional "2" or "1"`
+<details>
 
-      Value of the Origin Max HTTP Version Setting.
+<summary>
 
-      - `"2"`
+Deprecatedvalue: "flatten_at_root" or "flatten_all"
 
-      - `"1"`
+This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+</summary>
 
-    - `id: "polish"`
+One of the following:
 
-      ID of the zone setting.
+"flatten_at_root"
 
-      - `"polish"`
+[Link to this property](#)
 
-    - `value: "off" or "lossless" or "lossy"`
+"flatten_all"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"lossless"`
+[Link to this property](#)
 
-      - `"lossy"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+false
 
-    - `id: "prefetch_preload"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"prefetch_preload"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+DevelopmentMode object { id, value, editable, 2 more }
 
-      last time this setting was modified.
+Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare’s accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+</summary>
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+id: "development_mode"
 
-    - `id: "privacy_pass"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"privacy_pass"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off"
 
-      - `"on"`
+Current value of the zone setting.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Maximum time between two read operations from origin.
+<details>
 
-    - `id: "proxy_read_timeout"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"proxy_read_timeout"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: number`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    The value set for the Pseudo IPv4 setting.
+last time this setting was modified.
 
-    - `id: "pseudo_ipv4"`
+formatdate-time
 
-      Value of the Pseudo IPv4 setting.
+[Link to this property](#)
 
-      - `"pseudo_ipv4"`
+time_remaining: optional number
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"add_header"`
+[Link to this property](#)
 
-      - `"overwrite_header"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+EarlyHints object { id, value, editable, modified_on }
 
-      - `true`
+When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "early_hints"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+<details>
 
-    - `id: "redirects_for_ai_training"`
+<summary>
 
-      ID of the zone setting.
+value: "on" or "off"
 
-      - `"redirects_for_ai_training"`
+Current value of the zone setting.
 
-    - `value: "off" or "on"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"off"`
+"on"
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "replace_insecure_js"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"replace_insecure_js"`
+true
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+<details>
 
-    - `id: "response_buffering"`
+<summary>
 
-      ID of the zone setting.
+ZonesEdgeCacheTTL2 object { id, value, editable, modified_on }
 
-      - `"response_buffering"`
+Time (in seconds) that a resource will be ensured to remain on Cloudflare’s cache servers.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+id: "edge_cache_ttl"
 
-      - `"on"`
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: 30 or 60 or 300 or 18 more
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+30
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+[Link to this property](#)
 
-    - `id: "rocket_loader"`
+60
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"rocket_loader"`
+300
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+1200
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+1800
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+3600
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+7200
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+10800
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+14400
 
-    - `id: "automatic_platform_optimization"`
+[Link to this property](#)
 
-      ID of the zone setting.
+18000
 
-      - `"automatic_platform_optimization"`
+[Link to this property](#)
 
-    - `value: AutomaticPlatformOptimization`
+28800
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `cache_by_device_type: boolean`
+43200
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+[Link to this property](#)
 
-      - `cf: boolean`
+57600
 
-        Indicates whether or not Cloudflare proxy is enabled.
+[Link to this property](#)
 
-      - `enabled: boolean`
+72000
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+[Link to this property](#)
 
-      - `hostnames: array of string`
+86400
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+[Link to this property](#)
 
-      - `wordpress: boolean`
+172800
 
-        Indicates whether or not site is powered by WordPress.
+[Link to this property](#)
 
-      - `wp_plugin: boolean`
+259200
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+345600
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+432000
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+518400
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+604800
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+[Link to this property](#)
 
-    - `id: "search_for_agents"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"search_for_agents"`
+<details>
 
-    - `value: "off" or "on"`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-      - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"on"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare security header for a zone.
+modified_on: optional string
 
-    - `id: "security_header"`
+last time this setting was modified.
 
-      ID of the zone's security header.
+formatdate-time
 
-      - `"security_header"`
+[Link to this property](#)
 
-    - `value: object { strict_transport_security }`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+<details>
 
-        Strict Transport Security.
+<summary>
 
-        - `enabled: optional boolean`
+ZonesEmailObfuscation2 object { id, value, editable, modified_on }
 
-          Whether or not strict transport security is enabled.
+Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
 
-        - `include_subdomains: optional boolean`
+</summary>
 
-          Include all subdomains for strict transport security.
+id: "email_obfuscation"
 
-        - `max_age: optional number`
+ID of the zone setting.
 
-          Max age in seconds of the strict transport security.
+[Link to this property](#)
 
-        - `nosniff: optional boolean`
+<details>
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+<summary>
 
-        - `preload: optional boolean`
+value: "on" or "off"
 
-          Enable automatic preload of the HSTS configuration.
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+</details>
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+[Link to this property](#)
 
-    - `id: "security_level"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"security_level"`
+editable: optional true or false
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"essentially_off"`
+true
 
-      - `"low"`
+[Link to this property](#)
 
-      - `"medium"`
+false
 
-      - `"high"`
+[Link to this property](#)
 
-      - `"under_attack"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+<details>
 
-    - `id: "server_side_exclude"`
+<summary>
 
-      ID of the zone setting.
+H2Prioritization object { id, value, editable, modified_on }
 
-      - `"server_side_exclude"`
+HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+id: "h2_prioritization"
 
-      - `"on"`
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "on" or "off" or "custom"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+"on"
 
-    Allow SHA1 support.
+[Link to this property](#)
 
-    - `id: "sha1_support"`
+"off"
 
-      Zone setting identifier.
+[Link to this property](#)
 
-      - `"sha1_support"`
+"custom"
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+false
 
-    - `id: "sort_query_string_for_cache"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"sort_query_string_for_cache"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+HotlinkProtection object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it’s not another site requesting them. People will still be able to download and view images from your page, but other sites won’t be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+</summary>
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+id: "hotlink_protection"
 
-    - `id: "ssl"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ssl"`
+<details>
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off"
 
-      - `"off"`
+Current value of the zone setting.
 
-      - `"flexible"`
+</summary>
 
-      - `"full"`
+One of the following:
 
-      - `"strict"`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `SSLRecommender object { id, enabled }`
+<summary>
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+editable: optional true or false
 
-    - `id: optional "ssl_recommender"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Enrollment value for SSL/TLS Recommender.
+</summary>
 
-      - `"ssl_recommender"`
+One of the following:
 
-    - `enabled: optional boolean`
+true
 
-      ssl-recommender enrollment setting.
+[Link to this property](#)
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+false
 
-    Only allows TLS1.2.
+[Link to this property](#)
 
-    - `id: "tls_1_2_only"`
+</details>
 
-      Zone setting identifier.
+[Link to this property](#)
 
-      - `"tls_1_2_only"`
+modified_on: optional string
 
-    - `value: "off" or "on"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+HTTP2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+HTTP2 enabled for this zone.
 
-      last time this setting was modified.
+</summary>
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+id: "http2"
 
-    Enables Crypto TLS 1.3 feature for a zone.
+ID of the zone setting.
 
-    - `id: "tls_1_3"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"tls_1_3"`
+<summary>
 
-    - `value: "on" or "off" or "zrt"`
+value: "on" or "off"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"zrt"`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+<summary>
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+editable: optional true or false
 
-    - `id: "tls_client_auth"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"tls_client_auth"`
+One of the following:
 
-    - `value: "on" or "off"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+false
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesTransformations object { id, value, editable, modified_on }`
+</details>
 
-    Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+[Link to this property](#)
 
-    - `id: "transformations"`
+<details>
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+<summary>
 
-      - `"transformations"`
+HTTP3 object { id, value, editable, modified_on }
 
-    - `value: "on" or "off" or "open"`
+HTTP3 enabled for this zone.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "http3"
 
-      - `"off"`
+ID of the zone setting.
 
-      - `"open"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "on" or "off"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }`
+"on"
 
-    Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+[Link to this property](#)
 
-    - `id: "transformations_allowed_origins"`
+"off"
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+[Link to this property](#)
 
-      - `"transformations_allowed_origins"`
+</details>
 
-    - `value: string`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+false
 
-    - `id: "true_client_ip_header"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"true_client_ip_header"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ImageResizing object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare’s network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+</summary>
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+id: "image_resizing"
 
-    - `id: "waf"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"waf"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off" or "open"
 
-      - `"on"`
+Current value of the zone setting.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"open"
 
-  - `WebP object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+</details>
 
-    - `id: "webp"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"webp"`
+<summary>
 
-    - `value: "off" or "on"`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-      - `"on"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `Websocket object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+last time this setting was modified.
 
-    - `id: "websockets"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"websockets"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"on"`
+ZonesIPGeolocation2 object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "ip_geolocation"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "id": "0rtt",
-            "value": "on"
-          }
-        ]'
-```
+value: "on" or "off"
 
-#### Response
+Current value of the zone setting.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "0rtt",
-      "value": "on",
-      "editable": true,
-      "modified_on": "2014-01-01T05:20:00.12345Z"
-    }
-  ]
-}
-```
+</summary>
 
-## Domain Types
+One of the following:
 
-### Advanced DDoS
+"on"
 
-- `AdvancedDDoS object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+"off"
 
-  - `id: "advanced_ddos"`
+[Link to this property](#)
 
-    ID of the zone setting.
+</details>
 
-    - `"advanced_ddos"`
+[Link to this property](#)
 
-  - `value: "on" or "off"`
+<details>
 
-    Current value of the zone setting.
+<summary>
 
-    - `"on"`
+editable: optional true or false
 
-    - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `editable: optional true or false`
+</summary>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-    - `true`
+true
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+false
 
-    last time this setting was modified.
+[Link to this property](#)
 
-### Aegis
+</details>
 
-- `Aegis object { id, modified_on, value }`
+[Link to this property](#)
 
-  Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+modified_on: optional string
 
-  - `id: "aegis"`
+last time this setting was modified.
 
-    ID of the zone setting.
+formatdate-time
 
-    - `"aegis"`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+</details>
 
-    Last time this setting was modified.
+[Link to this property](#)
 
-  - `value: optional object { enabled, pool_id }`
+<details>
 
-    Value of the zone setting.
+<summary>
 
-    - `enabled: optional boolean`
+IPV6 object { id, value, editable, modified_on }
 
-      Whether the feature is enabled or not.
+Enable IPv6 on all subdomains that are Cloudflare enabled. (https://support.cloudflare.com/hc/en-us/articles/200168586).
 
-    - `pool_id: optional string`
+</summary>
 
-      Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+id: "ipv6"
 
-### Always Online
+ID of the zone setting.
 
-- `AlwaysOnline object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+<details>
 
-  - `id: "always_online"`
+<summary>
 
-    ID of the zone setting.
+value: "off" or "on"
 
-    - `"always_online"`
+Current value of the zone setting.
 
-  - `value: "on" or "off"`
+</summary>
 
-    Current value of the zone setting.
+One of the following:
 
-    - `"on"`
+"off"
 
-    - `"off"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+"on"
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+</details>
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+<details>
 
-    last time this setting was modified.
+<summary>
 
-### Always Use HTTPS
+editable: optional true or false
 
-- `AlwaysUseHTTPS object { id }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `id: optional "always_use_https"`
+</summary>
 
-    If enabled, any `http://`` URL is converted to`https://` through a
-    301 redirect.
+One of the following:
 
-    - `"always_use_https"`
+true
 
-### Automatic HTTPS Rewrites
+[Link to this property](#)
 
-- `AutomaticHTTPSRewrites object { id, value }`
+false
 
-  - `id: optional "automatic_https_rewrites"`
+[Link to this property](#)
 
-    Turn on or off Automatic HTTPS Rewrites.
+</details>
 
-    - `"automatic_https_rewrites"`
+[Link to this property](#)
 
-  - `value: optional "on" or "off"`
+modified_on: optional string
 
-    The status of Automatic HTTPS Rewrites.
+last time this setting was modified.
 
-    - `"on"`
+formatdate-time
 
-    - `"off"`
+[Link to this property](#)
 
-### Automatic Platform Optimization
+</details>
 
-- `AutomaticPlatformOptimization object { cache_by_device_type, cf, enabled, 3 more }`
+[Link to this property](#)
 
-  - `cache_by_device_type: boolean`
+<details>
 
-    Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+<summary>
 
-  - `cf: boolean`
+ZonesMaxUpload object { id, value, editable, modified_on }
 
-    Indicates whether or not Cloudflare proxy is enabled.
+Maximum size of an allowable upload.
 
-  - `enabled: boolean`
+</summary>
 
-    Indicates whether or not Automatic Platform Optimization is enabled.
+id: "max_upload"
 
-  - `hostnames: array of string`
+identifier of the zone setting.
 
-    An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+[Link to this property](#)
 
-  - `wordpress: boolean`
+<details>
 
-    Indicates whether or not site is powered by WordPress.
+<summary>
 
-  - `wp_plugin: boolean`
+value: 100 or 125 or 150 or 23 more
 
-    Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+Current value of the zone setting.
 
-### Brotli
+</summary>
 
-- `Brotli object { id, value, editable, modified_on }`
+One of the following:
 
-  When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+100
 
-  - `id: "brotli"`
+[Link to this property](#)
 
-    ID of the zone setting.
+125
 
-    - `"brotli"`
+[Link to this property](#)
 
-  - `value: "off" or "on"`
+150
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"off"`
+175
 
-    - `"on"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+200
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+225
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+250
 
-    last time this setting was modified.
+[Link to this property](#)
 
-### Browser Cache TTL
+275
 
-- `BrowserCacheTTL object { id, value }`
+[Link to this property](#)
 
-  - `id: optional "browser_cache_ttl"`
+300
 
-    Control how long resources cached by client browsers remain valid.
+[Link to this property](#)
 
-    - `"browser_cache_ttl"`
+325
 
-  - `value: optional number`
+[Link to this property](#)
 
-    The number of seconds to cache resources for.
-    Setting this to 0 enables "Respect Existing Headers".
+350
 
-### Browser Check
+[Link to this property](#)
 
-- `BrowserCheck object { id, value }`
+375
 
-  - `id: optional "browser_check"`
+[Link to this property](#)
 
-    Inspect the visitor's browser for headers commonly associated with
-    spammers and certain bots.
+400
 
-    - `"browser_check"`
+[Link to this property](#)
 
-  - `value: optional "on" or "off"`
+425
 
-    The status of Browser Integrity Check.
+[Link to this property](#)
 
-    - `"on"`
+450
 
-    - `"off"`
+[Link to this property](#)
 
-### Cache Level
+475
 
-- `CacheLevel object { id, value }`
+[Link to this property](#)
 
-  - `id: optional "cache_level"`
+500
 
-    Apply custom caching based on the option selected.
+[Link to this property](#)
 
-    - `"cache_level"`
+1000
 
-  - `value: optional "bypass" or "basic" or "simplified" or 2 more`
+[Link to this property](#)
 
-    * `bypass`: Cloudflare does not cache.
-    * `basic`: Delivers resources from cache when there is no query
-      string.
-    * `simplified`: Delivers the same resource to everyone independent
-      of the query string.
-    * `aggressive`: Caches all static content that has a query string.
-    * `cache_everything`: Treats all content as static and caches all
-      file types beyond the [Cloudflare default cached
-      content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions).
+1500
 
-    - `"bypass"`
+[Link to this property](#)
 
-    - `"basic"`
+2000
 
-    - `"simplified"`
+[Link to this property](#)
 
-    - `"aggressive"`
+2500
 
-    - `"cache_everything"`
+[Link to this property](#)
 
-### Challenge TTL
+3000
 
-- `ChallengeTTL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+3500
 
-  - `id: "challenge_ttl"`
+[Link to this property](#)
 
-    ID of the zone setting.
+4000
 
-    - `"challenge_ttl"`
+[Link to this property](#)
 
-  - `value: 300 or 900 or 1800 or 11 more`
+4500
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `300`
+5000
 
-    - `900`
+[Link to this property](#)
 
-    - `1800`
+</details>
 
-    - `2700`
+[Link to this property](#)
 
-    - `3600`
+<details>
 
-    - `7200`
+<summary>
 
-    - `10800`
+editable: optional true or false
 
-    - `14400`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `28800`
+</summary>
 
-    - `57600`
+One of the following:
 
-    - `86400`
+true
 
-    - `604800`
+[Link to this property](#)
 
-    - `2592000`
+false
 
-    - `31536000`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+modified_on: optional string
 
-    - `false`
+last time this setting was modified.
 
-  - `modified_on: optional string`
+formatdate-time
 
-    last time this setting was modified.
+[Link to this property](#)
 
-### Ciphers
+</details>
 
-- `Ciphers object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+<details>
 
-  - `id: "ciphers"`
+<summary>
 
-    ID of the zone setting.
+MinTLSVersion object { id, value, editable, modified_on }
 
-    - `"ciphers"`
+Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
 
-  - `value: array of string`
+</summary>
 
-    Current value of the zone setting.
+id: "min_tls_version"
 
-  - `editable: optional true or false`
+ID of the zone setting.
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+value: "1.0" or "1.1" or "1.2" or "1.3"
 
-    last time this setting was modified.
+Current value of the zone setting.
 
-### Development Mode
+</summary>
 
-- `DevelopmentMode object { id, value, editable, 2 more }`
+One of the following:
 
-  Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+"1.0"
 
-  - `id: "development_mode"`
+[Link to this property](#)
 
-    ID of the zone setting.
+"1.1"
 
-    - `"development_mode"`
+[Link to this property](#)
 
-  - `value: "on" or "off"`
+"1.2"
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"on"`
+"1.3"
 
-    - `"off"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+editable: optional true or false
 
-    last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `time_remaining: optional number`
+</summary>
 
-    Value of the zone setting.
-    Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+One of the following:
 
-### Early Hints
+true
 
-- `EarlyHints object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+false
 
-  - `id: "early_hints"`
+[Link to this property](#)
 
-    ID of the zone setting.
+</details>
 
-    - `"early_hints"`
+[Link to this property](#)
 
-  - `value: "on" or "off"`
+modified_on: optional string
 
-    Current value of the zone setting.
+last time this setting was modified.
 
-    - `"on"`
+formatdate-time
 
-    - `"off"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+ZonesMirage2 object { id, value, editable, modified_on }
 
-    last time this setting was modified.
+Automatically optimize image loading for website visitors on mobile devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed) for more information.
 
-### Email Obfuscation
+</summary>
 
-- `EmailObfuscation object { id, value }`
+id: "mirage"
 
-  - `id: optional "email_obfuscation"`
+ID of the zone setting.
 
-    Turn on or off **Email Obfuscation**.
+[Link to this property](#)
 
-    - `"email_obfuscation"`
+<details>
 
-  - `value: optional "on" or "off"`
+<summary>
 
-    The status of Email Obfuscation.
+Deprecatedvalue: "on" or "off"
 
-    - `"on"`
+Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/
 
-    - `"off"`
+Current value of the zone setting.
 
-### Font Settings
+</summary>
 
-- `FontSettings object { id, editable, modified_on, value }`
+One of the following:
 
-  Enhance your website's font delivery with Cloudflare Fonts. Deliver Google Hosted fonts from your own domain,
-  boost performance, and enhance user privacy. Refer to the Cloudflare Fonts documentation for more information.
+"on"
 
-  - `id: optional "fonts"`
+[Link to this property](#)
 
-    ID of the zone setting.
+"off"
 
-    - `"fonts"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+editable: optional true or false
 
-    last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `value: optional "on" or "off"`
+</summary>
 
-    Current value of the zone setting.
+One of the following:
 
-    - `"on"`
+true
 
-    - `"off"`
+[Link to this property](#)
 
-### H2 Prioritization
+false
 
-- `H2Prioritization object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+</details>
 
-  - `id: "h2_prioritization"`
+[Link to this property](#)
 
-    ID of the zone setting.
+modified_on: optional string
 
-    - `"h2_prioritization"`
+last time this setting was modified.
 
-  - `value: "on" or "off" or "custom"`
+formatdate-time
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"on"`
+</details>
 
-    - `"off"`
+[Link to this property](#)
 
-    - `"custom"`
+<details>
 
-  - `editable: optional true or false`
+<summary>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+NEL object { id, value, editable, modified_on }
 
-    - `true`
+Enable Network Error Logging reporting on your zone. (Beta)
 
-    - `false`
+</summary>
 
-  - `modified_on: optional string`
+id: "nel"
 
-    last time this setting was modified.
+Zone setting identifier.
 
-### Hotlink Protection
+[Link to this property](#)
 
-- `HotlinkProtection object { id, value, editable, modified_on }`
+<details>
 
-  When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+<summary>
 
-  - `id: "hotlink_protection"`
+value: object { enabled }
 
-    ID of the zone setting.
+Current value of the zone setting.
 
-    - `"hotlink_protection"`
+</summary>
 
-  - `value: "on" or "off"`
+enabled: optional boolean
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"on"`
+</details>
 
-    - `"off"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+<details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-    - `true`
+editable: optional true or false
 
-    - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `modified_on: optional string`
+</summary>
 
-    last time this setting was modified.
+One of the following:
 
-### HTTP2
+true
 
-- `HTTP2 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  HTTP2 enabled for this zone.
+false
 
-  - `id: "http2"`
+[Link to this property](#)
 
-    ID of the zone setting.
+</details>
 
-    - `"http2"`
+[Link to this property](#)
 
-  - `value: "on" or "off"`
+modified_on: optional string
 
-    Current value of the zone setting.
+last time this setting was modified.
 
-    - `"on"`
+formatdate-time
 
-    - `"off"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+ZonesOpportunisticEncryption2 object { id, value, editable, modified_on }
 
-    last time this setting was modified.
+Enables the Opportunistic Encryption feature for a zone.
 
-### HTTP3
+</summary>
 
-- `HTTP3 object { id, value, editable, modified_on }`
+id: "opportunistic_encryption"
 
-  HTTP3 enabled for this zone.
+ID of the zone setting.
 
-  - `id: "http3"`
+[Link to this property](#)
 
-    ID of the zone setting.
+<details>
 
-    - `"http3"`
+<summary>
 
-  - `value: "on" or "off"`
+value: "on" or "off"
 
-    Current value of the zone setting.
+Current value of the zone setting.
 
-    - `"on"`
+</summary>
 
-    - `"off"`
+One of the following:
 
-  - `editable: optional true or false`
+"on"
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+"off"
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+</details>
 
-    last time this setting was modified.
+[Link to this property](#)
 
-### Image Resizing
+<details>
 
-- `ImageResizing object { id, value, editable, modified_on }`
+<summary>
 
-  Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+editable: optional true or false
 
-  - `id: "image_resizing"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    ID of the zone setting.
+</summary>
 
-    - `"image_resizing"`
+One of the following:
 
-  - `value: "on" or "off" or "open"`
+true
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"on"`
+false
 
-    - `"off"`
+[Link to this property](#)
 
-    - `"open"`
+</details>
 
-  - `editable: optional true or false`
+[Link to this property](#)
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-    - `true`
+last time this setting was modified.
 
-    - `false`
+formatdate-time
 
-  - `modified_on: optional string`
+[Link to this property](#)
 
-    last time this setting was modified.
+</details>
 
-### IP Geolocation
+[Link to this property](#)
 
-- `IPGeolocation object { id, value }`
+<details>
 
-  - `id: optional "ip_geolocation"`
+<summary>
 
-    Cloudflare adds a CF-IPCountry HTTP header containing the country code that corresponds to the visitor.
+OpportunisticOnion object { id, value, editable, modified_on }
 
-    - `"ip_geolocation"`
+Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
 
-  - `value: optional "on" or "off"`
+</summary>
 
-    The status of adding the IP Geolocation Header.
+id: "opportunistic_onion"
 
-    - `"on"`
+ID of the zone setting.
 
-    - `"off"`
+[Link to this property](#)
 
-### IPV6
+<details>
 
-- `IPV6 object { id, value, editable, modified_on }`
+<summary>
 
-  Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+value: "on" or "off"
 
-  - `id: "ipv6"`
+Current value of the zone setting.
 
-    ID of the zone setting.
+</summary>
 
-    - `"ipv6"`
+One of the following:
 
-  - `value: "off" or "on"`
+"on"
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"off"`
+"off"
 
-    - `"on"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+editable: optional true or false
 
-    last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-### Min TLS Version
+</summary>
 
-- `MinTLSVersion object { id, value, editable, modified_on }`
+One of the following:
 
-  Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+true
 
-  - `id: "min_tls_version"`
+[Link to this property](#)
 
-    ID of the zone setting.
+false
 
-    - `"min_tls_version"`
+[Link to this property](#)
 
-  - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+</details>
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"1.0"`
+modified_on: optional string
 
-    - `"1.1"`
+last time this setting was modified.
 
-    - `"1.2"`
+formatdate-time
 
-    - `"1.3"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+OrangeToOrange object { id, value, editable, modified_on }
 
-    last time this setting was modified.
+Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
 
-### Mirage
+</summary>
 
-- `Mirage object { id, value }`
+id: "orange_to_orange"
 
-  - `id: optional "mirage"`
+ID of the zone setting.
 
-    Cloudflare Mirage reduces bandwidth used by images in mobile browsers.
-    It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1.
+[Link to this property](#)
 
-    - `"mirage"`
+<details>
 
-  - `value: optional "on" or "off"`
+<summary>
 
-    The status of Mirage.
+Deprecatedvalue: "on" or "off"
 
-    - `"on"`
+This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/
 
-    - `"off"`
+Current value of the zone setting.
 
-### NEL
+</summary>
 
-- `NEL object { id, value, editable, modified_on }`
+One of the following:
 
-  Enable Network Error Logging reporting on your zone. (Beta)
+"on"
 
-  - `id: "nel"`
+[Link to this property](#)
 
-    Zone setting identifier.
+"off"
 
-    - `"nel"`
+[Link to this property](#)
 
-  - `value: object { enabled }`
+</details>
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `enabled: optional boolean`
+<details>
 
-  - `editable: optional true or false`
+<summary>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-    - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `false`
+</summary>
 
-  - `modified_on: optional string`
+One of the following:
 
-    last time this setting was modified.
+true
 
-### Opportunistic Encryption
+[Link to this property](#)
 
-- `OpportunisticEncryption object { id, value }`
+false
 
-  - `id: optional "opportunistic_encryption"`
+[Link to this property](#)
 
-    Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel.
-    It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests.
+</details>
 
-    - `"opportunistic_encryption"`
+[Link to this property](#)
 
-  - `value: optional "on" or "off"`
+modified_on: optional string
 
-    The status of Opportunistic Encryption.
+last time this setting was modified.
 
-    - `"on"`
+formatdate-time
 
-    - `"off"`
+[Link to this property](#)
 
-### Opportunistic Onion
+</details>
 
-- `OpportunisticOnion object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+<details>
 
-  - `id: "opportunistic_onion"`
+<summary>
 
-    ID of the zone setting.
+ZonesOriginErrorPagePassThru2 object { id, value, editable, modified_on }
 
-    - `"opportunistic_onion"`
+Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
 
-  - `value: "on" or "off"`
+</summary>
 
-    Current value of the zone setting.
+id: "origin_error_page_pass_thru"
 
-    - `"on"`
+ID of the zone setting.
 
-    - `"off"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+<details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-    - `true`
+value: "on" or "off"
 
-    - `false`
+Current value of the zone setting.
 
-  - `modified_on: optional string`
+</summary>
 
-    last time this setting was modified.
+One of the following:
 
-### Orange To Orange
+"on"
 
-- `OrangeToOrange object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-  Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+"off"
 
-  - `id: "orange_to_orange"`
+[Link to this property](#)
 
-    ID of the zone setting.
+</details>
 
-    - `"orange_to_orange"`
+[Link to this property](#)
 
-  - `value: "on" or "off"`
+<details>
 
-    Current value of the zone setting.
+<summary>
 
-    - `"on"`
+editable: optional true or false
 
-    - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `editable: optional true or false`
+</summary>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-    - `true`
+true
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+false
 
-    last time this setting was modified.
+[Link to this property](#)
 
-### Origin Error Page Pass Thru
+</details>
 
-- `OriginErrorPagePassThru object { id, value }`
+[Link to this property](#)
 
-  - `id: optional "origin_error_page_pass_thru"`
+modified_on: optional string
 
-    Turn on or off Cloudflare error pages generated from issues sent from the origin server. If enabled, this setting triggers error pages issued by the origin.
+last time this setting was modified.
 
-    - `"origin_error_page_pass_thru"`
+formatdate-time
 
-  - `value: optional "on" or "off"`
+[Link to this property](#)
 
-    The status of Origin Error Page Passthru.
+</details>
 
-    - `"on"`
+[Link to this property](#)
 
-    - `"off"`
+<details>
 
-### Origin Max HTTP Version
+<summary>
 
-- `OriginMaxHTTPVersion object { id, editable, value, modified_on }`
+ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }
 
-  - `id: "origin_max_http_version"`
+Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
 
-    The identifier of the caching setting.
+</summary>
 
-    - `"origin_max_http_version"`
+id: "origin_h2_max_streams"
 
-  - `editable: boolean`
+Value of the zone setting.
 
-    Whether the setting is editable.
+[Link to this property](#)
 
-  - `value: "2" or "1"`
+modified_on: optional string
 
-    Value of the Origin Max HTTP Version Setting.
+Last time this setting was modified.
 
-    - `"2"`
+formatdate-time
 
-    - `"1"`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+value: optional number
 
-    Last time this setting was modified.
+Value of the Origin H2 Max Streams Setting.
 
-### Polish
+maximum1000
 
-- `Polish object { id, value }`
+minimum1
 
-  - `id: optional "polish"`
+[Link to this property](#)
 
-    Apply options from the Polish feature of the Cloudflare Speed app.
+</details>
 
-    - `"polish"`
+[Link to this property](#)
 
-  - `value: optional "off" or "lossless" or "lossy"`
+<details>
 
-    The level of Polish you want applied to your origin.
+<summary>
 
-    - `"off"`
+ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }
 
-    - `"lossless"`
+Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is “2” for all plan types except Enterprise where it is “1”.
 
-    - `"lossy"`
+</summary>
 
-### Prefetch Preload
+id: "origin_max_http_version"
 
-- `PrefetchPreload object { id, value, editable, modified_on }`
+Value of the zone setting.
 
-  Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-  - `id: "prefetch_preload"`
+modified_on: optional string
 
-    ID of the zone setting.
+Last time this setting was modified.
 
-    - `"prefetch_preload"`
+formatdate-time
 
-  - `value: "on" or "off"`
+[Link to this property](#)
 
-    Current value of the zone setting.
+<details>
 
-    - `"on"`
+<summary>
 
-    - `"off"`
+value: optional "2" or "1"
 
-  - `editable: optional true or false`
+Value of the Origin Max HTTP Version Setting.
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-    - `true`
+One of the following:
 
-    - `false`
+"2"
 
-  - `modified_on: optional string`
+[Link to this property](#)
 
-    last time this setting was modified.
+"1"
 
-### Proxy Read Timeout
+[Link to this property](#)
 
-- `ProxyReadTimeout object { id, value, editable, modified_on }`
+</details>
 
-  Maximum time between two read operations from origin.
+[Link to this property](#)
 
-  - `id: "proxy_read_timeout"`
+</details>
 
-    ID of the zone setting.
+[Link to this property](#)
 
-    - `"proxy_read_timeout"`
+<details>
 
-  - `value: number`
+<summary>
 
-    Current value of the zone setting.
+ZonesPolish2 object { id, value, editable, modified_on }
 
-  - `editable: optional true or false`
+Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-    - `true`
+id: "polish"
 
-    - `false`
+ID of the zone setting.
 
-  - `modified_on: optional string`
+[Link to this property](#)
 
-    last time this setting was modified.
+<details>
 
-### Pseudo IPV4
+<summary>
 
-- `PseudoIPV4 object { id, value, editable, modified_on }`
+value: "off" or "lossless" or "lossy"
 
-  The value set for the Pseudo IPv4 setting.
+Current value of the zone setting.
 
-  - `id: "pseudo_ipv4"`
+</summary>
 
-    Value of the Pseudo IPv4 setting.
+One of the following:
 
-    - `"pseudo_ipv4"`
+"off"
 
-  - `value: "off" or "add_header" or "overwrite_header"`
+[Link to this property](#)
 
-    Current value of the zone setting.
+"lossless"
 
-    - `"off"`
+[Link to this property](#)
 
-    - `"add_header"`
+"lossy"
 
-    - `"overwrite_header"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+editable: optional true or false
 
-    last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-### Response Buffering
+</summary>
 
-- `ResponseBuffering object { id, value }`
+One of the following:
 
-  - `id: optional "response_buffering"`
+true
 
-    Turn on or off whether Cloudflare should wait for an entire file
-    from the origin server before forwarding it to the site visitor. By
-    default, Cloudflare sends packets to the client as they arrive from
-    the origin server.
+[Link to this property](#)
 
-    - `"response_buffering"`
+false
 
-  - `value: optional "on" or "off"`
+[Link to this property](#)
 
-    The status of Response Buffering
+</details>
 
-    - `"on"`
+[Link to this property](#)
 
-    - `"off"`
+modified_on: optional string
 
-### Rocket Loader
+last time this setting was modified.
 
-- `RocketLoader object { id, value }`
+formatdate-time
 
-  - `id: optional "rocket_loader"`
+[Link to this property](#)
 
-    Turn on or off Rocket Loader in the Cloudflare Speed app.
+</details>
 
-    - `"rocket_loader"`
+[Link to this property](#)
 
-  - `value: optional "on" or "off"`
+<details>
 
-    The status of Rocket Loader
+<summary>
 
-    - `"on"`
+PrefetchPreload object { id, value, editable, modified_on }
 
-    - `"off"`
+Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
 
-### Security Headers
+</summary>
 
-- `SecurityHeaders object { id, value, editable, modified_on }`
+id: "prefetch_preload"
 
-  Cloudflare security header for a zone.
+ID of the zone setting.
 
-  - `id: "security_header"`
+[Link to this property](#)
 
-    ID of the zone's security header.
+<details>
 
-    - `"security_header"`
+<summary>
 
-  - `value: object { strict_transport_security }`
+value: "on" or "off"
 
-    Current value of the zone setting.
+Current value of the zone setting.
 
-    - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+</summary>
 
-      Strict Transport Security.
+One of the following:
 
-      - `enabled: optional boolean`
+"on"
 
-        Whether or not strict transport security is enabled.
+[Link to this property](#)
 
-      - `include_subdomains: optional boolean`
+"off"
 
-        Include all subdomains for strict transport security.
+[Link to this property](#)
 
-      - `max_age: optional number`
+</details>
 
-        Max age in seconds of the strict transport security.
+[Link to this property](#)
 
-      - `nosniff: optional boolean`
+<details>
 
-        Whether or not to include 'X-Content-Type-Options: nosniff' header.
+<summary>
 
-      - `preload: optional boolean`
+editable: optional true or false
 
-        Enable automatic preload of the HSTS configuration.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `editable: optional true or false`
+</summary>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-    - `true`
+true
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+false
 
-    last time this setting was modified.
+[Link to this property](#)
 
-### Security Level
+</details>
 
-- `SecurityLevel object { id, value }`
+[Link to this property](#)
 
-  - `id: optional "security_level"`
+modified_on: optional string
 
-    Control options for the **Security Level** feature from the **Security** app.
+last time this setting was modified.
 
-    - `"security_level"`
+formatdate-time
 
-  - `value: optional "off" or "essentially_off" or "low" or 3 more`
+[Link to this property](#)
 
-    - `"off"`
+</details>
 
-    - `"essentially_off"`
+[Link to this property](#)
 
-    - `"low"`
+<details>
 
-    - `"medium"`
+<summary>
 
-    - `"high"`
+ZonesPreRender object { id, value, editable, modified_on }
 
-    - `"under_attack"`
+When enabled, Cloudflare serves pre-rendered HTML to eligible search and AI crawlers instead of the origin’s unrendered response.
 
-### Server Side Excludes
+</summary>
 
-- `ServerSideExcludes object { id, value, editable, modified_on }`
+id: "pre_render"
 
-  If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+ID of the zone setting.
 
-  - `id: "server_side_exclude"`
+[Link to this property](#)
 
-    ID of the zone setting.
+<details>
 
-    - `"server_side_exclude"`
+<summary>
 
-  - `value: "on" or "off"`
+value: "off" or "on"
 
-    Current value of the zone setting.
+Current value of the zone setting.
 
-    - `"on"`
+</summary>
 
-    - `"off"`
+One of the following:
 
-  - `editable: optional true or false`
+"off"
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+"on"
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+</details>
 
-    last time this setting was modified.
+[Link to this property](#)
 
-### Sort Query String For Cache
+<details>
 
-- `SortQueryStringForCache object { id, value }`
+<summary>
 
-  - `id: optional "sort_query_string_for_cache"`
+editable: optional true or false
 
-    Turn on or off the reordering of query strings. When query strings have the same structure, caching improves.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `"sort_query_string_for_cache"`
+</summary>
 
-  - `value: optional "on" or "off"`
+One of the following:
 
-    The status of Query String Sort
+true
 
-    - `"on"`
+[Link to this property](#)
 
-    - `"off"`
+false
 
-### SSL
+[Link to this property](#)
 
-- `SSL object { id, value }`
+</details>
 
-  - `id: optional "ssl"`
+[Link to this property](#)
 
-    Control options for the SSL feature of the Edge Certificates tab in the Cloudflare SSL/TLS app.
+modified_on: optional string
 
-    - `"ssl"`
+last time this setting was modified.
 
-  - `value: optional "off" or "flexible" or "full" or 2 more`
+formatdate-time
 
-    The encryption mode that Cloudflare uses to connect to your origin server.
+[Link to this property](#)
 
-    - `"off"`
+</details>
 
-    - `"flexible"`
+[Link to this property](#)
 
-    - `"full"`
+<details>
 
-    - `"strict"`
+<summary>
 
-    - `"origin_pull"`
+ZonesPrivacyPass object { id, value, editable, modified_on }
 
-### SSL Recommender
+Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
 
-- `SSLRecommender object { id, enabled }`
+</summary>
 
-  Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+id: "privacy_pass"
 
-  - `id: optional "ssl_recommender"`
+ID of the zone setting.
 
-    Enrollment value for SSL/TLS Recommender.
+[Link to this property](#)
 
-    - `"ssl_recommender"`
+<details>
 
-  - `enabled: optional boolean`
+<summary>
 
-    ssl-recommender enrollment setting.
+Deprecatedvalue: "on" or "off"
 
-### TLS 1 3
+Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31)
 
-- `TLS1_3 object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-  Enables Crypto TLS 1.3 feature for a zone.
+</summary>
 
-  - `id: "tls_1_3"`
+One of the following:
 
-    ID of the zone setting.
+"on"
 
-    - `"tls_1_3"`
+[Link to this property](#)
 
-  - `value: "on" or "off" or "zrt"`
+"off"
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"on"`
+</details>
 
-    - `"off"`
+[Link to this property](#)
 
-    - `"zrt"`
+<details>
 
-  - `editable: optional true or false`
+<summary>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-    - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `false`
+</summary>
 
-  - `modified_on: optional string`
+One of the following:
 
-    last time this setting was modified.
+true
 
-### TLS Client Auth
+[Link to this property](#)
 
-- `TLSClientAuth object { id, value, editable, modified_on }`
+false
 
-  TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+[Link to this property](#)
 
-  - `id: "tls_client_auth"`
+</details>
 
-    ID of the zone setting.
+[Link to this property](#)
 
-    - `"tls_client_auth"`
+modified_on: optional string
 
-  - `value: "on" or "off"`
+last time this setting was modified.
 
-    Current value of the zone setting.
+formatdate-time
 
-    - `"on"`
+[Link to this property](#)
 
-    - `"off"`
+</details>
 
-  - `editable: optional true or false`
+[Link to this property](#)
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-    - `true`
+<summary>
 
-    - `false`
+ProxyReadTimeout object { id, value, editable, modified_on }
 
-  - `modified_on: optional string`
+Maximum time between two read operations from origin.
 
-    last time this setting was modified.
+</summary>
 
-### True Client IP Header
+id: "proxy_read_timeout"
 
-- `TrueClientIPHeader object { id, value }`
+ID of the zone setting.
 
-  - `id: optional "true_client_ip_header"`
+[Link to this property](#)
 
-    Turn on or off the True-Client-IP Header feature of the Cloudflare Network app.
+value: number
 
-    - `"true_client_ip_header"`
+Current value of the zone setting.
 
-  - `value: optional "on" or "off"`
+[Link to this property](#)
 
-    The status of True Client IP Header.
+<details>
 
-    - `"on"`
+<summary>
 
-    - `"off"`
+editable: optional true or false
 
-### WAF
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-- `WAF object { id, value }`
+</summary>
 
-  - `id: optional "waf"`
+One of the following:
 
-    Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/).
-    You cannot enable or disable individual WAF managed rules via Page Rules.
+true
 
-    - `"waf"`
+[Link to this property](#)
 
-  - `value: optional "on" or "off"`
+false
 
-    The status of WAF managed rules (previous version).
+[Link to this property](#)
 
-    - `"on"`
+</details>
 
-    - `"off"`
+[Link to this property](#)
 
-### WebP
+modified_on: optional string
 
-- `WebP object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-  When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+formatdate-time
 
-  - `id: "webp"`
+[Link to this property](#)
 
-    ID of the zone setting.
+</details>
 
-    - `"webp"`
+[Link to this property](#)
 
-  - `value: "off" or "on"`
+<details>
 
-    Current value of the zone setting.
+<summary>
 
-    - `"off"`
+PseudoIPV4 object { id, value, editable, modified_on }
 
-    - `"on"`
+The value set for the Pseudo IPv4 setting.
 
-  - `editable: optional true or false`
+</summary>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "pseudo_ipv4"
 
-    - `true`
+Value of the Pseudo IPv4 setting.
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+<details>
 
-    last time this setting was modified.
+<summary>
 
-### Websocket
+value: "off" or "add_header" or "overwrite_header"
 
-- `Websocket object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-  WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+</summary>
 
-  - `id: "websockets"`
+One of the following:
 
-    ID of the zone setting.
+"off"
 
-    - `"websockets"`
+[Link to this property](#)
 
-  - `value: "off" or "on"`
+"add_header"
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"off"`
+"overwrite_header"
 
-    - `"on"`
+[Link to this property](#)
 
-  - `editable: optional true or false`
+</details>
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `modified_on: optional string`
+editable: optional true or false
 
-    last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-### Zero RTT
+</summary>
 
-- `ZeroRTT object { id, value, editable, modified_on }`
+One of the following:
 
-  0-RTT session resumption enabled for this zone.
+true
 
-  - `id: "0rtt"`
+[Link to this property](#)
 
-    ID of the zone setting.
+false
 
-    - `"0rtt"`
+[Link to this property](#)
 
-  - `value: "on" or "off"`
+</details>
 
-    Current value of the zone setting.
+[Link to this property](#)
 
-    - `"on"`
+modified_on: optional string
 
-    - `"off"`
+last time this setting was modified.
 
-  - `editable: optional true or false`
+formatdate-time
 
-    Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-    - `true`
+</details>
 
-    - `false`
+[Link to this property](#)
 
-  - `modified_on: optional string`
+<details>
 
-    last time this setting was modified.
+<summary>
 
-### Setting List Response
+ZonesRedirectsForAITraining object { id, value, editable, modified_on }
 
-- `SettingListResponse = ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 59 more`
+When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs found in the HTML response, ensuring AI models train on authoritative content.
 
-  0-RTT session resumption enabled for this zone.
+</summary>
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+id: "redirects_for_ai_training"
 
-    0-RTT session resumption enabled for this zone.
+ID of the zone setting.
 
-    - `id: "0rtt"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"0rtt"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "off" or "on"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+<details>
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+<summary>
 
-    - `id: "advanced_ddos"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"advanced_ddos"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+[Link to this property](#)
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+</details>
 
-    - `id: "aegis"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"aegis"`
+<summary>
 
-    - `modified_on: optional string`
+ZonesReplaceInsecureJS object { id, value, editable, modified_on }
 
-      Last time this setting was modified.
+Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
 
-    - `value: optional object { enabled, pool_id }`
+</summary>
 
-      Value of the zone setting.
+id: "replace_insecure_js"
 
-      - `enabled: optional boolean`
+ID of the zone setting.
 
-        Whether the feature is enabled or not.
+[Link to this property](#)
 
-      - `pool_id: optional string`
+<details>
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+<summary>
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+value: "on" or "off"
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+Current value of the zone setting.
 
-    - `id: "always_online"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"always_online"`
+"on"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"off"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+One of the following:
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+true
 
-    - `id: "always_use_https"`
+[Link to this property](#)
 
-      ID of the zone setting.
+false
 
-      - `"always_use_https"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+modified_on: optional string
 
-      - `"off"`
+last time this setting was modified.
 
-    - `editable: optional true or false`
+formatdate-time
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+ZonesResponseBuffering2 object { id, value, editable, modified_on }
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
 
-    - `id: "automatic_https_rewrites"`
+</summary>
 
-      ID of the zone setting.
+id: "response_buffering"
 
-      - `"automatic_https_rewrites"`
+ID of the zone setting.
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+value: "on" or "off"
 
-    - `editable: optional true or false`
+Current value of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+"on"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"off"
 
-  - `Brotli object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+</details>
 
-    - `id: "brotli"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"brotli"`
+<summary>
 
-    - `value: "off" or "on"`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-      - `"on"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+last time this setting was modified.
 
-    - `id: "browser_cache_ttl"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_cache_ttl"`
+</details>
 
-    - `value: number`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ZonesRocketLoader2 object { id, value, editable, modified_on }
 
-      - `true`
+Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site’s Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page’s rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "rocket_loader"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+<details>
 
-    - `id: "browser_check"`
+<summary>
 
-      ID of the zone setting.
+value: "on" or "off"
 
-      - `"browser_check"`
+Current value of the zone setting.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+"on"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "cache_level"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"cache_level"`
+true
 
-    - `value: "aggressive" or "basic" or "simplified"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `"aggressive"`
+[Link to this property](#)
 
-      - `"basic"`
+</details>
 
-      - `"simplified"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+<details>
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+<summary>
 
-    - `id: "challenge_ttl"`
+ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+[Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare’s edge network and caches third-party fonts.
 
-      - `"challenge_ttl"`
+</summary>
 
-    - `value: 300 or 900 or 1800 or 11 more`
+id: "automatic_platform_optimization"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `300`
+[Link to this property](#)
 
-      - `900`
+value: [AutomaticPlatformOptimization](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20automatic_platform_optimization%20%3E%20(schema)) { cache_by_device_type, cf, enabled, 3 more }
 
-      - `1800`
+Current value of the zone setting.
 
-      - `2700`
+[Link to this property](#)
 
-      - `3600`
+<details>
 
-      - `7200`
+<summary>
 
-      - `10800`
+editable: optional true or false
 
-      - `14400`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `28800`
+</summary>
 
-      - `57600`
+One of the following:
 
-      - `86400`
+true
 
-      - `604800`
+[Link to this property](#)
 
-      - `2592000`
+false
 
-      - `31536000`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `Ciphers object { id, value, editable, modified_on }`
+</details>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+[Link to this property](#)
 
-    - `id: "ciphers"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"ciphers"`
+ZonesSearchForAgents object { id, value, editable, modified_on }
 
-    - `value: array of string`
+When enabled, Cloudflare provisions an AI Search instance for the zone and exposes a /.well-known/ai-search endpoint that AI agents can query. Markdown responses also receive an agent: YAML capability block advertising the search endpoint.
 
-      Current value of the zone setting.
+</summary>
 
-    - `editable: optional true or false`
+id: "search_for_agents"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "off" or "on"
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+</summary>
 
-    - `id: "content_converter"`
+One of the following:
 
-      ID of the zone setting.
+"off"
 
-      - `"content_converter"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+"on"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+true
 
-    Whether or not cname flattening is on.
+[Link to this property](#)
 
-    - `id: "cname_flattening"`
+false
 
-      How to flatten the cname destination.
+[Link to this property](#)
 
-      - `"cname_flattening"`
+</details>
 
-    - `value: "flatten_at_root" or "flatten_all"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"flatten_at_root"`
+last time this setting was modified.
 
-      - `"flatten_all"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+SecurityHeaders object { id, value, editable, modified_on }
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+Cloudflare security header for a zone.
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+</summary>
 
-    - `id: "development_mode"`
+id: "security_header"
 
-      ID of the zone setting.
+ID of the zone’s security header.
 
-      - `"development_mode"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+value: object { strict_transport_security }
 
-      - `"off"`
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }
 
-    - `modified_on: optional string`
+Strict Transport Security.
 
-      last time this setting was modified.
+</summary>
 
-    - `time_remaining: optional number`
+enabled: optional boolean
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+Whether or not strict transport security is enabled.
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+include_subdomains: optional boolean
 
-    - `id: "early_hints"`
+Include all subdomains for strict transport security.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"early_hints"`
+max_age: optional number
 
-    - `value: "on" or "off"`
+Max age in seconds of the strict transport security.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+nosniff: optional boolean
 
-      - `"off"`
+Whether or not to include ‘X-Content-Type-Options: nosniff’ header.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+preload: optional boolean
 
-      - `true`
+Enable automatic preload of the HSTS configuration.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+</details>
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+[Link to this property](#)
 
-    - `id: "edge_cache_ttl"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"edge_cache_ttl"`
+editable: optional true or false
 
-    - `value: 30 or 60 or 300 or 18 more`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `30`
+One of the following:
 
-      - `60`
+true
 
-      - `300`
+[Link to this property](#)
 
-      - `1200`
+false
 
-      - `1800`
+[Link to this property](#)
 
-      - `3600`
+</details>
 
-      - `7200`
+[Link to this property](#)
 
-      - `10800`
+modified_on: optional string
 
-      - `14400`
+last time this setting was modified.
 
-      - `18000`
+formatdate-time
 
-      - `28800`
+[Link to this property](#)
 
-      - `43200`
+</details>
 
-      - `57600`
+[Link to this property](#)
 
-      - `72000`
+<details>
 
-      - `86400`
+<summary>
 
-      - `172800`
+ZonesSecurityLevel2 object { id, value, editable, modified_on }
 
-      - `259200`
+Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
 
-      - `345600`
+</summary>
 
-      - `432000`
+id: "security_level"
 
-      - `518400`
+ID of the zone setting.
 
-      - `604800`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "off" or "essentially_off" or "low" or 3 more
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+"off"
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+[Link to this property](#)
 
-    - `id: "email_obfuscation"`
+"essentially_off"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"email_obfuscation"`
+"low"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"medium"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"high"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"under_attack"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+<summary>
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+editable: optional true or false
 
-    - `id: "h2_prioritization"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"h2_prioritization"`
+One of the following:
 
-    - `value: "on" or "off" or "custom"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+false
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"custom"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+<details>
 
-    - `id: "hotlink_protection"`
+<summary>
 
-      ID of the zone setting.
+ServerSideExcludes object { id, value, editable, modified_on }
 
-      - `"hotlink_protection"`
+If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: . For example: Bad visitors won’t see my phone number, 555-555-5555 . Note: SSE only will work with HTML. If you have HTML minification enabled, you won’t see the SSE tags in your HTML source when it’s served through Cloudflare. SSE will still function in this case, as Cloudflare’s HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor’s computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+id: "server_side_exclude"
 
-      - `"on"`
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "on" or "off"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+"on"
 
-    HTTP2 enabled for this zone.
+[Link to this property](#)
 
-    - `id: "http2"`
+"off"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"http2"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    HTTP3 enabled for this zone.
+</details>
 
-    - `id: "http3"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"http3"`
+last time this setting was modified.
 
-    - `value: "on" or "off"`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+ZonesSha1Support object { id, value, editable, modified_on }
 
-      - `false`
+Allow SHA1 support.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "sha1_support"
 
-  - `ImageResizing object { id, value, editable, modified_on }`
+Zone setting identifier.
 
-    Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+[Link to this property](#)
 
-    - `id: "image_resizing"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"image_resizing"`
+value: "off" or "on"
 
-    - `value: "on" or "off" or "open"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+One of the following:
 
-      - `"off"`
+"off"
 
-      - `"open"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "ip_geolocation"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"ip_geolocation"`
+true
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `IPV6 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+<details>
 
-    - `id: "ipv6"`
+<summary>
 
-      ID of the zone setting.
+ZonesSortQueryStringForCache2 object { id, value, editable, modified_on }
 
-      - `"ipv6"`
+Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
 
-    - `value: "off" or "on"`
+</summary>
 
-      Current value of the zone setting.
+id: "sort_query_string_for_cache"
 
-      - `"off"`
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "on" or "off"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+"on"
 
-    Maximum size of an allowable upload.
+[Link to this property](#)
 
-    - `id: "max_upload"`
+"off"
 
-      identifier of the zone setting.
+[Link to this property](#)
 
-      - `"max_upload"`
+</details>
 
-    - `value: 100 or 125 or 150 or 15 more`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `100`
+<summary>
 
-      - `125`
+editable: optional true or false
 
-      - `150`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `175`
+</summary>
 
-      - `200`
+One of the following:
 
-      - `225`
+true
 
-      - `250`
+[Link to this property](#)
 
-      - `275`
+false
 
-      - `300`
+[Link to this property](#)
 
-      - `325`
+</details>
 
-      - `350`
+[Link to this property](#)
 
-      - `375`
+modified_on: optional string
 
-      - `400`
+last time this setting was modified.
 
-      - `425`
+formatdate-time
 
-      - `450`
+[Link to this property](#)
 
-      - `475`
+</details>
 
-      - `500`
+[Link to this property](#)
 
-      - `1000`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ZonesSSL2 object { id, value, editable, modified_on }
 
-      - `true`
+SSL encrypts your visitor’s connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don’t need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full: SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You’ll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You’ll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "ssl"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+<details>
 
-    - `id: "min_tls_version"`
+<summary>
 
-      ID of the zone setting.
+value: "off" or "flexible" or "full" or "strict"
 
-      - `"min_tls_version"`
+Current value of the zone setting.
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"1.0"`
+"off"
 
-      - `"1.1"`
+[Link to this property](#)
 
-      - `"1.2"`
+"flexible"
 
-      - `"1.3"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"full"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"strict"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+<details>
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+<summary>
 
-    - `id: "mirage"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"mirage"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `NEL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+</details>
 
-    - `id: "nel"`
+[Link to this property](#)
 
-      Zone setting identifier.
+<details>
 
-      - `"nel"`
+<summary>
 
-    - `value: object { enabled }`
+SSLRecommender object { id, enabled }
 
-      Current value of the zone setting.
+Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
 
-      - `enabled: optional boolean`
+</summary>
 
-    - `editable: optional true or false`
+id: optional "ssl_recommender"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Enrollment value for SSL/TLS Recommender.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+enabled: optional boolean
 
-    - `modified_on: optional string`
+ssl-recommender enrollment setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+</details>
 
-    Enables the Opportunistic Encryption feature for a zone.
+[Link to this property](#)
 
-    - `id: "opportunistic_encryption"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"opportunistic_encryption"`
+ZonesTLS1_2Only object { id, value, editable, modified_on }
 
-    - `value: "on" or "off"`
+Only allows TLS1.2.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "tls_1_2_only"
 
-      - `"off"`
+Zone setting identifier.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "off" or "on"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+One of the following:
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+"off"
 
-    - `id: "opportunistic_onion"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"on"
 
-      - `"opportunistic_onion"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+false
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+[Link to this property](#)
 
-    - `id: "orange_to_orange"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"orange_to_orange"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+TLS1_3 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Enables Crypto TLS 1.3 feature for a zone.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+id: "tls_1_3"
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+ID of the zone setting.
 
-    - `id: "origin_error_page_pass_thru"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"origin_error_page_pass_thru"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "on" or "off" or "zrt"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"zrt"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+</details>
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+[Link to this property](#)
 
-    - `id: "origin_h2_max_streams"`
+<details>
 
-      Value of the zone setting.
+<summary>
 
-      - `"origin_h2_max_streams"`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Last time this setting was modified.
+</summary>
 
-    - `value: optional number`
+One of the following:
 
-      Value of the Origin H2 Max Streams Setting.
+true
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+[Link to this property](#)
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+false
 
-    - `id: "origin_max_http_version"`
+[Link to this property](#)
 
-      Value of the zone setting.
+</details>
 
-      - `"origin_max_http_version"`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      Last time this setting was modified.
+last time this setting was modified.
 
-    - `value: optional "2" or "1"`
+formatdate-time
 
-      Value of the Origin Max HTTP Version Setting.
+[Link to this property](#)
 
-      - `"2"`
+</details>
 
-      - `"1"`
+[Link to this property](#)
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+<details>
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+<summary>
 
-    - `id: "polish"`
+TLSClientAuth object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
 
-      - `"polish"`
+</summary>
 
-    - `value: "off" or "lossless" or "lossy"`
+id: "tls_client_auth"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"lossless"`
+<details>
 
-      - `"lossy"`
+<summary>
 
-    - `editable: optional true or false`
+value: "on" or "off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"on"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+"off"
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "prefetch_preload"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"prefetch_preload"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-      - `"on"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+modified_on: optional string
 
-    - `id: "privacy_pass"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"privacy_pass"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+ZonesTransformations object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare’s network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "transformations"
 
-    - `modified_on: optional string`
+ID of the zone setting. Shared between Image Transformations and Video Transformations.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+<details>
 
-    Maximum time between two read operations from origin.
+<summary>
 
-    - `id: "proxy_read_timeout"`
+value: "on" or "off" or "open"
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"proxy_read_timeout"`
+</summary>
 
-    - `value: number`
+One of the following:
 
-      Current value of the zone setting.
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"open"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    The value set for the Pseudo IPv4 setting.
+<details>
 
-    - `id: "pseudo_ipv4"`
+<summary>
 
-      Value of the Pseudo IPv4 setting.
+editable: optional true or false
 
-      - `"pseudo_ipv4"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"off"`
+true
 
-      - `"add_header"`
+[Link to this property](#)
 
-      - `"overwrite_header"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+</details>
 
-    - `id: "redirects_for_ai_training"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"redirects_for_ai_training"`
+<summary>
 
-    - `value: "off" or "on"`
+ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare’s network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
 
-      - `"off"`
+</summary>
 
-      - `"on"`
+id: "transformations_allowed_origins"
 
-    - `editable: optional true or false`
+ID of the zone setting. Shared between Image Transformations and Video Transformations.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+value: string
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+<summary>
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+editable: optional true or false
 
-    - `id: "replace_insecure_js"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"replace_insecure_js"`
+One of the following:
 
-    - `value: "on" or "off"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+false
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+</details>
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "response_buffering"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"response_buffering"`
+ZonesTrueClientIPHeader2 object { id, value, editable, modified_on }
 
-    - `value: "on" or "off"`
+Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "true_client_ip_header"
 
-      - `"off"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "on" or "off"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+One of the following:
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+"on"
 
-    - `id: "rocket_loader"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"off"
 
-      - `"rocket_loader"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+false
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+[Link to this property](#)
 
-    - `id: "automatic_platform_optimization"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"automatic_platform_optimization"`
+modified_on: optional string
 
-    - `value: AutomaticPlatformOptimization`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `cache_by_device_type: boolean`
+[Link to this property](#)
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+</details>
 
-      - `cf: boolean`
+[Link to this property](#)
 
-        Indicates whether or not Cloudflare proxy is enabled.
+<details>
 
-      - `enabled: boolean`
+<summary>
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+ZonesWAF2 object { id, value, editable, modified_on }
 
-      - `hostnames: array of string`
+The WAF examines HTTP requests to your website. It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will ‘challenge’ the web visitor with a page that asks them to submit a CAPTCHA successfully to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare’s WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+</summary>
 
-      - `wordpress: boolean`
+id: "waf"
 
-        Indicates whether or not site is powered by WordPress.
+ID of the zone setting.
 
-      - `wp_plugin: boolean`
+[Link to this property](#)
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+"off"
 
-    - `id: "search_for_agents"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"search_for_agents"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-      - `"on"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+</details>
 
-    Cloudflare security header for a zone.
+[Link to this property](#)
 
-    - `id: "security_header"`
+modified_on: optional string
 
-      ID of the zone's security header.
+last time this setting was modified.
 
-      - `"security_header"`
+formatdate-time
 
-    - `value: object { strict_transport_security }`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+[Link to this property](#)
 
-        Strict Transport Security.
+<details>
 
-        - `enabled: optional boolean`
+<summary>
 
-          Whether or not strict transport security is enabled.
+ZonesWebmcpEnabled object { id, value, editable, modified_on }
 
-        - `include_subdomains: optional boolean`
+When enabled, Cloudflare injects the WebMCP bridge (bridge.js) into HTML responses for this zone, exposing DOM and Content Credentials tools to an in-browser AI agent via navigator.modelContext. No origin-side code changes are required. This setting is currently in beta and its behavior may change.
 
-          Include all subdomains for strict transport security.
+</summary>
 
-        - `max_age: optional number`
+id: "webmcp_enabled"
 
-          Max age in seconds of the strict transport security.
+ID of the zone setting.
 
-        - `nosniff: optional boolean`
+[Link to this property](#)
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+<details>
 
-        - `preload: optional boolean`
+<summary>
 
-          Enable automatic preload of the HSTS configuration.
+value: "off" or "on"
 
-    - `editable: optional true or false`
+Current value of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+</details>
 
-    - `id: "security_level"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"security_level"`
+<summary>
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-      - `"essentially_off"`
+One of the following:
 
-      - `"low"`
+true
 
-      - `"medium"`
+[Link to this property](#)
 
-      - `"high"`
+false
 
-      - `"under_attack"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+</details>
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+[Link to this property](#)
 
-    - `id: "server_side_exclude"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"server_side_exclude"`
+ZonesWebmcpPacks object { id, value, editable, modified_on }
 
-    - `value: "on" or "off"`
+Optional per-zone override of which bundled WebMCP tool packs the injected bridge.js activates. Only takes effect when webmcp_enabled is on. Leave empty to use the bridge’s default pack set. Unknown pack names are ignored by the bridge. This setting is currently in beta and its behavior may change.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "webmcp_packs"
 
-      - `"off"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: string
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+maxLength256
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+<summary>
 
-    Allow SHA1 support.
+editable: optional true or false
 
-    - `id: "sha1_support"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Zone setting identifier.
+</summary>
 
-      - `"sha1_support"`
+One of the following:
 
-    - `value: "off" or "on"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+false
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+</details>
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "sort_query_string_for_cache"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"sort_query_string_for_cache"`
+WebP object { id, value, editable, modified_on }
 
-    - `value: "on" or "off"`
+When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "webp"
 
-      - `"off"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "off" or "on"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+One of the following:
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+"off"
 
-    - `id: "ssl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"on"
 
-      - `"ssl"`
+[Link to this property](#)
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"flexible"`
+<summary>
 
-      - `"full"`
+editable: optional true or false
 
-      - `"strict"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `SSLRecommender object { id, enabled }`
+</details>
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+[Link to this property](#)
 
-    - `id: optional "ssl_recommender"`
+modified_on: optional string
 
-      Enrollment value for SSL/TLS Recommender.
+last time this setting was modified.
 
-      - `"ssl_recommender"`
+formatdate-time
 
-    - `enabled: optional boolean`
+[Link to this property](#)
 
-      ssl-recommender enrollment setting.
+</details>
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Only allows TLS1.2.
+<details>
 
-    - `id: "tls_1_2_only"`
+<summary>
 
-      Zone setting identifier.
+Websocket object { id, value, editable, modified_on }
 
-      - `"tls_1_2_only"`
+WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
 
-    - `value: "off" or "on"`
+</summary>
 
-      Current value of the zone setting.
+id: "websockets"
 
-      - `"off"`
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "off" or "on"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+"off"
 
-    Enables Crypto TLS 1.3 feature for a zone.
+[Link to this property](#)
 
-    - `id: "tls_1_3"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"tls_1_3"`
+</details>
 
-    - `value: "on" or "off" or "zrt"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-      - `"zrt"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+</details>
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+[Link to this property](#)
 
-    - `id: "tls_client_auth"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"tls_client_auth"`
+formatdate-time
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+SettingEditResponse = [ZeroRTT](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20zero_rtt%20%3E%20(schema)) { id, value, editable, modified_on } or [AdvancedDDoS](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20advanced_ddos%20%3E%20(schema)) { id, value, editable, modified_on } or object { id, modified_on, value } or 63 more
 
-    - `modified_on: optional string`
+0-RTT session resumption enabled for this zone.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesTransformations object { id, value, editable, modified_on }`
+One of the following:
 
-    Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+<details>
 
-    - `id: "transformations"`
+<summary>
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+ZeroRTT object { id, value, editable, modified_on }
 
-      - `"transformations"`
+0-RTT session resumption enabled for this zone.
 
-    - `value: "on" or "off" or "open"`
+</summary>
 
-      Current value of the zone setting.
+id: "0rtt"
 
-      - `"on"`
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"open"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+"off"
 
-    - `id: "transformations_allowed_origins"`
+[Link to this property](#)
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+</details>
 
-      - `"transformations_allowed_origins"`
+[Link to this property](#)
 
-    - `value: string`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+false
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "true_client_ip_header"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"true_client_ip_header"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+AdvancedDDoS object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is ‘on’ in the case of Business and Enterprise zones.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+id: "advanced_ddos"
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+ID of the zone setting.
 
-    - `id: "waf"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"waf"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "on" or "off"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `WebP object { id, value, editable, modified_on }`
+<details>
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+<summary>
 
-    - `id: "webp"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"webp"`
+</summary>
 
-    - `value: "off" or "on"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `Websocket object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+</details>
 
-    - `id: "websockets"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"websockets"`
+<summary>
 
-    - `value: "off" or "on"`
+ZonesCacheRulesAegis object { id, modified_on, value }
 
-      Current value of the zone setting.
+Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
 
-      - `"off"`
+</summary>
 
-      - `"on"`
+id: "aegis"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+Last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-### Setting Get Response
+<details>
 
-- `SettingGetResponse = ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 60 more`
+<summary>
 
-  0-RTT session resumption enabled for this zone.
+value: optional object { enabled, pool_id }
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+Value of the zone setting.
 
-    0-RTT session resumption enabled for this zone.
+</summary>
 
-    - `id: "0rtt"`
+enabled: optional boolean
 
-      ID of the zone setting.
+Whether the feature is enabled or not.
 
-      - `"0rtt"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+pool_id: optional string
 
-      Current value of the zone setting.
+Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+AlwaysOnline object { id, value, editable, modified_on }
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive’s Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+</summary>
 
-    - `id: "advanced_ddos"`
+id: "always_online"
 
-      ID of the zone setting.
+ID of the zone setting.
 
-      - `"advanced_ddos"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+value: "on" or "off"
 
-      - `"off"`
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+</details>
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+[Link to this property](#)
 
-    - `id: "aegis"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"aegis"`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Last time this setting was modified.
+</summary>
 
-    - `value: optional object { enabled, pool_id }`
+One of the following:
 
-      Value of the zone setting.
+true
 
-      - `enabled: optional boolean`
+[Link to this property](#)
 
-        Whether the feature is enabled or not.
+false
 
-      - `pool_id: optional string`
+[Link to this property](#)
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+</details>
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+modified_on: optional string
 
-    - `id: "always_online"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"always_online"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+ZonesAlwaysUseHTTPS2 object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Reply to all requests for URLs that use “http” with a 301 redirect to the equivalent “https” URL. If you only want to redirect for a subset of requests, consider creating an “Always use HTTPS” page rule.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "always_use_https"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+<details>
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+<summary>
 
-    - `id: "always_use_https"`
+value: "on" or "off"
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"always_use_https"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+"on"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+</summary>
 
-    - `id: "automatic_https_rewrites"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"automatic_https_rewrites"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `Brotli object { id, value, editable, modified_on }`
+<details>
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+<summary>
 
-    - `id: "brotli"`
+ZonesAutomaticHTTPSRewrites2 object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Enable the Automatic HTTPS Rewrites feature for this zone.
 
-      - `"brotli"`
+</summary>
 
-    - `value: "off" or "on"`
+id: "automatic_https_rewrites"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+"off"
 
-    - `id: "browser_cache_ttl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"browser_cache_ttl"`
+[Link to this property](#)
 
-    - `value: number`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+false
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+[Link to this property](#)
 
-    - `id: "browser_check"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_check"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+Brotli object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+id: "brotli"
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+ID of the zone setting.
 
-    - `id: "cache_level"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"cache_level"`
+<summary>
 
-    - `value: "aggressive" or "basic" or "simplified"`
+value: "off" or "on"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"aggressive"`
+</summary>
 
-      - `"basic"`
+One of the following:
 
-      - `"simplified"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"on"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+<summary>
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+editable: optional true or false
 
-    - `id: "challenge_ttl"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"challenge_ttl"`
+One of the following:
 
-    - `value: 300 or 900 or 1800 or 11 more`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `300`
+false
 
-      - `900`
+[Link to this property](#)
 
-      - `1800`
+</details>
 
-      - `2700`
+[Link to this property](#)
 
-      - `3600`
+modified_on: optional string
 
-      - `7200`
+last time this setting was modified.
 
-      - `10800`
+formatdate-time
 
-      - `14400`
+[Link to this property](#)
 
-      - `28800`
+</details>
 
-      - `57600`
+[Link to this property](#)
 
-      - `86400`
+<details>
 
-      - `604800`
+<summary>
 
-      - `2592000`
+ZonesBrowserCacheTTL2 object { id, value, editable, modified_on }
 
-      - `31536000`
+Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors’ computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "browser_cache_ttl"
 
-      - `true`
+ID of the zone setting.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+value: number
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-  - `ZonesChinaNetworkEnabled object { id, value, editable, modified_on }`
+maximum31536000
 
-    Determines whether or not the china network is enabled.
+minimum0
 
-    - `id: "china_network_enabled"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"china_network_enabled"`
+<summary>
 
-    - `value: "on" or "off"`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+last time this setting was modified.
 
-    - `id: "content_converter"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"content_converter"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"on"`
+ZonesBrowserCheck2 object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page. It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "browser_check"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `Ciphers object { id, value, editable, modified_on }`
+<summary>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+value: "on" or "off"
 
-    - `id: "ciphers"`
+Current value of the zone setting.
 
-      ID of the zone setting.
+</summary>
 
-      - `"ciphers"`
+One of the following:
 
-    - `value: array of string`
+"on"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Whether or not cname flattening is on.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "cname_flattening"`
+</summary>
 
-      How to flatten the cname destination.
+One of the following:
 
-      - `"cname_flattening"`
+true
 
-    - `value: "flatten_at_root" or "flatten_all"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `"flatten_at_root"`
+[Link to this property](#)
 
-      - `"flatten_all"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+[Link to this property](#)
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+<details>
 
-    - `id: "development_mode"`
+<summary>
 
-      ID of the zone setting.
+ZonesCacheLevel2 object { id, value, editable, modified_on }
 
-      - `"development_mode"`
+Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+id: "cache_level"
 
-      - `"on"`
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "aggressive" or "basic" or "simplified"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-    - `time_remaining: optional number`
+"aggressive"
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+[Link to this property](#)
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+"basic"
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+[Link to this property](#)
 
-    - `id: "early_hints"`
+"simplified"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"early_hints"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+</details>
 
-    - `id: "edge_cache_ttl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"edge_cache_ttl"`
+last time this setting was modified.
 
-    - `value: 30 or 60 or 300 or 18 more`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `30`
+</details>
 
-      - `60`
+[Link to this property](#)
 
-      - `300`
+<details>
 
-      - `1200`
+<summary>
 
-      - `1800`
+ChallengeTTL object { id, value, editable, modified_on }
 
-      - `3600`
+Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
 
-      - `7200`
+</summary>
 
-      - `10800`
+id: "challenge_ttl"
 
-      - `14400`
+ID of the zone setting.
 
-      - `18000`
+[Link to this property](#)
 
-      - `28800`
+<details>
 
-      - `43200`
+<summary>
 
-      - `57600`
+value: 300 or 900 or 1800 or 11 more
 
-      - `72000`
+Current value of the zone setting.
 
-      - `86400`
+</summary>
 
-      - `172800`
+One of the following:
 
-      - `259200`
+300
 
-      - `345600`
+[Link to this property](#)
 
-      - `432000`
+900
 
-      - `518400`
+[Link to this property](#)
 
-      - `604800`
+1800
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+2700
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+3600
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+7200
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+10800
 
-    - `id: "email_obfuscation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+14400
 
-      - `"email_obfuscation"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+28800
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+57600
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+86400
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+604800
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+2592000
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+31536000
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+[Link to this property](#)
 
-    - `id: "h2_prioritization"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"h2_prioritization"`
+<details>
 
-    - `value: "on" or "off" or "custom"`
+<summary>
 
-      Current value of the zone setting.
+editable: optional true or false
 
-      - `"on"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"off"`
+</summary>
 
-      - `"custom"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+last time this setting was modified.
 
-    - `id: "hotlink_protection"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"hotlink_protection"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+ZonesChinaNetworkEnabled object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Determines whether or not the china network is enabled.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "china_network_enabled"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+<summary>
 
-    HTTP2 enabled for this zone.
+value: "on" or "off"
 
-    - `id: "http2"`
+Current value of the zone setting.
 
-      ID of the zone setting.
+</summary>
 
-      - `"http2"`
+One of the following:
 
-    - `value: "on" or "off"`
+"on"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+"off"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+editable: optional true or false
 
-      last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+</summary>
 
-    HTTP3 enabled for this zone.
+One of the following:
 
-    - `id: "http3"`
+true
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"http3"`
+false
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+modified_on: optional string
 
-    - `editable: optional true or false`
+last time this setting was modified.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+formatdate-time
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ImageResizing object { id, value, editable, modified_on }`
+<summary>
 
-    Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+ZonesContentConverter object { id, value, editable, modified_on }
 
-    - `id: "image_resizing"`
+When enabled and the client sends an Accept header requesting text/markdown, Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service. Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
 
-      ID of the zone setting.
+</summary>
 
-      - `"image_resizing"`
+id: "content_converter"
 
-    - `value: "on" or "off" or "open"`
+ID of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"open"`
+value: "off" or "on"
 
-    - `editable: optional true or false`
+Current value of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+"off"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+</details>
 
-    - `id: "ip_geolocation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"ip_geolocation"`
+<summary>
 
-    - `value: "on" or "off"`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `IPV6 object { id, value, editable, modified_on }`
+modified_on: optional string
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+last time this setting was modified.
 
-    - `id: "ipv6"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ipv6"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"on"`
+Ciphers object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "ciphers"
 
-      - `false`
+ID of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+value: array of string
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Maximum size of an allowable upload.
+[Link to this property](#)
 
-    - `id: "max_upload"`
+<details>
 
-      identifier of the zone setting.
+<summary>
 
-      - `"max_upload"`
+editable: optional true or false
 
-    - `value: 100 or 125 or 150 or 15 more`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `100`
+One of the following:
 
-      - `125`
+true
 
-      - `150`
+[Link to this property](#)
 
-      - `175`
+false
 
-      - `200`
+[Link to this property](#)
 
-      - `225`
+</details>
 
-      - `250`
+[Link to this property](#)
 
-      - `275`
+modified_on: optional string
 
-      - `300`
+last time this setting was modified.
 
-      - `325`
+formatdate-time
 
-      - `350`
+[Link to this property](#)
 
-      - `375`
+</details>
 
-      - `400`
+[Link to this property](#)
 
-      - `425`
+<details>
 
-      - `450`
+<summary>
 
-      - `475`
+ZonesCNAMEFlattening object { id, value, editable, modified_on }
 
-      - `500`
+Whether or not cname flattening is on.
 
-      - `1000`
+</summary>
 
-    - `editable: optional true or false`
+id: "cname_flattening"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+How to flatten the cname destination.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+Deprecatedvalue: "flatten_at_root" or "flatten_all"
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+Current value of the zone setting.
 
-    - `id: "min_tls_version"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"min_tls_version"`
+"flatten_at_root"
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"flatten_all"
 
-      - `"1.0"`
+[Link to this property](#)
 
-      - `"1.1"`
+</details>
 
-      - `"1.2"`
+[Link to this property](#)
 
-      - `"1.3"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+false
 
-    - `id: "mirage"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"mirage"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+DevelopmentMode object { id, value, editable, 2 more }
 
-      last time this setting was modified.
+Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare’s accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
 
-  - `NEL object { id, value, editable, modified_on }`
+</summary>
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+id: "development_mode"
 
-    - `id: "nel"`
+ID of the zone setting.
 
-      Zone setting identifier.
+[Link to this property](#)
 
-      - `"nel"`
+<details>
 
-    - `value: object { enabled }`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off"
 
-      - `enabled: optional boolean`
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+</details>
 
-    Enables the Opportunistic Encryption feature for a zone.
+[Link to this property](#)
 
-    - `id: "opportunistic_encryption"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"opportunistic_encryption"`
+editable: optional true or false
 
-    - `value: "on" or "off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+One of the following:
 
-      - `"off"`
+true
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+false
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+formatdate-time
 
-    - `id: "opportunistic_onion"`
+[Link to this property](#)
 
-      ID of the zone setting.
+time_remaining: optional number
 
-      - `"opportunistic_onion"`
+Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+EarlyHints object { id, value, editable, modified_on }
 
-      - `true`
+When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "early_hints"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+<details>
 
-    - `id: "orange_to_orange"`
+<summary>
 
-      ID of the zone setting.
+value: "on" or "off"
 
-      - `"orange_to_orange"`
+Current value of the zone setting.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+"on"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "origin_error_page_pass_thru"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"origin_error_page_pass_thru"`
+true
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+[Link to this property](#)
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+<details>
 
-    - `id: "origin_h2_max_streams"`
+<summary>
 
-      Value of the zone setting.
+ZonesEdgeCacheTTL2 object { id, value, editable, modified_on }
 
-      - `"origin_h2_max_streams"`
+Time (in seconds) that a resource will be ensured to remain on Cloudflare’s cache servers.
 
-    - `modified_on: optional string`
+</summary>
 
-      Last time this setting was modified.
+id: "edge_cache_ttl"
 
-    - `value: optional number`
+ID of the zone setting.
 
-      Value of the Origin H2 Max Streams Setting.
+[Link to this property](#)
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+<details>
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+<summary>
 
-    - `id: "origin_max_http_version"`
+value: 30 or 60 or 300 or 18 more
 
-      Value of the zone setting.
+Current value of the zone setting.
 
-      - `"origin_max_http_version"`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      Last time this setting was modified.
+30
 
-    - `value: optional "2" or "1"`
+[Link to this property](#)
 
-      Value of the Origin Max HTTP Version Setting.
+60
 
-      - `"2"`
+[Link to this property](#)
 
-      - `"1"`
+300
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+1200
 
-    - `id: "polish"`
+[Link to this property](#)
 
-      ID of the zone setting.
+1800
 
-      - `"polish"`
+[Link to this property](#)
 
-    - `value: "off" or "lossless" or "lossy"`
+3600
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+7200
 
-      - `"lossless"`
+[Link to this property](#)
 
-      - `"lossy"`
+10800
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+14400
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+18000
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+28800
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+43200
 
-    - `id: "prefetch_preload"`
+[Link to this property](#)
 
-      ID of the zone setting.
+57600
 
-      - `"prefetch_preload"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+72000
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+86400
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+172800
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+259200
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+345600
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+432000
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+[Link to this property](#)
 
-    - `id: "privacy_pass"`
+518400
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"privacy_pass"`
+604800
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Maximum time between two read operations from origin.
+false
 
-    - `id: "proxy_read_timeout"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"proxy_read_timeout"`
+[Link to this property](#)
 
-    - `value: number`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-    - `editable: optional true or false`
+formatdate-time
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+ZonesEmailObfuscation2 object { id, value, editable, modified_on }
 
-    The value set for the Pseudo IPv4 setting.
+Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
 
-    - `id: "pseudo_ipv4"`
+</summary>
 
-      Value of the Pseudo IPv4 setting.
+id: "email_obfuscation"
 
-      - `"pseudo_ipv4"`
+ID of the zone setting.
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"add_header"`
+value: "on" or "off"
 
-      - `"overwrite_header"`
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+</details>
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+[Link to this property](#)
 
-    - `id: "redirects_for_ai_training"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"redirects_for_ai_training"`
+editable: optional true or false
 
-    - `value: "off" or "on"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"on"`
+true
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+false
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+formatdate-time
 
-    - `id: "replace_insecure_js"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"replace_insecure_js"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+H2Prioritization object { id, value, editable, modified_on }
 
-      - `"off"`
+HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "h2_prioritization"
 
-      - `true`
+ID of the zone setting.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+value: "on" or "off" or "custom"
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+Current value of the zone setting.
 
-    - `id: "response_buffering"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"response_buffering"`
+"on"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"off"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"custom"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+</summary>
 
-    - `id: "rocket_loader"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"rocket_loader"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+<details>
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+<summary>
 
-    - `id: "automatic_platform_optimization"`
+HotlinkProtection object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it’s not another site requesting them. People will still be able to download and view images from your page, but other sites won’t be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
 
-      - `"automatic_platform_optimization"`
+</summary>
 
-    - `value: AutomaticPlatformOptimization`
+id: "hotlink_protection"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `cache_by_device_type: boolean`
+[Link to this property](#)
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+<details>
 
-      - `cf: boolean`
+<summary>
 
-        Indicates whether or not Cloudflare proxy is enabled.
+value: "on" or "off"
 
-      - `enabled: boolean`
+Current value of the zone setting.
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+</summary>
 
-      - `hostnames: array of string`
+One of the following:
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+"on"
 
-      - `wordpress: boolean`
+[Link to this property](#)
 
-        Indicates whether or not site is powered by WordPress.
+"off"
 
-      - `wp_plugin: boolean`
+[Link to this property](#)
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+One of the following:
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+true
 
-    - `id: "search_for_agents"`
+[Link to this property](#)
 
-      ID of the zone setting.
+false
 
-      - `"search_for_agents"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+modified_on: optional string
 
-      - `"on"`
+last time this setting was modified.
 
-    - `editable: optional true or false`
+formatdate-time
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+HTTP2 object { id, value, editable, modified_on }
 
-    Cloudflare security header for a zone.
+HTTP2 enabled for this zone.
 
-    - `id: "security_header"`
+</summary>
 
-      ID of the zone's security header.
+id: "http2"
 
-      - `"security_header"`
+ID of the zone setting.
 
-    - `value: object { strict_transport_security }`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+<summary>
 
-        Strict Transport Security.
+value: "on" or "off"
 
-        - `enabled: optional boolean`
+Current value of the zone setting.
 
-          Whether or not strict transport security is enabled.
+</summary>
 
-        - `include_subdomains: optional boolean`
+One of the following:
 
-          Include all subdomains for strict transport security.
+"on"
 
-        - `max_age: optional number`
+[Link to this property](#)
 
-          Max age in seconds of the strict transport security.
+"off"
 
-        - `nosniff: optional boolean`
+[Link to this property](#)
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+</details>
 
-        - `preload: optional boolean`
+[Link to this property](#)
 
-          Enable automatic preload of the HSTS configuration.
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+false
 
-    - `id: "security_level"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"security_level"`
+[Link to this property](#)
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-      - `"essentially_off"`
+[Link to this property](#)
 
-      - `"low"`
+</details>
 
-      - `"medium"`
+[Link to this property](#)
 
-      - `"high"`
+<details>
 
-      - `"under_attack"`
+<summary>
 
-    - `editable: optional true or false`
+HTTP3 object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+HTTP3 enabled for this zone.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "http3"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+<details>
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+<summary>
 
-    - `id: "server_side_exclude"`
+value: "on" or "off"
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"server_side_exclude"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+"on"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Allow SHA1 support.
+</summary>
 
-    - `id: "sha1_support"`
+One of the following:
 
-      Zone setting identifier.
+true
 
-      - `"sha1_support"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+<details>
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+<summary>
 
-    - `id: "sort_query_string_for_cache"`
+ImageResizing object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare’s network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
 
-      - `"sort_query_string_for_cache"`
+</summary>
 
-    - `value: "on" or "off"`
+id: "image_resizing"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off" or "open"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+"off"
 
-    - `id: "ssl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"open"
 
-      - `"ssl"`
+[Link to this property](#)
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"flexible"`
+<summary>
 
-      - `"full"`
+editable: optional true or false
 
-      - `"strict"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `SSLRecommender object { id, enabled }`
+</details>
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+[Link to this property](#)
 
-    - `id: optional "ssl_recommender"`
+modified_on: optional string
 
-      Enrollment value for SSL/TLS Recommender.
+last time this setting was modified.
 
-      - `"ssl_recommender"`
+formatdate-time
 
-    - `enabled: optional boolean`
+[Link to this property](#)
 
-      ssl-recommender enrollment setting.
+</details>
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Only allows TLS1.2.
+<details>
 
-    - `id: "tls_1_2_only"`
+<summary>
 
-      Zone setting identifier.
+ZonesIPGeolocation2 object { id, value, editable, modified_on }
 
-      - `"tls_1_2_only"`
+Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
 
-    - `value: "off" or "on"`
+</summary>
 
-      Current value of the zone setting.
+id: "ip_geolocation"
 
-      - `"off"`
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "on" or "off"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+"on"
 
-    Enables Crypto TLS 1.3 feature for a zone.
+[Link to this property](#)
 
-    - `id: "tls_1_3"`
+"off"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"tls_1_3"`
+</details>
 
-    - `value: "on" or "off" or "zrt"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-      - `"zrt"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+</details>
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+[Link to this property](#)
 
-    - `id: "tls_client_auth"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"tls_client_auth"`
+formatdate-time
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+IPV6 object { id, value, editable, modified_on }
 
-      - `true`
+Enable IPv6 on all subdomains that are Cloudflare enabled. (https://support.cloudflare.com/hc/en-us/articles/200168586).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "ipv6"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `ZonesTransformations object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+<details>
 
-    - `id: "transformations"`
+<summary>
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+value: "off" or "on"
 
-      - `"transformations"`
+Current value of the zone setting.
 
-    - `value: "on" or "off" or "open"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+"off"
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"open"`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+</summary>
 
-    - `id: "transformations_allowed_origins"`
+One of the following:
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+true
 
-      - `"transformations_allowed_origins"`
+[Link to this property](#)
 
-    - `value: string`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+</details>
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "true_client_ip_header"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"true_client_ip_header"`
+ZonesMaxUpload object { id, value, editable, modified_on }
 
-    - `value: "on" or "off"`
+Maximum size of an allowable upload.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+id: "max_upload"
 
-      - `"off"`
+identifier of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: 100 or 125 or 150 or 23 more
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+One of the following:
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+100
 
-    - `id: "waf"`
+[Link to this property](#)
 
-      ID of the zone setting.
+125
 
-      - `"waf"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+150
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+175
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+200
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+225
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+250
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `WebP object { id, value, editable, modified_on }`
+275
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+[Link to this property](#)
 
-    - `id: "webp"`
+300
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"webp"`
+325
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+350
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+375
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+400
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+425
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+450
 
-  - `Websocket object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+475
 
-    - `id: "websockets"`
+[Link to this property](#)
 
-      ID of the zone setting.
+500
 
-      - `"websockets"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+1000
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+1500
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+2000
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+2500
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+3000
 
-      last time this setting was modified.
+[Link to this property](#)
 
-### Setting Edit Response
+3500
 
-- `SettingEditResponse = ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 60 more`
+[Link to this property](#)
 
-  0-RTT session resumption enabled for this zone.
+4000
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    0-RTT session resumption enabled for this zone.
+4500
 
-    - `id: "0rtt"`
+[Link to this property](#)
 
-      ID of the zone setting.
+5000
 
-      - `"0rtt"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+false
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+[Link to this property](#)
 
-    - `id: "advanced_ddos"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"advanced_ddos"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+MinTLSVersion object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+id: "min_tls_version"
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+ID of the zone setting.
 
-    - `id: "aegis"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"aegis"`
+<summary>
 
-    - `modified_on: optional string`
+value: "1.0" or "1.1" or "1.2" or "1.3"
 
-      Last time this setting was modified.
+Current value of the zone setting.
 
-    - `value: optional object { enabled, pool_id }`
+</summary>
 
-      Value of the zone setting.
+One of the following:
 
-      - `enabled: optional boolean`
+"1.0"
 
-        Whether the feature is enabled or not.
+[Link to this property](#)
 
-      - `pool_id: optional string`
+"1.1"
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+[Link to this property](#)
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+"1.2"
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+[Link to this property](#)
 
-    - `id: "always_online"`
+"1.3"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"always_online"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+</details>
 
-    - `id: "always_use_https"`
+[Link to this property](#)
 
-      ID of the zone setting.
+modified_on: optional string
 
-      - `"always_use_https"`
+last time this setting was modified.
 
-    - `value: "on" or "off"`
+formatdate-time
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+ZonesMirage2 object { id, value, editable, modified_on }
 
-      - `false`
+Automatically optimize image loading for website visitors on mobile devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed) for more information.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "mirage"
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+[Link to this property](#)
 
-    - `id: "automatic_https_rewrites"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"automatic_https_rewrites"`
+Deprecatedvalue: "on" or "off"
 
-    - `value: "on" or "off"`
+Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `Brotli object { id, value, editable, modified_on }`
+<details>
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+<summary>
 
-    - `id: "brotli"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"brotli"`
+</summary>
 
-    - `value: "off" or "on"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+</details>
 
-    - `id: "browser_cache_ttl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"browser_cache_ttl"`
+<summary>
 
-    - `value: number`
+NEL object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Enable Network Error Logging reporting on your zone. (Beta)
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "nel"
 
-      - `true`
+Zone setting identifier.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+value: object { enabled }
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+Current value of the zone setting.
 
-    - `id: "browser_check"`
+</summary>
 
-      ID of the zone setting.
+enabled: optional boolean
 
-      - `"browser_check"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+false
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+[Link to this property](#)
 
-    - `id: "cache_level"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"cache_level"`
+modified_on: optional string
 
-    - `value: "aggressive" or "basic" or "simplified"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"aggressive"`
+[Link to this property](#)
 
-      - `"basic"`
+</details>
 
-      - `"simplified"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+ZonesOpportunisticEncryption2 object { id, value, editable, modified_on }
 
-      - `false`
+Enables the Opportunistic Encryption feature for a zone.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "opportunistic_encryption"
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+[Link to this property](#)
 
-    - `id: "challenge_ttl"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"challenge_ttl"`
+value: "on" or "off"
 
-    - `value: 300 or 900 or 1800 or 11 more`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `300`
+One of the following:
 
-      - `900`
+"on"
 
-      - `1800`
+[Link to this property](#)
 
-      - `2700`
+"off"
 
-      - `3600`
+[Link to this property](#)
 
-      - `7200`
+</details>
 
-      - `10800`
+[Link to this property](#)
 
-      - `14400`
+<details>
 
-      - `28800`
+<summary>
 
-      - `57600`
+editable: optional true or false
 
-      - `86400`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `604800`
+</summary>
 
-      - `2592000`
+One of the following:
 
-      - `31536000`
+true
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+false
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `ZonesChinaNetworkEnabled object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-    Determines whether or not the china network is enabled.
+formatdate-time
 
-    - `id: "china_network_enabled"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"china_network_enabled"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+OpportunisticOnion object { id, value, editable, modified_on }
 
-      - `"off"`
+Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "opportunistic_onion"
 
-      - `true`
+ID of the zone setting.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+value: "on" or "off"
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+Current value of the zone setting.
 
-    - `id: "content_converter"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"content_converter"`
+"on"
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"off"
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+editable: optional true or false
 
-    - `modified_on: optional string`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      last time this setting was modified.
+</summary>
 
-  - `Ciphers object { id, value, editable, modified_on }`
+One of the following:
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+true
 
-    - `id: "ciphers"`
+[Link to this property](#)
 
-      ID of the zone setting.
+false
 
-      - `"ciphers"`
+[Link to this property](#)
 
-    - `value: array of string`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+<details>
 
-    Whether or not cname flattening is on.
+<summary>
 
-    - `id: "cname_flattening"`
+OrangeToOrange object { id, value, editable, modified_on }
 
-      How to flatten the cname destination.
+Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
 
-      - `"cname_flattening"`
+</summary>
 
-    - `value: "flatten_at_root" or "flatten_all"`
+id: "orange_to_orange"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"flatten_at_root"`
+[Link to this property](#)
 
-      - `"flatten_all"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Deprecatedvalue: "on" or "off"
 
-      - `true`
+This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+"on"
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+[Link to this property](#)
 
-    - `id: "development_mode"`
+"off"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"development_mode"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
 
-    - `time_remaining: optional number`
+[Link to this property](#)
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+</details>
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+modified_on: optional string
 
-    - `id: "early_hints"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"early_hints"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+ZonesOriginErrorPagePassThru2 object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "origin_error_page_pass_thru"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+<details>
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+<summary>
 
-    - `id: "edge_cache_ttl"`
+value: "on" or "off"
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"edge_cache_ttl"`
+</summary>
 
-    - `value: 30 or 60 or 300 or 18 more`
+One of the following:
 
-      Current value of the zone setting.
+"on"
 
-      - `30`
+[Link to this property](#)
 
-      - `60`
+"off"
 
-      - `300`
+[Link to this property](#)
 
-      - `1200`
+</details>
 
-      - `1800`
+[Link to this property](#)
 
-      - `3600`
+<details>
 
-      - `7200`
+<summary>
 
-      - `10800`
+editable: optional true or false
 
-      - `14400`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `18000`
+</summary>
 
-      - `28800`
+One of the following:
 
-      - `43200`
+true
 
-      - `57600`
+[Link to this property](#)
 
-      - `72000`
+false
 
-      - `86400`
+[Link to this property](#)
 
-      - `172800`
+</details>
 
-      - `259200`
+[Link to this property](#)
 
-      - `345600`
+modified_on: optional string
 
-      - `432000`
+last time this setting was modified.
 
-      - `518400`
+formatdate-time
 
-      - `604800`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }
 
-      last time this setting was modified.
+Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+</summary>
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+id: "origin_h2_max_streams"
 
-    - `id: "email_obfuscation"`
+Value of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"email_obfuscation"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+Last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+value: optional number
 
-    - `editable: optional true or false`
+Value of the Origin H2 Max Streams Setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+maximum1000
 
-      - `true`
+minimum1
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+<details>
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+<summary>
 
-    - `id: "h2_prioritization"`
+ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }
 
-      ID of the zone setting.
+Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is “2” for all plan types except Enterprise where it is “1”.
 
-      - `"h2_prioritization"`
+</summary>
 
-    - `value: "on" or "off" or "custom"`
+id: "origin_max_http_version"
 
-      Current value of the zone setting.
+Value of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+modified_on: optional string
 
-      - `"custom"`
+Last time this setting was modified.
 
-    - `editable: optional true or false`
+formatdate-time
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: optional "2" or "1"
 
-      last time this setting was modified.
+Value of the Origin Max HTTP Version Setting.
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+</summary>
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+One of the following:
 
-    - `id: "hotlink_protection"`
+"2"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"hotlink_protection"`
+"1"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesPolish2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
 
-      last time this setting was modified.
+</summary>
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+id: "polish"
 
-    HTTP2 enabled for this zone.
+ID of the zone setting.
 
-    - `id: "http2"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"http2"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "off" or "lossless" or "lossy"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"lossless"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"lossy"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+</details>
 
-    HTTP3 enabled for this zone.
+[Link to this property](#)
 
-    - `id: "http3"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"http3"`
+editable: optional true or false
 
-    - `value: "on" or "off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+One of the following:
 
-      - `"off"`
+true
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+false
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `ImageResizing object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-    Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+formatdate-time
 
-    - `id: "image_resizing"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"image_resizing"`
+[Link to this property](#)
 
-    - `value: "on" or "off" or "open"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+PrefetchPreload object { id, value, editable, modified_on }
 
-      - `"off"`
+Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
 
-      - `"open"`
+</summary>
 
-    - `editable: optional true or false`
+id: "prefetch_preload"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "on" or "off"
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+</summary>
 
-    - `id: "ip_geolocation"`
+One of the following:
 
-      ID of the zone setting.
+"on"
 
-      - `"ip_geolocation"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+"off"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `IPV6 object { id, value, editable, modified_on }`
+true
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+[Link to this property](#)
 
-    - `id: "ipv6"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ipv6"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"off"`
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+ZonesPreRender object { id, value, editable, modified_on }
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+When enabled, Cloudflare serves pre-rendered HTML to eligible search and AI crawlers instead of the origin’s unrendered response.
 
-    Maximum size of an allowable upload.
+</summary>
 
-    - `id: "max_upload"`
+id: "pre_render"
 
-      identifier of the zone setting.
+ID of the zone setting.
 
-      - `"max_upload"`
+[Link to this property](#)
 
-    - `value: 100 or 125 or 150 or 15 more`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `100`
+value: "off" or "on"
 
-      - `125`
+Current value of the zone setting.
 
-      - `150`
+</summary>
 
-      - `175`
+One of the following:
 
-      - `200`
+"off"
 
-      - `225`
+[Link to this property](#)
 
-      - `250`
+"on"
 
-      - `275`
+[Link to this property](#)
 
-      - `300`
+</details>
 
-      - `325`
+[Link to this property](#)
 
-      - `350`
+<details>
 
-      - `375`
+<summary>
 
-      - `400`
+editable: optional true or false
 
-      - `425`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `450`
+</summary>
 
-      - `475`
+One of the following:
 
-      - `500`
+true
 
-      - `1000`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+formatdate-time
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+[Link to this property](#)
 
-    - `id: "min_tls_version"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"min_tls_version"`
+<details>
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+<summary>
 
-      Current value of the zone setting.
+ZonesPrivacyPass object { id, value, editable, modified_on }
 
-      - `"1.0"`
+Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
 
-      - `"1.1"`
+</summary>
 
-      - `"1.2"`
+id: "privacy_pass"
 
-      - `"1.3"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+Deprecatedvalue: "on" or "off"
 
-    - `modified_on: optional string`
+Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31)
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+</summary>
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+One of the following:
 
-    - `id: "mirage"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"mirage"`
+"off"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `NEL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+false
 
-    - `id: "nel"`
+[Link to this property](#)
 
-      Zone setting identifier.
+</details>
 
-      - `"nel"`
+[Link to this property](#)
 
-    - `value: object { enabled }`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `enabled: optional boolean`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+ProxyReadTimeout object { id, value, editable, modified_on }
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+Maximum time between two read operations from origin.
 
-    Enables the Opportunistic Encryption feature for a zone.
+</summary>
 
-    - `id: "opportunistic_encryption"`
+id: "proxy_read_timeout"
 
-      ID of the zone setting.
+ID of the zone setting.
 
-      - `"opportunistic_encryption"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+value: number
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+false
 
-    - `id: "opportunistic_onion"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"opportunistic_onion"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+PseudoIPV4 object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+The value set for the Pseudo IPv4 setting.
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+</summary>
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+id: "pseudo_ipv4"
 
-    - `id: "orange_to_orange"`
+Value of the Pseudo IPv4 setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"orange_to_orange"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+value: "off" or "add_header" or "overwrite_header"
 
-      - `"on"`
+Current value of the zone setting.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"add_header"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"overwrite_header"
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+</details>
 
-    - `id: "origin_error_page_pass_thru"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"origin_error_page_pass_thru"`
+<summary>
 
-    - `value: "on" or "off"`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+modified_on: optional string
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+last time this setting was modified.
 
-    - `id: "origin_h2_max_streams"`
+formatdate-time
 
-      Value of the zone setting.
+[Link to this property](#)
 
-      - `"origin_h2_max_streams"`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      Last time this setting was modified.
+<details>
 
-    - `value: optional number`
+<summary>
 
-      Value of the Origin H2 Max Streams Setting.
+ZonesRedirectsForAITraining object { id, value, editable, modified_on }
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs found in the HTML response, ensuring AI models train on authoritative content.
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+</summary>
 
-    - `id: "origin_max_http_version"`
+id: "redirects_for_ai_training"
 
-      Value of the zone setting.
+ID of the zone setting.
 
-      - `"origin_max_http_version"`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      Last time this setting was modified.
+<summary>
 
-    - `value: optional "2" or "1"`
+value: "off" or "on"
 
-      Value of the Origin Max HTTP Version Setting.
+Current value of the zone setting.
 
-      - `"2"`
+</summary>
 
-      - `"1"`
+One of the following:
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+"off"
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+[Link to this property](#)
 
-    - `id: "polish"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"polish"`
+</details>
 
-    - `value: "off" or "lossless" or "lossy"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"lossless"`
+editable: optional true or false
 
-      - `"lossy"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+true
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+false
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+</details>
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "prefetch_preload"`
+modified_on: optional string
 
-      ID of the zone setting.
+last time this setting was modified.
 
-      - `"prefetch_preload"`
+formatdate-time
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ZonesReplaceInsecureJS object { id, value, editable, modified_on }
 
-      - `true`
+Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+id: "replace_insecure_js"
 
-      last time this setting was modified.
+ID of the zone setting.
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+<details>
 
-    - `id: "privacy_pass"`
+<summary>
 
-      ID of the zone setting.
+value: "on" or "off"
 
-      - `"privacy_pass"`
+Current value of the zone setting.
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+"on"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+editable: optional true or false
 
-    Maximum time between two read operations from origin.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `id: "proxy_read_timeout"`
+</summary>
 
-      ID of the zone setting.
+One of the following:
 
-      - `"proxy_read_timeout"`
+true
 
-    - `value: number`
+[Link to this property](#)
 
-      Current value of the zone setting.
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    The value set for the Pseudo IPv4 setting.
+</details>
 
-    - `id: "pseudo_ipv4"`
+[Link to this property](#)
 
-      Value of the Pseudo IPv4 setting.
+<details>
 
-      - `"pseudo_ipv4"`
+<summary>
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+ZonesResponseBuffering2 object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
 
-      - `"off"`
+</summary>
 
-      - `"add_header"`
+id: "response_buffering"
 
-      - `"overwrite_header"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "on" or "off"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+One of the following:
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+"on"
 
-    - `id: "redirects_for_ai_training"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"off"
 
-      - `"redirects_for_ai_training"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+false
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+[Link to this property](#)
 
-    - `id: "replace_insecure_js"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"replace_insecure_js"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesRocketLoader2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site’s Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page’s rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+id: "rocket_loader"
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+ID of the zone setting.
 
-    - `id: "response_buffering"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"response_buffering"`
+<summary>
 
-    - `value: "on" or "off"`
+value: "on" or "off"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+<details>
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+<summary>
 
-    - `id: "rocket_loader"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"rocket_loader"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+</details>
 
-    - `id: "automatic_platform_optimization"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"automatic_platform_optimization"`
+<summary>
 
-    - `value: AutomaticPlatformOptimization`
+ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+[Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare’s edge network and caches third-party fonts.
 
-      - `cache_by_device_type: boolean`
+</summary>
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+id: "automatic_platform_optimization"
 
-      - `cf: boolean`
+ID of the zone setting.
 
-        Indicates whether or not Cloudflare proxy is enabled.
+[Link to this property](#)
 
-      - `enabled: boolean`
+value: [AutomaticPlatformOptimization](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20automatic_platform_optimization%20%3E%20(schema)) { cache_by_device_type, cf, enabled, 3 more }
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+Current value of the zone setting.
 
-      - `hostnames: array of string`
+[Link to this property](#)
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+<details>
 
-      - `wordpress: boolean`
+<summary>
 
-        Indicates whether or not site is powered by WordPress.
+editable: optional true or false
 
-      - `wp_plugin: boolean`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+modified_on: optional string
 
-    - `id: "search_for_agents"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"search_for_agents"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+ZonesSearchForAgents object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+When enabled, Cloudflare provisions an AI Search instance for the zone and exposes a /.well-known/ai-search endpoint that AI agents can query. Markdown responses also receive an agent: YAML capability block advertising the search endpoint.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "search_for_agents"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+<details>
 
-    Cloudflare security header for a zone.
+<summary>
 
-    - `id: "security_header"`
+value: "off" or "on"
 
-      ID of the zone's security header.
+Current value of the zone setting.
 
-      - `"security_header"`
+</summary>
 
-    - `value: object { strict_transport_security }`
+One of the following:
 
-      Current value of the zone setting.
+"off"
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+[Link to this property](#)
 
-        Strict Transport Security.
+"on"
 
-        - `enabled: optional boolean`
+[Link to this property](#)
 
-          Whether or not strict transport security is enabled.
+</details>
 
-        - `include_subdomains: optional boolean`
+[Link to this property](#)
 
-          Include all subdomains for strict transport security.
+<details>
 
-        - `max_age: optional number`
+<summary>
 
-          Max age in seconds of the strict transport security.
+editable: optional true or false
 
-        - `nosniff: optional boolean`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+</summary>
 
-        - `preload: optional boolean`
+One of the following:
 
-          Enable automatic preload of the HSTS configuration.
+true
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+false
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+formatdate-time
 
-    - `id: "security_level"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"security_level"`
+[Link to this property](#)
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"off"`
+SecurityHeaders object { id, value, editable, modified_on }
 
-      - `"essentially_off"`
+Cloudflare security header for a zone.
 
-      - `"low"`
+</summary>
 
-      - `"medium"`
+id: "security_header"
 
-      - `"high"`
+ID of the zone’s security header.
 
-      - `"under_attack"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: object { strict_transport_security }
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+<details>
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+<summary>
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }
 
-    - `id: "server_side_exclude"`
+Strict Transport Security.
 
-      ID of the zone setting.
+</summary>
 
-      - `"server_side_exclude"`
+enabled: optional boolean
 
-    - `value: "on" or "off"`
+Whether or not strict transport security is enabled.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+include_subdomains: optional boolean
 
-      - `"off"`
+Include all subdomains for strict transport security.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+max_age: optional number
 
-      - `true`
+Max age in seconds of the strict transport security.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+nosniff: optional boolean
 
-      last time this setting was modified.
+Whether or not to include ‘X-Content-Type-Options: nosniff’ header.
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Allow SHA1 support.
+preload: optional boolean
 
-    - `id: "sha1_support"`
+Enable automatic preload of the HSTS configuration.
 
-      Zone setting identifier.
+[Link to this property](#)
 
-      - `"sha1_support"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+false
 
-    - `id: "sort_query_string_for_cache"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"sort_query_string_for_cache"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesSecurityLevel2 object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+</summary>
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+id: "security_level"
 
-    - `id: "ssl"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ssl"`
+<details>
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+<summary>
 
-      Current value of the zone setting.
+value: "off" or "essentially_off" or "low" or 3 more
 
-      - `"off"`
+Current value of the zone setting.
 
-      - `"flexible"`
+</summary>
 
-      - `"full"`
+One of the following:
 
-      - `"strict"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"essentially_off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"low"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"medium"
 
-  - `SSLRecommender object { id, enabled }`
+[Link to this property](#)
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+"high"
 
-    - `id: optional "ssl_recommender"`
+[Link to this property](#)
 
-      Enrollment value for SSL/TLS Recommender.
+"under_attack"
 
-      - `"ssl_recommender"`
+[Link to this property](#)
 
-    - `enabled: optional boolean`
+</details>
 
-      ssl-recommender enrollment setting.
+[Link to this property](#)
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+<details>
 
-    Only allows TLS1.2.
+<summary>
 
-    - `id: "tls_1_2_only"`
+editable: optional true or false
 
-      Zone setting identifier.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"tls_1_2_only"`
+</summary>
 
-    - `value: "off" or "on"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enables Crypto TLS 1.3 feature for a zone.
+</details>
 
-    - `id: "tls_1_3"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"tls_1_3"`
+<summary>
 
-    - `value: "on" or "off" or "zrt"`
+ServerSideExcludes object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: . For example: Bad visitors won’t see my phone number, 555-555-5555 . Note: SSE only will work with HTML. If you have HTML minification enabled, you won’t see the SSE tags in your HTML source when it’s served through Cloudflare. SSE will still function in this case, as Cloudflare’s HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor’s computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+id: "server_side_exclude"
 
-      - `"zrt"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "on" or "off"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+One of the following:
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+"on"
 
-    - `id: "tls_client_auth"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"off"
 
-      - `"tls_client_auth"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesTransformations object { id, value, editable, modified_on }`
+false
 
-    Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+[Link to this property](#)
 
-    - `id: "transformations"`
+</details>
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+[Link to this property](#)
 
-      - `"transformations"`
+modified_on: optional string
 
-    - `value: "on" or "off" or "open"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"open"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+ZonesSha1Support object { id, value, editable, modified_on }
 
-      - `false`
+Allow SHA1 support.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "sha1_support"
 
-  - `ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }`
+Zone setting identifier.
 
-    Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+[Link to this property](#)
 
-    - `id: "transformations_allowed_origins"`
+<details>
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+<summary>
 
-      - `"transformations_allowed_origins"`
+value: "off" or "on"
 
-    - `value: string`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"on"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+<details>
 
-    - `id: "true_client_ip_header"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"true_client_ip_header"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+formatdate-time
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+[Link to this property](#)
 
-    - `id: "waf"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"waf"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+ZonesSortQueryStringForCache2 object { id, value, editable, modified_on }
 
-      - `"on"`
+Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+id: "sort_query_string_for_cache"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "on" or "off"
 
-  - `WebP object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+</summary>
 
-    - `id: "webp"`
+One of the following:
 
-      ID of the zone setting.
+"on"
 
-      - `"webp"`
+[Link to this property](#)
 
-    - `value: "off" or "on"`
+"off"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `Websocket object { id, value, editable, modified_on }`
+true
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+[Link to this property](#)
 
-    - `id: "websockets"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"websockets"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"off"`
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+ZonesSSL2 object { id, value, editable, modified_on }
 
-### Setting Bulk Edit Response
+SSL encrypts your visitor’s connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don’t need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full: SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You’ll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You’ll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
 
-- `SettingBulkEditResponse = ZeroRTT or AdvancedDDoS or object { id, modified_on, value }  or 59 more`
+</summary>
 
-  0-RTT session resumption enabled for this zone.
+id: "ssl"
 
-  - `ZeroRTT object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    0-RTT session resumption enabled for this zone.
+[Link to this property](#)
 
-    - `id: "0rtt"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"0rtt"`
+value: "off" or "flexible" or "full" or "strict"
 
-    - `value: "on" or "off"`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `"on"`
+One of the following:
 
-      - `"off"`
+"off"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"flexible"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"full"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+"strict"
 
-  - `AdvancedDDoS object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is 'on' in the case of Business and Enterprise zones.
+</details>
 
-    - `id: "advanced_ddos"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"advanced_ddos"`
+<summary>
 
-    - `value: "on" or "off"`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+true
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+false
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesCacheRulesAegis object { id, modified_on, value }`
+modified_on: optional string
 
-    Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
+last time this setting was modified.
 
-    - `id: "aegis"`
+formatdate-time
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"aegis"`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      Last time this setting was modified.
+<details>
 
-    - `value: optional object { enabled, pool_id }`
+<summary>
 
-      Value of the zone setting.
+SSLRecommender object { id, enabled }
 
-      - `enabled: optional boolean`
+Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
 
-        Whether the feature is enabled or not.
+</summary>
 
-      - `pool_id: optional string`
+id: optional "ssl_recommender"
 
-        Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
+Enrollment value for SSL/TLS Recommender.
 
-  - `AlwaysOnline object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive's Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
+enabled: optional boolean
 
-    - `id: "always_online"`
+ssl-recommender enrollment setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"always_online"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+ZonesTLS1_2Only object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Only allows TLS1.2.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "tls_1_2_only"
 
-      - `false`
+Zone setting identifier.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `ZonesSchemasAlwaysUseHTTPS object { id, value, editable, modified_on }`
+<summary>
 
-    Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+value: "off" or "on"
 
-    - `id: "always_use_https"`
+Current value of the zone setting.
 
-      ID of the zone setting.
+</summary>
 
-      - `"always_use_https"`
+One of the following:
 
-    - `value: "on" or "off"`
+"off"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+"on"
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+editable: optional true or false
 
-      last time this setting was modified.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-  - `ZonesSchemasAutomaticHTTPSRewrites object { id, value, editable, modified_on }`
+</summary>
 
-    Enable the Automatic HTTPS Rewrites feature for this zone.
+One of the following:
 
-    - `id: "automatic_https_rewrites"`
+true
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"automatic_https_rewrites"`
+false
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+modified_on: optional string
 
-    - `editable: optional true or false`
+last time this setting was modified.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+formatdate-time
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `Brotli object { id, value, editable, modified_on }`
+<summary>
 
-    When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
+TLS1_3 object { id, value, editable, modified_on }
 
-    - `id: "brotli"`
+Enables Crypto TLS 1.3 feature for a zone.
 
-      ID of the zone setting.
+</summary>
 
-      - `"brotli"`
+id: "tls_1_3"
 
-    - `value: "off" or "on"`
+ID of the zone setting.
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-      - `"on"`
+<summary>
 
-    - `editable: optional true or false`
+value: "on" or "off" or "zrt"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Current value of the zone setting.
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+"on"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasBrowserCacheTTL object { id, value, editable, modified_on }`
+"off"
 
-    Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors' computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
+[Link to this property](#)
 
-    - `id: "browser_cache_ttl"`
+"zrt"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"browser_cache_ttl"`
+</details>
 
-    - `value: number`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSchemasBrowserCheck object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page.  It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
+false
 
-    - `id: "browser_check"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"browser_check"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+TLSClientAuth object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
 
-  - `ZonesSchemasCacheLevel object { id, value, editable, modified_on }`
+</summary>
 
-    Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
+id: "tls_client_auth"
 
-    - `id: "cache_level"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"cache_level"`
+<details>
 
-    - `value: "aggressive" or "basic" or "simplified"`
+<summary>
 
-      Current value of the zone setting.
+value: "on" or "off"
 
-      - `"aggressive"`
+Current value of the zone setting.
 
-      - `"basic"`
+</summary>
 
-      - `"simplified"`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ChallengeTTL object { id, value, editable, modified_on }`
+<details>
 
-    Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
+<summary>
 
-    - `id: "challenge_ttl"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"challenge_ttl"`
+</summary>
 
-    - `value: 300 or 900 or 1800 or 11 more`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `300`
+[Link to this property](#)
 
-      - `900`
+false
 
-      - `1800`
+[Link to this property](#)
 
-      - `2700`
+</details>
 
-      - `3600`
+[Link to this property](#)
 
-      - `7200`
+modified_on: optional string
 
-      - `10800`
+last time this setting was modified.
 
-      - `14400`
+formatdate-time
 
-      - `28800`
+[Link to this property](#)
 
-      - `57600`
+</details>
 
-      - `86400`
+[Link to this property](#)
 
-      - `604800`
+<details>
 
-      - `2592000`
+<summary>
 
-      - `31536000`
+ZonesTransformations object { id, value, editable, modified_on }
 
-    - `editable: optional true or false`
+Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare’s network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+id: "transformations"
 
-      - `false`
+ID of the zone setting. Shared between Image Transformations and Video Transformations.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `Ciphers object { id, value, editable, modified_on }`
+<summary>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+value: "on" or "off" or "open"
 
-    - `id: "ciphers"`
+Current value of the zone setting.
 
-      ID of the zone setting.
+</summary>
 
-      - `"ciphers"`
+One of the following:
 
-    - `value: array of string`
+"on"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"open"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesContentConverter object { id, value, editable, modified_on }`
+<details>
 
-    When enabled and the client sends an Accept header requesting text/markdown,
-    Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service.
-    Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
+<summary>
 
-    - `id: "content_converter"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"content_converter"`
+</summary>
 
-    - `value: "off" or "on"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesCNAMEFlattening object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Whether or not cname flattening is on.
+</details>
 
-    - `id: "cname_flattening"`
+[Link to this property](#)
 
-      How to flatten the cname destination.
+<details>
 
-      - `"cname_flattening"`
+<summary>
 
-    - `value: "flatten_at_root" or "flatten_all"`
+ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare’s network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
 
-      - `"flatten_at_root"`
+</summary>
 
-      - `"flatten_all"`
+id: "transformations_allowed_origins"
 
-    - `editable: optional true or false`
+ID of the zone setting. Shared between Image Transformations and Video Transformations.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+value: string
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+<details>
 
-  - `DevelopmentMode object { id, value, editable, 2 more }`
+<summary>
 
-    Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+editable: optional true or false
 
-    - `id: "development_mode"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      ID of the zone setting.
+</summary>
 
-      - `"development_mode"`
+One of the following:
 
-    - `value: "on" or "off"`
+true
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+false
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+modified_on: optional string
 
-      - `false`
+last time this setting was modified.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      last time this setting was modified.
+[Link to this property](#)
 
-    - `time_remaining: optional number`
+</details>
 
-      Value of the zone setting.
-      Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+[Link to this property](#)
 
-  - `EarlyHints object { id, value, editable, modified_on }`
+<details>
 
-    When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+<summary>
 
-    - `id: "early_hints"`
+ZonesTrueClientIPHeader2 object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
 
-      - `"early_hints"`
+</summary>
 
-    - `value: "on" or "off"`
+id: "true_client_ip_header"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+value: "on" or "off"
 
-      - `true`
+Current value of the zone setting.
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+"on"
 
-  - `ZonesSchemasEdgeCacheTTL object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Time (in seconds) that a resource will be ensured to remain on Cloudflare's cache servers.
+"off"
 
-    - `id: "edge_cache_ttl"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"edge_cache_ttl"`
+[Link to this property](#)
 
-    - `value: 30 or 60 or 300 or 18 more`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `30`
+editable: optional true or false
 
-      - `60`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `300`
+</summary>
 
-      - `1200`
+One of the following:
 
-      - `1800`
+true
 
-      - `3600`
+[Link to this property](#)
 
-      - `7200`
+false
 
-      - `10800`
+[Link to this property](#)
 
-      - `14400`
+</details>
 
-      - `18000`
+[Link to this property](#)
 
-      - `28800`
+modified_on: optional string
 
-      - `43200`
+last time this setting was modified.
 
-      - `57600`
+formatdate-time
 
-      - `72000`
+[Link to this property](#)
 
-      - `86400`
+</details>
 
-      - `172800`
+[Link to this property](#)
 
-      - `259200`
+<details>
 
-      - `345600`
+<summary>
 
-      - `432000`
+ZonesWAF2 object { id, value, editable, modified_on }
 
-      - `518400`
+The WAF examines HTTP requests to your website. It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will ‘challenge’ the web visitor with a page that asks them to submit a CAPTCHA successfully to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare’s WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
 
-      - `604800`
+</summary>
 
-    - `editable: optional true or false`
+id: "waf"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "on" or "off"
 
-  - `ZonesSchemasEmailObfuscation object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+</summary>
 
-    - `id: "email_obfuscation"`
+One of the following:
 
-      ID of the zone setting.
+"on"
 
-      - `"email_obfuscation"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+"off"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `H2Prioritization object { id, value, editable, modified_on }`
+true
 
-    HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+[Link to this property](#)
 
-    - `id: "h2_prioritization"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"h2_prioritization"`
+</details>
 
-    - `value: "on" or "off" or "custom"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"on"`
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-      - `"custom"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesWebmcpEnabled object { id, value, editable, modified_on }
 
-      last time this setting was modified.
+When enabled, Cloudflare injects the WebMCP bridge (bridge.js) into HTML responses for this zone, exposing DOM and Content Credentials tools to an in-browser AI agent via navigator.modelContext. No origin-side code changes are required. This setting is currently in beta and its behavior may change.
 
-  - `HotlinkProtection object { id, value, editable, modified_on }`
+</summary>
 
-    When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it's not another site requesting them. People will still be able to download and view images from your page, but other sites won't be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+id: "webmcp_enabled"
 
-    - `id: "hotlink_protection"`
+ID of the zone setting.
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"hotlink_protection"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+value: "off" or "on"
 
-      - `"on"`
+Current value of the zone setting.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+"off"
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+"on"
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `HTTP2 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    HTTP2 enabled for this zone.
+<details>
 
-    - `id: "http2"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"http2"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `HTTP3 object { id, value, editable, modified_on }`
+formatdate-time
 
-    HTTP3 enabled for this zone.
+[Link to this property](#)
 
-    - `id: "http3"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"http3"`
+<details>
 
-    - `value: "on" or "off"`
+<summary>
 
-      Current value of the zone setting.
+ZonesWebmcpPacks object { id, value, editable, modified_on }
 
-      - `"on"`
+Optional per-zone override of which bundled WebMCP tool packs the injected bridge.js activates. Only takes effect when webmcp_enabled is on. Leave empty to use the bridge’s default pack set. Unknown pack names are ignored by the bridge. This setting is currently in beta and its behavior may change.
 
-      - `"off"`
+</summary>
 
-    - `editable: optional true or false`
+id: "webmcp_packs"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+value: string
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+maxLength256
 
-  - `ImageResizing object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare's network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+<details>
 
-    - `id: "image_resizing"`
+<summary>
 
-      ID of the zone setting.
+editable: optional true or false
 
-      - `"image_resizing"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `value: "on" or "off" or "open"`
+</summary>
 
-      Current value of the zone setting.
+One of the following:
 
-      - `"on"`
+true
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"open"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `ZonesSchemasIPGeolocation object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+</details>
 
-    - `id: "ip_geolocation"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"ip_geolocation"`
+<summary>
 
-    - `value: "on" or "off"`
+WebP object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+id: "webp"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: "off" or "on"
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-  - `IPV6 object { id, value, editable, modified_on }`
+</summary>
 
-    Enable IPv6 on all subdomains that are Cloudflare enabled.  (https://support.cloudflare.com/hc/en-us/articles/200168586).
+One of the following:
 
-    - `id: "ipv6"`
+"off"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"ipv6"`
+"on"
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesMaxUpload object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Maximum size of an allowable upload.
+false
 
-    - `id: "max_upload"`
+[Link to this property](#)
 
-      identifier of the zone setting.
+</details>
 
-      - `"max_upload"`
+[Link to this property](#)
 
-    - `value: 100 or 125 or 150 or 15 more`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `100`
+formatdate-time
 
-      - `125`
+[Link to this property](#)
 
-      - `150`
+</details>
 
-      - `175`
+[Link to this property](#)
 
-      - `200`
+<details>
 
-      - `225`
+<summary>
 
-      - `250`
+Websocket object { id, value, editable, modified_on }
 
-      - `275`
+WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
 
-      - `300`
+</summary>
 
-      - `325`
+id: "websockets"
 
-      - `350`
+ID of the zone setting.
 
-      - `375`
+[Link to this property](#)
 
-      - `400`
+<details>
 
-      - `425`
+<summary>
 
-      - `450`
+value: "off" or "on"
 
-      - `475`
+Current value of the zone setting.
 
-      - `500`
+</summary>
 
-      - `1000`
+One of the following:
 
-    - `editable: optional true or false`
+"off"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `MinTLSVersion object { id, value, editable, modified_on }`
+<details>
 
-    Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+<summary>
 
-    - `id: "min_tls_version"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"min_tls_version"`
+</summary>
 
-    - `value: "1.0" or "1.1" or "1.2" or "1.3"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"1.0"`
+[Link to this property](#)
 
-      - `"1.1"`
+false
 
-      - `"1.2"`
+[Link to this property](#)
 
-      - `"1.3"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+modified_on: optional string
 
-      - `true`
+last time this setting was modified.
 
-      - `false`
+formatdate-time
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `ZonesSchemasMirage object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Automatically optimize image loading for website visitors on mobile
-    devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed)
-    for more information.
+</details>
 
-    - `id: "mirage"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"mirage"`
+<summary>
 
-    - `value: "on" or "off"`
+SettingBulkEditResponse = [ZeroRTT](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20zero_rtt%20%3E%20(schema)) { id, value, editable, modified_on } or [AdvancedDDoS](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20advanced_ddos%20%3E%20(schema)) { id, value, editable, modified_on } or object { id, modified_on, value } or 62 more
 
-      Current value of the zone setting.
+0-RTT session resumption enabled for this zone.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+ZeroRTT object { id, value, editable, modified_on }
 
-      - `false`
+0-RTT session resumption enabled for this zone.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+id: "0rtt"
 
-  - `NEL object { id, value, editable, modified_on }`
+ID of the zone setting.
 
-    Enable Network Error Logging reporting on your zone. (Beta)
+[Link to this property](#)
 
-    - `id: "nel"`
+<details>
 
-      Zone setting identifier.
+<summary>
 
-      - `"nel"`
+value: "on" or "off"
 
-    - `value: object { enabled }`
+Current value of the zone setting.
 
-      Current value of the zone setting.
+</summary>
 
-      - `enabled: optional boolean`
+One of the following:
 
-    - `editable: optional true or false`
+"on"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasOpportunisticEncryption object { id, value, editable, modified_on }`
+<details>
 
-    Enables the Opportunistic Encryption feature for a zone.
+<summary>
 
-    - `id: "opportunistic_encryption"`
+editable: optional true or false
 
-      ID of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"opportunistic_encryption"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+true
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+false
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+modified_on: optional string
 
-    - `modified_on: optional string`
+last time this setting was modified.
 
-      last time this setting was modified.
+formatdate-time
 
-  - `OpportunisticOnion object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+</details>
 
-    - `id: "opportunistic_onion"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"opportunistic_onion"`
+<summary>
 
-    - `value: "on" or "off"`
+AdvancedDDoS object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+Advanced protection from Distributed Denial of Service (DDoS) attacks on your website. This is an uneditable value that is ‘on’ in the case of Business and Enterprise zones.
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+id: "advanced_ddos"
 
-    - `editable: optional true or false`
+ID of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+value: "on" or "off"
 
-      last time this setting was modified.
+Current value of the zone setting.
 
-  - `OrangeToOrange object { id, value, editable, modified_on }`
+</summary>
 
-    Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+One of the following:
 
-    - `id: "orange_to_orange"`
+"on"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"orange_to_orange"`
+"off"
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+</details>
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `ZonesSchemasOriginErrorPagePassThru object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+false
 
-    - `id: "origin_error_page_pass_thru"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"origin_error_page_pass_thru"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `"on"`
+formatdate-time
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+</details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+<details>
 
-      - `false`
+<summary>
 
-    - `modified_on: optional string`
+ZonesCacheRulesAegis object { id, modified_on, value }
 
-      last time this setting was modified.
+Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.
 
-  - `ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }`
+</summary>
 
-    Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+id: "aegis"
 
-    - `id: "origin_h2_max_streams"`
+ID of the zone setting.
 
-      Value of the zone setting.
+[Link to this property](#)
 
-      - `"origin_h2_max_streams"`
+modified_on: optional string
 
-    - `modified_on: optional string`
+Last time this setting was modified.
 
-      Last time this setting was modified.
+formatdate-time
 
-    - `value: optional number`
+[Link to this property](#)
 
-      Value of the Origin H2 Max Streams Setting.
+<details>
 
-  - `ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }`
+<summary>
 
-    Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is "2" for all plan types except Enterprise where it is "1".
+value: optional object { enabled, pool_id }
 
-    - `id: "origin_max_http_version"`
+Value of the zone setting.
 
-      Value of the zone setting.
+</summary>
 
-      - `"origin_max_http_version"`
+enabled: optional boolean
 
-    - `modified_on: optional string`
+Whether the feature is enabled or not.
 
-      Last time this setting was modified.
+[Link to this property](#)
 
-    - `value: optional "2" or "1"`
+pool_id: optional string
 
-      Value of the Origin Max HTTP Version Setting.
+Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin.
 
-      - `"2"`
+[Link to this property](#)
 
-      - `"1"`
+</details>
 
-  - `ZonesSchemasPolish object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+</details>
 
-    - `id: "polish"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"polish"`
+<summary>
 
-    - `value: "off" or "lossless" or "lossy"`
+AlwaysOnline object { id, value, editable, modified_on }
 
-      Current value of the zone setting.
+When enabled, Cloudflare serves limited copies of web pages available from the [Internet Archive’s Wayback Machine](https://archive.org/web/) if your server is offline. Refer to [Always Online](https://developers.cloudflare.com/cache/about/always-online) for more information.
 
-      - `"off"`
+</summary>
 
-      - `"lossless"`
+id: "always_online"
 
-      - `"lossy"`
+ID of the zone setting.
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+value: "on" or "off"
 
-    - `modified_on: optional string`
+Current value of the zone setting.
 
-      last time this setting was modified.
+</summary>
 
-  - `PrefetchPreload object { id, value, editable, modified_on }`
+One of the following:
 
-    Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+"on"
 
-    - `id: "prefetch_preload"`
+[Link to this property](#)
 
-      ID of the zone setting.
+"off"
 
-      - `"prefetch_preload"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+editable: optional true or false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `true`
+</summary>
 
-      - `false`
+One of the following:
 
-    - `modified_on: optional string`
+true
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesPrivacyPass object { id, value, editable, modified_on }`
+false
 
-    Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+[Link to this property](#)
 
-    - `id: "privacy_pass"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"privacy_pass"`
+modified_on: optional string
 
-    - `value: "on" or "off"`
+last time this setting was modified.
 
-      Current value of the zone setting.
+formatdate-time
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesAlwaysUseHTTPS2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Reply to all requests for URLs that use “http” with a 301 redirect to the equivalent “https” URL. If you only want to redirect for a subset of requests, consider creating an “Always use HTTPS” page rule.
 
-      last time this setting was modified.
+</summary>
 
-  - `ProxyReadTimeout object { id, value, editable, modified_on }`
+id: "always_use_https"
 
-    Maximum time between two read operations from origin.
+ID of the zone setting.
 
-    - `id: "proxy_read_timeout"`
+[Link to this property](#)
 
-      ID of the zone setting.
+<details>
 
-      - `"proxy_read_timeout"`
+<summary>
 
-    - `value: number`
+value: "on" or "off"
 
-      Current value of the zone setting.
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"on"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"off"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `PseudoIPV4 object { id, value, editable, modified_on }`
+</details>
 
-    The value set for the Pseudo IPv4 setting.
+[Link to this property](#)
 
-    - `id: "pseudo_ipv4"`
+<details>
 
-      Value of the Pseudo IPv4 setting.
+<summary>
 
-      - `"pseudo_ipv4"`
+editable: optional true or false
 
-    - `value: "off" or "add_header" or "overwrite_header"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"add_header"`
+true
 
-      - `"overwrite_header"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+false
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+[Link to this property](#)
 
-      - `true`
+</details>
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+modified_on: optional string
 
-      last time this setting was modified.
+last time this setting was modified.
 
-  - `ZonesRedirectsForAITraining object { id, value, editable, modified_on }`
+formatdate-time
 
-    When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs
-    found in the HTML response, ensuring AI models train on authoritative content.
+[Link to this property](#)
 
-    - `id: "redirects_for_ai_training"`
+</details>
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"redirects_for_ai_training"`
+<details>
 
-    - `value: "off" or "on"`
+<summary>
 
-      Current value of the zone setting.
+ZonesAutomaticHTTPSRewrites2 object { id, value, editable, modified_on }
 
-      - `"off"`
+Enable the Automatic HTTPS Rewrites feature for this zone.
 
-      - `"on"`
+</summary>
 
-    - `editable: optional true or false`
+id: "automatic_https_rewrites"
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+ID of the zone setting.
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+value: "on" or "off"
 
-  - `ZonesReplaceInsecureJS object { id, value, editable, modified_on }`
+Current value of the zone setting.
 
-    Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+</summary>
 
-    - `id: "replace_insecure_js"`
+One of the following:
 
-      ID of the zone setting.
+"on"
 
-      - `"replace_insecure_js"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+"off"
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+editable: optional true or false
 
-      - `false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesSchemasResponseBuffering object { id, value, editable, modified_on }`
+true
 
-    Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+[Link to this property](#)
 
-    - `id: "response_buffering"`
+false
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"response_buffering"`
+</details>
 
-    - `value: "on" or "off"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+modified_on: optional string
 
-      - `"on"`
+last time this setting was modified.
 
-      - `"off"`
+formatdate-time
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+Brotli object { id, value, editable, modified_on }
 
-  - `ZonesSchemasRocketLoader object { id, value, editable, modified_on }`
+When the client requesting an asset supports the Brotli compression algorithm, Cloudflare will serve a Brotli compressed version of the asset.
 
-    Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site's Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page's rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+</summary>
 
-    - `id: "rocket_loader"`
+id: "brotli"
 
-      ID of the zone setting.
+ID of the zone setting.
 
-      - `"rocket_loader"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+value: "off" or "on"
 
-      - `"off"`
+Current value of the zone setting.
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+One of the following:
 
-      - `true`
+"off"
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+"on"
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }`
+</details>
 
-    [Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare's edge network and caches third-party fonts.
+[Link to this property](#)
 
-    - `id: "automatic_platform_optimization"`
+<details>
 
-      ID of the zone setting.
+<summary>
 
-      - `"automatic_platform_optimization"`
+editable: optional true or false
 
-    - `value: AutomaticPlatformOptimization`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Current value of the zone setting.
+</summary>
 
-      - `cache_by_device_type: boolean`
+One of the following:
 
-        Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled.
+true
 
-      - `cf: boolean`
+[Link to this property](#)
 
-        Indicates whether or not Cloudflare proxy is enabled.
+false
 
-      - `enabled: boolean`
+[Link to this property](#)
 
-        Indicates whether or not Automatic Platform Optimization is enabled.
+</details>
 
-      - `hostnames: array of string`
+[Link to this property](#)
 
-        An array of hostnames where Automatic Platform Optimization for WordPress is activated.
+modified_on: optional string
 
-      - `wordpress: boolean`
+last time this setting was modified.
 
-        Indicates whether or not site is powered by WordPress.
+formatdate-time
 
-      - `wp_plugin: boolean`
+[Link to this property](#)
 
-        Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed.
+</details>
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<details>
 
-      - `true`
+<summary>
 
-      - `false`
+ZonesBrowserCacheTTL2 object { id, value, editable, modified_on }
 
-    - `modified_on: optional string`
+Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors’ computers. Cloudflare will honor any larger times specified by your server. (https://support.cloudflare.com/hc/en-us/articles/200168276).
 
-      last time this setting was modified.
+</summary>
 
-  - `ZonesSearchForAgents object { id, value, editable, modified_on }`
+id: "browser_cache_ttl"
 
-    When enabled, Cloudflare provisions an AI Search instance for the zone
-    and exposes a /.well-known/ai-search endpoint that AI agents can query.
-    Markdown responses also receive an agent: YAML capability block advertising
-    the search endpoint.
+ID of the zone setting.
 
-    - `id: "search_for_agents"`
+[Link to this property](#)
 
-      ID of the zone setting.
+value: number
 
-      - `"search_for_agents"`
+Current value of the zone setting.
 
-    - `value: "off" or "on"`
+maximum31536000
 
-      Current value of the zone setting.
+minimum0
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+editable: optional true or false
 
-      - `true`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `false`
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      last time this setting was modified.
+true
 
-  - `SecurityHeaders object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Cloudflare security header for a zone.
+false
 
-    - `id: "security_header"`
+[Link to this property](#)
 
-      ID of the zone's security header.
+</details>
 
-      - `"security_header"`
+[Link to this property](#)
 
-    - `value: object { strict_transport_security }`
+modified_on: optional string
 
-      Current value of the zone setting.
+last time this setting was modified.
 
-      - `strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }`
+formatdate-time
 
-        Strict Transport Security.
+[Link to this property](#)
 
-        - `enabled: optional boolean`
+</details>
 
-          Whether or not strict transport security is enabled.
+[Link to this property](#)
 
-        - `include_subdomains: optional boolean`
+<details>
 
-          Include all subdomains for strict transport security.
+<summary>
 
-        - `max_age: optional number`
+ZonesBrowserCheck2 object { id, value, editable, modified_on }
 
-          Max age in seconds of the strict transport security.
+Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by spammers and denies access to your page. It will also challenge visitors that do not have a user agent or a non standard user agent (also commonly used by abuse bots, crawlers or visitors). (https://support.cloudflare.com/hc/en-us/articles/200170086).
 
-        - `nosniff: optional boolean`
+</summary>
 
-          Whether or not to include 'X-Content-Type-Options: nosniff' header.
+id: "browser_check"
 
-        - `preload: optional boolean`
+ID of the zone setting.
 
-          Enable automatic preload of the HSTS configuration.
+[Link to this property](#)
 
-    - `editable: optional true or false`
+<details>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+<summary>
 
-      - `true`
+value: "on" or "off"
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `ZonesSchemasSecurityLevel object { id, value, editable, modified_on }`
+"on"
 
-    Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+[Link to this property](#)
 
-    - `id: "security_level"`
+"off"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"security_level"`
+</details>
 
-    - `value: "off" or "essentially_off" or "low" or 3 more`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"essentially_off"`
+editable: optional true or false
 
-      - `"low"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"medium"`
+</summary>
 
-      - `"high"`
+One of the following:
 
-      - `"under_attack"`
+true
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+false
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `ServerSideExcludes object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-    If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->. For example: <!--sse-->  Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->. Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+formatdate-time
 
-    - `id: "server_side_exclude"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"server_side_exclude"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+ZonesCacheLevel2 object { id, value, editable, modified_on }
 
-      - `"off"`
+Cache Level functions based off the setting level. The basic setting will cache most static resources (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached resource. The aggressive setting will cache all static resources, including ones with a query string. (https://support.cloudflare.com/hc/en-us/articles/200168256).
 
-    - `editable: optional true or false`
+</summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+id: "cache_level"
 
-      - `true`
+ID of the zone setting.
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+<details>
 
-      last time this setting was modified.
+<summary>
 
-  - `ZonesSha1Support object { id, value, editable, modified_on }`
+value: "aggressive" or "basic" or "simplified"
 
-    Allow SHA1 support.
+Current value of the zone setting.
 
-    - `id: "sha1_support"`
+</summary>
 
-      Zone setting identifier.
+One of the following:
 
-      - `"sha1_support"`
+"aggressive"
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+"basic"
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+"simplified"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesSchemasSortQueryStringForCache object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+</summary>
 
-    - `id: "sort_query_string_for_cache"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"sort_query_string_for_cache"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasSSL object { id, value, editable, modified_on }`
+<details>
 
-    SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server  (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full:  SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+<summary>
 
-    - `id: "ssl"`
+ChallengeTTL object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45 minute setting and will attempt to honor any setting above 45 minutes. (https://support.cloudflare.com/hc/en-us/articles/200170136).
 
-      - `"ssl"`
+</summary>
 
-    - `value: "off" or "flexible" or "full" or "strict"`
+id: "challenge_ttl"
 
-      Current value of the zone setting.
+ID of the zone setting.
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"flexible"`
+<details>
 
-      - `"full"`
+<summary>
 
-      - `"strict"`
+value: 300 or 900 or 1800 or 11 more
 
-    - `editable: optional true or false`
+Current value of the zone setting.
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+300
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+900
 
-  - `SSLRecommender object { id, enabled }`
+[Link to this property](#)
 
-    Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+1800
 
-    - `id: optional "ssl_recommender"`
+[Link to this property](#)
 
-      Enrollment value for SSL/TLS Recommender.
+2700
 
-      - `"ssl_recommender"`
+[Link to this property](#)
 
-    - `enabled: optional boolean`
+3600
 
-      ssl-recommender enrollment setting.
+[Link to this property](#)
 
-  - `ZonesTLS1_2Only object { id, value, editable, modified_on }`
+7200
 
-    Only allows TLS1.2.
+[Link to this property](#)
 
-    - `id: "tls_1_2_only"`
+10800
 
-      Zone setting identifier.
+[Link to this property](#)
 
-      - `"tls_1_2_only"`
+14400
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+28800
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+57600
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+86400
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+604800
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+2592000
 
-  - `TLS1_3 object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    Enables Crypto TLS 1.3 feature for a zone.
+31536000
 
-    - `id: "tls_1_3"`
+[Link to this property](#)
 
-      ID of the zone setting.
+</details>
 
-      - `"tls_1_3"`
+[Link to this property](#)
 
-    - `value: "on" or "off" or "zrt"`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-      - `"on"`
+editable: optional true or false
 
-      - `"off"`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"zrt"`
+</summary>
 
-    - `editable: optional true or false`
+One of the following:
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+true
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+false
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+</details>
 
-  - `TLSClientAuth object { id, value, editable, modified_on }`
+[Link to this property](#)
 
-    TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+modified_on: optional string
 
-    - `id: "tls_client_auth"`
+last time this setting was modified.
 
-      ID of the zone setting.
+formatdate-time
 
-      - `"tls_client_auth"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+</details>
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-    - `editable: optional true or false`
+Ciphers object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "ciphers"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesTransformations object { id, value, editable, modified_on }`
+value: array of string
 
-    Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+Current value of the zone setting.
 
-    - `id: "transformations"`
+[Link to this property](#)
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+<details>
 
-      - `"transformations"`
+<summary>
 
-    - `value: "on" or "off" or "open"`
+editable: optional true or false
 
-      Current value of the zone setting.
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      - `"on"`
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"open"`
+true
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+false
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+</details>
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+modified_on: optional string
 
-  - `ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }`
+last time this setting was modified.
 
-    Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+formatdate-time
 
-    - `id: "transformations_allowed_origins"`
+[Link to this property](#)
 
-      ID of the zone setting. Shared between Image Transformations and Video Transformations.
+</details>
 
-      - `"transformations_allowed_origins"`
+[Link to this property](#)
 
-    - `value: string`
+<details>
 
-      Current value of the zone setting.
+<summary>
 
-    - `editable: optional true or false`
+ZonesContentConverter object { id, value, editable, modified_on }
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+When enabled and the client sends an Accept header requesting text/markdown, Cloudflare will convert HTML responses to Markdown format using the toMarkdown() service. Refer to the [developer documentation](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) for more information.
 
-      - `true`
+</summary>
 
-      - `false`
+id: "content_converter"
 
-    - `modified_on: optional string`
+ID of the zone setting.
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `ZonesSchemasTrueClientIPHeader object { id, value, editable, modified_on }`
+<details>
 
-    Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+<summary>
 
-    - `id: "true_client_ip_header"`
+value: "off" or "on"
 
-      ID of the zone setting.
+Current value of the zone setting.
 
-      - `"true_client_ip_header"`
+</summary>
 
-    - `value: "on" or "off"`
+One of the following:
 
-      Current value of the zone setting.
+"off"
 
-      - `"on"`
+[Link to this property](#)
 
-      - `"off"`
+"on"
 
-    - `editable: optional true or false`
+[Link to this property](#)
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</details>
 
-      - `true`
+[Link to this property](#)
 
-      - `false`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      last time this setting was modified.
+editable: optional true or false
 
-  - `ZonesSchemasWAF object { id, value, editable, modified_on }`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-    The WAF examines HTTP requests to your website.  It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will 'challenge' the web visitor with a page that asks them to submit a CAPTCHA successfully  to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare's WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+</summary>
 
-    - `id: "waf"`
+One of the following:
 
-      ID of the zone setting.
+true
 
-      - `"waf"`
+[Link to this property](#)
 
-    - `value: "on" or "off"`
+false
 
-      Current value of the zone setting.
+[Link to this property](#)
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)
 
-    - `editable: optional true or false`
+modified_on: optional string
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+last time this setting was modified.
 
-      - `true`
+formatdate-time
 
-      - `false`
+[Link to this property](#)
 
-    - `modified_on: optional string`
+</details>
 
-      last time this setting was modified.
+[Link to this property](#)
 
-  - `WebP object { id, value, editable, modified_on }`
+<details>
 
-    When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+<summary>
 
-    - `id: "webp"`
+ZonesCNAMEFlattening object { id, value, editable, modified_on }
 
-      ID of the zone setting.
+Whether or not cname flattening is on.
 
-      - `"webp"`
+</summary>
 
-    - `value: "off" or "on"`
+id: "cname_flattening"
 
-      Current value of the zone setting.
+How to flatten the cname destination.
 
-      - `"off"`
+[Link to this property](#)
 
-      - `"on"`
+<details>
 
-    - `editable: optional true or false`
+<summary>
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+Deprecatedvalue: "flatten_at_root" or "flatten_all"
 
-      - `true`
+This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21
 
-      - `false`
+Current value of the zone setting.
 
-    - `modified_on: optional string`
+</summary>
 
-      last time this setting was modified.
+One of the following:
 
-  - `Websocket object { id, value, editable, modified_on }`
+"flatten_at_root"
 
-    WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+[Link to this property](#)
 
-    - `id: "websockets"`
+"flatten_all"
 
-      ID of the zone setting.
+[Link to this property](#)
 
-      - `"websockets"`
+</details>
 
-    - `value: "off" or "on"`
+[Link to this property](#)
 
-      Current value of the zone setting.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"on"`
+editable: optional true or false
 
-    - `editable: optional true or false`
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
 
-      Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+</summary>
 
-      - `true`
+One of the following:
 
-      - `false`
+true
 
-    - `modified_on: optional string`
+[Link to this property](#)
 
-      last time this setting was modified.
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+DevelopmentMode object { id, value, editable, 2 more }
+
+Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare’s accelerated cache and slow down your site, but is useful if you are making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+
+</summary>
+
+id: "development_mode"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+time_remaining: optional number
+
+Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+EarlyHints object { id, value, editable, modified_on }
+
+When enabled, Cloudflare will attempt to speed up overall page loads by serving `103` responses with `Link` headers from the final response. Refer to [Early Hints](https://developers.cloudflare.com/cache/about/early-hints) for more information.
+
+</summary>
+
+id: "early_hints"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesEdgeCacheTTL2 object { id, value, editable, modified_on }
+
+Time (in seconds) that a resource will be ensured to remain on Cloudflare’s cache servers.
+
+</summary>
+
+id: "edge_cache_ttl"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: 30 or 60 or 300 or 18 more
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+30
+
+[Link to this property](#)
+
+60
+
+[Link to this property](#)
+
+300
+
+[Link to this property](#)
+
+1200
+
+[Link to this property](#)
+
+1800
+
+[Link to this property](#)
+
+3600
+
+[Link to this property](#)
+
+7200
+
+[Link to this property](#)
+
+10800
+
+[Link to this property](#)
+
+14400
+
+[Link to this property](#)
+
+18000
+
+[Link to this property](#)
+
+28800
+
+[Link to this property](#)
+
+43200
+
+[Link to this property](#)
+
+57600
+
+[Link to this property](#)
+
+72000
+
+[Link to this property](#)
+
+86400
+
+[Link to this property](#)
+
+172800
+
+[Link to this property](#)
+
+259200
+
+[Link to this property](#)
+
+345600
+
+[Link to this property](#)
+
+432000
+
+[Link to this property](#)
+
+518400
+
+[Link to this property](#)
+
+604800
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesEmailObfuscation2 object { id, value, editable, modified_on }
+
+Encrypt email adresses on your web page from bots, while keeping them visible to humans. (https://support.cloudflare.com/hc/en-us/articles/200170016).
+
+</summary>
+
+id: "email_obfuscation"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+H2Prioritization object { id, value, editable, modified_on }
+
+HTTP/2 Edge Prioritization optimises the delivery of resources served through HTTP/2 to improve page load performance. It also supports fine control of content delivery when used in conjunction with Workers.
+
+</summary>
+
+id: "h2_prioritization"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off" or "custom"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+"custom"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+HotlinkProtection object { id, value, editable, modified_on }
+
+When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check to ensure that it’s not another site requesting them. People will still be able to download and view images from your page, but other sites won’t be able to steal them for use on their own pages. (https://support.cloudflare.com/hc/en-us/articles/200170026).
+
+</summary>
+
+id: "hotlink_protection"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+HTTP2 object { id, value, editable, modified_on }
+
+HTTP2 enabled for this zone.
+
+</summary>
+
+id: "http2"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+HTTP3 object { id, value, editable, modified_on }
+
+HTTP3 enabled for this zone.
+
+</summary>
+
+id: "http3"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ImageResizing object { id, value, editable, modified_on }
+
+Image Transformations provides on-demand resizing, conversion and optimization for images served through Cloudflare’s network. Refer to the [Image Transformations documentation](https://developers.cloudflare.com/images/) for more information.
+
+</summary>
+
+id: "image_resizing"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off" or "open"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+"open"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesIPGeolocation2 object { id, value, editable, modified_on }
+
+Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you. (https://support.cloudflare.com/hc/en-us/articles/200168236).
+
+</summary>
+
+id: "ip_geolocation"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+IPV6 object { id, value, editable, modified_on }
+
+Enable IPv6 on all subdomains that are Cloudflare enabled. (https://support.cloudflare.com/hc/en-us/articles/200168586).
+
+</summary>
+
+id: "ipv6"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesMaxUpload object { id, value, editable, modified_on }
+
+Maximum size of an allowable upload.
+
+</summary>
+
+id: "max_upload"
+
+identifier of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: 100 or 125 or 150 or 23 more
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+100
+
+[Link to this property](#)
+
+125
+
+[Link to this property](#)
+
+150
+
+[Link to this property](#)
+
+175
+
+[Link to this property](#)
+
+200
+
+[Link to this property](#)
+
+225
+
+[Link to this property](#)
+
+250
+
+[Link to this property](#)
+
+275
+
+[Link to this property](#)
+
+300
+
+[Link to this property](#)
+
+325
+
+[Link to this property](#)
+
+350
+
+[Link to this property](#)
+
+375
+
+[Link to this property](#)
+
+400
+
+[Link to this property](#)
+
+425
+
+[Link to this property](#)
+
+450
+
+[Link to this property](#)
+
+475
+
+[Link to this property](#)
+
+500
+
+[Link to this property](#)
+
+1000
+
+[Link to this property](#)
+
+1500
+
+[Link to this property](#)
+
+2000
+
+[Link to this property](#)
+
+2500
+
+[Link to this property](#)
+
+3000
+
+[Link to this property](#)
+
+3500
+
+[Link to this property](#)
+
+4000
+
+[Link to this property](#)
+
+4500
+
+[Link to this property](#)
+
+5000
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+MinTLSVersion object { id, value, editable, modified_on }
+
+Only accepts HTTPS requests that use at least the TLS protocol version specified. For example, if TLS 1.1 is selected, TLS 1.0 connections will be rejected, while 1.1, 1.2, and 1.3 (if enabled) will be permitted.
+
+</summary>
+
+id: "min_tls_version"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "1.0" or "1.1" or "1.2" or "1.3"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"1.0"
+
+[Link to this property](#)
+
+"1.1"
+
+[Link to this property](#)
+
+"1.2"
+
+[Link to this property](#)
+
+"1.3"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesMirage2 object { id, value, editable, modified_on }
+
+Automatically optimize image loading for website visitors on mobile devices. Refer to [our blog post](http://blog.cloudflare.com/mirage2-solving-mobile-speed) for more information.
+
+</summary>
+
+id: "mirage"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+Deprecatedvalue: "on" or "off"
+
+Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+NEL object { id, value, editable, modified_on }
+
+Enable Network Error Logging reporting on your zone. (Beta)
+
+</summary>
+
+id: "nel"
+
+Zone setting identifier.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: object { enabled }
+
+Current value of the zone setting.
+
+</summary>
+
+enabled: optional boolean
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesOpportunisticEncryption2 object { id, value, editable, modified_on }
+
+Enables the Opportunistic Encryption feature for a zone.
+
+</summary>
+
+id: "opportunistic_encryption"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+OpportunisticOnion object { id, value, editable, modified_on }
+
+Add an Alt-Svc header to all legitimate requests from Tor, allowing the connection to use our onion services instead of exit nodes.
+
+</summary>
+
+id: "opportunistic_onion"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+OrangeToOrange object { id, value, editable, modified_on }
+
+Orange to Orange (O2O) allows zones on Cloudflare to CNAME to other zones also on Cloudflare.
+
+</summary>
+
+id: "orange_to_orange"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+Deprecatedvalue: "on" or "off"
+
+This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesOriginErrorPagePassThru2 object { id, value, editable, modified_on }
+
+Cloudflare will proxy customer error pages on any 502,504 errors on origin server instead of showing a default Cloudflare error page. This does not apply to 522 errors and is limited to Enterprise Zones.
+
+</summary>
+
+id: "origin_error_page_pass_thru"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesCacheRulesOriginH2MaxStreams object { id, modified_on, value }
+
+Origin H2 Max Streams configures the max number of concurrent requests that Cloudflare will send within the same connection when communicating with the origin server, if the origin supports it. Note that if your origin does not support H2 multiplexing, 5xx errors may be observed, particularly 520s. Also note that the default value is `100` for all plan types except Enterprise where it is `1`. `1` means that H2 multiplexing is disabled.
+
+</summary>
+
+id: "origin_h2_max_streams"
+
+Value of the zone setting.
+
+[Link to this property](#)
+
+modified_on: optional string
+
+Last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+value: optional number
+
+Value of the Origin H2 Max Streams Setting.
+
+maximum1000
+
+minimum1
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesCacheRulesOriginMaxHTTPVersion object { id, modified_on, value }
+
+Origin Max HTTP Setting Version sets the highest HTTP version Cloudflare will attempt to use with your origin. This setting allows Cloudflare to make HTTP/2 requests to your origin. (Refer to [Enable HTTP/2 to Origin](https://developers.cloudflare.com/cache/how-to/enable-http2-to-origin/), for more information.). The default value is “2” for all plan types except Enterprise where it is “1”.
+
+</summary>
+
+id: "origin_max_http_version"
+
+Value of the zone setting.
+
+[Link to this property](#)
+
+modified_on: optional string
+
+Last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: optional "2" or "1"
+
+Value of the Origin Max HTTP Version Setting.
+
+</summary>
+
+One of the following:
+
+"2"
+
+[Link to this property](#)
+
+"1"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesPolish2 object { id, value, editable, modified_on }
+
+Removes metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG, JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+
+</summary>
+
+id: "polish"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "lossless" or "lossy"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"lossless"
+
+[Link to this property](#)
+
+"lossy"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+PrefetchPreload object { id, value, editable, modified_on }
+
+Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+
+</summary>
+
+id: "prefetch_preload"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesPreRender object { id, value, editable, modified_on }
+
+When enabled, Cloudflare serves pre-rendered HTML to eligible search and AI crawlers instead of the origin’s unrendered response.
+
+</summary>
+
+id: "pre_render"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesPrivacyPass object { id, value, editable, modified_on }
+
+Privacy Pass v1 was a browser extension developed by the Privacy Pass Team to improve the browsing experience for your visitors by allowing users to reduce the number of CAPTCHAs shown. (https://support.cloudflare.com/hc/en-us/articles/115001992652-Privacy-Pass).
+
+</summary>
+
+id: "privacy_pass"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+Deprecatedvalue: "on" or "off"
+
+Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31)
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ProxyReadTimeout object { id, value, editable, modified_on }
+
+Maximum time between two read operations from origin.
+
+</summary>
+
+id: "proxy_read_timeout"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+value: number
+
+Current value of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+PseudoIPV4 object { id, value, editable, modified_on }
+
+The value set for the Pseudo IPv4 setting.
+
+</summary>
+
+id: "pseudo_ipv4"
+
+Value of the Pseudo IPv4 setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "add_header" or "overwrite_header"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"add_header"
+
+[Link to this property](#)
+
+"overwrite_header"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesRedirectsForAITraining object { id, value, editable, modified_on }
+
+When enabled, Cloudflare will redirect verified AI training crawlers to canonical URLs found in the HTML response, ensuring AI models train on authoritative content.
+
+</summary>
+
+id: "redirects_for_ai_training"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesReplaceInsecureJS object { id, value, editable, modified_on }
+
+Automatically replace insecure JavaScript libraries with safer and faster alternatives provided under cdnjs and powered by Cloudflare. Currently supports the following libraries: Polyfill under polyfill.io.
+
+</summary>
+
+id: "replace_insecure_js"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesResponseBuffering2 object { id, value, editable, modified_on }
+
+Enables or disables buffering of responses from the proxied server. Cloudflare may buffer the whole payload to deliver it at once to the client versus allowing it to be delivered in chunks. By default, the proxied server streams directly and is not buffered by Cloudflare. This is limited to Enterprise Zones.
+
+</summary>
+
+id: "response_buffering"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesRocketLoader2 object { id, value, editable, modified_on }
+
+Rocket Loader is a general-purpose asynchronous JavaScript optimisation that prioritises rendering your content while loading your site’s Javascript asynchronously. Turning on Rocket Loader will immediately improve a web page’s rendering time sometimes measured as Time to First Paint (TTFP), and also the `window.onload` time (assuming there is JavaScript on the page). This can have a positive impact on your Google search ranking. When turned on, Rocket Loader will automatically defer the loading of all Javascript referenced in your HTML, with no configuration required. Refer to [Understanding Rocket Loader](https://support.cloudflare.com/hc/articles/200168056) for more information.
+
+</summary>
+
+id: "rocket_loader"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesSchemasAutomaticPlatformOptimization object { id, value, editable, modified_on }
+
+[Automatic Platform Optimization for WordPress](https://developers.cloudflare.com/automatic-platform-optimization/) serves your WordPress site from Cloudflare’s edge network and caches third-party fonts.
+
+</summary>
+
+id: "automatic_platform_optimization"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+value: [AutomaticPlatformOptimization](/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20automatic_platform_optimization%20%3E%20(schema)) { cache_by_device_type, cf, enabled, 3 more }
+
+Current value of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesSearchForAgents object { id, value, editable, modified_on }
+
+When enabled, Cloudflare provisions an AI Search instance for the zone and exposes a /.well-known/ai-search endpoint that AI agents can query. Markdown responses also receive an agent: YAML capability block advertising the search endpoint.
+
+</summary>
+
+id: "search_for_agents"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+SecurityHeaders object { id, value, editable, modified_on }
+
+Cloudflare security header for a zone.
+
+</summary>
+
+id: "security_header"
+
+ID of the zone’s security header.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: object { strict_transport_security }
+
+Current value of the zone setting.
+
+</summary>
+
+<details>
+
+<summary>
+
+strict_transport_security: optional object { enabled, include_subdomains, max_age, 2 more }
+
+Strict Transport Security.
+
+</summary>
+
+enabled: optional boolean
+
+Whether or not strict transport security is enabled.
+
+[Link to this property](#)
+
+include_subdomains: optional boolean
+
+Include all subdomains for strict transport security.
+
+[Link to this property](#)
+
+max_age: optional number
+
+Max age in seconds of the strict transport security.
+
+[Link to this property](#)
+
+nosniff: optional boolean
+
+Whether or not to include ‘X-Content-Type-Options: nosniff’ header.
+
+[Link to this property](#)
+
+preload: optional boolean
+
+Enable automatic preload of the HSTS configuration.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesSecurityLevel2 object { id, value, editable, modified_on }
+
+Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. If you choose to customize an individual security setting, the profile will become Custom. (https://support.cloudflare.com/hc/en-us/articles/200170056).
+
+</summary>
+
+id: "security_level"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "essentially_off" or "low" or 3 more
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"essentially_off"
+
+[Link to this property](#)
+
+"low"
+
+[Link to this property](#)
+
+"medium"
+
+[Link to this property](#)
+
+"high"
+
+[Link to this property](#)
+
+"under_attack"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ServerSideExcludes object { id, value, editable, modified_on }
+
+If there is sensitive content on your website that you want visible to real visitors, but that you want to hide from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that you want to be excluded from suspicious visitors in the following SSE tags: . For example: Bad visitors won’t see my phone number, 555-555-5555 . Note: SSE only will work with HTML. If you have HTML minification enabled, you won’t see the SSE tags in your HTML source when it’s served through Cloudflare. SSE will still function in this case, as Cloudflare’s HTML minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor’s computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+
+</summary>
+
+id: "server_side_exclude"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesSha1Support object { id, value, editable, modified_on }
+
+Allow SHA1 support.
+
+</summary>
+
+id: "sha1_support"
+
+Zone setting identifier.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesSortQueryStringForCache2 object { id, value, editable, modified_on }
+
+Cloudflare will treat files with the same query strings as the same file in cache, regardless of the order of the query strings. This is limited to Enterprise Zones.
+
+</summary>
+
+id: "sort_query_string_for_cache"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesSSL2 object { id, value, editable, modified_on }
+
+SSL encrypts your visitor’s connection and safeguards credit card numbers and other personal data to and from your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, but no SSL between Cloudflare and your web server. You don’t need to have an SSL cert on your web server, but your vistors will still see the site as being HTTPS enabled. Full: SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You’ll need to have your own SSL cert or self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare — visitor sees HTTPS on your site, and SSL between Cloudflare and your web server. You’ll need to have a valid SSL certificate installed on your web server. This certificate must be signed by a certificate authority, have an expiration date in the future, and respond for the request domain name (hostname). (https://support.cloudflare.com/hc/en-us/articles/200170416).
+
+</summary>
+
+id: "ssl"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "flexible" or "full" or "strict"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"flexible"
+
+[Link to this property](#)
+
+"full"
+
+[Link to this property](#)
+
+"strict"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+SSLRecommender object { id, enabled }
+
+Enrollment in the SSL/TLS Recommender service which tries to detect and recommend (by sending periodic emails) the most secure SSL/TLS setting your origin servers support.
+
+</summary>
+
+id: optional "ssl_recommender"
+
+Enrollment value for SSL/TLS Recommender.
+
+[Link to this property](#)
+
+enabled: optional boolean
+
+ssl-recommender enrollment setting.
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesTLS1_2Only object { id, value, editable, modified_on }
+
+Only allows TLS1.2.
+
+</summary>
+
+id: "tls_1_2_only"
+
+Zone setting identifier.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+TLS1_3 object { id, value, editable, modified_on }
+
+Enables Crypto TLS 1.3 feature for a zone.
+
+</summary>
+
+id: "tls_1_3"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off" or "zrt"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+"zrt"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+TLSClientAuth object { id, value, editable, modified_on }
+
+TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+
+</summary>
+
+id: "tls_client_auth"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesTransformations object { id, value, editable, modified_on }
+
+Media Transformations provides on-demand resizing, conversion and optimization for images and video served through Cloudflare’s network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+
+</summary>
+
+id: "transformations"
+
+ID of the zone setting. Shared between Image Transformations and Video Transformations.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off" or "open"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+"open"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesTransformationsAllowedOrigins object { id, value, editable, modified_on }
+
+Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare’s network. Refer to the [Image Transformations](https://developers.cloudflare.com/images/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information.
+
+</summary>
+
+id: "transformations_allowed_origins"
+
+ID of the zone setting. Shared between Image Transformations and Video Transformations.
+
+[Link to this property](#)
+
+value: string
+
+Current value of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesTrueClientIPHeader2 object { id, value, editable, modified_on }
+
+Allows customer to continue to use True Client IP (Akamai feature) in the headers we send to the origin. This is limited to Enterprise Zones.
+
+</summary>
+
+id: "true_client_ip_header"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesWAF2 object { id, value, editable, modified_on }
+
+The WAF examines HTTP requests to your website. It inspects both GET and POST requests and applies rules to help filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then the WAF will ‘challenge’ the web visitor with a page that asks them to submit a CAPTCHA successfully to continue their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare’s WAF will block any traffic identified as illegitimate before it reaches your origin web server. (https://support.cloudflare.com/hc/en-us/articles/200172016).
+
+</summary>
+
+id: "waf"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "on" or "off"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"on"
+
+[Link to this property](#)
+
+"off"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesWebmcpEnabled object { id, value, editable, modified_on }
+
+When enabled, Cloudflare injects the WebMCP bridge (bridge.js) into HTML responses for this zone, exposing DOM and Content Credentials tools to an in-browser AI agent via navigator.modelContext. No origin-side code changes are required. This setting is currently in beta and its behavior may change.
+
+</summary>
+
+id: "webmcp_enabled"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+ZonesWebmcpPacks object { id, value, editable, modified_on }
+
+Optional per-zone override of which bundled WebMCP tool packs the injected bridge.js activates. Only takes effect when webmcp_enabled is on. Leave empty to use the bridge’s default pack set. Unknown pack names are ignored by the bridge. This setting is currently in beta and its behavior may change.
+
+</summary>
+
+id: "webmcp_packs"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+value: string
+
+Current value of the zone setting.
+
+maxLength256
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+WebP object { id, value, editable, modified_on }
+
+When the client requesting the image supports the WebP image codec, and WebP offers a performance advantage over the original image format, Cloudflare will serve a WebP version of the original image.
+
+</summary>
+
+id: "webp"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+Websocket object { id, value, editable, modified_on }
+
+WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets connection, the client and the origin can pass data back and forth without having to reestablish sessions. This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications such as live chat and gaming. For more information refer to [Can I use Cloudflare with Websockets](https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+
+</summary>
+
+id: "websockets"
+
+ID of the zone setting.
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+value: "off" or "on"
+
+Current value of the zone setting.
+
+</summary>
+
+One of the following:
+
+"off"
+
+[Link to this property](#)
+
+"on"
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+<details>
+
+<summary>
+
+editable: optional true or false
+
+Whether or not this setting can be modified for this zone (based on your Cloudflare plan level).
+
+</summary>
+
+One of the following:
+
+true
+
+[Link to this property](#)
+
+false
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+modified_on: optional string
+
+last time this setting was modified.
+
+formatdate-time
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)
+
+</details>
+
+[Link to this property](#)

@@ -1,789 +1,215 @@
+---
+title: Ramps
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Cf1 Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/cf1_sites)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Ramps
 
-## List CF1 Site Ramps
+##### [List CF1 Site Ramps](https://developers.cloudflare.com/api/resources/magic_transit/subresources/cf1_sites/subresources/ramps/methods/list)
 
-**get** `/accounts/{account_id}/magic/cf1_sites/{cf1_site_id}/ramps`
+GET/accounts/{account\_id}/magic/cf1\_sites/{cf1\_site\_id}/ramps
 
-Lists ramps (network connections) associated with a CF1 Site. Ramps represent GRE tunnels, IPsec tunnels, interconnects, or MCONN links.
+##### [Get CF1 Site Ramp](https://developers.cloudflare.com/api/resources/magic_transit/subresources/cf1_sites/subresources/ramps/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/cf1\_sites/{cf1\_site\_id}/ramps/{ramp\_id}
 
-- `account_id: string`
+##### [Create CF1 Site Ramps](https://developers.cloudflare.com/api/resources/magic_transit/subresources/cf1_sites/subresources/ramps/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/magic/cf1\_sites/{cf1\_site\_id}/ramps
 
-- `cf1_site_id: string`
+##### [Delete CF1 Site Ramp](https://developers.cloudflare.com/api/resources/magic_transit/subresources/cf1_sites/subresources/ramps/methods/delete)
 
-  Identifier
+DELETE/accounts/{account\_id}/magic/cf1\_sites/{cf1\_site\_id}/ramps/{ramp\_id}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+Ramp object {id, created\_on, modified\_on, 8 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+Identifier
 
-- `messages: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of Ramp`
+modified\_on: string
 
-  - `id: string`
+formatdate-time
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+name: string
 
-  - `modified_on: string`
+A human-provided name describing the ramp that should be unique within the CF1 Site.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    A human-provided name describing the ramp that should be unique within the CF1 Site.
+type: <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.cf1_sites.ramps%20%3E%20(model)%20ramp_type%20%3E%20(schema)">RampType</a>
 
-  - `type: RampType`
+The type of network connection (ramp) linking a CF1 Site to Cloudflare’s network.
 
-    The type of network connection (ramp) linking a CF1 Site to Cloudflare's network.
+<a href="#">Link to this property</a>
 
-    - `"gre"`
+description: optional string
 
-    - `"gre_interconnect"`
+A human-provided description of the ramp.
 
-    - `"mpls_interconnect"`
+<a href="#">Link to this property</a>
 
-    - `"mconn"`
+<details>
 
-    - `"ipsec"`
+<summary>
 
-  - `description: optional string`
+gre: optional object {managed\_by }
 
-    A human-provided description of the ramp.
+</summary>
 
-  - `gre: optional object { managed_by }`
+managed\_by: optional string
 
-    - `managed_by: optional string`
+URL reference to the source network resource that this ramp is managed by.
 
-      URL reference to the source network resource that this ramp is managed by.
+<a href="#">Link to this property</a>
 
-  - `gre_interconnect: optional object { managed_by }`
+</details>
 
-    - `managed_by: optional string`
+<a href="#">Link to this property</a>
 
-      URL reference to the source network resource that this ramp is managed by.
+<details>
 
-  - `ipsec: optional object { managed_by }`
+<summary>
 
-    - `managed_by: optional string`
+gre\_interconnect: optional object {managed\_by }
 
-      URL reference to the source network resource that this ramp is managed by.
+</summary>
 
-  - `mconn: optional object { managed_by }`
+managed\_by: optional string
 
-    - `managed_by: optional string`
+URL reference to the source network resource that this ramp is managed by.
 
-      URL reference to the source network resource that this ramp is managed by.
+<a href="#">Link to this property</a>
 
-  - `mpls_interconnect: optional object { managed_by }`
+</details>
 
-    - `managed_by: optional string`
+<a href="#">Link to this property</a>
 
-      URL reference to the source network resource that this ramp is managed by.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cf1_sites/$CF1_SITE_ID/ramps \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+ipsec: optional object {managed\_by }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "name": "primary_gre_ramp",
-      "type": "gre",
-      "description": "Primary CF GRE tunnel",
-      "gre": {
-        "managed_by": "managed_by"
-      },
-      "gre_interconnect": {
-        "managed_by": "managed_by"
-      },
-      "ipsec": {
-        "managed_by": "managed_by"
-      },
-      "mconn": {
-        "managed_by": "managed_by"
-      },
-      "mpls_interconnect": {
-        "managed_by": "managed_by"
-      }
-    }
-  ],
-  "success": true
-}
-```
+managed\_by: optional string
 
-## Get CF1 Site Ramp
+URL reference to the source network resource that this ramp is managed by.
 
-**get** `/accounts/{account_id}/magic/cf1_sites/{cf1_site_id}/ramps/{ramp_id}`
+<a href="#">Link to this property</a>
 
-Gets a specific ramp for a CF1 Site.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>
 
-- `cf1_site_id: string`
+mconn: optional object {managed\_by }
 
-  Identifier
+</summary>
 
-- `ramp_id: string`
+managed\_by: optional string
 
-  Identifier
+URL reference to the source network resource that this ramp is managed by.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+mpls\_interconnect: optional object {managed\_by }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+managed\_by: optional string
 
-  - `code: number`
+URL reference to the source network resource that this ramp is managed by.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: Ramp`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20magic_transit.cf1_sites.ramps%20%3E%20(model)%20ramp%20%3E%20(schema)>)
 
-    Identifier
+<details>
 
-  - `created_on: string`
+<summary>
 
-  - `modified_on: string`
+RampType = "gre"or "gre\_interconnect"or "mpls\_interconnect"or 2 more
 
-  - `name: string`
+The type of network connection (ramp) linking a CF1 Site to Cloudflare’s network.
 
-    A human-provided name describing the ramp that should be unique within the CF1 Site.
+</summary>
 
-  - `type: RampType`
+One of the following:
 
-    The type of network connection (ramp) linking a CF1 Site to Cloudflare's network.
+"gre"
 
-    - `"gre"`
+<a href="#">Link to this property</a>
 
-    - `"gre_interconnect"`
+"gre\_interconnect"
 
-    - `"mpls_interconnect"`
+<a href="#">Link to this property</a>
 
-    - `"mconn"`
+"mpls\_interconnect"
 
-    - `"ipsec"`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"mconn"
 
-    A human-provided description of the ramp.
+<a href="#">Link to this property</a>
 
-  - `gre: optional object { managed_by }`
+"ipsec"
 
-    - `managed_by: optional string`
+<a href="#">Link to this property</a>
 
-      URL reference to the source network resource that this ramp is managed by.
+</details>
 
-  - `gre_interconnect: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `ipsec: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `mconn: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `mpls_interconnect: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cf1_sites/$CF1_SITE_ID/ramps/$RAMP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "primary_gre_ramp",
-    "type": "gre",
-    "description": "Primary CF GRE tunnel",
-    "gre": {
-      "managed_by": "managed_by"
-    },
-    "gre_interconnect": {
-      "managed_by": "managed_by"
-    },
-    "ipsec": {
-      "managed_by": "managed_by"
-    },
-    "mconn": {
-      "managed_by": "managed_by"
-    },
-    "mpls_interconnect": {
-      "managed_by": "managed_by"
-    }
-  },
-  "success": true
-}
-```
-
-## Create CF1 Site Ramps
-
-**post** `/accounts/{account_id}/magic/cf1_sites/{cf1_site_id}/ramps`
-
-Creates ramps (network connections) for a CF1 Site.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `cf1_site_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `body: array of object { source_ramp_id, type }`
-
-  - `source_ramp_id: string`
-
-    Identifier of the source network resource to associate as a ramp.
-
-  - `type: RampType`
-
-    The type of network connection (ramp) linking a CF1 Site to Cloudflare's network.
-
-    - `"gre"`
-
-    - `"gre_interconnect"`
-
-    - `"mpls_interconnect"`
-
-    - `"mconn"`
-
-    - `"ipsec"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of Ramp`
-
-  - `id: string`
-
-    Identifier
-
-  - `created_on: string`
-
-  - `modified_on: string`
-
-  - `name: string`
-
-    A human-provided name describing the ramp that should be unique within the CF1 Site.
-
-  - `type: RampType`
-
-    The type of network connection (ramp) linking a CF1 Site to Cloudflare's network.
-
-    - `"gre"`
-
-    - `"gre_interconnect"`
-
-    - `"mpls_interconnect"`
-
-    - `"mconn"`
-
-    - `"ipsec"`
-
-  - `description: optional string`
-
-    A human-provided description of the ramp.
-
-  - `gre: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `gre_interconnect: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `ipsec: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `mconn: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `mpls_interconnect: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cf1_sites/$CF1_SITE_ID/ramps \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "source_ramp_id": "023e105f4ecef8ad9ca31a8372d0c353",
-            "type": "gre"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "name": "primary_gre_ramp",
-      "type": "gre",
-      "description": "Primary CF GRE tunnel",
-      "gre": {
-        "managed_by": "managed_by"
-      },
-      "gre_interconnect": {
-        "managed_by": "managed_by"
-      },
-      "ipsec": {
-        "managed_by": "managed_by"
-      },
-      "mconn": {
-        "managed_by": "managed_by"
-      },
-      "mpls_interconnect": {
-        "managed_by": "managed_by"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Delete CF1 Site Ramp
-
-**delete** `/accounts/{account_id}/magic/cf1_sites/{cf1_site_id}/ramps/{ramp_id}`
-
-Deletes a specific ramp from a CF1 Site.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `cf1_site_id: string`
-
-  Identifier
-
-- `ramp_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Ramp`
-
-  - `id: string`
-
-    Identifier
-
-  - `created_on: string`
-
-  - `modified_on: string`
-
-  - `name: string`
-
-    A human-provided name describing the ramp that should be unique within the CF1 Site.
-
-  - `type: RampType`
-
-    The type of network connection (ramp) linking a CF1 Site to Cloudflare's network.
-
-    - `"gre"`
-
-    - `"gre_interconnect"`
-
-    - `"mpls_interconnect"`
-
-    - `"mconn"`
-
-    - `"ipsec"`
-
-  - `description: optional string`
-
-    A human-provided description of the ramp.
-
-  - `gre: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `gre_interconnect: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `ipsec: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `mconn: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `mpls_interconnect: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cf1_sites/$CF1_SITE_ID/ramps/$RAMP_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "primary_gre_ramp",
-    "type": "gre",
-    "description": "Primary CF GRE tunnel",
-    "gre": {
-      "managed_by": "managed_by"
-    },
-    "gre_interconnect": {
-      "managed_by": "managed_by"
-    },
-    "ipsec": {
-      "managed_by": "managed_by"
-    },
-    "mconn": {
-      "managed_by": "managed_by"
-    },
-    "mpls_interconnect": {
-      "managed_by": "managed_by"
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Ramp
-
-- `Ramp object { id, created_on, modified_on, 8 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `created_on: string`
-
-  - `modified_on: string`
-
-  - `name: string`
-
-    A human-provided name describing the ramp that should be unique within the CF1 Site.
-
-  - `type: RampType`
-
-    The type of network connection (ramp) linking a CF1 Site to Cloudflare's network.
-
-    - `"gre"`
-
-    - `"gre_interconnect"`
-
-    - `"mpls_interconnect"`
-
-    - `"mconn"`
-
-    - `"ipsec"`
-
-  - `description: optional string`
-
-    A human-provided description of the ramp.
-
-  - `gre: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `gre_interconnect: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `ipsec: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `mconn: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-  - `mpls_interconnect: optional object { managed_by }`
-
-    - `managed_by: optional string`
-
-      URL reference to the source network resource that this ramp is managed by.
-
-### Ramp Type
-
-- `RampType = "gre" or "gre_interconnect" or "mpls_interconnect" or 2 more`
-
-  The type of network connection (ramp) linking a CF1 Site to Cloudflare's network.
-
-  - `"gre"`
-
-  - `"gre_interconnect"`
-
-  - `"mpls_interconnect"`
-
-  - `"mconn"`
-
-  - `"ipsec"`
+[Link to this property](#)%20magic_transit.cf1_sites.ramps%20%3E%20(model)%20ramp_type%20%3E%20(schema)>)

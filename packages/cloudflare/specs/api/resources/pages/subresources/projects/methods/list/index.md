@@ -1,875 +1,2755 @@
-## Get projects
+---
+title: Get projects
+---
 
-**get** `/accounts/{account_id}/pages/projects`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Pages](https://developers.cloudflare.com/api/resources/pages)
+
+[Projects](https://developers.cloudflare.com/api/resources/pages/subresources/projects)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get projects
+
+GET/accounts/{account\_id}/pages/projects
 
 Fetch a list of all user projects.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `page: optional number`
 
-  Which page of projects to fetch.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `per_page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  How many projects to return per page.
+</details>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>API Email + API Key</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `messages: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Pages Read``Pages Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `result: array of Project`
+Identifier.
 
-  - `id: string`
+maxLength32
 
-    ID of the project.
+[Link to this property](#)%20pages.projects%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `canonical_deployment: Deployment`
+##### Q uery ParametersExpand Collapse
 
-    Most recent production deployment of the project.
+page: optional number
 
-    - `id: string`
+Which page of projects to fetch.
 
-      Id of the deployment.
+[Link to this property](#)%20pages.projects%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `aliases: array of string`
+per\_page: optional number
 
-      A list of alias URLs pointing to this deployment.
+How many projects to return per page.
 
-    - `build_config: object { web_analytics_tag, web_analytics_token, build_caching, 3 more }`
+[Link to this property](#)%20pages.projects%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-      Configs for the project build process.
+##### ReturnsExpand Collapse
 
-      - `web_analytics_tag: string`
+<details>
 
-        The classifying tag for analytics.
+<summary>
 
-      - `web_analytics_token: string`
+errors: array of object {code, message, documentation\_url, source }
 
-        The auth token for analytics.
+</summary>
 
-      - `build_caching: optional boolean`
+code: number
 
-        Enable build caching for the project.
+minimum1000
 
-      - `build_command: optional string`
+<a href="#">Link to this property</a>
 
-        Command used to build project.
+message: string
 
-      - `destination_dir: optional string`
+<a href="#">Link to this property</a>
 
-        Assets output directory of the build.
+documentation\_url: optional string
 
-      - `root_dir: optional string`
+<a href="#">Link to this property</a>
 
-        Directory to run the command.
+<details>
 
-    - `created_on: string`
+<summary>
 
-      When the deployment was created.
+source: optional object {pointer }
 
-    - `deployment_trigger: object { metadata, type }`
+</summary>
 
-      Info about what caused the deployment.
+pointer: optional string
 
-      - `metadata: object { branch, commit_dirty, commit_hash, commit_message }`
+<a href="#">Link to this property</a>
 
-        Additional info about the trigger.
+</details>
 
-        - `branch: string`
+<a href="#">Link to this property</a>
 
-          Where the trigger happened.
+</details>
 
-        - `commit_dirty: boolean`
+[Link to this property](#)%20pages.projects%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-          Whether the deployment trigger commit was dirty.
+<details>
 
-        - `commit_hash: string`
+<summary>
 
-          Hash of the deployment trigger commit.
+messages: array of object {code, message, documentation\_url, source }
 
-        - `commit_message: string`
+</summary>
 
-          Message of the deployment trigger commit.
+code: number
 
-      - `type: "github:push" or "ad_hoc" or "deploy_hook"`
+minimum1000
 
-        What caused the deployment.
+<a href="#">Link to this property</a>
 
-        - `"github:push"`
+message: string
 
-        - `"ad_hoc"`
+<a href="#">Link to this property</a>
 
-        - `"deploy_hook"`
+documentation\_url: optional string
 
-    - `env_vars: map[object { type, value }  or object { type, value } ]`
+<a href="#">Link to this property</a>
 
-      Environment variables used for builds and Pages Functions.
+<details>
 
-      - `PlainText object { type, value }`
+<summary>
 
-        A plaintext environment variable.
+source: optional object {pointer }
 
-        - `type: "plain_text"`
+</summary>
 
-          - `"plain_text"`
+pointer: optional string
 
-        - `value: string`
+<a href="#">Link to this property</a>
 
-          Environment variable value.
+</details>
 
-      - `SecretText object { type, value }`
+<a href="#">Link to this property</a>
 
-        An encrypted environment variable.
+</details>
 
-        - `type: "secret_text"`
+[Link to this property](#)%20pages.projects%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-          - `"secret_text"`
+<details>
 
-        - `value: string`
+<summary>
 
-          Secret value.
+result: array of <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20project%20%3E%20(schema)">Project</a> { id, canonical\_deployment, created\_on, 13 more }
 
-    - `environment: "preview" or "production"`
+</summary>
 
-      Type of deploy.
+id: string
 
-      - `"preview"`
+ID of the project.
 
-      - `"production"`
+<a href="#">Link to this property</a>
 
-    - `is_skipped: boolean`
+<details>
 
-      If the deployment has been skipped.
+<summary>
 
-    - `latest_stage: Stage`
+canonical\_deployment: <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20deployment%20%3E%20(schema)">Deployment</a> { id, aliases, build\_config, 15 more }
 
-      The status of the deployment.
+Most recent production deployment of the project.
 
-      - `ended_on: string`
+</summary>
 
-        When the stage ended.
+id: string
 
-      - `name: "queued" or "initialize" or "clone_repo" or 2 more`
+Id of the deployment.
 
-        The current build stage.
+<a href="#">Link to this property</a>
 
-        - `"queued"`
+aliases: array of string
 
-        - `"initialize"`
+A list of alias URLs pointing to this deployment.
 
-        - `"clone_repo"`
+<a href="#">Link to this property</a>
 
-        - `"build"`
+<details>
 
-        - `"deploy"`
+<summary>
 
-      - `started_on: string`
+build\_config: object {web\_analytics\_tag, web\_analytics\_token, build\_caching, 3 more }
 
-        When the stage started.
+Configs for the project build process.
 
-      - `status: "success" or "idle" or "active" or 2 more`
+</summary>
 
-        State of the current stage.
+web\_analytics\_tag: string
 
-        - `"success"`
+The classifying tag for analytics.
 
-        - `"idle"`
+<a href="#">Link to this property</a>
 
-        - `"active"`
+web\_analytics\_token: string
 
-        - `"failure"`
+The auth token for analytics.
 
-        - `"canceled"`
+<a href="#">Link to this property</a>
 
-    - `modified_on: string`
+build\_caching: optional boolean
 
-      When the deployment was last modified.
+Enable build caching for the project.
 
-    - `project_id: string`
+<a href="#">Link to this property</a>
 
-      Id of the project.
+build\_command: optional string
 
-    - `project_name: string`
+Command used to build project.
 
-      Name of the project.
+<a href="#">Link to this property</a>
 
-    - `short_id: string`
+destination\_dir: optional string
 
-      Short Id (8 character) of the deployment.
+Assets output directory of the build.
 
-    - `source: object { config, type }`
+<a href="#">Link to this property</a>
 
-      Configs for the project source control.
+root\_dir: optional string
 
-      - `config: object { deployments_enabled, owner, owner_id, 10 more }`
+Directory to run the command.
 
-        - `deployments_enabled: boolean`
+<a href="#">Link to this property</a>
 
-          Whether to enable automatic deployments when pushing to the source repository.
-          When disabled, no deployments (production or preview) will be triggered automatically.
+</details>
 
-        - `owner: string`
+<a href="#">Link to this property</a>
 
-          The owner of the repository.
+created\_on: string
 
-        - `owner_id: string`
+When the deployment was created.
 
-          The owner ID of the repository.
+formatdate-time
 
-        - `path_excludes: array of string`
+<a href="#">Link to this property</a>
 
-          A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported.
+<details>
 
-        - `path_includes: array of string`
+<summary>
 
-          A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported.
+deployment\_trigger: object {metadata, type }
 
-        - `pr_comments_enabled: boolean`
+Info about what caused the deployment.
 
-          Whether to enable PR comments.
+</summary>
 
-        - `preview_branch_excludes: array of string`
+<details>
 
-          A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`.
+<summary>
 
-        - `preview_branch_includes: array of string`
+metadata: object {branch, commit\_dirty, commit\_hash, commit\_message }
 
-          A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`.
+Additional info about the trigger.
 
-        - `preview_deployment_setting: "all" or "none" or "custom"`
+</summary>
 
-          Controls whether commits to preview branches trigger a preview deployment.
+branch: string
 
-          - `"all"`
+Where the trigger happened.
 
-          - `"none"`
+<a href="#">Link to this property</a>
 
-          - `"custom"`
+commit\_dirty: boolean
 
-        - `production_branch: string`
+Whether the deployment trigger commit was dirty.
 
-          The production branch of the repository.
+<a href="#">Link to this property</a>
 
-        - `production_deployments_enabled: boolean`
+commit\_hash: string
 
-          Whether to trigger a production deployment on commits to the production branch.
+Hash of the deployment trigger commit.
 
-        - `repo_id: string`
+<a href="#">Link to this property</a>
 
-          The ID of the repository.
+commit\_message: string
 
-        - `repo_name: string`
+Message of the deployment trigger commit.
 
-          The name of the repository.
+<a href="#">Link to this property</a>
 
-      - `type: "github" or "gitlab"`
+</details>
 
-        The source control management provider.
+<a href="#">Link to this property</a>
 
-        - `"github"`
+<details>
 
-        - `"gitlab"`
+<summary>
 
-    - `stages: array of Stage`
+type: "github:push"or "ad\_hoc"or "deploy\_hook"
 
-      List of past stages.
+What caused the deployment.
 
-      - `ended_on: string`
+</summary>
 
-        When the stage ended.
+One of the following:
 
-      - `name: "queued" or "initialize" or "clone_repo" or 2 more`
+"github:push"
 
-        The current build stage.
+<a href="#">Link to this property</a>
 
-      - `started_on: string`
+"ad\_hoc"
 
-        When the stage started.
+<a href="#">Link to this property</a>
 
-      - `status: "success" or "idle" or "active" or 2 more`
+"deploy\_hook"
 
-        State of the current stage.
+<a href="#">Link to this property</a>
 
-    - `url: string`
+</details>
 
-      The live URL to view this deployment.
+<a href="#">Link to this property</a>
 
-    - `uses_functions: optional boolean`
+</details>
 
-      Whether the deployment uses functions.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+<details>
 
-    When the project was created.
+<summary>
 
-  - `deployment_configs: object { preview, production }`
+env\_vars: map\[object {type, value } or object {type, value } ]
 
-    Configs for deployments in a project.
+Environment variables used for builds and Pages Functions.
 
-    - `preview: object { always_use_latest_compatibility_date, build_image_major_version, compatibility_date, 19 more }`
+</summary>
 
-      Configs for preview deploys.
+One of the following:
 
-      - `always_use_latest_compatibility_date: boolean`
+<details>
 
-        Whether to always use the latest compatibility date for Pages Functions.
+<summary>
 
-      - `build_image_major_version: number`
+PlainText object {type, value }
 
-        The major version of the build image to use for Pages Functions.
+A plaintext environment variable.
 
-      - `compatibility_date: string`
+</summary>
 
-        Compatibility date used for Pages Functions.
+type: "plain\_text"
 
-      - `compatibility_flags: array of string`
+<a href="#">Link to this property</a>
 
-        Compatibility flags used for Pages Functions.
+value: string
 
-      - `env_vars: map[object { type, value }  or object { type, value } ]`
+Environment variable value.
 
-        Environment variables used for builds and Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `PlainText object { type, value }`
+</details>
 
-          A plaintext environment variable.
+<a href="#">Link to this property</a>
 
-          - `type: "plain_text"`
+<details>
 
-            - `"plain_text"`
+<summary>
 
-          - `value: string`
+SecretText object {type, value }
 
-            Environment variable value.
+An encrypted environment variable.
 
-        - `SecretText object { type, value }`
+</summary>
 
-          An encrypted environment variable.
+type: "secret\_text"
 
-          - `type: "secret_text"`
+<a href="#">Link to this property</a>
 
-            - `"secret_text"`
+value: string
 
-          - `value: string`
+Secret value.
 
-            Secret value.
+<a href="#">Link to this property</a>
 
-      - `fail_open: boolean`
+</details>
 
-        Whether to fail open when the deployment config cannot be applied.
+<a href="#">Link to this property</a>
 
-      - `usage_model: "standard" or "bundled" or "unbound"`
+</details>
 
-        The usage model for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `"standard"`
+<details>
 
-        - `"bundled"`
+<summary>
 
-        - `"unbound"`
+environment: "preview"or "production"
 
-      - `ai_bindings: optional map[object { project_id } ]`
+Type of deploy.
 
-        Constellation bindings used for Pages Functions.
+</summary>
 
-        - `project_id: string`
+One of the following:
 
-      - `analytics_engine_datasets: optional map[object { dataset } ]`
+"preview"
 
-        Analytics Engine bindings used for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `dataset: string`
+"production"
 
-          Name of the dataset.
+<a href="#">Link to this property</a>
 
-      - `browsers: optional map[object {  } ]`
+</details>
 
-        Browser bindings used for Pages Functions.
+<a href="#">Link to this property</a>
 
-      - `d1_databases: optional map[object { id } ]`
+is\_skipped: boolean
 
-        D1 databases used for Pages Functions.
+If the deployment has been skipped.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          UUID of the D1 database.
+<details>
 
-      - `durable_object_namespaces: optional map[object { namespace_id } ]`
+<summary>
 
-        Durable Object namespaces used for Pages Functions.
+latest\_stage: <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20stage%20%3E%20(schema)">Stage</a> { ended\_on, name, started\_on, status }
 
-        - `namespace_id: string`
+The status of the deployment.
 
-          ID of the Durable Object namespace.
+</summary>
 
-      - `hyperdrive_bindings: optional map[object { id } ]`
+ended\_on: string
 
-        Hyperdrive bindings used for Pages Functions.
+When the stage ended.
 
-        - `id: string`
+formatdate-time
 
-      - `kv_namespaces: optional map[object { namespace_id } ]`
+<a href="#">Link to this property</a>
 
-        KV namespaces used for Pages Functions.
+<details>
 
-        - `namespace_id: string`
+<summary>
 
-          ID of the KV namespace.
+name: "queued"or "initialize"or "clone\_repo"or 2 more
 
-      - `limits: optional object { cpu_ms }`
+The current build stage.
 
-        Limits for Pages Functions.
+</summary>
 
-        - `cpu_ms: number`
+One of the following:
 
-          CPU time limit in milliseconds.
+"queued"
 
-      - `mtls_certificates: optional map[object { certificate_id } ]`
+<a href="#">Link to this property</a>
 
-        mTLS bindings used for Pages Functions.
+"initialize"
 
-        - `certificate_id: string`
+<a href="#">Link to this property</a>
 
-      - `placement: optional object { mode }`
+"clone\_repo"
 
-        Placement setting used for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `mode: string`
+"build"
 
-          Placement mode.
+<a href="#">Link to this property</a>
 
-      - `queue_producers: optional map[object { name } ]`
+"deploy"
 
-        Queue Producer bindings used for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-          Name of the Queue.
+<a href="#">Link to this property</a>
 
-      - `r2_buckets: optional map[object { name, jurisdiction } ]`
+started\_on: string
 
-        R2 buckets used for Pages Functions.
+When the stage started.
 
-        - `name: string`
+formatdate-time
 
-          Name of the R2 bucket.
+<a href="#">Link to this property</a>
 
-        - `jurisdiction: optional string`
+<details>
 
-          Jurisdiction of the R2 bucket.
+<summary>
 
-      - `services: optional map[object { environment, service, entrypoint } ]`
+status: "success"or "idle"or "active"or 2 more
 
-        Services used for Pages Functions.
+State of the current stage.
 
-        - `environment: string`
+</summary>
 
-          The Service environment.
+One of the following:
 
-        - `service: string`
+"success"
 
-          The Service name.
+<a href="#">Link to this property</a>
 
-        - `entrypoint: optional string`
+"idle"
 
-          The entrypoint to bind to.
+<a href="#">Link to this property</a>
 
-      - `vectorize_bindings: optional map[object { index_name } ]`
+"active"
 
-        Vectorize bindings used for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `index_name: string`
+"failure"
 
-      - `wrangler_config_hash: optional string`
+<a href="#">Link to this property</a>
 
-        Hash of the Wrangler configuration used for the deployment.
+"canceled"
 
-    - `production: object { always_use_latest_compatibility_date, build_image_major_version, compatibility_date, 19 more }`
+<a href="#">Link to this property</a>
 
-      Configs for production deploys.
+</details>
 
-      - `always_use_latest_compatibility_date: boolean`
+<a href="#">Link to this property</a>
 
-        Whether to always use the latest compatibility date for Pages Functions.
+</details>
 
-      - `build_image_major_version: number`
+<a href="#">Link to this property</a>
 
-        The major version of the build image to use for Pages Functions.
+modified\_on: string
 
-      - `compatibility_date: string`
+When the deployment was last modified.
 
-        Compatibility date used for Pages Functions.
+formatdate-time
 
-      - `compatibility_flags: array of string`
+<a href="#">Link to this property</a>
 
-        Compatibility flags used for Pages Functions.
+project\_id: string
 
-      - `env_vars: map[object { type, value }  or object { type, value } ]`
+Id of the project.
 
-        Environment variables used for builds and Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `PlainText object { type, value }`
+project\_name: string
 
-          A plaintext environment variable.
+Name of the project.
 
-          - `type: "plain_text"`
+<a href="#">Link to this property</a>
 
-            - `"plain_text"`
+short\_id: string
 
-          - `value: string`
+Short Id (8 character) of the deployment.
 
-            Environment variable value.
+<a href="#">Link to this property</a>
 
-        - `SecretText object { type, value }`
+<details>
 
-          An encrypted environment variable.
+<summary>
 
-          - `type: "secret_text"`
+source: object {config, type }
 
-            - `"secret_text"`
+Configs for the project source control.
 
-          - `value: string`
+</summary>
 
-            Secret value.
+<details>
 
-      - `fail_open: boolean`
+<summary>
 
-        Whether to fail open when the deployment config cannot be applied.
+config: object {deployments\_enabled, owner, owner\_id, 10 more }
 
-      - `usage_model: "standard" or "bundled" or "unbound"`
+</summary>
 
-        The usage model for Pages Functions.
+Deprecateddeployments\_enabled: boolean
 
-        - `"standard"`
+Use <code>production_deployments_enabled</code> and <code>preview_deployment_setting</code> for more granular control.
 
-        - `"bundled"`
+Whether to enable automatic deployments when pushing to the source repository. When disabled, no deployments (production or preview) will be triggered automatically.
 
-        - `"unbound"`
+<a href="#">Link to this property</a>
 
-      - `ai_bindings: optional map[object { project_id } ]`
+owner: string
 
-        Constellation bindings used for Pages Functions.
+The owner of the repository.
 
-        - `project_id: string`
+<a href="#">Link to this property</a>
 
-      - `analytics_engine_datasets: optional map[object { dataset } ]`
+owner\_id: string
 
-        Analytics Engine bindings used for Pages Functions.
+The owner ID of the repository.
 
-        - `dataset: string`
+<a href="#">Link to this property</a>
 
-          Name of the dataset.
+path\_excludes: array of string
 
-      - `browsers: optional map[object {  } ]`
+A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (<code>*</code>) is supported.
 
-        Browser bindings used for Pages Functions.
+<a href="#">Link to this property</a>
 
-      - `d1_databases: optional map[object { id } ]`
+path\_includes: array of string
 
-        D1 databases used for Pages Functions.
+A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          UUID of the D1 database.
+pr\_comments\_enabled: boolean
 
-      - `durable_object_namespaces: optional map[object { namespace_id } ]`
+Whether to enable PR comments.
 
-        Durable Object namespaces used for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `namespace_id: string`
+preview\_branch\_excludes: array of string
 
-          ID of the Durable Object namespace.
+A list of branches that should not trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported. Must be used with <code>preview_deployment_setting</code> set to <code>custom</code>.
 
-      - `hyperdrive_bindings: optional map[object { id } ]`
+<a href="#">Link to this property</a>
 
-        Hyperdrive bindings used for Pages Functions.
+preview\_branch\_includes: array of string
 
-        - `id: string`
+A list of branches that should trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported. Must be used with <code>preview_deployment_setting</code> set to <code>custom</code>.
 
-      - `kv_namespaces: optional map[object { namespace_id } ]`
+<a href="#">Link to this property</a>
 
-        KV namespaces used for Pages Functions.
+<details>
 
-        - `namespace_id: string`
+<summary>
 
-          ID of the KV namespace.
+preview\_deployment\_setting: "all"or "none"or "custom"
 
-      - `limits: optional object { cpu_ms }`
+Controls whether commits to preview branches trigger a preview deployment.
 
-        Limits for Pages Functions.
+</summary>
 
-        - `cpu_ms: number`
+One of the following:
 
-          CPU time limit in milliseconds.
+"all"
 
-      - `mtls_certificates: optional map[object { certificate_id } ]`
+<a href="#">Link to this property</a>
 
-        mTLS bindings used for Pages Functions.
+"none"
 
-        - `certificate_id: string`
+<a href="#">Link to this property</a>
 
-      - `placement: optional object { mode }`
+"custom"
 
-        Placement setting used for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `mode: string`
+</details>
 
-          Placement mode.
+<a href="#">Link to this property</a>
 
-      - `queue_producers: optional map[object { name } ]`
+production\_branch: string
 
-        Queue Producer bindings used for Pages Functions.
+The production branch of the repository.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-          Name of the Queue.
+production\_deployments\_enabled: boolean
 
-      - `r2_buckets: optional map[object { name, jurisdiction } ]`
+Whether to trigger a production deployment on commits to the production branch.
 
-        R2 buckets used for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `name: string`
+repo\_id: string
 
-          Name of the R2 bucket.
+The ID of the repository.
 
-        - `jurisdiction: optional string`
+<a href="#">Link to this property</a>
 
-          Jurisdiction of the R2 bucket.
+repo\_name: string
 
-      - `services: optional map[object { environment, service, entrypoint } ]`
+The name of the repository.
 
-        Services used for Pages Functions.
+<a href="#">Link to this property</a>
 
-        - `environment: string`
+</details>
 
-          The Service environment.
+<a href="#">Link to this property</a>
 
-        - `service: string`
+<details>
 
-          The Service name.
+<summary>
 
-        - `entrypoint: optional string`
+type: "github"or "gitlab"
 
-          The entrypoint to bind to.
+The source control management provider.
 
-      - `vectorize_bindings: optional map[object { index_name } ]`
+</summary>
 
-        Vectorize bindings used for Pages Functions.
+One of the following:
 
-        - `index_name: string`
+"github"
 
-      - `wrangler_config_hash: optional string`
+<a href="#">Link to this property</a>
 
-        Hash of the Wrangler configuration used for the deployment.
+"gitlab"
 
-  - `framework: string`
+<a href="#">Link to this property</a>
 
-    Framework the project is using.
+</details>
 
-  - `framework_version: string`
+<a href="#">Link to this property</a>
 
-    Version of the framework the project is using.
+</details>
 
-  - `latest_deployment: Deployment`
+<a href="#">Link to this property</a>
 
-    Most recent deployment of the project.
+<details>
 
-  - `name: string`
+<summary>
 
-    Name of the project.
+stages: array of <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20stage%20%3E%20(schema)">Stage</a> { ended\_on, name, started\_on, status }
 
-  - `preview_script_name: string`
+List of past stages.
 
-    Name of the preview script.
+</summary>
 
-  - `production_branch: string`
+ended\_on: string
 
-    Production branch of the project. Used to identify production deployments.
+When the stage ended.
 
-  - `production_script_name: string`
+formatdate-time
 
-    Name of the production script.
+<a href="#">Link to this property</a>
 
-  - `uses_functions: boolean`
+<details>
 
-    Whether the project uses functions.
+<summary>
 
-  - `build_config: optional object { web_analytics_tag, web_analytics_token, build_caching, 3 more }`
+name: "queued"or "initialize"or "clone\_repo"or 2 more
 
-    Configs for the project build process.
+The current build stage.
 
-    - `web_analytics_tag: string`
+</summary>
 
-      The classifying tag for analytics.
+One of the following:
 
-    - `web_analytics_token: string`
+"queued"
 
-      The auth token for analytics.
+<a href="#">Link to this property</a>
 
-    - `build_caching: optional boolean`
+"initialize"
 
-      Enable build caching for the project.
+<a href="#">Link to this property</a>
 
-    - `build_command: optional string`
+"clone\_repo"
 
-      Command used to build project.
+<a href="#">Link to this property</a>
 
-    - `destination_dir: optional string`
+"build"
 
-      Assets output directory of the build.
+<a href="#">Link to this property</a>
 
-    - `root_dir: optional string`
+"deploy"
 
-      Directory to run the command.
+<a href="#">Link to this property</a>
 
-  - `domains: optional array of string`
+</details>
 
-    A list of associated custom domains for the project.
+<a href="#">Link to this property</a>
 
-  - `source: optional object { config, type }`
+started\_on: string
 
-    Configs for the project source control.
+When the stage started.
 
-    - `config: object { deployments_enabled, owner, owner_id, 10 more }`
+formatdate-time
 
-      - `deployments_enabled: boolean`
+<a href="#">Link to this property</a>
 
-        Whether to enable automatic deployments when pushing to the source repository.
-        When disabled, no deployments (production or preview) will be triggered automatically.
+<details>
 
-      - `owner: string`
+<summary>
 
-        The owner of the repository.
+status: "success"or "idle"or "active"or 2 more
 
-      - `owner_id: string`
+State of the current stage.
 
-        The owner ID of the repository.
+</summary>
 
-      - `path_excludes: array of string`
+One of the following:
 
-        A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported.
+"success"
 
-      - `path_includes: array of string`
+<a href="#">Link to this property</a>
 
-        A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported.
+"idle"
 
-      - `pr_comments_enabled: boolean`
+<a href="#">Link to this property</a>
 
-        Whether to enable PR comments.
+"active"
 
-      - `preview_branch_excludes: array of string`
+<a href="#">Link to this property</a>
 
-        A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`.
+"failure"
 
-      - `preview_branch_includes: array of string`
+<a href="#">Link to this property</a>
 
-        A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`.
+"canceled"
 
-      - `preview_deployment_setting: "all" or "none" or "custom"`
+<a href="#">Link to this property</a>
 
-        Controls whether commits to preview branches trigger a preview deployment.
+</details>
 
-        - `"all"`
+<a href="#">Link to this property</a>
 
-        - `"none"`
+</details>
 
-        - `"custom"`
+<a href="#">Link to this property</a>
 
-      - `production_branch: string`
+url: string
 
-        The production branch of the repository.
+The live URL to view this deployment.
 
-      - `production_deployments_enabled: boolean`
+<a href="#">Link to this property</a>
 
-        Whether to trigger a production deployment on commits to the production branch.
+<details>
 
-      - `repo_id: string`
+<summary>
 
-        The ID of the repository.
+skip\_reason: optional "commit\_message"or "preview\_deployments\_disabled"or "production\_deployments\_disabled"or 3 more
 
-      - `repo_name: string`
+Why the deployment was skipped.
 
-        The name of the repository.
+</summary>
 
-    - `type: "github" or "gitlab"`
+One of the following:
 
-      The source control management provider.
+"commit\_message"
 
-      - `"github"`
+<a href="#">Link to this property</a>
 
-      - `"gitlab"`
+"preview\_deployments\_disabled"
 
-  - `subdomain: optional string`
+<a href="#">Link to this property</a>
 
-    The Cloudflare subdomain associated with the project.
+"production\_deployments\_disabled"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"path\_config"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+"branch\_config"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+"pages\_to\_workers\_conversion"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+uses\_functions: optional boolean
 
-  - `total_count: optional number`
+Whether the deployment uses functions.
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+</details>
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+created\_on: string
 
-```http
+When the project was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+deployment\_configs: object {preview, production }
+
+Configs for deployments in a project.
+
+</summary>
+
+<details>
+
+<summary>
+
+preview: object {always\_use\_latest\_compatibility\_date, build\_image\_major\_version, compatibility\_date, 19 more }
+
+Configs for preview deploys.
+
+</summary>
+
+always\_use\_latest\_compatibility\_date: boolean
+
+Whether to always use the latest compatibility date for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+build\_image\_major\_version: number
+
+The major version of the build image to use for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+compatibility\_date: string
+
+Compatibility date used for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+compatibility\_flags: array of string
+
+Compatibility flags used for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+env\_vars: map\[object {type, value } or object {type, value } ]
+
+Environment variables used for builds and Pages Functions.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+PlainText object {type, value }
+
+A plaintext environment variable.
+
+</summary>
+
+type: "plain\_text"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Environment variable value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SecretText object {type, value }
+
+An encrypted environment variable.
+
+</summary>
+
+type: "secret\_text"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Secret value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+fail\_open: boolean
+
+Whether to fail open when the deployment config cannot be applied.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedusage\_model: "standard"or "bundled"or "unbound"
+
+All new projects now use the Standard usage model.
+
+The usage model for Pages Functions.
+
+</summary>
+
+One of the following:
+
+"standard"
+
+<a href="#">Link to this property</a>
+
+"bundled"
+
+<a href="#">Link to this property</a>
+
+"unbound"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_bindings: optional map\[object {project\_id } ]
+
+Constellation bindings used for Pages Functions.
+
+</summary>
+
+project\_id: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+analytics\_engine\_datasets: optional map\[object {dataset } ]
+
+Analytics Engine bindings used for Pages Functions.
+
+</summary>
+
+dataset: string
+
+Name of the dataset.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+browsers: optional map\[object {} ]
+
+Browser bindings used for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+d1\_databases: optional map\[object {id } ]
+
+D1 databases used for Pages Functions.
+
+</summary>
+
+id: string
+
+UUID of the D1 database.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+durable\_object\_namespaces: optional map\[object {namespace\_id } ]
+
+Durable Object namespaces used for Pages Functions.
+
+</summary>
+
+namespace\_id: string
+
+ID of the Durable Object namespace.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+hyperdrive\_bindings: optional map\[object {id } ]
+
+Hyperdrive bindings used for Pages Functions.
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kv\_namespaces: optional map\[object {namespace\_id } ]
+
+KV namespaces used for Pages Functions.
+
+</summary>
+
+namespace\_id: string
+
+ID of the KV namespace.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+limits: optional object {cpu\_ms }
+
+Limits for Pages Functions.
+
+</summary>
+
+cpu\_ms: number
+
+CPU time limit in milliseconds.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mtls\_certificates: optional map\[object {certificate\_id } ]
+
+mTLS bindings used for Pages Functions.
+
+</summary>
+
+certificate\_id: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+placement: optional object {mode }
+
+Placement setting used for Pages Functions.
+
+</summary>
+
+mode: string
+
+Placement mode.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+queue\_producers: optional map\[object {name } ]
+
+Queue Producer bindings used for Pages Functions.
+
+</summary>
+
+name: string
+
+Name of the Queue.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+r2\_buckets: optional map\[object {name, jurisdiction } ]
+
+R2 buckets used for Pages Functions.
+
+</summary>
+
+name: string
+
+Name of the R2 bucket.
+
+<a href="#">Link to this property</a>
+
+jurisdiction: optional string
+
+Jurisdiction of the R2 bucket.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+services: optional map\[object {environment, service, entrypoint } ]
+
+Services used for Pages Functions.
+
+</summary>
+
+environment: string
+
+The Service environment.
+
+<a href="#">Link to this property</a>
+
+service: string
+
+The Service name.
+
+<a href="#">Link to this property</a>
+
+entrypoint: optional string
+
+The entrypoint to bind to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vectorize\_bindings: optional map\[object {index\_name } ]
+
+Vectorize bindings used for Pages Functions.
+
+</summary>
+
+index\_name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+wrangler\_config\_hash: optional string
+
+Hash of the Wrangler configuration used for the deployment.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+production: object {always\_use\_latest\_compatibility\_date, build\_image\_major\_version, compatibility\_date, 19 more }
+
+Configs for production deploys.
+
+</summary>
+
+always\_use\_latest\_compatibility\_date: boolean
+
+Whether to always use the latest compatibility date for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+build\_image\_major\_version: number
+
+The major version of the build image to use for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+compatibility\_date: string
+
+Compatibility date used for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+compatibility\_flags: array of string
+
+Compatibility flags used for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+env\_vars: map\[object {type, value } or object {type, value } ]
+
+Environment variables used for builds and Pages Functions.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+PlainText object {type, value }
+
+A plaintext environment variable.
+
+</summary>
+
+type: "plain\_text"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Environment variable value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SecretText object {type, value }
+
+An encrypted environment variable.
+
+</summary>
+
+type: "secret\_text"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Secret value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+fail\_open: boolean
+
+Whether to fail open when the deployment config cannot be applied.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedusage\_model: "standard"or "bundled"or "unbound"
+
+All new projects now use the Standard usage model.
+
+The usage model for Pages Functions.
+
+</summary>
+
+One of the following:
+
+"standard"
+
+<a href="#">Link to this property</a>
+
+"bundled"
+
+<a href="#">Link to this property</a>
+
+"unbound"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_bindings: optional map\[object {project\_id } ]
+
+Constellation bindings used for Pages Functions.
+
+</summary>
+
+project\_id: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+analytics\_engine\_datasets: optional map\[object {dataset } ]
+
+Analytics Engine bindings used for Pages Functions.
+
+</summary>
+
+dataset: string
+
+Name of the dataset.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+browsers: optional map\[object {} ]
+
+Browser bindings used for Pages Functions.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+d1\_databases: optional map\[object {id } ]
+
+D1 databases used for Pages Functions.
+
+</summary>
+
+id: string
+
+UUID of the D1 database.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+durable\_object\_namespaces: optional map\[object {namespace\_id } ]
+
+Durable Object namespaces used for Pages Functions.
+
+</summary>
+
+namespace\_id: string
+
+ID of the Durable Object namespace.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+hyperdrive\_bindings: optional map\[object {id } ]
+
+Hyperdrive bindings used for Pages Functions.
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kv\_namespaces: optional map\[object {namespace\_id } ]
+
+KV namespaces used for Pages Functions.
+
+</summary>
+
+namespace\_id: string
+
+ID of the KV namespace.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+limits: optional object {cpu\_ms }
+
+Limits for Pages Functions.
+
+</summary>
+
+cpu\_ms: number
+
+CPU time limit in milliseconds.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mtls\_certificates: optional map\[object {certificate\_id } ]
+
+mTLS bindings used for Pages Functions.
+
+</summary>
+
+certificate\_id: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+placement: optional object {mode }
+
+Placement setting used for Pages Functions.
+
+</summary>
+
+mode: string
+
+Placement mode.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+queue\_producers: optional map\[object {name } ]
+
+Queue Producer bindings used for Pages Functions.
+
+</summary>
+
+name: string
+
+Name of the Queue.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+r2\_buckets: optional map\[object {name, jurisdiction } ]
+
+R2 buckets used for Pages Functions.
+
+</summary>
+
+name: string
+
+Name of the R2 bucket.
+
+<a href="#">Link to this property</a>
+
+jurisdiction: optional string
+
+Jurisdiction of the R2 bucket.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+services: optional map\[object {environment, service, entrypoint } ]
+
+Services used for Pages Functions.
+
+</summary>
+
+environment: string
+
+The Service environment.
+
+<a href="#">Link to this property</a>
+
+service: string
+
+The Service name.
+
+<a href="#">Link to this property</a>
+
+entrypoint: optional string
+
+The entrypoint to bind to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vectorize\_bindings: optional map\[object {index\_name } ]
+
+Vectorize bindings used for Pages Functions.
+
+</summary>
+
+index\_name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+wrangler\_config\_hash: optional string
+
+Hash of the Wrangler configuration used for the deployment.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+framework: string
+
+Framework the project is using.
+
+<a href="#">Link to this property</a>
+
+framework\_version: string
+
+Version of the framework the project is using.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+latest\_deployment: <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20deployment%20%3E%20(schema)">Deployment</a> { id, aliases, build\_config, 15 more }
+
+Most recent deployment of the project.
+
+</summary>
+
+id: string
+
+Id of the deployment.
+
+<a href="#">Link to this property</a>
+
+aliases: array of string
+
+A list of alias URLs pointing to this deployment.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+build\_config: object {web\_analytics\_tag, web\_analytics\_token, build\_caching, 3 more }
+
+Configs for the project build process.
+
+</summary>
+
+web\_analytics\_tag: string
+
+The classifying tag for analytics.
+
+<a href="#">Link to this property</a>
+
+web\_analytics\_token: string
+
+The auth token for analytics.
+
+<a href="#">Link to this property</a>
+
+build\_caching: optional boolean
+
+Enable build caching for the project.
+
+<a href="#">Link to this property</a>
+
+build\_command: optional string
+
+Command used to build project.
+
+<a href="#">Link to this property</a>
+
+destination\_dir: optional string
+
+Assets output directory of the build.
+
+<a href="#">Link to this property</a>
+
+root\_dir: optional string
+
+Directory to run the command.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+When the deployment was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+deployment\_trigger: object {metadata, type }
+
+Info about what caused the deployment.
+
+</summary>
+
+<details>
+
+<summary>
+
+metadata: object {branch, commit\_dirty, commit\_hash, commit\_message }
+
+Additional info about the trigger.
+
+</summary>
+
+branch: string
+
+Where the trigger happened.
+
+<a href="#">Link to this property</a>
+
+commit\_dirty: boolean
+
+Whether the deployment trigger commit was dirty.
+
+<a href="#">Link to this property</a>
+
+commit\_hash: string
+
+Hash of the deployment trigger commit.
+
+<a href="#">Link to this property</a>
+
+commit\_message: string
+
+Message of the deployment trigger commit.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "github:push"or "ad\_hoc"or "deploy\_hook"
+
+What caused the deployment.
+
+</summary>
+
+One of the following:
+
+"github:push"
+
+<a href="#">Link to this property</a>
+
+"ad\_hoc"
+
+<a href="#">Link to this property</a>
+
+"deploy\_hook"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+env\_vars: map\[object {type, value } or object {type, value } ]
+
+Environment variables used for builds and Pages Functions.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+PlainText object {type, value }
+
+A plaintext environment variable.
+
+</summary>
+
+type: "plain\_text"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Environment variable value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SecretText object {type, value }
+
+An encrypted environment variable.
+
+</summary>
+
+type: "secret\_text"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Secret value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+environment: "preview"or "production"
+
+Type of deploy.
+
+</summary>
+
+One of the following:
+
+"preview"
+
+<a href="#">Link to this property</a>
+
+"production"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+is\_skipped: boolean
+
+If the deployment has been skipped.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+latest\_stage: <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20stage%20%3E%20(schema)">Stage</a> { ended\_on, name, started\_on, status }
+
+The status of the deployment.
+
+</summary>
+
+ended\_on: string
+
+When the stage ended.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+name: "queued"or "initialize"or "clone\_repo"or 2 more
+
+The current build stage.
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"initialize"
+
+<a href="#">Link to this property</a>
+
+"clone\_repo"
+
+<a href="#">Link to this property</a>
+
+"build"
+
+<a href="#">Link to this property</a>
+
+"deploy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+started\_on: string
+
+When the stage started.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "success"or "idle"or "active"or 2 more
+
+State of the current stage.
+
+</summary>
+
+One of the following:
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"idle"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"failure"
+
+<a href="#">Link to this property</a>
+
+"canceled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+When the deployment was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+project\_id: string
+
+Id of the project.
+
+<a href="#">Link to this property</a>
+
+project\_name: string
+
+Name of the project.
+
+<a href="#">Link to this property</a>
+
+short\_id: string
+
+Short Id (8 character) of the deployment.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: object {config, type }
+
+Configs for the project source control.
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {deployments\_enabled, owner, owner\_id, 10 more }
+
+</summary>
+
+Deprecateddeployments\_enabled: boolean
+
+Use <code>production_deployments_enabled</code> and <code>preview_deployment_setting</code> for more granular control.
+
+Whether to enable automatic deployments when pushing to the source repository. When disabled, no deployments (production or preview) will be triggered automatically.
+
+<a href="#">Link to this property</a>
+
+owner: string
+
+The owner of the repository.
+
+<a href="#">Link to this property</a>
+
+owner\_id: string
+
+The owner ID of the repository.
+
+<a href="#">Link to this property</a>
+
+path\_excludes: array of string
+
+A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (<code>*</code>) is supported.
+
+<a href="#">Link to this property</a>
+
+path\_includes: array of string
+
+A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported.
+
+<a href="#">Link to this property</a>
+
+pr\_comments\_enabled: boolean
+
+Whether to enable PR comments.
+
+<a href="#">Link to this property</a>
+
+preview\_branch\_excludes: array of string
+
+A list of branches that should not trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported. Must be used with <code>preview_deployment_setting</code> set to <code>custom</code>.
+
+<a href="#">Link to this property</a>
+
+preview\_branch\_includes: array of string
+
+A list of branches that should trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported. Must be used with <code>preview_deployment_setting</code> set to <code>custom</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+preview\_deployment\_setting: "all"or "none"or "custom"
+
+Controls whether commits to preview branches trigger a preview deployment.
+
+</summary>
+
+One of the following:
+
+"all"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"custom"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+production\_branch: string
+
+The production branch of the repository.
+
+<a href="#">Link to this property</a>
+
+production\_deployments\_enabled: boolean
+
+Whether to trigger a production deployment on commits to the production branch.
+
+<a href="#">Link to this property</a>
+
+repo\_id: string
+
+The ID of the repository.
+
+<a href="#">Link to this property</a>
+
+repo\_name: string
+
+The name of the repository.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "github"or "gitlab"
+
+The source control management provider.
+
+</summary>
+
+One of the following:
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"gitlab"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stages: array of <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20stage%20%3E%20(schema)">Stage</a> { ended\_on, name, started\_on, status }
+
+List of past stages.
+
+</summary>
+
+ended\_on: string
+
+When the stage ended.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+name: "queued"or "initialize"or "clone\_repo"or 2 more
+
+The current build stage.
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"initialize"
+
+<a href="#">Link to this property</a>
+
+"clone\_repo"
+
+<a href="#">Link to this property</a>
+
+"build"
+
+<a href="#">Link to this property</a>
+
+"deploy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+started\_on: string
+
+When the stage started.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "success"or "idle"or "active"or 2 more
+
+State of the current stage.
+
+</summary>
+
+One of the following:
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"idle"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"failure"
+
+<a href="#">Link to this property</a>
+
+"canceled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: string
+
+The live URL to view this deployment.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+skip\_reason: optional "commit\_message"or "preview\_deployments\_disabled"or "production\_deployments\_disabled"or 3 more
+
+Why the deployment was skipped.
+
+</summary>
+
+One of the following:
+
+"commit\_message"
+
+<a href="#">Link to this property</a>
+
+"preview\_deployments\_disabled"
+
+<a href="#">Link to this property</a>
+
+"production\_deployments\_disabled"
+
+<a href="#">Link to this property</a>
+
+"path\_config"
+
+<a href="#">Link to this property</a>
+
+"branch\_config"
+
+<a href="#">Link to this property</a>
+
+"pages\_to\_workers\_conversion"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uses\_functions: optional boolean
+
+Whether the deployment uses functions.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the project.
+
+<a href="#">Link to this property</a>
+
+preview\_script\_name: string
+
+Name of the preview script.
+
+<a href="#">Link to this property</a>
+
+production\_branch: string
+
+Production branch of the project. Used to identify production deployments.
+
+<a href="#">Link to this property</a>
+
+production\_script\_name: string
+
+Name of the production script.
+
+<a href="#">Link to this property</a>
+
+uses\_functions: boolean
+
+Whether the project uses functions.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+build\_config: optional object {web\_analytics\_tag, web\_analytics\_token, build\_caching, 3 more }
+
+Configs for the project build process.
+
+</summary>
+
+web\_analytics\_tag: string
+
+The classifying tag for analytics.
+
+<a href="#">Link to this property</a>
+
+web\_analytics\_token: string
+
+The auth token for analytics.
+
+<a href="#">Link to this property</a>
+
+build\_caching: optional boolean
+
+Enable build caching for the project.
+
+<a href="#">Link to this property</a>
+
+build\_command: optional string
+
+Command used to build project.
+
+<a href="#">Link to this property</a>
+
+destination\_dir: optional string
+
+Assets output directory of the build.
+
+<a href="#">Link to this property</a>
+
+root\_dir: optional string
+
+Directory to run the command.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domains: optional array of string
+
+A list of associated custom domains for the project.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {config, type }
+
+Configs for the project source control.
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {deployments\_enabled, owner, owner\_id, 10 more }
+
+</summary>
+
+Deprecateddeployments\_enabled: boolean
+
+Use <code>production_deployments_enabled</code> and <code>preview_deployment_setting</code> for more granular control.
+
+Whether to enable automatic deployments when pushing to the source repository. When disabled, no deployments (production or preview) will be triggered automatically.
+
+<a href="#">Link to this property</a>
+
+owner: string
+
+The owner of the repository.
+
+<a href="#">Link to this property</a>
+
+owner\_id: string
+
+The owner ID of the repository.
+
+<a href="#">Link to this property</a>
+
+path\_excludes: array of string
+
+A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (<code>*</code>) is supported.
+
+<a href="#">Link to this property</a>
+
+path\_includes: array of string
+
+A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported.
+
+<a href="#">Link to this property</a>
+
+pr\_comments\_enabled: boolean
+
+Whether to enable PR comments.
+
+<a href="#">Link to this property</a>
+
+preview\_branch\_excludes: array of string
+
+A list of branches that should not trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported. Must be used with <code>preview_deployment_setting</code> set to <code>custom</code>.
+
+<a href="#">Link to this property</a>
+
+preview\_branch\_includes: array of string
+
+A list of branches that should trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported. Must be used with <code>preview_deployment_setting</code> set to <code>custom</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+preview\_deployment\_setting: "all"or "none"or "custom"
+
+Controls whether commits to preview branches trigger a preview deployment.
+
+</summary>
+
+One of the following:
+
+"all"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"custom"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+production\_branch: string
+
+The production branch of the repository.
+
+<a href="#">Link to this property</a>
+
+production\_deployments\_enabled: boolean
+
+Whether to trigger a production deployment on commits to the production branch.
+
+<a href="#">Link to this property</a>
+
+repo\_id: string
+
+The ID of the repository.
+
+<a href="#">Link to this property</a>
+
+repo\_name: string
+
+The name of the repository.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "github"or "gitlab"
+
+The source control management provider.
+
+</summary>
+
+One of the following:
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"gitlab"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+subdomain: optional string
+
+The Cloudflare subdomain associated with the project.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pages.projects%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20pages.projects%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pages.projects%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get projects
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -994,6 +2874,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects \
           }
         ],
         "url": "https://f64788e9.ninjakittens.pages.dev",
+        "skip_reason": "commit_message",
         "uses_functions": true
       },
       "created_on": "2017-01-01T00:00:00Z",
@@ -1001,7 +2882,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects \
         "preview": {
           "always_use_latest_compatibility_date": false,
           "build_image_major_version": 3,
-          "compatibility_date": "2025-01-01",
+          "compatibility_date": "2025-01-01T00:00:00Z",
           "compatibility_flags": [
             "url_standard"
           ],
@@ -1085,7 +2966,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects \
         "production": {
           "always_use_latest_compatibility_date": false,
           "build_image_major_version": 3,
-          "compatibility_date": "2025-01-01",
+          "compatibility_date": "2025-01-01T00:00:00Z",
           "compatibility_flags": [
             "url_standard"
           ],
@@ -1269,6 +3150,472 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects \
           }
         ],
         "url": "https://f64788e9.ninjakittens.pages.dev",
+        "skip_reason": "commit_message",
+        "uses_functions": true
+      },
+      "name": "this-is-my-project-01",
+      "preview_script_name": "pages-worker--1234567-preview",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--1234567-production",
+      "uses_functions": true,
+      "build_config": {
+        "web_analytics_tag": "cee1c73f6e4743d0b5e6bb1a0bcaabcc",
+        "web_analytics_token": "021e1057c18547eca7b79f2516f06o7x",
+        "build_caching": true,
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "root_dir": "/"
+      },
+      "domains": [
+        "customdomain.com",
+        "customdomain.org"
+      ],
+      "source": {
+        "config": {
+          "deployments_enabled": true,
+          "owner": "my-org",
+          "owner_id": "12345678",
+          "path_excludes": [
+            "string"
+          ],
+          "path_includes": [
+            "string"
+          ],
+          "pr_comments_enabled": true,
+          "preview_branch_excludes": [
+            "string"
+          ],
+          "preview_branch_includes": [
+            "string"
+          ],
+          "preview_deployment_setting": "all",
+          "production_branch": "main",
+          "production_deployments_enabled": true,
+          "repo_id": "12345678",
+          "repo_name": "my-repo"
+        },
+        "type": "github"
+      },
+      "subdomain": "helloworld.pages.dev"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "7b162ea7-7367-4d67-bcde-1160995d5",
+      "canonical_deployment": {
+        "id": "f64788e9-fccd-4d4a-a28a-cb84f88f6",
+        "aliases": [
+          "https://branchname.projectname.pages.dev"
+        ],
+        "build_config": {
+          "web_analytics_tag": "cee1c73f6e4743d0b5e6bb1a0bcaabcc",
+          "web_analytics_token": "021e1057c18547eca7b79f2516f06o7x",
+          "build_caching": true,
+          "build_command": "npm run build",
+          "destination_dir": "build",
+          "root_dir": "/"
+        },
+        "created_on": "2021-03-09T00:55:03.923456Z",
+        "deployment_trigger": {
+          "metadata": {
+            "branch": "main",
+            "commit_dirty": false,
+            "commit_hash": "ad9ccd918a81025731e10e40267e11273a263421",
+            "commit_message": "Update index.html"
+          },
+          "type": "ad_hoc"
+        },
+        "env_vars": {
+          "foo": {
+            "type": "plain_text",
+            "value": "hello world"
+          }
+        },
+        "environment": "preview",
+        "is_skipped": true,
+        "latest_stage": {
+          "ended_on": "2021-03-09T00:58:59.045655Z",
+          "name": "deploy",
+          "started_on": "2021-03-09T00:55:03.923456Z",
+          "status": "success"
+        },
+        "modified_on": "2021-03-09T00:58:59.045655Z",
+        "project_id": "7b162ea7-7367-4d67-bcde-1160995d5",
+        "project_name": "this-is-my-project-01",
+        "short_id": "f64788e9",
+        "source": {
+          "config": {
+            "deployments_enabled": true,
+            "owner": "my-org",
+            "owner_id": "12345678",
+            "path_excludes": [
+              "string"
+            ],
+            "path_includes": [
+              "string"
+            ],
+            "pr_comments_enabled": true,
+            "preview_branch_excludes": [
+              "string"
+            ],
+            "preview_branch_includes": [
+              "string"
+            ],
+            "preview_deployment_setting": "all",
+            "production_branch": "main",
+            "production_deployments_enabled": true,
+            "repo_id": "12345678",
+            "repo_name": "my-repo"
+          },
+          "type": "github"
+        },
+        "stages": [
+          {
+            "ended_on": "2021-06-03T15:39:03.134378Z",
+            "name": "queued",
+            "started_on": "2021-06-03T15:38:15.608194Z",
+            "status": "active"
+          },
+          {
+            "ended_on": null,
+            "name": "initialize",
+            "started_on": null,
+            "status": "idle"
+          },
+          {
+            "ended_on": null,
+            "name": "clone_repo",
+            "started_on": null,
+            "status": "idle"
+          },
+          {
+            "ended_on": null,
+            "name": "build",
+            "started_on": null,
+            "status": "idle"
+          },
+          {
+            "ended_on": null,
+            "name": "deploy",
+            "started_on": null,
+            "status": "idle"
+          }
+        ],
+        "url": "https://f64788e9.ninjakittens.pages.dev",
+        "skip_reason": "commit_message",
+        "uses_functions": true
+      },
+      "created_on": "2017-01-01T00:00:00Z",
+      "deployment_configs": {
+        "preview": {
+          "always_use_latest_compatibility_date": false,
+          "build_image_major_version": 3,
+          "compatibility_date": "2025-01-01T00:00:00Z",
+          "compatibility_flags": [
+            "url_standard"
+          ],
+          "env_vars": {
+            "foo": {
+              "type": "plain_text",
+              "value": "hello world"
+            }
+          },
+          "fail_open": true,
+          "usage_model": "standard",
+          "ai_bindings": {
+            "AI_BINDING": {
+              "project_id": "some-project-id"
+            }
+          },
+          "analytics_engine_datasets": {
+            "ANALYTICS_ENGINE_BINDING": {
+              "dataset": "api_analytics"
+            }
+          },
+          "browsers": {
+            "BROWSER": {}
+          },
+          "d1_databases": {
+            "D1_BINDING": {
+              "id": "445e2955-951a-43f8-a35b-a4d0c8138f63"
+            }
+          },
+          "durable_object_namespaces": {
+            "DO_BINDING": {
+              "namespace_id": "5eb63bbbe01eeed093cb22bb8f5acdc3"
+            }
+          },
+          "hyperdrive_bindings": {
+            "HYPERDRIVE": {
+              "id": "a76a99bc342644deb02c38d66082262a"
+            }
+          },
+          "kv_namespaces": {
+            "KV_BINDING": {
+              "namespace_id": "5eb63bbbe01eeed093cb22bb8f5acdc3"
+            }
+          },
+          "limits": {
+            "cpu_ms": 100
+          },
+          "mtls_certificates": {
+            "MTLS": {
+              "certificate_id": "d7cdd17c-916f-4cb7-aabe-585eb382ec4e"
+            }
+          },
+          "placement": {
+            "mode": "smart"
+          },
+          "queue_producers": {
+            "QUEUE_PRODUCER_BINDING": {
+              "name": "some-queue"
+            }
+          },
+          "r2_buckets": {
+            "R2_BINDING": {
+              "name": "some-bucket",
+              "jurisdiction": "eu"
+            }
+          },
+          "services": {
+            "SERVICE_BINDING": {
+              "environment": "production",
+              "service": "example-worker",
+              "entrypoint": "MyHandler"
+            }
+          },
+          "vectorize_bindings": {
+            "VECTORIZE": {
+              "index_name": "my_index"
+            }
+          },
+          "wrangler_config_hash": "abc123def456"
+        },
+        "production": {
+          "always_use_latest_compatibility_date": false,
+          "build_image_major_version": 3,
+          "compatibility_date": "2025-01-01T00:00:00Z",
+          "compatibility_flags": [
+            "url_standard"
+          ],
+          "env_vars": {
+            "foo": {
+              "type": "plain_text",
+              "value": "hello world"
+            }
+          },
+          "fail_open": true,
+          "usage_model": "standard",
+          "ai_bindings": {
+            "AI_BINDING": {
+              "project_id": "some-project-id"
+            }
+          },
+          "analytics_engine_datasets": {
+            "ANALYTICS_ENGINE_BINDING": {
+              "dataset": "api_analytics"
+            }
+          },
+          "browsers": {
+            "BROWSER": {}
+          },
+          "d1_databases": {
+            "D1_BINDING": {
+              "id": "445e2955-951a-43f8-a35b-a4d0c8138f63"
+            }
+          },
+          "durable_object_namespaces": {
+            "DO_BINDING": {
+              "namespace_id": "5eb63bbbe01eeed093cb22bb8f5acdc3"
+            }
+          },
+          "hyperdrive_bindings": {
+            "HYPERDRIVE": {
+              "id": "a76a99bc342644deb02c38d66082262a"
+            }
+          },
+          "kv_namespaces": {
+            "KV_BINDING": {
+              "namespace_id": "5eb63bbbe01eeed093cb22bb8f5acdc3"
+            }
+          },
+          "limits": {
+            "cpu_ms": 100
+          },
+          "mtls_certificates": {
+            "MTLS": {
+              "certificate_id": "d7cdd17c-916f-4cb7-aabe-585eb382ec4e"
+            }
+          },
+          "placement": {
+            "mode": "smart"
+          },
+          "queue_producers": {
+            "QUEUE_PRODUCER_BINDING": {
+              "name": "some-queue"
+            }
+          },
+          "r2_buckets": {
+            "R2_BINDING": {
+              "name": "some-bucket",
+              "jurisdiction": "eu"
+            }
+          },
+          "services": {
+            "SERVICE_BINDING": {
+              "environment": "production",
+              "service": "example-worker",
+              "entrypoint": "MyHandler"
+            }
+          },
+          "vectorize_bindings": {
+            "VECTORIZE": {
+              "index_name": "my_index"
+            }
+          },
+          "wrangler_config_hash": "abc123def456"
+        }
+      },
+      "framework": "framework",
+      "framework_version": "framework_version",
+      "latest_deployment": {
+        "id": "f64788e9-fccd-4d4a-a28a-cb84f88f6",
+        "aliases": [
+          "https://branchname.projectname.pages.dev"
+        ],
+        "build_config": {
+          "web_analytics_tag": "cee1c73f6e4743d0b5e6bb1a0bcaabcc",
+          "web_analytics_token": "021e1057c18547eca7b79f2516f06o7x",
+          "build_caching": true,
+          "build_command": "npm run build",
+          "destination_dir": "build",
+          "root_dir": "/"
+        },
+        "created_on": "2021-03-09T00:55:03.923456Z",
+        "deployment_trigger": {
+          "metadata": {
+            "branch": "main",
+            "commit_dirty": false,
+            "commit_hash": "ad9ccd918a81025731e10e40267e11273a263421",
+            "commit_message": "Update index.html"
+          },
+          "type": "ad_hoc"
+        },
+        "env_vars": {
+          "foo": {
+            "type": "plain_text",
+            "value": "hello world"
+          }
+        },
+        "environment": "preview",
+        "is_skipped": true,
+        "latest_stage": {
+          "ended_on": "2021-03-09T00:58:59.045655Z",
+          "name": "deploy",
+          "started_on": "2021-03-09T00:55:03.923456Z",
+          "status": "success"
+        },
+        "modified_on": "2021-03-09T00:58:59.045655Z",
+        "project_id": "7b162ea7-7367-4d67-bcde-1160995d5",
+        "project_name": "this-is-my-project-01",
+        "short_id": "f64788e9",
+        "source": {
+          "config": {
+            "deployments_enabled": true,
+            "owner": "my-org",
+            "owner_id": "12345678",
+            "path_excludes": [
+              "string"
+            ],
+            "path_includes": [
+              "string"
+            ],
+            "pr_comments_enabled": true,
+            "preview_branch_excludes": [
+              "string"
+            ],
+            "preview_branch_includes": [
+              "string"
+            ],
+            "preview_deployment_setting": "all",
+            "production_branch": "main",
+            "production_deployments_enabled": true,
+            "repo_id": "12345678",
+            "repo_name": "my-repo"
+          },
+          "type": "github"
+        },
+        "stages": [
+          {
+            "ended_on": "2021-06-03T15:39:03.134378Z",
+            "name": "queued",
+            "started_on": "2021-06-03T15:38:15.608194Z",
+            "status": "active"
+          },
+          {
+            "ended_on": null,
+            "name": "initialize",
+            "started_on": null,
+            "status": "idle"
+          },
+          {
+            "ended_on": null,
+            "name": "clone_repo",
+            "started_on": null,
+            "status": "idle"
+          },
+          {
+            "ended_on": null,
+            "name": "build",
+            "started_on": null,
+            "status": "idle"
+          },
+          {
+            "ended_on": null,
+            "name": "deploy",
+            "started_on": null,
+            "status": "idle"
+          }
+        ],
+        "url": "https://f64788e9.ninjakittens.pages.dev",
+        "skip_reason": "commit_message",
         "uses_functions": true
       },
       "name": "this-is-my-project-01",

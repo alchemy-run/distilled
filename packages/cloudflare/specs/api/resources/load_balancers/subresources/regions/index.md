@@ -1,316 +1,75 @@
+---
+title: Regions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Regions
 
-## List Regions
+##### [List Regions](https://developers.cloudflare.com/api/resources/load_balancers/subresources/regions/methods/list)
 
-**get** `/accounts/{account_id}/load_balancers/regions`
+GET/accounts/{account\_id}/load\_balancers/regions
 
-List all region mappings.
+##### [Get Region](https://developers.cloudflare.com/api/resources/load_balancers/subresources/regions/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/load\_balancers/regions/{region\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Query Parameters
+<summary>
 
-- `country_code_a2: optional string`
+RegionListResponse = unknownor string
 
-  Two-letter alpha-2 country code followed in ISO 3166-1.
+</summary>
 
-- `subdivision_code: optional string`
+One of the following:
 
-  Two-letter subdivision code followed in ISO 3166-2.
+unknown
 
-- `subdivision_code_a2: optional string`
+<a href="#">Link to this property</a>
 
-  Two-letter subdivision code followed in ISO 3166-2.
+string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20load_balancers.regions%20%3E%20(model)%20region_list_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+RegionGetResponse = unknownor string
 
-    - `pointer: optional string`
+A list of countries and subdivisions mapped to a region.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+unknown
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+string
 
-- `result: unknown or string`
+<a href="#">Link to this property</a>
 
-  - `unknown`
+</details>
 
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Get Region
-
-**get** `/accounts/{account_id}/load_balancers/regions/{region_id}`
-
-Get a single region mapping.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `region_id: "WNAM" or "ENAM" or "WEU" or 10 more`
-
-  A list of Cloudflare regions. WNAM: Western North America, ENAM: Eastern North America, WEU: Western Europe, EEU: Eastern Europe, NSAM: Northern South America, SSAM: Southern South America, OC: Oceania, ME: Middle East, NAF: North Africa, SAF: South Africa, SAS: Southern Asia, SEAS: South East Asia, NEAS: North East Asia).
-
-  - `"WNAM"`
-
-  - `"ENAM"`
-
-  - `"WEU"`
-
-  - `"EEU"`
-
-  - `"NSAM"`
-
-  - `"SSAM"`
-
-  - `"OC"`
-
-  - `"ME"`
-
-  - `"NAF"`
-
-  - `"SAF"`
-
-  - `"SAS"`
-
-  - `"SEAS"`
-
-  - `"NEAS"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  A list of countries and subdivisions mapped to a region.
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/regions/$REGION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "iso_standard": "Country and subdivision codes follow ISO 3166-1 alpha-2 and ISO 3166-2",
-    "regions": [
-      {
-        "countries": [
-          {
-            "country_code_a2": "CA",
-            "country_name": "Canada",
-            "country_subdivisions": [
-              {
-                "subdivision_code_a2": "AB",
-                "subdivision_name": "Alberta"
-              },
-              {
-                "subdivision_code_a2": "BC",
-                "subdivision_name": "British Columbia"
-              }
-            ]
-          },
-          {
-            "country_code_a2": "HT",
-            "country_name": "Haiti"
-          },
-          {
-            "country_code_a2": "MX",
-            "country_name": "Mexico"
-          },
-          {
-            "country_code_a2": "US",
-            "country_name": "United States",
-            "country_subdivisions": [
-              {
-                "subdivision_code_a2": "AZ",
-                "subdivision_name": "Arizona"
-              },
-              {
-                "subdivision_code_a2": "CA",
-                "subdivision_name": "California"
-              },
-              {
-                "subdivision_code_a2": "CO",
-                "subdivision_name": "Colorado"
-              },
-              {
-                "subdivision_code_a2": "HI",
-                "subdivision_name": "Hawaii"
-              },
-              {
-                "subdivision_code_a2": "MN",
-                "subdivision_name": "Minnesota"
-              },
-              {
-                "subdivision_code_a2": "MO",
-                "subdivision_name": "Missouri"
-              },
-              {
-                "subdivision_code_a2": "NV",
-                "subdivision_name": "Nevada"
-              },
-              {
-                "subdivision_code_a2": "OR",
-                "subdivision_name": "Oregon"
-              },
-              {
-                "subdivision_code_a2": "TX",
-                "subdivision_name": "Texas"
-              },
-              {
-                "subdivision_code_a2": "UT",
-                "subdivision_name": "Utah"
-              },
-              {
-                "subdivision_code_a2": "WA",
-                "subdivision_name": "Washington"
-              }
-            ]
-          }
-        ],
-        "region_code": "WNAM"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Region List Response
-
-- `RegionListResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-### Region Get Response
-
-- `RegionGetResponse = unknown or string`
-
-  A list of countries and subdivisions mapped to a region.
-
-  - `unknown`
-
-  - `string`
+[Link to this property](#)%20load_balancers.regions%20%3E%20(model)%20region_get_response%20%3E%20(schema)>)

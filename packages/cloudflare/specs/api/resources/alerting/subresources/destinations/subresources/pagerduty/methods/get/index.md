@@ -1,55 +1,195 @@
-## List PagerDuty services
+---
+title: List PagerDuty services
+---
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/pagerduty`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+[Destinations](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations)
+
+[Pagerduty](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List PagerDuty services
+
+GET/accounts/{account\_id}/alerting/v3/destinations/pagerduty
 
 Get a list of all configured PagerDuty services.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  The account id
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { message, code }`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `code: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: array of object { message, code }`
+</details>
 
-  - `message: string`
+<details>
 
-  - `code: optional number`
+<summary>API Email + API Key</summary>
 
-- `success: true`
 
-  Whether the API call was successful
 
-  - `true`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `result: optional array of Pagerduty`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `id: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    UUID
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `name: optional string`
+</details>
 
-    The name of the pagerduty service.
+##### Accepted Permissions (at least one required)
 
-### Example
+`Zero Trust: PII Read``Notifications Write``Notifications Read``Account Settings Write``Account Settings Read`
 
-```http
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+The account id
+
+maxLength32
+
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message, code }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message, code }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/alerting#(resource)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty%20%3E%20(schema)">Pagerduty</a> { id, name }
+
+</summary>
+
+id: optional string
+
+UUID
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the pagerduty service.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List PagerDuty services
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "message",
+      "code": 1000
+    }
+  ],
+  "messages": [
+    {
+      "message": "message",
+      "code": 1000
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "f174e90afafe4643bbbc4a0ed4fc8415",
+      "name": "My PagerDuty Service"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

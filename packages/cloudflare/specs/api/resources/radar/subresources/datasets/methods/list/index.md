@@ -1,69 +1,231 @@
-## List datasets
+---
+title: List datasets
+---
 
-**get** `/radar/datasets`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Datasets](https://developers.cloudflare.com/api/resources/radar/subresources/datasets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List datasets
+
+GET/radar/datasets
 
 Retrieves a list of datasets.
 
-### Query Parameters
+##### Security
 
-- `datasetType: optional "RANKING_BUCKET" or "REPORT"`
+<details>
 
-  Filters results by dataset type.
+<summary>API Token</summary>
 
-  - `"RANKING_BUCKET"`
 
-  - `"REPORT"`
 
-- `date: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Filters results by the specified date.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `format: optional "JSON" or "CSV"`
+</details>
 
-  Format in which results will be returned.
+<details>
 
-  - `"JSON"`
+<summary>API Email + API Key</summary>
 
-  - `"CSV"`
 
-- `limit: optional number`
 
-  Limits the number of objects returned in the response.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `offset: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Skips the specified number of objects before fetching the results.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Returns
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result: object { datasets }`
+</details>
 
-  - `datasets: array of object { id, description, meta, 3 more }`
+##### Accepted Permissions (at least one required)
 
-    - `id: number`
+`User Details Write``User Details Read`
 
-    - `description: string`
+##### Q uery ParametersExpand Collapse
 
-    - `meta: unknown`
+<details>
 
-    - `tags: array of string`
+<summary>
 
-    - `title: string`
+datasetType: optional "RANKING\_BUCKET"or "REPORT"
 
-    - `type: string`
+Filters results by dataset type.
 
-- `success: boolean`
+</summary>
 
-### Example
+One of the following:
 
-```http
+"RANKING\_BUCKET"
+
+<a href="#">Link to this property</a>
+
+"REPORT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.datasets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20datasetType%20%3E%20(schema)>)
+
+date: optional string
+
+Filters results by the specified date.
+
+formatdate
+
+[Link to this property](#)%20radar.datasets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20date%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+format: optional "JSON"or "CSV"
+
+Format in which results will be returned.
+
+</summary>
+
+One of the following:
+
+"JSON"
+
+<a href="#">Link to this property</a>
+
+"CSV"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.datasets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+limit: optional number
+
+Limits the number of objects returned in the response.
+
+exclusiveMinimum
+
+minimum0
+
+[Link to this property](#)%20radar.datasets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+offset: optional number
+
+Skips the specified number of objects before fetching the results.
+
+minimum0
+
+[Link to this property](#)%20radar.datasets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {datasets }
+
+</summary>
+
+<details>
+
+<summary>
+
+datasets: array of object {id, description, meta, 3 more }
+
+</summary>
+
+id: number
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+meta: unknown
+
+<a href="#">Link to this property</a>
+
+tags: array of string
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.datasets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.datasets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List datasets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/datasets \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "datasets": [
+      {
+        "id": 3,
+        "description": "This dataset contains a list of the op 20000 domains globally",
+        "meta": {},
+        "tags": [
+          "global"
+        ],
+        "title": "Top bucket 20000 domains",
+        "type": "RANKING_BUCKET"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "datasets": [

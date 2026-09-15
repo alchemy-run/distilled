@@ -1,230 +1,153 @@
+---
+title: Rate Plans
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zones](https://developers.cloudflare.com/api/resources/zones)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Rate Plans
 
-## List Available Rate Plans
+##### [List Available Rate Plans](https://developers.cloudflare.com/api/resources/zones/subresources/rate_plans/methods/get)
 
-**get** `/zones/{zone_id}/available_rate_plans`
+GET/zones/{zone\_id}/available\_rate\_plans
 
-Lists all rate plans the zone can subscribe to.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier
+RatePlanGetResponse object {id, components, currency, 3 more }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+id: optional string
 
-  - `code: number`
+Plan identifier tag.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+components: optional array of object {default, name, unit\_price }
 
-- `messages: array of ResponseInfo`
+Array of available components values for the plan.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+default: optional number
 
-  - `documentation_url: optional string`
+The default amount allocated.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, components, currency, 3 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Plan identifier tag.
+name: optional "zones"or "page\_rules"or "dedicated\_certificates"or "dedicated\_certificates\_custom"
 
-  - `components: optional array of object { default, name, unit_price }`
+The unique component.
 
-    Array of available components values for the plan.
+</summary>
 
-    - `default: optional number`
+One of the following:
 
-      The default amount allocated.
+"zones"
 
-    - `name: optional "zones" or "page_rules" or "dedicated_certificates" or "dedicated_certificates_custom"`
+<a href="#">Link to this property</a>
 
-      The unique component.
+"page\_rules"
 
-      - `"zones"`
+<a href="#">Link to this property</a>
 
-      - `"page_rules"`
+"dedicated\_certificates"
 
-      - `"dedicated_certificates"`
+<a href="#">Link to this property</a>
 
-      - `"dedicated_certificates_custom"`
+"dedicated\_certificates\_custom"
 
-    - `unit_price: optional number`
+<a href="#">Link to this property</a>
 
-      The unit price of the addon.
+</details>
 
-  - `currency: optional string`
+<a href="#">Link to this property</a>
 
-    The monetary unit in which pricing information is displayed.
+unit\_price: optional number
 
-  - `duration: optional number`
+The unit price of the component.
 
-    The duration of the plan subscription.
+<a href="#">Link to this property</a>
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+</details>
 
-    The frequency at which you will be billed for this plan.
+<a href="#">Link to this property</a>
 
-    - `"weekly"`
+currency: optional string
 
-    - `"monthly"`
+The monetary unit in which pricing information is displayed.
 
-    - `"quarterly"`
+<a href="#">Link to this property</a>
 
-    - `"yearly"`
+duration: optional number
 
-  - `name: optional string`
+The duration of the plan subscription.
 
-    The plan name.
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+frequency: optional "weekly"or "monthly"or "quarterly"or "yearly"
 
-- `result_info: optional object { count, page, per_page, total_count }`
+The frequency at which you will be billed for this plan.
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service
+One of the following:
 
-  - `page: optional number`
+"weekly"
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"monthly"
 
-    Number of results per page of results
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+"quarterly"
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+"yearly"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/available_rate_plans \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "free",
-      "components": [
-        {
-          "default": 5,
-          "name": "page_rules",
-          "unit_price": 1
-        }
-      ],
-      "currency": "USD",
-      "duration": 1,
-      "frequency": "monthly",
-      "name": "Free Plan"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+name: optional string
 
-### Rate Plan Get Response
+The plan name.
 
-- `RatePlanGetResponse object { id, components, currency, 3 more }`
+maxLength80
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Plan identifier tag.
+</details>
 
-  - `components: optional array of object { default, name, unit_price }`
-
-    Array of available components values for the plan.
-
-    - `default: optional number`
-
-      The default amount allocated.
-
-    - `name: optional "zones" or "page_rules" or "dedicated_certificates" or "dedicated_certificates_custom"`
-
-      The unique component.
-
-      - `"zones"`
-
-      - `"page_rules"`
-
-      - `"dedicated_certificates"`
-
-      - `"dedicated_certificates_custom"`
-
-    - `unit_price: optional number`
-
-      The unit price of the addon.
-
-  - `currency: optional string`
-
-    The monetary unit in which pricing information is displayed.
-
-  - `duration: optional number`
-
-    The duration of the plan subscription.
-
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-    The frequency at which you will be billed for this plan.
-
-    - `"weekly"`
-
-    - `"monthly"`
-
-    - `"quarterly"`
-
-    - `"yearly"`
-
-  - `name: optional string`
-
-    The plan name.
+[Link to this property](#)%20zones.rate_plans%20%3E%20(model)%20rate_plan_get_response%20%3E%20(schema)>)

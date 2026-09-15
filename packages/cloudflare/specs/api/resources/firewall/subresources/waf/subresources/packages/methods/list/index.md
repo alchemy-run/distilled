@@ -1,205 +1,582 @@
-## List WAF packages
+---
+title: List WAF packages
+---
 
-**get** `/zones/{zone_id}/firewall/waf/packages`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[WAF](https://developers.cloudflare.com/api/resources/firewall/subresources/waf)
+
+[Packages](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List WAF packages
+
+Deprecated
+
+GET/zones/{zone\_id}/firewall/waf/packages
 
 Fetches WAF packages for a zone.
 
 **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `direction: optional "asc" or "desc"`
 
-  The direction used to sort returned packages.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"asc"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"desc"`
+</details>
 
-- `match: optional "any" or "all"`
+<details>
 
-  When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
+<summary>API Email + API Key</summary>
 
-  - `"any"`
 
-  - `"all"`
 
-- `name: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  The name of the WAF package.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `order: optional "name"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  The field used to sort returned packages.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"name"`
+</details>
 
-- `page: optional number`
+##### Accepted Permissions (at least one required)
 
-  The page number of paginated results.
+`Firewall Services Write``Firewall Services Read`
 
-- `per_page: optional number`
+##### P ath ParametersExpand Collapse
 
-  The number of packages per page.
+zone\_id: string
 
-### Returns
+Defines an identifier.
 
-- `FirewallAPIResponseCollection object { errors, messages, result, 2 more }`
+maxLength32
 
-  - `errors: array of ResponseInfo`
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `code: number`
+##### Q uery ParametersExpand Collapse
 
-    - `message: string`
+<details>
 
-    - `documentation_url: optional string`
+<summary>
 
-    - `source: optional object { pointer }`
+direction: optional "asc"or "desc"
 
-      - `pointer: optional string`
+The direction used to sort returned packages.
 
-  - `messages: array of ResponseInfo`
+</summary>
 
-    - `code: number`
+One of the following:
 
-    - `message: string`
+"asc"
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+"desc"
 
-  - `result: array of unknown`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+</details>
 
-    Defines whether the API call was successful.
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-    - `true`
+<details>
 
-  - `result_info: optional object { count, page, per_page, total_count }`
+<summary>
 
-    - `count: optional number`
+match: optional "any"or "all"
 
-      Defines the total number of results for the requested service.
+When set to <code>all</code>, all the search requirements must match. When set to <code>any</code>, only one of the search requirements has to match.
 
-    - `page: optional number`
+</summary>
 
-      Defines the current page within paginated list of results.
+One of the following:
 
-    - `per_page: optional number`
+"any"
 
-      Defines the number of results per page of results.
+<a href="#">Link to this property</a>
 
-    - `total_count: optional number`
+"all"
 
-      Defines the total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-- `Result object { result }`
+</details>
 
-  - `result: optional array of object { id, description, detection_mode, 3 more }  or object { id, description, detection_mode, 5 more }`
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20match%20%3E%20(schema)>)
 
-    - `FirewallPackageDefinition object { id, description, detection_mode, 3 more }`
+name: optional string
 
-      - `id: string`
+The name of the WAF package.
 
-        Defines an identifier.
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      - `description: string`
+order: optional "name"
 
-        A summary of the purpose/function of the WAF package.
+The field used to sort returned packages.
 
-      - `detection_mode: "anomaly" or "traditional"`
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-        The mode that defines how rules within the package are evaluated during the course of a request. When a package uses anomaly detection mode (`anomaly` value), each rule is given a score when triggered. If the total score of all triggered rules exceeds the sensitivity defined in the WAF package, the action configured in the package will be performed. Traditional detection mode (`traditional` value) will decide the action to take when it is triggered by the request. If multiple rules are triggered, the action providing the highest protection will be applied (for example, a 'block' action will win over a 'challenge' action).
+page: optional number
 
-        - `"anomaly"`
+The page number of paginated results.
 
-        - `"traditional"`
+minimum1
 
-      - `name: string`
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-        The name of the WAF package.
+per\_page: optional number
 
-      - `zone_id: string`
+The number of packages per page.
 
-        Defines an identifier.
+maximum100
 
-      - `status: optional "active"`
+minimum5
 
-        When set to `active`, indicates that the WAF package will be applied to the zone.
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-        - `"active"`
+##### ReturnsExpand Collapse
 
-    - `FirewallAnomalyPackage object { id, description, detection_mode, 5 more }`
+<details>
 
-      - `id: string`
+<summary>
 
-        Defines an identifier.
+FirewallAPIResponseCollection object {errors, messages, result, 2 more }
 
-      - `description: string`
+</summary>
 
-        A summary of the purpose/function of the WAF package.
+<details>
 
-      - `detection_mode: "anomaly" or "traditional"`
+<summary>
 
-        When a WAF package uses anomaly detection, each rule is given a score when triggered. If the total score of all triggered rules exceeds the sensitivity defined on the WAF package, the action defined on the package will be taken.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-        - `"anomaly"`
+</summary>
 
-        - `"traditional"`
+code: number
 
-      - `name: string`
+minimum1000
 
-        The name of the WAF package.
+<a href="#">Link to this property</a>
 
-      - `zone_id: string`
+message: string
 
-        Defines an identifier.
+<a href="#">Link to this property</a>
 
-      - `action_mode: optional "simulate" or "block" or "challenge"`
+documentation\_url: optional string
 
-        The default action performed by the rules in the WAF package.
+<a href="#">Link to this property</a>
 
-        - `"simulate"`
+<details>
 
-        - `"block"`
+<summary>
 
-        - `"challenge"`
+source: optional object {pointer }
 
-      - `sensitivity: optional "high" or "medium" or "low" or "off"`
+</summary>
 
-        The sensitivity of the WAF package.
+pointer: optional string
 
-        - `"high"`
+<a href="#">Link to this property</a>
 
-        - `"medium"`
+</details>
 
-        - `"low"`
+<a href="#">Link to this property</a>
 
-        - `"off"`
+</details>
 
-      - `status: optional "active"`
+<a href="#">Link to this property</a>
 
-        When set to `active`, indicates that the WAF package will be applied to the zone.
+<details>
 
-        - `"active"`
+<summary>
 
-### Example
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-```http
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+result: array of unknown
+
+<a href="#">Link to this property</a>
+
+success: true
+
+Defines whether the API call was successful.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Defines the total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Defines the current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Defines the number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Defines the total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(variant)%200>)
+
+<details>
+
+<summary>
+
+Result object {result }
+
+</summary>
+
+<details>
+
+<summary>
+
+result: optional array of object {id, description, detection\_mode, 3 more } or object {id, description, detection\_mode, 5 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+FirewallPackageDefinition object {id, description, detection\_mode, 3 more }
+
+</summary>
+
+id: string
+
+Defines an identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+description: string
+
+A summary of the purpose/function of the WAF package.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+detection\_mode: "anomaly"or "traditional"
+
+The mode that defines how rules within the package are evaluated during the course of a request. When a package uses anomaly detection mode (<code>anomaly</code> value), each rule is given a score when triggered. If the total score of all triggered rules exceeds the sensitivity defined in the WAF package, the action configured in the package will be performed. Traditional detection mode (<code>traditional</code> value) will decide the action to take when it is triggered by the request. If multiple rules are triggered, the action providing the highest protection will be applied (for example, a ‘block’ action will win over a ‘challenge’ action).
+
+</summary>
+
+One of the following:
+
+"anomaly"
+
+<a href="#">Link to this property</a>
+
+"traditional"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the WAF package.
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Defines an identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+status: optional "active"
+
+When set to <code>active</code>, indicates that the WAF package will be applied to the zone.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+FirewallAnomalyPackage object {id, description, detection\_mode, 5 more }
+
+</summary>
+
+id: string
+
+Defines an identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+description: string
+
+A summary of the purpose/function of the WAF package.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+detection\_mode: "anomaly"or "traditional"
+
+When a WAF package uses anomaly detection, each rule is given a score when triggered. If the total score of all triggered rules exceeds the sensitivity defined on the WAF package, the action defined on the package will be taken.
+
+</summary>
+
+One of the following:
+
+"anomaly"
+
+<a href="#">Link to this property</a>
+
+"traditional"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the WAF package.
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Defines an identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+action\_mode: optional "simulate"or "block"or "challenge"
+
+The default action performed by the rules in the WAF package.
+
+</summary>
+
+One of the following:
+
+"simulate"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sensitivity: optional "high"or "medium"or "low"or "off"
+
+The sensitivity of the WAF package.
+
+</summary>
+
+One of the following:
+
+"high"
+
+<a href="#">Link to this property</a>
+
+"medium"
+
+<a href="#">Link to this property</a>
+
+"low"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: optional "active"
+
+When set to <code>active</code>, indicates that the WAF package will be applied to the zone.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(variant)%201>)
+
+### List WAF packages
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {}
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,238 +1,616 @@
-## Update Token
+---
+title: Update Token
+---
 
-**put** `/user/tokens/{token_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[User](https://developers.cloudflare.com/api/resources/user)
+
+[Tokens](https://developers.cloudflare.com/api/resources/user/subresources/tokens)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Token
+
+PUT/user/tokens/{token\_id}
 
 Update an existing token.
 
-### Path Parameters
+##### Security
 
-- `token_id: string`
+API Token
 
-  Token identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Body Parameters
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `name: string`
+##### Accepted Permissions (at least one required)
 
-  Token name.
+`API Tokens Write`
 
-- `policies: array of TokenPolicy`
+##### P ath ParametersExpand Collapse
 
-  List of access policies assigned to the token.
+token\_id: string
 
-  - `id: string`
+Token identifier tag.
 
-    Policy identifier.
+maxLength32
 
-  - `effect: "allow" or "deny"`
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20token_id%20%3E%20(schema)>)
 
-    Allow or deny operations against the resources.
+##### Body ParametersJSONExpand Collapse
 
-    - `"allow"`
+name: string
 
-    - `"deny"`
+Token name.
 
-  - `permission_groups: array of object { id, meta, name }`
+maxLength120
 
-    A set of permission groups that are specified to the policy.
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `id: string`
+<details>
 
-      Identifier of the permission group.
+<summary>
 
-    - `meta: optional object { key, value }`
+policies: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_policy%20%3E%20(schema)">TokenPolicy</a> { id, effect, permission\_groups, resources }
 
-      Attributes associated to the permission group.
+List of access policies assigned to the token.
 
-      - `key: optional string`
+</summary>
 
-      - `value: optional string`
+id: string
 
-    - `name: optional string`
+Policy identifier.
 
-      Name of the permission group.
+<a href="#">Link to this property</a>
 
-  - `resources: map[string] or map[map[string]]`
+<details>
 
-    A list of resource names that the policy applies to.
+<summary>
 
-    - `IAMResourcesTypeObjectString = map[string]`
+effect: "allow"or "deny"
 
-      Map of simple string resource permissions
+Allow or deny operations against the resources.
 
-    - `IAMResourcesTypeObjectNested = map[map[string]]`
+</summary>
 
-      Map of nested resource permissions
+One of the following:
 
-- `condition: optional object { request_ip }`
+"allow"
 
-  - `request_ip: optional object { in, not_in }`
+<a href="#">Link to this property</a>
 
-    Client IP restrictions.
+"deny"
 
-    - `in: optional array of TokenConditionCIDRList`
+<a href="#">Link to this property</a>
 
-      List of IPv4/IPv6 CIDR addresses.
+</details>
 
-    - `not_in: optional array of TokenConditionCIDRList`
+<a href="#">Link to this property</a>
 
-      List of IPv4/IPv6 CIDR addresses.
+<details>
 
-- `expires_on: optional string`
+<summary>
 
-  The expiration time on or after which the JWT MUST NOT be accepted for processing.
+permission\_groups: array of object {id, meta, name }
 
-- `not_before: optional string`
+A set of permission groups that are specified to the policy.
 
-  The time before which the token MUST NOT be accepted for processing.
+</summary>
 
-- `status: optional "active" or "disabled" or "expired"`
+id: string
 
-  Status of the token.
+Identifier of the permission group.
 
-  - `"active"`
+<a href="#">Link to this property</a>
 
-  - `"disabled"`
+<details>
 
-  - `"expired"`
+<summary>
 
-### Returns
+meta: optional object {key, value }
 
-- `errors: array of object { code, message, documentation_url, source }`
+Attributes associated to the permission group.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+key: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+value: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+Name of the permission group.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional Token`
+resources: map\[string]or map\[map\[string]]
 
-  - `id: optional string`
+A list of resource names that the policy applies to.
 
-    Token identifier tag.
+</summary>
 
-  - `condition: optional object { request_ip }`
+One of the following:
 
-    - `request_ip: optional object { in, not_in }`
+IAMResourcesTypeObjectString = map\[string]
 
-      Client IP restrictions.
+Map of simple string resource permissions
 
-      - `in: optional array of TokenConditionCIDRList`
+<a href="#">Link to this property</a>
 
-        List of IPv4/IPv6 CIDR addresses.
+IAMResourcesTypeObjectNested = map\[map\[string]]
 
-      - `not_in: optional array of TokenConditionCIDRList`
+Map of nested resource permissions
 
-        List of IPv4/IPv6 CIDR addresses.
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+</details>
 
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
+<a href="#">Link to this property</a>
 
-  - `issued_on: optional string`
+</details>
 
-    The time on which the token was created.
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20policies%20%3E%20(schema)>)
 
-  - `last_used_on: optional string`
+<details>
 
-    Last time the token was used.
+<summary>
 
-  - `modified_on: optional string`
+condition: optional object {request\_ip }
 
-    Last time the token was modified.
+</summary>
 
-  - `name: optional string`
+<details>
 
-    Token name.
+<summary>
 
-  - `not_before: optional string`
+request\_ip: optional object {in, not\_in }
 
-    The time before which the token MUST NOT be accepted for processing.
+Client IP restrictions.
 
-  - `policies: optional array of TokenPolicy`
+</summary>
 
-    List of access policies assigned to the token.
+in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
 
-    - `id: string`
+List of IPv4/IPv6 CIDR addresses.
 
-      Policy identifier.
+<a href="#">Link to this property</a>
 
-    - `effect: "allow" or "deny"`
+not\_in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
 
-      Allow or deny operations against the resources.
+List of IPv4/IPv6 CIDR addresses.
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+</details>
 
-    - `permission_groups: array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+</details>
 
-      - `id: string`
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20condition%20%3E%20(schema)>)
 
-        Identifier of the permission group.
+expires\_on: optional string
 
-      - `meta: optional object { key, value }`
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
 
-        Attributes associated to the permission group.
+formatdate-time
 
-        - `key: optional string`
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20expires_on%20%3E%20(schema)>)
 
-        - `value: optional string`
+not\_before: optional string
 
-      - `name: optional string`
+The time before which the token MUST NOT be accepted for processing.
 
-        Name of the permission group.
+formatdate-time
 
-    - `resources: map[string] or map[map[string]]`
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20not_before%20%3E%20(schema)>)
 
-      A list of resource names that the policy applies to.
+<details>
 
-      - `IAMResourcesTypeObjectString = map[string]`
+<summary>
 
-        Map of simple string resource permissions
+status: optional "active"or "disabled"or "expired"
 
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
+Status of the token.
 
-        Map of nested resource permissions
+</summary>
 
-  - `status: optional "active" or "disabled" or "expired"`
+One of the following:
 
-    Status of the token.
+"active"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+"disabled"
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-### Example
+"expired"
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20status%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token%20%3E%20(schema)">Token</a> { id, condition, expires\_on, 7 more }
+
+</summary>
+
+id: optional string
+
+Token identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+condition: optional object {request\_ip }
+
+</summary>
+
+<details>
+
+<summary>
+
+request\_ip: optional object {in, not\_in }
+
+Client IP restrictions.
+
+</summary>
+
+in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
+
+List of IPv4/IPv6 CIDR addresses.
+
+<a href="#">Link to this property</a>
+
+not\_in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
+
+List of IPv4/IPv6 CIDR addresses.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+issued\_on: optional string
+
+The time on which the token was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_used\_on: optional string
+
+Last time the token was used.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Last time the token was modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Token name.
+
+maxLength120
+
+<a href="#">Link to this property</a>
+
+not\_before: optional string
+
+The time before which the token MUST NOT be accepted for processing.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policies: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_policy%20%3E%20(schema)">TokenPolicy</a> { id, effect, permission\_groups, resources }
+
+List of access policies assigned to the token.
+
+</summary>
+
+id: string
+
+Policy identifier.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+effect: "allow"or "deny"
+
+Allow or deny operations against the resources.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"deny"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+permission\_groups: array of object {id, meta, name }
+
+A set of permission groups that are specified to the policy.
+
+</summary>
+
+id: string
+
+Identifier of the permission group.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {key, value }
+
+Attributes associated to the permission group.
+
+</summary>
+
+key: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the permission group.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resources: map\[string]or map\[map\[string]]
+
+A list of resource names that the policy applies to.
+
+</summary>
+
+One of the following:
+
+IAMResourcesTypeObjectString = map\[string]
+
+Map of simple string resource permissions
+
+<a href="#">Link to this property</a>
+
+IAMResourcesTypeObjectNested = map\[map\[string]]
+
+Map of nested resource permissions
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "active"or "disabled"or "expired"
+
+Status of the token.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"expired"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update Token
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/user/tokens/$TOKEN_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -263,9 +641,88 @@ curl https://api.cloudflare.com/client/v4/user/tokens/$TOKEN_ID \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "ed17574386854bf78a67040be0a770b0",
+    "condition": {
+      "request_ip": {
+        "in": [
+          "123.123.123.0/24",
+          "2606:4700::/32"
+        ],
+        "not_in": [
+          "123.123.123.100/24",
+          "2606:4700:4700::/48"
+        ]
+      }
+    },
+    "expires_on": "2020-01-01T00:00:00Z",
+    "issued_on": "2018-07-01T05:20:00Z",
+    "last_used_on": "2020-01-02T12:34:00Z",
+    "modified_on": "2018-07-02T05:20:00Z",
+    "name": "readonly token",
+    "not_before": "2018-07-01T05:20:00Z",
+    "policies": [
+      {
+        "id": "f267e341f3dd4697bd3b9f71dd96247f",
+        "effect": "allow",
+        "permission_groups": [
+          {
+            "id": "c8fed203ed3043cba015a93ad1616f1f",
+            "meta": {
+              "key": "key",
+              "value": "value"
+            },
+            "name": "Zone Read"
+          },
+          {
+            "id": "82e64a83756745bbbb1c9c2701bf816b",
+            "meta": {
+              "key": "key",
+              "value": "value"
+            },
+            "name": "Magic Network Monitoring"
+          }
+        ],
+        "resources": {
+          "foo": "string"
+        }
+      }
+    ],
+    "status": "active"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

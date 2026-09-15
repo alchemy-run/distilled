@@ -1,2304 +1,10908 @@
+---
+title: Casb
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Casb
 
-# Applications
+#### CasbApplications
 
-## List applications
+##### [List applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/applications/methods/list)
 
-**get** `/accounts/{account_id}/one/applications`
+GET/accounts/{account\_id}/one/applications
 
-Returns a list of available applications with use cases and permissions.
+##### [Get application details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/applications/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/one/applications/{application\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `environment: optional string`
+<summary>
 
-  Filter by supported environment (standard, fedramp).
+ApplicationListResponse object {id, auth\_methods, category, 7 more }
 
-### Returns
+Application item in list response.
 
-- `auth_methods: array of object { display_name, slug }`
+</summary>
 
-  Available auth methods.
+<details>
 
-  - `display_name: string`
+<summary>
 
-    Human-readable auth method name.
+id: "ANTHROPIC"or "AWS"or "BITBUCKET"or 12 more
 
-  - `slug: string`
+Vendor identifier (e.g. microsoft\_internal, google\_workspace).
 
-    Auth method identifier.
+- <code>ANTHROPIC</code> - ANTHROPIC
+- <code>AWS</code> - AWS
+- <code>BITBUCKET</code> - BITBUCKET
+- <code>BOX</code> - BOX
+- <code>CONFLUENCE</code> - CONFLUENCE
+- <code>DROPBOX</code> - DROPBOX
+- <code>GITHUB</code> - GITHUB
+- <code>GOOGLE_CLOUD_PLATFORM</code> - GOOGLE\_CLOUD\_PLATFORM
+- <code>GOOGLE_WORKSPACE</code> - GOOGLE\_WORKSPACE
+- <code>JIRA</code> - JIRA
+- <code>MICROSOFT_INTERNAL</code> - MICROSOFT\_INTERNAL
+- <code>OPENAI</code> - OPENAI
+- <code>SALESFORCE</code> - SALESFORCE
+- <code>SERVICENOW</code> - SERVICENOW
+- <code>SLACK</code> - SLACK
 
-- `category: string`
+</summary>
 
-  Vendor category (e.g. Productivity, AI).
+One of the following:
 
-- `description: string`
+"ANTHROPIC"
 
-  Brief description of the integration.
+<a href="#">Link to this property</a>
 
-- `display_name: string`
+"AWS"
 
-  Human-readable vendor name.
+<a href="#">Link to this property</a>
 
-- `dlp_enabled: boolean`
+"BITBUCKET"
 
-  Whether DLP scanning is supported.
+<a href="#">Link to this property</a>
 
-- `logo: string`
+"BOX"
 
-  Logo path.
+<a href="#">Link to this property</a>
 
-- `permissions: array of object { display_name, scope, severity }`
+"CONFLUENCE"
 
-  All permissions with severity.
+<a href="#">Link to this property</a>
 
-  - `display_name: string`
+"DROPBOX"
 
-    Human-readable permission name.
+<a href="#">Link to this property</a>
 
-  - `scope: string`
+"GITHUB"
 
-    Vendor-native scope identifier.
+<a href="#">Link to this property</a>
 
-  - `severity: "low" or "medium" or "high" or "critical"`
+"GOOGLE\_CLOUD\_PLATFORM"
 
-    Permission sensitivity level.
+<a href="#">Link to this property</a>
 
-    * `low` - low
-    * `medium` - medium
-    * `high` - high
-    * `critical` - critical
+"GOOGLE\_WORKSPACE"
 
-    - `"low"`
+<a href="#">Link to this property</a>
 
-    - `"medium"`
+"JIRA"
 
-    - `"high"`
+<a href="#">Link to this property</a>
 
-    - `"critical"`
+"MICROSOFT\_INTERNAL"
 
-- `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+<a href="#">Link to this property</a>
 
-  Vendor identifier (e.g. microsoft_internal, google_workspace).
+"OPENAI"
 
-  * `GITHUB` - GITHUB
-  * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-  * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-  * `SALESFORCE` - SALESFORCE
-  * `SLACK` - SLACK
+<a href="#">Link to this property</a>
 
-  - `"GITHUB"`
+"SALESFORCE"
 
-  - `"GOOGLE_WORKSPACE"`
+<a href="#">Link to this property</a>
 
-  - `"MICROSOFT_INTERNAL"`
+"SERVICENOW"
 
-  - `"SALESFORCE"`
+<a href="#">Link to this property</a>
 
-  - `"SLACK"`
+"SLACK"
 
-- `supported_environments: array of string`
+<a href="#">Link to this property</a>
 
-  Environments this vendor supports (standard, fedramp).
+</details>
 
-- `use_cases: array of object { display_name, slug }`
+<a href="#">Link to this property</a>
 
-  Supported use cases.
+<details>
 
-  - `display_name: string`
+<summary>
 
-    Human-readable use case name.
+auth\_methods: array of object {id, display\_name }
 
-  - `slug: string`
+Available auth methods.
 
-    Use case identifier (e.g. casb, ces).
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/applications \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Auth method identifier.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-[
-  {
-    "auth_methods": [
-      {
-        "display_name": "OAuth 2.0 Admin Consent",
-        "slug": "oauth2_standard"
-      }
-    ],
-    "category": "Productivity",
-    "description": "Monitor OneDrive, SharePoint, Teams, and Outlook.",
-    "display_name": "Microsoft",
-    "dlp_enabled": true,
-    "logo": "/api/v4/accounts/12345678/casb/static/microsoft_internal.svg",
-    "permissions": [
-      {
-        "display_name": "Read all users' full profiles",
-        "scope": "User.Read.All",
-        "severity": "high"
-      },
-      {
-        "display_name": "Read all files",
-        "scope": "Files.Read.All",
-        "severity": "high"
-      },
-      {
-        "display_name": "Read and write mail",
-        "scope": "Mail.ReadWrite",
-        "severity": "critical"
-      }
-    ],
-    "slug": "MICROSOFT_INTERNAL",
-    "supported_environments": [
-      "standard",
-      "fedramp"
-    ],
-    "use_cases": [
-      {
-        "display_name": "Cloud Access Security Broker",
-        "slug": "casb"
-      },
-      {
-        "display_name": "Cloud Email Security",
-        "slug": "ces"
-      }
-    ]
-  }
-]
-```
+display\_name: string
 
-## Get application details
+Human-readable auth method name.
 
-**get** `/accounts/{account_id}/one/applications/{slug}`
+<a href="#">Link to this property</a>
 
-Returns full application details including auth methods, use cases, and permissions.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+category: string
 
-- `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+Vendor category (e.g. Productivity, AI).
 
-  - `"GITHUB"`
+<a href="#">Link to this property</a>
 
-  - `"GOOGLE_WORKSPACE"`
+description: string
 
-  - `"MICROSOFT_INTERNAL"`
+Brief description of the integration.
 
-  - `"SALESFORCE"`
+<a href="#">Link to this property</a>
 
-  - `"SLACK"`
+display\_name: string
 
-### Returns
+Human-readable vendor name.
 
-- `auth_methods: array of object { display_name, is_default, slug, supported_environments }`
+<a href="#">Link to this property</a>
 
-  Available authentication methods.
+dlp\_enabled: boolean
 
-  - `display_name: string`
+Whether DLP scanning is supported.
 
-    Human-readable auth method name.
+<a href="#">Link to this property</a>
 
-  - `is_default: boolean`
+logo: string
 
-    Whether this is the default auth method.
+Logo path.
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-    Auth method identifier.
+<details>
 
-  - `supported_environments: array of string`
+<summary>
 
-    Environments this auth method supports.
+permissions: array of object {display\_name, scope, severity }
 
-- `category: string`
+All permissions with severity.
 
-  Vendor category.
+</summary>
 
-- `description: string`
+display\_name: string
 
-  Brief description.
+Human-readable permission name.
 
-- `display_name: string`
+<a href="#">Link to this property</a>
 
-  Human-readable vendor name.
+scope: string
 
-- `dlp_enabled: boolean`
+Vendor-native scope identifier.
 
-  Whether DLP scanning is supported.
+<a href="#">Link to this property</a>
 
-- `instructions: string`
+<details>
 
-  Setup instructions for the user.
+<summary>
 
-- `logo: string`
+severity: "low"or "medium"or "high"or "critical"
 
-  Logo path.
+Permission sensitivity level.
 
-- `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+- <code>low</code> - low
+- <code>medium</code> - medium
+- <code>high</code> - high
+- <code>critical</code> - critical
 
-  Vendor identifier.
+</summary>
 
-  * `GITHUB` - GITHUB
-  * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-  * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-  * `SALESFORCE` - SALESFORCE
-  * `SLACK` - SLACK
+One of the following:
 
-  - `"GITHUB"`
+"low"
 
-  - `"GOOGLE_WORKSPACE"`
+<a href="#">Link to this property</a>
 
-  - `"MICROSOFT_INTERNAL"`
+"medium"
 
-  - `"SALESFORCE"`
+<a href="#">Link to this property</a>
 
-  - `"SLACK"`
+"high"
 
-- `use_cases: array of object { base_scopes, description, display_name, 2 more }`
+<a href="#">Link to this property</a>
 
-  Use cases with full scope details.
+"critical"
 
-  - `base_scopes: array of object { display_name, scope, severity }`
+<a href="#">Link to this property</a>
 
-    Scopes always required for this use case.
+</details>
 
-    - `display_name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable permission name.
+</details>
 
-    - `scope: string`
+<a href="#">Link to this property</a>
 
-      Vendor-native scope identifier.
+supported\_environments: array of string
 
-    - `severity: "low" or "medium" or "high" or "critical"`
+Environments this vendor supports (standard, fedramp).
 
-      Permission sensitivity level.
+<a href="#">Link to this property</a>
 
-      * `low` - low
-      * `medium` - medium
-      * `high` - high
-      * `critical` - critical
+<details>
 
-      - `"low"`
+<summary>
 
-      - `"medium"`
+use\_cases: array of object {id, display\_name }
 
-      - `"high"`
+Supported use cases.
 
-      - `"critical"`
+</summary>
 
-  - `description: string`
+id: string
 
-    Use case description.
+Use case identifier (e.g. casb, ces).
 
-  - `display_name: string`
+<a href="#">Link to this property</a>
 
-    Human-readable use case name.
+display\_name: string
 
-  - `features: array of object { description, display_name, scopes, slug }`
+Human-readable use case name.
 
-    Optional features with extra scopes.
+<a href="#">Link to this property</a>
 
-    - `description: string`
+</details>
 
-      Feature description.
+<a href="#">Link to this property</a>
 
-    - `display_name: string`
+</details>
 
-      Human-readable feature name.
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(model)%20application_list_response%20%3E%20(schema)>)
 
-    - `scopes: array of object { display_name, scope, severity }`
+<details>
 
-      Additional scopes when feature is enabled.
+<summary>
 
-      - `display_name: string`
+ApplicationGetResponse object {id, auth\_methods, category, 6 more }
 
-        Human-readable permission name.
+The requested item.
 
-      - `scope: string`
+</summary>
 
-        Vendor-native scope identifier.
+<details>
 
-      - `severity: "low" or "medium" or "high" or "critical"`
+<summary>
 
-        Permission sensitivity level.
+id: "ANTHROPIC"or "AWS"or "BITBUCKET"or 12 more
 
-        * `low` - low
-        * `medium` - medium
-        * `high` - high
-        * `critical` - critical
+Vendor identifier.
 
-        - `"low"`
+- <code>ANTHROPIC</code> - ANTHROPIC
+- <code>AWS</code> - AWS
+- <code>BITBUCKET</code> - BITBUCKET
+- <code>BOX</code> - BOX
+- <code>CONFLUENCE</code> - CONFLUENCE
+- <code>DROPBOX</code> - DROPBOX
+- <code>GITHUB</code> - GITHUB
+- <code>GOOGLE_CLOUD_PLATFORM</code> - GOOGLE\_CLOUD\_PLATFORM
+- <code>GOOGLE_WORKSPACE</code> - GOOGLE\_WORKSPACE
+- <code>JIRA</code> - JIRA
+- <code>MICROSOFT_INTERNAL</code> - MICROSOFT\_INTERNAL
+- <code>OPENAI</code> - OPENAI
+- <code>SALESFORCE</code> - SALESFORCE
+- <code>SERVICENOW</code> - SERVICENOW
+- <code>SLACK</code> - SLACK
 
-        - `"medium"`
+</summary>
 
-        - `"high"`
+One of the following:
 
-        - `"critical"`
+"ANTHROPIC"
 
-    - `slug: string`
+<a href="#">Link to this property</a>
 
-      Feature identifier.
+"AWS"
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-    Use case identifier.
+"BITBUCKET"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/applications/$SLUG \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"BOX"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "auth_methods": [
-    {
-      "display_name": "OAuth 2.0 Admin Consent",
-      "is_default": true,
-      "slug": "oauth2",
-      "supported_environments": [
-        "standard",
-        "fedramp"
-      ]
-    }
-  ],
-  "category": "Productivity",
-  "description": "Monitor OneDrive, SharePoint, Teams, and Outlook.",
-  "display_name": "Microsoft",
-  "dlp_enabled": true,
-  "instructions": "You'll need a Microsoft 365 admin account with Global Admin or Application Admin role.",
-  "logo": "/api/v4/accounts/12345678/casb/static/microsoft_internal.svg",
-  "slug": "MICROSOFT_INTERNAL",
-  "use_cases": [
-    {
-      "base_scopes": [
-        {
-          "display_name": "Read all users' full profiles",
-          "scope": "User.Read.All",
-          "severity": "high"
-        },
-        {
-          "display_name": "Read all files",
-          "scope": "Files.Read.All",
-          "severity": "high"
-        }
-      ],
-      "description": "Discover and secure SaaS applications",
-      "display_name": "Cloud Access Security Broker",
-      "features": [
-        {
-          "description": "Automatically remediate security issues",
-          "display_name": "Auto Remediation",
-          "scopes": [
-            {
-              "display_name": "Read and write all files",
-              "scope": "Files.ReadWrite.All",
-              "severity": "critical"
-            }
-          ],
-          "slug": "auto_remediation"
-        }
-      ],
-      "slug": "casb"
-    }
-  ]
-}
-```
+"CONFLUENCE"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Application List Response
+"DROPBOX"
 
-- `ApplicationListResponse = array of object { auth_methods, category, description, 7 more }`
+<a href="#">Link to this property</a>
 
-  - `auth_methods: array of object { display_name, slug }`
+"GITHUB"
 
-    Available auth methods.
+<a href="#">Link to this property</a>
 
-    - `display_name: string`
+"GOOGLE\_CLOUD\_PLATFORM"
 
-      Human-readable auth method name.
+<a href="#">Link to this property</a>
 
-    - `slug: string`
+"GOOGLE\_WORKSPACE"
 
-      Auth method identifier.
+<a href="#">Link to this property</a>
 
-  - `category: string`
+"JIRA"
 
-    Vendor category (e.g. Productivity, AI).
+<a href="#">Link to this property</a>
 
-  - `description: string`
+"MICROSOFT\_INTERNAL"
 
-    Brief description of the integration.
+<a href="#">Link to this property</a>
 
-  - `display_name: string`
+"OPENAI"
 
-    Human-readable vendor name.
+<a href="#">Link to this property</a>
 
-  - `dlp_enabled: boolean`
+"SALESFORCE"
 
-    Whether DLP scanning is supported.
+<a href="#">Link to this property</a>
 
-  - `logo: string`
+"SERVICENOW"
 
-    Logo path.
+<a href="#">Link to this property</a>
 
-  - `permissions: array of object { display_name, scope, severity }`
+"SLACK"
 
-    All permissions with severity.
+<a href="#">Link to this property</a>
 
-    - `display_name: string`
+</details>
 
-      Human-readable permission name.
+<a href="#">Link to this property</a>
 
-    - `scope: string`
+<details>
 
-      Vendor-native scope identifier.
+<summary>
 
-    - `severity: "low" or "medium" or "high" or "critical"`
+auth\_methods: array of object {id, display\_name, is\_default, supported\_environments }
 
-      Permission sensitivity level.
+Available authentication methods.
 
-      * `low` - low
-      * `medium` - medium
-      * `high` - high
-      * `critical` - critical
+</summary>
 
-      - `"low"`
+id: string
 
-      - `"medium"`
+Auth method identifier.
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-      - `"critical"`
+display\_name: string
 
-  - `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+Human-readable auth method name.
 
-    Vendor identifier (e.g. microsoft_internal, google_workspace).
+<a href="#">Link to this property</a>
 
-    * `GITHUB` - GITHUB
-    * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-    * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-    * `SALESFORCE` - SALESFORCE
-    * `SLACK` - SLACK
+is\_default: boolean
 
-    - `"GITHUB"`
+Whether this is the default auth method.
 
-    - `"GOOGLE_WORKSPACE"`
+<a href="#">Link to this property</a>
 
-    - `"MICROSOFT_INTERNAL"`
+supported\_environments: array of string
 
-    - `"SALESFORCE"`
+Environments this auth method supports.
 
-    - `"SLACK"`
+<a href="#">Link to this property</a>
 
-  - `supported_environments: array of string`
+</details>
 
-    Environments this vendor supports (standard, fedramp).
+<a href="#">Link to this property</a>
 
-  - `use_cases: array of object { display_name, slug }`
+category: string
 
-    Supported use cases.
+Vendor category.
 
-    - `display_name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable use case name.
+description: string
 
-    - `slug: string`
+Brief description.
 
-      Use case identifier (e.g. casb, ces).
+<a href="#">Link to this property</a>
 
-### Application Get Response
+display\_name: string
 
-- `ApplicationGetResponse object { auth_methods, category, description, 6 more }`
+Human-readable vendor name.
 
-  Full application detail for onboarding UI.
+<a href="#">Link to this property</a>
 
-  - `auth_methods: array of object { display_name, is_default, slug, supported_environments }`
+dlp\_enabled: boolean
 
-    Available authentication methods.
+Whether DLP scanning is supported.
 
-    - `display_name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable auth method name.
+instructions: string
 
-    - `is_default: boolean`
+Setup instructions for the user.
 
-      Whether this is the default auth method.
+<a href="#">Link to this property</a>
 
-    - `slug: string`
+logo: string
 
-      Auth method identifier.
+Logo path.
 
-    - `supported_environments: array of string`
+<a href="#">Link to this property</a>
 
-      Environments this auth method supports.
+<details>
 
-  - `category: string`
+<summary>
 
-    Vendor category.
+use\_cases: array of object {id, base\_scopes, description, 2 more }
 
-  - `description: string`
+Use cases with full scope details.
 
-    Brief description.
+</summary>
 
-  - `display_name: string`
+id: string
 
-    Human-readable vendor name.
+Use case identifier.
 
-  - `dlp_enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether DLP scanning is supported.
+<details>
 
-  - `instructions: string`
+<summary>
 
-    Setup instructions for the user.
+base\_scopes: array of object {display\_name, scope, severity }
 
-  - `logo: string`
+Scopes always required for this use case.
 
-    Logo path.
+</summary>
 
-  - `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+display\_name: string
 
-    Vendor identifier.
+Human-readable permission name.
 
-    * `GITHUB` - GITHUB
-    * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-    * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-    * `SALESFORCE` - SALESFORCE
-    * `SLACK` - SLACK
+<a href="#">Link to this property</a>
 
-    - `"GITHUB"`
+scope: string
 
-    - `"GOOGLE_WORKSPACE"`
+Vendor-native scope identifier.
 
-    - `"MICROSOFT_INTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"SALESFORCE"`
+<details>
 
-    - `"SLACK"`
+<summary>
 
-  - `use_cases: array of object { base_scopes, description, display_name, 2 more }`
+severity: "low"or "medium"or "high"or "critical"
 
-    Use cases with full scope details.
+Permission sensitivity level.
 
-    - `base_scopes: array of object { display_name, scope, severity }`
+- <code>low</code> - low
+- <code>medium</code> - medium
+- <code>high</code> - high
+- <code>critical</code> - critical
 
-      Scopes always required for this use case.
+</summary>
 
-      - `display_name: string`
+One of the following:
 
-        Human-readable permission name.
+"low"
 
-      - `scope: string`
+<a href="#">Link to this property</a>
 
-        Vendor-native scope identifier.
+"medium"
 
-      - `severity: "low" or "medium" or "high" or "critical"`
+<a href="#">Link to this property</a>
 
-        Permission sensitivity level.
+"high"
 
-        * `low` - low
-        * `medium` - medium
-        * `high` - high
-        * `critical` - critical
+<a href="#">Link to this property</a>
 
-        - `"low"`
+"critical"
 
-        - `"medium"`
+<a href="#">Link to this property</a>
 
-        - `"high"`
+</details>
 
-        - `"critical"`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+</details>
 
-      Use case description.
+<a href="#">Link to this property</a>
 
-    - `display_name: string`
+description: string
 
-      Human-readable use case name.
+Use case description.
 
-    - `features: array of object { description, display_name, scopes, slug }`
+<a href="#">Link to this property</a>
 
-      Optional features with extra scopes.
+display\_name: string
 
-      - `description: string`
+Human-readable use case name.
 
-        Feature description.
+<a href="#">Link to this property</a>
 
-      - `display_name: string`
+<details>
 
-        Human-readable feature name.
+<summary>
 
-      - `scopes: array of object { display_name, scope, severity }`
+features: array of object {id, description, display\_name, scopes }
 
-        Additional scopes when feature is enabled.
+Optional features with extra scopes.
 
-        - `display_name: string`
+</summary>
 
-          Human-readable permission name.
+id: string
 
-        - `scope: string`
+Feature identifier.
 
-          Vendor-native scope identifier.
+<a href="#">Link to this property</a>
 
-        - `severity: "low" or "medium" or "high" or "critical"`
+description: string
 
-          Permission sensitivity level.
+Feature description.
 
-          * `low` - low
-          * `medium` - medium
-          * `high` - high
-          * `critical` - critical
+<a href="#">Link to this property</a>
 
-          - `"low"`
+display\_name: string
 
-          - `"medium"`
+Human-readable feature name.
 
-          - `"high"`
+<a href="#">Link to this property</a>
 
-          - `"critical"`
+<details>
 
-      - `slug: string`
+<summary>
 
-        Feature identifier.
+scopes: array of object {display\_name, scope, severity }
 
-    - `slug: string`
+Additional scopes when feature is enabled.
 
-      Use case identifier.
+</summary>
 
-# Setup Flows
+display\_name: string
 
-## Get application setup flows
+Human-readable permission name.
 
-**get** `/accounts/{account_id}/one/applications/{slug}/setup-flows`
+<a href="#">Link to this property</a>
 
-Returns all available setup flows for the application, one per auth method.
+scope: string
 
-### Path Parameters
+Vendor-native scope identifier.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `slug: string`
+<details>
 
-### Query Parameters
+<summary>
 
-- `auth_method: optional string`
+severity: "low"or "medium"or "high"or "critical"
 
-  Filter by auth method slug. Get available slugs from GET /v2/applications.
+Permission sensitivity level.
 
-- `environment: optional "fedramp" or "standard"`
+- <code>low</code> - low
+- <code>medium</code> - medium
+- <code>high</code> - high
+- <code>critical</code> - critical
 
-  Filter by environment.
+</summary>
 
-  - `"fedramp"`
+One of the following:
 
-  - `"standard"`
+"low"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+"medium"
 
-  Setup flow identifier.
+<a href="#">Link to this property</a>
 
-- `default: boolean`
+"high"
 
-  Whether this is the default auth method.
+<a href="#">Link to this property</a>
 
-- `description: string`
+"critical"
 
-  Flow description.
+<a href="#">Link to this property</a>
 
-- `name: string`
+</details>
 
-  Human-readable flow name.
+<a href="#">Link to this property</a>
 
-- `steps: array of object { type, component_id, description, 5 more }`
+</details>
 
-  Ordered list of setup steps.
+<a href="#">Link to this property</a>
 
-  - `type: "component" or "instruction" or "form_input" or "oauth_redirect"`
+</details>
 
-    Step type.
+<a href="#">Link to this property</a>
 
-    * `component` - component
-    * `instruction` - instruction
-    * `form_input` - form_input
-    * `oauth_redirect` - oauth_redirect
+</details>
 
-    - `"component"`
+<a href="#">Link to this property</a>
 
-    - `"instruction"`
+</details>
 
-    - `"form_input"`
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(model)%20application_get_response%20%3E%20(schema)>)
 
-    - `"oauth_redirect"`
+#### CasbApplicationsAuth Methods
 
-  - `component_id: optional string`
+##### [Get auth methods](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/applications/subresources/auth_methods/methods/list)
 
-    Component identifier (for component type).
+GET/accounts/{account\_id}/one/applications/{application\_id}/auth-methods
 
-  - `description: optional string`
+##### ModelsExpand Collapse
 
-    Step description with markdown support.
+<details>
 
-  - `dynamic_content: optional array of object { label, type, url_template, value_from }`
+<summary>
 
-    Dynamic content blocks (for instruction/form_input).
+AuthMethodListResponse object {id, display\_name, human\_interaction\_required, 4 more }
 
-    - `label: string`
+Detailed auth method info including credentials schema and instructions.
 
-      Display label.
+</summary>
 
-    - `type: "copy_block" or "external_link"`
+id: string
 
-      Content type.
+Auth method identifier.
 
-      * `copy_block` - copy_block
-      * `external_link` - external_link
+<a href="#">Link to this property</a>
 
-      - `"copy_block"`
+display\_name: string
 
-      - `"external_link"`
+Human-readable auth method name.
 
-    - `url_template: optional string`
+<a href="#">Link to this property</a>
 
-      URL template with {{ variable }} interpolation (for external_link).
+human\_interaction\_required: boolean
 
-    - `value_from: optional string`
+Whether setup requires human interaction or integration can be created purely using API (e.g., For OAuth can not be created without user interaction).
 
-      Field path to get value from (for copy_block).
+<a href="#">Link to this property</a>
 
-  - `form_fields: optional array of object { label, name, placeholder, 3 more }`
+<details>
 
-    Form fields (for form_input).
+<summary>
 
-    - `label: string`
+instructions: object {markdown }
 
-      Human-readable field label.
+Step-by-step instructions for obtaining credentials.
 
-    - `name: string`
+</summary>
 
-      Field identifier (maps to credentials key).
+markdown: string
 
-    - `placeholder: string`
+Detailed instructions in markdown format.
 
-      Placeholder text.
+<a href="#">Link to this property</a>
 
-    - `required: boolean`
+</details>
 
-      Whether field is required.
+<a href="#">Link to this property</a>
 
-    - `supported_file_types: array of string`
+payload\_example: map\[unknown]
 
-      Allowed file extensions for file_upload type.
+Example credentials payload with placeholder values.
 
-    - `type: "text" or "password" or "email" or "file_upload"`
+<a href="#">Link to this property</a>
 
-      Field input type.
+payload\_schema: map\[unknown]
 
-      * `text` - text
-      * `password` - password
-      * `email` - email
-      * `file_upload` - file_upload
+JSON Schema for the credentials object in POST /v2/integrations request.
 
-      - `"text"`
+<a href="#">Link to this property</a>
 
-      - `"password"`
+redirect\_url: string
 
-      - `"email"`
+OAuth redirect URL for vendors requiring human interaction.
 
-      - `"file_upload"`
+<a href="#">Link to this property</a>
 
-  - `is_required: optional boolean`
+</details>
 
-    Whether step is required (for form_input).
+[Link to this property](#)%20zero_trust.casb.applications.auth_methods%20%3E%20(model)%20auth_method_list_response%20%3E%20(schema)>)
 
-  - `parameters: optional map[string]`
+#### CasbIntegrations
 
-    Component parameters (for component type).
+##### [List integrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/list)
 
-  - `title: optional string`
+GET/accounts/{account\_id}/one/integrations
 
-    Step title (for instruction/form_input/oauth_redirect).
+##### [Get integration details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/get)
 
-- `supported_environments: array of string`
+GET/accounts/{account\_id}/one/integrations/{id}
 
-  Environments this auth method supports (standard, fedramp).
+##### [Create integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/create)
 
-- `auth_config: optional object { authorization_url, client_id, requires_pkce, 2 more }`
+POST/accounts/{account\_id}/one/integrations
 
-  OAuth configuration (present for OAuth-based flows).
+##### [Update integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/update)
 
-  - `authorization_url: string`
+PATCH/accounts/{account\_id}/one/integrations/{id}
 
-    Authorization URL for the requested environment.
+##### [Delete integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/delete)
 
-  - `client_id: string`
+DELETE/accounts/{account\_id}/one/integrations/{id}
 
-    OAuth client ID.
+##### [Pause integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/pause)
 
-  - `requires_pkce: boolean`
+POST/accounts/{account\_id}/one/integrations/{id}/pause
 
-    Whether PKCE is required.
+##### [Resume integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/resume)
 
-  - `scopes: array of string`
+POST/accounts/{account\_id}/one/integrations/{id}/resume
 
-    OAuth scopes to request.
+##### ModelsExpand Collapse
 
-  - `url_placeholders: array of string`
+<details>
 
-    Placeholders in authorization URL that frontend must fill.
+<summary>
 
-### Example
+IntegrationListResponse object {id, application, created, 4 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/applications/$SLUG/setup-flows \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Serializer for v2 integration list responses.
 
-#### Response
+</summary>
 
-```json
-[
-  {
-    "default": true,
-    "description": "Connect via a Google Cloud Service Account with Domain-Wide Delegation.",
-    "id": "google_workspace_service_account",
-    "name": "Google Workspace (Service Account)",
-    "steps": [
-      {
-        "component_id": "common/name_integration",
-        "parameters": null,
-        "type": "component"
-      },
-      {
-        "description": "In the Google Cloud Console, create a service account...",
-        "dynamic_content": null,
-        "title": "Create a Service Account",
-        "type": "instruction"
-      },
-      {
-        "description": "Upload the JSON service account key file.",
-        "dynamic_content": null,
-        "form_fields": [
-          {
-            "label": "Service Account JSON File",
-            "name": "service_account_credentials",
-            "placeholder": null,
-            "required": true,
-            "supported_file_types": [
-              ".json"
-            ],
-            "type": "file_upload"
-          }
-        ],
-        "is_required": true,
-        "title": "Upload JSON Key",
-        "type": "form_input"
-      },
-      {
-        "description": "Navigate to your Google admin console and add the client ID.",
-        "dynamic_content": [
-          {
-            "label": "Client ID",
-            "type": "copy_block",
-            "value_from": "credentials.client_id"
-          },
-          {
-            "label": "OAuth Scopes",
-            "type": "copy_block",
-            "value_from": "required_scopes"
-          },
-          {
-            "label": "Open Domain-Wide Delegation Settings",
-            "type": "external_link",
-            "url_template": "https://admin.google.com/ac/owl/domainwidedelegation"
-          }
-        ],
-        "title": "Delegate Domain-Wide Authority",
-        "type": "instruction"
-      },
-      {
-        "description": "Provide the email of a Google Workspace Super Administrator.",
-        "dynamic_content": null,
-        "form_fields": [
-          {
-            "label": "Super Administrator Email",
-            "name": "administrator_email",
-            "placeholder": "admin@your-domain.com",
-            "required": true,
-            "supported_file_types": null,
-            "type": "email"
-          }
-        ],
-        "is_required": true,
-        "title": "Confirm Administrator Email",
-        "type": "form_input"
-      }
-    ],
-    "supported_environments": [
-      "standard"
-    ]
-  }
-]
-```
+id: string
 
-## Domain Types
+Integration ID.
 
-### Setup Flow List Response
+formatuuid
 
-- `SetupFlowListResponse = array of object { id, default, description, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+application: map\[string]
 
-    Setup flow identifier.
+<a href="#">Link to this property</a>
 
-  - `default: boolean`
+created: string
 
-    Whether this is the default auth method.
+When the integration was created.
 
-  - `description: string`
+formatdate-time
 
-    Flow description.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+is\_paused: boolean
 
-    Human-readable flow name.
+Whether the user paused the integration.
 
-  - `steps: array of object { type, component_id, description, 5 more }`
+<a href="#">Link to this property</a>
 
-    Ordered list of setup steps.
+name: string
 
-    - `type: "component" or "instruction" or "form_input" or "oauth_redirect"`
+Name of the integration.
 
-      Step type.
+<a href="#">Link to this property</a>
 
-      * `component` - component
-      * `instruction` - instruction
-      * `form_input` - form_input
-      * `oauth_redirect` - oauth_redirect
+status: string
 
-      - `"component"`
+Integration status.
 
-      - `"instruction"`
+<a href="#">Link to this property</a>
 
-      - `"form_input"`
+updated: string
 
-      - `"oauth_redirect"`
+When the integration was last updated.
 
-    - `component_id: optional string`
+formatdate-time
 
-      Component identifier (for component type).
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      Step description with markdown support.
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_list_response%20%3E%20(schema)>)
 
-    - `dynamic_content: optional array of object { label, type, url_template, value_from }`
+<details>
 
-      Dynamic content blocks (for instruction/form_input).
+<summary>
 
-      - `label: string`
+IntegrationGetResponse object {id, application, auth\_method, 11 more }
 
-        Display label.
+The requested item.
 
-      - `type: "copy_block" or "external_link"`
+</summary>
 
-        Content type.
+id: string
 
-        * `copy_block` - copy_block
-        * `external_link` - external_link
+Integration ID.
 
-        - `"copy_block"`
+formatuuid
 
-        - `"external_link"`
+<a href="#">Link to this property</a>
 
-      - `url_template: optional string`
+application: map\[string]
 
-        URL template with {{ variable }} interpolation (for external_link).
+<a href="#">Link to this property</a>
 
-      - `value_from: optional string`
+auth\_method: map\[string]
 
-        Field path to get value from (for copy_block).
+The integration’s authentication method.
 
-    - `form_fields: optional array of object { label, name, placeholder, 3 more }`
+<a href="#">Link to this property</a>
 
-      Form fields (for form_input).
+<details>
 
-      - `label: string`
+<summary>
 
-        Human-readable field label.
+authorization\_link: object {components, link }
 
-      - `name: string`
+Authorization link for the integration.
 
-        Field identifier (maps to credentials key).
+</summary>
 
-      - `placeholder: string`
+components: map\[unknown]
 
-        Placeholder text.
+<a href="#">Link to this property</a>
 
-      - `required: boolean`
+link: string
 
-        Whether field is required.
+<a href="#">Link to this property</a>
 
-      - `supported_file_types: array of string`
+</details>
 
-        Allowed file extensions for file_upload type.
+<a href="#">Link to this property</a>
 
-      - `type: "text" or "password" or "email" or "file_upload"`
+created: string
 
-        Field input type.
+When the integration was created.
 
-        * `text` - text
-        * `password` - password
-        * `email` - email
-        * `file_upload` - file_upload
+formatdate-time
 
-        - `"text"`
+<a href="#">Link to this property</a>
 
-        - `"password"`
+credentials\_expiry: string
 
-        - `"email"`
+Credentials expiry time.
 
-        - `"file_upload"`
+formatdate-time
 
-    - `is_required: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether step is required (for form_input).
+dlp\_profiles: array of string
 
-    - `parameters: optional map[string]`
+DLP Profiles enabled for the integration.
 
-      Component parameters (for component type).
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+health\_details: array of map\[unknown]
 
-      Step title (for instruction/form_input/oauth_redirect).
+Health details with remediation hints.
 
-  - `supported_environments: array of string`
+<a href="#">Link to this property</a>
 
-    Environments this auth method supports (standard, fedramp).
+is\_paused: boolean
 
-  - `auth_config: optional object { authorization_url, client_id, requires_pkce, 2 more }`
+Whether the user paused the integration.
 
-    OAuth configuration (present for OAuth-based flows).
+<a href="#">Link to this property</a>
 
-    - `authorization_url: string`
+last\_hydrated: string
 
-      Authorization URL for the requested environment.
+Last time the integration was hydrated.
 
-    - `client_id: string`
+formatdate-time
 
-      OAuth client ID.
+<a href="#">Link to this property</a>
 
-    - `requires_pkce: boolean`
+name: string
 
-      Whether PKCE is required.
+Name of the integration.
 
-    - `scopes: array of string`
+<a href="#">Link to this property</a>
 
-      OAuth scopes to request.
+status: string
 
-    - `url_placeholders: array of string`
+Integration status.
 
-      Placeholders in authorization URL that frontend must fill.
+<a href="#">Link to this property</a>
 
-# Integrations
+updated: string
 
-## List integrations
+When the integration was last updated.
 
-**get** `/accounts/{account_id}/one/integrations`
+formatdate-time
 
-Returns a paginated list of integrations for the account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+use\_cases: array of map\[unknown]
 
-- `account_id: string`
+Use cases enabled for the integration.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `application: optional string`
+</details>
 
-  Filter by application/vendor (e.g., GOOGLE_WORKSPACE, MICROSOFT_INTERNAL).
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_get_response%20%3E%20(schema)>)
 
-- `direction: optional "asc" or "desc"`
+<details>
 
-  Direction to order results.
+<summary>
 
-  - `"asc"`
+IntegrationCreateResponse object {id, application, auth\_method, 11 more }
 
-  - `"desc"`
+The requested item.
 
-- `dlp_enabled: optional boolean`
+</summary>
 
-  Filter by DLP enabled status (true/false).
+id: string
 
-- `order: optional "application" or "created" or "name" or "status"`
+Integration ID.
 
-  Field to order results by.
+formatuuid
 
-  - `"application"`
+<a href="#">Link to this property</a>
 
-  - `"created"`
+application: map\[string]
 
-  - `"name"`
+<a href="#">Link to this property</a>
 
-  - `"status"`
+auth\_method: map\[string]
 
-- `page: optional number`
+The integration’s authentication method.
 
-  Page number within the paginated result set.
+<a href="#">Link to this property</a>
 
-- `page_size: optional number`
+<details>
 
-  Number of results per page.
+<summary>
 
-- `search: optional string`
+authorization\_link: object {components, link }
 
-  Search integrations by name or application.
+Authorization link for the integration.
 
-- `status: optional "Healthy" or "Initializing" or "Offline" or "Unhealthy"`
+</summary>
 
-  Filter by integration status.
+components: map\[unknown]
 
-  - `"Healthy"`
+<a href="#">Link to this property</a>
 
-  - `"Initializing"`
+link: string
 
-  - `"Offline"`
+<a href="#">Link to this property</a>
 
-  - `"Unhealthy"`
+</details>
 
-- `use_cases: optional string`
+<a href="#">Link to this property</a>
 
-  Filter by enabled use cases (e.g., casb, ces). Matches integrations enrolled in any of the specified values. Can be specified multiple times.
+created: string
 
-### Example
+When the integration was created.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": [
-    {
-      "application": {
-        "category": "Productivity",
-        "display_name": "Google Workspace",
-        "logo": "https://onprem.cloudflare.com/static/google_workspace.png"
-      },
-      "created": "2025-01-15T10:00:00Z",
-      "id": "019d2e6a-d995-7185-afbd-4feead9e42ec",
-      "is_paused": false,
-      "name": "My Google Workspace",
-      "status": "Healthy",
-      "updated": "2025-04-10T08:30:00Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "next": null,
-    "page": 1,
-    "per_page": 10,
-    "previous": null,
-    "total_count": 1
-  },
-  "success": true
-}
-```
+credentials\_expiry: string
 
-## Get integration details
+Credentials expiry time.
 
-**get** `/accounts/{account_id}/one/integrations/{id}`
+formatdate-time
 
-Returns full integration details including use cases and permissions.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+dlp\_profiles: array of string
 
-- `account_id: string`
+DLP Profiles enabled for the integration.
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+health\_details: array of map\[unknown]
 
-- `id: string`
+Health details with remediation hints.
 
-  Integration ID.
+<a href="#">Link to this property</a>
 
-- `application: map[string]`
+is\_paused: boolean
 
-- `auth_method: map[string]`
+Whether the user paused the integration.
 
-  The integration's authentication method.
+<a href="#">Link to this property</a>
 
-- `authorization_link: object { components, link }`
+last\_hydrated: string
 
-  Authorization link for the integration.
+Last time the integration was hydrated.
 
-  - `components: map[unknown]`
+formatdate-time
 
-  - `link: string`
+<a href="#">Link to this property</a>
 
-- `created: string`
+name: string
 
-  When the integration was created.
+Name of the integration.
 
-- `credentials_expiry: string`
+<a href="#">Link to this property</a>
 
-  Credentials expiry time.
+status: string
 
-- `dlp_profiles: array of string`
+Integration status.
 
-  DLP Profiles enabled for the integration.
+<a href="#">Link to this property</a>
 
-- `health_details: array of map[unknown]`
+updated: string
 
-  Health details with remediation hints.
+When the integration was last updated.
 
-- `is_paused: boolean`
+formatdate-time
 
-  Whether the user paused the integration.
+<a href="#">Link to this property</a>
 
-- `last_hydrated: string`
+use\_cases: array of map\[unknown]
 
-  Last time the integration was hydrated.
+Use cases enabled for the integration.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Name of the integration.
+</details>
 
-- `organization_id: number`
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_create_response%20%3E%20(schema)>)
 
-  Organization ID.
+<details>
 
-- `status: string`
+<summary>
 
-  Integration status.
+IntegrationUpdateResponse object {id, application, auth\_method, 11 more }
 
-- `updated: string`
+The requested item.
 
-  When the integration was last updated.
+</summary>
 
-- `use_cases: array of map[unknown]`
+id: string
 
-  Use cases enabled for the integration.
+Integration ID.
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+application: map\[string]
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Create integration
+auth\_method: map\[string]
 
-**post** `/accounts/{account_id}/one/integrations`
+The integration’s authentication method.
 
-Creates a new integration for the specified application.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+authorization\_link: object {components, link }
 
-- `application: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+Authorization link for the integration.
 
-  Vendor/application slug (e.g., GOOGLE_WORKSPACE).
+</summary>
 
-  * `GITHUB` - GITHUB
-  * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-  * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-  * `SALESFORCE` - SALESFORCE
-  * `SLACK` - SLACK
+components: map\[unknown]
 
-  - `"GITHUB"`
+<a href="#">Link to this property</a>
 
-  - `"GOOGLE_WORKSPACE"`
+link: string
 
-  - `"MICROSOFT_INTERNAL"`
+<a href="#">Link to this property</a>
 
-  - `"SALESFORCE"`
+</details>
 
-  - `"SLACK"`
+<a href="#">Link to this property</a>
 
-- `credentials: map[unknown]`
+created: string
 
-  Credentials for the integration.
+When the integration was created.
 
-- `name: string`
+formatdate-time
 
-  Name of the integration.
+<a href="#">Link to this property</a>
 
-- `auth_method: optional string`
+credentials\_expiry: string
 
-  Authentication method slug (uses default if omitted).
+Credentials expiry time.
 
-- `dlp_profiles: optional array of string`
+formatdate-time
 
-  List of DLP profile IDs to associate.
+<a href="#">Link to this property</a>
 
-- `permissions: optional array of string`
+dlp\_profiles: array of string
 
-  List of permission scopes (uses policy defaults if empty).
+DLP Profiles enabled for the integration.
 
-- `use_cases: optional array of "casb" or "ces" or "auto_remediation"`
+<a href="#">Link to this property</a>
 
-  List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation']).
+health\_details: array of map\[unknown]
 
-  - `"casb"`
+Health details with remediation hints.
 
-  - `"ces"`
+<a href="#">Link to this property</a>
 
-  - `"auto_remediation"`
+is\_paused: boolean
 
-### Returns
+Whether the user paused the integration.
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  Integration ID.
+last\_hydrated: string
 
-- `application: map[string]`
+Last time the integration was hydrated.
 
-- `auth_method: map[string]`
+formatdate-time
 
-  The integration's authentication method.
+<a href="#">Link to this property</a>
 
-- `authorization_link: object { components, link }`
+name: string
 
-  Authorization link for the integration.
+Name of the integration.
 
-  - `components: map[unknown]`
+<a href="#">Link to this property</a>
 
-  - `link: string`
+status: string
 
-- `created: string`
+Integration status.
 
-  When the integration was created.
+<a href="#">Link to this property</a>
 
-- `credentials_expiry: string`
+updated: string
 
-  Credentials expiry time.
+When the integration was last updated.
 
-- `dlp_profiles: array of string`
+formatdate-time
 
-  DLP Profiles enabled for the integration.
+<a href="#">Link to this property</a>
 
-- `health_details: array of map[unknown]`
+use\_cases: array of map\[unknown]
 
-  Health details with remediation hints.
+Use cases enabled for the integration.
 
-- `is_paused: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the user paused the integration.
+</details>
 
-- `last_hydrated: string`
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_update_response%20%3E%20(schema)>)
 
-  Last time the integration was hydrated.
+<details>
 
-- `name: string`
+<summary>
 
-  Name of the integration.
+IntegrationPauseResponse object {id, application, auth\_method, 11 more }
 
-- `organization_id: number`
+The requested item.
 
-  Organization ID.
+</summary>
 
-- `status: string`
+id: string
 
-  Integration status.
+Integration ID.
 
-- `updated: string`
+formatuuid
 
-  When the integration was last updated.
+<a href="#">Link to this property</a>
 
-- `use_cases: array of map[unknown]`
+application: map\[string]
 
-  Use cases enabled for the integration.
+<a href="#">Link to this property</a>
 
-### Example
+auth\_method: map\[string]
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "application": "GOOGLE_WORKSPACE",
-          "credentials": {
-            "admin_email": "bar"
-          },
-          "name": "My Google Workspace"
-        }'
-```
+The integration’s authentication method.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+<details>
 
-## Update integration
+<summary>
 
-**patch** `/accounts/{account_id}/one/integrations/{id}`
+authorization\_link: object {components, link }
 
-Updates an integration's name, permissions, DLP profiles, use cases, or credentials.
+Authorization link for the integration.
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+components: map\[unknown]
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+link: string
 
-- `credentials: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-  Partial credential fields to merge with existing.
+</details>
 
-- `dlp_profiles: optional array of string`
+<a href="#">Link to this property</a>
 
-  List of DLP profile IDs to associate with the integration.
+created: string
 
-- `name: optional string`
+When the integration was created.
 
-  Name of the integration.
+formatdate-time
 
-- `permissions: optional array of string`
+<a href="#">Link to this property</a>
 
-  List of permission scopes granted to the integration.
+credentials\_expiry: string
 
-- `use_cases: optional array of "casb" or "ces" or "auto_remediation"`
+Credentials expiry time.
 
-  List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation']).
+formatdate-time
 
-  - `"casb"`
+<a href="#">Link to this property</a>
 
-  - `"ces"`
+dlp\_profiles: array of string
 
-  - `"auto_remediation"`
+DLP Profiles enabled for the integration.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+health\_details: array of map\[unknown]
 
-  Integration ID.
+Health details with remediation hints.
 
-- `application: map[string]`
+<a href="#">Link to this property</a>
 
-- `auth_method: map[string]`
+is\_paused: boolean
 
-  The integration's authentication method.
+Whether the user paused the integration.
 
-- `authorization_link: object { components, link }`
+<a href="#">Link to this property</a>
 
-  Authorization link for the integration.
+last\_hydrated: string
 
-  - `components: map[unknown]`
+Last time the integration was hydrated.
 
-  - `link: string`
+formatdate-time
 
-- `created: string`
+<a href="#">Link to this property</a>
 
-  When the integration was created.
+name: string
 
-- `credentials_expiry: string`
+Name of the integration.
 
-  Credentials expiry time.
+<a href="#">Link to this property</a>
 
-- `dlp_profiles: array of string`
+status: string
 
-  DLP Profiles enabled for the integration.
+Integration status.
 
-- `health_details: array of map[unknown]`
+<a href="#">Link to this property</a>
 
-  Health details with remediation hints.
+updated: string
 
-- `is_paused: boolean`
+When the integration was last updated.
 
-  Whether the user paused the integration.
+formatdate-time
 
-- `last_hydrated: string`
+<a href="#">Link to this property</a>
 
-  Last time the integration was hydrated.
+use\_cases: array of map\[unknown]
 
-- `name: string`
+Use cases enabled for the integration.
 
-  Name of the integration.
+<a href="#">Link to this property</a>
 
-- `organization_id: number`
+</details>
 
-  Organization ID.
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_pause_response%20%3E%20(schema)>)
 
-- `status: string`
+<details>
 
-  Integration status.
+<summary>
 
-- `updated: string`
+IntegrationResumeResponse object {id, application, auth\_method, 11 more }
 
-  When the integration was last updated.
+The requested item.
 
-- `use_cases: array of map[unknown]`
+</summary>
 
-  Use cases enabled for the integration.
+id: string
 
-### Example
+Integration ID.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatuuid
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+application: map\[string]
 
-## Delete integration
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/one/integrations/{id}`
+auth\_method: map\[string]
 
-Delete an integration by soft-deleting it.
+The integration’s authentication method.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-- `id: string`
+<summary>
 
-### Example
+authorization\_link: object {components, link }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Authorization link for the integration.
 
-## Pause integration
+</summary>
 
-**post** `/accounts/{account_id}/one/integrations/{id}/pause`
+components: map\[unknown]
 
-Pauses an integration, stopping all crawlers.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+link: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+created: string
 
-  Integration ID.
+When the integration was created.
 
-- `application: map[string]`
+formatdate-time
 
-- `auth_method: map[string]`
+<a href="#">Link to this property</a>
 
-  The integration's authentication method.
+credentials\_expiry: string
 
-- `authorization_link: object { components, link }`
+Credentials expiry time.
 
-  Authorization link for the integration.
+formatdate-time
 
-  - `components: map[unknown]`
+<a href="#">Link to this property</a>
 
-  - `link: string`
+dlp\_profiles: array of string
 
-- `created: string`
+DLP Profiles enabled for the integration.
 
-  When the integration was created.
+<a href="#">Link to this property</a>
 
-- `credentials_expiry: string`
+health\_details: array of map\[unknown]
 
-  Credentials expiry time.
+Health details with remediation hints.
 
-- `dlp_profiles: array of string`
+<a href="#">Link to this property</a>
 
-  DLP Profiles enabled for the integration.
+is\_paused: boolean
 
-- `health_details: array of map[unknown]`
+Whether the user paused the integration.
 
-  Health details with remediation hints.
+<a href="#">Link to this property</a>
 
-- `is_paused: boolean`
+last\_hydrated: string
 
-  Whether the user paused the integration.
+Last time the integration was hydrated.
 
-- `last_hydrated: string`
+formatdate-time
 
-  Last time the integration was hydrated.
+<a href="#">Link to this property</a>
 
-- `name: string`
+name: string
 
-  Name of the integration.
+Name of the integration.
 
-- `organization_id: number`
+<a href="#">Link to this property</a>
 
-  Organization ID.
+status: string
 
-- `status: string`
+Integration status.
 
-  Integration status.
+<a href="#">Link to this property</a>
 
-- `updated: string`
+updated: string
 
-  When the integration was last updated.
+When the integration was last updated.
 
-- `use_cases: array of map[unknown]`
+formatdate-time
 
-  Use cases enabled for the integration.
+<a href="#">Link to this property</a>
 
-### Example
+use\_cases: array of map\[unknown]
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID/pause \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Use cases enabled for the integration.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+</details>
 
-## Resume integration
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_resume_response%20%3E%20(schema)>)
 
-**post** `/accounts/{account_id}/one/integrations/{id}/resume`
+#### CasbPosture
 
-Resumes a paused integration, restarting crawlers.
+#### CasbPostureFindings
 
-### Path Parameters
+##### [List posture findings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/methods/list)
 
-- `account_id: string`
+GET/accounts/{account\_id}/data-security/posture/findings
 
-- `id: string`
+##### [Get a finding type](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/methods/get)
 
-### Returns
+GET/accounts/{account\_id}/data-security/posture/findings/{finding\_id}
 
-- `id: string`
+##### [Create new findings export request](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/methods/export)
 
-  Integration ID.
+POST/accounts/{account\_id}/data-security/posture/findings/export
 
-- `application: map[string]`
+##### [Mark a finding as ignored](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/methods/ignore)
 
-- `auth_method: map[string]`
+POST/accounts/{account\_id}/data-security/posture/findings/ignore
 
-  The integration's authentication method.
+##### [Remove ignore marker from a finding](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/methods/unignore)
 
-- `authorization_link: object { components, link }`
+POST/accounts/{account\_id}/data-security/posture/findings/unignore
 
-  Authorization link for the integration.
+##### [Update the severity for a finding](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/methods/tune_severity)
 
-  - `components: map[unknown]`
+POST/accounts/{account\_id}/data-security/posture/findings/{finding\_id}/tune\_finding\_severity
 
-  - `link: string`
+##### [Reset severity for a finding back to the default](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/methods/reset_severity)
 
-- `created: string`
+POST/accounts/{account\_id}/data-security/posture/findings/{finding\_id}/reset\_finding\_severity
 
-  When the integration was created.
+##### ModelsExpand Collapse
 
-- `credentials_expiry: string`
+<details>
 
-  Credentials expiry time.
+<summary>
 
-- `dlp_profiles: array of string`
+FindingListResponse object {id, active\_count, archived\_count, 6 more }
 
-  DLP Profiles enabled for the integration.
+Aggregated finding information with counts and metadata. This is optimized for list API queries and represents a finding along with its instance statistics.
 
-- `health_details: array of map[unknown]`
+</summary>
 
-  Health details with remediation hints.
+id: string
 
-- `is_paused: boolean`
+Base64 encoded identifier of the security finding.
 
-  Whether the user paused the integration.
+formatbyte
 
-- `last_hydrated: string`
+<a href="#">Link to this property</a>
 
-  Last time the integration was hydrated.
+active\_count: number
 
-- `name: string`
+Number of active problematic instances identified in the security finding.
 
-  Name of the integration.
+<a href="#">Link to this property</a>
 
-- `organization_id: number`
+archived\_count: number
 
-  Organization ID.
+Number of archived instances identified in the security finding.
 
-- `status: string`
+<a href="#">Link to this property</a>
 
-  Integration status.
+<details>
 
-- `updated: string`
+<summary>
 
-  When the integration was last updated.
+finding: object {id, category, name, 4 more }
 
-- `use_cases: array of map[unknown]`
+Basic finding type information.
 
-  Use cases enabled for the integration.
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID/resume \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The unique identifier of the finding.
 
-#### Response
+formatuuid
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Integration List Response
+<summary>
 
-- `IntegrationListResponse = unknown`
+category: object {observation, product, type }
 
-### Integration Get Response
+Category information for a finding.
 
-- `IntegrationGetResponse object { id, application, auth_method, 12 more }`
+</summary>
 
-  Serializer for v2 integration detail response with use cases.
+<details>
 
-  - `id: string`
+<summary>
 
-    Integration ID.
+observation: "Issue"or "Insight"or "Activity"
 
-  - `application: map[string]`
+The type of the observation.
 
-  - `auth_method: map[string]`
+</summary>
 
-    The integration's authentication method.
+One of the following:
 
-  - `authorization_link: object { components, link }`
+"Issue"
 
-    Authorization link for the integration.
+<a href="#">Link to this property</a>
 
-    - `components: map[unknown]`
+"Insight"
 
-    - `link: string`
+<a href="#">Link to this property</a>
 
-  - `created: string`
+"Activity"
 
-    When the integration was created.
+<a href="#">Link to this property</a>
 
-  - `credentials_expiry: string`
+</details>
 
-    Credentials expiry time.
+<a href="#">Link to this property</a>
 
-  - `dlp_profiles: array of string`
+<details>
 
-    DLP Profiles enabled for the integration.
+<summary>
 
-  - `health_details: array of map[unknown]`
+product: "SaaS"or "Cloud"
 
-    Health details with remediation hints.
+The product category.
 
-  - `is_paused: boolean`
+</summary>
 
-    Whether the user paused the integration.
+One of the following:
 
-  - `last_hydrated: string`
+"SaaS"
 
-    Last time the integration was hydrated.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"Cloud"
 
-    Name of the integration.
+<a href="#">Link to this property</a>
 
-  - `organization_id: number`
+</details>
 
-    Organization ID.
+<a href="#">Link to this property</a>
 
-  - `status: string`
+<details>
 
-    Integration status.
+<summary>
 
-  - `updated: string`
+type: "Content"or "Posture"
 
-    When the integration was last updated.
+The type of the finding category.
 
-  - `use_cases: array of map[unknown]`
+</summary>
 
-    Use cases enabled for the integration.
+One of the following:
 
-### Integration Create Response
+"Content"
 
-- `IntegrationCreateResponse object { id, application, auth_method, 12 more }`
+<a href="#">Link to this property</a>
 
-  Serializer for v2 integration detail response with use cases.
+"Posture"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Integration ID.
+</details>
 
-  - `application: map[string]`
+<a href="#">Link to this property</a>
 
-  - `auth_method: map[string]`
+</details>
 
-    The integration's authentication method.
+<a href="#">Link to this property</a>
 
-  - `authorization_link: object { components, link }`
+name: string
 
-    Authorization link for the integration.
+The name of the finding.
 
-    - `components: map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `link: string`
+<details>
 
-  - `created: string`
+<summary>
 
-    When the integration was created.
+severity: "Critical"or "High"or "Medium"or "Low"
 
-  - `credentials_expiry: string`
+The severity level of a finding.
 
-    Credentials expiry time.
+</summary>
 
-  - `dlp_profiles: array of string`
+One of the following:
 
-    DLP Profiles enabled for the integration.
+"Critical"
 
-  - `health_details: array of map[unknown]`
+<a href="#">Link to this property</a>
 
-    Health details with remediation hints.
+"High"
 
-  - `is_paused: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the user paused the integration.
+"Medium"
 
-  - `last_hydrated: string`
+<a href="#">Link to this property</a>
 
-    Last time the integration was hydrated.
+"Low"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the integration.
+</details>
 
-  - `organization_id: number`
+<a href="#">Link to this property</a>
 
-    Organization ID.
+vendor: string
 
-  - `status: string`
+The SaaS/Cloud vendor of the platform with which the finding is associated.
 
-    Integration status.
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+description: optional string
 
-    When the integration was last updated.
+Detailed description of the finding.
 
-  - `use_cases: array of map[unknown]`
+<a href="#">Link to this property</a>
 
-    Use cases enabled for the integration.
+<details>
 
-### Integration Update Response
+<summary>
 
-- `IntegrationUpdateResponse object { id, application, auth_method, 12 more }`
+remediation: optional object {id, frameworks, guide, 3 more }
 
-  Serializer for v2 integration detail response with use cases.
+Remediation guide information for a finding.
 
-  - `id: string`
+</summary>
 
-    Integration ID.
+id: string
 
-  - `application: map[string]`
+Remediation Id.
 
-  - `auth_method: map[string]`
+formatuuid
 
-    The integration's authentication method.
+<a href="#">Link to this property</a>
 
-  - `authorization_link: object { components, link }`
+frameworks: array of string
 
-    Authorization link for the integration.
+Relevant Compliance Frameworks.
 
-    - `components: map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `link: string`
+guide: string
 
-  - `created: string`
+Remediation guide text.
 
-    When the integration was created.
+<a href="#">Link to this property</a>
 
-  - `credentials_expiry: string`
+impact: string
 
-    Credentials expiry time.
+Description of the potential impact.
 
-  - `dlp_profiles: array of string`
+<a href="#">Link to this property</a>
 
-    DLP Profiles enabled for the integration.
+locale: string
 
-  - `health_details: array of map[unknown]`
+I18N Locale.
 
-    Health details with remediation hints.
+<a href="#">Link to this property</a>
 
-  - `is_paused: boolean`
+threat: string
 
-    Whether the user paused the integration.
+Description of the threat.
 
-  - `last_hydrated: string`
+<a href="#">Link to this property</a>
 
-    Last time the integration was hydrated.
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the integration.
+</details>
 
-  - `organization_id: number`
+<a href="#">Link to this property</a>
 
-    Organization ID.
+ignored: boolean
 
-  - `status: string`
+Determines if finding is currently ignored.
 
-    Integration status.
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+instance\_count: number
 
-    When the integration was last updated.
+Number of total (Active or archived) problematic instances identified in the security finding.
 
-  - `use_cases: array of map[unknown]`
+<a href="#">Link to this property</a>
 
-    Use cases enabled for the integration.
+<details>
 
-### Integration Pause Response
+<summary>
 
-- `IntegrationPauseResponse object { id, application, auth_method, 12 more }`
+integration: object {created, last\_hydrated, name, 12 more }
 
-  Serializer for v2 integration detail response with use cases.
+Summary information about an integration.
 
-  - `id: string`
+</summary>
 
-    Integration ID.
+created: string
 
-  - `application: map[string]`
+When entity was created.
 
-  - `auth_method: map[string]`
+formatdate-time
 
-    The integration's authentication method.
+<a href="#">Link to this property</a>
 
-  - `authorization_link: object { components, link }`
+last\_hydrated: string
 
-    Authorization link for the integration.
+When were the integration credentials last updated.
 
-    - `components: map[unknown]`
+formatdate-time
 
-    - `link: string`
+<a href="#">Link to this property</a>
 
-  - `created: string`
+name: string
 
-    When the integration was created.
+Name of the integration.
 
-  - `credentials_expiry: string`
+maxLength256
 
-    Credentials expiry time.
+<a href="#">Link to this property</a>
 
-  - `dlp_profiles: array of string`
+permissions: array of string
 
-    DLP Profiles enabled for the integration.
+The vendor-specific permissions associated with the integration.
 
-  - `health_details: array of map[unknown]`
+<a href="#">Link to this property</a>
 
-    Health details with remediation hints.
+<details>
 
-  - `is_paused: boolean`
+<summary>
 
-    Whether the user paused the integration.
+policy: object {id, client\_id, compliance\_level, 4 more }
 
-  - `last_hydrated: string`
+Policy configuration for an integration.
 
-    Last time the integration was hydrated.
+</summary>
 
-  - `name: string`
+id: optional string
 
-    Name of the integration.
+Policy identifier.
 
-  - `organization_id: number`
+formatuuid
 
-    Organization ID.
+<a href="#">Link to this property</a>
 
-  - `status: string`
+client\_id: optional string
 
-    Integration status.
+OAuth client ID for the policy.
 
-  - `updated: string`
+<a href="#">Link to this property</a>
 
-    When the integration was last updated.
+compliance\_level: optional string
 
-  - `use_cases: array of map[unknown]`
+Compliance level for the policy.
 
-    Use cases enabled for the integration.
+<a href="#">Link to this property</a>
 
-### Integration Resume Response
+dlp\_enabled: optional boolean
 
-- `IntegrationResumeResponse object { id, application, auth_method, 12 more }`
+Whether DLP is enabled for this policy.
 
-  Serializer for v2 integration detail response with use cases.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+link: optional string
 
-    Integration ID.
+Link to policy documentation.
 
-  - `application: map[string]`
+formaturi
 
-  - `auth_method: map[string]`
+<a href="#">Link to this property</a>
 
-    The integration's authentication method.
+name: optional string
 
-  - `authorization_link: object { components, link }`
+Policy name.
 
-    Authorization link for the integration.
+<a href="#">Link to this property</a>
 
-    - `components: map[unknown]`
+permissions: optional array of string
 
-    - `link: string`
+List of permissions included in the policy.
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-    When the integration was created.
+</details>
 
-  - `credentials_expiry: string`
+<a href="#">Link to this property</a>
 
-    Credentials expiry time.
+status: string
 
-  - `dlp_profiles: array of string`
+Current status of the integration.
 
-    DLP Profiles enabled for the integration.
+<a href="#">Link to this property</a>
 
-  - `health_details: array of map[unknown]`
+updated: string
 
-    Health details with remediation hints.
+Last entity was updated.
 
-  - `is_paused: boolean`
+formatdate-time
 
-    Whether the user paused the integration.
+<a href="#">Link to this property</a>
 
-  - `last_hydrated: string`
+upgradable: boolean
 
-    Last time the integration was hydrated.
+Whether the integrations permissions can be updated.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the integration.
+<details>
 
-  - `organization_id: number`
+<summary>
 
-    Organization ID.
+vendor: object {id, description, display\_name, 5 more }
 
-  - `status: string`
+Information about a vendor/service provider.
 
-    Integration status.
+</summary>
 
-  - `updated: string`
+id: string
 
-    When the integration was last updated.
+The id of the vendor.
 
-  - `use_cases: array of map[unknown]`
+<a href="#">Link to this property</a>
 
-    Use cases enabled for the integration.
+description: string
+
+Detailed information about what kinds of issues are detected for this vendor.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+The display name of the vendor.
+
+<a href="#">Link to this property</a>
+
+logo: string
+
+Logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the vendor.
+
+<a href="#">Link to this property</a>
+
+static\_logo: string
+
+Static logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+zt\_enrollments: array of string
+
+The vendor’s compatible Zero Trust products.
+
+<a href="#">Link to this property</a>
+
+policies: optional array of map\[unknown]
+
+The policies related to the vendor.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zt\_enrollments: array of object {id, description, display\_name, enabled }
+
+Zero Trust products associated with this integration.
+
+</summary>
+
+id: optional string
+
+The internal identifier of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Brief description of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+display\_name: optional string
+
+The verbose name of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Flag to enable/disable access to the listed integration from the corresponding Cloudflare product.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Integration ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+credential\_health\_status: optional "Initializing"or "Healthy"or "Unhealthy"
+
+Health status of integration credentials.
+
+</summary>
+
+One of the following:
+
+"Initializing"
+
+<a href="#">Link to this property</a>
+
+"Healthy"
+
+<a href="#">Link to this property</a>
+
+"Unhealthy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+credentials\_expiry: optional string
+
+The date and time when the integration credentials will expire.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the given integration is paused by the user.
+
+<a href="#">Link to this property</a>
+
+upgrade\_dismissed: optional boolean
+
+UI State as to whether a potential permissions upgrade has been dismissed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+latest\_affliction\_date: string
+
+Timestamp of the latest affliction date of an active finding.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity\_override: optional object {created\_by, severity }
+
+Override information for finding severity.
+
+</summary>
+
+created\_by: string
+
+User ID who created the override.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings%20%3E%20(model)%20finding_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FindingGetResponse object {id, active\_count, archived\_count, 6 more }
+
+Aggregated finding information with counts and metadata. This is optimized for list API queries and represents a finding along with its instance statistics.
+
+</summary>
+
+id: string
+
+Base64 encoded identifier of the security finding.
+
+formatbyte
+
+<a href="#">Link to this property</a>
+
+active\_count: number
+
+Number of active problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+archived\_count: number
+
+Number of archived instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: object {id, category, name, 4 more }
+
+Basic finding type information.
+
+</summary>
+
+id: string
+
+The unique identifier of the finding.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {observation, product, type }
+
+Category information for a finding.
+
+</summary>
+
+<details>
+
+<summary>
+
+observation: "Issue"or "Insight"or "Activity"
+
+The type of the observation.
+
+</summary>
+
+One of the following:
+
+"Issue"
+
+<a href="#">Link to this property</a>
+
+"Insight"
+
+<a href="#">Link to this property</a>
+
+"Activity"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+product: "SaaS"or "Cloud"
+
+The product category.
+
+</summary>
+
+One of the following:
+
+"SaaS"
+
+<a href="#">Link to this property</a>
+
+"Cloud"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "Content"or "Posture"
+
+The type of the finding category.
+
+</summary>
+
+One of the following:
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+"Posture"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The SaaS/Cloud vendor of the platform with which the finding is associated.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Detailed description of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediation: optional object {id, frameworks, guide, 3 more }
+
+Remediation guide information for a finding.
+
+</summary>
+
+id: string
+
+Remediation Id.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+frameworks: array of string
+
+Relevant Compliance Frameworks.
+
+<a href="#">Link to this property</a>
+
+guide: string
+
+Remediation guide text.
+
+<a href="#">Link to this property</a>
+
+impact: string
+
+Description of the potential impact.
+
+<a href="#">Link to this property</a>
+
+locale: string
+
+I18N Locale.
+
+<a href="#">Link to this property</a>
+
+threat: string
+
+Description of the threat.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ignored: boolean
+
+Determines if finding is currently ignored.
+
+<a href="#">Link to this property</a>
+
+instance\_count: number
+
+Number of total (Active or archived) problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+integration: object {created, last\_hydrated, name, 12 more }
+
+Summary information about an integration.
+
+</summary>
+
+created: string
+
+When entity was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_hydrated: string
+
+When were the integration credentials last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the integration.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+permissions: array of string
+
+The vendor-specific permissions associated with the integration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policy: object {id, client\_id, compliance\_level, 4 more }
+
+Policy configuration for an integration.
+
+</summary>
+
+id: optional string
+
+Policy identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+OAuth client ID for the policy.
+
+<a href="#">Link to this property</a>
+
+compliance\_level: optional string
+
+Compliance level for the policy.
+
+<a href="#">Link to this property</a>
+
+dlp\_enabled: optional boolean
+
+Whether DLP is enabled for this policy.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Link to policy documentation.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Policy name.
+
+<a href="#">Link to this property</a>
+
+permissions: optional array of string
+
+List of permissions included in the policy.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: string
+
+Current status of the integration.
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+Last entity was updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+upgradable: boolean
+
+Whether the integrations permissions can be updated.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: object {id, description, display\_name, 5 more }
+
+Information about a vendor/service provider.
+
+</summary>
+
+id: string
+
+The id of the vendor.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Detailed information about what kinds of issues are detected for this vendor.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+The display name of the vendor.
+
+<a href="#">Link to this property</a>
+
+logo: string
+
+Logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the vendor.
+
+<a href="#">Link to this property</a>
+
+static\_logo: string
+
+Static logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+zt\_enrollments: array of string
+
+The vendor’s compatible Zero Trust products.
+
+<a href="#">Link to this property</a>
+
+policies: optional array of map\[unknown]
+
+The policies related to the vendor.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zt\_enrollments: array of object {id, description, display\_name, enabled }
+
+Zero Trust products associated with this integration.
+
+</summary>
+
+id: optional string
+
+The internal identifier of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Brief description of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+display\_name: optional string
+
+The verbose name of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Flag to enable/disable access to the listed integration from the corresponding Cloudflare product.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Integration ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+credential\_health\_status: optional "Initializing"or "Healthy"or "Unhealthy"
+
+Health status of integration credentials.
+
+</summary>
+
+One of the following:
+
+"Initializing"
+
+<a href="#">Link to this property</a>
+
+"Healthy"
+
+<a href="#">Link to this property</a>
+
+"Unhealthy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+credentials\_expiry: optional string
+
+The date and time when the integration credentials will expire.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the given integration is paused by the user.
+
+<a href="#">Link to this property</a>
+
+upgrade\_dismissed: optional boolean
+
+UI State as to whether a potential permissions upgrade has been dismissed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+latest\_affliction\_date: string
+
+Timestamp of the latest affliction date of an active finding.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity\_override: optional object {created\_by, severity }
+
+Override information for finding severity.
+
+</summary>
+
+created\_by: string
+
+User ID who created the override.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings%20%3E%20(model)%20finding_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FindingExportResponse object {id, status, type, 5 more }
+
+Information about an export job.
+
+</summary>
+
+id: string
+
+Unique identifier for the export job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "Pending"or "Success"or "Failure"or 2 more
+
+Status of an export job.
+
+</summary>
+
+One of the following:
+
+"Pending"
+
+<a href="#">Link to this property</a>
+
+"Success"
+
+<a href="#">Link to this property</a>
+
+"Failure"
+
+<a href="#">Link to this property</a>
+
+"Rescheduled"
+
+<a href="#">Link to this property</a>
+
+"In-Progress"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "finding"or "findingInstance"or "content"or "remediationJob"
+
+Type of export job.
+
+</summary>
+
+One of the following:
+
+"finding"
+
+<a href="#">Link to this property</a>
+
+"findingInstance"
+
+<a href="#">Link to this property</a>
+
+"content"
+
+<a href="#">Link to this property</a>
+
+"remediationJob"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user\_id: string
+
+ID of the export-requesting user.
+
+maxLength128
+
+<a href="#">Link to this property</a>
+
+download\_url: optional string
+
+The URL by which the successfully created export can be downloaded by the end users.
+
+formaturi
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+errors: optional string
+
+Contains information on errors which may have occurred during export creation.
+
+<a href="#">Link to this property</a>
+
+file\_name: optional string
+
+The base name of the file that is/was generated by the export job.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+file\_path: optional string
+
+The full path of the file that is stored within external storage (currently R2).
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings%20%3E%20(model)%20finding_export_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FindingIgnoreResponse object {id, active\_count, archived\_count, 6 more }
+
+Aggregated finding information with counts and metadata. This is optimized for list API queries and represents a finding along with its instance statistics.
+
+</summary>
+
+id: string
+
+Base64 encoded identifier of the security finding.
+
+formatbyte
+
+<a href="#">Link to this property</a>
+
+active\_count: number
+
+Number of active problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+archived\_count: number
+
+Number of archived instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: object {id, category, name, 4 more }
+
+Basic finding type information.
+
+</summary>
+
+id: string
+
+The unique identifier of the finding.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {observation, product, type }
+
+Category information for a finding.
+
+</summary>
+
+<details>
+
+<summary>
+
+observation: "Issue"or "Insight"or "Activity"
+
+The type of the observation.
+
+</summary>
+
+One of the following:
+
+"Issue"
+
+<a href="#">Link to this property</a>
+
+"Insight"
+
+<a href="#">Link to this property</a>
+
+"Activity"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+product: "SaaS"or "Cloud"
+
+The product category.
+
+</summary>
+
+One of the following:
+
+"SaaS"
+
+<a href="#">Link to this property</a>
+
+"Cloud"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "Content"or "Posture"
+
+The type of the finding category.
+
+</summary>
+
+One of the following:
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+"Posture"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The SaaS/Cloud vendor of the platform with which the finding is associated.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Detailed description of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediation: optional object {id, frameworks, guide, 3 more }
+
+Remediation guide information for a finding.
+
+</summary>
+
+id: string
+
+Remediation Id.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+frameworks: array of string
+
+Relevant Compliance Frameworks.
+
+<a href="#">Link to this property</a>
+
+guide: string
+
+Remediation guide text.
+
+<a href="#">Link to this property</a>
+
+impact: string
+
+Description of the potential impact.
+
+<a href="#">Link to this property</a>
+
+locale: string
+
+I18N Locale.
+
+<a href="#">Link to this property</a>
+
+threat: string
+
+Description of the threat.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ignored: boolean
+
+Determines if finding is currently ignored.
+
+<a href="#">Link to this property</a>
+
+instance\_count: number
+
+Number of total (Active or archived) problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+integration: object {created, last\_hydrated, name, 12 more }
+
+Summary information about an integration.
+
+</summary>
+
+created: string
+
+When entity was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_hydrated: string
+
+When were the integration credentials last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the integration.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+permissions: array of string
+
+The vendor-specific permissions associated with the integration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policy: object {id, client\_id, compliance\_level, 4 more }
+
+Policy configuration for an integration.
+
+</summary>
+
+id: optional string
+
+Policy identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+OAuth client ID for the policy.
+
+<a href="#">Link to this property</a>
+
+compliance\_level: optional string
+
+Compliance level for the policy.
+
+<a href="#">Link to this property</a>
+
+dlp\_enabled: optional boolean
+
+Whether DLP is enabled for this policy.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Link to policy documentation.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Policy name.
+
+<a href="#">Link to this property</a>
+
+permissions: optional array of string
+
+List of permissions included in the policy.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: string
+
+Current status of the integration.
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+Last entity was updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+upgradable: boolean
+
+Whether the integrations permissions can be updated.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: object {id, description, display\_name, 5 more }
+
+Information about a vendor/service provider.
+
+</summary>
+
+id: string
+
+The id of the vendor.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Detailed information about what kinds of issues are detected for this vendor.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+The display name of the vendor.
+
+<a href="#">Link to this property</a>
+
+logo: string
+
+Logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the vendor.
+
+<a href="#">Link to this property</a>
+
+static\_logo: string
+
+Static logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+zt\_enrollments: array of string
+
+The vendor’s compatible Zero Trust products.
+
+<a href="#">Link to this property</a>
+
+policies: optional array of map\[unknown]
+
+The policies related to the vendor.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zt\_enrollments: array of object {id, description, display\_name, enabled }
+
+Zero Trust products associated with this integration.
+
+</summary>
+
+id: optional string
+
+The internal identifier of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Brief description of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+display\_name: optional string
+
+The verbose name of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Flag to enable/disable access to the listed integration from the corresponding Cloudflare product.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Integration ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+credential\_health\_status: optional "Initializing"or "Healthy"or "Unhealthy"
+
+Health status of integration credentials.
+
+</summary>
+
+One of the following:
+
+"Initializing"
+
+<a href="#">Link to this property</a>
+
+"Healthy"
+
+<a href="#">Link to this property</a>
+
+"Unhealthy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+credentials\_expiry: optional string
+
+The date and time when the integration credentials will expire.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the given integration is paused by the user.
+
+<a href="#">Link to this property</a>
+
+upgrade\_dismissed: optional boolean
+
+UI State as to whether a potential permissions upgrade has been dismissed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+latest\_affliction\_date: string
+
+Timestamp of the latest affliction date of an active finding.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity\_override: optional object {created\_by, severity }
+
+Override information for finding severity.
+
+</summary>
+
+created\_by: string
+
+User ID who created the override.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings%20%3E%20(model)%20finding_ignore_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FindingUnignoreResponse object {id, active\_count, archived\_count, 6 more }
+
+Aggregated finding information with counts and metadata. This is optimized for list API queries and represents a finding along with its instance statistics.
+
+</summary>
+
+id: string
+
+Base64 encoded identifier of the security finding.
+
+formatbyte
+
+<a href="#">Link to this property</a>
+
+active\_count: number
+
+Number of active problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+archived\_count: number
+
+Number of archived instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: object {id, category, name, 4 more }
+
+Basic finding type information.
+
+</summary>
+
+id: string
+
+The unique identifier of the finding.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {observation, product, type }
+
+Category information for a finding.
+
+</summary>
+
+<details>
+
+<summary>
+
+observation: "Issue"or "Insight"or "Activity"
+
+The type of the observation.
+
+</summary>
+
+One of the following:
+
+"Issue"
+
+<a href="#">Link to this property</a>
+
+"Insight"
+
+<a href="#">Link to this property</a>
+
+"Activity"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+product: "SaaS"or "Cloud"
+
+The product category.
+
+</summary>
+
+One of the following:
+
+"SaaS"
+
+<a href="#">Link to this property</a>
+
+"Cloud"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "Content"or "Posture"
+
+The type of the finding category.
+
+</summary>
+
+One of the following:
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+"Posture"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The SaaS/Cloud vendor of the platform with which the finding is associated.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Detailed description of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediation: optional object {id, frameworks, guide, 3 more }
+
+Remediation guide information for a finding.
+
+</summary>
+
+id: string
+
+Remediation Id.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+frameworks: array of string
+
+Relevant Compliance Frameworks.
+
+<a href="#">Link to this property</a>
+
+guide: string
+
+Remediation guide text.
+
+<a href="#">Link to this property</a>
+
+impact: string
+
+Description of the potential impact.
+
+<a href="#">Link to this property</a>
+
+locale: string
+
+I18N Locale.
+
+<a href="#">Link to this property</a>
+
+threat: string
+
+Description of the threat.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ignored: boolean
+
+Determines if finding is currently ignored.
+
+<a href="#">Link to this property</a>
+
+instance\_count: number
+
+Number of total (Active or archived) problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+integration: object {created, last\_hydrated, name, 12 more }
+
+Summary information about an integration.
+
+</summary>
+
+created: string
+
+When entity was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_hydrated: string
+
+When were the integration credentials last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the integration.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+permissions: array of string
+
+The vendor-specific permissions associated with the integration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policy: object {id, client\_id, compliance\_level, 4 more }
+
+Policy configuration for an integration.
+
+</summary>
+
+id: optional string
+
+Policy identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+OAuth client ID for the policy.
+
+<a href="#">Link to this property</a>
+
+compliance\_level: optional string
+
+Compliance level for the policy.
+
+<a href="#">Link to this property</a>
+
+dlp\_enabled: optional boolean
+
+Whether DLP is enabled for this policy.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Link to policy documentation.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Policy name.
+
+<a href="#">Link to this property</a>
+
+permissions: optional array of string
+
+List of permissions included in the policy.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: string
+
+Current status of the integration.
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+Last entity was updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+upgradable: boolean
+
+Whether the integrations permissions can be updated.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: object {id, description, display\_name, 5 more }
+
+Information about a vendor/service provider.
+
+</summary>
+
+id: string
+
+The id of the vendor.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Detailed information about what kinds of issues are detected for this vendor.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+The display name of the vendor.
+
+<a href="#">Link to this property</a>
+
+logo: string
+
+Logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the vendor.
+
+<a href="#">Link to this property</a>
+
+static\_logo: string
+
+Static logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+zt\_enrollments: array of string
+
+The vendor’s compatible Zero Trust products.
+
+<a href="#">Link to this property</a>
+
+policies: optional array of map\[unknown]
+
+The policies related to the vendor.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zt\_enrollments: array of object {id, description, display\_name, enabled }
+
+Zero Trust products associated with this integration.
+
+</summary>
+
+id: optional string
+
+The internal identifier of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Brief description of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+display\_name: optional string
+
+The verbose name of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Flag to enable/disable access to the listed integration from the corresponding Cloudflare product.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Integration ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+credential\_health\_status: optional "Initializing"or "Healthy"or "Unhealthy"
+
+Health status of integration credentials.
+
+</summary>
+
+One of the following:
+
+"Initializing"
+
+<a href="#">Link to this property</a>
+
+"Healthy"
+
+<a href="#">Link to this property</a>
+
+"Unhealthy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+credentials\_expiry: optional string
+
+The date and time when the integration credentials will expire.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the given integration is paused by the user.
+
+<a href="#">Link to this property</a>
+
+upgrade\_dismissed: optional boolean
+
+UI State as to whether a potential permissions upgrade has been dismissed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+latest\_affliction\_date: string
+
+Timestamp of the latest affliction date of an active finding.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity\_override: optional object {created\_by, severity }
+
+Override information for finding severity.
+
+</summary>
+
+created\_by: string
+
+User ID who created the override.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings%20%3E%20(model)%20finding_unignore_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FindingTuneSeverityResponse object {id, active\_count, archived\_count, 6 more }
+
+Aggregated finding information with counts and metadata. This is optimized for list API queries and represents a finding along with its instance statistics.
+
+</summary>
+
+id: string
+
+Base64 encoded identifier of the security finding.
+
+formatbyte
+
+<a href="#">Link to this property</a>
+
+active\_count: number
+
+Number of active problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+archived\_count: number
+
+Number of archived instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: object {id, category, name, 4 more }
+
+Basic finding type information.
+
+</summary>
+
+id: string
+
+The unique identifier of the finding.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {observation, product, type }
+
+Category information for a finding.
+
+</summary>
+
+<details>
+
+<summary>
+
+observation: "Issue"or "Insight"or "Activity"
+
+The type of the observation.
+
+</summary>
+
+One of the following:
+
+"Issue"
+
+<a href="#">Link to this property</a>
+
+"Insight"
+
+<a href="#">Link to this property</a>
+
+"Activity"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+product: "SaaS"or "Cloud"
+
+The product category.
+
+</summary>
+
+One of the following:
+
+"SaaS"
+
+<a href="#">Link to this property</a>
+
+"Cloud"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "Content"or "Posture"
+
+The type of the finding category.
+
+</summary>
+
+One of the following:
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+"Posture"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The SaaS/Cloud vendor of the platform with which the finding is associated.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Detailed description of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediation: optional object {id, frameworks, guide, 3 more }
+
+Remediation guide information for a finding.
+
+</summary>
+
+id: string
+
+Remediation Id.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+frameworks: array of string
+
+Relevant Compliance Frameworks.
+
+<a href="#">Link to this property</a>
+
+guide: string
+
+Remediation guide text.
+
+<a href="#">Link to this property</a>
+
+impact: string
+
+Description of the potential impact.
+
+<a href="#">Link to this property</a>
+
+locale: string
+
+I18N Locale.
+
+<a href="#">Link to this property</a>
+
+threat: string
+
+Description of the threat.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ignored: boolean
+
+Determines if finding is currently ignored.
+
+<a href="#">Link to this property</a>
+
+instance\_count: number
+
+Number of total (Active or archived) problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+integration: object {created, last\_hydrated, name, 12 more }
+
+Summary information about an integration.
+
+</summary>
+
+created: string
+
+When entity was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_hydrated: string
+
+When were the integration credentials last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the integration.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+permissions: array of string
+
+The vendor-specific permissions associated with the integration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policy: object {id, client\_id, compliance\_level, 4 more }
+
+Policy configuration for an integration.
+
+</summary>
+
+id: optional string
+
+Policy identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+OAuth client ID for the policy.
+
+<a href="#">Link to this property</a>
+
+compliance\_level: optional string
+
+Compliance level for the policy.
+
+<a href="#">Link to this property</a>
+
+dlp\_enabled: optional boolean
+
+Whether DLP is enabled for this policy.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Link to policy documentation.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Policy name.
+
+<a href="#">Link to this property</a>
+
+permissions: optional array of string
+
+List of permissions included in the policy.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: string
+
+Current status of the integration.
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+Last entity was updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+upgradable: boolean
+
+Whether the integrations permissions can be updated.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: object {id, description, display\_name, 5 more }
+
+Information about a vendor/service provider.
+
+</summary>
+
+id: string
+
+The id of the vendor.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Detailed information about what kinds of issues are detected for this vendor.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+The display name of the vendor.
+
+<a href="#">Link to this property</a>
+
+logo: string
+
+Logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the vendor.
+
+<a href="#">Link to this property</a>
+
+static\_logo: string
+
+Static logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+zt\_enrollments: array of string
+
+The vendor’s compatible Zero Trust products.
+
+<a href="#">Link to this property</a>
+
+policies: optional array of map\[unknown]
+
+The policies related to the vendor.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zt\_enrollments: array of object {id, description, display\_name, enabled }
+
+Zero Trust products associated with this integration.
+
+</summary>
+
+id: optional string
+
+The internal identifier of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Brief description of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+display\_name: optional string
+
+The verbose name of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Flag to enable/disable access to the listed integration from the corresponding Cloudflare product.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Integration ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+credential\_health\_status: optional "Initializing"or "Healthy"or "Unhealthy"
+
+Health status of integration credentials.
+
+</summary>
+
+One of the following:
+
+"Initializing"
+
+<a href="#">Link to this property</a>
+
+"Healthy"
+
+<a href="#">Link to this property</a>
+
+"Unhealthy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+credentials\_expiry: optional string
+
+The date and time when the integration credentials will expire.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the given integration is paused by the user.
+
+<a href="#">Link to this property</a>
+
+upgrade\_dismissed: optional boolean
+
+UI State as to whether a potential permissions upgrade has been dismissed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+latest\_affliction\_date: string
+
+Timestamp of the latest affliction date of an active finding.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity\_override: optional object {created\_by, severity }
+
+Override information for finding severity.
+
+</summary>
+
+created\_by: string
+
+User ID who created the override.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings%20%3E%20(model)%20finding_tune_severity_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FindingResetSeverityResponse object {id, active\_count, archived\_count, 6 more }
+
+Aggregated finding information with counts and metadata. This is optimized for list API queries and represents a finding along with its instance statistics.
+
+</summary>
+
+id: string
+
+Base64 encoded identifier of the security finding.
+
+formatbyte
+
+<a href="#">Link to this property</a>
+
+active\_count: number
+
+Number of active problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+archived\_count: number
+
+Number of archived instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: object {id, category, name, 4 more }
+
+Basic finding type information.
+
+</summary>
+
+id: string
+
+The unique identifier of the finding.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {observation, product, type }
+
+Category information for a finding.
+
+</summary>
+
+<details>
+
+<summary>
+
+observation: "Issue"or "Insight"or "Activity"
+
+The type of the observation.
+
+</summary>
+
+One of the following:
+
+"Issue"
+
+<a href="#">Link to this property</a>
+
+"Insight"
+
+<a href="#">Link to this property</a>
+
+"Activity"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+product: "SaaS"or "Cloud"
+
+The product category.
+
+</summary>
+
+One of the following:
+
+"SaaS"
+
+<a href="#">Link to this property</a>
+
+"Cloud"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "Content"or "Posture"
+
+The type of the finding category.
+
+</summary>
+
+One of the following:
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+"Posture"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The SaaS/Cloud vendor of the platform with which the finding is associated.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Detailed description of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediation: optional object {id, frameworks, guide, 3 more }
+
+Remediation guide information for a finding.
+
+</summary>
+
+id: string
+
+Remediation Id.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+frameworks: array of string
+
+Relevant Compliance Frameworks.
+
+<a href="#">Link to this property</a>
+
+guide: string
+
+Remediation guide text.
+
+<a href="#">Link to this property</a>
+
+impact: string
+
+Description of the potential impact.
+
+<a href="#">Link to this property</a>
+
+locale: string
+
+I18N Locale.
+
+<a href="#">Link to this property</a>
+
+threat: string
+
+Description of the threat.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ignored: boolean
+
+Determines if finding is currently ignored.
+
+<a href="#">Link to this property</a>
+
+instance\_count: number
+
+Number of total (Active or archived) problematic instances identified in the security finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+integration: object {created, last\_hydrated, name, 12 more }
+
+Summary information about an integration.
+
+</summary>
+
+created: string
+
+When entity was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_hydrated: string
+
+When were the integration credentials last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the integration.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+permissions: array of string
+
+The vendor-specific permissions associated with the integration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policy: object {id, client\_id, compliance\_level, 4 more }
+
+Policy configuration for an integration.
+
+</summary>
+
+id: optional string
+
+Policy identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+OAuth client ID for the policy.
+
+<a href="#">Link to this property</a>
+
+compliance\_level: optional string
+
+Compliance level for the policy.
+
+<a href="#">Link to this property</a>
+
+dlp\_enabled: optional boolean
+
+Whether DLP is enabled for this policy.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Link to policy documentation.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Policy name.
+
+<a href="#">Link to this property</a>
+
+permissions: optional array of string
+
+List of permissions included in the policy.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: string
+
+Current status of the integration.
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+Last entity was updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+upgradable: boolean
+
+Whether the integrations permissions can be updated.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: object {id, description, display\_name, 5 more }
+
+Information about a vendor/service provider.
+
+</summary>
+
+id: string
+
+The id of the vendor.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Detailed information about what kinds of issues are detected for this vendor.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+The display name of the vendor.
+
+<a href="#">Link to this property</a>
+
+logo: string
+
+Logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the vendor.
+
+<a href="#">Link to this property</a>
+
+static\_logo: string
+
+Static logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+zt\_enrollments: array of string
+
+The vendor’s compatible Zero Trust products.
+
+<a href="#">Link to this property</a>
+
+policies: optional array of map\[unknown]
+
+The policies related to the vendor.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zt\_enrollments: array of object {id, description, display\_name, enabled }
+
+Zero Trust products associated with this integration.
+
+</summary>
+
+id: optional string
+
+The internal identifier of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Brief description of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+display\_name: optional string
+
+The verbose name of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Flag to enable/disable access to the listed integration from the corresponding Cloudflare product.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Integration ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+credential\_health\_status: optional "Initializing"or "Healthy"or "Unhealthy"
+
+Health status of integration credentials.
+
+</summary>
+
+One of the following:
+
+"Initializing"
+
+<a href="#">Link to this property</a>
+
+"Healthy"
+
+<a href="#">Link to this property</a>
+
+"Unhealthy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+credentials\_expiry: optional string
+
+The date and time when the integration credentials will expire.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the given integration is paused by the user.
+
+<a href="#">Link to this property</a>
+
+upgrade\_dismissed: optional boolean
+
+UI State as to whether a potential permissions upgrade has been dismissed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+latest\_affliction\_date: string
+
+Timestamp of the latest affliction date of an active finding.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity\_override: optional object {created\_by, severity }
+
+Override information for finding severity.
+
+</summary>
+
+created\_by: string
+
+User ID who created the override.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings%20%3E%20(model)%20finding_reset_severity_response%20%3E%20(schema)>)
+
+#### CasbPostureFindingsInstances
+
+##### [List instances of a finding](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/subresources/instances/methods/list)
+
+GET/accounts/{account\_id}/data-security/posture/findings/{finding\_id}/instances
+
+##### [Get a finding instance using an instance ID](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/subresources/instances/methods/get)
+
+GET/accounts/{account\_id}/data-security/posture/findings/{finding\_id}/instances/{instance\_id}
+
+##### [Create a finding instances export](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/subresources/instances/methods/export)
+
+POST/accounts/{account\_id}/data-security/posture/findings/{storage\_namespace\_id}/instances/export
+
+##### [Archive a finding](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/subresources/instances/methods/archive)
+
+POST/accounts/{account\_id}/data-security/posture/findings/{finding\_id}/instances/archive
+
+##### [Remove the archive marking from a finding instance](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/findings/subresources/instances/methods/unarchive)
+
+POST/accounts/{account\_id}/data-security/posture/findings/{finding\_id}/instances/unarchive
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+InstanceListResponse object {affliction\_date, asset, dlp\_contexts, 4 more }
+
+A specific instance of a security finding. In the API interface, we refer to the ‘finding’ table in our DB as finding instances, optimized for the p99 use case.
+
+</summary>
+
+affliction\_date: string
+
+When this specific instance was identified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+asset: object {category, external\_id, fields, 3 more }
+
+Asset information including metadata and categorization.
+
+</summary>
+
+<details>
+
+<summary>
+
+category: object {service, type, vendor, id }
+
+Category information for an asset.
+
+</summary>
+
+service: string
+
+The specific service within the vendor the asset is part of (often none). Example - AWS is the vendor, S3 is the service.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+The type of asset.
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The vendor the asset is part of.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the asset category.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+external\_id: string
+
+External identifier from the source system.
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fields: array of object {name, value, link }
+
+The fields associated with the asset.
+
+</summary>
+
+name: string
+
+The name of the field.
+
+<a href="#">Link to this property</a>
+
+value: string
+
+The value of the field.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Optional link associated with the field.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the asset.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the asset.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Direct link to the asset.
+
+formaturi
+
+maxLength2048
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dlp\_contexts: array of object {created, entry\_ids, profile\_id, 6 more }
+
+DLP context information if this is a content finding.
+
+</summary>
+
+created: string
+
+When the DLP context was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+entry\_ids: array of string
+
+DLP Entry IDs.
+
+<a href="#">Link to this property</a>
+
+profile\_id: string
+
+DLP Profile ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+When the DLP context was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the DLP context.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+deleted: optional string
+
+When the DLP context was deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+match\_context\_max\_extent: optional number
+
+DLP Right Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_min\_extent: optional number
+
+DLP Left Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_payload: optional map\[unknown]
+
+DLP Match context payload that matched the profile in question.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediations: array of object {id, created\_at, stale, status }
+
+A list of the 10 most recent remediation jobs for this finding instance, ordered by creation time (most recent first). The ‘stale’ field indicates whether the remediation job was created before the finding instance’s affliction\_date (true) or after it (false). If there has never been a remediation job for this finding instance, this field will be an empty array.
+
+</summary>
+
+id: string
+
+Unique identifier for the remediation job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the remediation job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+Whether this remediation job is stale (created before the finding instance’s affliction\_date).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"or 2 more
+
+Status of a remediation job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"validating"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webhooks: array of object {latest\_job, webhook\_id, webhook\_label }
+
+The most recent webhook job invocation for each webhook configuration associated with this finding instance. Each entry represents the latest job (any status) per webhook config. The ‘stale’ field indicates whether the job was invoked before the finding instance’s current affliction\_date. If no webhook jobs have been created, this field will be an empty array.
+
+</summary>
+
+<details>
+
+<summary>
+
+latest\_job: object {id, created\_at, stale, status }
+
+The most recent webhook job for this webhook configuration.
+
+</summary>
+
+id: string
+
+Unique identifier for the webhook job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the webhook job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+Whether this webhook job is stale (created before the finding instance’s current affliction\_date).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"
+
+Current status of the webhook job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+webhook\_id: string
+
+Unique identifier for the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+webhook\_label: string
+
+Account-specified display label for the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the finding instance.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+is\_archived: optional boolean
+
+Whether this finding instance has been archived.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings.instances%20%3E%20(model)%20instance_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+InstanceGetResponse object {affliction\_date, asset, dlp\_contexts, 4 more }
+
+A specific instance of a security finding. In the API interface, we refer to the ‘finding’ table in our DB as finding instances, optimized for the p99 use case.
+
+</summary>
+
+affliction\_date: string
+
+When this specific instance was identified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+asset: object {category, external\_id, fields, 3 more }
+
+Asset information including metadata and categorization.
+
+</summary>
+
+<details>
+
+<summary>
+
+category: object {service, type, vendor, id }
+
+Category information for an asset.
+
+</summary>
+
+service: string
+
+The specific service within the vendor the asset is part of (often none). Example - AWS is the vendor, S3 is the service.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+The type of asset.
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The vendor the asset is part of.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the asset category.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+external\_id: string
+
+External identifier from the source system.
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fields: array of object {name, value, link }
+
+The fields associated with the asset.
+
+</summary>
+
+name: string
+
+The name of the field.
+
+<a href="#">Link to this property</a>
+
+value: string
+
+The value of the field.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Optional link associated with the field.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the asset.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the asset.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Direct link to the asset.
+
+formaturi
+
+maxLength2048
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dlp\_contexts: array of object {created, entry\_ids, profile\_id, 6 more }
+
+DLP context information if this is a content finding.
+
+</summary>
+
+created: string
+
+When the DLP context was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+entry\_ids: array of string
+
+DLP Entry IDs.
+
+<a href="#">Link to this property</a>
+
+profile\_id: string
+
+DLP Profile ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+When the DLP context was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the DLP context.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+deleted: optional string
+
+When the DLP context was deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+match\_context\_max\_extent: optional number
+
+DLP Right Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_min\_extent: optional number
+
+DLP Left Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_payload: optional map\[unknown]
+
+DLP Match context payload that matched the profile in question.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediations: array of object {id, created\_at, stale, status }
+
+A list of the 10 most recent remediation jobs for this finding instance, ordered by creation time (most recent first). The ‘stale’ field indicates whether the remediation job was created before the finding instance’s affliction\_date (true) or after it (false). If there has never been a remediation job for this finding instance, this field will be an empty array.
+
+</summary>
+
+id: string
+
+Unique identifier for the remediation job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the remediation job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+Whether this remediation job is stale (created before the finding instance’s affliction\_date).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"or 2 more
+
+Status of a remediation job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"validating"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webhooks: array of object {latest\_job, webhook\_id, webhook\_label }
+
+The most recent webhook job invocation for each webhook configuration associated with this finding instance. Each entry represents the latest job (any status) per webhook config. The ‘stale’ field indicates whether the job was invoked before the finding instance’s current affliction\_date. If no webhook jobs have been created, this field will be an empty array.
+
+</summary>
+
+<details>
+
+<summary>
+
+latest\_job: object {id, created\_at, stale, status }
+
+The most recent webhook job for this webhook configuration.
+
+</summary>
+
+id: string
+
+Unique identifier for the webhook job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the webhook job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+Whether this webhook job is stale (created before the finding instance’s current affliction\_date).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"
+
+Current status of the webhook job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+webhook\_id: string
+
+Unique identifier for the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+webhook\_label: string
+
+Account-specified display label for the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the finding instance.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+is\_archived: optional boolean
+
+Whether this finding instance has been archived.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings.instances%20%3E%20(model)%20instance_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+InstanceExportResponse object {id, status, type, 5 more }
+
+Information about an export job.
+
+</summary>
+
+id: string
+
+Unique identifier for the export job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "Pending"or "Success"or "Failure"or 2 more
+
+Status of an export job.
+
+</summary>
+
+One of the following:
+
+"Pending"
+
+<a href="#">Link to this property</a>
+
+"Success"
+
+<a href="#">Link to this property</a>
+
+"Failure"
+
+<a href="#">Link to this property</a>
+
+"Rescheduled"
+
+<a href="#">Link to this property</a>
+
+"In-Progress"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "finding"or "findingInstance"or "content"or "remediationJob"
+
+Type of export job.
+
+</summary>
+
+One of the following:
+
+"finding"
+
+<a href="#">Link to this property</a>
+
+"findingInstance"
+
+<a href="#">Link to this property</a>
+
+"content"
+
+<a href="#">Link to this property</a>
+
+"remediationJob"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user\_id: string
+
+ID of the export-requesting user.
+
+maxLength128
+
+<a href="#">Link to this property</a>
+
+download\_url: optional string
+
+The URL by which the successfully created export can be downloaded by the end users.
+
+formaturi
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+errors: optional string
+
+Contains information on errors which may have occurred during export creation.
+
+<a href="#">Link to this property</a>
+
+file\_name: optional string
+
+The base name of the file that is/was generated by the export job.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+file\_path: optional string
+
+The full path of the file that is stored within external storage (currently R2).
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings.instances%20%3E%20(model)%20instance_export_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+InstanceArchiveResponse object {affliction\_date, asset, dlp\_contexts, 4 more }
+
+A specific instance of a security finding. In the API interface, we refer to the ‘finding’ table in our DB as finding instances, optimized for the p99 use case.
+
+</summary>
+
+affliction\_date: string
+
+When this specific instance was identified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+asset: object {category, external\_id, fields, 3 more }
+
+Asset information including metadata and categorization.
+
+</summary>
+
+<details>
+
+<summary>
+
+category: object {service, type, vendor, id }
+
+Category information for an asset.
+
+</summary>
+
+service: string
+
+The specific service within the vendor the asset is part of (often none). Example - AWS is the vendor, S3 is the service.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+The type of asset.
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The vendor the asset is part of.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the asset category.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+external\_id: string
+
+External identifier from the source system.
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fields: array of object {name, value, link }
+
+The fields associated with the asset.
+
+</summary>
+
+name: string
+
+The name of the field.
+
+<a href="#">Link to this property</a>
+
+value: string
+
+The value of the field.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Optional link associated with the field.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the asset.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the asset.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Direct link to the asset.
+
+formaturi
+
+maxLength2048
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dlp\_contexts: array of object {created, entry\_ids, profile\_id, 6 more }
+
+DLP context information if this is a content finding.
+
+</summary>
+
+created: string
+
+When the DLP context was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+entry\_ids: array of string
+
+DLP Entry IDs.
+
+<a href="#">Link to this property</a>
+
+profile\_id: string
+
+DLP Profile ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+When the DLP context was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the DLP context.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+deleted: optional string
+
+When the DLP context was deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+match\_context\_max\_extent: optional number
+
+DLP Right Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_min\_extent: optional number
+
+DLP Left Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_payload: optional map\[unknown]
+
+DLP Match context payload that matched the profile in question.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediations: array of object {id, created\_at, stale, status }
+
+A list of the 10 most recent remediation jobs for this finding instance, ordered by creation time (most recent first). The ‘stale’ field indicates whether the remediation job was created before the finding instance’s affliction\_date (true) or after it (false). If there has never been a remediation job for this finding instance, this field will be an empty array.
+
+</summary>
+
+id: string
+
+Unique identifier for the remediation job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the remediation job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+Whether this remediation job is stale (created before the finding instance’s affliction\_date).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"or 2 more
+
+Status of a remediation job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"validating"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webhooks: array of object {latest\_job, webhook\_id, webhook\_label }
+
+The most recent webhook job invocation for each webhook configuration associated with this finding instance. Each entry represents the latest job (any status) per webhook config. The ‘stale’ field indicates whether the job was invoked before the finding instance’s current affliction\_date. If no webhook jobs have been created, this field will be an empty array.
+
+</summary>
+
+<details>
+
+<summary>
+
+latest\_job: object {id, created\_at, stale, status }
+
+The most recent webhook job for this webhook configuration.
+
+</summary>
+
+id: string
+
+Unique identifier for the webhook job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the webhook job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+Whether this webhook job is stale (created before the finding instance’s current affliction\_date).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"
+
+Current status of the webhook job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+webhook\_id: string
+
+Unique identifier for the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+webhook\_label: string
+
+Account-specified display label for the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the finding instance.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+is\_archived: optional boolean
+
+Whether this finding instance has been archived.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings.instances%20%3E%20(model)%20instance_archive_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+InstanceUnarchiveResponse object {affliction\_date, asset, dlp\_contexts, 4 more }
+
+A specific instance of a security finding. In the API interface, we refer to the ‘finding’ table in our DB as finding instances, optimized for the p99 use case.
+
+</summary>
+
+affliction\_date: string
+
+When this specific instance was identified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+asset: object {category, external\_id, fields, 3 more }
+
+Asset information including metadata and categorization.
+
+</summary>
+
+<details>
+
+<summary>
+
+category: object {service, type, vendor, id }
+
+Category information for an asset.
+
+</summary>
+
+service: string
+
+The specific service within the vendor the asset is part of (often none). Example - AWS is the vendor, S3 is the service.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+The type of asset.
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The vendor the asset is part of.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the asset category.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+external\_id: string
+
+External identifier from the source system.
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fields: array of object {name, value, link }
+
+The fields associated with the asset.
+
+</summary>
+
+name: string
+
+The name of the field.
+
+<a href="#">Link to this property</a>
+
+value: string
+
+The value of the field.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Optional link associated with the field.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the asset.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the asset.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Direct link to the asset.
+
+formaturi
+
+maxLength2048
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dlp\_contexts: array of object {created, entry\_ids, profile\_id, 6 more }
+
+DLP context information if this is a content finding.
+
+</summary>
+
+created: string
+
+When the DLP context was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+entry\_ids: array of string
+
+DLP Entry IDs.
+
+<a href="#">Link to this property</a>
+
+profile\_id: string
+
+DLP Profile ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+When the DLP context was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the DLP context.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+deleted: optional string
+
+When the DLP context was deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+match\_context\_max\_extent: optional number
+
+DLP Right Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_min\_extent: optional number
+
+DLP Left Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_payload: optional map\[unknown]
+
+DLP Match context payload that matched the profile in question.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+remediations: array of object {id, created\_at, stale, status }
+
+A list of the 10 most recent remediation jobs for this finding instance, ordered by creation time (most recent first). The ‘stale’ field indicates whether the remediation job was created before the finding instance’s affliction\_date (true) or after it (false). If there has never been a remediation job for this finding instance, this field will be an empty array.
+
+</summary>
+
+id: string
+
+Unique identifier for the remediation job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the remediation job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+Whether this remediation job is stale (created before the finding instance’s affliction\_date).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"or 2 more
+
+Status of a remediation job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"validating"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webhooks: array of object {latest\_job, webhook\_id, webhook\_label }
+
+The most recent webhook job invocation for each webhook configuration associated with this finding instance. Each entry represents the latest job (any status) per webhook config. The ‘stale’ field indicates whether the job was invoked before the finding instance’s current affliction\_date. If no webhook jobs have been created, this field will be an empty array.
+
+</summary>
+
+<details>
+
+<summary>
+
+latest\_job: object {id, created\_at, stale, status }
+
+The most recent webhook job for this webhook configuration.
+
+</summary>
+
+id: string
+
+Unique identifier for the webhook job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the webhook job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+Whether this webhook job is stale (created before the finding instance’s current affliction\_date).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"
+
+Current status of the webhook job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+webhook\_id: string
+
+Unique identifier for the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+webhook\_label: string
+
+Account-specified display label for the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the finding instance.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+is\_archived: optional boolean
+
+Whether this finding instance has been archived.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.findings.instances%20%3E%20(model)%20instance_unarchive_response%20%3E%20(schema)>)
+
+#### CasbPostureExports
+
+##### [List all export jobs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/exports/methods/list)
+
+GET/accounts/{account\_id}/data-security/posture/exports
+
+##### [Get a single export job](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/exports/methods/get)
+
+GET/accounts/{account\_id}/data-security/posture/exports/{id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ExportListResponse object {id, status, type, 5 more }
+
+Information about an export job.
+
+</summary>
+
+id: string
+
+Unique identifier for the export job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "Pending"or "Success"or "Failure"or 2 more
+
+Status of an export job.
+
+</summary>
+
+One of the following:
+
+"Pending"
+
+<a href="#">Link to this property</a>
+
+"Success"
+
+<a href="#">Link to this property</a>
+
+"Failure"
+
+<a href="#">Link to this property</a>
+
+"Rescheduled"
+
+<a href="#">Link to this property</a>
+
+"In-Progress"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "finding"or "findingInstance"or "content"or "remediationJob"
+
+Type of export job.
+
+</summary>
+
+One of the following:
+
+"finding"
+
+<a href="#">Link to this property</a>
+
+"findingInstance"
+
+<a href="#">Link to this property</a>
+
+"content"
+
+<a href="#">Link to this property</a>
+
+"remediationJob"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user\_id: string
+
+ID of the export-requesting user.
+
+maxLength128
+
+<a href="#">Link to this property</a>
+
+download\_url: optional string
+
+The URL by which the successfully created export can be downloaded by the end users.
+
+formaturi
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+errors: optional string
+
+Contains information on errors which may have occurred during export creation.
+
+<a href="#">Link to this property</a>
+
+file\_name: optional string
+
+The base name of the file that is/was generated by the export job.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+file\_path: optional string
+
+The full path of the file that is stored within external storage (currently R2).
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.exports%20%3E%20(model)%20export_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ExportGetResponse object {id, status, type, 5 more }
+
+Information about an export job.
+
+</summary>
+
+id: string
+
+Unique identifier for the export job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "Pending"or "Success"or "Failure"or 2 more
+
+Status of an export job.
+
+</summary>
+
+One of the following:
+
+"Pending"
+
+<a href="#">Link to this property</a>
+
+"Success"
+
+<a href="#">Link to this property</a>
+
+"Failure"
+
+<a href="#">Link to this property</a>
+
+"Rescheduled"
+
+<a href="#">Link to this property</a>
+
+"In-Progress"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "finding"or "findingInstance"or "content"or "remediationJob"
+
+Type of export job.
+
+</summary>
+
+One of the following:
+
+"finding"
+
+<a href="#">Link to this property</a>
+
+"findingInstance"
+
+<a href="#">Link to this property</a>
+
+"content"
+
+<a href="#">Link to this property</a>
+
+"remediationJob"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user\_id: string
+
+ID of the export-requesting user.
+
+maxLength128
+
+<a href="#">Link to this property</a>
+
+download\_url: optional string
+
+The URL by which the successfully created export can be downloaded by the end users.
+
+formaturi
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+errors: optional string
+
+Contains information on errors which may have occurred during export creation.
+
+<a href="#">Link to this property</a>
+
+file\_name: optional string
+
+The base name of the file that is/was generated by the export job.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+file\_path: optional string
+
+The full path of the file that is stored within external storage (currently R2).
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.exports%20%3E%20(model)%20export_get_response%20%3E%20(schema)>)
+
+#### CasbPostureFinding Types
+
+##### [List all finding types](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/finding_types/methods/list)
+
+GET/accounts/{account\_id}/data-security/posture/finding\_types
+
+##### [Get finding by ID](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/finding_types/methods/get)
+
+GET/accounts/{account\_id}/data-security/posture/finding\_types/{finding\_type\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+FindingTypeListResponse object {id, category, name, 3 more }
+
+Basic finding type information.
+
+</summary>
+
+id: string
+
+The unique identifier of the finding.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {observation, product, type }
+
+Category information for a finding.
+
+</summary>
+
+<details>
+
+<summary>
+
+observation: "Issue"or "Insight"or "Activity"
+
+The type of the observation.
+
+</summary>
+
+One of the following:
+
+"Issue"
+
+<a href="#">Link to this property</a>
+
+"Insight"
+
+<a href="#">Link to this property</a>
+
+"Activity"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+product: "SaaS"or "Cloud"
+
+The product category.
+
+</summary>
+
+One of the following:
+
+"SaaS"
+
+<a href="#">Link to this property</a>
+
+"Cloud"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "Content"or "Posture"
+
+The type of the finding category.
+
+</summary>
+
+One of the following:
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+"Posture"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The SaaS/Cloud vendor of the platform with which the finding is associated.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Detailed description of the finding.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.finding_types%20%3E%20(model)%20finding_type_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FindingTypeGetResponse object {id, category, name, 3 more }
+
+Basic finding type information.
+
+</summary>
+
+id: string
+
+The unique identifier of the finding.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {observation, product, type }
+
+Category information for a finding.
+
+</summary>
+
+<details>
+
+<summary>
+
+observation: "Issue"or "Insight"or "Activity"
+
+The type of the observation.
+
+</summary>
+
+One of the following:
+
+"Issue"
+
+<a href="#">Link to this property</a>
+
+"Insight"
+
+<a href="#">Link to this property</a>
+
+"Activity"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+product: "SaaS"or "Cloud"
+
+The product category.
+
+</summary>
+
+One of the following:
+
+"SaaS"
+
+<a href="#">Link to this property</a>
+
+"Cloud"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "Content"or "Posture"
+
+The type of the finding category.
+
+</summary>
+
+One of the following:
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+"Posture"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the finding.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "Critical"or "High"or "Medium"or "Low"
+
+The severity level of a finding.
+
+</summary>
+
+One of the following:
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+"High"
+
+<a href="#">Link to this property</a>
+
+"Medium"
+
+<a href="#">Link to this property</a>
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vendor: string
+
+The SaaS/Cloud vendor of the platform with which the finding is associated.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Detailed description of the finding.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.finding_types%20%3E%20(model)%20finding_type_get_response%20%3E%20(schema)>)
+
+#### CasbPostureFinding TypesRemediation Types
+
+##### [List remediation types for a finding type](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/finding_types/subresources/remediation_types/methods/list)
+
+GET/accounts/{account\_id}/data-security/posture/finding\_types/{finding\_type\_id}/remediation\_types
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+RemediationTypeListResponse object {id, description, display\_name, 2 more }
+
+Information about a remediation type.
+
+</summary>
+
+id: string
+
+The identifier for the remediation type.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+description: string
+
+A description of the action(s) taken by the remediation type.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+The name of the remediation type as displayed in the cloudflare dashboard.
+
+<a href="#">Link to this property</a>
+
+finding\_type\_id: string
+
+The identifier of the finding\_type which this remediation type should remediate.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+remediation\_type: string
+
+The name of the remediation type.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.finding_types.remediation_types%20%3E%20(model)%20remediation_type_list_response%20%3E%20(schema)>)
+
+#### CasbPostureContent
+
+##### [List DLP content findings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/content/methods/list)
+
+GET/accounts/{account\_id}/data-security/posture/content
+
+##### [Create a content export](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/content/methods/export)
+
+POST/accounts/{account\_id}/data-security/posture/content/export
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ContentListResponse object {asset\_id, asset\_name, dlp\_contexts, 4 more }
+
+Content asset with DLP information.
+
+</summary>
+
+asset\_id: string
+
+Unique identifier for the asset.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+asset\_name: string
+
+Name of the asset.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dlp\_contexts: array of object {created, entry\_ids, profile\_id, 6 more }
+
+DLP context information for this asset.
+
+</summary>
+
+created: string
+
+When the DLP context was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+entry\_ids: array of string
+
+DLP Entry IDs.
+
+<a href="#">Link to this property</a>
+
+profile\_id: string
+
+DLP Profile ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+When the DLP context was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Unique identifier for the DLP context.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+deleted: optional string
+
+When the DLP context was deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+match\_context\_max\_extent: optional number
+
+DLP Right Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_min\_extent: optional number
+
+DLP Left Boundary of match context.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+match\_context\_payload: optional map\[unknown]
+
+DLP Match context payload that matched the profile in question.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dlp\_profile\_count: number
+
+Number of DLP profiles that flagged this asset.
+
+<a href="#">Link to this property</a>
+
+dlp\_profile\_ids: array of string
+
+IDs of DLP profiles that flagged this asset.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+integration: object {created, last\_hydrated, name, 12 more }
+
+Summary information about an integration.
+
+</summary>
+
+created: string
+
+When entity was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_hydrated: string
+
+When were the integration credentials last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the integration.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+permissions: array of string
+
+The vendor-specific permissions associated with the integration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policy: object {id, client\_id, compliance\_level, 4 more }
+
+Policy configuration for an integration.
+
+</summary>
+
+id: optional string
+
+Policy identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+OAuth client ID for the policy.
+
+<a href="#">Link to this property</a>
+
+compliance\_level: optional string
+
+Compliance level for the policy.
+
+<a href="#">Link to this property</a>
+
+dlp\_enabled: optional boolean
+
+Whether DLP is enabled for this policy.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Link to policy documentation.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Policy name.
+
+<a href="#">Link to this property</a>
+
+permissions: optional array of string
+
+List of permissions included in the policy.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: string
+
+Current status of the integration.
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+Last entity was updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+upgradable: boolean
+
+Whether the integrations permissions can be updated.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: object {id, description, display\_name, 5 more }
+
+Information about a vendor/service provider.
+
+</summary>
+
+id: string
+
+The id of the vendor.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Detailed information about what kinds of issues are detected for this vendor.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+The display name of the vendor.
+
+<a href="#">Link to this property</a>
+
+logo: string
+
+Logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the vendor.
+
+<a href="#">Link to this property</a>
+
+static\_logo: string
+
+Static logo URL for the vendor.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+zt\_enrollments: array of string
+
+The vendor’s compatible Zero Trust products.
+
+<a href="#">Link to this property</a>
+
+policies: optional array of map\[unknown]
+
+The policies related to the vendor.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zt\_enrollments: array of object {id, description, display\_name, enabled }
+
+Zero Trust products associated with this integration.
+
+</summary>
+
+id: optional string
+
+The internal identifier of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Brief description of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+display\_name: optional string
+
+The verbose name of the Zero Trust Product.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Flag to enable/disable access to the listed integration from the corresponding Cloudflare product.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Integration ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+credential\_health\_status: optional "Initializing"or "Healthy"or "Unhealthy"
+
+Health status of integration credentials.
+
+</summary>
+
+One of the following:
+
+"Initializing"
+
+<a href="#">Link to this property</a>
+
+"Healthy"
+
+<a href="#">Link to this property</a>
+
+"Unhealthy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+credentials\_expiry: optional string
+
+The date and time when the integration credentials will expire.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the given integration is paused by the user.
+
+<a href="#">Link to this property</a>
+
+upgrade\_dismissed: optional boolean
+
+UI State as to whether a potential permissions upgrade has been dismissed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+latest\_affliction\_date: string
+
+Most recent date this asset was flagged.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.content%20%3E%20(model)%20content_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ContentExportResponse object {id, status, type, 5 more }
+
+Information about an export job.
+
+</summary>
+
+id: string
+
+Unique identifier for the export job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "Pending"or "Success"or "Failure"or 2 more
+
+Status of an export job.
+
+</summary>
+
+One of the following:
+
+"Pending"
+
+<a href="#">Link to this property</a>
+
+"Success"
+
+<a href="#">Link to this property</a>
+
+"Failure"
+
+<a href="#">Link to this property</a>
+
+"Rescheduled"
+
+<a href="#">Link to this property</a>
+
+"In-Progress"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "finding"or "findingInstance"or "content"or "remediationJob"
+
+Type of export job.
+
+</summary>
+
+One of the following:
+
+"finding"
+
+<a href="#">Link to this property</a>
+
+"findingInstance"
+
+<a href="#">Link to this property</a>
+
+"content"
+
+<a href="#">Link to this property</a>
+
+"remediationJob"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user\_id: string
+
+ID of the export-requesting user.
+
+maxLength128
+
+<a href="#">Link to this property</a>
+
+download\_url: optional string
+
+The URL by which the successfully created export can be downloaded by the end users.
+
+formaturi
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+errors: optional string
+
+Contains information on errors which may have occurred during export creation.
+
+<a href="#">Link to this property</a>
+
+file\_name: optional string
+
+The base name of the file that is/was generated by the export job.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+file\_path: optional string
+
+The full path of the file that is stored within external storage (currently R2).
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.content%20%3E%20(model)%20content_export_response%20%3E%20(schema)>)
+
+#### CasbPostureRemediations
+
+#### CasbPostureRemediationsJobs
+
+##### [List remediation jobs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/remediations/subresources/jobs/methods/list)
+
+GET/accounts/{account\_id}/data-security/posture/remediations/jobs
+
+##### [Creates remediation jobs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/remediations/subresources/jobs/methods/create)
+
+POST/accounts/{account\_id}/data-security/posture/remediations/jobs
+
+##### [Create a remediation jobs export](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/remediations/subresources/jobs/methods/export)
+
+POST/accounts/{account\_id}/data-security/posture/remediations/jobs/export
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+JobListResponse object {id, asset, created\_at, 11 more }
+
+Information about a remediation job.
+
+</summary>
+
+id: string
+
+Unique identifier for the remediation job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+asset: object {id, category, external\_id, 3 more }
+
+Asset information for a remediation job.
+
+</summary>
+
+id: string
+
+Unique identifier for the asset.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {service, type, vendor }
+
+Category information for a remediation job asset.
+
+</summary>
+
+service: string
+
+Specific service within the vendor.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+Asset type.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: "AWS"or "Anthropic"or "Bitbucket"or 16 more
+
+Display names for vendor types.
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"Anthropic"
+
+<a href="#">Link to this property</a>
+
+"Bitbucket"
+
+<a href="#">Link to this property</a>
+
+"Box"
+
+<a href="#">Link to this property</a>
+
+"Confluence"
+
+<a href="#">Link to this property</a>
+
+"Dropbox"
+
+<a href="#">Link to this property</a>
+
+"GitHub"
+
+<a href="#">Link to this property</a>
+
+"Google Cloud Platform"
+
+<a href="#">Link to this property</a>
+
+"Google Workspace"
+
+<a href="#">Link to this property</a>
+
+"Jira"
+
+<a href="#">Link to this property</a>
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Microsoft Internal"
+
+<a href="#">Link to this property</a>
+
+"Okta"
+
+<a href="#">Link to this property</a>
+
+"OpenAI"
+
+<a href="#">Link to this property</a>
+
+"Slack"
+
+<a href="#">Link to this property</a>
+
+"Salesforce"
+
+<a href="#">Link to this property</a>
+
+"ServiceNow"
+
+<a href="#">Link to this property</a>
+
+"Workday"
+
+<a href="#">Link to this property</a>
+
+"Zoom"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+external\_id: string
+
+External identifier from the source system.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fields: array of object {name, value, link }
+
+Additional fields associated with the asset.
+
+</summary>
+
+name: string
+
+Field name.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+Field value (can be string, number, or boolean).
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Optional link associated with the field.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the asset.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Direct link to the asset.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the remediation job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+finding\_id: string
+
+Encoded finding ID.
+
+<a href="#">Link to this property</a>
+
+finding\_instance\_id: string
+
+ID of the finding instance being remediated.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+finding\_type\_id: string
+
+ID of the finding type.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+finding\_type\_name: string
+
+Name of the finding type.
+
+<a href="#">Link to this property</a>
+
+integration\_name: string
+
+Name of the integration.
+
+<a href="#">Link to this property</a>
+
+last\_updated: string
+
+When the remediation job was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+remediation\_type: string
+
+Type of remediation being performed.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"or 2 more
+
+Status of a remediation job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"validating"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+triggered\_by\_user: string
+
+Email of the user who triggered the remediation. For account-token actors this is the literal “Account API Token”; for policy actors this is empty.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+triggered\_by\_actor: optional "user"or "account\_token"
+
+Type of actor that triggered the remediation job. Null on legacy rows created before this column was populated.
+
+</summary>
+
+One of the following:
+
+"user"
+
+<a href="#">Link to this property</a>
+
+"account\_token"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+triggered\_by\_id: optional string
+
+ID of the actor that triggered the job. Meaning depends on triggered\_by\_actor. Null on legacy rows.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.remediations.jobs%20%3E%20(model)%20job_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+JobCreateResponse object {created, failed }
+
+</summary>
+
+<details>
+
+<summary>
+
+created: array of object {id, asset, created\_at, 11 more }
+
+Successfully created remediation jobs.
+
+</summary>
+
+id: string
+
+Unique identifier for the remediation job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+asset: object {id, category, external\_id, 3 more }
+
+Asset information for a remediation job.
+
+</summary>
+
+id: string
+
+Unique identifier for the asset.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+category: object {service, type, vendor }
+
+Category information for a remediation job asset.
+
+</summary>
+
+service: string
+
+Specific service within the vendor.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+Asset type.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: "AWS"or "Anthropic"or "Bitbucket"or 16 more
+
+Display names for vendor types.
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"Anthropic"
+
+<a href="#">Link to this property</a>
+
+"Bitbucket"
+
+<a href="#">Link to this property</a>
+
+"Box"
+
+<a href="#">Link to this property</a>
+
+"Confluence"
+
+<a href="#">Link to this property</a>
+
+"Dropbox"
+
+<a href="#">Link to this property</a>
+
+"GitHub"
+
+<a href="#">Link to this property</a>
+
+"Google Cloud Platform"
+
+<a href="#">Link to this property</a>
+
+"Google Workspace"
+
+<a href="#">Link to this property</a>
+
+"Jira"
+
+<a href="#">Link to this property</a>
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Microsoft Internal"
+
+<a href="#">Link to this property</a>
+
+"Okta"
+
+<a href="#">Link to this property</a>
+
+"OpenAI"
+
+<a href="#">Link to this property</a>
+
+"Slack"
+
+<a href="#">Link to this property</a>
+
+"Salesforce"
+
+<a href="#">Link to this property</a>
+
+"ServiceNow"
+
+<a href="#">Link to this property</a>
+
+"Workday"
+
+<a href="#">Link to this property</a>
+
+"Zoom"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+external\_id: string
+
+External identifier from the source system.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fields: array of object {name, value, link }
+
+Additional fields associated with the asset.
+
+</summary>
+
+name: string
+
+Field name.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+Field value (can be string, number, or boolean).
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Optional link associated with the field.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the asset.
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+Direct link to the asset.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the remediation job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+finding\_id: string
+
+Encoded finding ID.
+
+<a href="#">Link to this property</a>
+
+finding\_instance\_id: string
+
+ID of the finding instance being remediated.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+finding\_type\_id: string
+
+ID of the finding type.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+finding\_type\_name: string
+
+Name of the finding type.
+
+<a href="#">Link to this property</a>
+
+integration\_name: string
+
+Name of the integration.
+
+<a href="#">Link to this property</a>
+
+last\_updated: string
+
+When the remediation job was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+remediation\_type: string
+
+Type of remediation being performed.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"or 2 more
+
+Status of a remediation job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"validating"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+triggered\_by\_user: string
+
+Email of the user who triggered the remediation. For account-token actors this is the literal “Account API Token”; for policy actors this is empty.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+triggered\_by\_actor: optional "user"or "account\_token"
+
+Type of actor that triggered the remediation job. Null on legacy rows created before this column was populated.
+
+</summary>
+
+One of the following:
+
+"user"
+
+<a href="#">Link to this property</a>
+
+"account\_token"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+triggered\_by\_id: optional string
+
+ID of the actor that triggered the job. Meaning depends on triggered\_by\_actor. Null on legacy rows.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+failed: array of object {error, finding\_instance\_id }
+
+Failed remediation job creation attempts.
+
+</summary>
+
+error: string
+
+Error message describing the failure.
+
+<a href="#">Link to this property</a>
+
+finding\_instance\_id: string
+
+ID of the finding instance that failed to create a remediation job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.remediations.jobs%20%3E%20(model)%20job_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+JobExportResponse object {id, status, type, 5 more }
+
+Information about an export job.
+
+</summary>
+
+id: string
+
+Unique identifier for the export job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "Pending"or "Success"or "Failure"or 2 more
+
+Status of an export job.
+
+</summary>
+
+One of the following:
+
+"Pending"
+
+<a href="#">Link to this property</a>
+
+"Success"
+
+<a href="#">Link to this property</a>
+
+"Failure"
+
+<a href="#">Link to this property</a>
+
+"Rescheduled"
+
+<a href="#">Link to this property</a>
+
+"In-Progress"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "finding"or "findingInstance"or "content"or "remediationJob"
+
+Type of export job.
+
+</summary>
+
+One of the following:
+
+"finding"
+
+<a href="#">Link to this property</a>
+
+"findingInstance"
+
+<a href="#">Link to this property</a>
+
+"content"
+
+<a href="#">Link to this property</a>
+
+"remediationJob"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user\_id: string
+
+ID of the export-requesting user.
+
+maxLength128
+
+<a href="#">Link to this property</a>
+
+download\_url: optional string
+
+The URL by which the successfully created export can be downloaded by the end users.
+
+formaturi
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+errors: optional string
+
+Contains information on errors which may have occurred during export creation.
+
+<a href="#">Link to this property</a>
+
+file\_name: optional string
+
+The base name of the file that is/was generated by the export job.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+file\_path: optional string
+
+The full path of the file that is stored within external storage (currently R2).
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.remediations.jobs%20%3E%20(model)%20job_export_response%20%3E%20(schema)>)
+
+#### CasbPosturePolicies
+
+##### [List policy configurations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/policies/methods/list)
+
+GET/accounts/{account\_id}/data-security/posture/policies
+
+##### [Create a new policy configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/policies/methods/create)
+
+POST/accounts/{account\_id}/data-security/posture/policies
+
+##### [Get a policy configuration by ID](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/policies/methods/get)
+
+GET/accounts/{account\_id}/data-security/posture/policies/{policy\_id}
+
+##### [Update a policy configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/policies/methods/update)
+
+PUT/accounts/{account\_id}/data-security/posture/policies/{policy\_id}
+
+##### [Delete a policy configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/policies/methods/delete)
+
+DELETE/accounts/{account\_id}/data-security/posture/policies/{policy\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+PolicyListResponse object {id, actions, applies\_to\_all\_integrations, 9 more }
+
+Response body for a policy configuration.
+
+</summary>
+
+id: string
+
+Unique identifier for the policy configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actions: object {remediation\_types, webhook\_configs }
+
+The actions configured for this policy.
+
+</summary>
+
+<details>
+
+<summary>
+
+remediation\_types: array of object {display\_name, remediation\_type, remediation\_type\_id }
+
+List of remediation types that will be executed.
+
+</summary>
+
+display\_name: string
+
+Display name/label of the remediation type.
+
+<a href="#">Link to this property</a>
+
+remediation\_type: string
+
+The system name of the remediation type.
+
+<a href="#">Link to this property</a>
+
+remediation\_type\_id: string
+
+Unique identifier for the remediation type.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webhook\_configs: array of object {display\_name, webhook\_config\_id }
+
+List of webhook configurations that will be triggered.
+
+</summary>
+
+display\_name: string
+
+Display name/label of the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+webhook\_config\_id: string
+
+Unique identifier for the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+applies\_to\_all\_integrations: boolean
+
+When true, the policy applies to all integrations for the account. When false, it applies only to the specified integration\_ids.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when the policy was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: string
+
+User-set description of what this policy does. Limited to 1000 characters.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+Display name for the policy configuration. Limited to 255 characters.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether the policy is enabled. Derived from disabled\_at (enabled when disabled\_at is unset).
+
+<a href="#">Link to this property</a>
+
+finding\_type\_id: string
+
+The finding type this policy is associated with. Immutable after creation; changing it replaces the policy.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+integration\_ids: array of string
+
+The integrations this policy applies to.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the policy was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+disabled\_at: optional string
+
+Timestamp when the policy was disabled. Omitted from the response when the policy is enabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_triggered\_at: optional string
+
+Timestamp of the most recent successful policy invocation. Omitted from the response when the policy has never been successfully triggered. Only populated on GET responses; absent on responses from create/update endpoints.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.policies%20%3E%20(model)%20policy_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+PolicyCreateResponse object {id, actions, applies\_to\_all\_integrations, 9 more }
+
+Response body for a policy configuration.
+
+</summary>
+
+id: string
+
+Unique identifier for the policy configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actions: object {remediation\_types, webhook\_configs }
+
+The actions configured for this policy.
+
+</summary>
+
+<details>
+
+<summary>
+
+remediation\_types: array of object {display\_name, remediation\_type, remediation\_type\_id }
+
+List of remediation types that will be executed.
+
+</summary>
+
+display\_name: string
+
+Display name/label of the remediation type.
+
+<a href="#">Link to this property</a>
+
+remediation\_type: string
+
+The system name of the remediation type.
+
+<a href="#">Link to this property</a>
+
+remediation\_type\_id: string
+
+Unique identifier for the remediation type.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webhook\_configs: array of object {display\_name, webhook\_config\_id }
+
+List of webhook configurations that will be triggered.
+
+</summary>
+
+display\_name: string
+
+Display name/label of the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+webhook\_config\_id: string
+
+Unique identifier for the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+applies\_to\_all\_integrations: boolean
+
+When true, the policy applies to all integrations for the account. When false, it applies only to the specified integration\_ids.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when the policy was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: string
+
+User-set description of what this policy does. Limited to 1000 characters.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+Display name for the policy configuration. Limited to 255 characters.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether the policy is enabled. Derived from disabled\_at (enabled when disabled\_at is unset).
+
+<a href="#">Link to this property</a>
+
+finding\_type\_id: string
+
+The finding type this policy is associated with. Immutable after creation; changing it replaces the policy.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+integration\_ids: array of string
+
+The integrations this policy applies to.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the policy was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+disabled\_at: optional string
+
+Timestamp when the policy was disabled. Omitted from the response when the policy is enabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_triggered\_at: optional string
+
+Timestamp of the most recent successful policy invocation. Omitted from the response when the policy has never been successfully triggered. Only populated on GET responses; absent on responses from create/update endpoints.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.policies%20%3E%20(model)%20policy_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+PolicyGetResponse object {id, actions, applies\_to\_all\_integrations, 9 more }
+
+Response body for a policy configuration.
+
+</summary>
+
+id: string
+
+Unique identifier for the policy configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actions: object {remediation\_types, webhook\_configs }
+
+The actions configured for this policy.
+
+</summary>
+
+<details>
+
+<summary>
+
+remediation\_types: array of object {display\_name, remediation\_type, remediation\_type\_id }
+
+List of remediation types that will be executed.
+
+</summary>
+
+display\_name: string
+
+Display name/label of the remediation type.
+
+<a href="#">Link to this property</a>
+
+remediation\_type: string
+
+The system name of the remediation type.
+
+<a href="#">Link to this property</a>
+
+remediation\_type\_id: string
+
+Unique identifier for the remediation type.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webhook\_configs: array of object {display\_name, webhook\_config\_id }
+
+List of webhook configurations that will be triggered.
+
+</summary>
+
+display\_name: string
+
+Display name/label of the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+webhook\_config\_id: string
+
+Unique identifier for the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+applies\_to\_all\_integrations: boolean
+
+When true, the policy applies to all integrations for the account. When false, it applies only to the specified integration\_ids.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when the policy was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: string
+
+User-set description of what this policy does. Limited to 1000 characters.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+Display name for the policy configuration. Limited to 255 characters.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether the policy is enabled. Derived from disabled\_at (enabled when disabled\_at is unset).
+
+<a href="#">Link to this property</a>
+
+finding\_type\_id: string
+
+The finding type this policy is associated with. Immutable after creation; changing it replaces the policy.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+integration\_ids: array of string
+
+The integrations this policy applies to.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the policy was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+disabled\_at: optional string
+
+Timestamp when the policy was disabled. Omitted from the response when the policy is enabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_triggered\_at: optional string
+
+Timestamp of the most recent successful policy invocation. Omitted from the response when the policy has never been successfully triggered. Only populated on GET responses; absent on responses from create/update endpoints.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.policies%20%3E%20(model)%20policy_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+PolicyUpdateResponse object {id, actions, applies\_to\_all\_integrations, 9 more }
+
+Response body for a policy configuration.
+
+</summary>
+
+id: string
+
+Unique identifier for the policy configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actions: object {remediation\_types, webhook\_configs }
+
+The actions configured for this policy.
+
+</summary>
+
+<details>
+
+<summary>
+
+remediation\_types: array of object {display\_name, remediation\_type, remediation\_type\_id }
+
+List of remediation types that will be executed.
+
+</summary>
+
+display\_name: string
+
+Display name/label of the remediation type.
+
+<a href="#">Link to this property</a>
+
+remediation\_type: string
+
+The system name of the remediation type.
+
+<a href="#">Link to this property</a>
+
+remediation\_type\_id: string
+
+Unique identifier for the remediation type.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webhook\_configs: array of object {display\_name, webhook\_config\_id }
+
+List of webhook configurations that will be triggered.
+
+</summary>
+
+display\_name: string
+
+Display name/label of the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+webhook\_config\_id: string
+
+Unique identifier for the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+applies\_to\_all\_integrations: boolean
+
+When true, the policy applies to all integrations for the account. When false, it applies only to the specified integration\_ids.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when the policy was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: string
+
+User-set description of what this policy does. Limited to 1000 characters.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+Display name for the policy configuration. Limited to 255 characters.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether the policy is enabled. Derived from disabled\_at (enabled when disabled\_at is unset).
+
+<a href="#">Link to this property</a>
+
+finding\_type\_id: string
+
+The finding type this policy is associated with. Immutable after creation; changing it replaces the policy.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+integration\_ids: array of string
+
+The integrations this policy applies to.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the policy was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+disabled\_at: optional string
+
+Timestamp when the policy was disabled. Omitted from the response when the policy is enabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_triggered\_at: optional string
+
+Timestamp of the most recent successful policy invocation. Omitted from the response when the policy has never been successfully triggered. Only populated on GET responses; absent on responses from create/update endpoints.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.policies%20%3E%20(model)%20policy_update_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+PolicyDeleteResponse object {id }
+
+Response from DeletePolicy operation.
+
+</summary>
+
+id: string
+
+ID of the policy deleted.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.policies%20%3E%20(model)%20policy_delete_response%20%3E%20(schema)>)
+
+#### CasbPostureWebhooks
+
+##### [List webhook configurations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/webhooks/methods/list)
+
+GET/accounts/{account\_id}/data-security/posture/webhooks
+
+##### [Create a new webhook configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/webhooks/methods/create)
+
+POST/accounts/{account\_id}/data-security/posture/webhooks
+
+##### [Get webhook configuration by ID](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/webhooks/methods/get)
+
+GET/accounts/{account\_id}/data-security/posture/webhooks/{webhook\_id}
+
+##### [Update an existing webhook configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/webhooks/methods/update)
+
+PUT/accounts/{account\_id}/data-security/posture/webhooks/{webhook\_id}
+
+##### [Delete a webhook configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/webhooks/methods/delete)
+
+DELETE/accounts/{account\_id}/data-security/posture/webhooks/{webhook\_id}
+
+##### [Test a webhook configuration before creating it](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/webhooks/methods/evaluate)
+
+POST/accounts/{account\_id}/data-security/posture/webhooks/evaluate
+
+##### [Test an existing webhook configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/webhooks/methods/evaluate_existing)
+
+POST/accounts/{account\_id}/data-security/posture/webhooks/{webhook\_id}/evaluate
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+WebhookListResponse object {id, authentication\_type, created\_at, 6 more }
+
+Webhook configuration for sending finding notifications.
+
+</summary>
+
+id: string
+
+Unique identifier for the specific webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authentication\_type: "Basic Auth"or "None"or "Bearer Auth"or 2 more
+
+Type of authentication used for the webhook.
+
+</summary>
+
+One of the following:
+
+"Basic Auth"
+
+<a href="#">Link to this property</a>
+
+"None"
+
+<a href="#">Link to this property</a>
+
+"Bearer Auth"
+
+<a href="#">Link to this property</a>
+
+"Static Headers"
+
+<a href="#">Link to this property</a>
+
+"HMAC-Signing"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when the webhook configuration was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+destination\_url: string
+
+Target URL for the webhook configuration. Where resulting data will be sent.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+label: string
+
+Account-specified display label for the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "enabled"or "disabled"
+
+Current status of the webhook configuration. If disabled, data cannot be sent through this configuration.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the webhook configuration was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+version: number
+
+Version number of the configuration.
+
+formatuint32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+headers: optional array of object {key, value }
+
+List of header keys configured for this webhook. Values are not included for security reasons.
+
+</summary>
+
+key: optional string
+
+Header key name (lowercase).
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+Header value. This field is never returned in API responses for security reasons.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.webhooks%20%3E%20(model)%20webhook_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+WebhookCreateResponse object {id, authentication\_type, created\_at, 6 more }
+
+Webhook configuration for sending finding notifications.
+
+</summary>
+
+id: string
+
+Unique identifier for the specific webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authentication\_type: "Basic Auth"or "None"or "Bearer Auth"or 2 more
+
+Type of authentication used for the webhook.
+
+</summary>
+
+One of the following:
+
+"Basic Auth"
+
+<a href="#">Link to this property</a>
+
+"None"
+
+<a href="#">Link to this property</a>
+
+"Bearer Auth"
+
+<a href="#">Link to this property</a>
+
+"Static Headers"
+
+<a href="#">Link to this property</a>
+
+"HMAC-Signing"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when the webhook configuration was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+destination\_url: string
+
+Target URL for the webhook configuration. Where resulting data will be sent.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+label: string
+
+Account-specified display label for the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "enabled"or "disabled"
+
+Current status of the webhook configuration. If disabled, data cannot be sent through this configuration.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the webhook configuration was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+version: number
+
+Version number of the configuration.
+
+formatuint32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+headers: optional array of object {key, value }
+
+List of header keys configured for this webhook. Values are not included for security reasons.
+
+</summary>
+
+key: optional string
+
+Header key name (lowercase).
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+Header value. This field is never returned in API responses for security reasons.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.webhooks%20%3E%20(model)%20webhook_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+WebhookGetResponse object {id, authentication\_type, created\_at, 6 more }
+
+Webhook configuration for sending finding notifications.
+
+</summary>
+
+id: string
+
+Unique identifier for the specific webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authentication\_type: "Basic Auth"or "None"or "Bearer Auth"or 2 more
+
+Type of authentication used for the webhook.
+
+</summary>
+
+One of the following:
+
+"Basic Auth"
+
+<a href="#">Link to this property</a>
+
+"None"
+
+<a href="#">Link to this property</a>
+
+"Bearer Auth"
+
+<a href="#">Link to this property</a>
+
+"Static Headers"
+
+<a href="#">Link to this property</a>
+
+"HMAC-Signing"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when the webhook configuration was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+destination\_url: string
+
+Target URL for the webhook configuration. Where resulting data will be sent.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+label: string
+
+Account-specified display label for the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "enabled"or "disabled"
+
+Current status of the webhook configuration. If disabled, data cannot be sent through this configuration.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the webhook configuration was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+version: number
+
+Version number of the configuration.
+
+formatuint32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+headers: optional array of object {key, value }
+
+List of header keys configured for this webhook. Values are not included for security reasons.
+
+</summary>
+
+key: optional string
+
+Header key name (lowercase).
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+Header value. This field is never returned in API responses for security reasons.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.webhooks%20%3E%20(model)%20webhook_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+WebhookUpdateResponse object {id, authentication\_type, created\_at, 6 more }
+
+Webhook configuration for sending finding notifications.
+
+</summary>
+
+id: string
+
+Unique identifier for the specific webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authentication\_type: "Basic Auth"or "None"or "Bearer Auth"or 2 more
+
+Type of authentication used for the webhook.
+
+</summary>
+
+One of the following:
+
+"Basic Auth"
+
+<a href="#">Link to this property</a>
+
+"None"
+
+<a href="#">Link to this property</a>
+
+"Bearer Auth"
+
+<a href="#">Link to this property</a>
+
+"Static Headers"
+
+<a href="#">Link to this property</a>
+
+"HMAC-Signing"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when the webhook configuration was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+destination\_url: string
+
+Target URL for the webhook configuration. Where resulting data will be sent.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+label: string
+
+Account-specified display label for the webhook configuration.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "enabled"or "disabled"
+
+Current status of the webhook configuration. If disabled, data cannot be sent through this configuration.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the webhook configuration was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+version: number
+
+Version number of the configuration.
+
+formatuint32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+headers: optional array of object {key, value }
+
+List of header keys configured for this webhook. Values are not included for security reasons.
+
+</summary>
+
+key: optional string
+
+Header key name (lowercase).
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+Header value. This field is never returned in API responses for security reasons.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.webhooks%20%3E%20(model)%20webhook_update_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+WebhookDeleteResponse object {errors, messages, success }
+
+Common response structure for all API endpoints.
+
+</summary>
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+Error or message code.
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Human-readable message.
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+Link to relevant documentation.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+JSON pointer to the source of the error.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+Error or message code.
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Human-readable message.
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+Link to relevant documentation.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+JSON pointer to the source of the error.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+Whether the API call was successful.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.webhooks%20%3E%20(model)%20webhook_delete_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+WebhookEvaluateResponse object {message, status\_code, success }
+
+Response body for webhook evaluation test results.
+
+</summary>
+
+message: string
+
+Human-readable message describing the test result.
+
+<a href="#">Link to this property</a>
+
+status\_code: number
+
+HTTP status code returned by the webhook endpoint. 0 if connection failed.
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+Whether the webhook test was successful (received 2xx response).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.webhooks%20%3E%20(model)%20webhook_evaluate_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+WebhookEvaluateExistingResponse object {message, status\_code, success }
+
+Response body for webhook evaluation test results.
+
+</summary>
+
+message: string
+
+Human-readable message describing the test result.
+
+<a href="#">Link to this property</a>
+
+status\_code: number
+
+HTTP status code returned by the webhook endpoint. 0 if connection failed.
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+Whether the webhook test was successful (received 2xx response).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.webhooks%20%3E%20(model)%20webhook_evaluate_existing_response%20%3E%20(schema)>)
+
+#### CasbPostureWebhooksJobs
+
+##### [Create webhook jobs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/posture/subresources/webhooks/subresources/jobs/methods/create)
+
+POST/accounts/{account\_id}/data-security/posture/webhooks/jobs
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+JobCreateResponse object {created, failed }
+
+</summary>
+
+<details>
+
+<summary>
+
+created: array of object {id, asset\_data, created\_at, 9 more }
+
+Successfully created webhook jobs.
+
+</summary>
+
+id: string
+
+Unique identifier for the webhook job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+asset\_data: map\[unknown]
+
+Asset data associated with this webhook job.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the webhook job was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+integration\_id: string
+
+ID of the integration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+last\_updated\_at: string
+
+When the webhook job was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parameters: object {finding\_instance\_id }
+
+Parameters for a webhook job.
+
+</summary>
+
+finding\_instance\_id: string
+
+ID of the finding instance.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "processing"or "completed"or "failed"
+
+Status of a webhook job.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+triggered\_by\_actor: "user"or "account\_token"
+
+Type of actor that triggered the webhook job.
+
+</summary>
+
+One of the following:
+
+"user"
+
+<a href="#">Link to this property</a>
+
+"account\_token"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+triggered\_by\_id: string
+
+ID of the actor that triggered the job.
+
+<a href="#">Link to this property</a>
+
+webhook\_id: string
+
+ID of the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+failure\_details: optional map\[unknown]
+
+Additional details about the failure.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+failure\_reason: optional "Permission Denied"or "Integration Unavailable"or "Service Temporarily Unavailable"or "System Error"
+
+Reason for webhook job failure.
+
+</summary>
+
+One of the following:
+
+"Permission Denied"
+
+<a href="#">Link to this property</a>
+
+"Integration Unavailable"
+
+<a href="#">Link to this property</a>
+
+"Service Temporarily Unavailable"
+
+<a href="#">Link to this property</a>
+
+"System Error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+failed: array of object {error, finding\_instance\_id, webhook\_id }
+
+Failed webhook job creation attempts.
+
+</summary>
+
+error: string
+
+Error message describing the failure.
+
+<a href="#">Link to this property</a>
+
+finding\_instance\_id: string
+
+ID of the finding instance that failed to create a webhook job.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+webhook\_id: string
+
+ID of the webhook configuration.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.posture.webhooks.jobs%20%3E%20(model)%20job_create_response%20%3E%20(schema)>)

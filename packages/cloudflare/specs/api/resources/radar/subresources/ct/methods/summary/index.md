@@ -1,427 +1,1083 @@
-## Get certificate distribution by dimension
+---
+title: Get certificate distribution by dimension
+---
 
-**get** `/radar/ct/summary/{dimension}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[CT](https://developers.cloudflare.com/api/resources/radar/subresources/ct)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get certificate distribution by dimension
+
+GET/radar/ct/summary/{dimension}
 
 Retrieves an aggregated summary of certificates grouped by the specified dimension.
 
-### Path Parameters
+##### Security
 
-- `dimension: "CA" or "CA_OWNER" or "DURATION" or 11 more`
+<details>
 
-  Specifies the certificate attribute by which to group the results.
+<summary>API Token</summary>
 
-  - `"CA"`
 
-  - `"CA_OWNER"`
 
-  - `"DURATION"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"ENTRY_TYPE"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"EXPIRATION_STATUS"`
+</details>
 
-  - `"HAS_IPS"`
+<details>
 
-  - `"HAS_WILDCARDS"`
+<summary>API Email + API Key</summary>
 
-  - `"LOG"`
 
-  - `"LOG_API"`
 
-  - `"LOG_OPERATOR"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"PUBLIC_KEY_ALGORITHM"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"SIGNATURE_ALGORITHM"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"TLD"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"VALIDATION_LEVEL"`
+</details>
 
-### Query Parameters
+##### Accepted Permissions (at least one required)
 
-- `ca: optional array of string`
+`User Details Write``User Details Read`
 
-  Filters results by certificate authority.
+##### P ath ParametersExpand Collapse
 
-- `caOwner: optional array of string`
+<details>
 
-  Filters results by certificate authority owner.
+<summary>
 
-- `dateEnd: optional array of string`
+dimension: "CA"or "CA\_OWNER"or "DURATION"or 11 more
 
-  End of the date range (inclusive).
+Specifies the certificate attribute by which to group the results.
 
-- `dateRange: optional array of string`
+</summary>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+One of the following:
 
-- `dateStart: optional array of string`
+"CA"
 
-  Start of the date range.
+<a href="#">Link to this property</a>
 
-- `duration: optional array of "LTE_3D" or "GT_3D_LTE_7D" or "GT_7D_LTE_10D" or 4 more`
+"CA\_OWNER"
 
-  Filters results by certificate duration.
+<a href="#">Link to this property</a>
 
-  - `"LTE_3D"`
+"DURATION"
 
-  - `"GT_3D_LTE_7D"`
+<a href="#">Link to this property</a>
 
-  - `"GT_7D_LTE_10D"`
+"ENTRY\_TYPE"
 
-  - `"GT_10D_LTE_47D"`
+<a href="#">Link to this property</a>
 
-  - `"GT_47D_LTE_100D"`
+"EXPIRATION\_STATUS"
 
-  - `"GT_100D_LTE_200D"`
+<a href="#">Link to this property</a>
 
-  - `"GT_200D"`
+"HAS\_IPS"
 
-- `entryType: optional array of "PRECERTIFICATE" or "CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-  Filters results by entry type (certificate vs. pre-certificate).
+"HAS\_WILDCARDS"
 
-  - `"PRECERTIFICATE"`
+<a href="#">Link to this property</a>
 
-  - `"CERTIFICATE"`
+"LOG"
 
-- `expirationStatus: optional array of "EXPIRED" or "VALID"`
+<a href="#">Link to this property</a>
 
-  Filters results by expiration status (expired vs. valid).
+"LOG\_API"
 
-  - `"EXPIRED"`
+<a href="#">Link to this property</a>
 
-  - `"VALID"`
+"LOG\_OPERATOR"
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+"PUBLIC\_KEY\_ALGORITHM"
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+"SIGNATURE\_ALGORITHM"
 
-- `hasIps: optional array of boolean`
+<a href="#">Link to this property</a>
 
-  Filters results based on whether the certificates are bound to specific IP addresses.
+"TLD"
 
-- `hasWildcards: optional array of boolean`
+<a href="#">Link to this property</a>
 
-  Filters results based on whether the certificates contain wildcard domains.
+"VALIDATION\_LEVEL"
 
-- `limitPerGroup: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category.
+</details>
 
-- `log: optional array of string`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dimension%20%3E%20(schema)>)
 
-  Filters results by certificate log.
+##### Q uery ParametersExpand Collapse
 
-- `logApi: optional array of "RFC6962" or "STATIC"`
+ca: optional array of string
 
-  Filters results by certificate log API (RFC6962 vs. static).
+Filters results by certificate authority.
 
-  - `"RFC6962"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20ca%20%3E%20(schema)>)
 
-  - `"STATIC"`
+caOwner: optional array of string
 
-- `logOperator: optional array of string`
+Filters results by certificate authority owner.
 
-  Filters results by certificate log operator.
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20caOwner%20%3E%20(schema)>)
 
-- `name: optional array of string`
+dateEnd: optional array of string
 
-  Array of names used to label the series in the response.
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-- `normalization: optional "RAW_VALUES" or "PERCENTAGE"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-  Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+dateRange: optional array of string
 
-  - `"RAW_VALUES"`
+Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
 
-  - `"PERCENTAGE"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
 
-- `publicKeyAlgorithm: optional array of "DSA" or "ECDSA" or "RSA"`
+dateStart: optional array of string
 
-  Filters results by public key algorithm.
+Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-  - `"DSA"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
 
-  - `"ECDSA"`
+<details>
 
-  - `"RSA"`
+<summary>
 
-- `signatureAlgorithm: optional array of "DSA_SHA_1" or "DSA_SHA_256" or "ECDSA_SHA_1" or 12 more`
+duration: optional array of "LTE\_3D"or "GT\_3D\_LTE\_7D"or "GT\_7D\_LTE\_10D"or 4 more
 
-  Filters results by signature algorithm.
+Filters results by certificate duration.
 
-  - `"DSA_SHA_1"`
+</summary>
 
-  - `"DSA_SHA_256"`
+One of the following:
 
-  - `"ECDSA_SHA_1"`
+"LTE\_3D"
 
-  - `"ECDSA_SHA_256"`
+<a href="#">Link to this property</a>
 
-  - `"ECDSA_SHA_384"`
+"GT\_3D\_LTE\_7D"
 
-  - `"ECDSA_SHA_512"`
+<a href="#">Link to this property</a>
 
-  - `"PSS_SHA_256"`
+"GT\_7D\_LTE\_10D"
 
-  - `"PSS_SHA_384"`
+<a href="#">Link to this property</a>
 
-  - `"PSS_SHA_512"`
+"GT\_10D\_LTE\_47D"
 
-  - `"RSA_MD2"`
+<a href="#">Link to this property</a>
 
-  - `"RSA_MD5"`
+"GT\_47D\_LTE\_100D"
 
-  - `"RSA_SHA_1"`
+<a href="#">Link to this property</a>
 
-  - `"RSA_SHA_256"`
+"GT\_100D\_LTE\_200D"
 
-  - `"RSA_SHA_384"`
+<a href="#">Link to this property</a>
 
-  - `"RSA_SHA_512"`
+"GT\_200D"
 
-- `tld: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by top-level domain.
+</details>
 
-- `uniqueEntries: optional array of "true" or "false"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20duration%20%3E%20(schema)>)
 
-  Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.
+<details>
 
-  - `"true"`
+<summary>
 
-  - `"false"`
+entryType: optional array of "PRECERTIFICATE"or "CERTIFICATE"
 
-- `validationLevel: optional array of "DOMAIN" or "ORGANIZATION" or "EXTENDED"`
+Filters results by entry type (certificate vs. pre-certificate). Incompatible with the <code>tld</code> filter/dimension.
 
-  Filters results by validation level.
+</summary>
 
-  - `"DOMAIN"`
+One of the following:
 
-  - `"ORGANIZATION"`
+"PRECERTIFICATE"
 
-  - `"EXTENDED"`
+<a href="#">Link to this property</a>
 
-### Returns
+"CERTIFICATE"
 
-- `result: object { meta, summary_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+</details>
 
-    Metadata for the results.
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20entryType%20%3E%20(schema)>)
 
-    - `confidenceInfo: object { annotations, level }`
+<details>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<summary>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+expirationStatus: optional array of "EXPIRED"or "VALID"
 
-          Data source for annotations.
+Filters results by expiration status (expired vs. valid).
 
-          - `"ALL"`
+</summary>
 
-          - `"AI_BOTS"`
+One of the following:
 
-          - `"AI_GATEWAY"`
+"EXPIRED"
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+"VALID"
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+</details>
 
-          - `"DNS"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20expirationStatus%20%3E%20(schema)>)
 
-          - `"DNS_MAGNITUDE"`
+<details>
 
-          - `"DNS_AS112"`
+<summary>
 
-          - `"DOS"`
+format: optional "JSON"or "CSV"
 
-          - `"EMAIL_ROUTING"`
+Format in which results will be returned.
 
-          - `"EMAIL_SECURITY"`
+</summary>
 
-          - `"FW"`
+One of the following:
 
-          - `"FW_PG"`
+"JSON"
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+"CSV"
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+</details>
 
-          - `"IQI"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-          - `"LEAKED_CREDENTIALS"`
+hasIps: optional array of boolean
 
-          - `"NET"`
+Filters results based on whether the certificates are bound to specific IP addresses.
 
-          - `"ROBOTS_TXT"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20hasIps%20%3E%20(schema)>)
 
-          - `"SPEED"`
+hasWildcards: optional array of boolean
 
-          - `"WORKERS_AI"`
+Filters results based on whether the certificates contain wildcard domains.
 
-        - `description: string`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20hasWildcards%20%3E%20(schema)>)
 
-        - `endDate: string`
+limitPerGroup: optional number
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an “other” category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2.
 
-          Event type for annotations.
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20limitPerGroup%20%3E%20(schema)>)
 
-          - `"EVENT"`
+log: optional array of string
 
-          - `"GENERAL"`
+Filters results by certificate log. Incompatible with the `tld` filter/dimension.
 
-          - `"OUTAGE"`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20log%20%3E%20(schema)>)
 
-          - `"PARTIAL_PROJECTION"`
+<details>
 
-          - `"PIPELINE"`
+<summary>
 
-          - `"TRAFFIC_ANOMALY"`
+logApi: optional array of "RFC6962"or "STATIC"
 
-        - `isInstantaneous: boolean`
+Filters results by certificate log API (RFC6962 vs. static). Incompatible with the <code>tld</code> filter/dimension.
 
-          Whether event is a single point in time or a time range.
+</summary>
 
-        - `linkedUrl: string`
+One of the following:
 
-        - `startDate: string`
+"RFC6962"
 
-        - `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `level: number`
+"STATIC"
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+</details>
 
-      - `endTime: string`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20logApi%20%3E%20(schema)>)
 
-        Adjusted end of date range.
+logOperator: optional array of string
 
-      - `startTime: string`
+Filters results by certificate log operator. Incompatible with the `tld` filter/dimension.
 
-        Adjusted start of date range.
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20logOperator%20%3E%20(schema)>)
 
-    - `lastUpdated: string`
+name: optional array of string
 
-      Timestamp of the last dataset update.
+Array of names used to label the series in the response.
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<details>
 
-      - `"PERCENTAGE"`
+<summary>
 
-      - `"MIN0_MAX"`
+normalization: optional "RAW\_VALUES"or "PERCENTAGE"
 
-      - `"MIN_MAX"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-      - `"RAW_VALUES"`
+</summary>
 
-      - `"PERCENTAGE_CHANGE"`
+One of the following:
 
-      - `"ROLLING_AVERAGE"`
+"RAW\_VALUES"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+"PERCENTAGE"
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+</details>
 
-      - `name: string`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20normalization%20%3E%20(schema)>)
 
-      - `value: string`
+<details>
 
-  - `summary_0: map[string] or object { rfc6962, static }  or object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }  or 5 more`
+<summary>
 
-    - `map[string]`
+publicKeyAlgorithm: optional array of "DSA"or "ECDSA"or "RSA"
 
-    - `object { rfc6962, static }`
+Filters results by public key algorithm.
 
-      - `rfc6962: string`
+</summary>
 
-      - `static: string`
+One of the following:
 
-    - `object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }`
+"DSA"
 
-      - `gt_121d: string`
+<a href="#">Link to this property</a>
 
-      - `gt_16d_lte_31d: string`
+"ECDSA"
 
-      - `gt_31d_lte_91d: string`
+<a href="#">Link to this property</a>
 
-      - `gt_3d_lte_16d: string`
+"RSA"
 
-      - `gt_91d_lte_121d: string`
+<a href="#">Link to this property</a>
 
-      - `lte_3d: string`
+</details>
 
-    - `object { CERTIFICATE, PRECERTIFICATE }`
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20publicKeyAlgorithm%20%3E%20(schema)>)
 
-      - `CERTIFICATE: string`
+<details>
 
-      - `PRECERTIFICATE: string`
+<summary>
 
-    - `object { EXPIRED, VALID }`
+signatureAlgorithm: optional array of "DSA\_SHA\_1"or "DSA\_SHA\_256"or "ECDSA\_SHA\_1"or 12 more
 
-      - `EXPIRED: string`
+Filters results by signature algorithm.
 
-      - `VALID: string`
+</summary>
 
-    - `object { NEGATIVE, POSITIVE }`
+One of the following:
 
-      - `NEGATIVE: string`
+"DSA\_SHA\_1"
 
-      - `POSITIVE: string`
+<a href="#">Link to this property</a>
 
-    - `object { DSA, ECDSA, RSA }`
+"DSA\_SHA\_256"
 
-      - `DSA: string`
+<a href="#">Link to this property</a>
 
-      - `ECDSA: string`
+"ECDSA\_SHA\_1"
 
-      - `RSA: string`
+<a href="#">Link to this property</a>
 
-    - `object { domain, extended, organization, unknown }`
+"ECDSA\_SHA\_256"
 
-      - `domain: string`
+<a href="#">Link to this property</a>
 
-      - `extended: string`
+"ECDSA\_SHA\_384"
 
-      - `organization: string`
+<a href="#">Link to this property</a>
 
-      - `unknown: string`
+"ECDSA\_SHA\_512"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"PSS\_SHA\_256"
 
-```http
+<a href="#">Link to this property</a>
+
+"PSS\_SHA\_384"
+
+<a href="#">Link to this property</a>
+
+"PSS\_SHA\_512"
+
+<a href="#">Link to this property</a>
+
+"RSA\_MD2"
+
+<a href="#">Link to this property</a>
+
+"RSA\_MD5"
+
+<a href="#">Link to this property</a>
+
+"RSA\_SHA\_1"
+
+<a href="#">Link to this property</a>
+
+"RSA\_SHA\_256"
+
+<a href="#">Link to this property</a>
+
+"RSA\_SHA\_384"
+
+<a href="#">Link to this property</a>
+
+"RSA\_SHA\_512"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20signatureAlgorithm%20%3E%20(schema)>)
+
+tld: optional array of string
+
+Filters results by top-level domain. Incompatible with the `log`, `logApi`, `logOperator`, and `entryType` filters/dimensions.
+
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20tld%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+uniqueEntries: optional array of "true"or "false"
+
+Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.
+
+</summary>
+
+One of the following:
+
+"true"
+
+<a href="#">Link to this property</a>
+
+"false"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20uniqueEntries%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+validationLevel: optional array of "DOMAIN"or "ORGANIZATION"or "EXTENDED"
+
+Filters results by validation level.
+
+</summary>
+
+One of the following:
+
+"DOMAIN"
+
+<a href="#">Link to this property</a>
+
+"ORGANIZATION"
+
+<a href="#">Link to this property</a>
+
+"EXTENDED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20validationLevel%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {meta, summary\_0 }
+
+</summary>
+
+<details>
+
+<summary>
+
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
+
+Metadata for the results.
+
+</summary>
+
+<details>
+
+<summary>
+
+confidenceInfo: object {annotations, level }
+
+</summary>
+
+<details>
+
+<summary>
+
+annotations: array of object {dataSource, description, endDate, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
+
+Data source for annotations.
+
+</summary>
+
+One of the following:
+
+"ALL"
+
+<a href="#">Link to this property</a>
+
+"AI\_BOTS"
+
+<a href="#">Link to this property</a>
+
+"AI\_GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"BGP"
+
+<a href="#">Link to this property</a>
+
+"BOTS"
+
+<a href="#">Link to this property</a>
+
+"CONNECTION\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+"CT"
+
+<a href="#">Link to this property</a>
+
+"DNS"
+
+<a href="#">Link to this property</a>
+
+"DNS\_MAGNITUDE"
+
+<a href="#">Link to this property</a>
+
+"DNS\_AS112"
+
+<a href="#">Link to this property</a>
+
+"DOS"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_ROUTING"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_SECURITY"
+
+<a href="#">Link to this property</a>
+
+"FW"
+
+<a href="#">Link to this property</a>
+
+"FW\_PG"
+
+<a href="#">Link to this property</a>
+
+"HTTP"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CONTROL"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CRAWLER\_REFERER"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"IQI"
+
+<a href="#">Link to this property</a>
+
+"LEAKED\_CREDENTIALS"
+
+<a href="#">Link to this property</a>
+
+"NET"
+
+<a href="#">Link to this property</a>
+
+"ROBOTS\_TXT"
+
+<a href="#">Link to this property</a>
+
+"SPEED"
+
+<a href="#">Link to this property</a>
+
+"WORKERS\_AI"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+endDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
+
+Event type for annotations.
+
+</summary>
+
+One of the following:
+
+"GENERAL"
+
+<a href="#">Link to this property</a>
+
+"OUTAGE"
+
+<a href="#">Link to this property</a>
+
+"PARTIAL\_PROJECTION"
+
+<a href="#">Link to this property</a>
+
+"PIPELINE"
+
+<a href="#">Link to this property</a>
+
+"TRAFFIC\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isInstantaneous: boolean
+
+Whether event is a single point in time or a time range.
+
+<a href="#">Link to this property</a>
+
+linkedUrl: string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+startDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+level: number
+
+Provides an indication of how much confidence Cloudflare has in the data.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dateRange: array of object {endTime, startTime }
+
+</summary>
+
+endTime: string
+
+Adjusted end of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+startTime: string
+
+Adjusted start of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastUpdated: string
+
+Timestamp of the last dataset update.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
+
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
+
+</summary>
+
+One of the following:
+
+"PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"MIN0\_MAX"
+
+<a href="#">Link to this property</a>
+
+"MIN\_MAX"
+
+<a href="#">Link to this property</a>
+
+"RAW\_VALUES"
+
+<a href="#">Link to this property</a>
+
+"PERCENTAGE\_CHANGE"
+
+<a href="#">Link to this property</a>
+
+"ROLLING\_AVERAGE"
+
+<a href="#">Link to this property</a>
+
+"OVERLAPPED\_PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"RATIO"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+units: array of object {name, value }
+
+Measurement units for the results.
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+summary\_0: map\[string]or object {rfc6962, static } or object {gt\_121d, gt\_16d\_lte\_31d, gt\_31d\_lte\_91d, 3 more } or 5 more
+
+</summary>
+
+One of the following:
+
+map\[string]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {rfc6962, static }
+
+</summary>
+
+rfc6962: string
+
+<a href="#">Link to this property</a>
+
+static: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {gt\_121d, gt\_16d\_lte\_31d, gt\_31d\_lte\_91d, 3 more }
+
+</summary>
+
+gt\_121d: string
+
+<a href="#">Link to this property</a>
+
+gt\_16d\_lte\_31d: string
+
+<a href="#">Link to this property</a>
+
+gt\_31d\_lte\_91d: string
+
+<a href="#">Link to this property</a>
+
+gt\_3d\_lte\_16d: string
+
+<a href="#">Link to this property</a>
+
+gt\_91d\_lte\_121d: string
+
+<a href="#">Link to this property</a>
+
+lte\_3d: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {CERTIFICATE, PRECERTIFICATE }
+
+</summary>
+
+CERTIFICATE: string
+
+<a href="#">Link to this property</a>
+
+PRECERTIFICATE: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {EXPIRED, VALID }
+
+</summary>
+
+EXPIRED: string
+
+<a href="#">Link to this property</a>
+
+VALID: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {NEGATIVE, POSITIVE }
+
+</summary>
+
+NEGATIVE: string
+
+<a href="#">Link to this property</a>
+
+POSITIVE: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {DSA, ECDSA, RSA }
+
+</summary>
+
+DSA: string
+
+<a href="#">Link to this property</a>
+
+ECDSA: string
+
+<a href="#">Link to this property</a>
+
+RSA: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {domain, extended, organization, unknown }
+
+</summary>
+
+domain: string
+
+<a href="#">Link to this property</a>
+
+extended: string
+
+<a href="#">Link to this property</a>
+
+organization: string
+
+<a href="#">Link to this property</a>
+
+unknown: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.ct%20%3E%20(method)%20summary%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get certificate distribution by dimension
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/ct/summary/$DIMENSION \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "meta": {
@@ -431,7 +1087,57 @@ curl https://api.cloudflare.com/client/v4/radar/ct/summary/$DIMENSION \
             "dataSource": "ALL",
             "description": "Cable cut in Tonga",
             "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
+            "eventType": "GENERAL",
+            "isInstantaneous": true,
+            "linkedUrl": "https://example.com",
+            "startDate": "2019-12-27T18:11:19.117Z",
+            "tags": [
+              "BOT_CLASS"
+            ]
+          }
+        ],
+        "level": 0
+      },
+      "dateRange": [
+        {
+          "endTime": "2022-09-17T10:22:57.555Z",
+          "startTime": "2022-09-16T10:22:57.555Z"
+        }
+      ],
+      "lastUpdated": "2019-12-27T18:11:19.117Z",
+      "normalization": "PERCENTAGE",
+      "units": [
+        {
+          "name": "*",
+          "value": "requests"
+        }
+      ]
+    },
+    "summary_0": {
+      "DigiCert": "10.274394",
+      "GoDaddy": "8.381743",
+      "Internet Security Research Group": "63.40249"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "meta": {
+      "confidenceInfo": {
+        "annotations": [
+          {
+            "dataSource": "ALL",
+            "description": "Cable cut in Tonga",
+            "endDate": "2019-12-27T18:11:19.117Z",
+            "eventType": "GENERAL",
             "isInstantaneous": true,
             "linkedUrl": "https://example.com",
             "startDate": "2019-12-27T18:11:19.117Z",

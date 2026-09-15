@@ -1,177 +1,131 @@
+---
+title: Temporary Credentials
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Temporary Credentials
 
-## Create Temporary Access Credentials
+##### [Create Temporary Access Credentials](https://developers.cloudflare.com/api/resources/r2/subresources/temporary_credentials/methods/create)
 
-**post** `/accounts/{account_id}/r2/temp-access-credentials`
+POST/accounts/{account\_id}/r2/temp-access-credentials
 
-Creates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+TemporaryCredential object {bucket, parentAccessKeyId, permission, 3 more }
 
-### Body Parameters
+</summary>
 
-- `bucket: string`
+bucket: string
 
-  Name of the R2 bucket.
+Name of the R2 bucket.
 
-- `parentAccessKeyId: string`
+<a href="#">Link to this property</a>
 
-  The parent access key id to use for signing.
+parentAccessKeyId: string
 
-- `permission: "admin-read-write" or "admin-read-only" or "object-read-write" or "object-read-only"`
+The parent access key id to use for signing.
 
-  Permissions allowed on the credentials.
+<a href="#">Link to this property</a>
 
-  - `"admin-read-write"`
+<details>
 
-  - `"admin-read-only"`
+<summary>
 
-  - `"object-read-write"`
+permission: "admin-read-write"or "admin-read-only"or "object-read-write"or "object-read-only"
 
-  - `"object-read-only"`
+Permissions allowed on the credentials.
 
-- `ttlSeconds: number`
+</summary>
 
-  How long the credentials will live for in seconds.
+One of the following:
 
-- `objects: optional array of string`
+"admin-read-write"
 
-  Optional object paths to scope the credentials to.
+<a href="#">Link to this property</a>
 
-- `prefixes: optional array of string`
+"admin-read-only"
 
-  Optional prefix paths to scope the credentials to.
+<a href="#">Link to this property</a>
 
-### Returns
+"object-read-write"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"object-read-only"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+ttlSeconds: number
 
-- `messages: array of string`
+How long the credentials will live for in seconds.
 
-- `result: object { accessKeyId, secretAccessKey, sessionToken }`
+maximum604800
 
-  - `accessKeyId: optional string`
+<a href="#">Link to this property</a>
 
-    ID for new access key.
+objects: optional array of string
 
-  - `secretAccessKey: optional string`
+Optional object paths to scope the credentials to.
 
-    Secret access key.
+<a href="#">Link to this property</a>
 
-  - `sessionToken: optional string`
+prefixes: optional array of string
 
-    Security token.
+Optional prefix paths to scope the credentials to.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20r2.temporary_credentials%20%3E%20(model)%20temporary_credential%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/temp-access-credentials \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bucket": "example-bucket",
-          "parentAccessKeyId": "example-access-key-id",
-          "permission": "object-read-write",
-          "ttlSeconds": 3600
-        }'
-```
+<summary>
 
-#### Response
+TemporaryCredentialCreateResponse object {accessKeyId, secretAccessKey, sessionToken }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "accessKeyId": "example-access-key-id",
-    "secretAccessKey": "example-secret-key",
-    "sessionToken": "example-session-token"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+accessKeyId: optional string
 
-### Temporary Credential
+ID for new access key.
 
-- `TemporaryCredential object { bucket, parentAccessKeyId, permission, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `bucket: string`
+secretAccessKey: optional string
 
-    Name of the R2 bucket.
+Secret access key.
 
-  - `parentAccessKeyId: string`
+<a href="#">Link to this property</a>
 
-    The parent access key id to use for signing.
+sessionToken: optional string
 
-  - `permission: "admin-read-write" or "admin-read-only" or "object-read-write" or "object-read-only"`
+Security token.
 
-    Permissions allowed on the credentials.
+<a href="#">Link to this property</a>
 
-    - `"admin-read-write"`
+</details>
 
-    - `"admin-read-only"`
-
-    - `"object-read-write"`
-
-    - `"object-read-only"`
-
-  - `ttlSeconds: number`
-
-    How long the credentials will live for in seconds.
-
-  - `objects: optional array of string`
-
-    Optional object paths to scope the credentials to.
-
-  - `prefixes: optional array of string`
-
-    Optional prefix paths to scope the credentials to.
-
-### Temporary Credential Create Response
-
-- `TemporaryCredentialCreateResponse object { accessKeyId, secretAccessKey, sessionToken }`
-
-  - `accessKeyId: optional string`
-
-    ID for new access key.
-
-  - `secretAccessKey: optional string`
-
-    Secret access key.
-
-  - `sessionToken: optional string`
-
-    Security token.
+[Link to this property](#)%20r2.temporary_credentials%20%3E%20(model)%20temporary_credential_create_response%20%3E%20(schema)>)

@@ -394,9 +394,9 @@ export const GetPageShieldRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPageShieldResponse {
-  /** When true, indicates that Page Shield is enabled. */
+  /** When true, indicates that Client-Side Security is enabled. */
   enabled: boolean;
-  /** The timestamp of when Page Shield was last updated. */
+  /** The timestamp of when Client-Side Security was last updated. */
   updatedAt: string;
   /** When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report */
   useCloudflareReportingEndpoint: boolean;
@@ -834,7 +834,7 @@ export interface ListCookiesRequest {
   hosts?: string;
   /** Filters the returned cookies that are set with HttpOnly */
   httpOnly?: boolean;
-  /** Filters the returned cookies that match the specified name. */
+  /** Filters the returned cookies that match the specified name. Wildcards are supported at the start and end to support starts with, ends with and contains. e.g. session* */
   name?: string;
   /** The field used to sort returned cookies. */
   orderBy?: CookiesListRequestOrderBy | (string & {});
@@ -1059,7 +1059,7 @@ export interface ListScriptsRequest {
   direction?: ScriptsListRequestDirection | (string & {});
   /** When true, excludes scripts seen in a `/cdn-cgi` path from the returned scripts. The default value is true. */
   excludeCdnCgi?: boolean;
-  /** When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript */
+  /** When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript content matches and they share the same url host and zone hostname. In such case, we return the most recent script for the URL host and zone hostname combination. */
   excludeDuplicates?: boolean;
   /** Excludes scripts whose URL contains one of the URL-encoded URLs separated by commas. */
   excludeUrls?: string;
@@ -1239,7 +1239,7 @@ export const ListScriptsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PutPageShieldRequest {
   /** Identifier */
   zoneId: string;
-  /** When true, indicates that Page Shield is enabled. */
+  /** When true, indicates that Client-Side Security is enabled. */
   enabled?: boolean;
   /** When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report */
   useCloudflareReportingEndpoint?: boolean;
@@ -1267,9 +1267,9 @@ export const PutPageShieldRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutPageShieldResponse {
-  /** When true, indicates that Page Shield is enabled. */
+  /** When true, indicates that Client-Side Security is enabled. */
   enabled: boolean;
-  /** The timestamp of when Page Shield was last updated. */
+  /** The timestamp of when Client-Side Security was last updated. */
   updatedAt: string;
   /** When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report */
   useCloudflareReportingEndpoint: boolean;
@@ -1371,7 +1371,7 @@ export type CreatePolicyError =
   | PolicyQuotaExceeded
   | Forbidden
   | CloudflareOpError;
-/** Create a Page Shield policy. */
+/** Creates a rule that applies a client-side security action when its filter expression matches. */
 export const createPolicy: API.OperationMethod<
   CreatePolicyRequest,
   CreatePolicyResponse,
@@ -1391,7 +1391,7 @@ export const createPolicy: API.OperationMethod<
 }));
 
 export type DeletePolicyError = PolicyNotFound | Forbidden | CloudflareOpError;
-/** Delete a Page Shield policy by ID. */
+/** Permanently deletes a content security rule by ID. */
 export const deletePolicy: API.OperationMethod<
   DeletePolicyRequest,
   DeletePolicyResponse,
@@ -1406,7 +1406,7 @@ export const deletePolicy: API.OperationMethod<
 }));
 
 export type GetConnectionError = CloudflareOpError;
-/** Fetches a connection detected by Page Shield by connection ID. */
+/** Returns a webpage connection detected on the zone by connection ID. */
 export const getConnection: API.OperationMethod<
   GetConnectionRequest,
   GetConnectionResponse,
@@ -1421,7 +1421,7 @@ export const getConnection: API.OperationMethod<
 }));
 
 export type GetCookyError = CloudflareOpError;
-/** Fetches a cookie collected by Page Shield by cookie ID. */
+/** Returns a cookie detected on the zone by cookie ID. */
 export const getCooky: API.OperationMethod<
   GetCookyRequest,
   GetCookyResponse,
@@ -1436,7 +1436,7 @@ export const getCooky: API.OperationMethod<
 }));
 
 export type GetPageShieldError = Forbidden | CloudflareOpError;
-/** Fetches the Page Shield settings. */
+/** Returns the client-side security product enablement status and reporting behaviors. */
 export const getPageShield: API.OperationMethod<
   GetPageShieldRequest,
   GetPageShieldResponse,
@@ -1451,7 +1451,7 @@ export const getPageShield: API.OperationMethod<
 }));
 
 export type GetPolicyError = PolicyNotFound | Forbidden | CloudflareOpError;
-/** Fetches a Page Shield policy by ID. */
+/** Returns a content security rule by ID. */
 export const getPolicy: API.OperationMethod<
   GetPolicyRequest,
   GetPolicyResponse,
@@ -1466,7 +1466,7 @@ export const getPolicy: API.OperationMethod<
 }));
 
 export type GetScriptError = CloudflareOpError;
-/** Fetches a script detected by Page Shield by script ID. */
+/** Returns a script detected on the zone by script ID. */
 export const getScript: API.OperationMethod<
   GetScriptRequest,
   GetScriptResponse,
@@ -1481,7 +1481,7 @@ export const getScript: API.OperationMethod<
 }));
 
 export type ListConnectionsError = CloudflareOpError;
-/** Lists all connections detected by Page Shield. */
+/** Lists outbound connections made by webpages in the zone. */
 export const listConnections: API.PaginatedOperationMethod<
   ListConnectionsRequest,
   ListConnectionsResponse,
@@ -1501,7 +1501,7 @@ export const listConnections: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListCookiesError = CloudflareOpError;
-/** Lists all cookies collected by Page Shield. */
+/** Lists cookies detected on the zone. */
 export const listCookies: API.PaginatedOperationMethod<
   ListCookiesRequest,
   ListCookiesResponse,
@@ -1521,7 +1521,7 @@ export const listCookies: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListPoliciesError = Forbidden | CloudflareOpError;
-/** Lists all Page Shield policies. */
+/** Lists content security rules configured for the zone. */
 export const listPolicies: API.PaginatedOperationMethod<
   ListPoliciesRequest,
   ListPoliciesResponse,
@@ -1541,7 +1541,7 @@ export const listPolicies: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListScriptsError = CloudflareOpError;
-/** Lists all scripts detected by Page Shield. */
+/** Lists scripts detected on webpages in the zone, with filtering and pagination. */
 export const listScripts: API.PaginatedOperationMethod<
   ListScriptsRequest,
   ListScriptsResponse,
@@ -1561,7 +1561,7 @@ export const listScripts: API.PaginatedOperationMethod<
 ) as any;
 
 export type PutPageShieldError = NotEntitled | Forbidden | CloudflareOpError;
-/** Updates Page Shield settings. */
+/** Updates client-side security enablement and reporting behaviors for the zone. */
 export const putPageShield: API.OperationMethod<
   PutPageShieldRequest,
   PutPageShieldResponse,
@@ -1576,7 +1576,7 @@ export const putPageShield: API.OperationMethod<
 }));
 
 export type UpdatePolicyError = PolicyNotFound | Forbidden | CloudflareOpError;
-/** Update a Page Shield policy by ID. */
+/** Updates the description, action, expression, enabled state, and policy value for a content security rule. */
 export const updatePolicy: API.OperationMethod<
   UpdatePolicyRequest,
   UpdatePolicyResponse,

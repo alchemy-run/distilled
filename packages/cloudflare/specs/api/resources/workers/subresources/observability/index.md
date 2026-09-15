@@ -1,10790 +1,8959 @@
+---
+title: Observability
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Observability
 
-# Telemetry
+#### ObservabilityTelemetry
 
-## List keys
+##### [List keys](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/telemetry/methods/keys)
 
-**post** `/accounts/{account_id}/workers/observability/telemetry/keys`
+POST/accounts/{account\_id}/workers/observability/telemetry/keys
 
-List all the keys in your telemetry events.
+##### [Run a query](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/telemetry/methods/query)
 
-### Path Parameters
+POST/accounts/{account\_id}/workers/observability/telemetry/query
 
-- `account_id: string`
+##### [List values](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/telemetry/methods/values)
 
-### Body Parameters
+POST/accounts/{account\_id}/workers/observability/telemetry/values
 
-- `datasets: optional array of string`
+##### [Prepare live tail](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/telemetry/methods/live_tail)
 
-  Leave this empty to use the default datasets
+POST/accounts/{account\_id}/workers/observability/telemetry/live-tail
 
-- `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+##### [Live tail heartbeat](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/telemetry/methods/live_tail_heartbeat)
 
-  Apply filters to narrow key discovery. Supports nested groups via kind: 'group'. Maximum nesting depth is 4.
+POST/accounts/{account\_id}/workers/observability/telemetry/live-tail/heartbeat
 
-  - `object { filterCombination, filters, kind }`
+##### ModelsExpand Collapse
 
-    - `filterCombination: "and" or "or" or "AND" or "OR"`
+<details>
 
-      - `"and"`
+<summary>
 
-      - `"or"`
+TelemetryKeysResponse object {key, lastSeenAt, type }
 
-      - `"AND"`
+</summary>
 
-      - `"OR"`
+key: string
 
-    - `filters: array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `object { filterCombination, filters, kind }`
+lastSeenAt: number
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-          - `"and"`
+<details>
 
-          - `"or"`
+<summary>
 
-          - `"AND"`
+type: "string"or "boolean"or "number"
 
-          - `"OR"`
+</summary>
 
-        - `filters: array of unknown`
+One of the following:
 
-        - `kind: "group"`
+"string"
 
-          - `"group"`
+<a href="#">Link to this property</a>
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+"boolean"
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<a href="#">Link to this property</a>
 
-        - `key: string`
+"number"
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<a href="#">Link to this property</a>
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+</details>
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<a href="#">Link to this property</a>
 
-          - `"includes"`
+</details>
 
-          - `"not_includes"`
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(model)%20telemetry_keys_response%20%3E%20(schema)>)
 
-          - `"starts_with"`
+<details>
 
-          - `"ends_with"`
+<summary>
 
-          - `"regex"`
+TelemetryQueryResponse object {run, statistics, agents, 6 more }
 
-          - `"exists"`
+Complete results of a query run. The populated fields depend on the requested view type (events, calculations, invocations, traces, or agents).
 
-          - `"is_null"`
+</summary>
 
-          - `"in"`
+<details>
 
-          - `"not_in"`
+<summary>
 
-          - `"eq"`
+run: object {id, accountId, dry, 8 more }
 
-          - `"neq"`
+Represents a single execution of a query against Workers Observability data, including the query definition, execution status, and performance statistics.
 
-          - `"gt"`
+</summary>
 
-          - `"gte"`
+id: string
 
-          - `"lt"`
+Unique identifier for this query run.
 
-          - `"lte"`
+<a href="#">Link to this property</a>
 
-          - `"="`
+accountId: string
 
-          - `"!="`
+Cloudflare account ID that owns this query run.
 
-          - `">"`
+<a href="#">Link to this property</a>
 
-          - `">="`
+dry: boolean
 
-          - `"<"`
+Whether this was a dry run (results not persisted).
 
-          - `"<="`
+<a href="#">Link to this property</a>
 
-          - `"INCLUDES"`
+granularity: number
 
-          - `"DOES_NOT_INCLUDE"`
+Number of time-series buckets used for the query. Higher values produce more detailed series data.
 
-          - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-          - `"EXISTS"`
+<details>
 
-          - `"DOES_NOT_EXIST"`
+<summary>
 
-          - `"IN"`
+query: object {id, adhoc, created, 6 more }
 
-          - `"NOT_IN"`
+A saved query definition with its parameters, metadata, and ownership information.
 
-          - `"STARTS_WITH"`
+</summary>
 
-          - `"ENDS_WITH"`
+id: string
 
-        - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+adhoc: boolean
 
-          - `"string"`
+If the query wasn’t explcitly saved
 
-          - `"number"`
+<a href="#">Link to this property</a>
 
-          - `"boolean"`
+<details>
 
-        - `kind: optional "filter"`
+<summary>
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+created: stringor string
 
-          - `"filter"`
+formatdate-time
 
-        - `value: optional string or number or boolean`
+</summary>
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+One of the following:
 
-          - `string`
+string
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+string
 
-    - `kind: "group"`
+<a href="#">Link to this property</a>
 
-      - `"group"`
+</details>
 
-  - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-    A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+createdBy: string
 
-    - `key: string`
+<a href="#">Link to this property</a>
 
-      Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+description: string
 
-    - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+maxLength1000
 
-      Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<a href="#">Link to this property</a>
 
-      - `"includes"`
+name: string
 
-      - `"not_includes"`
+Query name
 
-      - `"starts_with"`
+maxLength250
 
-      - `"ends_with"`
+minLength1
 
-      - `"regex"`
+<a href="#">Link to this property</a>
 
-      - `"exists"`
+<details>
 
-      - `"is_null"`
+<summary>
 
-      - `"in"`
+parameters: object {calculations, datasets, filterCombination, 6 more }
 
-      - `"not_in"`
+</summary>
 
-      - `"eq"`
+<details>
 
-      - `"neq"`
+<summary>
 
-      - `"gt"`
+calculations: optional array of object {operator, alias, key, keyType } or object {key, operator, alias, keyType }
 
-      - `"gte"`
+Create Calculations to compute as part of the query.
 
-      - `"lt"`
+</summary>
 
-      - `"lte"`
+One of the following:
 
-      - `"="`
+<details>
 
-      - `"!="`
+<summary>
 
-      - `">"`
+object {operator, alias, key, keyType }
 
-      - `">="`
+</summary>
 
-      - `"<"`
+<details>
 
-      - `"<="`
+<summary>
 
-      - `"INCLUDES"`
+operator: "count"or "COUNT"
 
-      - `"DOES_NOT_INCLUDE"`
+</summary>
 
-      - `"MATCH_REGEX"`
+One of the following:
 
-      - `"EXISTS"`
+"count"
 
-      - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-      - `"IN"`
+"COUNT"
 
-      - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-      - `"STARTS_WITH"`
+</details>
 
-      - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-    - `type: "string" or "number" or "boolean"`
+alias: optional string
 
-      Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-      - `"string"`
+key: optional string
 
-      - `"number"`
+<a href="#">Link to this property</a>
 
-      - `"boolean"`
+<details>
 
-    - `kind: optional "filter"`
+<summary>
 
-      Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+keyType: optional "string"or "number"or "boolean"
 
-      - `"filter"`
+</summary>
 
-    - `value: optional string or number or boolean`
+One of the following:
 
-      Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+"string"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+"number"
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-- `from: optional number`
+"boolean"
 
-- `keyNeedle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-  If the user suggests a key, use this to narrow down the list of keys returned. Make sure matchCase is false to avoid case sensitivity issues.
+</details>
 
-  - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-    The text or pattern to search for.
+</details>
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+<details>
 
-    - `boolean`
+<summary>
 
-  - `isRegex: optional boolean`
+object {key, operator, alias, keyType }
 
-    When true, treats the value as a regular expression (RE2 syntax).
+</summary>
 
-  - `matchCase: optional boolean`
+key: string
 
-    When true, performs a case-sensitive search. Defaults to case-insensitive.
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+<details>
 
-  Advanced usage: set limit=1000+ to retrieve comprehensive key options without needing additional filtering.
+<summary>
 
-- `needle: optional object { value, isRegex, matchCase }`
+operator: "uniq"or "max"or "min"or 33 more
 
-  Search for a specific substring in any of the events
+</summary>
 
-  - `value: string or number or boolean`
+One of the following:
 
-    The text or pattern to search for.
+"uniq"
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+"max"
 
-    - `boolean`
+<a href="#">Link to this property</a>
 
-  - `isRegex: optional boolean`
+"min"
 
-    When true, treats the value as a regular expression (RE2 syntax).
+<a href="#">Link to this property</a>
 
-  - `matchCase: optional boolean`
+"sum"
 
-    When true, performs a case-sensitive search. Defaults to case-insensitive.
+<a href="#">Link to this property</a>
 
-- `to: optional number`
+"avg"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+"median"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+"p001"
 
-  - `message: "Successful request"`
+<a href="#">Link to this property</a>
 
-    - `"Successful request"`
+"p01"
 
-- `result: array of object { key, lastSeenAt, type }`
+<a href="#">Link to this property</a>
 
-  - `key: string`
+"p05"
 
-  - `lastSeenAt: number`
+<a href="#">Link to this property</a>
 
-  - `type: "string" or "boolean" or "number"`
+"p10"
 
-    - `"string"`
+<a href="#">Link to this property</a>
 
-    - `"boolean"`
+"p25"
 
-    - `"number"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"p75"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"p90"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/telemetry/keys \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"p95"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": [
-    {
-      "key": "key",
-      "lastSeenAt": 0,
-      "type": "string"
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Run a query
+"p99"
 
-**post** `/accounts/{account_id}/workers/observability/telemetry/query`
+<a href="#">Link to this property</a>
 
-Run a temporary or saved query.
+"p999"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"stddev"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `queryId: string`
+"variance"
 
-  Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID).
+<a href="#">Link to this property</a>
 
-- `timeframe: object { from, to }`
+"COUNT\_DISTINCT"
 
-  Timeframe for the query using Unix timestamps in milliseconds. Narrower timeframes produce faster responses and more specific results.
+<a href="#">Link to this property</a>
 
-  - `from: number`
+"MAX"
 
-    Start timestamp for the query timeframe (Unix timestamp in milliseconds)
+<a href="#">Link to this property</a>
 
-  - `to: number`
+"MIN"
 
-    End timestamp for the query timeframe (Unix timestamp in milliseconds)
+<a href="#">Link to this property</a>
 
-- `chart: optional boolean`
+"SUM"
 
-  When true, includes time-series data in the response.
+<a href="#">Link to this property</a>
 
-- `compare: optional boolean`
+"AVG"
 
-  When true, includes a comparison dataset from the previous time period of equal length.
+<a href="#">Link to this property</a>
 
-- `dry: optional boolean`
+"MEDIAN"
 
-  When true, executes the query without persisting the results. Useful for validation or previewing.
+<a href="#">Link to this property</a>
 
-- `granularity: optional number`
+"P001"
 
-  Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity.
+<a href="#">Link to this property</a>
 
-- `ignoreSeries: optional boolean`
+"P01"
 
-  When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed.
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+"P05"
 
-  Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'.
+<a href="#">Link to this property</a>
 
-- `offset: optional string`
+"P10"
 
-  Cursor for pagination in event, trace, and invocation views. Pass the $metadata.id of the last returned item to fetch the next page.
+<a href="#">Link to this property</a>
 
-- `offsetBy: optional number`
+"P25"
 
-  Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination.
+<a href="#">Link to this property</a>
 
-- `offsetDirection: optional string`
+"P75"
 
-  Pagination direction: 'next' for forward, 'prev' for backward.
+<a href="#">Link to this property</a>
 
-- `parameters: optional object { calculations, datasets, filterCombination, 6 more }`
+"P90"
 
-  Query parameters defining what data to retrieve — filters, calculations, group-bys, and ordering. In practice this should always be provided for ad-hoc queries. Only omit when executing a previously saved query by queryId. Use the keys and values endpoints to discover available fields before building filters.
+<a href="#">Link to this property</a>
 
-  - `calculations: optional array of object { operator, alias, key, keyType }`
+"P95"
 
-    Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data.
+<a href="#">Link to this property</a>
 
-    - `operator: "uniq" or "count" or "max" or 35 more`
+"P99"
 
-      Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance.
+<a href="#">Link to this property</a>
 
-      - `"uniq"`
+"P999"
 
-      - `"count"`
+<a href="#">Link to this property</a>
 
-      - `"max"`
+"STDDEV"
 
-      - `"min"`
+<a href="#">Link to this property</a>
 
-      - `"sum"`
+"VARIANCE"
 
-      - `"avg"`
+<a href="#">Link to this property</a>
 
-      - `"median"`
+</details>
 
-      - `"p001"`
+<a href="#">Link to this property</a>
 
-      - `"p01"`
+alias: optional string
 
-      - `"p05"`
+<a href="#">Link to this property</a>
 
-      - `"p10"`
+<details>
 
-      - `"p25"`
+<summary>
 
-      - `"p75"`
+keyType: optional "string"or "number"or "boolean"
 
-      - `"p90"`
+</summary>
 
-      - `"p95"`
+One of the following:
 
-      - `"p99"`
+"string"
 
-      - `"p999"`
+<a href="#">Link to this property</a>
 
-      - `"stddev"`
+"number"
 
-      - `"variance"`
+<a href="#">Link to this property</a>
 
-      - `"COUNT_DISTINCT"`
+"boolean"
 
-      - `"COUNT"`
+<a href="#">Link to this property</a>
 
-      - `"MAX"`
+</details>
 
-      - `"MIN"`
+<a href="#">Link to this property</a>
 
-      - `"SUM"`
+</details>
 
-      - `"AVG"`
+<a href="#">Link to this property</a>
 
-      - `"MEDIAN"`
+</details>
 
-      - `"P001"`
+<a href="#">Link to this property</a>
 
-      - `"P01"`
+datasets: optional array of string
 
-      - `"P05"`
+Set the Datasets to query. Leave it empty to query all the datasets.
 
-      - `"P10"`
+<a href="#">Link to this property</a>
 
-      - `"P25"`
+<details>
 
-      - `"P75"`
+<summary>
 
-      - `"P90"`
+filterCombination: optional "and"or "or"or "AND"or "OR"
 
-      - `"P95"`
+Set a Flag to describe how to combine the filters on the query.
 
-      - `"P99"`
+</summary>
 
-      - `"P999"`
+One of the following:
 
-      - `"STDDEV"`
+"and"
 
-      - `"VARIANCE"`
+<a href="#">Link to this property</a>
 
-    - `alias: optional string`
+"or"
 
-      Custom label for this calculation in the results. Useful for distinguishing multiple calculations.
+<a href="#">Link to this property</a>
 
-    - `key: optional string`
+"AND"
 
-      Field name to calculate over. Must exist in the data — verify with the keys endpoint. Omit for operators that don't require a key (e.g. count).
+<a href="#">Link to this property</a>
 
-    - `keyType: optional "string" or "number" or "boolean"`
+"OR"
 
-      Data type of the key. Required when key is provided to ensure correct aggregation.
+<a href="#">Link to this property</a>
 
-      - `"string"`
+</details>
 
-      - `"number"`
+<a href="#">Link to this property</a>
 
-      - `"boolean"`
+<details>
 
-  - `datasets: optional array of string`
+<summary>
 
-    Datasets to query. Leave empty to query all available datasets.
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
 
-  - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+Configure the Filters to apply to the query. Supports nested groups via kind: ‘group’.
 
-    Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'.
+</summary>
 
-    - `"and"`
+One of the following:
 
-    - `"or"`
+<details>
 
-    - `"AND"`
+<summary>
 
-    - `"OR"`
+object {filterCombination, filters, kind }
 
-  - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+</summary>
 
-    Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4.
+<details>
 
-    - `object { filterCombination, filters, kind }`
+<summary>
 
-      - `filterCombination: "and" or "or" or "AND" or "OR"`
+filterCombination: "and"or "or"or "AND"or "OR"
 
-        - `"and"`
+</summary>
 
-        - `"or"`
+One of the following:
 
-        - `"AND"`
+"and"
 
-        - `"OR"`
+<a href="#">Link to this property</a>
 
-      - `filters: array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+"or"
 
-        - `object { filterCombination, filters, kind }`
+<a href="#">Link to this property</a>
 
-          - `filterCombination: "and" or "or" or "AND" or "OR"`
+"AND"
 
-            - `"and"`
+<a href="#">Link to this property</a>
 
-            - `"or"`
+"OR"
 
-            - `"AND"`
+<a href="#">Link to this property</a>
 
-            - `"OR"`
+</details>
 
-          - `filters: array of unknown`
+<a href="#">Link to this property</a>
 
-          - `kind: "group"`
+filters: array of unknown
 
-            - `"group"`
+<a href="#">Link to this property</a>
 
-        - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+kind: "group"
 
-          A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+</details>
 
-            Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<a href="#">Link to this property</a>
 
-          - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<details>
 
-            Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<summary>
 
-            - `"includes"`
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
 
-            - `"not_includes"`
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
 
-            - `"starts_with"`
+</summary>
 
-            - `"ends_with"`
+key: string
 
-            - `"regex"`
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
 
-            - `"exists"`
+<a href="#">Link to this property</a>
 
-            - `"is_null"`
+<details>
 
-            - `"in"`
+<summary>
 
-            - `"not_in"`
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
 
-            - `"eq"`
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
 
-            - `"neq"`
+</summary>
 
-            - `"gt"`
+One of the following:
 
-            - `"gte"`
+"includes"
 
-            - `"lt"`
+<a href="#">Link to this property</a>
 
-            - `"lte"`
+"not\_includes"
 
-            - `"="`
+<a href="#">Link to this property</a>
 
-            - `"!="`
+"starts\_with"
 
-            - `">"`
+<a href="#">Link to this property</a>
 
-            - `">="`
+"ends\_with"
 
-            - `"<"`
+<a href="#">Link to this property</a>
 
-            - `"<="`
+"regex"
 
-            - `"INCLUDES"`
+<a href="#">Link to this property</a>
 
-            - `"DOES_NOT_INCLUDE"`
+"exists"
 
-            - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-            - `"EXISTS"`
+"is\_null"
 
-            - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-            - `"IN"`
+"in"
 
-            - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-            - `"STARTS_WITH"`
+"not\_in"
 
-            - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-          - `type: "string" or "number" or "boolean"`
+"eq"
 
-            Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-            - `"string"`
+"neq"
 
-            - `"number"`
+<a href="#">Link to this property</a>
 
-            - `"boolean"`
+"gt"
 
-          - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-            Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+"gte"
 
-            - `"filter"`
+<a href="#">Link to this property</a>
 
-          - `value: optional string or number or boolean`
+"lt"
 
-            Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-            - `string`
+"lte"
 
-            - `number`
+<a href="#">Link to this property</a>
 
-            - `boolean`
+"="
 
-      - `kind: "group"`
+<a href="#">Link to this property</a>
 
-        - `"group"`
+"!="
 
-    - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-      A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+"&gt;"
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+"&gt;="
 
-      - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-        Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+"&lt;"
 
-        - `"includes"`
+<a href="#">Link to this property</a>
 
-        - `"not_includes"`
+"&lt;="
 
-        - `"starts_with"`
+<a href="#">Link to this property</a>
 
-        - `"ends_with"`
+"INCLUDES"
 
-        - `"regex"`
+<a href="#">Link to this property</a>
 
-        - `"exists"`
+"DOES\_NOT\_INCLUDE"
 
-        - `"is_null"`
+<a href="#">Link to this property</a>
 
-        - `"in"`
+"MATCH\_REGEX"
 
-        - `"not_in"`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+"EXISTS"
 
-        - `"neq"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+"DOES\_NOT\_EXIST"
 
-        - `"gte"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+"IN"
 
-        - `"lte"`
+<a href="#">Link to this property</a>
 
-        - `"="`
+"NOT\_IN"
 
-        - `"!="`
+<a href="#">Link to this property</a>
 
-        - `">"`
+"STARTS\_WITH"
 
-        - `">="`
+<a href="#">Link to this property</a>
 
-        - `"<"`
+"ENDS\_WITH"
 
-        - `"<="`
+<a href="#">Link to this property</a>
 
-        - `"INCLUDES"`
+</details>
 
-        - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-        - `"MATCH_REGEX"`
+<details>
 
-        - `"EXISTS"`
+<summary>
 
-        - `"DOES_NOT_EXIST"`
+type: "string"or "number"or "boolean"
 
-        - `"IN"`
+Data type of the filter field. Must match the actual type of the key being filtered.
 
-        - `"NOT_IN"`
+</summary>
 
-        - `"STARTS_WITH"`
+One of the following:
 
-        - `"ENDS_WITH"`
+"string"
 
-      - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-        Data type of the filter field. Must match the actual type of the key being filtered.
+"number"
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+"boolean"
 
-        - `"boolean"`
+<a href="#">Link to this property</a>
 
-      - `kind: optional "filter"`
+</details>
 
-        Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+<a href="#">Link to this property</a>
 
-        - `"filter"`
+kind: optional "filter"
 
-      - `value: optional string or number or boolean`
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
 
-        Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-        - `string`
+<details>
 
-        - `number`
+<summary>
 
-        - `boolean`
+value: optional stringor numberor boolean
 
-  - `groupBys: optional array of object { type, value }`
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
 
-    Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values.
+</summary>
 
-    - `type: "string" or "number" or "boolean"`
+One of the following:
 
-      Data type of the group-by field.
+string
 
-      - `"string"`
+<a href="#">Link to this property</a>
 
-      - `"number"`
+number
 
-      - `"boolean"`
+<a href="#">Link to this property</a>
 
-    - `value: string`
+boolean
 
-      Field name to group results by (e.g. $metadata.service, $metadata.statusCode).
+<a href="#">Link to this property</a>
 
-  - `havings: optional array of object { key, operation, value }`
+</details>
 
-    Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100).
+<a href="#">Link to this property</a>
 
-    - `key: string`
+</details>
 
-      Calculation alias or operator to filter on after aggregation.
+<a href="#">Link to this property</a>
 
-    - `operation: "eq" or "neq" or "gt" or 3 more`
+</details>
 
-      Numeric comparison operator: eq, neq, gt, gte, lt, lte.
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+<details>
 
-      - `"neq"`
+<summary>
 
-      - `"gt"`
+groupBys: optional array of object {type, value }
 
-      - `"gte"`
+Define how to group the results of the query.
 
-      - `"lt"`
+</summary>
 
-      - `"lte"`
+<details>
 
-    - `value: number`
+<summary>
 
-      Threshold value to compare the calculation result against.
+type: "string"or "number"or "boolean"
 
-  - `limit: optional number`
+</summary>
 
-    Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases.
+One of the following:
 
-  - `needle: optional object { value, isRegex, matchCase }`
+"string"
 
-    Full-text search expression applied across all event fields. Matches events containing the specified text.
+<a href="#">Link to this property</a>
 
-    - `value: string or number or boolean`
+"number"
 
-      The text or pattern to search for.
+<a href="#">Link to this property</a>
 
-      - `string`
+"boolean"
 
-      - `number`
+<a href="#">Link to this property</a>
 
-      - `boolean`
+</details>
 
-    - `isRegex: optional boolean`
+<a href="#">Link to this property</a>
 
-      When true, treats the value as a regular expression (RE2 syntax).
+value: string
 
-    - `matchCase: optional boolean`
+<a href="#">Link to this property</a>
 
-      When true, performs a case-sensitive search. Defaults to case-insensitive.
+</details>
 
-  - `orderBy: optional object { value, order }`
+<a href="#">Link to this property</a>
 
-    Ordering for grouped calculation results. Only effective when a group-by is present.
+<details>
 
-    - `value: string`
+<summary>
 
-      Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query.
+havings: optional array of object {key, operation, value }
 
-    - `order: optional "asc" or "desc"`
+Configure the Having clauses that filter on calculations in the query result.
 
-      Sort direction: 'asc' for ascending, 'desc' for descending.
+</summary>
 
-      - `"asc"`
+key: string
 
-      - `"desc"`
+<a href="#">Link to this property</a>
 
-- `view: optional "traces" or "events" or "calculations" or 3 more`
+<details>
 
-  Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': Durable Object agent summaries.
+<summary>
 
-  - `"traces"`
+operation: "eq"or "neq"or "gt"or 3 more
 
-  - `"events"`
+</summary>
 
-  - `"calculations"`
+One of the following:
 
-  - `"invocations"`
+"eq"
 
-  - `"requests"`
+<a href="#">Link to this property</a>
 
-  - `"agents"`
+"neq"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+"gt"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+"gte"
 
-  - `message: "Successful request"`
+<a href="#">Link to this property</a>
 
-    - `"Successful request"`
+"lt"
 
-- `result: object { run, statistics, agents, 5 more }`
+<a href="#">Link to this property</a>
 
-  Complete results of a query run. The populated fields depend on the requested view type (events, calculations, invocations, traces, or agents).
+"lte"
 
-  - `run: object { id, accountId, dry, 8 more }`
+<a href="#">Link to this property</a>
 
-    Represents a single execution of a query against Workers Observability data, including the query definition, execution status, and performance statistics.
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Unique identifier for this query run.
+value: number
 
-    - `accountId: string`
+<a href="#">Link to this property</a>
 
-      Cloudflare account ID that owns this query run.
+</details>
 
-    - `dry: boolean`
+<a href="#">Link to this property</a>
 
-      Whether this was a dry run (results not persisted).
+limit: optional number
 
-    - `granularity: number`
+Set a limit on the number of results / records returned by the query
 
-      Number of time-series buckets used for the query. Higher values produce more detailed series data.
+maximum100
 
-    - `query: object { id, adhoc, created, 6 more }`
+minimum0
 
-      A saved query definition with its parameters, metadata, and ownership information.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-      - `adhoc: boolean`
+<summary>
 
-        If the query wasn't explcitly saved
+needle: optional object {value, isRegex, matchCase }
 
-      - `created: string`
+Define an expression to search using full-text search.
 
-      - `createdBy: string`
+</summary>
 
-      - `description: string`
+value:
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        Query name
+isRegex: optional boolean
 
-      - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `calculations: optional array of object { operator, alias, key, keyType }`
+matchCase: optional boolean
 
-          Create Calculations to compute as part of the query.
+<a href="#">Link to this property</a>
 
-          - `operator: "uniq" or "count" or "max" or 35 more`
+</details>
 
-            - `"uniq"`
+<a href="#">Link to this property</a>
 
-            - `"count"`
+<details>
 
-            - `"max"`
+<summary>
 
-            - `"min"`
+orderBy: optional object {value, order }
 
-            - `"sum"`
+Configure the order of the results returned by the query.
 
-            - `"avg"`
+</summary>
 
-            - `"median"`
+value: string
 
-            - `"p001"`
+Configure which Calculation to order the results by.
 
-            - `"p01"`
+<a href="#">Link to this property</a>
 
-            - `"p05"`
+<details>
 
-            - `"p10"`
+<summary>
 
-            - `"p25"`
+order: optional "asc"or "desc"
 
-            - `"p75"`
+Set the order of the results
 
-            - `"p90"`
+</summary>
 
-            - `"p95"`
+One of the following:
 
-            - `"p99"`
+"asc"
 
-            - `"p999"`
+<a href="#">Link to this property</a>
 
-            - `"stddev"`
+"desc"
 
-            - `"variance"`
+<a href="#">Link to this property</a>
 
-            - `"COUNT_DISTINCT"`
+</details>
 
-            - `"COUNT"`
+<a href="#">Link to this property</a>
 
-            - `"MAX"`
+</details>
 
-            - `"MIN"`
+<a href="#">Link to this property</a>
 
-            - `"SUM"`
+</details>
 
-            - `"AVG"`
+<a href="#">Link to this property</a>
 
-            - `"MEDIAN"`
+<details>
 
-            - `"P001"`
+<summary>
 
-            - `"P01"`
+updated: stringor string
 
-            - `"P05"`
+formatdate-time
 
-            - `"P10"`
+</summary>
 
-            - `"P25"`
+One of the following:
 
-            - `"P75"`
+string
 
-            - `"P90"`
+<a href="#">Link to this property</a>
 
-            - `"P95"`
+string
 
-            - `"P99"`
+<a href="#">Link to this property</a>
 
-            - `"P999"`
+</details>
 
-            - `"STDDEV"`
+<a href="#">Link to this property</a>
 
-            - `"VARIANCE"`
+updatedBy: string
 
-          - `alias: optional string`
+<a href="#">Link to this property</a>
 
-          - `key: optional string`
+</details>
 
-          - `keyType: optional "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-            - `"string"`
+<details>
 
-            - `"number"`
+<summary>
 
-            - `"boolean"`
+status: "STARTED"or "COMPLETED"
 
-        - `datasets: optional array of string`
+Current execution status of the query run.
 
-          Set the Datasets to query. Leave it empty to query all the datasets.
+</summary>
 
-        - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+One of the following:
 
-          Set a Flag to describe how to combine the filters on the query.
+"STARTED"
 
-          - `"and"`
+<a href="#">Link to this property</a>
 
-          - `"or"`
+"COMPLETED"
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+</details>
 
-        - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-          Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+<details>
 
-          - `object { filterCombination, filters, kind }`
+<summary>
 
-            - `filterCombination: "and" or "or" or "AND" or "OR"`
+timeframe: object {from, to }
 
-              - `"and"`
+Time range for the query execution. ‘from’ must be earlier than ‘to’. No fractional milliseconds.
 
-              - `"or"`
+</summary>
 
-              - `"AND"`
+from: number
 
-              - `"OR"`
+Start timestamp for the query timeframe. Unix timestamp in milliseconds
 
-            - `filters: array of unknown`
+maximum253402300799999
 
-            - `kind: "group"`
+minimum0
 
-              - `"group"`
+<a href="#">Link to this property</a>
 
-          - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+to: number
 
-            A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+End timestamp for the query timeframe. Unix timestamp in milliseconds
 
-            - `key: string`
+maximum253402300799999
 
-              Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+minimum0
 
-            - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-              Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+</details>
 
-              - `"includes"`
+<a href="#">Link to this property</a>
 
-              - `"not_includes"`
+userId: string
 
-              - `"starts_with"`
+ID of the user who initiated the query run.
 
-              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-              - `"regex"`
+created: optional string
 
-              - `"exists"`
+ISO-8601 timestamp when the query run was created.
 
-              - `"is_null"`
+<a href="#">Link to this property</a>
 
-              - `"in"`
+<details>
 
-              - `"not_in"`
+<summary>
 
-              - `"eq"`
+statistics: optional object {bytes\_read, elapsed, rows\_read, abr\_level }
 
-              - `"neq"`
+Query performance statistics from the database (does not include network latency).
 
-              - `"gt"`
+</summary>
 
-              - `"gte"`
+bytes\_read: number
 
-              - `"lt"`
+Number of uncompressed bytes read from the table.
 
-              - `"lte"`
+<a href="#">Link to this property</a>
 
-              - `"="`
+elapsed: number
 
-              - `"!="`
+Time in seconds for the query to run.
 
-              - `">"`
+<a href="#">Link to this property</a>
 
-              - `">="`
+rows\_read: number
 
-              - `"<"`
+Number of rows scanned from the table.
 
-              - `"<="`
+<a href="#">Link to this property</a>
 
-              - `"INCLUDES"`
+abr\_level: optional number
 
-              - `"DOES_NOT_INCLUDE"`
+The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
 
-              - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-              - `"EXISTS"`
+</details>
 
-              - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-              - `"IN"`
+updated: optional string
 
-              - `"NOT_IN"`
+ISO-8601 timestamp when the query run was last updated.
 
-              - `"STARTS_WITH"`
+<a href="#">Link to this property</a>
 
-              - `"ENDS_WITH"`
+</details>
 
-            - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-              Data type of the filter field. Must match the actual type of the key being filtered.
+<details>
 
-              - `"string"`
+<summary>
 
-              - `"number"`
+statistics: object {bytes\_read, elapsed, rows\_read, abr\_level }
 
-              - `"boolean"`
+Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.
 
-            - `kind: optional "filter"`
+</summary>
 
-              Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+bytes\_read: number
 
-              - `"filter"`
+Number of uncompressed bytes read from the table.
 
-            - `value: optional string or number or boolean`
+<a href="#">Link to this property</a>
 
-              Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+elapsed: number
 
-              - `string`
+Time in seconds for the query to run.
 
-              - `number`
+<a href="#">Link to this property</a>
 
-              - `boolean`
+rows\_read: number
 
-        - `groupBys: optional array of object { type, value }`
+Number of rows scanned from the table.
 
-          Define how to group the results of the query.
+<a href="#">Link to this property</a>
 
-          - `type: "string" or "number" or "boolean"`
+abr\_level: optional number
 
-            - `"string"`
+The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
 
-            - `"number"`
+<a href="#">Link to this property</a>
 
-            - `"boolean"`
+</details>
 
-          - `value: string`
+<a href="#">Link to this property</a>
 
-        - `havings: optional array of object { key, operation, value }`
+<details>
 
-          Configure the Having clauses that filter on calculations in the query result.
+<summary>
 
-          - `key: string`
+agents: optional array of object {id, errors, models, 13 more }
 
-          - `operation: "eq" or "neq" or "gt" or 3 more`
+Agent run summaries. Present when the query view is ‘agents’. Each entry represents one trace containing at least one agent invocation.
 
-            - `"eq"`
+</summary>
 
-            - `"neq"`
+id: string
 
-            - `"gt"`
+Stable pagination cursor for this agent run.
 
-            - `"gte"`
+<a href="#">Link to this property</a>
 
-            - `"lt"`
+errors: array of string
 
-            - `"lte"`
+Distinct errors reported by spans in the run.
 
-          - `value: number`
+<a href="#">Link to this property</a>
 
-        - `limit: optional number`
+models: array of string
 
-          Set a limit on the number of results / records returned by the query
+Distinct models reported by chat spans across the run’s trace.
 
-        - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-          Define an expression to search using full-text search.
+providers: array of string
 
-          - `value:`
+Distinct GenAI providers reported by chat spans in the run.
 
-          - `isRegex: optional boolean`
+<a href="#">Link to this property</a>
 
-          - `matchCase: optional boolean`
+services: array of string
 
-        - `orderBy: optional object { value, order }`
+Worker services represented in the run’s trace.
 
-          Configure the order of the results returned by the query.
+<a href="#">Link to this property</a>
 
-          - `value: string`
+spans: number
 
-            Configure which Calculation to order the results by.
+Number of spans in the run’s trace.
 
-          - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-            Set the order of the results
+<details>
 
-            - `"asc"`
+<summary>
 
-            - `"desc"`
+status: "completed"or "error"
 
-      - `updated: string`
+Observed run status.
 
-      - `updatedBy: string`
+</summary>
 
-    - `status: "STARTED" or "COMPLETED"`
+One of the following:
 
-      Current execution status of the query run.
+"completed"
 
-      - `"STARTED"`
+<a href="#">Link to this property</a>
 
-      - `"COMPLETED"`
+"error"
 
-    - `timeframe: object { from, to }`
+<a href="#">Link to this property</a>
 
-      Time range for the query execution
+</details>
 
-      - `from: number`
+<a href="#">Link to this property</a>
 
-        Start timestamp for the query timeframe (Unix timestamp in milliseconds)
+traceDurationMs: number
 
-      - `to: number`
+Total trace duration in milliseconds.
 
-        End timestamp for the query timeframe (Unix timestamp in milliseconds)
+<a href="#">Link to this property</a>
 
-    - `userId: string`
+traceEndMs: number
 
-      ID of the user who initiated the query run.
+End of the run’s trace as a Unix epoch in milliseconds.
 
-    - `created: optional string`
+<a href="#">Link to this property</a>
 
-      ISO-8601 timestamp when the query run was created.
+traceId: string
 
-    - `statistics: optional object { bytes_read, elapsed, rows_read, abr_level }`
+Trace identifier for this agent run.
 
-      Query performance statistics from the database (does not include network latency).
+<a href="#">Link to this property</a>
 
-      - `bytes_read: number`
+traceStartMs: number
 
-        Number of uncompressed bytes read from the table.
+Start of the run’s trace as a Unix epoch in milliseconds.
 
-      - `elapsed: number`
+<a href="#">Link to this property</a>
 
-        Time in seconds for the query to run.
+agentId: optional string
 
-      - `rows_read: number`
+ID from the earliest agent invocation that provides one.
 
-        Number of rows scanned from the table.
+<a href="#">Link to this property</a>
 
-      - `abr_level: optional number`
+agentName: optional string
 
-        The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+Name from the earliest agent invocation that provides one.
 
-    - `updated: optional string`
+<a href="#">Link to this property</a>
 
-      ISO-8601 timestamp when the query run was last updated.
+conversationId: optional string
 
-  - `statistics: object { bytes_read, elapsed, rows_read, abr_level }`
+Conversation ID from the earliest invocation that provides one.
 
-    Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.
+<a href="#">Link to this property</a>
 
-    - `bytes_read: number`
+inputTokens: optional number
 
-      Number of uncompressed bytes read from the table.
+Input tokens summed across chat spans in the run’s trace; informational, not billing data.
 
-    - `elapsed: number`
+<a href="#">Link to this property</a>
 
-      Time in seconds for the query to run.
+outputTokens: optional number
 
-    - `rows_read: number`
+Output tokens summed across chat spans in the run’s trace; informational, not billing data.
 
-      Number of rows scanned from the table.
+<a href="#">Link to this property</a>
 
-    - `abr_level: optional number`
+</details>
 
-      The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+<a href="#">Link to this property</a>
 
-  - `agents: optional array of object { agentClass, eventTypeCounts, firstEventMs, 5 more }`
+<details>
 
-    Durable Object agent summaries. Present when the query view is 'agents'. Each entry represents an agent with its event counts and status.
+<summary>
 
-    - `agentClass: string`
+calculations: optional array of object {aggregates, calculation, series, alias }
 
-      Class name of the Durable Object agent.
+Aggregated calculation results. Present when the query view is ‘calculations’. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data.
 
-    - `eventTypeCounts: map[number]`
+</summary>
 
-      Breakdown of event counts by event type.
+<details>
 
-    - `firstEventMs: number`
+<summary>
 
-      Timestamp of the earliest event from this agent in the queried window (Unix epoch ms).
+aggregates: array of object {count, interval, sampleInterval, 2 more }
 
-    - `hasErrors: boolean`
+</summary>
 
-      Whether the agent emitted any error events in the queried window.
+count: number
 
-    - `lastEventMs: number`
+<a href="#">Link to this property</a>
 
-      Timestamp of the most recent event from this agent (Unix epoch ms).
+interval: number
 
-    - `namespace: string`
+<a href="#">Link to this property</a>
 
-      Durable Object namespace the agent belongs to.
+sampleInterval: number
 
-    - `service: string`
+<a href="#">Link to this property</a>
 
-      Worker service name that hosts this agent.
+value: number
 
-    - `totalEvents: number`
+<a href="#">Link to this property</a>
 
-      Total number of events emitted by this agent in the queried window.
+<details>
 
-  - `calculations: optional array of object { aggregates, calculation, series, alias }`
+<summary>
 
-    Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data.
+groups: optional array of object {key, value }
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+</summary>
 
-      - `count: number`
+key: string
 
-      - `interval: number`
+<a href="#">Link to this property</a>
 
-      - `sampleInterval: number`
+<details>
 
-      - `value: number`
+<summary>
 
-      - `groups: optional array of object { key, value }`
+value: stringor numberor boolean
 
-        - `key: string`
+</summary>
 
-        - `value: string or number or boolean`
+One of the following:
 
-          - `string`
+string
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+number
 
-    - `calculation: string`
+<a href="#">Link to this property</a>
 
-    - `series: array of object { data, time }`
+boolean
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `count: number`
+</details>
 
-        - `interval: number`
+<a href="#">Link to this property</a>
 
-        - `sampleInterval: number`
+</details>
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-        - `firstSeen: optional string`
+</details>
 
-        - `groups: optional array of object { key, value }`
+<a href="#">Link to this property</a>
 
-          - `key: string`
+calculation: string
 
-          - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-            - `string`
+<details>
 
-            - `number`
+<summary>
 
-            - `boolean`
+series: array of object {data, time }
 
-        - `lastSeen: optional string`
+</summary>
 
-      - `time: string`
+<details>
 
-    - `alias: optional string`
+<summary>
 
-  - `compare: optional array of object { aggregates, calculation, series, alias }`
+data: array of object {count, interval, sampleInterval, 4 more }
 
-    Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations.
+</summary>
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+count: number
 
-      - `count: number`
+<a href="#">Link to this property</a>
 
-      - `interval: number`
+interval: number
 
-      - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+sampleInterval: number
 
-      - `groups: optional array of object { key, value }`
+<a href="#">Link to this property</a>
 
-        - `key: string`
+value: number
 
-        - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-          - `string`
+firstSeen: optional string
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+<details>
 
-    - `calculation: string`
+<summary>
 
-    - `series: array of object { data, time }`
+groups: optional array of object {key, value }
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+</summary>
 
-        - `count: number`
+key: string
 
-        - `interval: number`
+<a href="#">Link to this property</a>
 
-        - `sampleInterval: number`
+<details>
 
-        - `value: number`
+<summary>
 
-        - `firstSeen: optional string`
+value: stringor numberor boolean
 
-        - `groups: optional array of object { key, value }`
+</summary>
 
-          - `key: string`
+One of the following:
 
-          - `value: string or number or boolean`
+string
 
-            - `string`
+<a href="#">Link to this property</a>
 
-            - `number`
+number
 
-            - `boolean`
+<a href="#">Link to this property</a>
 
-        - `lastSeen: optional string`
+boolean
 
-      - `time: string`
+<a href="#">Link to this property</a>
 
-    - `alias: optional string`
+</details>
 
-  - `events: optional object { count, events, fields, series }`
+<a href="#">Link to this property</a>
 
-    Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata.
+</details>
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of events matching the query (may exceed the number returned due to limits).
+lastSeen: optional string
 
-    - `events: optional array of object { "$metadata", dataset, source, 3 more }`
+<a href="#">Link to this property</a>
 
-      List of individual telemetry events matching the query.
+</details>
 
-      - `"$metadata": object { id, account, cloudService, 28 more }`
+<a href="#">Link to this property</a>
 
-        Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+time: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          Unique event ID. Use as the cursor value for offset-based pagination.
+</details>
 
-        - `account: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare account identifier.
+alias: optional string
 
-        - `cloudService: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare product that generated this event (e.g. workers, pages).
+</details>
 
-        - `coldStart: optional number`
+<a href="#">Link to this property</a>
 
-        - `cost: optional number`
+<details>
 
-          Estimated cost units for this invocation.
+<summary>
 
-        - `duration: optional number`
+compare: optional array of object {aggregates, calculation, series, alias }
 
-          Span duration in milliseconds.
+Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations.
 
-        - `endTime: optional number`
+</summary>
 
-          Span end time as a Unix epoch in milliseconds.
+<details>
 
-        - `error: optional string`
+<summary>
 
-          Error message, present when the log represents an error.
+aggregates: array of object {count, interval, sampleInterval, 2 more }
 
-        - `errorTemplate: optional string`
+</summary>
 
-          Templatized version of the error message used for grouping similar errors.
+count: number
 
-        - `fingerprint: optional string`
+<a href="#">Link to this property</a>
 
-          Content-based fingerprint used to group similar events.
+interval: number
 
-        - `level: optional string`
+<a href="#">Link to this property</a>
 
-          Log level (e.g. log, debug, info, warn, error).
+sampleInterval: number
 
-        - `message: optional string`
+<a href="#">Link to this property</a>
 
-          Log message text.
+value: number
 
-        - `messageTemplate: optional string`
+<a href="#">Link to this property</a>
 
-          Templatized version of the log message used for grouping similar messages.
+<details>
 
-        - `metricName: optional string`
+<summary>
 
-          Metric name when the event represents a metric data point.
+groups: optional array of object {key, value }
 
-        - `origin: optional string`
+</summary>
 
-          Origin of the event (e.g. fetch, scheduled, queue).
+key: string
 
-        - `parentSpanId: optional string`
+<a href="#">Link to this property</a>
 
-          Span ID of the parent span in the trace hierarchy.
+<details>
 
-        - `provider: optional string`
+<summary>
 
-          Infrastructure provider identifier.
+value: stringor numberor boolean
 
-        - `region: optional string`
+</summary>
 
-          Cloudflare data center / region that handled the request.
+One of the following:
 
-        - `requestId: optional string`
+string
 
-          Cloudflare request ID that ties all logs from a single invocation together.
+<a href="#">Link to this property</a>
 
-        - `service: optional string`
+number
 
-          Worker script name that produced this event.
+<a href="#">Link to this property</a>
 
-        - `spanId: optional string`
+boolean
 
-          Span ID for this individual unit of work within a trace.
+<a href="#">Link to this property</a>
 
-        - `spanName: optional string`
+</details>
 
-          Human-readable name for this span.
+<a href="#">Link to this property</a>
 
-        - `stackId: optional string`
+</details>
 
-          Stack / deployment identifier.
+<a href="#">Link to this property</a>
 
-        - `startTime: optional number`
+</details>
 
-          Span start time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-        - `statusCode: optional number`
+calculation: string
 
-          HTTP response status code returned by the Worker.
+<a href="#">Link to this property</a>
 
-        - `traceDuration: optional number`
+<details>
 
-          Total duration of the entire trace in milliseconds.
+<summary>
 
-        - `traceId: optional string`
+series: array of object {data, time }
 
-          Distributed trace ID linking spans across services.
+</summary>
 
-        - `transactionName: optional string`
+<details>
 
-          Logical transaction name for this request.
+<summary>
 
-        - `trigger: optional string`
+data: array of object {count, interval, sampleInterval, 4 more }
 
-          What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+</summary>
 
-        - `type: optional string`
+count: number
 
-          Event type classifier (e.g. cf-worker-event, cf-worker-log).
+<a href="#">Link to this property</a>
 
-        - `url: optional string`
+interval: number
 
-          Request URL that triggered the Worker invocation.
+<a href="#">Link to this property</a>
 
-      - `dataset: string`
+sampleInterval: number
 
-        The dataset this event belongs to (e.g. cloudflare-workers).
+<a href="#">Link to this property</a>
 
-      - `source: string or map[unknown]`
+value: number
 
-        Raw log payload. May be a string or a structured object depending on how the log was emitted.
+<a href="#">Link to this property</a>
 
-        - `string`
+firstSeen: optional string
 
-        - `map[unknown]`
+<a href="#">Link to this property</a>
 
-      - `timestamp: number`
+<details>
 
-        Event timestamp as a Unix epoch in milliseconds.
+<summary>
 
-      - `"$containers": optional map[unknown]`
+groups: optional array of object {key, value }
 
-        Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+</summary>
 
-      - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
+key: string
 
-        Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+<a href="#">Link to this property</a>
 
-        - `object { eventType, requestId, scriptName, 10 more }`
+<details>
 
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<summary>
 
-            - `"fetch"`
+value: stringor numberor boolean
 
-            - `"scheduled"`
+</summary>
 
-            - `"alarm"`
+One of the following:
 
-            - `"cron"`
+string
 
-            - `"queue"`
+<a href="#">Link to this property</a>
 
-            - `"email"`
+number
 
-            - `"tail"`
+<a href="#">Link to this property</a>
 
-            - `"rpc"`
+boolean
 
-            - `"jsrpc"`
+<a href="#">Link to this property</a>
 
-            - `"websocket"`
+</details>
 
-            - `"workflow"`
+<a href="#">Link to this property</a>
 
-            - `"unknown"`
+</details>
 
-          - `requestId: string`
+<a href="#">Link to this property</a>
 
-          - `scriptName: string`
+lastSeen: optional string
 
-          - `durableObjectId: optional string`
+<a href="#">Link to this property</a>
 
-          - `entrypoint: optional string`
+</details>
 
-          - `event: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-          - `executionModel: optional "durableObject" or "stateless"`
+time: string
 
-            - `"durableObject"`
+<a href="#">Link to this property</a>
 
-            - `"stateless"`
+</details>
 
-          - `outcome: optional string`
+<a href="#">Link to this property</a>
 
-          - `preview: optional object { id, name, slug }`
+alias: optional string
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `name: optional string`
+</details>
 
-            - `slug: optional string`
+<a href="#">Link to this property</a>
 
-          - `scriptVersion: optional object { id, message, tag }`
+<details>
 
-            - `id: optional string`
+<summary>
 
-            - `message: optional string`
+distribution: optional object {bins, bucketBoundaries, bucketMode, 2 more }
 
-            - `tag: optional string`
+Bucketed 2D histogram of a numeric field over time. Present when chartType is ‘distribution’.
 
-          - `spanId: optional string`
+</summary>
 
-          - `traceId: optional string`
+bins: array of string
 
-          - `truncated: optional boolean`
+Time-bucket labels (ISO-8601 strings), one per matrix column.
 
-        - `object { cpuTimeMs, eventType, outcome, 14 more }`
+<a href="#">Link to this property</a>
 
-          - `cpuTimeMs: number`
+bucketBoundaries: array of number
 
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+Raw bucket edges in the value’s native unit, length buckets.length + 1. Used for the colour scale and percentile mapping.
 
-            - `"fetch"`
+<a href="#">Link to this property</a>
 
-            - `"scheduled"`
+<details>
 
-            - `"alarm"`
+<summary>
 
-            - `"cron"`
+bucketMode: "log"or "linear"
 
-            - `"queue"`
+Bucketing scheme used to derive the boundaries. ‘log’ produces geometric edges; ‘linear’ produces fixed-width edges.
 
-            - `"email"`
+</summary>
 
-            - `"tail"`
+One of the following:
 
-            - `"rpc"`
+"log"
 
-            - `"jsrpc"`
+<a href="#">Link to this property</a>
 
-            - `"websocket"`
+"linear"
 
-            - `"workflow"`
+<a href="#">Link to this property</a>
 
-            - `"unknown"`
+</details>
 
-          - `outcome: string`
+<a href="#">Link to this property</a>
 
-          - `requestId: string`
+buckets: array of string
 
-          - `scriptName: string`
+Value-range labels, one per matrix row (e.g. ‘50–100ms’).
 
-          - `wallTimeMs: number`
+<a href="#">Link to this property</a>
 
-          - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
+matrix: array of array of number
 
-            - `channel: string`
+Sampling-corrected counts. matrix\[bucketIdx]\[binIdx] is the estimated number of events in value-bucket ‘bucketIdx’ during time-bin ‘binIdx’.
 
-            - `message: string`
+<a href="#">Link to this property</a>
 
-            - `timestamp: number`
+</details>
 
-          - `dispatchNamespace: optional string`
+<a href="#">Link to this property</a>
 
-          - `durableObjectId: optional string`
+<details>
 
-          - `entrypoint: optional string`
+<summary>
 
-          - `event: optional map[unknown]`
+events: optional object {count, events, fields, series }
 
-          - `executionModel: optional "durableObject" or "stateless"`
+Individual event results. Present when the query view is ‘events’. Contains the matching log lines and their metadata.
 
-            - `"durableObject"`
+</summary>
 
-            - `"stateless"`
+count: optional number
 
-          - `preview: optional object { id, name, slug }`
+Total number of events matching the query (may exceed the number returned due to limits).
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `name: optional string`
+<details>
 
-            - `slug: optional string`
+<summary>
 
-          - `scriptVersion: optional object { id, message, tag }`
+events: optional array of object {"$metadata", dataset, source, 3 more }
 
-            - `id: optional string`
+List of individual telemetry events matching the query.
 
-            - `message: optional string`
+</summary>
 
-            - `tag: optional string`
+<details>
 
-          - `spanId: optional string`
+<summary>
 
-          - `traceId: optional string`
+"$metadata": object {id, account, cloudService, 29 more }
 
-          - `truncated: optional boolean`
+Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
 
-    - `fields: optional array of object { key, type }`
+</summary>
 
-      List of fields discovered in the matched events. Useful for building dynamic UIs.
+id: string
 
-      - `key: string`
+Unique event ID. Use as the cursor value for offset-based pagination.
 
-        Field name present in the matched events.
+<a href="#">Link to this property</a>
 
-      - `type: string`
+account: optional string
 
-        Data type of the field (string, number, or boolean).
+Cloudflare account identifier.
 
-    - `series: optional array of object { data, time }`
+<a href="#">Link to this property</a>
 
-      Time-series data for the matched events, bucketed by the query granularity.
+cloudService: optional string
 
-      - `data: array of object { aggregates, count, interval, 3 more }`
+Cloudflare product that generated this event (e.g. workers, pages).
 
-        - `aggregates: object { _count, _interval, _firstSeen, 2 more }`
+<a href="#">Link to this property</a>
 
-          - `_count: number`
+coldStart: optional number
 
-          - `_interval: number`
+exclusiveMinimum
 
-          - `_firstSeen: optional string`
+minimum0
 
-          - `_lastSeen: optional string`
+<a href="#">Link to this property</a>
 
-          - `bin: optional unknown`
+cost: optional number
 
-        - `count: number`
+Estimated cost units for this invocation.
 
-        - `interval: number`
+exclusiveMinimum
 
-        - `sampleInterval: number`
+minimum0
 
-        - `errors: optional number`
+<a href="#">Link to this property</a>
 
-        - `groups: optional map[string or number or boolean]`
+duration: optional number
 
-          Groups in the query results.
+Span duration in milliseconds.
 
-          - `string`
+exclusiveMinimum
 
-          - `number`
+minimum0
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-      - `time: string`
+endTime: optional number
 
-  - `invocations: optional map[array of object { "$metadata", dataset, source, 3 more } ]`
+Span end time as a Unix epoch in milliseconds.
 
-    Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation.
+minimum0
 
-    - `"$metadata": object { id, account, cloudService, 28 more }`
+<a href="#">Link to this property</a>
 
-      Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+error: optional string
 
-      - `id: string`
+Error message, present when the log represents an error.
 
-        Unique event ID. Use as the cursor value for offset-based pagination.
+<a href="#">Link to this property</a>
 
-      - `account: optional string`
+errorTemplate: optional string
 
-        Cloudflare account identifier.
+Templatized version of the error message used for grouping similar errors.
 
-      - `cloudService: optional string`
+<a href="#">Link to this property</a>
 
-        Cloudflare product that generated this event (e.g. workers, pages).
+fingerprint: optional string
 
-      - `coldStart: optional number`
+Content-based fingerprint used to group similar events.
 
-      - `cost: optional number`
+<a href="#">Link to this property</a>
 
-        Estimated cost units for this invocation.
+level: optional string
 
-      - `duration: optional number`
+Log level (e.g. log, debug, info, warn, error).
 
-        Span duration in milliseconds.
+<a href="#">Link to this property</a>
 
-      - `endTime: optional number`
+message: optional string
 
-        Span end time as a Unix epoch in milliseconds.
+Log message text.
 
-      - `error: optional string`
+<a href="#">Link to this property</a>
 
-        Error message, present when the log represents an error.
+messageTemplate: optional string
 
-      - `errorTemplate: optional string`
+Templatized version of the log message used for grouping similar messages.
 
-        Templatized version of the error message used for grouping similar errors.
+<a href="#">Link to this property</a>
 
-      - `fingerprint: optional string`
+metricName: optional string
 
-        Content-based fingerprint used to group similar events.
+Metric name when the event represents a metric data point.
 
-      - `level: optional string`
+<a href="#">Link to this property</a>
 
-        Log level (e.g. log, debug, info, warn, error).
+origin: optional string
 
-      - `message: optional string`
+Origin of the event (e.g. fetch, scheduled, queue).
 
-        Log message text.
+<a href="#">Link to this property</a>
 
-      - `messageTemplate: optional string`
+parentSpanId: optional string
 
-        Templatized version of the log message used for grouping similar messages.
+Span ID of the parent span in the trace hierarchy.
 
-      - `metricName: optional string`
+<a href="#">Link to this property</a>
 
-        Metric name when the event represents a metric data point.
+provider: optional string
 
-      - `origin: optional string`
+Infrastructure provider identifier.
 
-        Origin of the event (e.g. fetch, scheduled, queue).
+<a href="#">Link to this property</a>
 
-      - `parentSpanId: optional string`
+rayId: optional string
 
-        Span ID of the parent span in the trace hierarchy.
+Cloudflare Ray ID from the <code>cf-ray</code> header of the request that triggered the invocation.
 
-      - `provider: optional string`
+<a href="#">Link to this property</a>
 
-        Infrastructure provider identifier.
+region: optional string
 
-      - `region: optional string`
+Cloudflare data center / region that handled the request.
 
-        Cloudflare data center / region that handled the request.
+<a href="#">Link to this property</a>
 
-      - `requestId: optional string`
+requestId: optional string
 
-        Cloudflare request ID that ties all logs from a single invocation together.
+Cloudflare request ID that ties all logs from a single invocation together.
 
-      - `service: optional string`
+<a href="#">Link to this property</a>
 
-        Worker script name that produced this event.
+service: optional string
 
-      - `spanId: optional string`
+Worker script name that produced this event.
 
-        Span ID for this individual unit of work within a trace.
+<a href="#">Link to this property</a>
 
-      - `spanName: optional string`
+spanId: optional string
 
-        Human-readable name for this span.
+Span ID for this individual unit of work within a trace.
 
-      - `stackId: optional string`
+<a href="#">Link to this property</a>
 
-        Stack / deployment identifier.
+spanName: optional string
 
-      - `startTime: optional number`
+Human-readable name for this span.
 
-        Span start time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-      - `statusCode: optional number`
+stackId: optional string
 
-        HTTP response status code returned by the Worker.
+Stack / deployment identifier.
 
-      - `traceDuration: optional number`
+<a href="#">Link to this property</a>
 
-        Total duration of the entire trace in milliseconds.
+startTime: optional number
 
-      - `traceId: optional string`
+Span start time as a Unix epoch in milliseconds.
 
-        Distributed trace ID linking spans across services.
+minimum0
 
-      - `transactionName: optional string`
+<a href="#">Link to this property</a>
 
-        Logical transaction name for this request.
+statusCode: optional number
 
-      - `trigger: optional string`
+HTTP response status code returned by the Worker.
 
-        What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+exclusiveMinimum
 
-      - `type: optional string`
+minimum0
 
-        Event type classifier (e.g. cf-worker-event, cf-worker-log).
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+traceDuration: optional number
 
-        Request URL that triggered the Worker invocation.
+Total duration of the entire trace in milliseconds.
 
-    - `dataset: string`
+exclusiveMinimum
 
-      The dataset this event belongs to (e.g. cloudflare-workers).
+minimum0
 
-    - `source: string or map[unknown]`
+<a href="#">Link to this property</a>
 
-      Raw log payload. May be a string or a structured object depending on how the log was emitted.
+traceId: optional string
 
-      - `string`
+Distributed trace ID linking spans across services.
 
-      - `map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `timestamp: number`
+transactionName: optional string
 
-      Event timestamp as a Unix epoch in milliseconds.
+Logical transaction name for this request.
 
-    - `"$containers": optional map[unknown]`
+<a href="#">Link to this property</a>
 
-      Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+trigger: optional string
 
-    - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
+What triggered the invocation (e.g. GET /users, POST /orders, queue message).
 
-      Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+<a href="#">Link to this property</a>
 
-      - `object { eventType, requestId, scriptName, 10 more }`
+type: optional string
 
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+Event type classifier (e.g. cf-worker-event, cf-worker-log).
 
-          - `"fetch"`
+<a href="#">Link to this property</a>
 
-          - `"scheduled"`
+url: optional string
 
-          - `"alarm"`
+Request URL that triggered the Worker invocation.
 
-          - `"cron"`
+<a href="#">Link to this property</a>
 
-          - `"queue"`
+</details>
 
-          - `"email"`
+<a href="#">Link to this property</a>
 
-          - `"tail"`
+dataset: string
 
-          - `"rpc"`
+The dataset this event belongs to (e.g. cloudflare-workers).
 
-          - `"jsrpc"`
+<a href="#">Link to this property</a>
 
-          - `"websocket"`
+<details>
 
-          - `"workflow"`
+<summary>
 
-          - `"unknown"`
+source: stringor map\[unknown]
 
-        - `requestId: string`
+Raw log payload. May be a string or a structured object depending on how the log was emitted.
 
-        - `scriptName: string`
+</summary>
 
-        - `durableObjectId: optional string`
+One of the following:
 
-        - `entrypoint: optional string`
+string
 
-        - `event: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-        - `executionModel: optional "durableObject" or "stateless"`
+map\[unknown]
 
-          - `"durableObject"`
+<a href="#">Link to this property</a>
 
-          - `"stateless"`
+</details>
 
-        - `outcome: optional string`
+<a href="#">Link to this property</a>
 
-        - `preview: optional object { id, name, slug }`
+timestamp: number
 
-          - `id: optional string`
+Event timestamp as a Unix epoch in milliseconds.
 
-          - `name: optional string`
+minimum0
 
-          - `slug: optional string`
+<a href="#">Link to this property</a>
 
-        - `scriptVersion: optional object { id, message, tag }`
+"$containers": optional map\[unknown]
 
-          - `id: optional string`
+Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
 
-          - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `tag: optional string`
+<details>
 
-        - `spanId: optional string`
+<summary>
 
-        - `traceId: optional string`
+"$workers": optional object {eventType, requestId, scriptName, 10 more } or object {cpuTimeMs, eventType, outcome, 14 more }
 
-        - `truncated: optional boolean`
+Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
 
-      - `object { cpuTimeMs, eventType, outcome, 14 more }`
+</summary>
 
-        - `cpuTimeMs: number`
+One of the following:
 
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<details>
 
-          - `"fetch"`
+<summary>
 
-          - `"scheduled"`
+object {eventType, requestId, scriptName, 10 more }
 
-          - `"alarm"`
+</summary>
 
-          - `"cron"`
+<details>
 
-          - `"queue"`
+<summary>
 
-          - `"email"`
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
 
-          - `"tail"`
+</summary>
 
-          - `"rpc"`
+One of the following:
 
-          - `"jsrpc"`
+"fetch"
 
-          - `"websocket"`
+<a href="#">Link to this property</a>
 
-          - `"workflow"`
+"scheduled"
 
-          - `"unknown"`
+<a href="#">Link to this property</a>
 
-        - `outcome: string`
+"alarm"
 
-        - `requestId: string`
+<a href="#">Link to this property</a>
 
-        - `scriptName: string`
+"cron"
 
-        - `wallTimeMs: number`
+<a href="#">Link to this property</a>
 
-        - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
+"queue"
 
-          - `channel: string`
+<a href="#">Link to this property</a>
 
-          - `message: string`
+"email"
 
-          - `timestamp: number`
+<a href="#">Link to this property</a>
 
-        - `dispatchNamespace: optional string`
+"tail"
 
-        - `durableObjectId: optional string`
+<a href="#">Link to this property</a>
 
-        - `entrypoint: optional string`
+"rpc"
 
-        - `event: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-        - `executionModel: optional "durableObject" or "stateless"`
+"jsrpc"
 
-          - `"durableObject"`
+<a href="#">Link to this property</a>
 
-          - `"stateless"`
+"websocket"
 
-        - `preview: optional object { id, name, slug }`
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+"workflow"
 
-          - `name: optional string`
+<a href="#">Link to this property</a>
 
-          - `slug: optional string`
+"unknown"
 
-        - `scriptVersion: optional object { id, message, tag }`
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+</details>
 
-          - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `tag: optional string`
+requestId: string
 
-        - `spanId: optional string`
+<a href="#">Link to this property</a>
 
-        - `traceId: optional string`
+scriptName: string
 
-        - `truncated: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `traces: optional array of object { rootSpanName, rootTransactionName, service, 6 more }`
+durableObjectId: optional string
 
-    Trace summaries matching the query. Present when the query view is 'traces'. Each entry represents a distributed trace with its spans, duration, and services involved.
+<a href="#">Link to this property</a>
 
-    - `rootSpanName: string`
+entrypoint: optional string
 
-      Name of the root span that initiated the trace.
+<a href="#">Link to this property</a>
 
-    - `rootTransactionName: string`
+event: optional map\[unknown]
 
-      Logical transaction name for the root span.
+<a href="#">Link to this property</a>
 
-    - `service: array of string`
+<details>
 
-      List of Worker services involved in the trace.
+<summary>
 
-    - `spans: number`
+executionModel: optional "durableObject"or "stateless"
 
-      Total number of spans in the trace.
+</summary>
 
-    - `traceDurationMs: number`
+One of the following:
 
-      Total duration of the trace in milliseconds.
+"durableObject"
 
-    - `traceEndMs: number`
+<a href="#">Link to this property</a>
 
-      Trace end time as a Unix epoch in milliseconds.
+"stateless"
 
-    - `traceId: string`
+<a href="#">Link to this property</a>
 
-      Unique identifier for the distributed trace.
+</details>
 
-    - `traceStartMs: number`
+<a href="#">Link to this property</a>
 
-      Trace start time as a Unix epoch in milliseconds.
+outcome: optional string
 
-    - `errors: optional array of string`
+<a href="#">Link to this property</a>
 
-      Error messages encountered during the trace, if any.
+<details>
 
-- `success: true`
+<summary>
 
-  - `true`
+preview: optional object {id, name, slug }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/telemetry/query \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "queryId": "queryId",
-          "timeframe": {
-            "from": 0,
-            "to": 0
-          }
-        }'
-```
+id: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": {
-    "run": {
-      "id": "id",
-      "accountId": "accountId",
-      "dry": true,
-      "granularity": 0,
-      "query": {
-        "id": "id",
-        "adhoc": true,
-        "created": "created",
-        "createdBy": "createdBy",
-        "description": "Query description",
-        "name": "x",
-        "parameters": {
-          "calculations": [
-            {
-              "operator": "uniq",
-              "alias": "alias",
-              "key": "key",
-              "keyType": "string"
-            }
-          ],
-          "datasets": [
-            "string"
-          ],
-          "filterCombination": "and",
-          "filters": [
-            {
-              "filterCombination": "and",
-              "filters": [
-                {}
-              ],
-              "kind": "group"
-            }
-          ],
-          "groupBys": [
-            {
-              "type": "string",
-              "value": "value"
-            }
-          ],
-          "havings": [
-            {
-              "key": "key",
-              "operation": "eq",
-              "value": 0
-            }
-          ],
-          "limit": 0,
-          "needle": {
-            "value": {
-              "0": "s",
-              "1": "t",
-              "2": "r",
-              "3": "i",
-              "4": "n",
-              "5": "g"
-            },
-            "isRegex": true,
-            "matchCase": true
-          },
-          "orderBy": {
-            "value": "value",
-            "order": "asc"
-          }
-        },
-        "updated": "updated",
-        "updatedBy": "updatedBy"
-      },
-      "status": "STARTED",
-      "timeframe": {
-        "from": 0,
-        "to": 0
-      },
-      "userId": "userId",
-      "created": "created",
-      "statistics": {
-        "bytes_read": 0,
-        "elapsed": 0,
-        "rows_read": 0,
-        "abr_level": 0
-      },
-      "updated": "updated"
-    },
-    "statistics": {
-      "bytes_read": 0,
-      "elapsed": 0,
-      "rows_read": 0,
-      "abr_level": 0
-    },
-    "agents": [
-      {
-        "agentClass": "agentClass",
-        "eventTypeCounts": {
-          "foo": 0
-        },
-        "firstEventMs": 0,
-        "hasErrors": true,
-        "lastEventMs": 0,
-        "namespace": "namespace",
-        "service": "service",
-        "totalEvents": 0
-      }
-    ],
-    "calculations": [
-      {
-        "aggregates": [
-          {
-            "count": 0,
-            "interval": 0,
-            "sampleInterval": 0,
-            "value": 0,
-            "groups": [
-              {
-                "key": "key",
-                "value": "string"
-              }
-            ]
-          }
-        ],
-        "calculation": "calculation",
-        "series": [
-          {
-            "data": [
-              {
-                "count": 0,
-                "interval": 0,
-                "sampleInterval": 0,
-                "value": 0,
-                "firstSeen": "firstSeen",
-                "groups": [
-                  {
-                    "key": "key",
-                    "value": "string"
-                  }
-                ],
-                "lastSeen": "lastSeen"
-              }
-            ],
-            "time": "time"
-          }
-        ],
-        "alias": "alias"
-      }
-    ],
-    "compare": [
-      {
-        "aggregates": [
-          {
-            "count": 0,
-            "interval": 0,
-            "sampleInterval": 0,
-            "value": 0,
-            "groups": [
-              {
-                "key": "key",
-                "value": "string"
-              }
-            ]
-          }
-        ],
-        "calculation": "calculation",
-        "series": [
-          {
-            "data": [
-              {
-                "count": 0,
-                "interval": 0,
-                "sampleInterval": 0,
-                "value": 0,
-                "firstSeen": "firstSeen",
-                "groups": [
-                  {
-                    "key": "key",
-                    "value": "string"
-                  }
-                ],
-                "lastSeen": "lastSeen"
-              }
-            ],
-            "time": "time"
-          }
-        ],
-        "alias": "alias"
-      }
-    ],
-    "events": {
-      "count": 0,
-      "events": [
-        {
-          "$metadata": {
-            "id": "id",
-            "account": "account",
-            "cloudService": "cloudService",
-            "coldStart": 1,
-            "cost": 1,
-            "duration": 1,
-            "endTime": 0,
-            "error": "error",
-            "errorTemplate": "errorTemplate",
-            "fingerprint": "fingerprint",
-            "level": "level",
-            "message": "message",
-            "messageTemplate": "messageTemplate",
-            "metricName": "metricName",
-            "origin": "origin",
-            "parentSpanId": "parentSpanId",
-            "provider": "provider",
-            "region": "region",
-            "requestId": "requestId",
-            "service": "service",
-            "spanId": "spanId",
-            "spanName": "spanName",
-            "stackId": "stackId",
-            "startTime": 0,
-            "statusCode": 1,
-            "traceDuration": 1,
-            "traceId": "traceId",
-            "transactionName": "transactionName",
-            "trigger": "trigger",
-            "type": "type",
-            "url": "url"
-          },
-          "dataset": "dataset",
-          "source": "string",
-          "timestamp": 0,
-          "$containers": {
-            "foo": "bar"
-          },
-          "$workers": {
-            "eventType": "fetch",
-            "requestId": "requestId",
-            "scriptName": "scriptName",
-            "durableObjectId": "durableObjectId",
-            "entrypoint": "entrypoint",
-            "event": {
-              "foo": "bar"
-            },
-            "executionModel": "durableObject",
-            "outcome": "outcome",
-            "preview": {
-              "id": "id",
-              "name": "name",
-              "slug": "slug"
-            },
-            "scriptVersion": {
-              "id": "id",
-              "message": "message",
-              "tag": "tag"
-            },
-            "spanId": "spanId",
-            "traceId": "traceId",
-            "truncated": true
-          }
-        }
-      ],
-      "fields": [
-        {
-          "key": "key",
-          "type": "type"
-        }
-      ],
-      "series": [
-        {
-          "data": [
-            {
-              "aggregates": {
-                "_count": 1,
-                "_interval": 1,
-                "_firstSeen": "_firstSeen",
-                "_lastSeen": "_lastSeen",
-                "bin": {}
-              },
-              "count": 0,
-              "interval": 0,
-              "sampleInterval": 0,
-              "errors": 0,
-              "groups": {
-                "foo": "string"
-              }
-            }
-          ],
-          "time": "time"
-        }
-      ]
-    },
-    "invocations": {
-      "foo": [
-        {
-          "$metadata": {
-            "id": "id",
-            "account": "account",
-            "cloudService": "cloudService",
-            "coldStart": 1,
-            "cost": 1,
-            "duration": 1,
-            "endTime": 0,
-            "error": "error",
-            "errorTemplate": "errorTemplate",
-            "fingerprint": "fingerprint",
-            "level": "level",
-            "message": "message",
-            "messageTemplate": "messageTemplate",
-            "metricName": "metricName",
-            "origin": "origin",
-            "parentSpanId": "parentSpanId",
-            "provider": "provider",
-            "region": "region",
-            "requestId": "requestId",
-            "service": "service",
-            "spanId": "spanId",
-            "spanName": "spanName",
-            "stackId": "stackId",
-            "startTime": 0,
-            "statusCode": 1,
-            "traceDuration": 1,
-            "traceId": "traceId",
-            "transactionName": "transactionName",
-            "trigger": "trigger",
-            "type": "type",
-            "url": "url"
-          },
-          "dataset": "dataset",
-          "source": "string",
-          "timestamp": 0,
-          "$containers": {
-            "foo": "bar"
-          },
-          "$workers": {
-            "eventType": "fetch",
-            "requestId": "requestId",
-            "scriptName": "scriptName",
-            "durableObjectId": "durableObjectId",
-            "entrypoint": "entrypoint",
-            "event": {
-              "foo": "bar"
-            },
-            "executionModel": "durableObject",
-            "outcome": "outcome",
-            "preview": {
-              "id": "id",
-              "name": "name",
-              "slug": "slug"
-            },
-            "scriptVersion": {
-              "id": "id",
-              "message": "message",
-              "tag": "tag"
-            },
-            "spanId": "spanId",
-            "traceId": "traceId",
-            "truncated": true
-          }
-        }
-      ]
-    },
-    "traces": [
-      {
-        "rootSpanName": "rootSpanName",
-        "rootTransactionName": "rootTransactionName",
-        "service": [
-          "string"
-        ],
-        "spans": 0,
-        "traceDurationMs": 0,
-        "traceEndMs": 0,
-        "traceId": "traceId",
-        "traceStartMs": 0,
-        "errors": [
-          "string"
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
+name: optional string
 
-## List values
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/workers/observability/telemetry/values`
+slug: optional string
 
-List unique values found in your events.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `datasets: array of string`
+<summary>
 
-  Leave this empty to use the default datasets
+scriptVersion: optional object {id, message, tag }
 
-- `key: string`
+</summary>
 
-- `timeframe: object { from, to }`
+id: optional string
 
-  - `from: number`
+<a href="#">Link to this property</a>
 
-  - `to: number`
+message: optional string
 
-- `type: "string" or "boolean" or "number"`
+<a href="#">Link to this property</a>
 
-  - `"string"`
+tag: optional string
 
-  - `"boolean"`
+<a href="#">Link to this property</a>
 
-  - `"number"`
+</details>
 
-- `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-  Apply filters before listing values. Supports nested groups via kind: 'group'. Maximum nesting depth is 4.
+spanId: optional string
 
-  - `object { filterCombination, filters, kind }`
+<a href="#">Link to this property</a>
 
-    - `filterCombination: "and" or "or" or "AND" or "OR"`
+traceId: optional string
 
-      - `"and"`
+<a href="#">Link to this property</a>
 
-      - `"or"`
+truncated: optional boolean
 
-      - `"AND"`
+<a href="#">Link to this property</a>
 
-      - `"OR"`
+</details>
 
-    - `filters: array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `object { filterCombination, filters, kind }`
+<details>
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+<summary>
 
-          - `"and"`
+object {cpuTimeMs, eventType, outcome, 14 more }
 
-          - `"or"`
+</summary>
 
-          - `"AND"`
+cpuTimeMs: number
 
-          - `"OR"`
+<a href="#">Link to this property</a>
 
-        - `filters: array of unknown`
+<details>
 
-        - `kind: "group"`
+<summary>
 
-          - `"group"`
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+</summary>
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+One of the following:
 
-        - `key: string`
+"fetch"
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<a href="#">Link to this property</a>
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+"scheduled"
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<a href="#">Link to this property</a>
 
-          - `"includes"`
+"alarm"
 
-          - `"not_includes"`
+<a href="#">Link to this property</a>
 
-          - `"starts_with"`
+"cron"
 
-          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-          - `"regex"`
+"queue"
 
-          - `"exists"`
+<a href="#">Link to this property</a>
 
-          - `"is_null"`
+"email"
 
-          - `"in"`
+<a href="#">Link to this property</a>
 
-          - `"not_in"`
+"tail"
 
-          - `"eq"`
+<a href="#">Link to this property</a>
 
-          - `"neq"`
+"rpc"
 
-          - `"gt"`
+<a href="#">Link to this property</a>
 
-          - `"gte"`
+"jsrpc"
 
-          - `"lt"`
+<a href="#">Link to this property</a>
 
-          - `"lte"`
+"websocket"
 
-          - `"="`
+<a href="#">Link to this property</a>
 
-          - `"!="`
+"workflow"
 
-          - `">"`
+<a href="#">Link to this property</a>
 
-          - `">="`
+"unknown"
 
-          - `"<"`
+<a href="#">Link to this property</a>
 
-          - `"<="`
+</details>
 
-          - `"INCLUDES"`
+<a href="#">Link to this property</a>
 
-          - `"DOES_NOT_INCLUDE"`
+outcome: string
 
-          - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-          - `"EXISTS"`
+requestId: string
 
-          - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-          - `"IN"`
+scriptName: string
 
-          - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-          - `"STARTS_WITH"`
+wallTimeMs: number
 
-          - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-        - `type: "string" or "number" or "boolean"`
+<details>
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+<summary>
 
-          - `"string"`
+diagnosticsChannelEvents: optional array of object {channel, message, timestamp }
 
-          - `"number"`
+</summary>
 
-          - `"boolean"`
+channel: string
 
-        - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+message: string
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `value: optional string or number or boolean`
+timestamp: number
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-          - `string`
+</details>
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+dispatchNamespace: optional string
 
-    - `kind: "group"`
+<a href="#">Link to this property</a>
 
-      - `"group"`
+durableObjectId: optional string
 
-  - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-    A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+entrypoint: optional string
 
-    - `key: string`
+<a href="#">Link to this property</a>
 
-      Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+event: optional map\[unknown]
 
-    - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-      Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<details>
 
-      - `"includes"`
+<summary>
 
-      - `"not_includes"`
+executionModel: optional "durableObject"or "stateless"
 
-      - `"starts_with"`
+</summary>
 
-      - `"ends_with"`
+One of the following:
 
-      - `"regex"`
+"durableObject"
 
-      - `"exists"`
+<a href="#">Link to this property</a>
 
-      - `"is_null"`
+"stateless"
 
-      - `"in"`
+<a href="#">Link to this property</a>
 
-      - `"not_in"`
+</details>
 
-      - `"eq"`
+<a href="#">Link to this property</a>
 
-      - `"neq"`
+<details>
 
-      - `"gt"`
+<summary>
 
-      - `"gte"`
+preview: optional object {id, name, slug }
 
-      - `"lt"`
+</summary>
 
-      - `"lte"`
+id: optional string
 
-      - `"="`
+<a href="#">Link to this property</a>
 
-      - `"!="`
+name: optional string
 
-      - `">"`
+<a href="#">Link to this property</a>
 
-      - `">="`
+slug: optional string
 
-      - `"<"`
+<a href="#">Link to this property</a>
 
-      - `"<="`
+</details>
 
-      - `"INCLUDES"`
+<a href="#">Link to this property</a>
 
-      - `"DOES_NOT_INCLUDE"`
+<details>
 
-      - `"MATCH_REGEX"`
+<summary>
 
-      - `"EXISTS"`
+scriptVersion: optional object {id, message, tag }
 
-      - `"DOES_NOT_EXIST"`
+</summary>
 
-      - `"IN"`
+id: optional string
 
-      - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-      - `"STARTS_WITH"`
+message: optional string
 
-      - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-    - `type: "string" or "number" or "boolean"`
+tag: optional string
 
-      Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-      - `"string"`
+</details>
 
-      - `"number"`
+<a href="#">Link to this property</a>
 
-      - `"boolean"`
+spanId: optional string
 
-    - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-      Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+traceId: optional string
 
-      - `"filter"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string or number or boolean`
+truncated: optional boolean
 
-      Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-      - `string`
+</details>
 
-      - `number`
+<a href="#">Link to this property</a>
 
-      - `boolean`
+</details>
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-- `needle: optional object { value, isRegex, matchCase }`
+</details>
 
-  Full-text search expression to match events containing the specified text or pattern.
+<a href="#">Link to this property</a>
 
-  - `value: string or number or boolean`
+<details>
 
-    The text or pattern to search for.
+<summary>
 
-    - `string`
+fields: optional array of object {key, type }
 
-    - `number`
+List of fields discovered in the matched events. Useful for building dynamic UIs.
 
-    - `boolean`
+</summary>
 
-  - `isRegex: optional boolean`
+key: string
 
-    When true, treats the value as a regular expression (RE2 syntax).
+Field name present in the matched events.
 
-  - `matchCase: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, performs a case-sensitive search. Defaults to case-insensitive.
+type: string
 
-### Returns
+Data type of the field (string, number, or boolean).
 
-- `errors: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `messages: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: "Successful request"`
+<details>
 
-    - `"Successful request"`
+<summary>
 
-- `result: array of object { dataset, key, type, value }`
+series: optional array of object {data, time }
 
-  - `dataset: string`
+Time-series data for the matched events, bucketed by the query granularity.
 
-  - `key: string`
+</summary>
 
-  - `type: "string" or "boolean" or "number"`
+<details>
 
-    - `"string"`
+<summary>
 
-    - `"boolean"`
+data: array of object {aggregates, count, interval, 3 more }
 
-    - `"number"`
+</summary>
 
-  - `value: string or number or boolean`
+<details>
 
-    - `string`
+<summary>
 
-    - `number`
+aggregates: object {\_count, \_interval, \_firstSeen, 2 more }
 
-    - `boolean`
+</summary>
 
-- `success: true`
+Deprecated\_count: number
 
-  - `true`
+exclusiveMinimum
 
-### Example
+minimum0
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/telemetry/values \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "datasets": [
-            "string"
-          ],
-          "key": "key",
-          "timeframe": {
-            "from": 0,
-            "to": 0
-          },
-          "type": "string"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+Deprecated\_interval: number
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": [
-    {
-      "dataset": "dataset",
-      "key": "key",
-      "type": "string",
-      "value": "string"
-    }
-  ],
-  "success": true
-}
-```
+exclusiveMinimum
 
-## Prepare live tail
+minimum0
 
-**post** `/accounts/{account_id}/workers/observability/telemetry/live-tail`
+<a href="#">Link to this property</a>
 
-Prepare websocket server for live tail.
+Deprecated\_firstSeen: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+Deprecated\_lastSeen: optional string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `filterCombination: optional "and" or "or" or "AND" or "OR"`
+Deprecatedbin: optional unknown
 
-  Set a flag to describe how to combine the filters on the query.
+<a href="#">Link to this property</a>
 
-  - `"and"`
+</details>
 
-  - `"or"`
+<a href="#">Link to this property</a>
 
-  - `"AND"`
+count: number
 
-  - `"OR"`
+<a href="#">Link to this property</a>
 
-- `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+interval: number
 
-  Apply filters to the query. Supports nested groups via kind: 'group'.
+<a href="#">Link to this property</a>
 
-  - `object { filterCombination, filters, kind }`
+sampleInterval: number
 
-    - `filterCombination: "and" or "or" or "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-      - `"and"`
+errors: optional number
 
-      - `"or"`
+<a href="#">Link to this property</a>
 
-      - `"AND"`
+<details>
 
-      - `"OR"`
+<summary>
 
-    - `filters: array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+groups: optional map\[stringor numberor boolean]
 
-      - `object { filterCombination, filters, kind }`
+Groups in the query results.
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+</summary>
 
-          - `"and"`
+One of the following:
 
-          - `"or"`
+string
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+number
 
-        - `filters: array of unknown`
+<a href="#">Link to this property</a>
 
-        - `kind: "group"`
+boolean
 
-          - `"group"`
+<a href="#">Link to this property</a>
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+</details>
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<a href="#">Link to this property</a>
 
-        - `key: string`
+</details>
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<a href="#">Link to this property</a>
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+time: string
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<a href="#">Link to this property</a>
 
-          - `"includes"`
+</details>
 
-          - `"not_includes"`
+<a href="#">Link to this property</a>
 
-          - `"starts_with"`
+</details>
 
-          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-          - `"regex"`
+<details>
 
-          - `"exists"`
+<summary>
 
-          - `"is_null"`
+invocations: optional map\[array of object {"$metadata", dataset, source, 3 more } ]
 
-          - `"in"`
+Events grouped by invocation (request ID). Present when the query view is ‘invocations’. Each key is a request ID mapping to all events from that invocation.
 
-          - `"not_in"`
+</summary>
 
-          - `"eq"`
+<details>
 
-          - `"neq"`
+<summary>
 
-          - `"gt"`
+"$metadata": object {id, account, cloudService, 29 more }
 
-          - `"gte"`
+Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
 
-          - `"lt"`
+</summary>
 
-          - `"lte"`
+id: string
 
-          - `"="`
+Unique event ID. Use as the cursor value for offset-based pagination.
 
-          - `"!="`
+<a href="#">Link to this property</a>
 
-          - `">"`
+account: optional string
 
-          - `">="`
+Cloudflare account identifier.
 
-          - `"<"`
+<a href="#">Link to this property</a>
 
-          - `"<="`
+cloudService: optional string
 
-          - `"INCLUDES"`
+Cloudflare product that generated this event (e.g. workers, pages).
 
-          - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-          - `"MATCH_REGEX"`
+coldStart: optional number
 
-          - `"EXISTS"`
+exclusiveMinimum
 
-          - `"DOES_NOT_EXIST"`
+minimum0
 
-          - `"IN"`
+<a href="#">Link to this property</a>
 
-          - `"NOT_IN"`
+cost: optional number
 
-          - `"STARTS_WITH"`
+Estimated cost units for this invocation.
 
-          - `"ENDS_WITH"`
+exclusiveMinimum
 
-        - `type: "string" or "number" or "boolean"`
+minimum0
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-          - `"string"`
+duration: optional number
 
-          - `"number"`
+Span duration in milliseconds.
 
-          - `"boolean"`
+exclusiveMinimum
 
-        - `kind: optional "filter"`
+minimum0
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+endTime: optional number
 
-        - `value: optional string or number or boolean`
+Span end time as a Unix epoch in milliseconds.
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+minimum0
 
-          - `string`
+<a href="#">Link to this property</a>
 
-          - `number`
+error: optional string
 
-          - `boolean`
+Error message, present when the log represents an error.
 
-    - `kind: "group"`
+<a href="#">Link to this property</a>
 
-      - `"group"`
+errorTemplate: optional string
 
-  - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+Templatized version of the error message used for grouping similar errors.
 
-    A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<a href="#">Link to this property</a>
 
-    - `key: string`
+fingerprint: optional string
 
-      Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+Content-based fingerprint used to group similar events.
 
-    - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-      Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+level: optional string
 
-      - `"includes"`
+Log level (e.g. log, debug, info, warn, error).
 
-      - `"not_includes"`
+<a href="#">Link to this property</a>
 
-      - `"starts_with"`
+message: optional string
 
-      - `"ends_with"`
+Log message text.
 
-      - `"regex"`
+<a href="#">Link to this property</a>
 
-      - `"exists"`
+messageTemplate: optional string
 
-      - `"is_null"`
+Templatized version of the log message used for grouping similar messages.
 
-      - `"in"`
+<a href="#">Link to this property</a>
 
-      - `"not_in"`
+metricName: optional string
 
-      - `"eq"`
+Metric name when the event represents a metric data point.
 
-      - `"neq"`
+<a href="#">Link to this property</a>
 
-      - `"gt"`
+origin: optional string
 
-      - `"gte"`
+Origin of the event (e.g. fetch, scheduled, queue).
 
-      - `"lt"`
+<a href="#">Link to this property</a>
 
-      - `"lte"`
+parentSpanId: optional string
 
-      - `"="`
+Span ID of the parent span in the trace hierarchy.
 
-      - `"!="`
+<a href="#">Link to this property</a>
 
-      - `">"`
+provider: optional string
 
-      - `">="`
+Infrastructure provider identifier.
 
-      - `"<"`
+<a href="#">Link to this property</a>
 
-      - `"<="`
+rayId: optional string
 
-      - `"INCLUDES"`
+Cloudflare Ray ID from the <code>cf-ray</code> header of the request that triggered the invocation.
 
-      - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-      - `"MATCH_REGEX"`
+region: optional string
 
-      - `"EXISTS"`
+Cloudflare data center / region that handled the request.
 
-      - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-      - `"IN"`
+requestId: optional string
 
-      - `"NOT_IN"`
+Cloudflare request ID that ties all logs from a single invocation together.
 
-      - `"STARTS_WITH"`
+<a href="#">Link to this property</a>
 
-      - `"ENDS_WITH"`
+service: optional string
 
-    - `type: "string" or "number" or "boolean"`
+Worker script name that produced this event.
 
-      Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-      - `"string"`
+spanId: optional string
 
-      - `"number"`
+Span ID for this individual unit of work within a trace.
 
-      - `"boolean"`
+<a href="#">Link to this property</a>
 
-    - `kind: optional "filter"`
+spanName: optional string
 
-      Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+Human-readable name for this span.
 
-      - `"filter"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string or number or boolean`
+stackId: optional string
 
-      Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+Stack / deployment identifier.
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+startTime: optional number
 
-      - `boolean`
+Span start time as a Unix epoch in milliseconds.
 
-- `scriptId: optional string`
+minimum0
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+statusCode: optional number
 
-  - `message: string`
+HTTP response status code returned by the Worker.
 
-- `messages: array of object { message }`
+exclusiveMinimum
 
-  - `message: "Successful request"`
+minimum0
 
-    - `"Successful request"`
+<a href="#">Link to this property</a>
 
-- `result: object { wsUrl }`
+traceDuration: optional number
 
-  - `wsUrl: string`
+Total duration of the entire trace in milliseconds.
 
-    WebSocket URL clients connect to in order to stream live tail events.
+exclusiveMinimum
 
-- `success: true`
+minimum0
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+traceId: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/telemetry/live-tail \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+Distributed trace ID linking spans across services.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": {
-    "wsUrl": "https://example.com"
-  },
-  "success": true
-}
-```
+transactionName: optional string
 
-## Live tail heartbeat
+Logical transaction name for this request.
 
-**post** `/accounts/{account_id}/workers/observability/telemetry/live-tail/heartbeat`
+<a href="#">Link to this property</a>
 
-Notify live tail that user is still eligible to receive live events.
+trigger: optional string
 
-### Path Parameters
+What triggered the invocation (e.g. GET /users, POST /orders, queue message).
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+type: optional string
 
-- `scriptId: optional string`
+Event type classifier (e.g. cf-worker-event, cf-worker-log).
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+url: optional string
 
-  - `message: string`
+Request URL that triggered the Worker invocation.
 
-- `messages: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: "Successful request"`
+</details>
 
-    - `"Successful request"`
+<a href="#">Link to this property</a>
 
-- `result: unknown`
+dataset: string
 
-- `success: true`
+The dataset this event belongs to (e.g. cloudflare-workers).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/telemetry/live-tail/heartbeat \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+<summary>
 
-#### Response
+source: stringor map\[unknown]
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+Raw log payload. May be a string or a structured object depending on how the log was emitted.
 
-## Domain Types
+</summary>
 
-### Telemetry Keys Response
+One of the following:
 
-- `TelemetryKeysResponse object { key, lastSeenAt, type }`
+string
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-  - `lastSeenAt: number`
+map\[unknown]
 
-  - `type: "string" or "boolean" or "number"`
+<a href="#">Link to this property</a>
 
-    - `"string"`
+</details>
 
-    - `"boolean"`
+<a href="#">Link to this property</a>
 
-    - `"number"`
+timestamp: number
 
-### Telemetry Query Response
+Event timestamp as a Unix epoch in milliseconds.
 
-- `TelemetryQueryResponse object { run, statistics, agents, 5 more }`
+minimum0
 
-  Complete results of a query run. The populated fields depend on the requested view type (events, calculations, invocations, traces, or agents).
+<a href="#">Link to this property</a>
 
-  - `run: object { id, accountId, dry, 8 more }`
+"$containers": optional map\[unknown]
 
-    Represents a single execution of a query against Workers Observability data, including the query definition, execution status, and performance statistics.
+Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Unique identifier for this query run.
+<details>
 
-    - `accountId: string`
+<summary>
 
-      Cloudflare account ID that owns this query run.
+"$workers": optional object {eventType, requestId, scriptName, 10 more } or object {cpuTimeMs, eventType, outcome, 14 more }
 
-    - `dry: boolean`
+Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
 
-      Whether this was a dry run (results not persisted).
+</summary>
 
-    - `granularity: number`
+One of the following:
 
-      Number of time-series buckets used for the query. Higher values produce more detailed series data.
+<details>
 
-    - `query: object { id, adhoc, created, 6 more }`
+<summary>
 
-      A saved query definition with its parameters, metadata, and ownership information.
+object {eventType, requestId, scriptName, 10 more }
 
-      - `id: string`
+</summary>
 
-      - `adhoc: boolean`
+<details>
 
-        If the query wasn't explcitly saved
+<summary>
 
-      - `created: string`
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
 
-      - `createdBy: string`
+</summary>
 
-      - `description: string`
+One of the following:
 
-      - `name: string`
+"fetch"
 
-        Query name
+<a href="#">Link to this property</a>
 
-      - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+"scheduled"
 
-        - `calculations: optional array of object { operator, alias, key, keyType }`
+<a href="#">Link to this property</a>
 
-          Create Calculations to compute as part of the query.
+"alarm"
 
-          - `operator: "uniq" or "count" or "max" or 35 more`
+<a href="#">Link to this property</a>
 
-            - `"uniq"`
+"cron"
 
-            - `"count"`
+<a href="#">Link to this property</a>
 
-            - `"max"`
+"queue"
 
-            - `"min"`
+<a href="#">Link to this property</a>
 
-            - `"sum"`
+"email"
 
-            - `"avg"`
+<a href="#">Link to this property</a>
 
-            - `"median"`
+"tail"
 
-            - `"p001"`
+<a href="#">Link to this property</a>
 
-            - `"p01"`
+"rpc"
 
-            - `"p05"`
+<a href="#">Link to this property</a>
 
-            - `"p10"`
+"jsrpc"
 
-            - `"p25"`
+<a href="#">Link to this property</a>
 
-            - `"p75"`
+"websocket"
 
-            - `"p90"`
+<a href="#">Link to this property</a>
 
-            - `"p95"`
+"workflow"
 
-            - `"p99"`
+<a href="#">Link to this property</a>
 
-            - `"p999"`
+"unknown"
 
-            - `"stddev"`
+<a href="#">Link to this property</a>
 
-            - `"variance"`
+</details>
 
-            - `"COUNT_DISTINCT"`
+<a href="#">Link to this property</a>
 
-            - `"COUNT"`
+requestId: string
 
-            - `"MAX"`
+<a href="#">Link to this property</a>
 
-            - `"MIN"`
+scriptName: string
 
-            - `"SUM"`
+<a href="#">Link to this property</a>
 
-            - `"AVG"`
+durableObjectId: optional string
 
-            - `"MEDIAN"`
+<a href="#">Link to this property</a>
 
-            - `"P001"`
+entrypoint: optional string
 
-            - `"P01"`
+<a href="#">Link to this property</a>
 
-            - `"P05"`
+event: optional map\[unknown]
 
-            - `"P10"`
+<a href="#">Link to this property</a>
 
-            - `"P25"`
+<details>
 
-            - `"P75"`
+<summary>
 
-            - `"P90"`
+executionModel: optional "durableObject"or "stateless"
 
-            - `"P95"`
+</summary>
 
-            - `"P99"`
+One of the following:
 
-            - `"P999"`
+"durableObject"
 
-            - `"STDDEV"`
+<a href="#">Link to this property</a>
 
-            - `"VARIANCE"`
+"stateless"
 
-          - `alias: optional string`
+<a href="#">Link to this property</a>
 
-          - `key: optional string`
+</details>
 
-          - `keyType: optional "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-            - `"string"`
+outcome: optional string
 
-            - `"number"`
+<a href="#">Link to this property</a>
 
-            - `"boolean"`
+<details>
 
-        - `datasets: optional array of string`
+<summary>
 
-          Set the Datasets to query. Leave it empty to query all the datasets.
+preview: optional object {id, name, slug }
 
-        - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+</summary>
 
-          Set a Flag to describe how to combine the filters on the query.
+id: optional string
 
-          - `"and"`
+<a href="#">Link to this property</a>
 
-          - `"or"`
+name: optional string
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+slug: optional string
 
-        - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-          Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+</details>
 
-          - `object { filterCombination, filters, kind }`
+<a href="#">Link to this property</a>
 
-            - `filterCombination: "and" or "or" or "AND" or "OR"`
+<details>
 
-              - `"and"`
+<summary>
 
-              - `"or"`
+scriptVersion: optional object {id, message, tag }
 
-              - `"AND"`
+</summary>
 
-              - `"OR"`
+id: optional string
 
-            - `filters: array of unknown`
+<a href="#">Link to this property</a>
 
-            - `kind: "group"`
+message: optional string
 
-              - `"group"`
+<a href="#">Link to this property</a>
 
-          - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+tag: optional string
 
-            A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<a href="#">Link to this property</a>
 
-            - `key: string`
+</details>
 
-              Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<a href="#">Link to this property</a>
 
-            - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+spanId: optional string
 
-              Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<a href="#">Link to this property</a>
 
-              - `"includes"`
+traceId: optional string
 
-              - `"not_includes"`
+<a href="#">Link to this property</a>
 
-              - `"starts_with"`
+truncated: optional boolean
 
-              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-              - `"regex"`
+</details>
 
-              - `"exists"`
+<a href="#">Link to this property</a>
 
-              - `"is_null"`
+<details>
 
-              - `"in"`
+<summary>
 
-              - `"not_in"`
+object {cpuTimeMs, eventType, outcome, 14 more }
 
-              - `"eq"`
+</summary>
 
-              - `"neq"`
+cpuTimeMs: number
 
-              - `"gt"`
+<a href="#">Link to this property</a>
 
-              - `"gte"`
+<details>
 
-              - `"lt"`
+<summary>
 
-              - `"lte"`
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
 
-              - `"="`
+</summary>
 
-              - `"!="`
+One of the following:
 
-              - `">"`
+"fetch"
 
-              - `">="`
+<a href="#">Link to this property</a>
 
-              - `"<"`
+"scheduled"
 
-              - `"<="`
+<a href="#">Link to this property</a>
 
-              - `"INCLUDES"`
+"alarm"
 
-              - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-              - `"MATCH_REGEX"`
+"cron"
 
-              - `"EXISTS"`
+<a href="#">Link to this property</a>
 
-              - `"DOES_NOT_EXIST"`
+"queue"
 
-              - `"IN"`
+<a href="#">Link to this property</a>
 
-              - `"NOT_IN"`
+"email"
 
-              - `"STARTS_WITH"`
+<a href="#">Link to this property</a>
 
-              - `"ENDS_WITH"`
+"tail"
 
-            - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-              Data type of the filter field. Must match the actual type of the key being filtered.
+"rpc"
 
-              - `"string"`
+<a href="#">Link to this property</a>
 
-              - `"number"`
+"jsrpc"
 
-              - `"boolean"`
+<a href="#">Link to this property</a>
 
-            - `kind: optional "filter"`
+"websocket"
 
-              Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+<a href="#">Link to this property</a>
 
-              - `"filter"`
+"workflow"
 
-            - `value: optional string or number or boolean`
+<a href="#">Link to this property</a>
 
-              Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+"unknown"
 
-              - `string`
+<a href="#">Link to this property</a>
 
-              - `number`
+</details>
 
-              - `boolean`
+<a href="#">Link to this property</a>
 
-        - `groupBys: optional array of object { type, value }`
+outcome: string
 
-          Define how to group the results of the query.
+<a href="#">Link to this property</a>
 
-          - `type: "string" or "number" or "boolean"`
+requestId: string
 
-            - `"string"`
+<a href="#">Link to this property</a>
 
-            - `"number"`
+scriptName: string
 
-            - `"boolean"`
+<a href="#">Link to this property</a>
 
-          - `value: string`
+wallTimeMs: number
 
-        - `havings: optional array of object { key, operation, value }`
+<a href="#">Link to this property</a>
 
-          Configure the Having clauses that filter on calculations in the query result.
+<details>
 
-          - `key: string`
+<summary>
 
-          - `operation: "eq" or "neq" or "gt" or 3 more`
+diagnosticsChannelEvents: optional array of object {channel, message, timestamp }
 
-            - `"eq"`
+</summary>
 
-            - `"neq"`
+channel: string
 
-            - `"gt"`
+<a href="#">Link to this property</a>
 
-            - `"gte"`
+message: string
 
-            - `"lt"`
+<a href="#">Link to this property</a>
 
-            - `"lte"`
+timestamp: number
 
-          - `value: number`
+<a href="#">Link to this property</a>
 
-        - `limit: optional number`
+</details>
 
-          Set a limit on the number of results / records returned by the query
+<a href="#">Link to this property</a>
 
-        - `needle: optional object { value, isRegex, matchCase }`
+dispatchNamespace: optional string
 
-          Define an expression to search using full-text search.
+<a href="#">Link to this property</a>
 
-          - `value:`
+durableObjectId: optional string
 
-          - `isRegex: optional boolean`
+<a href="#">Link to this property</a>
 
-          - `matchCase: optional boolean`
+entrypoint: optional string
 
-        - `orderBy: optional object { value, order }`
+<a href="#">Link to this property</a>
 
-          Configure the order of the results returned by the query.
+event: optional map\[unknown]
 
-          - `value: string`
+<a href="#">Link to this property</a>
 
-            Configure which Calculation to order the results by.
+<details>
 
-          - `order: optional "asc" or "desc"`
+<summary>
 
-            Set the order of the results
+executionModel: optional "durableObject"or "stateless"
 
-            - `"asc"`
+</summary>
 
-            - `"desc"`
+One of the following:
 
-      - `updated: string`
+"durableObject"
 
-      - `updatedBy: string`
+<a href="#">Link to this property</a>
 
-    - `status: "STARTED" or "COMPLETED"`
+"stateless"
 
-      Current execution status of the query run.
+<a href="#">Link to this property</a>
 
-      - `"STARTED"`
+</details>
 
-      - `"COMPLETED"`
+<a href="#">Link to this property</a>
 
-    - `timeframe: object { from, to }`
+<details>
 
-      Time range for the query execution
+<summary>
 
-      - `from: number`
+preview: optional object {id, name, slug }
 
-        Start timestamp for the query timeframe (Unix timestamp in milliseconds)
+</summary>
 
-      - `to: number`
+id: optional string
 
-        End timestamp for the query timeframe (Unix timestamp in milliseconds)
+<a href="#">Link to this property</a>
 
-    - `userId: string`
+name: optional string
 
-      ID of the user who initiated the query run.
+<a href="#">Link to this property</a>
 
-    - `created: optional string`
+slug: optional string
 
-      ISO-8601 timestamp when the query run was created.
+<a href="#">Link to this property</a>
 
-    - `statistics: optional object { bytes_read, elapsed, rows_read, abr_level }`
+</details>
 
-      Query performance statistics from the database (does not include network latency).
+<a href="#">Link to this property</a>
 
-      - `bytes_read: number`
+<details>
 
-        Number of uncompressed bytes read from the table.
+<summary>
 
-      - `elapsed: number`
+scriptVersion: optional object {id, message, tag }
 
-        Time in seconds for the query to run.
+</summary>
 
-      - `rows_read: number`
+id: optional string
 
-        Number of rows scanned from the table.
+<a href="#">Link to this property</a>
 
-      - `abr_level: optional number`
+message: optional string
 
-        The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+<a href="#">Link to this property</a>
 
-    - `updated: optional string`
+tag: optional string
 
-      ISO-8601 timestamp when the query run was last updated.
+<a href="#">Link to this property</a>
 
-  - `statistics: object { bytes_read, elapsed, rows_read, abr_level }`
+</details>
 
-    Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.
+<a href="#">Link to this property</a>
 
-    - `bytes_read: number`
+spanId: optional string
 
-      Number of uncompressed bytes read from the table.
+<a href="#">Link to this property</a>
 
-    - `elapsed: number`
+traceId: optional string
 
-      Time in seconds for the query to run.
+<a href="#">Link to this property</a>
 
-    - `rows_read: number`
+truncated: optional boolean
 
-      Number of rows scanned from the table.
+<a href="#">Link to this property</a>
 
-    - `abr_level: optional number`
+</details>
 
-      The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+<a href="#">Link to this property</a>
 
-  - `agents: optional array of object { agentClass, eventTypeCounts, firstEventMs, 5 more }`
+</details>
 
-    Durable Object agent summaries. Present when the query view is 'agents'. Each entry represents an agent with its event counts and status.
+<a href="#">Link to this property</a>
 
-    - `agentClass: string`
+</details>
 
-      Class name of the Durable Object agent.
+<a href="#">Link to this property</a>
 
-    - `eventTypeCounts: map[number]`
+<details>
 
-      Breakdown of event counts by event type.
+<summary>
 
-    - `firstEventMs: number`
+traces: optional array of object {rootSpanName, rootTransactionName, service, 6 more }
 
-      Timestamp of the earliest event from this agent in the queried window (Unix epoch ms).
+Trace summaries matching the query. Present when the query view is ‘traces’. Each entry represents a distributed trace with its spans, duration, and services involved.
 
-    - `hasErrors: boolean`
+</summary>
 
-      Whether the agent emitted any error events in the queried window.
+rootSpanName: string
 
-    - `lastEventMs: number`
+Name of the root span that initiated the trace.
 
-      Timestamp of the most recent event from this agent (Unix epoch ms).
+<a href="#">Link to this property</a>
 
-    - `namespace: string`
+rootTransactionName: string
 
-      Durable Object namespace the agent belongs to.
+Logical transaction name for the root span.
 
-    - `service: string`
+<a href="#">Link to this property</a>
 
-      Worker service name that hosts this agent.
+service: array of string
 
-    - `totalEvents: number`
+List of Worker services involved in the trace.
 
-      Total number of events emitted by this agent in the queried window.
+<a href="#">Link to this property</a>
 
-  - `calculations: optional array of object { aggregates, calculation, series, alias }`
+spans: number
 
-    Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data.
+Total number of spans in the trace.
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `count: number`
+traceDurationMs: number
 
-      - `interval: number`
+Total duration of the trace in milliseconds.
 
-      - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+traceEndMs: number
 
-      - `groups: optional array of object { key, value }`
+Trace end time as a Unix epoch in milliseconds.
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `value: string or number or boolean`
+traceId: string
 
-          - `string`
+Unique identifier for the distributed trace.
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+traceStartMs: number
 
-    - `calculation: string`
+Trace start time as a Unix epoch in milliseconds.
 
-    - `series: array of object { data, time }`
+<a href="#">Link to this property</a>
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+errors: optional array of string
 
-        - `count: number`
+Error messages encountered during the trace, if any.
 
-        - `interval: number`
+<a href="#">Link to this property</a>
 
-        - `sampleInterval: number`
+</details>
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-        - `firstSeen: optional string`
+</details>
 
-        - `groups: optional array of object { key, value }`
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(model)%20telemetry_query_response%20%3E%20(schema)>)
 
-          - `key: string`
+<details>
 
-          - `value: string or number or boolean`
+<summary>
 
-            - `string`
+TelemetryValuesResponse object {dataset, key, type, value }
 
-            - `number`
+</summary>
 
-            - `boolean`
+dataset: string
 
-        - `lastSeen: optional string`
+<a href="#">Link to this property</a>
 
-      - `time: string`
+key: string
 
-    - `alias: optional string`
+<a href="#">Link to this property</a>
 
-  - `compare: optional array of object { aggregates, calculation, series, alias }`
+<details>
 
-    Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations.
+<summary>
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+type: "string"or "boolean"or "number"
 
-      - `count: number`
+</summary>
 
-      - `interval: number`
+One of the following:
 
-      - `sampleInterval: number`
+"string"
 
-      - `value: number`
+<a href="#">Link to this property</a>
 
-      - `groups: optional array of object { key, value }`
+"boolean"
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `value: string or number or boolean`
+"number"
 
-          - `string`
+<a href="#">Link to this property</a>
 
-          - `number`
+</details>
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-    - `calculation: string`
+<details>
 
-    - `series: array of object { data, time }`
+<summary>
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+value: stringor numberor boolean
 
-        - `count: number`
+</summary>
 
-        - `interval: number`
+One of the following:
 
-        - `sampleInterval: number`
+string
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-        - `firstSeen: optional string`
+number
 
-        - `groups: optional array of object { key, value }`
+<a href="#">Link to this property</a>
 
-          - `key: string`
+boolean
 
-          - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-            - `string`
+</details>
 
-            - `number`
+<a href="#">Link to this property</a>
 
-            - `boolean`
+</details>
 
-        - `lastSeen: optional string`
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(model)%20telemetry_values_response%20%3E%20(schema)>)
 
-      - `time: string`
+<details>
 
-    - `alias: optional string`
+<summary>
 
-  - `events: optional object { count, events, fields, series }`
+TelemetryLiveTailResponse object {wsUrl }
 
-    Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata.
+</summary>
 
-    - `count: optional number`
+wsUrl: string
 
-      Total number of events matching the query (may exceed the number returned due to limits).
+WebSocket URL clients connect to in order to stream live tail events.
 
-    - `events: optional array of object { "$metadata", dataset, source, 3 more }`
+formaturi
 
-      List of individual telemetry events matching the query.
+<a href="#">Link to this property</a>
 
-      - `"$metadata": object { id, account, cloudService, 28 more }`
+</details>
 
-        Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(model)%20telemetry_live_tail_response%20%3E%20(schema)>)
 
-        - `id: string`
+TelemetryLiveTailHeartbeatResponse = unknown
 
-          Unique event ID. Use as the cursor value for offset-based pagination.
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(model)%20telemetry_live_tail_heartbeat_response%20%3E%20(schema)>)
 
-        - `account: optional string`
+#### ObservabilityDestinations
 
-          Cloudflare account identifier.
+##### [Get Destinations](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/destinations/methods/list)
 
-        - `cloudService: optional string`
+GET/accounts/{account\_id}/workers/observability/destinations
 
-          Cloudflare product that generated this event (e.g. workers, pages).
+##### [Create Destination](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/destinations/methods/create)
 
-        - `coldStart: optional number`
+POST/accounts/{account\_id}/workers/observability/destinations
 
-        - `cost: optional number`
+##### [Update Destination](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/destinations/methods/update)
 
-          Estimated cost units for this invocation.
+PATCH/accounts/{account\_id}/workers/observability/destinations/{slug}
 
-        - `duration: optional number`
+##### [Delete Destination](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/destinations/methods/delete)
 
-          Span duration in milliseconds.
+DELETE/accounts/{account\_id}/workers/observability/destinations/{slug}
 
-        - `endTime: optional number`
+##### ModelsExpand Collapse
 
-          Span end time as a Unix epoch in milliseconds.
+<details>
 
-        - `error: optional string`
+<summary>
 
-          Error message, present when the log represents an error.
+DestinationListResponse object {configuration, enabled, name, 2 more }
 
-        - `errorTemplate: optional string`
+</summary>
 
-          Templatized version of the error message used for grouping similar errors.
+<details>
 
-        - `fingerprint: optional string`
+<summary>
 
-          Content-based fingerprint used to group similar events.
+configuration: object {destination\_conf, headers, jobStatus, 3 more }
 
-        - `level: optional string`
+</summary>
 
-          Log level (e.g. log, debug, info, warn, error).
+destination\_conf: string
 
-        - `message: optional string`
+<a href="#">Link to this property</a>
 
-          Log message text.
+headers: map\[string]
 
-        - `messageTemplate: optional string`
+<a href="#">Link to this property</a>
 
-          Templatized version of the log message used for grouping similar messages.
+<details>
 
-        - `metricName: optional string`
+<summary>
 
-          Metric name when the event represents a metric data point.
+jobStatus: object {error\_message, last\_complete, last\_error }
 
-        - `origin: optional string`
+</summary>
 
-          Origin of the event (e.g. fetch, scheduled, queue).
+error\_message: string
 
-        - `parentSpanId: optional string`
+<a href="#">Link to this property</a>
 
-          Span ID of the parent span in the trace hierarchy.
+last\_complete: string
 
-        - `provider: optional string`
+<a href="#">Link to this property</a>
 
-          Infrastructure provider identifier.
+last\_error: string
 
-        - `region: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare data center / region that handled the request.
+</details>
 
-        - `requestId: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare request ID that ties all logs from a single invocation together.
+<details>
 
-        - `service: optional string`
+<summary>
 
-          Worker script name that produced this event.
+logpushDataset: "opentelemetry-traces"or "opentelemetry-logs"or "opentelemetry-metrics"
 
-        - `spanId: optional string`
+</summary>
 
-          Span ID for this individual unit of work within a trace.
+One of the following:
 
-        - `spanName: optional string`
+"opentelemetry-traces"
 
-          Human-readable name for this span.
+<a href="#">Link to this property</a>
 
-        - `stackId: optional string`
+"opentelemetry-logs"
 
-          Stack / deployment identifier.
+<a href="#">Link to this property</a>
 
-        - `startTime: optional number`
+"opentelemetry-metrics"
 
-          Span start time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-        - `statusCode: optional number`
+</details>
 
-          HTTP response status code returned by the Worker.
+<a href="#">Link to this property</a>
 
-        - `traceDuration: optional number`
+type: "logpush"
 
-          Total duration of the entire trace in milliseconds.
+<a href="#">Link to this property</a>
 
-        - `traceId: optional string`
+url: string
 
-          Distributed trace ID linking spans across services.
+<a href="#">Link to this property</a>
 
-        - `transactionName: optional string`
+</details>
 
-          Logical transaction name for this request.
+<a href="#">Link to this property</a>
 
-        - `trigger: optional string`
+enabled: boolean
 
-          What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+<a href="#">Link to this property</a>
 
-        - `type: optional string`
+name: string
 
-          Event type classifier (e.g. cf-worker-event, cf-worker-log).
+<a href="#">Link to this property</a>
 
-        - `url: optional string`
+scripts: array of string
 
-          Request URL that triggered the Worker invocation.
+<a href="#">Link to this property</a>
 
-      - `dataset: string`
+slug: string
 
-        The dataset this event belongs to (e.g. cloudflare-workers).
+<a href="#">Link to this property</a>
 
-      - `source: string or map[unknown]`
+</details>
 
-        Raw log payload. May be a string or a structured object depending on how the log was emitted.
+[Link to this property](#)%20workers.observability.destinations%20%3E%20(model)%20destination_list_response%20%3E%20(schema)>)
 
-        - `string`
+<details>
 
-        - `map[unknown]`
+<summary>
 
-      - `timestamp: number`
+DestinationCreateResponse object {configuration, enabled, name, 2 more }
 
-        Event timestamp as a Unix epoch in milliseconds.
+</summary>
 
-      - `"$containers": optional map[unknown]`
+<details>
 
-        Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+<summary>
 
-      - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
+configuration: object {destination\_conf, logpushDataset, logpushJob, 2 more }
 
-        Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+</summary>
 
-        - `object { eventType, requestId, scriptName, 10 more }`
+destination\_conf: string
 
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<a href="#">Link to this property</a>
 
-            - `"fetch"`
+<details>
 
-            - `"scheduled"`
+<summary>
 
-            - `"alarm"`
+logpushDataset: "opentelemetry-traces"or "opentelemetry-logs"or "opentelemetry-metrics"
 
-            - `"cron"`
+</summary>
 
-            - `"queue"`
+One of the following:
 
-            - `"email"`
+"opentelemetry-traces"
 
-            - `"tail"`
+<a href="#">Link to this property</a>
 
-            - `"rpc"`
+"opentelemetry-logs"
 
-            - `"jsrpc"`
+<a href="#">Link to this property</a>
 
-            - `"websocket"`
+"opentelemetry-metrics"
 
-            - `"workflow"`
+<a href="#">Link to this property</a>
 
-            - `"unknown"`
+</details>
 
-          - `requestId: string`
+<a href="#">Link to this property</a>
 
-          - `scriptName: string`
+logpushJob: number
 
-          - `durableObjectId: optional string`
+<a href="#">Link to this property</a>
 
-          - `entrypoint: optional string`
+type: "logpush"
 
-          - `event: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-          - `executionModel: optional "durableObject" or "stateless"`
+url: string
 
-            - `"durableObject"`
+<a href="#">Link to this property</a>
 
-            - `"stateless"`
+</details>
 
-          - `outcome: optional string`
+<a href="#">Link to this property</a>
 
-          - `preview: optional object { id, name, slug }`
+enabled: boolean
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `name: optional string`
+name: string
 
-            - `slug: optional string`
+<a href="#">Link to this property</a>
 
-          - `scriptVersion: optional object { id, message, tag }`
+scripts: array of string
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+slug: string
 
-            - `tag: optional string`
+<a href="#">Link to this property</a>
 
-          - `spanId: optional string`
+</details>
 
-          - `traceId: optional string`
+[Link to this property](#)%20workers.observability.destinations%20%3E%20(model)%20destination_create_response%20%3E%20(schema)>)
 
-          - `truncated: optional boolean`
+<details>
 
-        - `object { cpuTimeMs, eventType, outcome, 14 more }`
+<summary>
 
-          - `cpuTimeMs: number`
+DestinationUpdateResponse object {configuration, enabled, name, 2 more }
 
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+</summary>
 
-            - `"fetch"`
+<details>
 
-            - `"scheduled"`
+<summary>
 
-            - `"alarm"`
+configuration: object {destination\_conf, logpushDataset, logpushJob, 2 more }
 
-            - `"cron"`
+</summary>
 
-            - `"queue"`
+destination\_conf: string
 
-            - `"email"`
+<a href="#">Link to this property</a>
 
-            - `"tail"`
+<details>
 
-            - `"rpc"`
+<summary>
 
-            - `"jsrpc"`
+logpushDataset: "opentelemetry-traces"or "opentelemetry-logs"or "opentelemetry-metrics"
 
-            - `"websocket"`
+</summary>
 
-            - `"workflow"`
+One of the following:
 
-            - `"unknown"`
+"opentelemetry-traces"
 
-          - `outcome: string`
+<a href="#">Link to this property</a>
 
-          - `requestId: string`
+"opentelemetry-logs"
 
-          - `scriptName: string`
+<a href="#">Link to this property</a>
 
-          - `wallTimeMs: number`
+"opentelemetry-metrics"
 
-          - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `channel: string`
+</details>
 
-            - `message: string`
+<a href="#">Link to this property</a>
 
-            - `timestamp: number`
+logpushJob: number
 
-          - `dispatchNamespace: optional string`
+<a href="#">Link to this property</a>
 
-          - `durableObjectId: optional string`
+type: "logpush"
 
-          - `entrypoint: optional string`
+<a href="#">Link to this property</a>
 
-          - `event: optional map[unknown]`
+url: string
 
-          - `executionModel: optional "durableObject" or "stateless"`
+<a href="#">Link to this property</a>
 
-            - `"durableObject"`
+</details>
 
-            - `"stateless"`
+<a href="#">Link to this property</a>
 
-          - `preview: optional object { id, name, slug }`
+enabled: boolean
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `name: optional string`
+name: string
 
-            - `slug: optional string`
+<a href="#">Link to this property</a>
 
-          - `scriptVersion: optional object { id, message, tag }`
+scripts: array of string
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+slug: string
 
-            - `tag: optional string`
+<a href="#">Link to this property</a>
 
-          - `spanId: optional string`
+</details>
 
-          - `traceId: optional string`
+[Link to this property](#)%20workers.observability.destinations%20%3E%20(model)%20destination_update_response%20%3E%20(schema)>)
 
-          - `truncated: optional boolean`
+<details>
 
-    - `fields: optional array of object { key, type }`
+<summary>
 
-      List of fields discovered in the matched events. Useful for building dynamic UIs.
+DestinationDeleteResponse object {configuration, enabled, name, 2 more }
 
-      - `key: string`
+</summary>
 
-        Field name present in the matched events.
+<details>
 
-      - `type: string`
+<summary>
 
-        Data type of the field (string, number, or boolean).
+configuration: object {destination\_conf, logpushDataset, logpushJob, 2 more }
 
-    - `series: optional array of object { data, time }`
+</summary>
 
-      Time-series data for the matched events, bucketed by the query granularity.
+destination\_conf: string
 
-      - `data: array of object { aggregates, count, interval, 3 more }`
+<a href="#">Link to this property</a>
 
-        - `aggregates: object { _count, _interval, _firstSeen, 2 more }`
+<details>
 
-          - `_count: number`
+<summary>
 
-          - `_interval: number`
+logpushDataset: "opentelemetry-traces"or "opentelemetry-logs"or "opentelemetry-metrics"
 
-          - `_firstSeen: optional string`
+</summary>
 
-          - `_lastSeen: optional string`
+One of the following:
 
-          - `bin: optional unknown`
+"opentelemetry-traces"
 
-        - `count: number`
+<a href="#">Link to this property</a>
 
-        - `interval: number`
+"opentelemetry-logs"
 
-        - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-        - `errors: optional number`
+"opentelemetry-metrics"
 
-        - `groups: optional map[string or number or boolean]`
+<a href="#">Link to this property</a>
 
-          Groups in the query results.
+</details>
 
-          - `string`
+<a href="#">Link to this property</a>
 
-          - `number`
+logpushJob: number
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-      - `time: string`
+type: "logpush"
 
-  - `invocations: optional map[array of object { "$metadata", dataset, source, 3 more } ]`
+<a href="#">Link to this property</a>
 
-    Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation.
+url: string
 
-    - `"$metadata": object { id, account, cloudService, 28 more }`
+<a href="#">Link to this property</a>
 
-      Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Unique event ID. Use as the cursor value for offset-based pagination.
+enabled: boolean
 
-      - `account: optional string`
+<a href="#">Link to this property</a>
 
-        Cloudflare account identifier.
+name: string
 
-      - `cloudService: optional string`
+<a href="#">Link to this property</a>
 
-        Cloudflare product that generated this event (e.g. workers, pages).
+scripts: array of string
 
-      - `coldStart: optional number`
+<a href="#">Link to this property</a>
 
-      - `cost: optional number`
+slug: string
 
-        Estimated cost units for this invocation.
+<a href="#">Link to this property</a>
 
-      - `duration: optional number`
+</details>
 
-        Span duration in milliseconds.
+[Link to this property](#)%20workers.observability.destinations%20%3E%20(model)%20destination_delete_response%20%3E%20(schema)>)
 
-      - `endTime: optional number`
+#### ObservabilityQueries
 
-        Span end time as a Unix epoch in milliseconds.
+##### [Save query](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/queries/methods/create)
 
-      - `error: optional string`
+POST/accounts/{account\_id}/workers/observability/queries
 
-        Error message, present when the log represents an error.
+##### [List queries](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/queries/methods/list)
 
-      - `errorTemplate: optional string`
+GET/accounts/{account\_id}/workers/observability/queries
 
-        Templatized version of the error message used for grouping similar errors.
+##### ModelsExpand Collapse
 
-      - `fingerprint: optional string`
+<details>
 
-        Content-based fingerprint used to group similar events.
+<summary>
 
-      - `level: optional string`
+QueryCreateResponse object {id, adhoc, created, 6 more }
 
-        Log level (e.g. log, debug, info, warn, error).
+</summary>
 
-      - `message: optional string`
+id: string
 
-        Log message text.
+<a href="#">Link to this property</a>
 
-      - `messageTemplate: optional string`
+adhoc: boolean
 
-        Templatized version of the log message used for grouping similar messages.
+If the query wasn’t explcitly saved
 
-      - `metricName: optional string`
+<a href="#">Link to this property</a>
 
-        Metric name when the event represents a metric data point.
+created: string
 
-      - `origin: optional string`
+formatdate-time
 
-        Origin of the event (e.g. fetch, scheduled, queue).
+<a href="#">Link to this property</a>
 
-      - `parentSpanId: optional string`
+createdBy: string
 
-        Span ID of the parent span in the trace hierarchy.
+<a href="#">Link to this property</a>
 
-      - `provider: optional string`
+description: string
 
-        Infrastructure provider identifier.
+maxLength1000
 
-      - `region: optional string`
+<a href="#">Link to this property</a>
 
-        Cloudflare data center / region that handled the request.
+name: string
 
-      - `requestId: optional string`
+Query name
 
-        Cloudflare request ID that ties all logs from a single invocation together.
+maxLength250
 
-      - `service: optional string`
+minLength1
 
-        Worker script name that produced this event.
+<a href="#">Link to this property</a>
 
-      - `spanId: optional string`
+<details>
 
-        Span ID for this individual unit of work within a trace.
+<summary>
 
-      - `spanName: optional string`
+parameters: object {calculations, datasets, filterCombination, 6 more }
 
-        Human-readable name for this span.
+</summary>
 
-      - `stackId: optional string`
+<details>
 
-        Stack / deployment identifier.
+<summary>
 
-      - `startTime: optional number`
+calculations: optional array of object {operator, alias, key, keyType } or object {key, operator, alias, keyType }
 
-        Span start time as a Unix epoch in milliseconds.
+Create Calculations to compute as part of the query.
 
-      - `statusCode: optional number`
+</summary>
 
-        HTTP response status code returned by the Worker.
+One of the following:
 
-      - `traceDuration: optional number`
+<details>
 
-        Total duration of the entire trace in milliseconds.
+<summary>
 
-      - `traceId: optional string`
+object {operator, alias, key, keyType }
 
-        Distributed trace ID linking spans across services.
+</summary>
 
-      - `transactionName: optional string`
+<details>
 
-        Logical transaction name for this request.
+<summary>
 
-      - `trigger: optional string`
+operator: "count"or "COUNT"
 
-        What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+</summary>
 
-      - `type: optional string`
+One of the following:
 
-        Event type classifier (e.g. cf-worker-event, cf-worker-log).
+"count"
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-        Request URL that triggered the Worker invocation.
+"COUNT"
 
-    - `dataset: string`
+<a href="#">Link to this property</a>
 
-      The dataset this event belongs to (e.g. cloudflare-workers).
+</details>
 
-    - `source: string or map[unknown]`
+<a href="#">Link to this property</a>
 
-      Raw log payload. May be a string or a structured object depending on how the log was emitted.
+alias: optional string
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `map[unknown]`
+key: optional string
 
-    - `timestamp: number`
+<a href="#">Link to this property</a>
 
-      Event timestamp as a Unix epoch in milliseconds.
+<details>
 
-    - `"$containers": optional map[unknown]`
+<summary>
 
-      Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+keyType: optional "string"or "number"or "boolean"
 
-    - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
+</summary>
 
-      Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+One of the following:
 
-      - `object { eventType, requestId, scriptName, 10 more }`
+"string"
 
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<a href="#">Link to this property</a>
 
-          - `"fetch"`
+"number"
 
-          - `"scheduled"`
+<a href="#">Link to this property</a>
 
-          - `"alarm"`
+"boolean"
 
-          - `"cron"`
+<a href="#">Link to this property</a>
 
-          - `"queue"`
+</details>
 
-          - `"email"`
+<a href="#">Link to this property</a>
 
-          - `"tail"`
+</details>
 
-          - `"rpc"`
+<a href="#">Link to this property</a>
 
-          - `"jsrpc"`
+<details>
 
-          - `"websocket"`
+<summary>
 
-          - `"workflow"`
+object {key, operator, alias, keyType }
 
-          - `"unknown"`
+</summary>
 
-        - `requestId: string`
+key: string
 
-        - `scriptName: string`
+<a href="#">Link to this property</a>
 
-        - `durableObjectId: optional string`
+<details>
 
-        - `entrypoint: optional string`
+<summary>
 
-        - `event: optional map[unknown]`
+operator: "uniq"or "max"or "min"or 33 more
 
-        - `executionModel: optional "durableObject" or "stateless"`
+</summary>
 
-          - `"durableObject"`
+One of the following:
 
-          - `"stateless"`
+"uniq"
 
-        - `outcome: optional string`
+<a href="#">Link to this property</a>
 
-        - `preview: optional object { id, name, slug }`
+"max"
 
-          - `id: optional string`
+<a href="#">Link to this property</a>
 
-          - `name: optional string`
+"min"
 
-          - `slug: optional string`
+<a href="#">Link to this property</a>
 
-        - `scriptVersion: optional object { id, message, tag }`
+"sum"
 
-          - `id: optional string`
+<a href="#">Link to this property</a>
 
-          - `message: optional string`
+"avg"
 
-          - `tag: optional string`
+<a href="#">Link to this property</a>
 
-        - `spanId: optional string`
+"median"
 
-        - `traceId: optional string`
+<a href="#">Link to this property</a>
 
-        - `truncated: optional boolean`
+"p001"
 
-      - `object { cpuTimeMs, eventType, outcome, 14 more }`
+<a href="#">Link to this property</a>
 
-        - `cpuTimeMs: number`
+"p01"
 
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<a href="#">Link to this property</a>
 
-          - `"fetch"`
+"p05"
 
-          - `"scheduled"`
+<a href="#">Link to this property</a>
 
-          - `"alarm"`
+"p10"
 
-          - `"cron"`
+<a href="#">Link to this property</a>
 
-          - `"queue"`
+"p25"
 
-          - `"email"`
+<a href="#">Link to this property</a>
 
-          - `"tail"`
+"p75"
 
-          - `"rpc"`
+<a href="#">Link to this property</a>
 
-          - `"jsrpc"`
+"p90"
 
-          - `"websocket"`
+<a href="#">Link to this property</a>
 
-          - `"workflow"`
+"p95"
 
-          - `"unknown"`
+<a href="#">Link to this property</a>
 
-        - `outcome: string`
+"p99"
 
-        - `requestId: string`
+<a href="#">Link to this property</a>
 
-        - `scriptName: string`
+"p999"
 
-        - `wallTimeMs: number`
+<a href="#">Link to this property</a>
 
-        - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
+"stddev"
 
-          - `channel: string`
+<a href="#">Link to this property</a>
 
-          - `message: string`
+"variance"
 
-          - `timestamp: number`
+<a href="#">Link to this property</a>
 
-        - `dispatchNamespace: optional string`
+"COUNT\_DISTINCT"
 
-        - `durableObjectId: optional string`
+<a href="#">Link to this property</a>
 
-        - `entrypoint: optional string`
+"MAX"
 
-        - `event: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-        - `executionModel: optional "durableObject" or "stateless"`
+"MIN"
 
-          - `"durableObject"`
+<a href="#">Link to this property</a>
 
-          - `"stateless"`
+"SUM"
 
-        - `preview: optional object { id, name, slug }`
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+"AVG"
 
-          - `name: optional string`
+<a href="#">Link to this property</a>
 
-          - `slug: optional string`
+"MEDIAN"
 
-        - `scriptVersion: optional object { id, message, tag }`
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+"P001"
 
-          - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `tag: optional string`
+"P01"
 
-        - `spanId: optional string`
+<a href="#">Link to this property</a>
 
-        - `traceId: optional string`
+"P05"
 
-        - `truncated: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `traces: optional array of object { rootSpanName, rootTransactionName, service, 6 more }`
+"P10"
 
-    Trace summaries matching the query. Present when the query view is 'traces'. Each entry represents a distributed trace with its spans, duration, and services involved.
+<a href="#">Link to this property</a>
 
-    - `rootSpanName: string`
+"P25"
 
-      Name of the root span that initiated the trace.
+<a href="#">Link to this property</a>
 
-    - `rootTransactionName: string`
+"P75"
 
-      Logical transaction name for the root span.
+<a href="#">Link to this property</a>
 
-    - `service: array of string`
+"P90"
 
-      List of Worker services involved in the trace.
+<a href="#">Link to this property</a>
 
-    - `spans: number`
+"P95"
 
-      Total number of spans in the trace.
+<a href="#">Link to this property</a>
 
-    - `traceDurationMs: number`
+"P99"
 
-      Total duration of the trace in milliseconds.
+<a href="#">Link to this property</a>
 
-    - `traceEndMs: number`
+"P999"
 
-      Trace end time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-    - `traceId: string`
+"STDDEV"
 
-      Unique identifier for the distributed trace.
+<a href="#">Link to this property</a>
 
-    - `traceStartMs: number`
+"VARIANCE"
 
-      Trace start time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-    - `errors: optional array of string`
+</details>
 
-      Error messages encountered during the trace, if any.
+<a href="#">Link to this property</a>
 
-### Telemetry Values Response
+alias: optional string
 
-- `TelemetryValuesResponse object { dataset, key, type, value }`
+<a href="#">Link to this property</a>
 
-  - `dataset: string`
+<details>
 
-  - `key: string`
+<summary>
 
-  - `type: "string" or "boolean" or "number"`
+keyType: optional "string"or "number"or "boolean"
 
-    - `"string"`
+</summary>
 
-    - `"boolean"`
+One of the following:
 
-    - `"number"`
+"string"
 
-  - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-    - `string`
+"number"
 
-    - `number`
+<a href="#">Link to this property</a>
 
-    - `boolean`
+"boolean"
 
-### Telemetry Live Tail Response
+<a href="#">Link to this property</a>
 
-- `TelemetryLiveTailResponse object { wsUrl }`
+</details>
 
-  - `wsUrl: string`
+<a href="#">Link to this property</a>
 
-    WebSocket URL clients connect to in order to stream live tail events.
+</details>
 
-### Telemetry Live Tail Heartbeat Response
+<a href="#">Link to this property</a>
 
-- `TelemetryLiveTailHeartbeatResponse = unknown`
+</details>
 
-# Destinations
+<a href="#">Link to this property</a>
 
-## Get Destinations
+datasets: optional array of string
 
-**get** `/accounts/{account_id}/workers/observability/destinations`
+Set the Datasets to query. Leave it empty to query all the datasets.
 
-List your Workers Observability Telemetry Destinations.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+filterCombination: optional "and"or "or"or "AND"or "OR"
 
-- `order: optional "asc" or "desc"`
+Set a Flag to describe how to combine the filters on the query.
 
-  - `"asc"`
+</summary>
 
-  - `"desc"`
+One of the following:
 
-- `orderBy: optional "created" or "updated"`
+"and"
 
-  - `"created"`
+<a href="#">Link to this property</a>
 
-  - `"updated"`
+"or"
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-- `perPage: optional number`
+"AND"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+"OR"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+</details>
 
-  - `message: "Successful request"`
+<a href="#">Link to this property</a>
 
-    - `"Successful request"`
+<details>
 
-- `result: array of object { configuration, enabled, name, 2 more }`
+<summary>
 
-  - `configuration: object { destination_conf, headers, jobStatus, 3 more }`
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
 
-    - `destination_conf: string`
+Configure the Filters to apply to the query. Supports nested groups via kind: ‘group’.
 
-    - `headers: map[string]`
+</summary>
 
-    - `jobStatus: object { error_message, last_complete, last_error }`
+One of the following:
 
-      - `error_message: string`
+<details>
 
-      - `last_complete: string`
+<summary>
 
-      - `last_error: string`
+object {filterCombination, filters, kind }
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+</summary>
 
-      - `"opentelemetry-traces"`
+<details>
 
-      - `"opentelemetry-logs"`
+<summary>
 
-      - `"opentelemetry-metrics"`
+filterCombination: "and"or "or"or "AND"or "OR"
 
-    - `type: "logpush"`
+</summary>
 
-      - `"logpush"`
+One of the following:
 
-    - `url: string`
+"and"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"or"
 
-  - `scripts: array of string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+"AND"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+"OR"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/destinations \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": [
-    {
-      "configuration": {
-        "destination_conf": "destination_conf",
-        "headers": {
-          "foo": "string"
-        },
-        "jobStatus": {
-          "error_message": "error_message",
-          "last_complete": "last_complete",
-          "last_error": "last_error"
-        },
-        "logpushDataset": "opentelemetry-traces",
-        "type": "logpush",
-        "url": "url"
-      },
-      "enabled": true,
-      "name": "name",
-      "scripts": [
-        "string"
-      ],
-      "slug": "slug"
-    }
-  ],
-  "success": true
-}
-```
+filters: array of unknown
 
-## Create Destination
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/workers/observability/destinations`
+kind: "group"
 
-Create a new Workers Observability Telemetry Destination.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `configuration: object { headers, logpushDataset, type, url }`
+<summary>
 
-  - `headers: map[string]`
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
 
-  - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
 
-    - `"opentelemetry-traces"`
+</summary>
 
-    - `"opentelemetry-logs"`
+key: string
 
-    - `"opentelemetry-metrics"`
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
 
-  - `type: "logpush"`
+<a href="#">Link to this property</a>
 
-    - `"logpush"`
+<details>
 
-  - `url: string`
+<summary>
 
-- `enabled: boolean`
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
 
-- `name: string`
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
 
-- `skipPreflightCheck: optional boolean`
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { message }`
+"includes"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+"not\_includes"
 
-  - `message: "Resource created"`
+<a href="#">Link to this property</a>
 
-    - `"Resource created"`
+"starts\_with"
 
-- `result: object { configuration, enabled, name, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+"ends\_with"
 
-    - `destination_conf: string`
+<a href="#">Link to this property</a>
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+"regex"
 
-      - `"opentelemetry-traces"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-logs"`
+"exists"
 
-      - `"opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-    - `logpushJob: number`
+"is\_null"
 
-    - `type: "logpush"`
+<a href="#">Link to this property</a>
 
-      - `"logpush"`
+"in"
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"not\_in"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `scripts: array of string`
+"eq"
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"neq"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"gt"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/destinations \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "configuration": {
-            "headers": {
-              "foo": "string"
-            },
-            "logpushDataset": "opentelemetry-traces",
-            "type": "logpush",
-            "url": "url"
-          },
-          "enabled": true,
-          "name": "name"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"gte"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Resource created"
-    }
-  ],
-  "result": {
-    "configuration": {
-      "destination_conf": "destination_conf",
-      "logpushDataset": "opentelemetry-traces",
-      "logpushJob": 0,
-      "type": "logpush",
-      "url": "url"
-    },
-    "enabled": true,
-    "name": "name",
-    "scripts": [
-      "string"
-    ],
-    "slug": "slug"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Destination
+"lt"
 
-**patch** `/accounts/{account_id}/workers/observability/destinations/{slug}`
+<a href="#">Link to this property</a>
 
-Update an existing Workers Observability Telemetry Destination.
+"lte"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"="
 
-- `slug: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"!="
 
-- `configuration: object { headers, type, url }`
+<a href="#">Link to this property</a>
 
-  - `headers: map[string]`
+"&gt;"
 
-  - `type: "logpush"`
+<a href="#">Link to this property</a>
 
-    - `"logpush"`
+"&gt;="
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+"&lt;"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+"&lt;="
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+"INCLUDES"
 
-  - `message: "Successful request"`
+<a href="#">Link to this property</a>
 
-    - `"Successful request"`
+"DOES\_NOT\_INCLUDE"
 
-- `result: object { configuration, enabled, name, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+"MATCH\_REGEX"
 
-    - `destination_conf: string`
+<a href="#">Link to this property</a>
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+"EXISTS"
 
-      - `"opentelemetry-traces"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-logs"`
+"DOES\_NOT\_EXIST"
 
-      - `"opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-    - `logpushJob: number`
+"IN"
 
-    - `type: "logpush"`
+<a href="#">Link to this property</a>
 
-      - `"logpush"`
+"NOT\_IN"
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"STARTS\_WITH"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `scripts: array of string`
+"ENDS\_WITH"
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/destinations/$SLUG \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "configuration": {
-            "headers": {
-              "foo": "string"
-            },
-            "type": "logpush",
-            "url": "url"
-          },
-          "enabled": true
-        }'
-```
+<summary>
 
-#### Response
+type: "string"or "number"or "boolean"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": {
-    "configuration": {
-      "destination_conf": "destination_conf",
-      "logpushDataset": "opentelemetry-traces",
-      "logpushJob": 0,
-      "type": "logpush",
-      "url": "url"
-    },
-    "enabled": true,
-    "name": "name",
-    "scripts": [
-      "string"
-    ],
-    "slug": "slug"
-  },
-  "success": true
-}
-```
+Data type of the filter field. Must match the actual type of the key being filtered.
 
-## Delete Destination
+</summary>
 
-**delete** `/accounts/{account_id}/workers/observability/destinations/{slug}`
+One of the following:
 
-Delete a Workers Observability Telemetry Destination.
+"string"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"number"
 
-- `slug: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"boolean"
 
-- `errors: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `messages: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: "Successful request"`
+kind: optional "filter"
 
-    - `"Successful request"`
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { configuration, enabled, name, 2 more }`
+<summary>
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+value: optional stringor numberor boolean
 
-    - `destination_conf: string`
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+</summary>
 
-      - `"opentelemetry-traces"`
+One of the following:
 
-      - `"opentelemetry-logs"`
+string
 
-      - `"opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-    - `logpushJob: number`
+number
 
-    - `type: "logpush"`
+<a href="#">Link to this property</a>
 
-      - `"logpush"`
+boolean
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `scripts: array of string`
+</details>
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/destinations/$SLUG \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "success": true,
-  "result": {
-    "configuration": {
-      "destination_conf": "destination_conf",
-      "logpushDataset": "opentelemetry-traces",
-      "logpushJob": 0,
-      "type": "logpush",
-      "url": "url"
-    },
-    "enabled": true,
-    "name": "name",
-    "scripts": [
-      "string"
-    ],
-    "slug": "slug"
-  }
-}
-```
+<summary>
 
-## Domain Types
+groupBys: optional array of object {type, value }
 
-### Destination List Response
+Define how to group the results of the query.
 
-- `DestinationListResponse object { configuration, enabled, name, 2 more }`
+</summary>
 
-  - `configuration: object { destination_conf, headers, jobStatus, 3 more }`
+<details>
 
-    - `destination_conf: string`
+<summary>
 
-    - `headers: map[string]`
+type: "string"or "number"or "boolean"
 
-    - `jobStatus: object { error_message, last_complete, last_error }`
+</summary>
 
-      - `error_message: string`
+One of the following:
 
-      - `last_complete: string`
+"string"
 
-      - `last_error: string`
+<a href="#">Link to this property</a>
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+"number"
 
-      - `"opentelemetry-traces"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-logs"`
+"boolean"
 
-      - `"opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-    - `type: "logpush"`
+</details>
 
-      - `"logpush"`
+<a href="#">Link to this property</a>
 
-    - `url: string`
+value: string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `scripts: array of string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+<details>
 
-### Destination Create Response
+<summary>
 
-- `DestinationCreateResponse object { configuration, enabled, name, 2 more }`
+havings: optional array of object {key, operation, value }
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+Configure the Having clauses that filter on calculations in the query result.
 
-    - `destination_conf: string`
+</summary>
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+key: string
 
-      - `"opentelemetry-traces"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-logs"`
+<details>
 
-      - `"opentelemetry-metrics"`
+<summary>
 
-    - `logpushJob: number`
+operation: "eq"or "neq"or "gt"or 3 more
 
-    - `type: "logpush"`
+</summary>
 
-      - `"logpush"`
+One of the following:
 
-    - `url: string`
+"eq"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"neq"
 
-  - `scripts: array of string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+"gt"
 
-### Destination Update Response
+<a href="#">Link to this property</a>
 
-- `DestinationUpdateResponse object { configuration, enabled, name, 2 more }`
+"gte"
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `destination_conf: string`
+"lt"
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-traces"`
+"lte"
 
-      - `"opentelemetry-logs"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-metrics"`
+</details>
 
-    - `logpushJob: number`
+<a href="#">Link to this property</a>
 
-    - `type: "logpush"`
+value: number
 
-      - `"logpush"`
+<a href="#">Link to this property</a>
 
-    - `url: string`
+</details>
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+limit: optional number
 
-  - `scripts: array of string`
+Set a limit on the number of results / records returned by the query
 
-  - `slug: string`
+maximum100
 
-### Destination Delete Response
+minimum0
 
-- `DestinationDeleteResponse object { configuration, enabled, name, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+<details>
 
-    - `destination_conf: string`
+<summary>
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+needle: optional object {value, isRegex, matchCase }
 
-      - `"opentelemetry-traces"`
+Define an expression to search using full-text search.
 
-      - `"opentelemetry-logs"`
+</summary>
 
-      - `"opentelemetry-metrics"`
+<details>
 
-    - `logpushJob: number`
+<summary>
 
-    - `type: "logpush"`
+value: stringor numberor boolean
 
-      - `"logpush"`
+maxLength1000
 
-    - `url: string`
+</summary>
 
-  - `enabled: boolean`
+One of the following:
 
-  - `name: string`
+string
 
-  - `scripts: array of string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+number
 
-# Queries
+<a href="#">Link to this property</a>
 
-## Save query
+boolean
 
-**post** `/accounts/{account_id}/workers/observability/queries`
+<a href="#">Link to this property</a>
 
-Persist query for later use.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+isRegex: optional boolean
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `description: string`
+matchCase: optional boolean
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Query name
+</details>
 
-- `parameters: object { calculations, datasets, filterCombination, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `calculations: optional array of object { operator, alias, key, keyType }`
+<details>
 
-    Create Calculations to compute as part of the query.
+<summary>
 
-    - `operator: "uniq" or "count" or "max" or 35 more`
+orderBy: optional object {value, order }
 
-      - `"uniq"`
+Configure the order of the results returned by the query.
 
-      - `"count"`
+</summary>
 
-      - `"max"`
+value: string
 
-      - `"min"`
+Configure which Calculation to order the results by.
 
-      - `"sum"`
+<a href="#">Link to this property</a>
 
-      - `"avg"`
+<details>
 
-      - `"median"`
+<summary>
 
-      - `"p001"`
+order: optional "asc"or "desc"
 
-      - `"p01"`
+Set the order of the results
 
-      - `"p05"`
+</summary>
 
-      - `"p10"`
+One of the following:
 
-      - `"p25"`
+"asc"
 
-      - `"p75"`
+<a href="#">Link to this property</a>
 
-      - `"p90"`
+"desc"
 
-      - `"p95"`
+<a href="#">Link to this property</a>
 
-      - `"p99"`
+</details>
 
-      - `"p999"`
+<a href="#">Link to this property</a>
 
-      - `"stddev"`
+</details>
 
-      - `"variance"`
+<a href="#">Link to this property</a>
 
-      - `"COUNT_DISTINCT"`
+</details>
 
-      - `"COUNT"`
+<a href="#">Link to this property</a>
 
-      - `"MAX"`
+updated: string
 
-      - `"MIN"`
+formatdate-time
 
-      - `"SUM"`
+<a href="#">Link to this property</a>
 
-      - `"AVG"`
+updatedBy: string
 
-      - `"MEDIAN"`
+<a href="#">Link to this property</a>
 
-      - `"P001"`
+</details>
 
-      - `"P01"`
+[Link to this property](#)%20workers.observability.queries%20%3E%20(model)%20query_create_response%20%3E%20(schema)>)
 
-      - `"P05"`
+<details>
 
-      - `"P10"`
+<summary>
 
-      - `"P25"`
+QueryListResponse object {id, adhoc, created, 6 more }
 
-      - `"P75"`
+</summary>
 
-      - `"P90"`
+id: string
 
-      - `"P95"`
+<a href="#">Link to this property</a>
 
-      - `"P99"`
+adhoc: boolean
 
-      - `"P999"`
+If the query wasn’t explcitly saved
 
-      - `"STDDEV"`
+<a href="#">Link to this property</a>
 
-      - `"VARIANCE"`
+created: string
 
-    - `alias: optional string`
+formatdate-time
 
-    - `key: optional string`
+<a href="#">Link to this property</a>
 
-    - `keyType: optional "string" or "number" or "boolean"`
+createdBy: string
 
-      - `"string"`
+<a href="#">Link to this property</a>
 
-      - `"number"`
+description: string
 
-      - `"boolean"`
+maxLength1000
 
-  - `datasets: optional array of string`
+<a href="#">Link to this property</a>
 
-    Set the Datasets to query. Leave it empty to query all the datasets.
+name: string
 
-  - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+Query name
 
-    Set a Flag to describe how to combine the filters on the query.
+maxLength250
 
-    - `"and"`
+minLength1
 
-    - `"or"`
+<a href="#">Link to this property</a>
 
-    - `"AND"`
+<details>
 
-    - `"OR"`
+<summary>
 
-  - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+parameters: object {calculations, datasets, filterCombination, 6 more }
 
-    Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+</summary>
 
-    - `object { filterCombination, filters, kind }`
+<details>
 
-      - `filterCombination: "and" or "or" or "AND" or "OR"`
+<summary>
 
-        - `"and"`
+calculations: optional array of object {operator, alias, key, keyType } or object {key, operator, alias, keyType }
 
-        - `"or"`
+Create Calculations to compute as part of the query.
 
-        - `"AND"`
+</summary>
 
-        - `"OR"`
+One of the following:
 
-      - `filters: array of unknown`
+<details>
 
-      - `kind: "group"`
+<summary>
 
-        - `"group"`
+object {operator, alias, key, keyType }
 
-    - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+</summary>
 
-      A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<details>
 
-      - `key: string`
+<summary>
 
-        Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+operator: "count"or "COUNT"
 
-      - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+</summary>
 
-        Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+One of the following:
 
-        - `"includes"`
+"count"
 
-        - `"not_includes"`
+<a href="#">Link to this property</a>
 
-        - `"starts_with"`
+"COUNT"
 
-        - `"ends_with"`
+<a href="#">Link to this property</a>
 
-        - `"regex"`
+</details>
 
-        - `"exists"`
+<a href="#">Link to this property</a>
 
-        - `"is_null"`
+alias: optional string
 
-        - `"in"`
+<a href="#">Link to this property</a>
 
-        - `"not_in"`
+key: optional string
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"neq"`
+<details>
 
-        - `"gt"`
+<summary>
 
-        - `"gte"`
+keyType: optional "string"or "number"or "boolean"
 
-        - `"lt"`
+</summary>
 
-        - `"lte"`
+One of the following:
 
-        - `"="`
+"string"
 
-        - `"!="`
+<a href="#">Link to this property</a>
 
-        - `">"`
+"number"
 
-        - `">="`
+<a href="#">Link to this property</a>
 
-        - `"<"`
+"boolean"
 
-        - `"<="`
+<a href="#">Link to this property</a>
 
-        - `"INCLUDES"`
+</details>
 
-        - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-        - `"MATCH_REGEX"`
+</details>
 
-        - `"EXISTS"`
+<a href="#">Link to this property</a>
 
-        - `"DOES_NOT_EXIST"`
+<details>
 
-        - `"IN"`
+<summary>
 
-        - `"NOT_IN"`
+object {key, operator, alias, keyType }
 
-        - `"STARTS_WITH"`
+</summary>
 
-        - `"ENDS_WITH"`
+key: string
 
-      - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-        Data type of the filter field. Must match the actual type of the key being filtered.
+<details>
 
-        - `"string"`
+<summary>
 
-        - `"number"`
+operator: "uniq"or "max"or "min"or 33 more
 
-        - `"boolean"`
+</summary>
 
-      - `kind: optional "filter"`
+One of the following:
 
-        Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+"uniq"
 
-        - `"filter"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string or number or boolean`
+"max"
 
-        Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-        - `string`
+"min"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+"sum"
 
-  - `groupBys: optional array of object { type, value }`
+<a href="#">Link to this property</a>
 
-    Define how to group the results of the query.
+"avg"
 
-    - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-      - `"string"`
+"median"
 
-      - `"number"`
+<a href="#">Link to this property</a>
 
-      - `"boolean"`
+"p001"
 
-    - `value: string`
+<a href="#">Link to this property</a>
 
-  - `havings: optional array of object { key, operation, value }`
+"p01"
 
-    Configure the Having clauses that filter on calculations in the query result.
+<a href="#">Link to this property</a>
 
-    - `key: string`
+"p05"
 
-    - `operation: "eq" or "neq" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+"p10"
 
-      - `"neq"`
+<a href="#">Link to this property</a>
 
-      - `"gt"`
+"p25"
 
-      - `"gte"`
+<a href="#">Link to this property</a>
 
-      - `"lt"`
+"p75"
 
-      - `"lte"`
+<a href="#">Link to this property</a>
 
-    - `value: number`
+"p90"
 
-  - `limit: optional number`
+<a href="#">Link to this property</a>
 
-    Set a limit on the number of results / records returned by the query
+"p95"
 
-  - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-    Define an expression to search using full-text search.
+"p99"
 
-    - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-      - `string`
+"p999"
 
-      - `number`
+<a href="#">Link to this property</a>
 
-      - `boolean`
+"stddev"
 
-    - `isRegex: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `matchCase: optional boolean`
+"variance"
 
-  - `orderBy: optional object { value, order }`
+<a href="#">Link to this property</a>
 
-    Configure the order of the results returned by the query.
+"COUNT\_DISTINCT"
 
-    - `value: string`
+<a href="#">Link to this property</a>
 
-      Configure which Calculation to order the results by.
+"MAX"
 
-    - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-      Set the order of the results
+"MIN"
 
-      - `"asc"`
+<a href="#">Link to this property</a>
 
-      - `"desc"`
+"SUM"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+"AVG"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+"MEDIAN"
 
-  - `message: "Successful request"`
+<a href="#">Link to this property</a>
 
-    - `"Successful request"`
+"P001"
 
-- `result: object { id, adhoc, created, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"P01"
 
-  - `adhoc: boolean`
+<a href="#">Link to this property</a>
 
-    If the query wasn't explcitly saved
+"P05"
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-  - `createdBy: string`
+"P10"
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"P25"
 
-    Query name
+<a href="#">Link to this property</a>
 
-  - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+"P75"
 
-    - `calculations: optional array of object { operator, alias, key, keyType }`
+<a href="#">Link to this property</a>
 
-      Create Calculations to compute as part of the query.
+"P90"
 
-      - `operator: "uniq" or "count" or "max" or 35 more`
+<a href="#">Link to this property</a>
 
-        - `"uniq"`
+"P95"
 
-        - `"count"`
+<a href="#">Link to this property</a>
 
-        - `"max"`
+"P99"
 
-        - `"min"`
+<a href="#">Link to this property</a>
 
-        - `"sum"`
+"P999"
 
-        - `"avg"`
+<a href="#">Link to this property</a>
 
-        - `"median"`
+"STDDEV"
 
-        - `"p001"`
+<a href="#">Link to this property</a>
 
-        - `"p01"`
+"VARIANCE"
 
-        - `"p05"`
+<a href="#">Link to this property</a>
 
-        - `"p10"`
+</details>
 
-        - `"p25"`
+<a href="#">Link to this property</a>
 
-        - `"p75"`
+alias: optional string
 
-        - `"p90"`
+<a href="#">Link to this property</a>
 
-        - `"p95"`
+<details>
 
-        - `"p99"`
+<summary>
 
-        - `"p999"`
+keyType: optional "string"or "number"or "boolean"
 
-        - `"stddev"`
+</summary>
 
-        - `"variance"`
+One of the following:
 
-        - `"COUNT_DISTINCT"`
+"string"
 
-        - `"COUNT"`
+<a href="#">Link to this property</a>
 
-        - `"MAX"`
+"number"
 
-        - `"MIN"`
+<a href="#">Link to this property</a>
 
-        - `"SUM"`
+"boolean"
 
-        - `"AVG"`
+<a href="#">Link to this property</a>
 
-        - `"MEDIAN"`
+</details>
 
-        - `"P001"`
+<a href="#">Link to this property</a>
 
-        - `"P01"`
+</details>
 
-        - `"P05"`
+<a href="#">Link to this property</a>
 
-        - `"P10"`
+</details>
 
-        - `"P25"`
+<a href="#">Link to this property</a>
 
-        - `"P75"`
+datasets: optional array of string
 
-        - `"P90"`
+Set the Datasets to query. Leave it empty to query all the datasets.
 
-        - `"P95"`
+<a href="#">Link to this property</a>
 
-        - `"P99"`
+<details>
 
-        - `"P999"`
+<summary>
 
-        - `"STDDEV"`
+filterCombination: optional "and"or "or"or "AND"or "OR"
 
-        - `"VARIANCE"`
+Set a Flag to describe how to combine the filters on the query.
 
-      - `alias: optional string`
+</summary>
 
-      - `key: optional string`
+One of the following:
 
-      - `keyType: optional "string" or "number" or "boolean"`
+"and"
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+"or"
 
-        - `"boolean"`
+<a href="#">Link to this property</a>
 
-    - `datasets: optional array of string`
+"AND"
 
-      Set the Datasets to query. Leave it empty to query all the datasets.
+<a href="#">Link to this property</a>
 
-    - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+"OR"
 
-      Set a Flag to describe how to combine the filters on the query.
+<a href="#">Link to this property</a>
 
-      - `"and"`
+</details>
 
-      - `"or"`
+<a href="#">Link to this property</a>
 
-      - `"AND"`
+<details>
 
-      - `"OR"`
+<summary>
 
-    - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
 
-      Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+Configure the Filters to apply to the query. Supports nested groups via kind: ‘group’.
 
-      - `object { filterCombination, filters, kind }`
+</summary>
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+One of the following:
 
-          - `"and"`
+<details>
 
-          - `"or"`
+<summary>
 
-          - `"AND"`
+object {filterCombination, filters, kind }
 
-          - `"OR"`
+</summary>
 
-        - `filters: array of unknown`
+<details>
 
-        - `kind: "group"`
+<summary>
 
-          - `"group"`
+filterCombination: "and"or "or"or "AND"or "OR"
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+</summary>
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+One of the following:
 
-        - `key: string`
+"and"
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<a href="#">Link to this property</a>
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+"or"
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<a href="#">Link to this property</a>
 
-          - `"includes"`
+"AND"
 
-          - `"not_includes"`
+<a href="#">Link to this property</a>
 
-          - `"starts_with"`
+"OR"
 
-          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-          - `"regex"`
+</details>
 
-          - `"exists"`
+<a href="#">Link to this property</a>
 
-          - `"is_null"`
+filters: array of unknown
 
-          - `"in"`
+<a href="#">Link to this property</a>
 
-          - `"not_in"`
+kind: "group"
 
-          - `"eq"`
+<a href="#">Link to this property</a>
 
-          - `"neq"`
+</details>
 
-          - `"gt"`
+<a href="#">Link to this property</a>
 
-          - `"gte"`
+<details>
 
-          - `"lt"`
+<summary>
 
-          - `"lte"`
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
 
-          - `"="`
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
 
-          - `"!="`
+</summary>
 
-          - `">"`
+key: string
 
-          - `">="`
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
 
-          - `"<"`
+<a href="#">Link to this property</a>
 
-          - `"<="`
+<details>
 
-          - `"INCLUDES"`
+<summary>
 
-          - `"DOES_NOT_INCLUDE"`
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
 
-          - `"MATCH_REGEX"`
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
 
-          - `"EXISTS"`
+</summary>
 
-          - `"DOES_NOT_EXIST"`
+One of the following:
 
-          - `"IN"`
+"includes"
 
-          - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-          - `"STARTS_WITH"`
+"not\_includes"
 
-          - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-        - `type: "string" or "number" or "boolean"`
+"starts\_with"
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-          - `"string"`
+"ends\_with"
 
-          - `"number"`
+<a href="#">Link to this property</a>
 
-          - `"boolean"`
+"regex"
 
-        - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+"exists"
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `value: optional string or number or boolean`
+"is\_null"
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-          - `string`
+"in"
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+"not\_in"
 
-    - `groupBys: optional array of object { type, value }`
+<a href="#">Link to this property</a>
 
-      Define how to group the results of the query.
+"eq"
 
-      - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+"neq"
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+"gt"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-    - `havings: optional array of object { key, operation, value }`
+"gte"
 
-      Configure the Having clauses that filter on calculations in the query result.
+<a href="#">Link to this property</a>
 
-      - `key: string`
+"lt"
 
-      - `operation: "eq" or "neq" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+"lte"
 
-        - `"neq"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+"="
 
-        - `"gte"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+"!="
 
-        - `"lte"`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+"&gt;"
 
-    - `limit: optional number`
+<a href="#">Link to this property</a>
 
-      Set a limit on the number of results / records returned by the query
+"&gt;="
 
-    - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-      Define an expression to search using full-text search.
+"&lt;"
 
-      - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+"&lt;="
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+"INCLUDES"
 
-      - `isRegex: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `matchCase: optional boolean`
+"DOES\_NOT\_INCLUDE"
 
-    - `orderBy: optional object { value, order }`
+<a href="#">Link to this property</a>
 
-      Configure the order of the results returned by the query.
+"MATCH\_REGEX"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-        Configure which Calculation to order the results by.
+"EXISTS"
 
-      - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-        Set the order of the results
+"DOES\_NOT\_EXIST"
 
-        - `"asc"`
+<a href="#">Link to this property</a>
 
-        - `"desc"`
+"IN"
 
-  - `updated: string`
+<a href="#">Link to this property</a>
 
-  - `updatedBy: string`
+"NOT\_IN"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+"STARTS\_WITH"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/queries \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "description": "Query description",
-          "name": "x",
-          "parameters": {}
-        }'
-```
+"ENDS\_WITH"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": {
-    "id": "id",
-    "adhoc": true,
-    "created": "created",
-    "createdBy": "createdBy",
-    "description": "Query description",
-    "name": "x",
-    "parameters": {
-      "calculations": [
-        {
-          "operator": "uniq",
-          "alias": "alias",
-          "key": "key",
-          "keyType": "string"
-        }
-      ],
-      "datasets": [
-        "string"
-      ],
-      "filterCombination": "and",
-      "filters": [
-        {
-          "filterCombination": "and",
-          "filters": [
-            {}
-          ],
-          "kind": "group"
-        }
-      ],
-      "groupBys": [
-        {
-          "type": "string",
-          "value": "value"
-        }
-      ],
-      "havings": [
-        {
-          "key": "key",
-          "operation": "eq",
-          "value": 0
-        }
-      ],
-      "limit": 0,
-      "needle": {
-        "value": "string",
-        "isRegex": true,
-        "matchCase": true
-      },
-      "orderBy": {
-        "value": "value",
-        "order": "asc"
-      }
-    },
-    "updated": "updated",
-    "updatedBy": "updatedBy"
-  },
-  "success": true
-}
-```
+</details>
 
-## List queries
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/workers/observability/queries`
+<details>
 
-List saved queries.
+<summary>
 
-### Path Parameters
+type: "string"or "number"or "boolean"
 
-- `account_id: string`
+Data type of the filter field. Must match the actual type of the key being filtered.
 
-### Query Parameters
+</summary>
 
-- `order: optional "asc" or "desc"`
+One of the following:
 
-  - `"asc"`
+"string"
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-- `orderBy: optional "created" or "updated"`
+"number"
 
-  - `"created"`
+<a href="#">Link to this property</a>
 
-  - `"updated"`
+"boolean"
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-- `perPage: optional number`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+kind: optional "filter"
 
-  - `message: string`
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
 
-- `messages: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: "Successful request"`
+<details>
 
-    - `"Successful request"`
+<summary>
 
-- `result: array of object { id, adhoc, created, 6 more }`
+value: optional stringor numberor boolean
 
-  - `id: string`
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
 
-  - `adhoc: boolean`
+</summary>
 
-    If the query wasn't explcitly saved
+One of the following:
 
-  - `created: string`
+string
 
-  - `createdBy: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+number
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Query name
+boolean
 
-  - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `calculations: optional array of object { operator, alias, key, keyType }`
+</details>
 
-      Create Calculations to compute as part of the query.
+<a href="#">Link to this property</a>
 
-      - `operator: "uniq" or "count" or "max" or 35 more`
+</details>
 
-        - `"uniq"`
+<a href="#">Link to this property</a>
 
-        - `"count"`
+</details>
 
-        - `"max"`
+<a href="#">Link to this property</a>
 
-        - `"min"`
+<details>
 
-        - `"sum"`
+<summary>
 
-        - `"avg"`
+groupBys: optional array of object {type, value }
 
-        - `"median"`
+Define how to group the results of the query.
 
-        - `"p001"`
+</summary>
 
-        - `"p01"`
+<details>
 
-        - `"p05"`
+<summary>
 
-        - `"p10"`
+type: "string"or "number"or "boolean"
 
-        - `"p25"`
+</summary>
 
-        - `"p75"`
+One of the following:
 
-        - `"p90"`
+"string"
 
-        - `"p95"`
+<a href="#">Link to this property</a>
 
-        - `"p99"`
+"number"
 
-        - `"p999"`
+<a href="#">Link to this property</a>
 
-        - `"stddev"`
+"boolean"
 
-        - `"variance"`
+<a href="#">Link to this property</a>
 
-        - `"COUNT_DISTINCT"`
+</details>
 
-        - `"COUNT"`
+<a href="#">Link to this property</a>
 
-        - `"MAX"`
+value: string
 
-        - `"MIN"`
+<a href="#">Link to this property</a>
 
-        - `"SUM"`
+</details>
 
-        - `"AVG"`
+<a href="#">Link to this property</a>
 
-        - `"MEDIAN"`
+<details>
 
-        - `"P001"`
+<summary>
 
-        - `"P01"`
+havings: optional array of object {key, operation, value }
 
-        - `"P05"`
+Configure the Having clauses that filter on calculations in the query result.
 
-        - `"P10"`
+</summary>
 
-        - `"P25"`
+key: string
 
-        - `"P75"`
+<a href="#">Link to this property</a>
 
-        - `"P90"`
+<details>
 
-        - `"P95"`
+<summary>
 
-        - `"P99"`
+operation: "eq"or "neq"or "gt"or 3 more
 
-        - `"P999"`
+</summary>
 
-        - `"STDDEV"`
+One of the following:
 
-        - `"VARIANCE"`
+"eq"
 
-      - `alias: optional string`
+<a href="#">Link to this property</a>
 
-      - `key: optional string`
+"neq"
 
-      - `keyType: optional "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+"gt"
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+"gte"
 
-    - `datasets: optional array of string`
+<a href="#">Link to this property</a>
 
-      Set the Datasets to query. Leave it empty to query all the datasets.
+"lt"
 
-    - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-      Set a Flag to describe how to combine the filters on the query.
+"lte"
 
-      - `"and"`
+<a href="#">Link to this property</a>
 
-      - `"or"`
+</details>
 
-      - `"AND"`
+<a href="#">Link to this property</a>
 
-      - `"OR"`
+value: number
 
-    - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-      Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+</details>
 
-      - `object { filterCombination, filters, kind }`
+<a href="#">Link to this property</a>
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+limit: optional number
 
-          - `"and"`
+Set a limit on the number of results / records returned by the query
 
-          - `"or"`
+maximum100
 
-          - `"AND"`
+minimum0
 
-          - `"OR"`
+<a href="#">Link to this property</a>
 
-        - `filters: array of unknown`
+<details>
 
-        - `kind: "group"`
+<summary>
 
-          - `"group"`
+needle: optional object {value, isRegex, matchCase }
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+Define an expression to search using full-text search.
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+</summary>
 
-        - `key: string`
+<details>
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<summary>
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+value: stringor numberor boolean
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+maxLength1000
 
-          - `"includes"`
+</summary>
 
-          - `"not_includes"`
+One of the following:
 
-          - `"starts_with"`
+string
 
-          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-          - `"regex"`
+number
 
-          - `"exists"`
+<a href="#">Link to this property</a>
 
-          - `"is_null"`
+boolean
 
-          - `"in"`
+<a href="#">Link to this property</a>
 
-          - `"not_in"`
+</details>
 
-          - `"eq"`
+<a href="#">Link to this property</a>
 
-          - `"neq"`
+isRegex: optional boolean
 
-          - `"gt"`
+<a href="#">Link to this property</a>
 
-          - `"gte"`
+matchCase: optional boolean
 
-          - `"lt"`
+<a href="#">Link to this property</a>
 
-          - `"lte"`
+</details>
 
-          - `"="`
+<a href="#">Link to this property</a>
 
-          - `"!="`
+<details>
 
-          - `">"`
+<summary>
 
-          - `">="`
+orderBy: optional object {value, order }
 
-          - `"<"`
+Configure the order of the results returned by the query.
 
-          - `"<="`
+</summary>
 
-          - `"INCLUDES"`
+value: string
 
-          - `"DOES_NOT_INCLUDE"`
+Configure which Calculation to order the results by.
 
-          - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-          - `"EXISTS"`
+<details>
 
-          - `"DOES_NOT_EXIST"`
+<summary>
 
-          - `"IN"`
+order: optional "asc"or "desc"
 
-          - `"NOT_IN"`
+Set the order of the results
 
-          - `"STARTS_WITH"`
+</summary>
 
-          - `"ENDS_WITH"`
+One of the following:
 
-        - `type: "string" or "number" or "boolean"`
+"asc"
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-          - `"string"`
+"desc"
 
-          - `"number"`
+<a href="#">Link to this property</a>
 
-          - `"boolean"`
+</details>
 
-        - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+</details>
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `value: optional string or number or boolean`
+</details>
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-          - `string`
+updated: string
 
-          - `number`
+formatdate-time
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-    - `groupBys: optional array of object { type, value }`
+updatedBy: string
 
-      Define how to group the results of the query.
+<a href="#">Link to this property</a>
 
-      - `type: "string" or "number" or "boolean"`
+</details>
 
-        - `"string"`
+[Link to this property](#)%20workers.observability.queries%20%3E%20(model)%20query_list_response%20%3E%20(schema)>)
 
-        - `"number"`
+#### ObservabilityShared Queries
 
-        - `"boolean"`
+##### [Create a sharable link to a query result](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/shared_queries/methods/create)
 
-      - `value: string`
+POST/accounts/{account\_id}/workers/observability/shared/query
 
-    - `havings: optional array of object { key, operation, value }`
+##### [View a query that has been shared](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/shared_queries/methods/get)
 
-      Configure the Having clauses that filter on calculations in the query result.
+GET/accounts/{account\_id}/workers/observability/shared/query/{id}
 
-      - `key: string`
+##### ModelsExpand Collapse
 
-      - `operation: "eq" or "neq" or "gt" or 3 more`
+<details>
 
-        - `"eq"`
+<summary>
 
-        - `"neq"`
+SharedQueryCreateResponse object {id }
 
-        - `"gt"`
+</summary>
 
-        - `"gte"`
+id: string
 
-        - `"lt"`
+Specify the ID of the shared query.
 
-        - `"lte"`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+</details>
 
-    - `limit: optional number`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(model)%20shared_query_create_response%20%3E%20(schema)>)
 
-      Set a limit on the number of results / records returned by the query
+<details>
 
-    - `needle: optional object { value, isRegex, matchCase }`
+<summary>
 
-      Define an expression to search using full-text search.
+SharedQueryGetResponse object {run, statistics, agents, 6 more }
 
-      - `value: string or number or boolean`
+Complete results of a query run. The populated fields depend on the requested view type (events, calculations, invocations, traces, or agents).
 
-        - `string`
+</summary>
 
-        - `number`
+<details>
 
-        - `boolean`
+<summary>
 
-      - `isRegex: optional boolean`
+run: object {id, accountId, dry, 8 more }
 
-      - `matchCase: optional boolean`
+Represents a single execution of a query against Workers Observability data, including the query definition, execution status, and performance statistics.
 
-    - `orderBy: optional object { value, order }`
+</summary>
 
-      Configure the order of the results returned by the query.
+id: string
 
-      - `value: string`
+Unique identifier for this query run.
 
-        Configure which Calculation to order the results by.
+<a href="#">Link to this property</a>
 
-      - `order: optional "asc" or "desc"`
+accountId: string
 
-        Set the order of the results
+Cloudflare account ID that owns this query run.
 
-        - `"asc"`
+<a href="#">Link to this property</a>
 
-        - `"desc"`
+dry: boolean
 
-  - `updated: string`
+Whether this was a dry run (results not persisted).
 
-  - `updatedBy: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+granularity: number
 
-  - `true`
+Number of time-series buckets used for the query. Higher values produce more detailed series data.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/queries \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "adhoc": true,
-      "created": "created",
-      "createdBy": "createdBy",
-      "description": "Query description",
-      "name": "x",
-      "parameters": {
-        "calculations": [
-          {
-            "operator": "uniq",
-            "alias": "alias",
-            "key": "key",
-            "keyType": "string"
-          }
-        ],
-        "datasets": [
-          "string"
-        ],
-        "filterCombination": "and",
-        "filters": [
-          {
-            "filterCombination": "and",
-            "filters": [
-              {}
-            ],
-            "kind": "group"
-          }
-        ],
-        "groupBys": [
-          {
-            "type": "string",
-            "value": "value"
-          }
-        ],
-        "havings": [
-          {
-            "key": "key",
-            "operation": "eq",
-            "value": 0
-          }
-        ],
-        "limit": 0,
-        "needle": {
-          "value": "string",
-          "isRegex": true,
-          "matchCase": true
-        },
-        "orderBy": {
-          "value": "value",
-          "order": "asc"
-        }
-      },
-      "updated": "updated",
-      "updatedBy": "updatedBy"
-    }
-  ],
-  "success": true
-}
-```
+query: object {id, adhoc, created, 6 more }
 
-## Domain Types
+A saved query definition with its parameters, metadata, and ownership information.
 
-### Query Create Response
+</summary>
 
-- `QueryCreateResponse object { id, adhoc, created, 6 more }`
+id: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `adhoc: boolean`
+adhoc: boolean
 
-    If the query wasn't explcitly saved
+If the query wasn’t explcitly saved
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-  - `createdBy: string`
+<details>
 
-  - `description: string`
+<summary>
 
-  - `name: string`
+created: stringor string
 
-    Query name
+formatdate-time
 
-  - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+</summary>
 
-    - `calculations: optional array of object { operator, alias, key, keyType }`
+One of the following:
 
-      Create Calculations to compute as part of the query.
+string
 
-      - `operator: "uniq" or "count" or "max" or 35 more`
+<a href="#">Link to this property</a>
 
-        - `"uniq"`
+string
 
-        - `"count"`
+<a href="#">Link to this property</a>
 
-        - `"max"`
+</details>
 
-        - `"min"`
+<a href="#">Link to this property</a>
 
-        - `"sum"`
+createdBy: string
 
-        - `"avg"`
+<a href="#">Link to this property</a>
 
-        - `"median"`
+description: string
 
-        - `"p001"`
+maxLength1000
 
-        - `"p01"`
+<a href="#">Link to this property</a>
 
-        - `"p05"`
+name: string
 
-        - `"p10"`
+Query name
 
-        - `"p25"`
+maxLength250
 
-        - `"p75"`
+minLength1
 
-        - `"p90"`
+<a href="#">Link to this property</a>
 
-        - `"p95"`
+<details>
 
-        - `"p99"`
+<summary>
 
-        - `"p999"`
+parameters: object {calculations, datasets, filterCombination, 6 more }
 
-        - `"stddev"`
+</summary>
 
-        - `"variance"`
+<details>
 
-        - `"COUNT_DISTINCT"`
+<summary>
 
-        - `"COUNT"`
+calculations: optional array of object {operator, alias, key, keyType } or object {key, operator, alias, keyType }
 
-        - `"MAX"`
+Create Calculations to compute as part of the query.
 
-        - `"MIN"`
+</summary>
 
-        - `"SUM"`
+One of the following:
 
-        - `"AVG"`
+<details>
 
-        - `"MEDIAN"`
+<summary>
 
-        - `"P001"`
+object {operator, alias, key, keyType }
 
-        - `"P01"`
+</summary>
 
-        - `"P05"`
+<details>
 
-        - `"P10"`
+<summary>
 
-        - `"P25"`
+operator: "count"or "COUNT"
 
-        - `"P75"`
+</summary>
 
-        - `"P90"`
+One of the following:
 
-        - `"P95"`
+"count"
 
-        - `"P99"`
+<a href="#">Link to this property</a>
 
-        - `"P999"`
+"COUNT"
 
-        - `"STDDEV"`
+<a href="#">Link to this property</a>
 
-        - `"VARIANCE"`
+</details>
 
-      - `alias: optional string`
+<a href="#">Link to this property</a>
 
-      - `key: optional string`
+alias: optional string
 
-      - `keyType: optional "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+key: optional string
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+<details>
 
-    - `datasets: optional array of string`
+<summary>
 
-      Set the Datasets to query. Leave it empty to query all the datasets.
+keyType: optional "string"or "number"or "boolean"
 
-    - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+</summary>
 
-      Set a Flag to describe how to combine the filters on the query.
+One of the following:
 
-      - `"and"`
+"string"
 
-      - `"or"`
+<a href="#">Link to this property</a>
 
-      - `"AND"`
+"number"
 
-      - `"OR"`
+<a href="#">Link to this property</a>
 
-    - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+"boolean"
 
-      Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+<a href="#">Link to this property</a>
 
-      - `object { filterCombination, filters, kind }`
+</details>
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-          - `"and"`
+</details>
 
-          - `"or"`
+<a href="#">Link to this property</a>
 
-          - `"AND"`
+<details>
 
-          - `"OR"`
+<summary>
 
-        - `filters: array of unknown`
+object {key, operator, alias, keyType }
 
-        - `kind: "group"`
+</summary>
 
-          - `"group"`
+key: string
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<details>
 
-        - `key: string`
+<summary>
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+operator: "uniq"or "max"or "min"or 33 more
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+</summary>
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+One of the following:
 
-          - `"includes"`
+"uniq"
 
-          - `"not_includes"`
+<a href="#">Link to this property</a>
 
-          - `"starts_with"`
+"max"
 
-          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-          - `"regex"`
+"min"
 
-          - `"exists"`
+<a href="#">Link to this property</a>
 
-          - `"is_null"`
+"sum"
 
-          - `"in"`
+<a href="#">Link to this property</a>
 
-          - `"not_in"`
+"avg"
 
-          - `"eq"`
+<a href="#">Link to this property</a>
 
-          - `"neq"`
+"median"
 
-          - `"gt"`
+<a href="#">Link to this property</a>
 
-          - `"gte"`
+"p001"
 
-          - `"lt"`
+<a href="#">Link to this property</a>
 
-          - `"lte"`
+"p01"
 
-          - `"="`
+<a href="#">Link to this property</a>
 
-          - `"!="`
+"p05"
 
-          - `">"`
+<a href="#">Link to this property</a>
 
-          - `">="`
+"p10"
 
-          - `"<"`
+<a href="#">Link to this property</a>
 
-          - `"<="`
+"p25"
 
-          - `"INCLUDES"`
+<a href="#">Link to this property</a>
 
-          - `"DOES_NOT_INCLUDE"`
+"p75"
 
-          - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-          - `"EXISTS"`
+"p90"
 
-          - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-          - `"IN"`
+"p95"
 
-          - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-          - `"STARTS_WITH"`
+"p99"
 
-          - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-        - `type: "string" or "number" or "boolean"`
+"p999"
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-          - `"string"`
+"stddev"
 
-          - `"number"`
+<a href="#">Link to this property</a>
 
-          - `"boolean"`
+"variance"
 
-        - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+"COUNT\_DISTINCT"
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `value: optional string or number or boolean`
+"MAX"
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-          - `string`
+"MIN"
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+"SUM"
 
-    - `groupBys: optional array of object { type, value }`
+<a href="#">Link to this property</a>
 
-      Define how to group the results of the query.
+"AVG"
 
-      - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+"MEDIAN"
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+"P001"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-    - `havings: optional array of object { key, operation, value }`
+"P01"
 
-      Configure the Having clauses that filter on calculations in the query result.
+<a href="#">Link to this property</a>
 
-      - `key: string`
+"P05"
 
-      - `operation: "eq" or "neq" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+"P10"
 
-        - `"neq"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+"P25"
 
-        - `"gte"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+"P75"
 
-        - `"lte"`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+"P90"
 
-    - `limit: optional number`
+<a href="#">Link to this property</a>
 
-      Set a limit on the number of results / records returned by the query
+"P95"
 
-    - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-      Define an expression to search using full-text search.
+"P99"
 
-      - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+"P999"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+"STDDEV"
 
-      - `isRegex: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `matchCase: optional boolean`
+"VARIANCE"
 
-    - `orderBy: optional object { value, order }`
+<a href="#">Link to this property</a>
 
-      Configure the order of the results returned by the query.
+</details>
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-        Configure which Calculation to order the results by.
+alias: optional string
 
-      - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-        Set the order of the results
+<details>
 
-        - `"asc"`
+<summary>
 
-        - `"desc"`
+keyType: optional "string"or "number"or "boolean"
 
-  - `updated: string`
+</summary>
 
-  - `updatedBy: string`
+One of the following:
 
-### Query List Response
+"string"
 
-- `QueryListResponse object { id, adhoc, created, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"number"
 
-  - `adhoc: boolean`
+<a href="#">Link to this property</a>
 
-    If the query wasn't explcitly saved
+"boolean"
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-  - `createdBy: string`
+</details>
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Query name
+<a href="#">Link to this property</a>
 
-  - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+</details>
 
-    - `calculations: optional array of object { operator, alias, key, keyType }`
+<a href="#">Link to this property</a>
 
-      Create Calculations to compute as part of the query.
+datasets: optional array of string
 
-      - `operator: "uniq" or "count" or "max" or 35 more`
+Set the Datasets to query. Leave it empty to query all the datasets.
 
-        - `"uniq"`
+<a href="#">Link to this property</a>
 
-        - `"count"`
+<details>
 
-        - `"max"`
+<summary>
 
-        - `"min"`
+filterCombination: optional "and"or "or"or "AND"or "OR"
 
-        - `"sum"`
+Set a Flag to describe how to combine the filters on the query.
 
-        - `"avg"`
+</summary>
 
-        - `"median"`
+One of the following:
 
-        - `"p001"`
+"and"
 
-        - `"p01"`
+<a href="#">Link to this property</a>
 
-        - `"p05"`
+"or"
 
-        - `"p10"`
+<a href="#">Link to this property</a>
 
-        - `"p25"`
+"AND"
 
-        - `"p75"`
+<a href="#">Link to this property</a>
 
-        - `"p90"`
+"OR"
 
-        - `"p95"`
+<a href="#">Link to this property</a>
 
-        - `"p99"`
+</details>
 
-        - `"p999"`
+<a href="#">Link to this property</a>
 
-        - `"stddev"`
+<details>
 
-        - `"variance"`
+<summary>
 
-        - `"COUNT_DISTINCT"`
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
 
-        - `"COUNT"`
+Configure the Filters to apply to the query. Supports nested groups via kind: ‘group’.
 
-        - `"MAX"`
+</summary>
 
-        - `"MIN"`
+One of the following:
 
-        - `"SUM"`
+<details>
 
-        - `"AVG"`
+<summary>
 
-        - `"MEDIAN"`
+object {filterCombination, filters, kind }
 
-        - `"P001"`
+</summary>
 
-        - `"P01"`
+<details>
 
-        - `"P05"`
+<summary>
 
-        - `"P10"`
+filterCombination: "and"or "or"or "AND"or "OR"
 
-        - `"P25"`
+</summary>
 
-        - `"P75"`
+One of the following:
 
-        - `"P90"`
+"and"
 
-        - `"P95"`
+<a href="#">Link to this property</a>
 
-        - `"P99"`
+"or"
 
-        - `"P999"`
+<a href="#">Link to this property</a>
 
-        - `"STDDEV"`
+"AND"
 
-        - `"VARIANCE"`
+<a href="#">Link to this property</a>
 
-      - `alias: optional string`
+"OR"
 
-      - `key: optional string`
+<a href="#">Link to this property</a>
 
-      - `keyType: optional "string" or "number" or "boolean"`
+</details>
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+filters: array of unknown
 
-        - `"boolean"`
+<a href="#">Link to this property</a>
 
-    - `datasets: optional array of string`
+kind: "group"
 
-      Set the Datasets to query. Leave it empty to query all the datasets.
+<a href="#">Link to this property</a>
 
-    - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+</details>
 
-      Set a Flag to describe how to combine the filters on the query.
+<a href="#">Link to this property</a>
 
-      - `"and"`
+<details>
 
-      - `"or"`
+<summary>
 
-      - `"AND"`
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
 
-      - `"OR"`
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
 
-    - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+</summary>
 
-      Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+key: string
 
-      - `object { filterCombination, filters, kind }`
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-          - `"and"`
+<details>
 
-          - `"or"`
+<summary>
 
-          - `"AND"`
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
 
-          - `"OR"`
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
 
-        - `filters: array of unknown`
+</summary>
 
-        - `kind: "group"`
+One of the following:
 
-          - `"group"`
+"includes"
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+"not\_includes"
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+"starts\_with"
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+"ends\_with"
 
-          - `"includes"`
+<a href="#">Link to this property</a>
 
-          - `"not_includes"`
+"regex"
 
-          - `"starts_with"`
+<a href="#">Link to this property</a>
 
-          - `"ends_with"`
+"exists"
 
-          - `"regex"`
+<a href="#">Link to this property</a>
 
-          - `"exists"`
+"is\_null"
 
-          - `"is_null"`
+<a href="#">Link to this property</a>
 
-          - `"in"`
+"in"
 
-          - `"not_in"`
+<a href="#">Link to this property</a>
 
-          - `"eq"`
+"not\_in"
 
-          - `"neq"`
+<a href="#">Link to this property</a>
 
-          - `"gt"`
+"eq"
 
-          - `"gte"`
+<a href="#">Link to this property</a>
 
-          - `"lt"`
+"neq"
 
-          - `"lte"`
+<a href="#">Link to this property</a>
 
-          - `"="`
+"gt"
 
-          - `"!="`
+<a href="#">Link to this property</a>
 
-          - `">"`
+"gte"
 
-          - `">="`
+<a href="#">Link to this property</a>
 
-          - `"<"`
+"lt"
 
-          - `"<="`
+<a href="#">Link to this property</a>
 
-          - `"INCLUDES"`
+"lte"
 
-          - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-          - `"MATCH_REGEX"`
+"="
 
-          - `"EXISTS"`
+<a href="#">Link to this property</a>
 
-          - `"DOES_NOT_EXIST"`
+"!="
 
-          - `"IN"`
+<a href="#">Link to this property</a>
 
-          - `"NOT_IN"`
+"&gt;"
 
-          - `"STARTS_WITH"`
+<a href="#">Link to this property</a>
 
-          - `"ENDS_WITH"`
+"&gt;="
 
-        - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+"&lt;"
 
-          - `"string"`
+<a href="#">Link to this property</a>
 
-          - `"number"`
+"&lt;="
 
-          - `"boolean"`
+<a href="#">Link to this property</a>
 
-        - `kind: optional "filter"`
+"INCLUDES"
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+"DOES\_NOT\_INCLUDE"
 
-        - `value: optional string or number or boolean`
+<a href="#">Link to this property</a>
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+"MATCH\_REGEX"
 
-          - `string`
+<a href="#">Link to this property</a>
 
-          - `number`
+"EXISTS"
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-    - `groupBys: optional array of object { type, value }`
+"DOES\_NOT\_EXIST"
 
-      Define how to group the results of the query.
+<a href="#">Link to this property</a>
 
-      - `type: "string" or "number" or "boolean"`
+"IN"
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+"NOT\_IN"
 
-        - `"boolean"`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"STARTS\_WITH"
 
-    - `havings: optional array of object { key, operation, value }`
+<a href="#">Link to this property</a>
 
-      Configure the Having clauses that filter on calculations in the query result.
+"ENDS\_WITH"
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-      - `operation: "eq" or "neq" or "gt" or 3 more`
+</details>
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"neq"`
+<details>
 
-        - `"gt"`
+<summary>
 
-        - `"gte"`
+type: "string"or "number"or "boolean"
 
-        - `"lt"`
+Data type of the filter field. Must match the actual type of the key being filtered.
 
-        - `"lte"`
+</summary>
 
-      - `value: number`
+One of the following:
 
-    - `limit: optional number`
+"string"
 
-      Set a limit on the number of results / records returned by the query
+<a href="#">Link to this property</a>
 
-    - `needle: optional object { value, isRegex, matchCase }`
+"number"
 
-      Define an expression to search using full-text search.
+<a href="#">Link to this property</a>
 
-      - `value: string or number or boolean`
+"boolean"
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+</details>
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-      - `isRegex: optional boolean`
+kind: optional "filter"
 
-      - `matchCase: optional boolean`
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
 
-    - `orderBy: optional object { value, order }`
+<a href="#">Link to this property</a>
 
-      Configure the order of the results returned by the query.
+<details>
 
-      - `value: string`
+<summary>
 
-        Configure which Calculation to order the results by.
+value: optional stringor numberor boolean
 
-      - `order: optional "asc" or "desc"`
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
 
-        Set the order of the results
+</summary>
 
-        - `"asc"`
+One of the following:
 
-        - `"desc"`
+string
 
-  - `updated: string`
+<a href="#">Link to this property</a>
 
-  - `updatedBy: string`
+number
 
-# Shared Queries
+<a href="#">Link to this property</a>
 
-## Create a sharable link to a query result
+boolean
 
-**post** `/accounts/{account_id}/workers/observability/shared/query`
+<a href="#">Link to this property</a>
 
-Shared queries store the results of a previously run query, allowing you to share the results with others.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `queryId: string`
+</details>
 
-  Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID).
+<a href="#">Link to this property</a>
 
-- `timeframe: object { from, to }`
+<details>
 
-  Timeframe for the query using Unix timestamps in milliseconds. Narrower timeframes produce faster responses and more specific results.
+<summary>
 
-  - `from: number`
+groupBys: optional array of object {type, value }
 
-    Start timestamp for the query timeframe (Unix timestamp in milliseconds)
+Define how to group the results of the query.
 
-  - `to: number`
+</summary>
 
-    End timestamp for the query timeframe (Unix timestamp in milliseconds)
+<details>
 
-- `chart: optional boolean`
+<summary>
 
-  When true, includes time-series data in the response.
+type: "string"or "number"or "boolean"
 
-- `compare: optional boolean`
+</summary>
 
-  When true, includes a comparison dataset from the previous time period of equal length.
+One of the following:
 
-- `dry: optional boolean`
+"string"
 
-  When true, executes the query without persisting the results. Useful for validation or previewing.
+<a href="#">Link to this property</a>
 
-- `granularity: optional number`
+"number"
 
-  Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity.
+<a href="#">Link to this property</a>
 
-- `ignoreSeries: optional boolean`
+"boolean"
 
-  When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed.
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+</details>
 
-  Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'.
+<a href="#">Link to this property</a>
 
-- `offset: optional string`
+value: string
 
-  Cursor for pagination in event, trace, and invocation views. Pass the $metadata.id of the last returned item to fetch the next page.
+<a href="#">Link to this property</a>
 
-- `offsetBy: optional number`
+</details>
 
-  Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination.
+<a href="#">Link to this property</a>
 
-- `offsetDirection: optional string`
+<details>
 
-  Pagination direction: 'next' for forward, 'prev' for backward.
+<summary>
 
-- `parameters: optional object { calculations, datasets, filterCombination, 6 more }`
+havings: optional array of object {key, operation, value }
 
-  Query parameters defining what data to retrieve — filters, calculations, group-bys, and ordering. In practice this should always be provided for ad-hoc queries. Only omit when executing a previously saved query by queryId. Use the keys and values endpoints to discover available fields before building filters.
+Configure the Having clauses that filter on calculations in the query result.
 
-  - `calculations: optional array of object { operator, alias, key, keyType }`
+</summary>
 
-    Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data.
+key: string
 
-    - `operator: "uniq" or "count" or "max" or 35 more`
+<a href="#">Link to this property</a>
 
-      Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance.
+<details>
 
-      - `"uniq"`
+<summary>
 
-      - `"count"`
+operation: "eq"or "neq"or "gt"or 3 more
 
-      - `"max"`
+</summary>
 
-      - `"min"`
+One of the following:
 
-      - `"sum"`
+"eq"
 
-      - `"avg"`
+<a href="#">Link to this property</a>
 
-      - `"median"`
+"neq"
 
-      - `"p001"`
+<a href="#">Link to this property</a>
 
-      - `"p01"`
+"gt"
 
-      - `"p05"`
+<a href="#">Link to this property</a>
 
-      - `"p10"`
+"gte"
 
-      - `"p25"`
+<a href="#">Link to this property</a>
 
-      - `"p75"`
+"lt"
 
-      - `"p90"`
+<a href="#">Link to this property</a>
 
-      - `"p95"`
+"lte"
 
-      - `"p99"`
+<a href="#">Link to this property</a>
 
-      - `"p999"`
+</details>
 
-      - `"stddev"`
+<a href="#">Link to this property</a>
 
-      - `"variance"`
+value: number
 
-      - `"COUNT_DISTINCT"`
+<a href="#">Link to this property</a>
 
-      - `"COUNT"`
+</details>
 
-      - `"MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN"`
+limit: optional number
 
-      - `"SUM"`
+Set a limit on the number of results / records returned by the query
 
-      - `"AVG"`
+maximum100
 
-      - `"MEDIAN"`
+minimum0
 
-      - `"P001"`
+<a href="#">Link to this property</a>
 
-      - `"P01"`
+<details>
 
-      - `"P05"`
+<summary>
 
-      - `"P10"`
+needle: optional object {value, isRegex, matchCase }
 
-      - `"P25"`
+Define an expression to search using full-text search.
 
-      - `"P75"`
+</summary>
 
-      - `"P90"`
+value:
 
-      - `"P95"`
+<a href="#">Link to this property</a>
 
-      - `"P99"`
+isRegex: optional boolean
 
-      - `"P999"`
+<a href="#">Link to this property</a>
 
-      - `"STDDEV"`
+matchCase: optional boolean
 
-      - `"VARIANCE"`
+<a href="#">Link to this property</a>
 
-    - `alias: optional string`
+</details>
 
-      Custom label for this calculation in the results. Useful for distinguishing multiple calculations.
+<a href="#">Link to this property</a>
 
-    - `key: optional string`
+<details>
 
-      Field name to calculate over. Must exist in the data — verify with the keys endpoint. Omit for operators that don't require a key (e.g. count).
+<summary>
 
-    - `keyType: optional "string" or "number" or "boolean"`
+orderBy: optional object {value, order }
 
-      Data type of the key. Required when key is provided to ensure correct aggregation.
+Configure the order of the results returned by the query.
 
-      - `"string"`
+</summary>
 
-      - `"number"`
+value: string
 
-      - `"boolean"`
+Configure which Calculation to order the results by.
 
-  - `datasets: optional array of string`
+<a href="#">Link to this property</a>
 
-    Datasets to query. Leave empty to query all available datasets.
+<details>
 
-  - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+<summary>
 
-    Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'.
+order: optional "asc"or "desc"
 
-    - `"and"`
+Set the order of the results
 
-    - `"or"`
+</summary>
 
-    - `"AND"`
+One of the following:
 
-    - `"OR"`
+"asc"
 
-  - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-    Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4.
+"desc"
 
-    - `object { filterCombination, filters, kind }`
+<a href="#">Link to this property</a>
 
-      - `filterCombination: "and" or "or" or "AND" or "OR"`
+</details>
 
-        - `"and"`
+<a href="#">Link to this property</a>
 
-        - `"or"`
+</details>
 
-        - `"AND"`
+<a href="#">Link to this property</a>
 
-        - `"OR"`
+</details>
 
-      - `filters: array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `object { filterCombination, filters, kind }`
+<details>
 
-          - `filterCombination: "and" or "or" or "AND" or "OR"`
+<summary>
 
-            - `"and"`
+updated: stringor string
 
-            - `"or"`
+formatdate-time
 
-            - `"AND"`
+</summary>
 
-            - `"OR"`
+One of the following:
 
-          - `filters: array of unknown`
+string
 
-          - `kind: "group"`
+<a href="#">Link to this property</a>
 
-            - `"group"`
+string
 
-        - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-          A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+</details>
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-            Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+updatedBy: string
 
-          - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-            Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+</details>
 
-            - `"includes"`
+<a href="#">Link to this property</a>
 
-            - `"not_includes"`
+<details>
 
-            - `"starts_with"`
+<summary>
 
-            - `"ends_with"`
+status: "STARTED"or "COMPLETED"
 
-            - `"regex"`
+Current execution status of the query run.
 
-            - `"exists"`
+</summary>
 
-            - `"is_null"`
+One of the following:
 
-            - `"in"`
+"STARTED"
 
-            - `"not_in"`
+<a href="#">Link to this property</a>
 
-            - `"eq"`
+"COMPLETED"
 
-            - `"neq"`
+<a href="#">Link to this property</a>
 
-            - `"gt"`
+</details>
 
-            - `"gte"`
+<a href="#">Link to this property</a>
 
-            - `"lt"`
+<details>
 
-            - `"lte"`
+<summary>
 
-            - `"="`
+timeframe: object {from, to }
 
-            - `"!="`
+Time range for the query execution. ‘from’ must be earlier than ‘to’. No fractional milliseconds.
 
-            - `">"`
+</summary>
 
-            - `">="`
+from: number
 
-            - `"<"`
+Start timestamp for the query timeframe. Unix timestamp in milliseconds
 
-            - `"<="`
+maximum253402300799999
 
-            - `"INCLUDES"`
+minimum0
 
-            - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-            - `"MATCH_REGEX"`
+to: number
 
-            - `"EXISTS"`
+End timestamp for the query timeframe. Unix timestamp in milliseconds
 
-            - `"DOES_NOT_EXIST"`
+maximum253402300799999
 
-            - `"IN"`
+minimum0
 
-            - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-            - `"STARTS_WITH"`
+</details>
 
-            - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-          - `type: "string" or "number" or "boolean"`
+userId: string
 
-            Data type of the filter field. Must match the actual type of the key being filtered.
+ID of the user who initiated the query run.
 
-            - `"string"`
+<a href="#">Link to this property</a>
 
-            - `"number"`
+created: optional string
 
-            - `"boolean"`
+ISO-8601 timestamp when the query run was created.
 
-          - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-            Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+<details>
 
-            - `"filter"`
+<summary>
 
-          - `value: optional string or number or boolean`
+statistics: optional object {bytes\_read, elapsed, rows\_read, abr\_level }
 
-            Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+Query performance statistics from the database (does not include network latency).
 
-            - `string`
+</summary>
 
-            - `number`
+bytes\_read: number
 
-            - `boolean`
+Number of uncompressed bytes read from the table.
 
-      - `kind: "group"`
+<a href="#">Link to this property</a>
 
-        - `"group"`
+elapsed: number
 
-    - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+Time in seconds for the query to run.
 
-      A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<a href="#">Link to this property</a>
 
-      - `key: string`
+rows\_read: number
 
-        Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+Number of rows scanned from the table.
 
-      - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-        Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+abr\_level: optional number
 
-        - `"includes"`
+The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
 
-        - `"not_includes"`
+<a href="#">Link to this property</a>
 
-        - `"starts_with"`
+</details>
 
-        - `"ends_with"`
+<a href="#">Link to this property</a>
 
-        - `"regex"`
+updated: optional string
 
-        - `"exists"`
+ISO-8601 timestamp when the query run was last updated.
 
-        - `"is_null"`
+<a href="#">Link to this property</a>
 
-        - `"in"`
+</details>
 
-        - `"not_in"`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+<details>
 
-        - `"neq"`
+<summary>
 
-        - `"gt"`
+statistics: object {bytes\_read, elapsed, rows\_read, abr\_level }
 
-        - `"gte"`
+Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.
 
-        - `"lt"`
+</summary>
 
-        - `"lte"`
+bytes\_read: number
 
-        - `"="`
+Number of uncompressed bytes read from the table.
 
-        - `"!="`
+<a href="#">Link to this property</a>
 
-        - `">"`
+elapsed: number
 
-        - `">="`
+Time in seconds for the query to run.
 
-        - `"<"`
+<a href="#">Link to this property</a>
 
-        - `"<="`
+rows\_read: number
 
-        - `"INCLUDES"`
+Number of rows scanned from the table.
 
-        - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-        - `"MATCH_REGEX"`
+abr\_level: optional number
 
-        - `"EXISTS"`
+The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
 
-        - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-        - `"IN"`
+</details>
 
-        - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-        - `"STARTS_WITH"`
+<details>
 
-        - `"ENDS_WITH"`
+<summary>
 
-      - `type: "string" or "number" or "boolean"`
+agents: optional array of object {id, errors, models, 13 more }
 
-        Data type of the filter field. Must match the actual type of the key being filtered.
+Agent run summaries. Present when the query view is ‘agents’. Each entry represents one trace containing at least one agent invocation.
 
-        - `"string"`
+</summary>
 
-        - `"number"`
+id: string
 
-        - `"boolean"`
+Stable pagination cursor for this agent run.
 
-      - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-        Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+errors: array of string
 
-        - `"filter"`
+Distinct errors reported by spans in the run.
 
-      - `value: optional string or number or boolean`
+<a href="#">Link to this property</a>
 
-        Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+models: array of string
 
-        - `string`
+Distinct models reported by chat spans across the run’s trace.
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+providers: array of string
 
-  - `groupBys: optional array of object { type, value }`
+Distinct GenAI providers reported by chat spans in the run.
 
-    Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values.
+<a href="#">Link to this property</a>
 
-    - `type: "string" or "number" or "boolean"`
+services: array of string
 
-      Data type of the group-by field.
+Worker services represented in the run’s trace.
 
-      - `"string"`
+<a href="#">Link to this property</a>
 
-      - `"number"`
+spans: number
 
-      - `"boolean"`
+Number of spans in the run’s trace.
 
-    - `value: string`
+<a href="#">Link to this property</a>
 
-      Field name to group results by (e.g. $metadata.service, $metadata.statusCode).
+<details>
 
-  - `havings: optional array of object { key, operation, value }`
+<summary>
 
-    Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100).
+status: "completed"or "error"
 
-    - `key: string`
+Observed run status.
 
-      Calculation alias or operator to filter on after aggregation.
+</summary>
 
-    - `operation: "eq" or "neq" or "gt" or 3 more`
+One of the following:
 
-      Numeric comparison operator: eq, neq, gt, gte, lt, lte.
+"completed"
 
-      - `"eq"`
+<a href="#">Link to this property</a>
 
-      - `"neq"`
+"error"
 
-      - `"gt"`
+<a href="#">Link to this property</a>
 
-      - `"gte"`
+</details>
 
-      - `"lt"`
+<a href="#">Link to this property</a>
 
-      - `"lte"`
+traceDurationMs: number
 
-    - `value: number`
+Total trace duration in milliseconds.
 
-      Threshold value to compare the calculation result against.
+<a href="#">Link to this property</a>
 
-  - `limit: optional number`
+traceEndMs: number
 
-    Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases.
+End of the run’s trace as a Unix epoch in milliseconds.
 
-  - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-    Full-text search expression applied across all event fields. Matches events containing the specified text.
+traceId: string
 
-    - `value: string or number or boolean`
+Trace identifier for this agent run.
 
-      The text or pattern to search for.
+<a href="#">Link to this property</a>
 
-      - `string`
+traceStartMs: number
 
-      - `number`
+Start of the run’s trace as a Unix epoch in milliseconds.
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-    - `isRegex: optional boolean`
+agentId: optional string
 
-      When true, treats the value as a regular expression (RE2 syntax).
+ID from the earliest agent invocation that provides one.
 
-    - `matchCase: optional boolean`
+<a href="#">Link to this property</a>
 
-      When true, performs a case-sensitive search. Defaults to case-insensitive.
+agentName: optional string
 
-  - `orderBy: optional object { value, order }`
+Name from the earliest agent invocation that provides one.
 
-    Ordering for grouped calculation results. Only effective when a group-by is present.
+<a href="#">Link to this property</a>
 
-    - `value: string`
+conversationId: optional string
 
-      Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query.
+Conversation ID from the earliest invocation that provides one.
 
-    - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-      Sort direction: 'asc' for ascending, 'desc' for descending.
+inputTokens: optional number
 
-      - `"asc"`
+Input tokens summed across chat spans in the run’s trace; informational, not billing data.
 
-      - `"desc"`
+<a href="#">Link to this property</a>
 
-- `view: optional "traces" or "events" or "calculations" or 3 more`
+outputTokens: optional number
 
-  Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': Durable Object agent summaries.
+Output tokens summed across chat spans in the run’s trace; informational, not billing data.
 
-  - `"traces"`
+<a href="#">Link to this property</a>
 
-  - `"events"`
+</details>
 
-  - `"calculations"`
+<a href="#">Link to this property</a>
 
-  - `"invocations"`
+<details>
 
-  - `"requests"`
+<summary>
 
-  - `"agents"`
+calculations: optional array of object {aggregates, calculation, series, alias }
 
-### Returns
+Aggregated calculation results. Present when the query view is ‘calculations’. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data.
 
-- `errors: array of object { message }`
+</summary>
 
-  - `message: string`
+<details>
 
-- `messages: array of object { message }`
+<summary>
 
-  - `message: "Successful request"`
+aggregates: array of object {count, interval, sampleInterval, 2 more }
 
-    - `"Successful request"`
+</summary>
 
-- `result: object { id }`
+count: number
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Specify the ID of the shared query.
+interval: number
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+sampleInterval: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/shared/query \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "queryId": "queryId",
-          "timeframe": {
-            "from": 0,
-            "to": 0
-          }
-        }'
-```
+value: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": {
-    "id": "id"
-  },
-  "success": true
-}
-```
+<details>
 
-## View a query that has been shared
+<summary>
 
-**get** `/accounts/{account_id}/workers/observability/shared/query/{id}`
+groups: optional array of object {key, value }
 
-Shared queries store the results of a previously run query, allowing you to share the results with others.
+</summary>
 
-### Path Parameters
+key: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+<details>
 
-  Specify the ID of the shared query.
+<summary>
 
-### Query Parameters
+value: stringor numberor boolean
 
-- `view: optional "events" or "invocations" or "calculations"`
+</summary>
 
-  Select the view of the query result to return, defaults to events.
+One of the following:
 
-  - `"events"`
+string
 
-  - `"invocations"`
+<a href="#">Link to this property</a>
 
-  - `"calculations"`
+number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+</details>
 
-  - `message: "Successful request"`
+<a href="#">Link to this property</a>
 
-    - `"Successful request"`
+</details>
 
-- `result: object { run, statistics, agents, 5 more }`
+<a href="#">Link to this property</a>
 
-  Complete results of a query run. The populated fields depend on the requested view type (events, calculations, invocations, traces, or agents).
+</details>
 
-  - `run: object { id, accountId, dry, 8 more }`
+<a href="#">Link to this property</a>
 
-    Represents a single execution of a query against Workers Observability data, including the query definition, execution status, and performance statistics.
+calculation: string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Unique identifier for this query run.
+<details>
 
-    - `accountId: string`
+<summary>
 
-      Cloudflare account ID that owns this query run.
+series: array of object {data, time }
 
-    - `dry: boolean`
+</summary>
 
-      Whether this was a dry run (results not persisted).
+<details>
 
-    - `granularity: number`
+<summary>
 
-      Number of time-series buckets used for the query. Higher values produce more detailed series data.
+data: array of object {count, interval, sampleInterval, 4 more }
 
-    - `query: object { id, adhoc, created, 6 more }`
+</summary>
 
-      A saved query definition with its parameters, metadata, and ownership information.
+count: number
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `adhoc: boolean`
+interval: number
 
-        If the query wasn't explcitly saved
+<a href="#">Link to this property</a>
 
-      - `created: string`
+sampleInterval: number
 
-      - `createdBy: string`
+<a href="#">Link to this property</a>
 
-      - `description: string`
+value: number
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        Query name
+firstSeen: optional string
 
-      - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `calculations: optional array of object { operator, alias, key, keyType }`
+<details>
 
-          Create Calculations to compute as part of the query.
+<summary>
 
-          - `operator: "uniq" or "count" or "max" or 35 more`
+groups: optional array of object {key, value }
 
-            - `"uniq"`
+</summary>
 
-            - `"count"`
+key: string
 
-            - `"max"`
+<a href="#">Link to this property</a>
 
-            - `"min"`
+<details>
 
-            - `"sum"`
+<summary>
 
-            - `"avg"`
+value: stringor numberor boolean
 
-            - `"median"`
+</summary>
 
-            - `"p001"`
+One of the following:
 
-            - `"p01"`
+string
 
-            - `"p05"`
+<a href="#">Link to this property</a>
 
-            - `"p10"`
+number
 
-            - `"p25"`
+<a href="#">Link to this property</a>
 
-            - `"p75"`
+boolean
 
-            - `"p90"`
+<a href="#">Link to this property</a>
 
-            - `"p95"`
+</details>
 
-            - `"p99"`
+<a href="#">Link to this property</a>
 
-            - `"p999"`
+</details>
 
-            - `"stddev"`
+<a href="#">Link to this property</a>
 
-            - `"variance"`
+lastSeen: optional string
 
-            - `"COUNT_DISTINCT"`
+<a href="#">Link to this property</a>
 
-            - `"COUNT"`
+</details>
 
-            - `"MAX"`
+<a href="#">Link to this property</a>
 
-            - `"MIN"`
+time: string
 
-            - `"SUM"`
+<a href="#">Link to this property</a>
 
-            - `"AVG"`
+</details>
 
-            - `"MEDIAN"`
+<a href="#">Link to this property</a>
 
-            - `"P001"`
+alias: optional string
 
-            - `"P01"`
+<a href="#">Link to this property</a>
 
-            - `"P05"`
+</details>
 
-            - `"P10"`
+<a href="#">Link to this property</a>
 
-            - `"P25"`
+<details>
 
-            - `"P75"`
+<summary>
 
-            - `"P90"`
+compare: optional array of object {aggregates, calculation, series, alias }
 
-            - `"P95"`
+Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations.
 
-            - `"P99"`
+</summary>
 
-            - `"P999"`
+<details>
 
-            - `"STDDEV"`
+<summary>
 
-            - `"VARIANCE"`
+aggregates: array of object {count, interval, sampleInterval, 2 more }
 
-          - `alias: optional string`
+</summary>
 
-          - `key: optional string`
+count: number
 
-          - `keyType: optional "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-            - `"string"`
+interval: number
 
-            - `"number"`
+<a href="#">Link to this property</a>
 
-            - `"boolean"`
+sampleInterval: number
 
-        - `datasets: optional array of string`
+<a href="#">Link to this property</a>
 
-          Set the Datasets to query. Leave it empty to query all the datasets.
+value: number
 
-        - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-          Set a Flag to describe how to combine the filters on the query.
+<details>
 
-          - `"and"`
+<summary>
 
-          - `"or"`
+groups: optional array of object {key, value }
 
-          - `"AND"`
+</summary>
 
-          - `"OR"`
+key: string
 
-        - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-          Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+<details>
 
-          - `object { filterCombination, filters, kind }`
+<summary>
 
-            - `filterCombination: "and" or "or" or "AND" or "OR"`
+value: stringor numberor boolean
 
-              - `"and"`
+</summary>
 
-              - `"or"`
+One of the following:
 
-              - `"AND"`
+string
 
-              - `"OR"`
+<a href="#">Link to this property</a>
 
-            - `filters: array of unknown`
+number
 
-            - `kind: "group"`
+<a href="#">Link to this property</a>
 
-              - `"group"`
+boolean
 
-          - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-            A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+</details>
 
-            - `key: string`
+<a href="#">Link to this property</a>
 
-              Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+</details>
 
-            - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-              Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+</details>
 
-              - `"includes"`
+<a href="#">Link to this property</a>
 
-              - `"not_includes"`
+calculation: string
 
-              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-              - `"ends_with"`
+<details>
 
-              - `"regex"`
+<summary>
 
-              - `"exists"`
+series: array of object {data, time }
 
-              - `"is_null"`
+</summary>
 
-              - `"in"`
+<details>
 
-              - `"not_in"`
+<summary>
 
-              - `"eq"`
+data: array of object {count, interval, sampleInterval, 4 more }
 
-              - `"neq"`
+</summary>
 
-              - `"gt"`
+count: number
 
-              - `"gte"`
+<a href="#">Link to this property</a>
 
-              - `"lt"`
+interval: number
 
-              - `"lte"`
+<a href="#">Link to this property</a>
 
-              - `"="`
+sampleInterval: number
 
-              - `"!="`
+<a href="#">Link to this property</a>
 
-              - `">"`
+value: number
 
-              - `">="`
+<a href="#">Link to this property</a>
 
-              - `"<"`
+firstSeen: optional string
 
-              - `"<="`
+<a href="#">Link to this property</a>
 
-              - `"INCLUDES"`
+<details>
 
-              - `"DOES_NOT_INCLUDE"`
+<summary>
 
-              - `"MATCH_REGEX"`
+groups: optional array of object {key, value }
 
-              - `"EXISTS"`
+</summary>
 
-              - `"DOES_NOT_EXIST"`
+key: string
 
-              - `"IN"`
+<a href="#">Link to this property</a>
 
-              - `"NOT_IN"`
+<details>
 
-              - `"STARTS_WITH"`
+<summary>
 
-              - `"ENDS_WITH"`
+value: stringor numberor boolean
 
-            - `type: "string" or "number" or "boolean"`
+</summary>
 
-              Data type of the filter field. Must match the actual type of the key being filtered.
+One of the following:
 
-              - `"string"`
+string
 
-              - `"number"`
+<a href="#">Link to this property</a>
 
-              - `"boolean"`
+number
 
-            - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-              Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+boolean
 
-              - `"filter"`
+<a href="#">Link to this property</a>
 
-            - `value: optional string or number or boolean`
+</details>
 
-              Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-              - `string`
+</details>
 
-              - `number`
+<a href="#">Link to this property</a>
 
-              - `boolean`
+lastSeen: optional string
 
-        - `groupBys: optional array of object { type, value }`
+<a href="#">Link to this property</a>
 
-          Define how to group the results of the query.
+</details>
 
-          - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-            - `"string"`
+time: string
 
-            - `"number"`
+<a href="#">Link to this property</a>
 
-            - `"boolean"`
+</details>
 
-          - `value: string`
+<a href="#">Link to this property</a>
 
-        - `havings: optional array of object { key, operation, value }`
+alias: optional string
 
-          Configure the Having clauses that filter on calculations in the query result.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+</details>
 
-          - `operation: "eq" or "neq" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-            - `"eq"`
+<details>
 
-            - `"neq"`
+<summary>
 
-            - `"gt"`
+distribution: optional object {bins, bucketBoundaries, bucketMode, 2 more }
 
-            - `"gte"`
+Bucketed 2D histogram of a numeric field over time. Present when chartType is ‘distribution’.
 
-            - `"lt"`
+</summary>
 
-            - `"lte"`
+bins: array of string
 
-          - `value: number`
+Time-bucket labels (ISO-8601 strings), one per matrix column.
 
-        - `limit: optional number`
+<a href="#">Link to this property</a>
 
-          Set a limit on the number of results / records returned by the query
+bucketBoundaries: array of number
 
-        - `needle: optional object { value, isRegex, matchCase }`
+Raw bucket edges in the value’s native unit, length buckets.length + 1. Used for the colour scale and percentile mapping.
 
-          Define an expression to search using full-text search.
+<a href="#">Link to this property</a>
 
-          - `value:`
+<details>
 
-          - `isRegex: optional boolean`
+<summary>
 
-          - `matchCase: optional boolean`
+bucketMode: "log"or "linear"
 
-        - `orderBy: optional object { value, order }`
+Bucketing scheme used to derive the boundaries. ‘log’ produces geometric edges; ‘linear’ produces fixed-width edges.
 
-          Configure the order of the results returned by the query.
+</summary>
 
-          - `value: string`
+One of the following:
 
-            Configure which Calculation to order the results by.
+"log"
 
-          - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-            Set the order of the results
+"linear"
 
-            - `"asc"`
+<a href="#">Link to this property</a>
 
-            - `"desc"`
+</details>
 
-      - `updated: string`
+<a href="#">Link to this property</a>
 
-      - `updatedBy: string`
+buckets: array of string
 
-    - `status: "STARTED" or "COMPLETED"`
+Value-range labels, one per matrix row (e.g. ‘50–100ms’).
 
-      Current execution status of the query run.
+<a href="#">Link to this property</a>
 
-      - `"STARTED"`
+matrix: array of array of number
 
-      - `"COMPLETED"`
+Sampling-corrected counts. matrix\[bucketIdx]\[binIdx] is the estimated number of events in value-bucket ‘bucketIdx’ during time-bin ‘binIdx’.
 
-    - `timeframe: object { from, to }`
+<a href="#">Link to this property</a>
 
-      Time range for the query execution
+</details>
 
-      - `from: number`
+<a href="#">Link to this property</a>
 
-        Start timestamp for the query timeframe (Unix timestamp in milliseconds)
+<details>
 
-      - `to: number`
+<summary>
 
-        End timestamp for the query timeframe (Unix timestamp in milliseconds)
+events: optional object {count, events, fields, series }
 
-    - `userId: string`
+Individual event results. Present when the query view is ‘events’. Contains the matching log lines and their metadata.
 
-      ID of the user who initiated the query run.
+</summary>
 
-    - `created: optional string`
+count: optional number
 
-      ISO-8601 timestamp when the query run was created.
+Total number of events matching the query (may exceed the number returned due to limits).
 
-    - `statistics: optional object { bytes_read, elapsed, rows_read, abr_level }`
+<a href="#">Link to this property</a>
 
-      Query performance statistics from the database (does not include network latency).
+<details>
 
-      - `bytes_read: number`
+<summary>
 
-        Number of uncompressed bytes read from the table.
+events: optional array of object {"$metadata", dataset, source, 3 more }
 
-      - `elapsed: number`
+List of individual telemetry events matching the query.
 
-        Time in seconds for the query to run.
+</summary>
 
-      - `rows_read: number`
+<details>
 
-        Number of rows scanned from the table.
+<summary>
 
-      - `abr_level: optional number`
+"$metadata": object {id, account, cloudService, 29 more }
 
-        The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
 
-    - `updated: optional string`
+</summary>
 
-      ISO-8601 timestamp when the query run was last updated.
+id: string
 
-  - `statistics: object { bytes_read, elapsed, rows_read, abr_level }`
+Unique event ID. Use as the cursor value for offset-based pagination.
 
-    Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.
+<a href="#">Link to this property</a>
 
-    - `bytes_read: number`
+account: optional string
 
-      Number of uncompressed bytes read from the table.
+Cloudflare account identifier.
 
-    - `elapsed: number`
+<a href="#">Link to this property</a>
 
-      Time in seconds for the query to run.
+cloudService: optional string
 
-    - `rows_read: number`
+Cloudflare product that generated this event (e.g. workers, pages).
 
-      Number of rows scanned from the table.
+<a href="#">Link to this property</a>
 
-    - `abr_level: optional number`
+coldStart: optional number
 
-      The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+exclusiveMinimum
 
-  - `agents: optional array of object { agentClass, eventTypeCounts, firstEventMs, 5 more }`
+minimum0
 
-    Durable Object agent summaries. Present when the query view is 'agents'. Each entry represents an agent with its event counts and status.
+<a href="#">Link to this property</a>
 
-    - `agentClass: string`
+cost: optional number
 
-      Class name of the Durable Object agent.
+Estimated cost units for this invocation.
 
-    - `eventTypeCounts: map[number]`
+exclusiveMinimum
 
-      Breakdown of event counts by event type.
+minimum0
 
-    - `firstEventMs: number`
+<a href="#">Link to this property</a>
 
-      Timestamp of the earliest event from this agent in the queried window (Unix epoch ms).
+duration: optional number
 
-    - `hasErrors: boolean`
+Span duration in milliseconds.
 
-      Whether the agent emitted any error events in the queried window.
+exclusiveMinimum
 
-    - `lastEventMs: number`
+minimum0
 
-      Timestamp of the most recent event from this agent (Unix epoch ms).
+<a href="#">Link to this property</a>
 
-    - `namespace: string`
+endTime: optional number
 
-      Durable Object namespace the agent belongs to.
+Span end time as a Unix epoch in milliseconds.
 
-    - `service: string`
+minimum0
 
-      Worker service name that hosts this agent.
+<a href="#">Link to this property</a>
 
-    - `totalEvents: number`
+error: optional string
 
-      Total number of events emitted by this agent in the queried window.
+Error message, present when the log represents an error.
 
-  - `calculations: optional array of object { aggregates, calculation, series, alias }`
+<a href="#">Link to this property</a>
 
-    Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data.
+errorTemplate: optional string
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+Templatized version of the error message used for grouping similar errors.
 
-      - `count: number`
+<a href="#">Link to this property</a>
 
-      - `interval: number`
+fingerprint: optional string
 
-      - `sampleInterval: number`
+Content-based fingerprint used to group similar events.
 
-      - `value: number`
+<a href="#">Link to this property</a>
 
-      - `groups: optional array of object { key, value }`
+level: optional string
 
-        - `key: string`
+Log level (e.g. log, debug, info, warn, error).
 
-        - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-          - `string`
+message: optional string
 
-          - `number`
+Log message text.
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-    - `calculation: string`
+messageTemplate: optional string
 
-    - `series: array of object { data, time }`
+Templatized version of the log message used for grouping similar messages.
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `count: number`
+metricName: optional string
 
-        - `interval: number`
+Metric name when the event represents a metric data point.
 
-        - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+origin: optional string
 
-        - `firstSeen: optional string`
+Origin of the event (e.g. fetch, scheduled, queue).
 
-        - `groups: optional array of object { key, value }`
+<a href="#">Link to this property</a>
 
-          - `key: string`
+parentSpanId: optional string
 
-          - `value: string or number or boolean`
+Span ID of the parent span in the trace hierarchy.
 
-            - `string`
+<a href="#">Link to this property</a>
 
-            - `number`
+provider: optional string
 
-            - `boolean`
+Infrastructure provider identifier.
 
-        - `lastSeen: optional string`
+<a href="#">Link to this property</a>
 
-      - `time: string`
+rayId: optional string
 
-    - `alias: optional string`
+Cloudflare Ray ID from the <code>cf-ray</code> header of the request that triggered the invocation.
 
-  - `compare: optional array of object { aggregates, calculation, series, alias }`
+<a href="#">Link to this property</a>
 
-    Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations.
+region: optional string
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+Cloudflare data center / region that handled the request.
 
-      - `count: number`
+<a href="#">Link to this property</a>
 
-      - `interval: number`
+requestId: optional string
 
-      - `sampleInterval: number`
+Cloudflare request ID that ties all logs from a single invocation together.
 
-      - `value: number`
+<a href="#">Link to this property</a>
 
-      - `groups: optional array of object { key, value }`
+service: optional string
 
-        - `key: string`
+Worker script name that produced this event.
 
-        - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-          - `string`
+spanId: optional string
 
-          - `number`
+Span ID for this individual unit of work within a trace.
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-    - `calculation: string`
+spanName: optional string
 
-    - `series: array of object { data, time }`
+Human-readable name for this span.
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `count: number`
+stackId: optional string
 
-        - `interval: number`
+Stack / deployment identifier.
 
-        - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+startTime: optional number
 
-        - `firstSeen: optional string`
+Span start time as a Unix epoch in milliseconds.
 
-        - `groups: optional array of object { key, value }`
+minimum0
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-          - `value: string or number or boolean`
+statusCode: optional number
 
-            - `string`
+HTTP response status code returned by the Worker.
 
-            - `number`
+exclusiveMinimum
 
-            - `boolean`
+minimum0
 
-        - `lastSeen: optional string`
+<a href="#">Link to this property</a>
 
-      - `time: string`
+traceDuration: optional number
 
-    - `alias: optional string`
+Total duration of the entire trace in milliseconds.
 
-  - `events: optional object { count, events, fields, series }`
+exclusiveMinimum
 
-    Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata.
+minimum0
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of events matching the query (may exceed the number returned due to limits).
+traceId: optional string
 
-    - `events: optional array of object { "$metadata", dataset, source, 3 more }`
+Distributed trace ID linking spans across services.
 
-      List of individual telemetry events matching the query.
+<a href="#">Link to this property</a>
 
-      - `"$metadata": object { id, account, cloudService, 28 more }`
+transactionName: optional string
 
-        Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+Logical transaction name for this request.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          Unique event ID. Use as the cursor value for offset-based pagination.
+trigger: optional string
 
-        - `account: optional string`
+What triggered the invocation (e.g. GET /users, POST /orders, queue message).
 
-          Cloudflare account identifier.
+<a href="#">Link to this property</a>
 
-        - `cloudService: optional string`
+type: optional string
 
-          Cloudflare product that generated this event (e.g. workers, pages).
+Event type classifier (e.g. cf-worker-event, cf-worker-log).
 
-        - `coldStart: optional number`
+<a href="#">Link to this property</a>
 
-        - `cost: optional number`
+url: optional string
 
-          Estimated cost units for this invocation.
+Request URL that triggered the Worker invocation.
 
-        - `duration: optional number`
+<a href="#">Link to this property</a>
 
-          Span duration in milliseconds.
+</details>
 
-        - `endTime: optional number`
+<a href="#">Link to this property</a>
 
-          Span end time as a Unix epoch in milliseconds.
+dataset: string
 
-        - `error: optional string`
+The dataset this event belongs to (e.g. cloudflare-workers).
 
-          Error message, present when the log represents an error.
+<a href="#">Link to this property</a>
 
-        - `errorTemplate: optional string`
+<details>
 
-          Templatized version of the error message used for grouping similar errors.
+<summary>
 
-        - `fingerprint: optional string`
+source: stringor map\[unknown]
 
-          Content-based fingerprint used to group similar events.
+Raw log payload. May be a string or a structured object depending on how the log was emitted.
 
-        - `level: optional string`
+</summary>
 
-          Log level (e.g. log, debug, info, warn, error).
+One of the following:
 
-        - `message: optional string`
+string
 
-          Log message text.
+<a href="#">Link to this property</a>
 
-        - `messageTemplate: optional string`
+map\[unknown]
 
-          Templatized version of the log message used for grouping similar messages.
+<a href="#">Link to this property</a>
 
-        - `metricName: optional string`
+</details>
 
-          Metric name when the event represents a metric data point.
+<a href="#">Link to this property</a>
 
-        - `origin: optional string`
+timestamp: number
 
-          Origin of the event (e.g. fetch, scheduled, queue).
+Event timestamp as a Unix epoch in milliseconds.
 
-        - `parentSpanId: optional string`
+minimum0
 
-          Span ID of the parent span in the trace hierarchy.
+<a href="#">Link to this property</a>
 
-        - `provider: optional string`
+"$containers": optional map\[unknown]
 
-          Infrastructure provider identifier.
+Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
 
-        - `region: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare data center / region that handled the request.
+<details>
 
-        - `requestId: optional string`
+<summary>
 
-          Cloudflare request ID that ties all logs from a single invocation together.
+"$workers": optional object {eventType, requestId, scriptName, 10 more } or object {cpuTimeMs, eventType, outcome, 14 more }
 
-        - `service: optional string`
+Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
 
-          Worker script name that produced this event.
+</summary>
 
-        - `spanId: optional string`
+One of the following:
 
-          Span ID for this individual unit of work within a trace.
+<details>
 
-        - `spanName: optional string`
+<summary>
 
-          Human-readable name for this span.
+object {eventType, requestId, scriptName, 10 more }
 
-        - `stackId: optional string`
+</summary>
 
-          Stack / deployment identifier.
+<details>
 
-        - `startTime: optional number`
+<summary>
 
-          Span start time as a Unix epoch in milliseconds.
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
 
-        - `statusCode: optional number`
+</summary>
 
-          HTTP response status code returned by the Worker.
+One of the following:
 
-        - `traceDuration: optional number`
+"fetch"
 
-          Total duration of the entire trace in milliseconds.
+<a href="#">Link to this property</a>
 
-        - `traceId: optional string`
+"scheduled"
 
-          Distributed trace ID linking spans across services.
+<a href="#">Link to this property</a>
 
-        - `transactionName: optional string`
+"alarm"
 
-          Logical transaction name for this request.
+<a href="#">Link to this property</a>
 
-        - `trigger: optional string`
+"cron"
 
-          What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+<a href="#">Link to this property</a>
 
-        - `type: optional string`
+"queue"
 
-          Event type classifier (e.g. cf-worker-event, cf-worker-log).
+<a href="#">Link to this property</a>
 
-        - `url: optional string`
+"email"
 
-          Request URL that triggered the Worker invocation.
+<a href="#">Link to this property</a>
 
-      - `dataset: string`
+"tail"
 
-        The dataset this event belongs to (e.g. cloudflare-workers).
+<a href="#">Link to this property</a>
 
-      - `source: string or map[unknown]`
+"rpc"
 
-        Raw log payload. May be a string or a structured object depending on how the log was emitted.
+<a href="#">Link to this property</a>
 
-        - `string`
+"jsrpc"
 
-        - `map[unknown]`
+<a href="#">Link to this property</a>
 
-      - `timestamp: number`
+"websocket"
 
-        Event timestamp as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-      - `"$containers": optional map[unknown]`
+"workflow"
 
-        Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+<a href="#">Link to this property</a>
 
-      - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
+"unknown"
 
-        Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+<a href="#">Link to this property</a>
 
-        - `object { eventType, requestId, scriptName, 10 more }`
+</details>
 
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<a href="#">Link to this property</a>
 
-            - `"fetch"`
+requestId: string
 
-            - `"scheduled"`
+<a href="#">Link to this property</a>
 
-            - `"alarm"`
+scriptName: string
 
-            - `"cron"`
+<a href="#">Link to this property</a>
 
-            - `"queue"`
+durableObjectId: optional string
 
-            - `"email"`
+<a href="#">Link to this property</a>
 
-            - `"tail"`
+entrypoint: optional string
 
-            - `"rpc"`
+<a href="#">Link to this property</a>
 
-            - `"jsrpc"`
+event: optional map\[unknown]
 
-            - `"websocket"`
+<a href="#">Link to this property</a>
 
-            - `"workflow"`
+<details>
 
-            - `"unknown"`
+<summary>
 
-          - `requestId: string`
+executionModel: optional "durableObject"or "stateless"
 
-          - `scriptName: string`
+</summary>
 
-          - `durableObjectId: optional string`
+One of the following:
 
-          - `entrypoint: optional string`
+"durableObject"
 
-          - `event: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-          - `executionModel: optional "durableObject" or "stateless"`
+"stateless"
 
-            - `"durableObject"`
+<a href="#">Link to this property</a>
 
-            - `"stateless"`
+</details>
 
-          - `outcome: optional string`
+<a href="#">Link to this property</a>
 
-          - `preview: optional object { id, name, slug }`
+outcome: optional string
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `name: optional string`
+<details>
 
-            - `slug: optional string`
+<summary>
 
-          - `scriptVersion: optional object { id, message, tag }`
+preview: optional object {id, name, slug }
 
-            - `id: optional string`
+</summary>
 
-            - `message: optional string`
+id: optional string
 
-            - `tag: optional string`
+<a href="#">Link to this property</a>
 
-          - `spanId: optional string`
+name: optional string
 
-          - `traceId: optional string`
+<a href="#">Link to this property</a>
 
-          - `truncated: optional boolean`
+slug: optional string
 
-        - `object { cpuTimeMs, eventType, outcome, 14 more }`
+<a href="#">Link to this property</a>
 
-          - `cpuTimeMs: number`
+</details>
 
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<a href="#">Link to this property</a>
 
-            - `"fetch"`
+<details>
 
-            - `"scheduled"`
+<summary>
 
-            - `"alarm"`
+scriptVersion: optional object {id, message, tag }
 
-            - `"cron"`
+</summary>
 
-            - `"queue"`
+id: optional string
 
-            - `"email"`
+<a href="#">Link to this property</a>
 
-            - `"tail"`
+message: optional string
 
-            - `"rpc"`
+<a href="#">Link to this property</a>
 
-            - `"jsrpc"`
+tag: optional string
 
-            - `"websocket"`
+<a href="#">Link to this property</a>
 
-            - `"workflow"`
+</details>
 
-            - `"unknown"`
+<a href="#">Link to this property</a>
 
-          - `outcome: string`
+spanId: optional string
 
-          - `requestId: string`
+<a href="#">Link to this property</a>
 
-          - `scriptName: string`
+traceId: optional string
 
-          - `wallTimeMs: number`
+<a href="#">Link to this property</a>
 
-          - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
+truncated: optional boolean
 
-            - `channel: string`
+<a href="#">Link to this property</a>
 
-            - `message: string`
+</details>
 
-            - `timestamp: number`
+<a href="#">Link to this property</a>
 
-          - `dispatchNamespace: optional string`
+<details>
 
-          - `durableObjectId: optional string`
+<summary>
 
-          - `entrypoint: optional string`
+object {cpuTimeMs, eventType, outcome, 14 more }
 
-          - `event: optional map[unknown]`
+</summary>
 
-          - `executionModel: optional "durableObject" or "stateless"`
+cpuTimeMs: number
 
-            - `"durableObject"`
+<a href="#">Link to this property</a>
 
-            - `"stateless"`
+<details>
 
-          - `preview: optional object { id, name, slug }`
+<summary>
 
-            - `id: optional string`
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
 
-            - `name: optional string`
+</summary>
 
-            - `slug: optional string`
+One of the following:
 
-          - `scriptVersion: optional object { id, message, tag }`
+"fetch"
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+"scheduled"
 
-            - `tag: optional string`
+<a href="#">Link to this property</a>
 
-          - `spanId: optional string`
+"alarm"
 
-          - `traceId: optional string`
+<a href="#">Link to this property</a>
 
-          - `truncated: optional boolean`
+"cron"
 
-    - `fields: optional array of object { key, type }`
+<a href="#">Link to this property</a>
 
-      List of fields discovered in the matched events. Useful for building dynamic UIs.
+"queue"
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        Field name present in the matched events.
+"email"
 
-      - `type: string`
+<a href="#">Link to this property</a>
 
-        Data type of the field (string, number, or boolean).
+"tail"
 
-    - `series: optional array of object { data, time }`
+<a href="#">Link to this property</a>
 
-      Time-series data for the matched events, bucketed by the query granularity.
+"rpc"
 
-      - `data: array of object { aggregates, count, interval, 3 more }`
+<a href="#">Link to this property</a>
 
-        - `aggregates: object { _count, _interval, _firstSeen, 2 more }`
+"jsrpc"
 
-          - `_count: number`
+<a href="#">Link to this property</a>
 
-          - `_interval: number`
+"websocket"
 
-          - `_firstSeen: optional string`
+<a href="#">Link to this property</a>
 
-          - `_lastSeen: optional string`
+"workflow"
 
-          - `bin: optional unknown`
+<a href="#">Link to this property</a>
 
-        - `count: number`
+"unknown"
 
-        - `interval: number`
+<a href="#">Link to this property</a>
 
-        - `sampleInterval: number`
+</details>
 
-        - `errors: optional number`
+<a href="#">Link to this property</a>
 
-        - `groups: optional map[string or number or boolean]`
+outcome: string
 
-          Groups in the query results.
+<a href="#">Link to this property</a>
 
-          - `string`
+requestId: string
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+scriptName: string
 
-      - `time: string`
+<a href="#">Link to this property</a>
 
-  - `invocations: optional map[array of object { "$metadata", dataset, source, 3 more } ]`
+wallTimeMs: number
 
-    Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation.
+<a href="#">Link to this property</a>
 
-    - `"$metadata": object { id, account, cloudService, 28 more }`
+<details>
 
-      Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+<summary>
 
-      - `id: string`
+diagnosticsChannelEvents: optional array of object {channel, message, timestamp }
 
-        Unique event ID. Use as the cursor value for offset-based pagination.
+</summary>
 
-      - `account: optional string`
+channel: string
 
-        Cloudflare account identifier.
+<a href="#">Link to this property</a>
 
-      - `cloudService: optional string`
+message: string
 
-        Cloudflare product that generated this event (e.g. workers, pages).
+<a href="#">Link to this property</a>
 
-      - `coldStart: optional number`
+timestamp: number
 
-      - `cost: optional number`
+<a href="#">Link to this property</a>
 
-        Estimated cost units for this invocation.
+</details>
 
-      - `duration: optional number`
+<a href="#">Link to this property</a>
 
-        Span duration in milliseconds.
+dispatchNamespace: optional string
 
-      - `endTime: optional number`
+<a href="#">Link to this property</a>
 
-        Span end time as a Unix epoch in milliseconds.
+durableObjectId: optional string
 
-      - `error: optional string`
+<a href="#">Link to this property</a>
 
-        Error message, present when the log represents an error.
+entrypoint: optional string
 
-      - `errorTemplate: optional string`
+<a href="#">Link to this property</a>
 
-        Templatized version of the error message used for grouping similar errors.
+event: optional map\[unknown]
 
-      - `fingerprint: optional string`
+<a href="#">Link to this property</a>
 
-        Content-based fingerprint used to group similar events.
+<details>
 
-      - `level: optional string`
+<summary>
 
-        Log level (e.g. log, debug, info, warn, error).
+executionModel: optional "durableObject"or "stateless"
 
-      - `message: optional string`
+</summary>
 
-        Log message text.
+One of the following:
 
-      - `messageTemplate: optional string`
+"durableObject"
 
-        Templatized version of the log message used for grouping similar messages.
+<a href="#">Link to this property</a>
 
-      - `metricName: optional string`
+"stateless"
 
-        Metric name when the event represents a metric data point.
+<a href="#">Link to this property</a>
 
-      - `origin: optional string`
+</details>
 
-        Origin of the event (e.g. fetch, scheduled, queue).
+<a href="#">Link to this property</a>
 
-      - `parentSpanId: optional string`
+<details>
 
-        Span ID of the parent span in the trace hierarchy.
+<summary>
 
-      - `provider: optional string`
+preview: optional object {id, name, slug }
 
-        Infrastructure provider identifier.
+</summary>
 
-      - `region: optional string`
+id: optional string
 
-        Cloudflare data center / region that handled the request.
+<a href="#">Link to this property</a>
 
-      - `requestId: optional string`
+name: optional string
 
-        Cloudflare request ID that ties all logs from a single invocation together.
+<a href="#">Link to this property</a>
 
-      - `service: optional string`
+slug: optional string
 
-        Worker script name that produced this event.
+<a href="#">Link to this property</a>
 
-      - `spanId: optional string`
+</details>
 
-        Span ID for this individual unit of work within a trace.
+<a href="#">Link to this property</a>
 
-      - `spanName: optional string`
+<details>
 
-        Human-readable name for this span.
+<summary>
 
-      - `stackId: optional string`
+scriptVersion: optional object {id, message, tag }
 
-        Stack / deployment identifier.
+</summary>
 
-      - `startTime: optional number`
+id: optional string
 
-        Span start time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-      - `statusCode: optional number`
+message: optional string
 
-        HTTP response status code returned by the Worker.
+<a href="#">Link to this property</a>
 
-      - `traceDuration: optional number`
+tag: optional string
 
-        Total duration of the entire trace in milliseconds.
+<a href="#">Link to this property</a>
 
-      - `traceId: optional string`
+</details>
 
-        Distributed trace ID linking spans across services.
+<a href="#">Link to this property</a>
 
-      - `transactionName: optional string`
+spanId: optional string
 
-        Logical transaction name for this request.
+<a href="#">Link to this property</a>
 
-      - `trigger: optional string`
+traceId: optional string
 
-        What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+truncated: optional boolean
 
-        Event type classifier (e.g. cf-worker-event, cf-worker-log).
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+</details>
 
-        Request URL that triggered the Worker invocation.
+<a href="#">Link to this property</a>
 
-    - `dataset: string`
+</details>
 
-      The dataset this event belongs to (e.g. cloudflare-workers).
+<a href="#">Link to this property</a>
 
-    - `source: string or map[unknown]`
+</details>
 
-      Raw log payload. May be a string or a structured object depending on how the log was emitted.
+<a href="#">Link to this property</a>
 
-      - `string`
+<details>
 
-      - `map[unknown]`
+<summary>
 
-    - `timestamp: number`
+fields: optional array of object {key, type }
 
-      Event timestamp as a Unix epoch in milliseconds.
+List of fields discovered in the matched events. Useful for building dynamic UIs.
 
-    - `"$containers": optional map[unknown]`
+</summary>
 
-      Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+key: string
 
-    - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
+Field name present in the matched events.
 
-      Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+<a href="#">Link to this property</a>
 
-      - `object { eventType, requestId, scriptName, 10 more }`
+type: string
 
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+Data type of the field (string, number, or boolean).
 
-          - `"fetch"`
+<a href="#">Link to this property</a>
 
-          - `"scheduled"`
+</details>
 
-          - `"alarm"`
+<a href="#">Link to this property</a>
 
-          - `"cron"`
+<details>
 
-          - `"queue"`
+<summary>
 
-          - `"email"`
+series: optional array of object {data, time }
 
-          - `"tail"`
+Time-series data for the matched events, bucketed by the query granularity.
 
-          - `"rpc"`
+</summary>
 
-          - `"jsrpc"`
+<details>
 
-          - `"websocket"`
+<summary>
 
-          - `"workflow"`
+data: array of object {aggregates, count, interval, 3 more }
 
-          - `"unknown"`
+</summary>
 
-        - `requestId: string`
+<details>
 
-        - `scriptName: string`
+<summary>
 
-        - `durableObjectId: optional string`
+aggregates: object {\_count, \_interval, \_firstSeen, 2 more }
 
-        - `entrypoint: optional string`
+</summary>
 
-        - `event: optional map[unknown]`
+Deprecated\_count: number
 
-        - `executionModel: optional "durableObject" or "stateless"`
+exclusiveMinimum
 
-          - `"durableObject"`
+minimum0
 
-          - `"stateless"`
+<a href="#">Link to this property</a>
 
-        - `outcome: optional string`
+Deprecated\_interval: number
 
-        - `preview: optional object { id, name, slug }`
+exclusiveMinimum
 
-          - `id: optional string`
+minimum0
 
-          - `name: optional string`
+<a href="#">Link to this property</a>
 
-          - `slug: optional string`
+Deprecated\_firstSeen: optional string
 
-        - `scriptVersion: optional object { id, message, tag }`
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+Deprecated\_lastSeen: optional string
 
-          - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `tag: optional string`
+Deprecatedbin: optional unknown
 
-        - `spanId: optional string`
+<a href="#">Link to this property</a>
 
-        - `traceId: optional string`
+</details>
 
-        - `truncated: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `object { cpuTimeMs, eventType, outcome, 14 more }`
+count: number
 
-        - `cpuTimeMs: number`
+<a href="#">Link to this property</a>
 
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+interval: number
 
-          - `"fetch"`
+<a href="#">Link to this property</a>
 
-          - `"scheduled"`
+sampleInterval: number
 
-          - `"alarm"`
+<a href="#">Link to this property</a>
 
-          - `"cron"`
+errors: optional number
 
-          - `"queue"`
+<a href="#">Link to this property</a>
 
-          - `"email"`
+<details>
 
-          - `"tail"`
+<summary>
 
-          - `"rpc"`
+groups: optional map\[stringor numberor boolean]
 
-          - `"jsrpc"`
+Groups in the query results.
 
-          - `"websocket"`
+</summary>
 
-          - `"workflow"`
+One of the following:
 
-          - `"unknown"`
+string
 
-        - `outcome: string`
+<a href="#">Link to this property</a>
 
-        - `requestId: string`
+number
 
-        - `scriptName: string`
+<a href="#">Link to this property</a>
 
-        - `wallTimeMs: number`
+boolean
 
-        - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
+<a href="#">Link to this property</a>
 
-          - `channel: string`
+</details>
 
-          - `message: string`
+<a href="#">Link to this property</a>
 
-          - `timestamp: number`
+</details>
 
-        - `dispatchNamespace: optional string`
+<a href="#">Link to this property</a>
 
-        - `durableObjectId: optional string`
+time: string
 
-        - `entrypoint: optional string`
+<a href="#">Link to this property</a>
 
-        - `event: optional map[unknown]`
+</details>
 
-        - `executionModel: optional "durableObject" or "stateless"`
+<a href="#">Link to this property</a>
 
-          - `"durableObject"`
+</details>
 
-          - `"stateless"`
+<a href="#">Link to this property</a>
 
-        - `preview: optional object { id, name, slug }`
+<details>
 
-          - `id: optional string`
+<summary>
 
-          - `name: optional string`
+invocations: optional map\[array of object {"$metadata", dataset, source, 3 more } ]
 
-          - `slug: optional string`
+Events grouped by invocation (request ID). Present when the query view is ‘invocations’. Each key is a request ID mapping to all events from that invocation.
 
-        - `scriptVersion: optional object { id, message, tag }`
+</summary>
 
-          - `id: optional string`
+<details>
 
-          - `message: optional string`
+<summary>
 
-          - `tag: optional string`
+"$metadata": object {id, account, cloudService, 29 more }
 
-        - `spanId: optional string`
+Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
 
-        - `traceId: optional string`
+</summary>
 
-        - `truncated: optional boolean`
+id: string
 
-  - `traces: optional array of object { rootSpanName, rootTransactionName, service, 6 more }`
+Unique event ID. Use as the cursor value for offset-based pagination.
 
-    Trace summaries matching the query. Present when the query view is 'traces'. Each entry represents a distributed trace with its spans, duration, and services involved.
+<a href="#">Link to this property</a>
 
-    - `rootSpanName: string`
+account: optional string
 
-      Name of the root span that initiated the trace.
+Cloudflare account identifier.
 
-    - `rootTransactionName: string`
+<a href="#">Link to this property</a>
 
-      Logical transaction name for the root span.
+cloudService: optional string
 
-    - `service: array of string`
+Cloudflare product that generated this event (e.g. workers, pages).
 
-      List of Worker services involved in the trace.
+<a href="#">Link to this property</a>
 
-    - `spans: number`
+coldStart: optional number
 
-      Total number of spans in the trace.
+exclusiveMinimum
 
-    - `traceDurationMs: number`
+minimum0
 
-      Total duration of the trace in milliseconds.
+<a href="#">Link to this property</a>
 
-    - `traceEndMs: number`
+cost: optional number
 
-      Trace end time as a Unix epoch in milliseconds.
+Estimated cost units for this invocation.
 
-    - `traceId: string`
+exclusiveMinimum
 
-      Unique identifier for the distributed trace.
+minimum0
 
-    - `traceStartMs: number`
+<a href="#">Link to this property</a>
 
-      Trace start time as a Unix epoch in milliseconds.
+duration: optional number
 
-    - `errors: optional array of string`
+Span duration in milliseconds.
 
-      Error messages encountered during the trace, if any.
+exclusiveMinimum
 
-- `success: true`
+minimum0
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+endTime: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/shared/query/$ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Span end time as a Unix epoch in milliseconds.
 
-#### Response
+minimum0
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": {
-    "run": {
-      "id": "id",
-      "accountId": "accountId",
-      "dry": true,
-      "granularity": 0,
-      "query": {
-        "id": "id",
-        "adhoc": true,
-        "created": "created",
-        "createdBy": "createdBy",
-        "description": "Query description",
-        "name": "x",
-        "parameters": {
-          "calculations": [
-            {
-              "operator": "uniq",
-              "alias": "alias",
-              "key": "key",
-              "keyType": "string"
-            }
-          ],
-          "datasets": [
-            "string"
-          ],
-          "filterCombination": "and",
-          "filters": [
-            {
-              "filterCombination": "and",
-              "filters": [
-                {}
-              ],
-              "kind": "group"
-            }
-          ],
-          "groupBys": [
-            {
-              "type": "string",
-              "value": "value"
-            }
-          ],
-          "havings": [
-            {
-              "key": "key",
-              "operation": "eq",
-              "value": 0
-            }
-          ],
-          "limit": 0,
-          "needle": {
-            "value": {
-              "0": "s",
-              "1": "t",
-              "2": "r",
-              "3": "i",
-              "4": "n",
-              "5": "g"
-            },
-            "isRegex": true,
-            "matchCase": true
-          },
-          "orderBy": {
-            "value": "value",
-            "order": "asc"
-          }
-        },
-        "updated": "updated",
-        "updatedBy": "updatedBy"
-      },
-      "status": "STARTED",
-      "timeframe": {
-        "from": 0,
-        "to": 0
-      },
-      "userId": "userId",
-      "created": "created",
-      "statistics": {
-        "bytes_read": 0,
-        "elapsed": 0,
-        "rows_read": 0,
-        "abr_level": 0
-      },
-      "updated": "updated"
-    },
-    "statistics": {
-      "bytes_read": 0,
-      "elapsed": 0,
-      "rows_read": 0,
-      "abr_level": 0
-    },
-    "agents": [
-      {
-        "agentClass": "agentClass",
-        "eventTypeCounts": {
-          "foo": 0
-        },
-        "firstEventMs": 0,
-        "hasErrors": true,
-        "lastEventMs": 0,
-        "namespace": "namespace",
-        "service": "service",
-        "totalEvents": 0
-      }
-    ],
-    "calculations": [
-      {
-        "aggregates": [
-          {
-            "count": 0,
-            "interval": 0,
-            "sampleInterval": 0,
-            "value": 0,
-            "groups": [
-              {
-                "key": "key",
-                "value": "string"
-              }
-            ]
-          }
-        ],
-        "calculation": "calculation",
-        "series": [
-          {
-            "data": [
-              {
-                "count": 0,
-                "interval": 0,
-                "sampleInterval": 0,
-                "value": 0,
-                "firstSeen": "firstSeen",
-                "groups": [
-                  {
-                    "key": "key",
-                    "value": "string"
-                  }
-                ],
-                "lastSeen": "lastSeen"
-              }
-            ],
-            "time": "time"
-          }
-        ],
-        "alias": "alias"
-      }
-    ],
-    "compare": [
-      {
-        "aggregates": [
-          {
-            "count": 0,
-            "interval": 0,
-            "sampleInterval": 0,
-            "value": 0,
-            "groups": [
-              {
-                "key": "key",
-                "value": "string"
-              }
-            ]
-          }
-        ],
-        "calculation": "calculation",
-        "series": [
-          {
-            "data": [
-              {
-                "count": 0,
-                "interval": 0,
-                "sampleInterval": 0,
-                "value": 0,
-                "firstSeen": "firstSeen",
-                "groups": [
-                  {
-                    "key": "key",
-                    "value": "string"
-                  }
-                ],
-                "lastSeen": "lastSeen"
-              }
-            ],
-            "time": "time"
-          }
-        ],
-        "alias": "alias"
-      }
-    ],
-    "events": {
-      "count": 0,
-      "events": [
-        {
-          "$metadata": {
-            "id": "id",
-            "account": "account",
-            "cloudService": "cloudService",
-            "coldStart": 1,
-            "cost": 1,
-            "duration": 1,
-            "endTime": 0,
-            "error": "error",
-            "errorTemplate": "errorTemplate",
-            "fingerprint": "fingerprint",
-            "level": "level",
-            "message": "message",
-            "messageTemplate": "messageTemplate",
-            "metricName": "metricName",
-            "origin": "origin",
-            "parentSpanId": "parentSpanId",
-            "provider": "provider",
-            "region": "region",
-            "requestId": "requestId",
-            "service": "service",
-            "spanId": "spanId",
-            "spanName": "spanName",
-            "stackId": "stackId",
-            "startTime": 0,
-            "statusCode": 1,
-            "traceDuration": 1,
-            "traceId": "traceId",
-            "transactionName": "transactionName",
-            "trigger": "trigger",
-            "type": "type",
-            "url": "url"
-          },
-          "dataset": "dataset",
-          "source": "string",
-          "timestamp": 0,
-          "$containers": {
-            "foo": "bar"
-          },
-          "$workers": {
-            "eventType": "fetch",
-            "requestId": "requestId",
-            "scriptName": "scriptName",
-            "durableObjectId": "durableObjectId",
-            "entrypoint": "entrypoint",
-            "event": {
-              "foo": "bar"
-            },
-            "executionModel": "durableObject",
-            "outcome": "outcome",
-            "preview": {
-              "id": "id",
-              "name": "name",
-              "slug": "slug"
-            },
-            "scriptVersion": {
-              "id": "id",
-              "message": "message",
-              "tag": "tag"
-            },
-            "spanId": "spanId",
-            "traceId": "traceId",
-            "truncated": true
-          }
-        }
-      ],
-      "fields": [
-        {
-          "key": "key",
-          "type": "type"
-        }
-      ],
-      "series": [
-        {
-          "data": [
-            {
-              "aggregates": {
-                "_count": 1,
-                "_interval": 1,
-                "_firstSeen": "_firstSeen",
-                "_lastSeen": "_lastSeen",
-                "bin": {}
-              },
-              "count": 0,
-              "interval": 0,
-              "sampleInterval": 0,
-              "errors": 0,
-              "groups": {
-                "foo": "string"
-              }
-            }
-          ],
-          "time": "time"
-        }
-      ]
-    },
-    "invocations": {
-      "foo": [
-        {
-          "$metadata": {
-            "id": "id",
-            "account": "account",
-            "cloudService": "cloudService",
-            "coldStart": 1,
-            "cost": 1,
-            "duration": 1,
-            "endTime": 0,
-            "error": "error",
-            "errorTemplate": "errorTemplate",
-            "fingerprint": "fingerprint",
-            "level": "level",
-            "message": "message",
-            "messageTemplate": "messageTemplate",
-            "metricName": "metricName",
-            "origin": "origin",
-            "parentSpanId": "parentSpanId",
-            "provider": "provider",
-            "region": "region",
-            "requestId": "requestId",
-            "service": "service",
-            "spanId": "spanId",
-            "spanName": "spanName",
-            "stackId": "stackId",
-            "startTime": 0,
-            "statusCode": 1,
-            "traceDuration": 1,
-            "traceId": "traceId",
-            "transactionName": "transactionName",
-            "trigger": "trigger",
-            "type": "type",
-            "url": "url"
-          },
-          "dataset": "dataset",
-          "source": "string",
-          "timestamp": 0,
-          "$containers": {
-            "foo": "bar"
-          },
-          "$workers": {
-            "eventType": "fetch",
-            "requestId": "requestId",
-            "scriptName": "scriptName",
-            "durableObjectId": "durableObjectId",
-            "entrypoint": "entrypoint",
-            "event": {
-              "foo": "bar"
-            },
-            "executionModel": "durableObject",
-            "outcome": "outcome",
-            "preview": {
-              "id": "id",
-              "name": "name",
-              "slug": "slug"
-            },
-            "scriptVersion": {
-              "id": "id",
-              "message": "message",
-              "tag": "tag"
-            },
-            "spanId": "spanId",
-            "traceId": "traceId",
-            "truncated": true
-          }
-        }
-      ]
-    },
-    "traces": [
-      {
-        "rootSpanName": "rootSpanName",
-        "rootTransactionName": "rootTransactionName",
-        "service": [
-          "string"
-        ],
-        "spans": 0,
-        "traceDurationMs": 0,
-        "traceEndMs": 0,
-        "traceId": "traceId",
-        "traceStartMs": 0,
-        "errors": [
-          "string"
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+error: optional string
 
-### Shared Query Create Response
+Error message, present when the log represents an error.
 
-- `SharedQueryCreateResponse object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+errorTemplate: optional string
 
-    Specify the ID of the shared query.
+Templatized version of the error message used for grouping similar errors.
 
-### Shared Query Get Response
+<a href="#">Link to this property</a>
 
-- `SharedQueryGetResponse object { run, statistics, agents, 5 more }`
+fingerprint: optional string
 
-  Complete results of a query run. The populated fields depend on the requested view type (events, calculations, invocations, traces, or agents).
+Content-based fingerprint used to group similar events.
 
-  - `run: object { id, accountId, dry, 8 more }`
+<a href="#">Link to this property</a>
 
-    Represents a single execution of a query against Workers Observability data, including the query definition, execution status, and performance statistics.
+level: optional string
 
-    - `id: string`
+Log level (e.g. log, debug, info, warn, error).
 
-      Unique identifier for this query run.
+<a href="#">Link to this property</a>
 
-    - `accountId: string`
+message: optional string
 
-      Cloudflare account ID that owns this query run.
+Log message text.
 
-    - `dry: boolean`
+<a href="#">Link to this property</a>
 
-      Whether this was a dry run (results not persisted).
+messageTemplate: optional string
 
-    - `granularity: number`
+Templatized version of the log message used for grouping similar messages.
 
-      Number of time-series buckets used for the query. Higher values produce more detailed series data.
+<a href="#">Link to this property</a>
 
-    - `query: object { id, adhoc, created, 6 more }`
+metricName: optional string
 
-      A saved query definition with its parameters, metadata, and ownership information.
+Metric name when the event represents a metric data point.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `adhoc: boolean`
+origin: optional string
 
-        If the query wasn't explcitly saved
+Origin of the event (e.g. fetch, scheduled, queue).
 
-      - `created: string`
+<a href="#">Link to this property</a>
 
-      - `createdBy: string`
+parentSpanId: optional string
 
-      - `description: string`
+Span ID of the parent span in the trace hierarchy.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        Query name
+provider: optional string
 
-      - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+Infrastructure provider identifier.
 
-        - `calculations: optional array of object { operator, alias, key, keyType }`
+<a href="#">Link to this property</a>
 
-          Create Calculations to compute as part of the query.
+rayId: optional string
 
-          - `operator: "uniq" or "count" or "max" or 35 more`
+Cloudflare Ray ID from the <code>cf-ray</code> header of the request that triggered the invocation.
 
-            - `"uniq"`
+<a href="#">Link to this property</a>
 
-            - `"count"`
+region: optional string
 
-            - `"max"`
+Cloudflare data center / region that handled the request.
 
-            - `"min"`
+<a href="#">Link to this property</a>
 
-            - `"sum"`
+requestId: optional string
 
-            - `"avg"`
+Cloudflare request ID that ties all logs from a single invocation together.
 
-            - `"median"`
+<a href="#">Link to this property</a>
 
-            - `"p001"`
+service: optional string
 
-            - `"p01"`
+Worker script name that produced this event.
 
-            - `"p05"`
+<a href="#">Link to this property</a>
 
-            - `"p10"`
+spanId: optional string
 
-            - `"p25"`
+Span ID for this individual unit of work within a trace.
 
-            - `"p75"`
+<a href="#">Link to this property</a>
 
-            - `"p90"`
+spanName: optional string
 
-            - `"p95"`
+Human-readable name for this span.
 
-            - `"p99"`
+<a href="#">Link to this property</a>
 
-            - `"p999"`
+stackId: optional string
 
-            - `"stddev"`
+Stack / deployment identifier.
 
-            - `"variance"`
+<a href="#">Link to this property</a>
 
-            - `"COUNT_DISTINCT"`
+startTime: optional number
 
-            - `"COUNT"`
+Span start time as a Unix epoch in milliseconds.
 
-            - `"MAX"`
+minimum0
 
-            - `"MIN"`
+<a href="#">Link to this property</a>
 
-            - `"SUM"`
+statusCode: optional number
 
-            - `"AVG"`
+HTTP response status code returned by the Worker.
 
-            - `"MEDIAN"`
+exclusiveMinimum
 
-            - `"P001"`
+minimum0
 
-            - `"P01"`
+<a href="#">Link to this property</a>
 
-            - `"P05"`
+traceDuration: optional number
 
-            - `"P10"`
+Total duration of the entire trace in milliseconds.
 
-            - `"P25"`
+exclusiveMinimum
 
-            - `"P75"`
+minimum0
 
-            - `"P90"`
+<a href="#">Link to this property</a>
 
-            - `"P95"`
+traceId: optional string
 
-            - `"P99"`
+Distributed trace ID linking spans across services.
 
-            - `"P999"`
+<a href="#">Link to this property</a>
 
-            - `"STDDEV"`
+transactionName: optional string
 
-            - `"VARIANCE"`
+Logical transaction name for this request.
 
-          - `alias: optional string`
+<a href="#">Link to this property</a>
 
-          - `key: optional string`
+trigger: optional string
 
-          - `keyType: optional "string" or "number" or "boolean"`
+What triggered the invocation (e.g. GET /users, POST /orders, queue message).
 
-            - `"string"`
+<a href="#">Link to this property</a>
 
-            - `"number"`
+type: optional string
 
-            - `"boolean"`
+Event type classifier (e.g. cf-worker-event, cf-worker-log).
 
-        - `datasets: optional array of string`
+<a href="#">Link to this property</a>
 
-          Set the Datasets to query. Leave it empty to query all the datasets.
+url: optional string
 
-        - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+Request URL that triggered the Worker invocation.
 
-          Set a Flag to describe how to combine the filters on the query.
+<a href="#">Link to this property</a>
 
-          - `"and"`
+</details>
 
-          - `"or"`
+<a href="#">Link to this property</a>
 
-          - `"AND"`
+dataset: string
 
-          - `"OR"`
+The dataset this event belongs to (e.g. cloudflare-workers).
 
-        - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-          Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+<details>
 
-          - `object { filterCombination, filters, kind }`
+<summary>
 
-            - `filterCombination: "and" or "or" or "AND" or "OR"`
+source: stringor map\[unknown]
 
-              - `"and"`
+Raw log payload. May be a string or a structured object depending on how the log was emitted.
 
-              - `"or"`
+</summary>
 
-              - `"AND"`
+One of the following:
 
-              - `"OR"`
+string
 
-            - `filters: array of unknown`
+<a href="#">Link to this property</a>
 
-            - `kind: "group"`
+map\[unknown]
 
-              - `"group"`
+<a href="#">Link to this property</a>
 
-          - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+</details>
 
-            A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<a href="#">Link to this property</a>
 
-            - `key: string`
+timestamp: number
 
-              Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+Event timestamp as a Unix epoch in milliseconds.
 
-            - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+minimum0
 
-              Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<a href="#">Link to this property</a>
 
-              - `"includes"`
+"$containers": optional map\[unknown]
 
-              - `"not_includes"`
+Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
 
-              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-              - `"ends_with"`
+<details>
 
-              - `"regex"`
+<summary>
 
-              - `"exists"`
+"$workers": optional object {eventType, requestId, scriptName, 10 more } or object {cpuTimeMs, eventType, outcome, 14 more }
 
-              - `"is_null"`
+Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
 
-              - `"in"`
+</summary>
 
-              - `"not_in"`
+One of the following:
 
-              - `"eq"`
+<details>
 
-              - `"neq"`
+<summary>
 
-              - `"gt"`
+object {eventType, requestId, scriptName, 10 more }
 
-              - `"gte"`
+</summary>
 
-              - `"lt"`
+<details>
 
-              - `"lte"`
+<summary>
 
-              - `"="`
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
 
-              - `"!="`
+</summary>
 
-              - `">"`
+One of the following:
 
-              - `">="`
+"fetch"
 
-              - `"<"`
+<a href="#">Link to this property</a>
 
-              - `"<="`
+"scheduled"
 
-              - `"INCLUDES"`
+<a href="#">Link to this property</a>
 
-              - `"DOES_NOT_INCLUDE"`
+"alarm"
 
-              - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-              - `"EXISTS"`
+"cron"
 
-              - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-              - `"IN"`
+"queue"
 
-              - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-              - `"STARTS_WITH"`
+"email"
 
-              - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-            - `type: "string" or "number" or "boolean"`
+"tail"
 
-              Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-              - `"string"`
+"rpc"
 
-              - `"number"`
+<a href="#">Link to this property</a>
 
-              - `"boolean"`
+"jsrpc"
 
-            - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-              Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+"websocket"
 
-              - `"filter"`
+<a href="#">Link to this property</a>
 
-            - `value: optional string or number or boolean`
+"workflow"
 
-              Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-              - `string`
+"unknown"
 
-              - `number`
+<a href="#">Link to this property</a>
 
-              - `boolean`
+</details>
 
-        - `groupBys: optional array of object { type, value }`
+<a href="#">Link to this property</a>
 
-          Define how to group the results of the query.
+requestId: string
 
-          - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-            - `"string"`
+scriptName: string
 
-            - `"number"`
+<a href="#">Link to this property</a>
 
-            - `"boolean"`
+durableObjectId: optional string
 
-          - `value: string`
+<a href="#">Link to this property</a>
 
-        - `havings: optional array of object { key, operation, value }`
+entrypoint: optional string
 
-          Configure the Having clauses that filter on calculations in the query result.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+event: optional map\[unknown]
 
-          - `operation: "eq" or "neq" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-            - `"eq"`
+<details>
 
-            - `"neq"`
+<summary>
 
-            - `"gt"`
+executionModel: optional "durableObject"or "stateless"
 
-            - `"gte"`
+</summary>
 
-            - `"lt"`
+One of the following:
 
-            - `"lte"`
+"durableObject"
 
-          - `value: number`
+<a href="#">Link to this property</a>
 
-        - `limit: optional number`
+"stateless"
 
-          Set a limit on the number of results / records returned by the query
+<a href="#">Link to this property</a>
 
-        - `needle: optional object { value, isRegex, matchCase }`
+</details>
 
-          Define an expression to search using full-text search.
+<a href="#">Link to this property</a>
 
-          - `value:`
+outcome: optional string
 
-          - `isRegex: optional boolean`
+<a href="#">Link to this property</a>
 
-          - `matchCase: optional boolean`
+<details>
 
-        - `orderBy: optional object { value, order }`
+<summary>
 
-          Configure the order of the results returned by the query.
+preview: optional object {id, name, slug }
 
-          - `value: string`
+</summary>
 
-            Configure which Calculation to order the results by.
+id: optional string
 
-          - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-            Set the order of the results
+name: optional string
 
-            - `"asc"`
+<a href="#">Link to this property</a>
 
-            - `"desc"`
+slug: optional string
 
-      - `updated: string`
+<a href="#">Link to this property</a>
 
-      - `updatedBy: string`
+</details>
 
-    - `status: "STARTED" or "COMPLETED"`
+<a href="#">Link to this property</a>
 
-      Current execution status of the query run.
+<details>
 
-      - `"STARTED"`
+<summary>
 
-      - `"COMPLETED"`
+scriptVersion: optional object {id, message, tag }
 
-    - `timeframe: object { from, to }`
+</summary>
 
-      Time range for the query execution
+id: optional string
 
-      - `from: number`
+<a href="#">Link to this property</a>
 
-        Start timestamp for the query timeframe (Unix timestamp in milliseconds)
+message: optional string
 
-      - `to: number`
+<a href="#">Link to this property</a>
 
-        End timestamp for the query timeframe (Unix timestamp in milliseconds)
+tag: optional string
 
-    - `userId: string`
+<a href="#">Link to this property</a>
 
-      ID of the user who initiated the query run.
+</details>
 
-    - `created: optional string`
+<a href="#">Link to this property</a>
 
-      ISO-8601 timestamp when the query run was created.
+spanId: optional string
 
-    - `statistics: optional object { bytes_read, elapsed, rows_read, abr_level }`
+<a href="#">Link to this property</a>
 
-      Query performance statistics from the database (does not include network latency).
+traceId: optional string
 
-      - `bytes_read: number`
+<a href="#">Link to this property</a>
 
-        Number of uncompressed bytes read from the table.
+truncated: optional boolean
 
-      - `elapsed: number`
+<a href="#">Link to this property</a>
 
-        Time in seconds for the query to run.
+</details>
 
-      - `rows_read: number`
+<a href="#">Link to this property</a>
 
-        Number of rows scanned from the table.
+<details>
 
-      - `abr_level: optional number`
+<summary>
 
-        The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+object {cpuTimeMs, eventType, outcome, 14 more }
 
-    - `updated: optional string`
+</summary>
 
-      ISO-8601 timestamp when the query run was last updated.
+cpuTimeMs: number
 
-  - `statistics: object { bytes_read, elapsed, rows_read, abr_level }`
+<a href="#">Link to this property</a>
 
-    Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.
+<details>
 
-    - `bytes_read: number`
+<summary>
 
-      Number of uncompressed bytes read from the table.
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
 
-    - `elapsed: number`
+</summary>
 
-      Time in seconds for the query to run.
+One of the following:
 
-    - `rows_read: number`
+"fetch"
 
-      Number of rows scanned from the table.
+<a href="#">Link to this property</a>
 
-    - `abr_level: optional number`
+"scheduled"
 
-      The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+<a href="#">Link to this property</a>
 
-  - `agents: optional array of object { agentClass, eventTypeCounts, firstEventMs, 5 more }`
+"alarm"
 
-    Durable Object agent summaries. Present when the query view is 'agents'. Each entry represents an agent with its event counts and status.
+<a href="#">Link to this property</a>
 
-    - `agentClass: string`
+"cron"
 
-      Class name of the Durable Object agent.
+<a href="#">Link to this property</a>
 
-    - `eventTypeCounts: map[number]`
+"queue"
 
-      Breakdown of event counts by event type.
+<a href="#">Link to this property</a>
 
-    - `firstEventMs: number`
+"email"
 
-      Timestamp of the earliest event from this agent in the queried window (Unix epoch ms).
+<a href="#">Link to this property</a>
 
-    - `hasErrors: boolean`
+"tail"
 
-      Whether the agent emitted any error events in the queried window.
+<a href="#">Link to this property</a>
 
-    - `lastEventMs: number`
+"rpc"
 
-      Timestamp of the most recent event from this agent (Unix epoch ms).
+<a href="#">Link to this property</a>
 
-    - `namespace: string`
+"jsrpc"
 
-      Durable Object namespace the agent belongs to.
+<a href="#">Link to this property</a>
 
-    - `service: string`
+"websocket"
 
-      Worker service name that hosts this agent.
+<a href="#">Link to this property</a>
 
-    - `totalEvents: number`
+"workflow"
 
-      Total number of events emitted by this agent in the queried window.
+<a href="#">Link to this property</a>
 
-  - `calculations: optional array of object { aggregates, calculation, series, alias }`
+"unknown"
 
-    Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data.
+<a href="#">Link to this property</a>
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+</details>
 
-      - `count: number`
+<a href="#">Link to this property</a>
 
-      - `interval: number`
+outcome: string
 
-      - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+requestId: string
 
-      - `groups: optional array of object { key, value }`
+<a href="#">Link to this property</a>
 
-        - `key: string`
+scriptName: string
 
-        - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-          - `string`
+wallTimeMs: number
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+<details>
 
-    - `calculation: string`
+<summary>
 
-    - `series: array of object { data, time }`
+diagnosticsChannelEvents: optional array of object {channel, message, timestamp }
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+</summary>
 
-        - `count: number`
+channel: string
 
-        - `interval: number`
+<a href="#">Link to this property</a>
 
-        - `sampleInterval: number`
+message: string
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-        - `firstSeen: optional string`
+timestamp: number
 
-        - `groups: optional array of object { key, value }`
+<a href="#">Link to this property</a>
 
-          - `key: string`
+</details>
 
-          - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-            - `string`
+dispatchNamespace: optional string
 
-            - `number`
+<a href="#">Link to this property</a>
 
-            - `boolean`
+durableObjectId: optional string
 
-        - `lastSeen: optional string`
+<a href="#">Link to this property</a>
 
-      - `time: string`
+entrypoint: optional string
 
-    - `alias: optional string`
+<a href="#">Link to this property</a>
 
-  - `compare: optional array of object { aggregates, calculation, series, alias }`
+event: optional map\[unknown]
 
-    Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations.
+<a href="#">Link to this property</a>
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+<details>
 
-      - `count: number`
+<summary>
 
-      - `interval: number`
+executionModel: optional "durableObject"or "stateless"
 
-      - `sampleInterval: number`
+</summary>
 
-      - `value: number`
+One of the following:
 
-      - `groups: optional array of object { key, value }`
+"durableObject"
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `value: string or number or boolean`
+"stateless"
 
-          - `string`
+<a href="#">Link to this property</a>
 
-          - `number`
+</details>
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-    - `calculation: string`
+<details>
 
-    - `series: array of object { data, time }`
+<summary>
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+preview: optional object {id, name, slug }
 
-        - `count: number`
+</summary>
 
-        - `interval: number`
+id: optional string
 
-        - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+name: optional string
 
-        - `firstSeen: optional string`
+<a href="#">Link to this property</a>
 
-        - `groups: optional array of object { key, value }`
+slug: optional string
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-          - `value: string or number or boolean`
+</details>
 
-            - `string`
+<a href="#">Link to this property</a>
 
-            - `number`
+<details>
 
-            - `boolean`
+<summary>
 
-        - `lastSeen: optional string`
+scriptVersion: optional object {id, message, tag }
 
-      - `time: string`
+</summary>
 
-    - `alias: optional string`
+id: optional string
 
-  - `events: optional object { count, events, fields, series }`
+<a href="#">Link to this property</a>
 
-    Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata.
+message: optional string
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of events matching the query (may exceed the number returned due to limits).
+tag: optional string
 
-    - `events: optional array of object { "$metadata", dataset, source, 3 more }`
+<a href="#">Link to this property</a>
 
-      List of individual telemetry events matching the query.
+</details>
 
-      - `"$metadata": object { id, account, cloudService, 28 more }`
+<a href="#">Link to this property</a>
 
-        Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+spanId: optional string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          Unique event ID. Use as the cursor value for offset-based pagination.
+traceId: optional string
 
-        - `account: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare account identifier.
+truncated: optional boolean
 
-        - `cloudService: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare product that generated this event (e.g. workers, pages).
+</details>
 
-        - `coldStart: optional number`
+<a href="#">Link to this property</a>
 
-        - `cost: optional number`
+</details>
 
-          Estimated cost units for this invocation.
+<a href="#">Link to this property</a>
 
-        - `duration: optional number`
+</details>
 
-          Span duration in milliseconds.
+<a href="#">Link to this property</a>
 
-        - `endTime: optional number`
+<details>
 
-          Span end time as a Unix epoch in milliseconds.
+<summary>
 
-        - `error: optional string`
+traces: optional array of object {rootSpanName, rootTransactionName, service, 6 more }
 
-          Error message, present when the log represents an error.
+Trace summaries matching the query. Present when the query view is ‘traces’. Each entry represents a distributed trace with its spans, duration, and services involved.
 
-        - `errorTemplate: optional string`
+</summary>
 
-          Templatized version of the error message used for grouping similar errors.
+rootSpanName: string
 
-        - `fingerprint: optional string`
+Name of the root span that initiated the trace.
 
-          Content-based fingerprint used to group similar events.
+<a href="#">Link to this property</a>
 
-        - `level: optional string`
+rootTransactionName: string
 
-          Log level (e.g. log, debug, info, warn, error).
+Logical transaction name for the root span.
 
-        - `message: optional string`
+<a href="#">Link to this property</a>
 
-          Log message text.
+service: array of string
 
-        - `messageTemplate: optional string`
+List of Worker services involved in the trace.
 
-          Templatized version of the log message used for grouping similar messages.
+<a href="#">Link to this property</a>
 
-        - `metricName: optional string`
+spans: number
 
-          Metric name when the event represents a metric data point.
+Total number of spans in the trace.
 
-        - `origin: optional string`
+<a href="#">Link to this property</a>
 
-          Origin of the event (e.g. fetch, scheduled, queue).
+traceDurationMs: number
 
-        - `parentSpanId: optional string`
+Total duration of the trace in milliseconds.
 
-          Span ID of the parent span in the trace hierarchy.
+<a href="#">Link to this property</a>
 
-        - `provider: optional string`
+traceEndMs: number
 
-          Infrastructure provider identifier.
+Trace end time as a Unix epoch in milliseconds.
 
-        - `region: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare data center / region that handled the request.
+traceId: string
 
-        - `requestId: optional string`
+Unique identifier for the distributed trace.
 
-          Cloudflare request ID that ties all logs from a single invocation together.
+<a href="#">Link to this property</a>
 
-        - `service: optional string`
+traceStartMs: number
 
-          Worker script name that produced this event.
+Trace start time as a Unix epoch in milliseconds.
 
-        - `spanId: optional string`
+<a href="#">Link to this property</a>
 
-          Span ID for this individual unit of work within a trace.
+errors: optional array of string
 
-        - `spanName: optional string`
+Error messages encountered during the trace, if any.
 
-          Human-readable name for this span.
+<a href="#">Link to this property</a>
 
-        - `stackId: optional string`
+</details>
 
-          Stack / deployment identifier.
+<a href="#">Link to this property</a>
 
-        - `startTime: optional number`
+</details>
 
-          Span start time as a Unix epoch in milliseconds.
-
-        - `statusCode: optional number`
-
-          HTTP response status code returned by the Worker.
-
-        - `traceDuration: optional number`
-
-          Total duration of the entire trace in milliseconds.
-
-        - `traceId: optional string`
-
-          Distributed trace ID linking spans across services.
-
-        - `transactionName: optional string`
-
-          Logical transaction name for this request.
-
-        - `trigger: optional string`
-
-          What triggered the invocation (e.g. GET /users, POST /orders, queue message).
-
-        - `type: optional string`
-
-          Event type classifier (e.g. cf-worker-event, cf-worker-log).
-
-        - `url: optional string`
-
-          Request URL that triggered the Worker invocation.
-
-      - `dataset: string`
-
-        The dataset this event belongs to (e.g. cloudflare-workers).
-
-      - `source: string or map[unknown]`
-
-        Raw log payload. May be a string or a structured object depending on how the log was emitted.
-
-        - `string`
-
-        - `map[unknown]`
-
-      - `timestamp: number`
-
-        Event timestamp as a Unix epoch in milliseconds.
-
-      - `"$containers": optional map[unknown]`
-
-        Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
-
-      - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
-
-        Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
-
-        - `object { eventType, requestId, scriptName, 10 more }`
-
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
-
-            - `"fetch"`
-
-            - `"scheduled"`
-
-            - `"alarm"`
-
-            - `"cron"`
-
-            - `"queue"`
-
-            - `"email"`
-
-            - `"tail"`
-
-            - `"rpc"`
-
-            - `"jsrpc"`
-
-            - `"websocket"`
-
-            - `"workflow"`
-
-            - `"unknown"`
-
-          - `requestId: string`
-
-          - `scriptName: string`
-
-          - `durableObjectId: optional string`
-
-          - `entrypoint: optional string`
-
-          - `event: optional map[unknown]`
-
-          - `executionModel: optional "durableObject" or "stateless"`
-
-            - `"durableObject"`
-
-            - `"stateless"`
-
-          - `outcome: optional string`
-
-          - `preview: optional object { id, name, slug }`
-
-            - `id: optional string`
-
-            - `name: optional string`
-
-            - `slug: optional string`
-
-          - `scriptVersion: optional object { id, message, tag }`
-
-            - `id: optional string`
-
-            - `message: optional string`
-
-            - `tag: optional string`
-
-          - `spanId: optional string`
-
-          - `traceId: optional string`
-
-          - `truncated: optional boolean`
-
-        - `object { cpuTimeMs, eventType, outcome, 14 more }`
-
-          - `cpuTimeMs: number`
-
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
-
-            - `"fetch"`
-
-            - `"scheduled"`
-
-            - `"alarm"`
-
-            - `"cron"`
-
-            - `"queue"`
-
-            - `"email"`
-
-            - `"tail"`
-
-            - `"rpc"`
-
-            - `"jsrpc"`
-
-            - `"websocket"`
-
-            - `"workflow"`
-
-            - `"unknown"`
-
-          - `outcome: string`
-
-          - `requestId: string`
-
-          - `scriptName: string`
-
-          - `wallTimeMs: number`
-
-          - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
-
-            - `channel: string`
-
-            - `message: string`
-
-            - `timestamp: number`
-
-          - `dispatchNamespace: optional string`
-
-          - `durableObjectId: optional string`
-
-          - `entrypoint: optional string`
-
-          - `event: optional map[unknown]`
-
-          - `executionModel: optional "durableObject" or "stateless"`
-
-            - `"durableObject"`
-
-            - `"stateless"`
-
-          - `preview: optional object { id, name, slug }`
-
-            - `id: optional string`
-
-            - `name: optional string`
-
-            - `slug: optional string`
-
-          - `scriptVersion: optional object { id, message, tag }`
-
-            - `id: optional string`
-
-            - `message: optional string`
-
-            - `tag: optional string`
-
-          - `spanId: optional string`
-
-          - `traceId: optional string`
-
-          - `truncated: optional boolean`
-
-    - `fields: optional array of object { key, type }`
-
-      List of fields discovered in the matched events. Useful for building dynamic UIs.
-
-      - `key: string`
-
-        Field name present in the matched events.
-
-      - `type: string`
-
-        Data type of the field (string, number, or boolean).
-
-    - `series: optional array of object { data, time }`
-
-      Time-series data for the matched events, bucketed by the query granularity.
-
-      - `data: array of object { aggregates, count, interval, 3 more }`
-
-        - `aggregates: object { _count, _interval, _firstSeen, 2 more }`
-
-          - `_count: number`
-
-          - `_interval: number`
-
-          - `_firstSeen: optional string`
-
-          - `_lastSeen: optional string`
-
-          - `bin: optional unknown`
-
-        - `count: number`
-
-        - `interval: number`
-
-        - `sampleInterval: number`
-
-        - `errors: optional number`
-
-        - `groups: optional map[string or number or boolean]`
-
-          Groups in the query results.
-
-          - `string`
-
-          - `number`
-
-          - `boolean`
-
-      - `time: string`
-
-  - `invocations: optional map[array of object { "$metadata", dataset, source, 3 more } ]`
-
-    Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation.
-
-    - `"$metadata": object { id, account, cloudService, 28 more }`
-
-      Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
-
-      - `id: string`
-
-        Unique event ID. Use as the cursor value for offset-based pagination.
-
-      - `account: optional string`
-
-        Cloudflare account identifier.
-
-      - `cloudService: optional string`
-
-        Cloudflare product that generated this event (e.g. workers, pages).
-
-      - `coldStart: optional number`
-
-      - `cost: optional number`
-
-        Estimated cost units for this invocation.
-
-      - `duration: optional number`
-
-        Span duration in milliseconds.
-
-      - `endTime: optional number`
-
-        Span end time as a Unix epoch in milliseconds.
-
-      - `error: optional string`
-
-        Error message, present when the log represents an error.
-
-      - `errorTemplate: optional string`
-
-        Templatized version of the error message used for grouping similar errors.
-
-      - `fingerprint: optional string`
-
-        Content-based fingerprint used to group similar events.
-
-      - `level: optional string`
-
-        Log level (e.g. log, debug, info, warn, error).
-
-      - `message: optional string`
-
-        Log message text.
-
-      - `messageTemplate: optional string`
-
-        Templatized version of the log message used for grouping similar messages.
-
-      - `metricName: optional string`
-
-        Metric name when the event represents a metric data point.
-
-      - `origin: optional string`
-
-        Origin of the event (e.g. fetch, scheduled, queue).
-
-      - `parentSpanId: optional string`
-
-        Span ID of the parent span in the trace hierarchy.
-
-      - `provider: optional string`
-
-        Infrastructure provider identifier.
-
-      - `region: optional string`
-
-        Cloudflare data center / region that handled the request.
-
-      - `requestId: optional string`
-
-        Cloudflare request ID that ties all logs from a single invocation together.
-
-      - `service: optional string`
-
-        Worker script name that produced this event.
-
-      - `spanId: optional string`
-
-        Span ID for this individual unit of work within a trace.
-
-      - `spanName: optional string`
-
-        Human-readable name for this span.
-
-      - `stackId: optional string`
-
-        Stack / deployment identifier.
-
-      - `startTime: optional number`
-
-        Span start time as a Unix epoch in milliseconds.
-
-      - `statusCode: optional number`
-
-        HTTP response status code returned by the Worker.
-
-      - `traceDuration: optional number`
-
-        Total duration of the entire trace in milliseconds.
-
-      - `traceId: optional string`
-
-        Distributed trace ID linking spans across services.
-
-      - `transactionName: optional string`
-
-        Logical transaction name for this request.
-
-      - `trigger: optional string`
-
-        What triggered the invocation (e.g. GET /users, POST /orders, queue message).
-
-      - `type: optional string`
-
-        Event type classifier (e.g. cf-worker-event, cf-worker-log).
-
-      - `url: optional string`
-
-        Request URL that triggered the Worker invocation.
-
-    - `dataset: string`
-
-      The dataset this event belongs to (e.g. cloudflare-workers).
-
-    - `source: string or map[unknown]`
-
-      Raw log payload. May be a string or a structured object depending on how the log was emitted.
-
-      - `string`
-
-      - `map[unknown]`
-
-    - `timestamp: number`
-
-      Event timestamp as a Unix epoch in milliseconds.
-
-    - `"$containers": optional map[unknown]`
-
-      Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
-
-    - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
-
-      Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
-
-      - `object { eventType, requestId, scriptName, 10 more }`
-
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
-
-          - `"fetch"`
-
-          - `"scheduled"`
-
-          - `"alarm"`
-
-          - `"cron"`
-
-          - `"queue"`
-
-          - `"email"`
-
-          - `"tail"`
-
-          - `"rpc"`
-
-          - `"jsrpc"`
-
-          - `"websocket"`
-
-          - `"workflow"`
-
-          - `"unknown"`
-
-        - `requestId: string`
-
-        - `scriptName: string`
-
-        - `durableObjectId: optional string`
-
-        - `entrypoint: optional string`
-
-        - `event: optional map[unknown]`
-
-        - `executionModel: optional "durableObject" or "stateless"`
-
-          - `"durableObject"`
-
-          - `"stateless"`
-
-        - `outcome: optional string`
-
-        - `preview: optional object { id, name, slug }`
-
-          - `id: optional string`
-
-          - `name: optional string`
-
-          - `slug: optional string`
-
-        - `scriptVersion: optional object { id, message, tag }`
-
-          - `id: optional string`
-
-          - `message: optional string`
-
-          - `tag: optional string`
-
-        - `spanId: optional string`
-
-        - `traceId: optional string`
-
-        - `truncated: optional boolean`
-
-      - `object { cpuTimeMs, eventType, outcome, 14 more }`
-
-        - `cpuTimeMs: number`
-
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
-
-          - `"fetch"`
-
-          - `"scheduled"`
-
-          - `"alarm"`
-
-          - `"cron"`
-
-          - `"queue"`
-
-          - `"email"`
-
-          - `"tail"`
-
-          - `"rpc"`
-
-          - `"jsrpc"`
-
-          - `"websocket"`
-
-          - `"workflow"`
-
-          - `"unknown"`
-
-        - `outcome: string`
-
-        - `requestId: string`
-
-        - `scriptName: string`
-
-        - `wallTimeMs: number`
-
-        - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
-
-          - `channel: string`
-
-          - `message: string`
-
-          - `timestamp: number`
-
-        - `dispatchNamespace: optional string`
-
-        - `durableObjectId: optional string`
-
-        - `entrypoint: optional string`
-
-        - `event: optional map[unknown]`
-
-        - `executionModel: optional "durableObject" or "stateless"`
-
-          - `"durableObject"`
-
-          - `"stateless"`
-
-        - `preview: optional object { id, name, slug }`
-
-          - `id: optional string`
-
-          - `name: optional string`
-
-          - `slug: optional string`
-
-        - `scriptVersion: optional object { id, message, tag }`
-
-          - `id: optional string`
-
-          - `message: optional string`
-
-          - `tag: optional string`
-
-        - `spanId: optional string`
-
-        - `traceId: optional string`
-
-        - `truncated: optional boolean`
-
-  - `traces: optional array of object { rootSpanName, rootTransactionName, service, 6 more }`
-
-    Trace summaries matching the query. Present when the query view is 'traces'. Each entry represents a distributed trace with its spans, duration, and services involved.
-
-    - `rootSpanName: string`
-
-      Name of the root span that initiated the trace.
-
-    - `rootTransactionName: string`
-
-      Logical transaction name for the root span.
-
-    - `service: array of string`
-
-      List of Worker services involved in the trace.
-
-    - `spans: number`
-
-      Total number of spans in the trace.
-
-    - `traceDurationMs: number`
-
-      Total duration of the trace in milliseconds.
-
-    - `traceEndMs: number`
-
-      Trace end time as a Unix epoch in milliseconds.
-
-    - `traceId: string`
-
-      Unique identifier for the distributed trace.
-
-    - `traceStartMs: number`
-
-      Trace start time as a Unix epoch in milliseconds.
-
-    - `errors: optional array of string`
-
-      Error messages encountered during the trace, if any.
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(model)%20shared_query_get_response%20%3E%20(schema)>)

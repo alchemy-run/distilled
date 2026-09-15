@@ -1,93 +1,185 @@
+---
+title: Queries
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+[V2](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Queries
 
-## Get queries
+##### [Get queries](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/queries/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/queries`
+GET/accounts/{account\_id}/cloudforce-one/v2/brand-protection/domain/queries
 
-Get all saved brand protection queries for an account
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+QueryGetResponse = array of object {created, parameters, query\_id, 3 more } or object {created, parameters, query\_id, 3 more }
 
-- `id: optional string`
+</summary>
 
-### Returns
+One of the following:
 
-- `created: string`
+<details>
 
-- `parameters: object { string_matches, max_time, min_time }`
+<summary>
 
-  - `string_matches: array of object { pattern }`
+array of object {created, parameters, query\_id, 3 more }
 
-    - `pattern: string`
+</summary>
 
-  - `max_time: optional string`
+created: string
 
-  - `min_time: optional string`
+<a href="#">Link to this property</a>
 
-- `query_id: number`
+<details>
 
-- `query_tag: string`
+<summary>
 
-- `scan: boolean`
+parameters: object {string\_matches, max\_time, min\_time }
 
-- `updated: string`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/domain/queries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+string\_matches: array of object {pattern }
 
-```json
-[
-  {
-    "created": "created",
-    "parameters": {
-      "string_matches": [
-        {
-          "pattern": "x"
-        }
-      ],
-      "max_time": "max_time",
-      "min_time": "min_time"
-    },
-    "query_id": 0,
-    "query_tag": "query_tag",
-    "scan": true,
-    "updated": "updated"
-  }
-]
-```
+</summary>
 
-## Domain Types
+pattern: string
 
-### Query Get Response
+maxLength200
 
-- `QueryGetResponse = array of object { created, parameters, query_id, 3 more }`
+minLength1
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-  - `parameters: object { string_matches, max_time, min_time }`
+</details>
 
-    - `string_matches: array of object { pattern }`
+<a href="#">Link to this property</a>
 
-      - `pattern: string`
+max\_time: optional string
 
-    - `max_time: optional string`
+<a href="#">Link to this property</a>
 
-    - `min_time: optional string`
+min\_time: optional string
 
-  - `query_id: number`
+<a href="#">Link to this property</a>
 
-  - `query_tag: string`
+</details>
 
-  - `scan: boolean`
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+query\_id: number
+
+<a href="#">Link to this property</a>
+
+query\_tag: string
+
+<a href="#">Link to this property</a>
+
+scan: boolean
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {created, parameters, query\_id, 3 more }
+
+</summary>
+
+created: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parameters: object {string\_matches, max\_time, min\_time }
+
+</summary>
+
+<details>
+
+<summary>
+
+string\_matches: array of object {pattern }
+
+</summary>
+
+pattern: string
+
+maxLength200
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+max\_time: optional string
+
+<a href="#">Link to this property</a>
+
+min\_time: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+query\_id: number
+
+<a href="#">Link to this property</a>
+
+query\_tag: string
+
+<a href="#">Link to this property</a>
+
+scan: boolean
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20brand_protection.v2.queries%20%3E%20(model)%20query_get_response%20%3E%20(schema)>)

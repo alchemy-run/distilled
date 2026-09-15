@@ -1,177 +1,397 @@
-## Fetch participants list of a session
+---
+title: Fetch participants list of a session
+---
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/participants`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+[Sessions](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Fetch participants list of a session
+
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/{session\_id}/participants
 
 Returns a list of participants for the given session ID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  The account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `app_id: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  The app identifier tag.
+##### Accepted Permissions (at least one required)
 
-- `session_id: string`
+`Realtime Admin``Realtime`
 
-### Query Parameters
+##### P ath ParametersExpand Collapse
 
-- `include_peer_events: optional boolean`
+account\_id: string
 
-  if true, response includes all the peer events of participants.
+The account identifier tag.
 
-- `page_no: optional number`
+maxLength32
 
-  The page number from which you want your page search results to be displayed.
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `per_page: optional number`
+app\_id: string
 
-  Number of results per page
+The app identifier tag.
 
-- `search: optional string`
+maxLength32
 
-  The search query string. You can search using participant ID, custom participant ID, or display name.
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
 
-- `sort_by: optional "joinedAt" or "duration"`
+session\_id: string
 
-  - `"joinedAt"`
+formatuuid
 
-  - `"duration"`
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20session_id%20%3E%20(schema)>)
 
-- `sort_order: optional "ASC" or "DESC"`
+##### Q uery ParametersExpand Collapse
 
-  - `"ASC"`
+include\_peer\_events: optional boolean
 
-  - `"DESC"`
+if true, response includes all the peer events of participants.
 
-- `view: optional "raw" or "consolidated"`
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20include_peer_events%20%3E%20(schema)>)
 
-  In breakout room sessions, the view parameter can be set to `raw` for session specific duration for participants or `consolidated` to accumulate breakout room durations.
+page\_no: optional number
 
-  - `"raw"`
+The page number from which you want your page search results to be displayed.
 
-  - `"consolidated"`
+minimum0
 
-### Returns
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20page_no%20%3E%20(schema)>)
 
-- `data: optional object { participants }`
+per\_page: optional number
 
-  - `participants: optional array of object { id, created_at, custom_participant_id, 8 more }`
+Number of results per page.
 
-    - `id: optional string`
+maximum200
 
-      Participant ID. This maps to the corresponding peerId.
+minimum1
 
-    - `created_at: optional string`
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-      timestamp when this participant was created.
+search: optional string
 
-    - `custom_participant_id: optional string`
+The search query string. You can search using participant ID, custom participant ID, or display name.
 
-      ID passed by client to create this participant.
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
 
-    - `display_name: optional string`
+<details>
 
-      Display name of participant when joining the session.
+<summary>
 
-    - `duration: optional number`
+sort\_by: optional "joinedAt"or "duration"
 
-      number of minutes for which the participant was in the session.
+</summary>
 
-    - `joined_at: optional string`
+One of the following:
 
-      timestamp at which participant joined the session.
+"joinedAt"
 
-    - `left_at: optional string`
+<a href="#">Link to this property</a>
 
-      timestamp at which participant left the session.
+"duration"
 
-    - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+<a href="#">Link to this property</a>
 
-      Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+</details>
 
-      - `id: optional string`
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20sort_by%20%3E%20(schema)>)
 
-        ID of the peer event.
+<details>
 
-      - `created_at: optional string`
+<summary>
 
-        Timestamp when this peer event was created.
+sort\_order: optional "ASC"or "DESC"
 
-      - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+</summary>
 
-        Name of the peer event.
+One of the following:
 
-        - `"PEER_CREATED"`
+"ASC"
 
-        - `"PEER_JOINING"`
+<a href="#">Link to this property</a>
 
-        - `"PEER_LEAVING"`
+"DESC"
 
-      - `minutes_consumed: optional number`
+<a href="#">Link to this property</a>
 
-        Minutes consumed attributed to this event.
+</details>
 
-      - `participant_id: optional string`
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20sort_order%20%3E%20(schema)>)
 
-        ID of the participant this event belongs to.
+<details>
 
-      - `peer_id: optional string`
+<summary>
 
-        Peer ID this event belongs to.
+view: optional "raw"or "consolidated"
 
-      - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+In breakout room sessions, the view parameter can be set to <code>raw</code> for session specific duration for participants or <code>consolidated</code> to accumulate breakout room durations.
 
-        View type of the preset associated with the peer.
+</summary>
 
-        - `"GROUP_CALL"`
+One of the following:
 
-        - `"WEBINAR"`
+"raw"
 
-        - `"AUDIO_ROOM"`
+<a href="#">Link to this property</a>
 
-        - `"LIVESTREAM"`
+"consolidated"
 
-        - `"CHAT"`
+<a href="#">Link to this property</a>
 
-      - `session_id: optional string`
+</details>
 
-        ID of the session this event belongs to.
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(method)%20get_session_participants%20%3E%20(params)%20default%20%3E%20(param)%20view%20%3E%20(schema)>)
 
-      - `socket_session_id: optional string`
+##### ReturnsExpand Collapse
 
-        ID of the socket session associated with this event.
+<details>
 
-      - `updated_at: optional string`
+<summary>
 
-        Timestamp when this peer event was last updated.
+data: optional object {participants }
 
-    - `preset_name: optional string`
+</summary>
 
-      Name of the preset associated with the participant.
+<details>
 
-    - `updated_at: optional string`
+<summary>
 
-      timestamp when this participant's data was last updated.
+participants: optional array of object {id, created\_at, custom\_participant\_id, 8 more }
 
-    - `user_id: optional string`
+</summary>
 
-      User id for this participant.
+id: optional string
 
-- `success: optional boolean`
+Participant ID. This maps to the corresponding peerId.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+created\_at: optional string
+
+timestamp when this participant was created.
+
+<a href="#">Link to this property</a>
+
+custom\_participant\_id: optional string
+
+ID passed by client to create this participant.
+
+<a href="#">Link to this property</a>
+
+display\_name: optional string
+
+Display name of participant when joining the session.
+
+<a href="#">Link to this property</a>
+
+duration: optional number
+
+number of minutes for which the participant was in the session.
+
+<a href="#">Link to this property</a>
+
+joined\_at: optional string
+
+timestamp at which participant joined the session.
+
+<a href="#">Link to this property</a>
+
+left\_at: optional string
+
+timestamp at which participant left the session.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+peer\_events: optional array of object {id, created\_at, event\_name, 7 more }
+
+Connection lifecycle events for the participant’s peer. Only included when <code>include_peer_events</code> is true.
+
+</summary>
+
+id: optional string
+
+ID of the peer event.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+Timestamp when this peer event was created.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+event\_name: optional "PEER\_CREATED"or "PEER\_JOINING"or "PEER\_LEAVING"
+
+Name of the peer event.
+
+</summary>
+
+One of the following:
+
+"PEER\_CREATED"
+
+<a href="#">Link to this property</a>
+
+"PEER\_JOINING"
+
+<a href="#">Link to this property</a>
+
+"PEER\_LEAVING"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+minutes\_consumed: optional number
+
+Minutes consumed attributed to this event.
+
+<a href="#">Link to this property</a>
+
+participant\_id: optional string
+
+ID of the participant this event belongs to.
+
+<a href="#">Link to this property</a>
+
+peer\_id: optional string
+
+Peer ID this event belongs to.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+preset\_view\_type: optional "GROUP\_CALL"or "WEBINAR"or "AUDIO\_ROOM"or 2 more
+
+View type of the preset associated with the peer.
+
+</summary>
+
+One of the following:
+
+"GROUP\_CALL"
+
+<a href="#">Link to this property</a>
+
+"WEBINAR"
+
+<a href="#">Link to this property</a>
+
+"AUDIO\_ROOM"
+
+<a href="#">Link to this property</a>
+
+"LIVESTREAM"
+
+<a href="#">Link to this property</a>
+
+"CHAT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+session\_id: optional string
+
+ID of the session this event belongs to.
+
+<a href="#">Link to this property</a>
+
+socket\_session\_id: optional string
+
+ID of the socket session associated with this event.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+Timestamp when this peer event was last updated.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+preset\_name: optional string
+
+Name of the preset associated with the participant.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+timestamp when this participant’s data was last updated.
+
+<a href="#">Link to this property</a>
+
+user\_id: optional string
+
+User id for this participant.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_session_participants_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+success: optional boolean
+
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_session_participants_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Fetch participants list of a session
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/participants \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+200 example
+
+```
 {
   "data": {
     "paging": {
@@ -186,7 +406,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP
         "display_name": "Mark",
         "duration": 5.8097,
         "id": "005f4e0c-4d08-4d4e-a391-a76be75cd296",
-        "joined_at": "2023-02-01T10:51:08.030Z",
+        "joined_at": "2023-02-01T10:51:08.03Z",
         "left_at": "2023-02-01T10:56:56.612Z",
         "preset_name": "webinar_participant",
         "updated_at": "2023-02-01T10:56:56.618Z",
@@ -200,6 +420,193 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP
         "id": "51fdf95f-d893-471a-922b-7db7adb14453",
         "joined_at": "2023-02-01T10:50:36.846Z\"",
         "left_at": "2023-02-01T10:57:32.424Z",
+        "preset_name": "webinar_participant",
+        "updated_at": "2023-02-01T10:57:32.431Z",
+        "user_id": "85e7f0fd-7c16-45e9-9d68-f17ef007c4eb"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+```
+{
+  "data": {
+    "paging": {
+      "end_offset": 2,
+      "start_offset": 1,
+      "total_count": 123
+    },
+    "participants": [
+      {
+        "created_at": "2023-02-01T10:51:08.039Z",
+        "custom_participant_id": "83qi0i",
+        "display_name": "Mark",
+        "duration": 5.8097,
+        "id": "005f4e0c-4d08-4d4e-a391-a76be75cd296",
+        "joined_at": "2023-02-01T10:51:08.03Z",
+        "left_at": "2023-02-01T10:56:56.612Z",
+        "peer_events": [
+          {
+            "created_at": "2023-02-01T10:51:50.786Z",
+            "event_name": "PEER_JOINING",
+            "id": "94af3bac-f30b-40b9-ab45-4b9e6eff191a",
+            "peer_id": "79d87ca5-7e47-452a-b3c1-b6842ad84bf5",
+            "updated_at": "2023-02-01T10:51:50.792Z"
+          },
+          {
+            "created_at": "2023-02-01T10:56:50.786Z",
+            "event_name": "PEER_LEAVING",
+            "id": "94af3bac-f30b-40b9-ab45-4b9e6eff191b",
+            "peer_id": "79d87ca5-7e47-452a-b3c1-b6842ad84bf5",
+            "updated_at": "2023-02-01T10:56:50.792Z"
+          }
+        ],
+        "preset_name": "webinar_participant",
+        "updated_at": "2023-02-01T10:56:56.618Z",
+        "user_id": "0a08343d-a9dc-45f0-9feb-6a64afcc4f81"
+      },
+      {
+        "created_at": "2023-02-01T10:50:36.853Z",
+        "custom_participant_id": "3uggr",
+        "display_name": "Henry",
+        "duration": 6.9263,
+        "id": "51fdf95f-d893-471a-922b-7db7adb14453",
+        "joined_at": "2023-02-01T10:50:36.846Z\"",
+        "left_at": "2023-02-01T10:57:32.424Z",
+        "peer_events": [
+          {
+            "created_at": "2023-02-01T10:51:50.786Z",
+            "event_name": "PEER_JOINING",
+            "id": "94af3bac-f30b-40b9-ab45-4b9e6eff191a",
+            "peer_id": "51fdf95f-d893-471a-922b-7db7adb14453",
+            "updated_at": "2023-02-01T10:51:50.792Z"
+          },
+          {
+            "created_at": "2023-02-01T10:56:50.786Z",
+            "event_name": "PEER_LEAVING",
+            "id": "94af3bac-f30b-40b9-ab45-4b9e6eff191b",
+            "peer_id": "51fdf95f-d893-471a-922b-7db7adb14453",
+            "updated_at": "2023-02-01T10:56:50.792Z"
+          }
+        ],
+        "preset_name": "webinar_participant",
+        "updated_at": "2023-02-01T10:57:32.431Z",
+        "user_id": "85e7f0fd-7c16-45e9-9d68-f17ef007c4eb"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+200 example
+
+```
+{
+  "data": {
+    "paging": {
+      "end_offset": 2,
+      "start_offset": 1,
+      "total_count": 123
+    },
+    "participants": [
+      {
+        "created_at": "2023-02-01T10:51:08.039Z",
+        "custom_participant_id": "83qi0i",
+        "display_name": "Mark",
+        "duration": 5.8097,
+        "id": "005f4e0c-4d08-4d4e-a391-a76be75cd296",
+        "joined_at": "2023-02-01T10:51:08.03Z",
+        "left_at": "2023-02-01T10:56:56.612Z",
+        "preset_name": "webinar_participant",
+        "updated_at": "2023-02-01T10:56:56.618Z",
+        "user_id": "0a08343d-a9dc-45f0-9feb-6a64afcc4f81"
+      },
+      {
+        "created_at": "2023-02-01T10:50:36.853Z",
+        "custom_participant_id": "3uggr",
+        "display_name": "Henry",
+        "duration": 6.9263,
+        "id": "51fdf95f-d893-471a-922b-7db7adb14453",
+        "joined_at": "2023-02-01T10:50:36.846Z\"",
+        "left_at": "2023-02-01T10:57:32.424Z",
+        "preset_name": "webinar_participant",
+        "updated_at": "2023-02-01T10:57:32.431Z",
+        "user_id": "85e7f0fd-7c16-45e9-9d68-f17ef007c4eb"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+```
+{
+  "data": {
+    "paging": {
+      "end_offset": 2,
+      "start_offset": 1,
+      "total_count": 123
+    },
+    "participants": [
+      {
+        "created_at": "2023-02-01T10:51:08.039Z",
+        "custom_participant_id": "83qi0i",
+        "display_name": "Mark",
+        "duration": 5.8097,
+        "id": "005f4e0c-4d08-4d4e-a391-a76be75cd296",
+        "joined_at": "2023-02-01T10:51:08.03Z",
+        "left_at": "2023-02-01T10:56:56.612Z",
+        "peer_events": [
+          {
+            "created_at": "2023-02-01T10:51:50.786Z",
+            "event_name": "PEER_JOINING",
+            "id": "94af3bac-f30b-40b9-ab45-4b9e6eff191a",
+            "peer_id": "79d87ca5-7e47-452a-b3c1-b6842ad84bf5",
+            "updated_at": "2023-02-01T10:51:50.792Z"
+          },
+          {
+            "created_at": "2023-02-01T10:56:50.786Z",
+            "event_name": "PEER_LEAVING",
+            "id": "94af3bac-f30b-40b9-ab45-4b9e6eff191b",
+            "peer_id": "79d87ca5-7e47-452a-b3c1-b6842ad84bf5",
+            "updated_at": "2023-02-01T10:56:50.792Z"
+          }
+        ],
+        "preset_name": "webinar_participant",
+        "updated_at": "2023-02-01T10:56:56.618Z",
+        "user_id": "0a08343d-a9dc-45f0-9feb-6a64afcc4f81"
+      },
+      {
+        "created_at": "2023-02-01T10:50:36.853Z",
+        "custom_participant_id": "3uggr",
+        "display_name": "Henry",
+        "duration": 6.9263,
+        "id": "51fdf95f-d893-471a-922b-7db7adb14453",
+        "joined_at": "2023-02-01T10:50:36.846Z\"",
+        "left_at": "2023-02-01T10:57:32.424Z",
+        "peer_events": [
+          {
+            "created_at": "2023-02-01T10:51:50.786Z",
+            "event_name": "PEER_JOINING",
+            "id": "94af3bac-f30b-40b9-ab45-4b9e6eff191a",
+            "peer_id": "51fdf95f-d893-471a-922b-7db7adb14453",
+            "updated_at": "2023-02-01T10:51:50.792Z"
+          },
+          {
+            "created_at": "2023-02-01T10:56:50.786Z",
+            "event_name": "PEER_LEAVING",
+            "id": "94af3bac-f30b-40b9-ab45-4b9e6eff191b",
+            "peer_id": "51fdf95f-d893-471a-922b-7db7adb14453",
+            "updated_at": "2023-02-01T10:56:50.792Z"
+          }
+        ],
         "preset_name": "webinar_participant",
         "updated_at": "2023-02-01T10:57:32.431Z",
         "user_id": "85e7f0fd-7c16-45e9-9d68-f17ef007c4eb"

@@ -1,70 +1,220 @@
-## Set spending limit (deprecated)
+---
+title: Set spending limit (deprecated)
+---
 
-**post** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Billing](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing)
+
+[Spending Limit](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Set spending limit (deprecated)
+
+Deprecated
+
+POST/accounts/{account\_id}/ai-gateway/billing/spending-limit
 
 Deprecated: spending limits can no longer be created, enabled, or modified and this endpoint always responds 403. Use the new AI Gateway spend limits instead: https://developers.cloudflare.com/ai-gateway/features/spend-limits/. Existing limits can be removed via DELETE /spending-limit.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `amount: number`
 
-  Spending limit amount in cents (min 100).
 
-- `duration: "daily" or "weekly" or "monthly"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Spending limit duration.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"daily"`
+</details>
 
-  - `"weekly"`
+<details>
 
-  - `"monthly"`
+<summary>API Email + API Key</summary>
 
-- `strategy: "fixed" or "sliding"`
 
-  Spending limit strategy.
 
-  - `"fixed"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"sliding"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of object { code, message }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message }`
+`AI Gateway Write`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-- `result: unknown`
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: true`
+##### Body ParametersJSONExpand Collapse
 
-  - `true`
+amount: number
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+Spending limit amount in cents (min 100).
 
-  - `has_more: boolean`
+minimum100
 
-  - `page: number`
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20amount%20%3E%20(schema)>)
 
-  - `per_page: number`
+<details>
 
-  - `total_count: number`
+<summary>
 
-### Example
+duration: "daily"or "weekly"or "monthly"
 
-```http
+Spending limit duration.
+
+</summary>
+
+One of the following:
+
+"daily"
+
+<a href="#">Link to this property</a>
+
+"weekly"
+
+<a href="#">Link to this property</a>
+
+"monthly"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20duration%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+strategy: "fixed"or "sliding"
+
+Spending limit strategy.
+
+</summary>
+
+One of the following:
+
+"fixed"
+
+<a href="#">Link to this property</a>
+
+"sliding"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20strategy%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+result: unknown
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {has\_more, page, per\_page, total\_count }
+
+</summary>
+
+has\_more: boolean
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Set spending limit (deprecated)
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -75,9 +225,38 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billin
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": {},
+  "success": true,
+  "result_info": {
+    "has_more": true,
+    "page": 0,
+    "per_page": 0,
+    "total_count": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,780 +1,521 @@
+---
+title: Recipients
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Resource Sharing](https://developers.cloudflare.com/api/resources/resource_sharing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Recipients
 
-## List share recipients by share ID
+##### [List share recipients by share ID](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/recipients/methods/list)
 
-**get** `/accounts/{account_id}/shares/{share_id}/recipients`
+GET/accounts/{account\_id}/shares/{share\_id}/recipients
 
-List share recipients by share ID.
+##### [Get share recipient by ID](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/recipients/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/shares/{share\_id}/recipients/{recipient\_id}
 
-- `account_id: string`
+##### [Create a new share recipient](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/recipients/methods/create)
 
-  Account identifier.
+POST/accounts/{account\_id}/shares/{share\_id}/recipients
 
-- `share_id: string`
+##### [Delete a share recipient](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/recipients/methods/delete)
 
-  Share identifier tag.
+DELETE/accounts/{account\_id}/shares/{share\_id}/recipients/{recipient\_id}
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `include_resources: optional boolean`
+<details>
 
-  Include resources in the response.
+<summary>
 
-- `page: optional number`
+RecipientListResponse object {id, account\_id, association\_status, 3 more }
 
-  Page number. Defaults to `1` when `per_page` is supplied without
-  `page`. May be omitted entirely along with `per_page` to receive a
-  non-paginated response.
+A recipient of a share. The <code>association_status</code> field tracks the lifecycle of the shared resources in the recipient account. All recipients are returned by the list endpoint regardless of status; filter client-side if only active recipients are needed.
 
-- `per_page: optional number`
+</summary>
 
-  Number of objects to return per page. Defaults to `20` when `page`
-  is supplied without `per_page`. May be omitted entirely along with
-  `page` to receive a non-paginated response.
+id: string
 
-### Returns
+Share Recipient identifier tag.
 
-- `errors: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+account\_id: string
 
-  - `documentation_url: optional string`
+Account identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-- `result: optional array of object { id, account_id, association_status, 3 more }`
+association\_status: "associating"or "associated"or "disassociating"or "disassociated"
 
-  - `id: string`
+The current state of the recipient relative to the share. The <code>desired_association_status</code> (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives <code>current_association_status</code> toward it.
 
-    Share Recipient identifier tag.
+- <code>associating</code> — The recipient was recently added; the workflow is pushing shared resources into the recipient account.
+- <code>associated</code> — Shared resources have been successfully applied to the recipient account.
+- <code>disassociating</code> — The recipient was removed (via DELETE or PUT replacement); the workflow is removing shared resources from the recipient account.
+- <code>disassociated</code> — Shared resources have been removed from the recipient account. The recipient record remains in the database.
 
-  - `account_id: string`
+</summary>
 
-    Account identifier.
+One of the following:
 
-  - `association_status: "associating" or "associated" or "disassociating" or "disassociated"`
+"associating"
 
-    Share Recipient association status.
+<a href="#">Link to this property</a>
 
-    - `"associating"`
+"associated"
 
-    - `"associated"`
+<a href="#">Link to this property</a>
 
-    - `"disassociating"`
+"disassociating"
 
-    - `"disassociated"`
+<a href="#">Link to this property</a>
 
-  - `created: string`
+"disassociated"
 
-    When the share was created.
+<a href="#">Link to this property</a>
 
-  - `modified: string`
+</details>
 
-    When the share was modified.
+<a href="#">Link to this property</a>
 
-  - `resources: optional array of object { error, resource_id, resource_version, terminal }`
+created: string
 
-    - `error: string`
+When the share was created.
 
-      Share Recipient error message.
+formatdate-time
 
-    - `resource_id: string`
+<a href="#">Link to this property</a>
 
-      Share Resource identifier.
+modified: string
 
-    - `resource_version: number`
+When the share was modified.
 
-      Resource Version.
+formatdate-time
 
-    - `terminal: boolean`
+<a href="#">Link to this property</a>
 
-      Whether the error is terminal or will be continually retried.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+resources: optional array of object {error, resource\_id, resource\_version, terminal }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+error: string
 
-    Current page within paginated list of results.
+Share Recipient error message.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+resource\_id: string
 
-  - `total_count: optional number`
+Share Resource identifier.
 
-    Total results available without any search parameters.
+maxLength32
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of pages using the given per page.
+resource\_version: number
 
-### Example
+Resource Version.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/recipients \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+terminal: boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "3fd85f74b32742f1bff64a85009dda07",
-      "account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "association_status": "associating",
-      "created": "2023-09-21T18:56:32.624632Z",
-      "modified": "2023-09-21T18:56:32.624632Z",
-      "resources": [
-        {
-          "error": "Recipient is missing necessary entitlement",
-          "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "resource_version": 0,
-          "terminal": true
-        }
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 50
-  }
-}
-```
+Whether the error is terminal or will be continually retried.
 
-## Get share recipient by ID
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/shares/{share_id}/recipients/{recipient_id}`
+</details>
 
-Get share recipient by ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20resource_sharing.recipients%20%3E%20(model)%20recipient_list_response%20%3E%20(schema)>)
 
-  Account identifier.
+<details>
 
-- `share_id: string`
+<summary>
 
-  Share identifier tag.
+RecipientGetResponse object {id, account\_id, association\_status, 3 more }
 
-- `recipient_id: string`
+A recipient of a share. The <code>association_status</code> field tracks the lifecycle of the shared resources in the recipient account. All recipients are returned by the list endpoint regardless of status; filter client-side if only active recipients are needed.
 
-  Share Recipient identifier tag.
+</summary>
 
-### Query Parameters
+id: string
 
-- `include_resources: optional boolean`
+Share Recipient identifier tag.
 
-  Include resources in the response.
+maxLength32
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+account\_id: string
 
-  - `code: number`
+Account identifier.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: boolean`
+association\_status: "associating"or "associated"or "disassociating"or "disassociated"
 
-  Whether the API call was successful.
+The current state of the recipient relative to the share. The <code>desired_association_status</code> (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives <code>current_association_status</code> toward it.
 
-- `result: optional object { id, account_id, association_status, 3 more }`
+- <code>associating</code> — The recipient was recently added; the workflow is pushing shared resources into the recipient account.
+- <code>associated</code> — Shared resources have been successfully applied to the recipient account.
+- <code>disassociating</code> — The recipient was removed (via DELETE or PUT replacement); the workflow is removing shared resources from the recipient account.
+- <code>disassociated</code> — Shared resources have been removed from the recipient account. The recipient record remains in the database.
 
-  - `id: string`
+</summary>
 
-    Share Recipient identifier tag.
+One of the following:
 
-  - `account_id: string`
+"associating"
 
-    Account identifier.
+<a href="#">Link to this property</a>
 
-  - `association_status: "associating" or "associated" or "disassociating" or "disassociated"`
+"associated"
 
-    Share Recipient association status.
+<a href="#">Link to this property</a>
 
-    - `"associating"`
+"disassociating"
 
-    - `"associated"`
+<a href="#">Link to this property</a>
 
-    - `"disassociating"`
+"disassociated"
 
-    - `"disassociated"`
+<a href="#">Link to this property</a>
 
-  - `created: string`
+</details>
 
-    When the share was created.
+<a href="#">Link to this property</a>
 
-  - `modified: string`
+created: string
 
-    When the share was modified.
+When the share was created.
 
-  - `resources: optional array of object { error, resource_id, resource_version, terminal }`
+formatdate-time
 
-    - `error: string`
+<a href="#">Link to this property</a>
 
-      Share Recipient error message.
+modified: string
 
-    - `resource_id: string`
+When the share was modified.
 
-      Share Resource identifier.
+formatdate-time
 
-    - `resource_version: number`
+<a href="#">Link to this property</a>
 
-      Resource Version.
+<details>
 
-    - `terminal: boolean`
+<summary>
 
-      Whether the error is terminal or will be continually retried.
+resources: optional array of object {error, resource\_id, resource\_version, terminal }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/recipients/$RECIPIENT_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+error: string
 
-#### Response
+Share Recipient error message.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "3fd85f74b32742f1bff64a85009dda07",
-    "account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "association_status": "associating",
-    "created": "2023-09-21T18:56:32.624632Z",
-    "modified": "2023-09-21T18:56:32.624632Z",
-    "resources": [
-      {
-        "error": "Recipient is missing necessary entitlement",
-        "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "resource_version": 0,
-        "terminal": true
-      }
-    ]
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new share recipient
+resource\_id: string
 
-**post** `/accounts/{account_id}/shares/{share_id}/recipients`
+Share Resource identifier.
 
-Adds a recipient to a resource share, granting them access to the shared resources.
+maxLength32
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+resource\_version: number
 
-  Account identifier.
+Resource Version.
 
-- `share_id: string`
+<a href="#">Link to this property</a>
 
-  Share identifier tag.
+terminal: boolean
 
-### Body Parameters
+Whether the error is terminal or will be continually retried.
 
-- `account_id: optional string`
+<a href="#">Link to this property</a>
 
-  Deprecated alias for `recipient_account_id`. Use `recipient_account_id` instead.
-  The body field collided with the URL path parameter of the same name, which prevented SDK generators from distinguishing the source account (in the URL) from the recipient account (in the body). Both names will continue to be accepted until 2027-05-26 (see `x-sunset`).
+</details>
 
-- `organization_id: optional string`
+<a href="#">Link to this property</a>
 
-  Organization identifier.
+</details>
 
-- `recipient_account_id: optional string`
+[Link to this property](#)%20resource_sharing.recipients%20%3E%20(model)%20recipient_get_response%20%3E%20(schema)>)
 
-  The account that will receive the share.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+RecipientCreateResponse object {id, account\_id, association\_status, 3 more }
 
-  - `code: number`
+A recipient of a share. The <code>association_status</code> field tracks the lifecycle of the shared resources in the recipient account. All recipients are returned by the list endpoint regardless of status; filter client-side if only active recipients are needed.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Share Recipient identifier tag.
 
-    - `pointer: optional string`
+maxLength32
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+account\_id: string
 
-- `result: optional object { id, account_id, association_status, 3 more }`
+Account identifier.
 
-  - `id: string`
+maxLength32
 
-    Share Recipient identifier tag.
+<a href="#">Link to this property</a>
 
-  - `account_id: string`
+<details>
 
-    Account identifier.
+<summary>
 
-  - `association_status: "associating" or "associated" or "disassociating" or "disassociated"`
+association\_status: "associating"or "associated"or "disassociating"or "disassociated"
 
-    Share Recipient association status.
+The current state of the recipient relative to the share. The <code>desired_association_status</code> (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives <code>current_association_status</code> toward it.
 
-    - `"associating"`
+- <code>associating</code> — The recipient was recently added; the workflow is pushing shared resources into the recipient account.
+- <code>associated</code> — Shared resources have been successfully applied to the recipient account.
+- <code>disassociating</code> — The recipient was removed (via DELETE or PUT replacement); the workflow is removing shared resources from the recipient account.
+- <code>disassociated</code> — Shared resources have been removed from the recipient account. The recipient record remains in the database.
 
-    - `"associated"`
+</summary>
 
-    - `"disassociating"`
+One of the following:
 
-    - `"disassociated"`
+"associating"
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-    When the share was created.
+"associated"
 
-  - `modified: string`
+<a href="#">Link to this property</a>
 
-    When the share was modified.
+"disassociating"
 
-  - `resources: optional array of object { error, resource_id, resource_version, terminal }`
+<a href="#">Link to this property</a>
 
-    - `error: string`
+"disassociated"
 
-      Share Recipient error message.
+<a href="#">Link to this property</a>
 
-    - `resource_id: string`
+</details>
 
-      Share Resource identifier.
+<a href="#">Link to this property</a>
 
-    - `resource_version: number`
+created: string
 
-      Resource Version.
+When the share was created.
 
-    - `terminal: boolean`
+formatdate-time
 
-      Whether the error is terminal or will be continually retried.
+<a href="#">Link to this property</a>
 
-### Example
+modified: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/recipients \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "organization_id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "recipient_account_id": "023e105f4ecef8ad9ca31a8372d0c353"
-        }'
-```
+When the share was modified.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "3fd85f74b32742f1bff64a85009dda07",
-    "account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "association_status": "associating",
-    "created": "2023-09-21T18:56:32.624632Z",
-    "modified": "2023-09-21T18:56:32.624632Z",
-    "resources": [
-      {
-        "error": "Recipient is missing necessary entitlement",
-        "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "resource_version": 0,
-        "terminal": true
-      }
-    ]
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a share recipient
+<details>
 
-**delete** `/accounts/{account_id}/shares/{share_id}/recipients/{recipient_id}`
+<summary>
 
-Deletion is not immediate, an updated share recipient object with a new status will be returned.
+resources: optional array of object {error, resource\_id, resource\_version, terminal }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+error: string
 
-  Account identifier.
+Share Recipient error message.
 
-- `share_id: string`
+<a href="#">Link to this property</a>
 
-  Share identifier tag.
+resource\_id: string
 
-- `recipient_id: string`
+Share Resource identifier.
 
-  Share Recipient identifier tag.
+maxLength32
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+resource\_version: number
 
-  - `code: number`
+Resource Version.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+terminal: boolean
 
-  - `source: optional object { pointer }`
+Whether the error is terminal or will be continually retried.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, account_id, association_status, 3 more }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20resource_sharing.recipients%20%3E%20(model)%20recipient_create_response%20%3E%20(schema)>)
 
-    Share Recipient identifier tag.
+<details>
 
-  - `account_id: string`
+<summary>
 
-    Account identifier.
+RecipientDeleteResponse object {id, account\_id, association\_status, 3 more }
 
-  - `association_status: "associating" or "associated" or "disassociating" or "disassociated"`
+A recipient of a share. The <code>association_status</code> field tracks the lifecycle of the shared resources in the recipient account. All recipients are returned by the list endpoint regardless of status; filter client-side if only active recipients are needed.
 
-    Share Recipient association status.
+</summary>
 
-    - `"associating"`
+id: string
 
-    - `"associated"`
+Share Recipient identifier tag.
 
-    - `"disassociating"`
+maxLength32
 
-    - `"disassociated"`
+<a href="#">Link to this property</a>
 
-  - `created: string`
+account\_id: string
 
-    When the share was created.
+Account identifier.
 
-  - `modified: string`
+maxLength32
 
-    When the share was modified.
+<a href="#">Link to this property</a>
 
-  - `resources: optional array of object { error, resource_id, resource_version, terminal }`
+<details>
 
-    - `error: string`
+<summary>
 
-      Share Recipient error message.
+association\_status: "associating"or "associated"or "disassociating"or "disassociated"
 
-    - `resource_id: string`
+The current state of the recipient relative to the share. The <code>desired_association_status</code> (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives <code>current_association_status</code> toward it.
 
-      Share Resource identifier.
+- <code>associating</code> — The recipient was recently added; the workflow is pushing shared resources into the recipient account.
+- <code>associated</code> — Shared resources have been successfully applied to the recipient account.
+- <code>disassociating</code> — The recipient was removed (via DELETE or PUT replacement); the workflow is removing shared resources from the recipient account.
+- <code>disassociated</code> — Shared resources have been removed from the recipient account. The recipient record remains in the database.
 
-    - `resource_version: number`
+</summary>
 
-      Resource Version.
+One of the following:
 
-    - `terminal: boolean`
+"associating"
 
-      Whether the error is terminal or will be continually retried.
+<a href="#">Link to this property</a>
 
-### Example
+"associated"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/recipients/$RECIPIENT_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"disassociating"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "3fd85f74b32742f1bff64a85009dda07",
-    "account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "association_status": "associating",
-    "created": "2023-09-21T18:56:32.624632Z",
-    "modified": "2023-09-21T18:56:32.624632Z",
-    "resources": [
-      {
-        "error": "Recipient is missing necessary entitlement",
-        "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "resource_version": 0,
-        "terminal": true
-      }
-    ]
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"disassociated"
 
-### Recipient List Response
+<a href="#">Link to this property</a>
 
-- `RecipientListResponse object { id, account_id, association_status, 3 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Share Recipient identifier tag.
+created: string
 
-  - `account_id: string`
+When the share was created.
 
-    Account identifier.
+formatdate-time
 
-  - `association_status: "associating" or "associated" or "disassociating" or "disassociated"`
+<a href="#">Link to this property</a>
 
-    Share Recipient association status.
+modified: string
 
-    - `"associating"`
+When the share was modified.
 
-    - `"associated"`
+formatdate-time
 
-    - `"disassociating"`
+<a href="#">Link to this property</a>
 
-    - `"disassociated"`
+<details>
 
-  - `created: string`
+<summary>
 
-    When the share was created.
+resources: optional array of object {error, resource\_id, resource\_version, terminal }
 
-  - `modified: string`
+</summary>
 
-    When the share was modified.
+error: string
 
-  - `resources: optional array of object { error, resource_id, resource_version, terminal }`
+Share Recipient error message.
 
-    - `error: string`
+<a href="#">Link to this property</a>
 
-      Share Recipient error message.
+resource\_id: string
 
-    - `resource_id: string`
+Share Resource identifier.
 
-      Share Resource identifier.
+maxLength32
 
-    - `resource_version: number`
+<a href="#">Link to this property</a>
 
-      Resource Version.
+resource\_version: number
 
-    - `terminal: boolean`
+Resource Version.
 
-      Whether the error is terminal or will be continually retried.
+<a href="#">Link to this property</a>
 
-### Recipient Get Response
+terminal: boolean
 
-- `RecipientGetResponse object { id, account_id, association_status, 3 more }`
+Whether the error is terminal or will be continually retried.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Share Recipient identifier tag.
+</details>
 
-  - `account_id: string`
+<a href="#">Link to this property</a>
 
-    Account identifier.
+</details>
 
-  - `association_status: "associating" or "associated" or "disassociating" or "disassociated"`
-
-    Share Recipient association status.
-
-    - `"associating"`
-
-    - `"associated"`
-
-    - `"disassociating"`
-
-    - `"disassociated"`
-
-  - `created: string`
-
-    When the share was created.
-
-  - `modified: string`
-
-    When the share was modified.
-
-  - `resources: optional array of object { error, resource_id, resource_version, terminal }`
-
-    - `error: string`
-
-      Share Recipient error message.
-
-    - `resource_id: string`
-
-      Share Resource identifier.
-
-    - `resource_version: number`
-
-      Resource Version.
-
-    - `terminal: boolean`
-
-      Whether the error is terminal or will be continually retried.
-
-### Recipient Create Response
-
-- `RecipientCreateResponse object { id, account_id, association_status, 3 more }`
-
-  - `id: string`
-
-    Share Recipient identifier tag.
-
-  - `account_id: string`
-
-    Account identifier.
-
-  - `association_status: "associating" or "associated" or "disassociating" or "disassociated"`
-
-    Share Recipient association status.
-
-    - `"associating"`
-
-    - `"associated"`
-
-    - `"disassociating"`
-
-    - `"disassociated"`
-
-  - `created: string`
-
-    When the share was created.
-
-  - `modified: string`
-
-    When the share was modified.
-
-  - `resources: optional array of object { error, resource_id, resource_version, terminal }`
-
-    - `error: string`
-
-      Share Recipient error message.
-
-    - `resource_id: string`
-
-      Share Resource identifier.
-
-    - `resource_version: number`
-
-      Resource Version.
-
-    - `terminal: boolean`
-
-      Whether the error is terminal or will be continually retried.
-
-### Recipient Delete Response
-
-- `RecipientDeleteResponse object { id, account_id, association_status, 3 more }`
-
-  - `id: string`
-
-    Share Recipient identifier tag.
-
-  - `account_id: string`
-
-    Account identifier.
-
-  - `association_status: "associating" or "associated" or "disassociating" or "disassociated"`
-
-    Share Recipient association status.
-
-    - `"associating"`
-
-    - `"associated"`
-
-    - `"disassociating"`
-
-    - `"disassociated"`
-
-  - `created: string`
-
-    When the share was created.
-
-  - `modified: string`
-
-    When the share was modified.
-
-  - `resources: optional array of object { error, resource_id, resource_version, terminal }`
-
-    - `error: string`
-
-      Share Recipient error message.
-
-    - `resource_id: string`
-
-      Share Resource identifier.
-
-    - `resource_version: number`
-
-      Resource Version.
-
-    - `terminal: boolean`
-
-      Whether the error is terminal or will be continually retried.
+[Link to this property](#)%20resource_sharing.recipients%20%3E%20(model)%20recipient_delete_response%20%3E%20(schema)>)

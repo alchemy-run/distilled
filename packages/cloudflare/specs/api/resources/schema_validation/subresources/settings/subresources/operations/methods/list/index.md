@@ -1,99 +1,340 @@
-## List per-operation schema validation settings
+---
+title: List per-operation schema validation settings
+---
 
-**get** `/zones/{zone_id}/schema_validation/settings/operations`
+[Skip to content](#_top)
 
-Lists all per-operation schema validation settings configured for the zone.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Schema Validation](https://developers.cloudflare.com/api/resources/schema_validation)
 
-- `zone_id: string`
+[Settings](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings)
 
-  Identifier.
+[Operations](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/subresources/operations)
 
-### Query Parameters
+Copy Markdown
 
-- `page: optional number`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Page number of paginated results.
+---
 
-- `per_page: optional number`
+**Copy Markdown****View as Markdown**
 
-  Maximum number of results per page.
+# List per-operation schema validation settings
 
-### Returns
+GET/zones/{zone\_id}/schema\_validation/settings/operations
 
-- `errors: Message`
+Lists per-operation schema validation settings configured for the zone.
 
-  - `code: number`
+##### Security
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Token</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: Message`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `result: array of object { mitigation_action, operation_id }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `mitigation_action: "log" or "block" or "none"`
+</details>
 
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
+<details>
 
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
+<summary>API Email + API Key</summary>
 
-    - `"log"`
 
-    - `"block"`
 
-    - `"none"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `operation_id: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    UUID.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `success: true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+##### Accepted Permissions (at least one required)
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+`Account API Gateway``Account API Gateway Read``Domain API Gateway``Domain API Gateway Read`
 
-  - `count: optional number`
+##### P ath ParametersExpand Collapse
 
-    Total number of results for the requested service.
+zone\_id: string
 
-  - `page: optional number`
+Identifier.
 
-    Current page within paginated list of results.
+maxLength32
 
-  - `per_page: optional number`
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    Number of results per page of results.
+##### Q uery ParametersExpand Collapse
 
-  - `total_count: optional number`
+page: optional number
 
-    Total results available without any search parameters.
+Page number of paginated results.
 
-  - `total_pages: optional number`
+minimum1
 
-    The number of total pages in the entire result set.
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-### Example
+per\_page: optional number
 
-```http
+Maximum number of results per page.
+
+maximum50
+
+minimum5
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {mitigation\_action, operation\_id }
+
+</summary>
+
+<details>
+
+<summary>
+
+mitigation\_action: "log"or "block"or "none"
+
+When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
+
+- <code>"log"</code> - log request when request does not conform to schema for this operation
+- <code>"block"</code> - deny access to the site when request does not conform to schema for this operation
+- <code>"none"</code> - will skip mitigation for this operation
+
+</summary>
+
+One of the following:
+
+"log"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+operation\_id: string
+
+UUID.
+
+maxLength36
+
+minLength36
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List per-operation schema validation settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings/operations \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "mitigation_action": "block",
+      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

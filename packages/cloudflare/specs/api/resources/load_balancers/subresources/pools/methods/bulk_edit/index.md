@@ -1,276 +1,692 @@
-## Patch Pools
+---
+title: Patch Pools
+---
 
-**patch** `/accounts/{account_id}/load_balancers/pools`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+[Pools](https://developers.cloudflare.com/api/resources/load_balancers/subresources/pools)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Patch Pools
+
+PATCH/accounts/{account\_id}/load\_balancers/pools
 
 Apply changes to a number of existing pools, overwriting the supplied properties. Pools are ordered by ascending `name`. Returns the list of affected pools. Supports the standard pagination query parameters, either `limit`/`offset` or `per_page`/`page`.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `notification_email: optional ""`
 
-  The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty string `""` is accepted.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `""`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### Accepted Permissions (at least one required)
 
-  - `source: optional object { pointer }`
+`Load Balancing: Monitors and Pools Write`
 
-- `result: array of Pool`
+##### P ath ParametersExpand Collapse
 
-  - `id: optional string`
+account\_id: string
 
-  - `check_regions: optional array of CheckRegion`
+Identifier.
 
-    A list of regions from which to run health checks. Null means every Cloudflare data center.
+maxLength32
 
-    - `"WNAM"`
+[Link to this property](#)%20load_balancers.pools%20%3E%20(method)%20bulk_edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `"ENAM"`
+##### Body ParametersJSONExpand Collapse
 
-    - `"WEU"`
+notification\_email: optional ""
 
-    - `"EEU"`
+The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty string `""` is accepted.
 
-    - `"NSAM"`
+[Link to this property](#)%20load_balancers.pools%20%3E%20(method)%20bulk_edit%20%3E%20(params)%200%20%3E%20(param)%20notification_email%20%3E%20(schema)>)
 
-    - `"SSAM"`
+##### ReturnsExpand Collapse
 
-    - `"OC"`
+<details>
 
-    - `"ME"`
+<summary>
 
-    - `"NAF"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"SAF"`
+</summary>
 
-    - `"SAS"`
+code: number
 
-    - `"SEAS"`
+minimum1000
 
-    - `"NEAS"`
+<a href="#">Link to this property</a>
 
-    - `"ALL_REGIONS"`
+message: string
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+documentation\_url: optional string
 
-    A human-readable description of the pool.
+<a href="#">Link to this property</a>
 
-  - `disabled_at: optional string`
+<details>
 
-    This field shows up only if the pool is disabled. This field is set with the time the pool was disabled at.
+<summary>
 
-  - `enabled: optional boolean`
+source: optional object {pointer }
 
-    Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any).
+</summary>
 
-  - `latitude: optional number`
+pointer: optional string
 
-    The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set.
+<a href="#">Link to this property</a>
 
-  - `load_shedding: optional LoadShedding`
+</details>
 
-    Configures load shedding policies and percentages for the pool.
+<a href="#">Link to this property</a>
 
-    - `default_percent: optional number`
+</details>
 
-      The percent of traffic to shed from the pool, according to the default policy. Applies to new sessions and traffic without session affinity.
+[Link to this property](#)%20load_balancers.pools%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `default_policy: optional "random" or "hash"`
+<details>
 
-      The default policy to use when load shedding. A random policy randomly sheds a given percent of requests. A hash policy computes a hash over the CF-Connecting-IP address and sheds all requests originating from a percent of IPs.
+<summary>
 
-      - `"random"`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `"hash"`
+</summary>
 
-    - `session_percent: optional number`
+code: number
 
-      The percent of existing sessions to shed from the pool, according to the session policy.
+minimum1000
 
-    - `session_policy: optional "hash"`
+<a href="#">Link to this property</a>
 
-      Only the hash policy is supported for existing sessions (to avoid exponential decay).
+message: string
 
-      - `"hash"`
+<a href="#">Link to this property</a>
 
-  - `longitude: optional number`
+documentation\_url: optional string
 
-    The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set.
+<a href="#">Link to this property</a>
 
-  - `minimum_origins: optional number`
+<details>
 
-    The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool.
+<summary>
 
-  - `modified_on: optional string`
+source: optional object {pointer }
 
-  - `monitor: optional string`
+</summary>
 
-    The ID of the Monitor to use for checking the health of origins within this pool.
+pointer: optional string
 
-  - `monitor_group: optional string`
+<a href="#">Link to this property</a>
 
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed.
+</details>
 
-  - `networks: optional array of string`
+[Link to this property](#)%20load_balancers.pools%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    List of networks where Load Balancer or Pool is enabled.
+<details>
 
-  - `notification_email: optional string`
+<summary>
 
-    This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list.
+result: array of <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers.pools%20%3E%20(model)%20pool%20%3E%20(schema)">Pool</a> { id, check\_regions, created\_on, 17 more }
 
-  - `notification_filter: optional NotificationFilter`
+</summary>
 
-    Filter pool and origin health notifications by resource type or health status. Use null to reset.
+id: optional string
 
-    - `origin: optional FilterOptions`
+<a href="#">Link to this property</a>
 
-      Filter options for a particular resource type (pool or origin). Use null to reset.
+<details>
 
-      - `disable: optional boolean`
+<summary>
 
-        If set true, disable notifications for this type of resource (pool or origin).
+check\_regions: optional array of <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20check_region%20%3E%20(schema)">CheckRegion</a>
 
-      - `healthy: optional boolean`
+A list of regions from which to run health checks. Null means every Cloudflare data center.
 
-        If present, send notifications only for this health status (e.g. false for only DOWN events). Use null to reset (all events).
+</summary>
 
-    - `pool: optional FilterOptions`
+One of the following:
 
-      Filter options for a particular resource type (pool or origin). Use null to reset.
+"WNAM"
 
-  - `origin_steering: optional OriginSteering`
+<a href="#">Link to this property</a>
 
-    Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity.
+"ENAM"
 
-    - `policy: optional "random" or "hash" or "least_outstanding_requests" or "least_connections"`
+<a href="#">Link to this property</a>
 
-      The type of origin steering policy to use.
+"WEU"
 
-      - `"random"`: Select an origin randomly.
-      - `"hash"`: Select an origin by computing a hash over the CF-Connecting-IP address.
-      - `"least_outstanding_requests"`: Select an origin by taking into consideration origin weights, as well as each origin's number of outstanding requests. Origins with more pending requests are weighted proportionately less relative to others.
-      - `"least_connections"`: Select an origin by taking into consideration origin weights, as well as each origin's number of open connections. Origins with more open connections are weighted proportionately less relative to others. Supported for HTTP/1 and HTTP/2 connections.
+<a href="#">Link to this property</a>
 
-      - `"random"`
+"EEU"
 
-      - `"hash"`
+<a href="#">Link to this property</a>
 
-      - `"least_outstanding_requests"`
+"NSAM"
 
-      - `"least_connections"`
+<a href="#">Link to this property</a>
 
-  - `origins: optional array of Origin`
+"SSAM"
 
-    The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy.
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+"OC"
 
-      The IP address (IPv4 or IPv6) of the origin, or its publicly addressable hostname. Hostnames entered here should resolve directly to the origin, and not be a hostname proxied by Cloudflare. To set an internal/reserved address, virtual_network_id must also be set.
+<a href="#">Link to this property</a>
 
-    - `disabled_at: optional string`
+"ME"
 
-      This field shows up only if the origin is disabled. This field is set with the time the origin was disabled.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+"NAF"
 
-      Whether to enable (the default) this origin within the pool. Disabled origins will not receive traffic and are excluded from health checks. The origin will only be disabled for the current pool.
+<a href="#">Link to this property</a>
 
-    - `flatten_cname: optional boolean`
+"SAF"
 
-      Whether to flatten CNAME records for this origin, resolving them to A/AAAA records before returning to the client. When true (the default), the director resolves CNAME addresses to their underlying A/AAAA records. When false, the origin address is returned as a raw CNAME record without resolution. This setting mirrors the DNS API record flatten_cname setting.
+<a href="#">Link to this property</a>
 
-    - `header: optional Header`
+"SAS"
 
-      The request header is used to pass additional information with an HTTP request. Currently supported header is 'Host'.
+<a href="#">Link to this property</a>
 
-      - `Host: optional array of Host`
+"SEAS"
 
-        The 'Host' header allows to override the hostname set in the HTTP request. Current support is 1 'Host' header override per origin.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"NEAS"
 
-      A human-identifiable name for the origin.
+<a href="#">Link to this property</a>
 
-    - `port: optional number`
+"CHINA"
 
-      The port for upstream connections. A value of 0 means the default port for the protocol will be used.
+<a href="#">Link to this property</a>
 
-    - `virtual_network_id: optional string`
+"ALL\_REGIONS"
 
-      The virtual network subnet ID the origin belongs in. Virtual network must also belong to the account.
+<a href="#">Link to this property</a>
 
-    - `weight: optional number`
+</details>
 
-      The weight of this origin relative to other origins in the pool. Based on the configured weight the total traffic is distributed among origins within the pool.
+<a href="#">Link to this property</a>
 
-      - `origin_steering.policy="least_outstanding_requests"`: Use weight to scale the origin's outstanding requests.
-      - `origin_steering.policy="least_connections"`: Use weight to scale the origin's open connections.
+created\_on: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+description: optional string
 
-  - `true`
+A human-readable description of the pool.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+disabled\_at: optional string
 
-    Total number of results on the current page.
+This field shows up only if the pool is disabled. This field is set with the time the pool was disabled at.
 
-  - `page: optional number`
+formatdate-time
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+enabled: optional boolean
 
-    Number of results per page.
+Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any).
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    Total number of pages available.
+health\_sources: optional array of "local"or "regional"or "global"
 
-### Example
+A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The load balancer uses the first source that has data and falls back to the next. Currently accepted values are null or the exact array \[“regional”, “global”]; any other combination is rejected. Null (the default) behaves like \[“local”, “global”]. \[“regional”, “global”] makes each region steer on its own health, falling back to the global decision when a region has no fresh data. Setting regional requires at least one region in check\_regions.
 
-```http
+</summary>
+
+One of the following:
+
+"local"
+
+<a href="#">Link to this property</a>
+
+"regional"
+
+<a href="#">Link to this property</a>
+
+"global"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+latitude: optional number
+
+The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+load\_shedding: optional <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20load_shedding%20%3E%20(schema)">LoadShedding</a> { default\_percent, default\_policy, session\_percent, session\_policy }
+
+Configures load shedding policies and percentages for the pool.
+
+</summary>
+
+default\_percent: optional number
+
+The percent of traffic to shed from the pool, according to the default policy. Applies to new sessions and traffic without session affinity.
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+default\_policy: optional "random"or "hash"
+
+The default policy to use when load shedding. A random policy randomly sheds a given percent of requests. A hash policy computes a hash over the CF-Connecting-IP address and sheds all requests originating from a percent of IPs.
+
+</summary>
+
+One of the following:
+
+"random"
+
+<a href="#">Link to this property</a>
+
+"hash"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+session\_percent: optional number
+
+The percent of existing sessions to shed from the pool, according to the session policy.
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+session\_policy: optional "hash"
+
+Only the hash policy is supported for existing sessions (to avoid exponential decay).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+longitude: optional number
+
+The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set.
+
+<a href="#">Link to this property</a>
+
+minimum\_origins: optional number
+
+The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+<a href="#">Link to this property</a>
+
+monitor: optional string
+
+The ID of the Monitor to use for checking the health of origins within this pool.
+
+<a href="#">Link to this property</a>
+
+monitor\_group: optional string
+
+The ID of the Monitor Group to use for checking the health of origins within this pool.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed.
+
+<a href="#">Link to this property</a>
+
+networks: optional array of string
+
+List of networks where Load Balancer or Pool is enabled.
+
+<a href="#">Link to this property</a>
+
+notification\_email: optional string
+
+This field is now deprecated. It has been moved to Cloudflare’s Centralized Notification service <a href="https://developers.cloudflare.com/fundamentals/notifications/">https://developers.cloudflare.com/fundamentals/notifications/</a>. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+notification\_filter: optional <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20notification_filter%20%3E%20(schema)">NotificationFilter</a> { origin, pool }
+
+Filter pool and origin health notifications by resource type or health status. Use null to reset.
+
+</summary>
+
+<details>
+
+<summary>
+
+origin: optional <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20filter_options%20%3E%20(schema)">FilterOptions</a> { disable, healthy }
+
+Filter options for a particular resource type (pool or origin). Use null to reset.
+
+</summary>
+
+disable: optional boolean
+
+If set true, disable notifications for this type of resource (pool or origin).
+
+<a href="#">Link to this property</a>
+
+healthy: optional boolean
+
+If present, send notifications only for this health status (e.g. false for only DOWN events). Use null to reset (all events).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pool: optional <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20filter_options%20%3E%20(schema)">FilterOptions</a> { disable, healthy }
+
+Filter options for a particular resource type (pool or origin). Use null to reset.
+
+</summary>
+
+disable: optional boolean
+
+If set true, disable notifications for this type of resource (pool or origin).
+
+<a href="#">Link to this property</a>
+
+healthy: optional boolean
+
+If present, send notifications only for this health status (e.g. false for only DOWN events). Use null to reset (all events).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+origin\_steering: optional <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20origin_steering%20%3E%20(schema)">OriginSteering</a> { policy }
+
+Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity.
+
+</summary>
+
+<details>
+
+<summary>
+
+policy: optional "random"or "hash"or "least\_outstanding\_requests"or "least\_connections"
+
+The type of origin steering policy to use.
+
+- <code>"random"</code>: Select an origin randomly.
+- <code>"hash"</code>: Select an origin by computing a hash over the CF-Connecting-IP address.
+- <code>"least_outstanding_requests"</code>: Select an origin by taking into consideration origin weights, as well as each origin’s number of outstanding requests. Origins with more pending requests are weighted proportionately less relative to others.
+- <code>"least_connections"</code>: Select an origin by taking into consideration origin weights, as well as each origin’s number of open connections. Origins with more open connections are weighted proportionately less relative to others. Supported for HTTP/1 and HTTP/2 connections.
+
+</summary>
+
+One of the following:
+
+"random"
+
+<a href="#">Link to this property</a>
+
+"hash"
+
+<a href="#">Link to this property</a>
+
+"least\_outstanding\_requests"
+
+<a href="#">Link to this property</a>
+
+"least\_connections"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+origins: optional array of <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20origin%20%3E%20(schema)">Origin</a> { address, disabled\_at, enabled, 6 more }
+
+The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy.
+
+</summary>
+
+address: optional string
+
+The IP address (IPv4 or IPv6) of the origin, or its publicly addressable hostname. Hostnames entered here should resolve directly to the origin, and not be a hostname proxied by Cloudflare. To set an internal/reserved address, virtual\_network\_id must also be set.
+
+<a href="#">Link to this property</a>
+
+disabled\_at: optional string
+
+This field shows up only if the origin is disabled. This field is set with the time the origin was disabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether to enable (the default) this origin within the pool. Disabled origins will not receive traffic and are excluded from health checks. The origin will only be disabled for the current pool.
+
+<a href="#">Link to this property</a>
+
+flatten\_cname: optional boolean
+
+Whether to flatten CNAME records for this origin, resolving them to A/AAAA records before returning to the client. When true (the default), the director resolves CNAME addresses to their underlying A/AAAA records. When false, the origin address is returned as a raw CNAME record without resolution. This setting mirrors the DNS API record flatten\_cname setting.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+header: optional <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20header%20%3E%20(schema)">Header</a> { Host }
+
+The request header is used to pass additional information with an HTTP request. Currently supported header is ‘Host’.
+
+</summary>
+
+Host: optional array of <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers%20%3E%20(model)%20host%20%3E%20(schema)">Host</a>
+
+The ‘Host’ header allows to override the hostname set in the HTTP request. Current support is 1 ‘Host’ header override per origin.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+A human-identifiable name for the origin.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+The port for upstream connections. A value of 0 means the default port for the protocol will be used.
+
+<a href="#">Link to this property</a>
+
+virtual\_network\_id: optional string
+
+The virtual network subnet ID the origin belongs in. Virtual network must also belong to the account.
+
+<a href="#">Link to this property</a>
+
+weight: optional number
+
+The weight of this origin relative to other origins in the pool. Based on the configured weight the total traffic is distributed among origins within the pool.
+
+- <code>origin_steering.policy="least_outstanding_requests"</code>: Use weight to scale the origin’s outstanding requests.
+- <code>origin_steering.policy="least_connections"</code>: Use weight to scale the origin’s open connections.
+
+maximum1
+
+minimum0
+
+multipleOf0.01
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.pools%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20load_balancers.pools%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results on the current page.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+Total number of pages available.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.pools%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Patch Pools
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/pools \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -278,9 +694,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/po
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -313,6 +729,111 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/po
       "description": "Primary data center - Provider XYZ",
       "disabled_at": "2019-12-27T18:11:19.117Z",
       "enabled": false,
+      "health_sources": [
+        "regional",
+        "global"
+      ],
+      "latitude": 0,
+      "load_shedding": {
+        "default_percent": 0,
+        "default_policy": "random",
+        "session_percent": 0,
+        "session_policy": "hash"
+      },
+      "longitude": 0,
+      "minimum_origins": 0,
+      "modified_on": "2014-01-01T05:20:00.12345Z",
+      "monitor": "monitor",
+      "monitor_group": "monitor_group",
+      "name": "primary-dc-1",
+      "networks": [
+        "string"
+      ],
+      "notification_email": "someone@example.com,sometwo@example.com",
+      "notification_filter": {
+        "origin": {
+          "disable": true,
+          "healthy": true
+        },
+        "pool": {
+          "disable": true,
+          "healthy": false
+        }
+      },
+      "origin_steering": {
+        "policy": "random"
+      },
+      "origins": [
+        {
+          "address": "0.0.0.0",
+          "disabled_at": "2019-12-27T18:11:19.117Z",
+          "enabled": true,
+          "flatten_cname": true,
+          "header": {
+            "Host": [
+              "example.com"
+            ]
+          },
+          "name": "app-server-1",
+          "port": 0,
+          "virtual_network_id": "a5624d4e-044a-4ff0-b3e1-e2465353d4b4",
+          "weight": 0.6
+        }
+      ]
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 20,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "17b5962d775c646f3f9725cbc7a53df4",
+      "check_regions": [
+        "WEU",
+        "ENAM"
+      ],
+      "created_on": "2014-01-01T05:20:00.12345Z",
+      "description": "Primary data center - Provider XYZ",
+      "disabled_at": "2019-12-27T18:11:19.117Z",
+      "enabled": false,
+      "health_sources": [
+        "regional",
+        "global"
+      ],
       "latitude": 0,
       "load_shedding": {
         "default_percent": 0,

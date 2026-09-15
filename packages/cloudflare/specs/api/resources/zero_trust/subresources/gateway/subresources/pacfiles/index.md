@@ -1,727 +1,273 @@
+---
+title: Pacfiles
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Pacfiles
 
-## List PAC files
+##### [List PAC files](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/list)
 
-**get** `/accounts/{account_id}/gateway/pacfiles`
+GET/accounts/{account\_id}/gateway/pacfiles
 
-List all Zero Trust Gateway PAC files for an account.
+##### [Get a PAC file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/gateway/pacfiles/{pacfile\_id}
 
-- `account_id: string`
+##### [Create a PAC file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/gateway/pacfiles
 
-- `errors: array of ResponseInfo`
+##### [Update a Zero Trust Gateway PAC file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/gateway/pacfiles/{pacfile\_id}
 
-  - `message: string`
+##### [Delete a PAC file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/gateway/pacfiles/{pacfile\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+PacfileListResponse object {id, created\_at, description, 4 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: optional string
 
-  Indicate whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_at, description, 4 more }`
+description: optional string
 
-  - `id: optional string`
+Detailed description of the PAC file.
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+name: optional string
 
-    Detailed description of the PAC file.
+Name of the PAC file.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the PAC file.
+slug: optional string
 
-  - `slug: optional string`
+URL-friendly version of the PAC file name.
 
-    URL-friendly version of the PAC file name.
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+updated\_at: optional string
 
-  - `url: optional string`
+formatdate-time
 
-    Unique URL to download the PAC file.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+url: optional string
 
-  - `count: optional number`
+Unique URL to download the PAC file.
 
-    Indicate the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Indicate the current page within a paginated list of results.
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_list_response%20%3E%20(schema)>)
 
-  - `per_page: optional number`
+<details>
 
-    Indicate the number of results per page.
+<summary>
 
-  - `total_count: optional number`
+PacfileGetResponse object {id, contents, created\_at, 5 more }
 
-    Indicate the total results available without any search parameters.
+</summary>
 
-### Example
+id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+contents: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "ed35569b41ce4d1facfe683550f54086",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "PAC file for Devops team",
-      "name": "Devops team",
-      "slug": "pac_devops",
-      "updated_at": "2014-01-01T05:20:00.12345Z",
-      "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+Actual contents of the PAC file
 
-## Get a PAC file
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/gateway/pacfiles/{pacfile_id}`
+created\_at: optional string
 
-Get a single Zero Trust Gateway PAC file.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-- `pacfile_id: string`
+Detailed description of the PAC file.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+name: optional string
 
-  - `code: number`
+Name of the PAC file.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+slug: optional string
 
-  - `source: optional object { pointer }`
+URL-friendly version of the PAC file name.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+updated\_at: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+url: optional string
 
-  - `source: optional object { pointer }`
+Unique URL to download the PAC file.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Indicate whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_get_response%20%3E%20(schema)>)
 
-- `result: optional object { id, contents, created_at, 5 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-  - `contents: optional string`
+PacfileCreateResponse object {id, contents, created\_at, 5 more }
 
-    Actual contents of the PAC file
+</summary>
 
-  - `created_at: optional string`
+id: optional string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Detailed description of the PAC file.
+contents: optional string
 
-  - `name: optional string`
+Actual contents of the PAC file
 
-    Name of the PAC file.
+<a href="#">Link to this property</a>
 
-  - `slug: optional string`
+created\_at: optional string
 
-    URL-friendly version of the PAC file name.
+formatdate-time
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `url: optional string`
+description: optional string
 
-    Unique URL to download the PAC file.
+Detailed description of the PAC file.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles/$PACFILE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: optional string
 
-#### Response
+Name of the PAC file.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "contents": "function FindProxyForURL(url, host) { return \"DIRECT\"; }",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "PAC file for Devops team",
-    "name": "Devops team",
-    "slug": "pac_devops",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a PAC file
+slug: optional string
 
-**post** `/accounts/{account_id}/gateway/pacfiles`
+URL-friendly version of the PAC file name.
 
-Create a new Zero Trust Gateway PAC file.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+updated\_at: optional string
 
-- `account_id: string`
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `contents: string`
+url: optional string
 
-  Actual contents of the PAC file
+Unique URL to download the PAC file.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Name of the PAC file.
+</details>
 
-- `description: optional string`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_create_response%20%3E%20(schema)>)
 
-  Detailed description of the PAC file.
+<details>
 
-- `slug: optional string`
+<summary>
 
-  URL-friendly version of the PAC file name. If not provided, it will be auto-generated
+PacfileUpdateResponse object {id, contents, created\_at, 5 more }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+id: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+contents: optional string
 
-  - `documentation_url: optional string`
+Actual contents of the PAC file
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_at: optional string
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+Detailed description of the PAC file.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+name: optional string
 
-  Indicate whether the API call was successful.
+Name of the PAC file.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, contents, created_at, 5 more }`
+slug: optional string
 
-  - `id: optional string`
+URL-friendly version of the PAC file name.
 
-  - `contents: optional string`
+<a href="#">Link to this property</a>
 
-    Actual contents of the PAC file
+updated\_at: optional string
 
-  - `created_at: optional string`
+formatdate-time
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Detailed description of the PAC file.
+url: optional string
 
-  - `name: optional string`
+Unique URL to download the PAC file.
 
-    Name of the PAC file.
+<a href="#">Link to this property</a>
 
-  - `slug: optional string`
+</details>
 
-    URL-friendly version of the PAC file name.
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_update_response%20%3E%20(schema)>)
 
-  - `updated_at: optional string`
+PacfileDeleteResponse = unknown
 
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "contents": "function FindProxyForURL(url, host) { return \\"DIRECT\\"; }",
-          "name": "Devops team",
-          "description": "PAC file for Devops team",
-          "slug": "pac_devops"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "contents": "function FindProxyForURL(url, host) { return \"DIRECT\"; }",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "PAC file for Devops team",
-    "name": "Devops team",
-    "slug": "pac_devops",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
-  }
-}
-```
-
-## Update a Zero Trust Gateway PAC file
-
-**put** `/accounts/{account_id}/gateway/pacfiles/{pacfile_id}`
-
-Update a configured Zero Trust Gateway PAC file.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `pacfile_id: string`
-
-### Body Parameters
-
-- `contents: string`
-
-  Actual contents of the PAC file
-
-- `description: string`
-
-  Detailed description of the PAC file.
-
-- `name: string`
-
-  Name of the PAC file.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles/$PACFILE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "contents": "function FindProxyForURL(url, host) { return \\"DIRECT\\"; }",
-          "description": "PAC file for Devops team",
-          "name": "Devops team"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "contents": "function FindProxyForURL(url, host) { return \"DIRECT\"; }",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "PAC file for Devops team",
-    "name": "Devops team",
-    "slug": "pac_devops",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
-  }
-}
-```
-
-## Delete a PAC file
-
-**delete** `/accounts/{account_id}/gateway/pacfiles/{pacfile_id}`
-
-Delete a configured Zero Trust Gateway PAC file.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `pacfile_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles/$PACFILE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Pacfile List Response
-
-- `PacfileListResponse object { id, created_at, description, 4 more }`
-
-  - `id: optional string`
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Pacfile Get Response
-
-- `PacfileGetResponse object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Pacfile Create Response
-
-- `PacfileCreateResponse object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Pacfile Update Response
-
-- `PacfileUpdateResponse object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Pacfile Delete Response
-
-- `PacfileDeleteResponse = unknown`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_delete_response%20%3E%20(schema)>)

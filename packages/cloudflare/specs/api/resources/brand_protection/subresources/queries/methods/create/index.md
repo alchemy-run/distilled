@@ -1,38 +1,100 @@
-## Create new saved string queries
+---
+title: Create new saved string queries
+---
 
-**post** `/accounts/{account_id}/brand-protection/queries`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+[Queries](https://developers.cloudflare.com/api/resources/brand_protection/subresources/queries)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create new saved string queries
+
+POST/accounts/{account\_id}/brand-protection/queries
 
 Return a success message after creating new saved string queries
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `id: optional string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `scan: optional boolean`
+##### Accepted Permissions (at least one required)
 
-- `tag: optional string`
+`Intel Write`
 
-### Body Parameters
+##### P ath ParametersExpand Collapse
 
-- `max_time: optional string`
+account\_id: string
 
-- `min_time: optional string`
+minLength1
 
-- `scan: optional boolean`
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `string_matches: optional unknown`
+##### Q uery ParametersExpand Collapse
 
-- `tag: optional string`
+id: optional string
 
-### Example
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-```http
+scan: optional boolean
+
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20scan%20%3E%20(schema)>)
+
+tag: optional string
+
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20tag%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+max\_time: optional string
+
+formatdate-time
+
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20max_time%20%3E%20(schema)>)
+
+min\_time: optional string
+
+formatdate-time
+
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20min_time%20%3E%20(schema)>)
+
+scan: optional boolean
+
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20scan%20%3E%20(schema)>)
+
+string\_matches: optional unknown
+
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20string_matches%20%3E%20(schema)>)
+
+tag: optional string
+
+[Link to this property](#)%20brand_protection.queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20tag%20%3E%20(schema)>)
+
+### Create new saved string queries
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/queries \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{}'
 ```
+
+##### Returns Examples

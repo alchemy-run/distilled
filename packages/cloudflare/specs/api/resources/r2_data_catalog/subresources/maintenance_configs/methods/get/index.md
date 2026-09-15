@@ -1,123 +1,363 @@
-## Get catalog maintenance configuration
+---
+title: Get catalog maintenance configuration
+---
 
-**get** `/accounts/{account_id}/r2-catalog/{bucket_name}/maintenance-configs`
+[Skip to content](#_top)
 
-Retrieve the maintenance configuration for a specific catalog,
-including compaction settings and credential status.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[R2 Data Catalog](https://developers.cloudflare.com/api/resources/r2_data_catalog)
 
-- `account_id: string`
+[Maintenance Configs](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/maintenance_configs)
 
-  Use this to identify the account.
+Copy Markdown
 
-- `bucket_name: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Specifies the R2 bucket name.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `errors: array of object { code, message }`
+# Get catalog maintenance configuration
 
-  Contains errors if the API call was unsuccessful.
+GET/accounts/{account\_id}/r2-catalog/{bucket\_name}/maintenance-configs
 
-  - `code: number`
+Retrieve the maintenance configuration for a specific catalog, including compaction settings and credential status.
 
-    Specifies the error code.
+##### Security
 
-  - `message: string`
+<details>
 
-    Describes the error.
+<summary>API Token</summary>
 
-- `messages: array of object { code, message }`
 
-  Contains informational messages.
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    Specifies the message code.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `message: string`
+</details>
 
-    Contains the message text.
+<details>
 
-- `success: boolean`
+<summary>API Email + API Key</summary>
 
-  Indicates whether the API call was successful.
 
-- `result: optional object { credential_status, maintenance_config }`
 
-  Contains maintenance configuration and credential status.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `credential_status: "present" or "absent"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Shows the credential configuration status.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"present"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"absent"`
+</details>
 
-  - `maintenance_config: object { compaction, snapshot_expiration }`
+##### Accepted Permissions (at least one required)
 
-    Configures maintenance for the catalog.
+`Workers R2 Data Catalog Write``Workers R2 Data Catalog Read`
 
-    - `compaction: optional object { state, target_size_mb }`
+##### P ath ParametersExpand Collapse
 
-      Configures compaction for catalog maintenance.
+account\_id: string
 
-      - `state: "enabled" or "disabled"`
+Use this to identify the account.
 
-        Specifies the state of maintenance operations.
+[Link to this property](#)%20r2_data_catalog.maintenance_configs%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        - `"enabled"`
+bucket\_name: string
 
-        - `"disabled"`
+Specifies the R2 bucket name.
 
-      - `target_size_mb: "64" or "128" or "256" or "512"`
+maxLength63
 
-        Sets the target file size for compaction in megabytes. Defaults to "128".
+minLength3
 
-        - `"64"`
+[Link to this property](#)%20r2_data_catalog.maintenance_configs%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20bucket_name%20%3E%20(schema)>)
 
-        - `"128"`
+##### ReturnsExpand Collapse
 
-        - `"256"`
+<details>
 
-        - `"512"`
+<summary>
 
-    - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+errors: array of object {code, message }
 
-      Configures snapshot expiration settings.
+Contains errors if the API call was unsuccessful.
 
-      - `max_snapshot_age: string`
+</summary>
 
-        Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-        Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-        Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-        Defaults to "7d".
+code: number
 
-      - `min_snapshots_to_keep: number`
+Specifies the error code.
 
-        Specifies the minimum number of snapshots to retain. Defaults to 100.
+<a href="#">Link to this property</a>
 
-      - `state: "enabled" or "disabled"`
+message: string
 
-        Specifies the state of maintenance operations.
+Describes the error.
 
-        - `"enabled"`
+<a href="#">Link to this property</a>
 
-        - `"disabled"`
+</details>
 
-### Example
+[Link to this property](#)%20r2_data_catalog.maintenance_configs%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-```http
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+Contains informational messages.
+
+</summary>
+
+code: number
+
+Specifies the message code.
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Contains the message text.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2_data_catalog.maintenance_configs%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20r2_data_catalog.maintenance_configs%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {credential\_status, maintenance\_config }
+
+Contains maintenance configuration and credential status.
+
+</summary>
+
+<details>
+
+<summary>
+
+credential\_status: "present"or "absent"
+
+Shows the credential configuration status.
+
+</summary>
+
+One of the following:
+
+"present"
+
+<a href="#">Link to this property</a>
+
+"absent"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+maintenance\_config: object {compaction, interval, snapshot\_expiration }
+
+Configures maintenance for the catalog.
+
+</summary>
+
+<details>
+
+<summary>
+
+compaction: optional object {state, target\_size\_mb }
+
+Configures compaction for catalog maintenance.
+
+</summary>
+
+<details>
+
+<summary>
+
+state: "enabled"or "disabled"
+
+Specifies the state of maintenance operations.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+target\_size\_mb: "64"or "128"or "256"or "512"
+
+Sets the target file size for compaction in megabytes. Defaults to “128”.
+
+</summary>
+
+One of the following:
+
+"64"
+
+<a href="#">Link to this property</a>
+
+"128"
+
+<a href="#">Link to this property</a>
+
+"256"
+
+<a href="#">Link to this property</a>
+
+"512"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+interval: optional string
+
+Scheduling interval between normal table maintenance runs.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state }
+
+Configures snapshot expiration settings.
+
+</summary>
+
+max\_snapshot\_age: string
+
+Specifies the maximum age for snapshots. The system deletes snapshots older than this age. Format: where unit is d (days), h (hours), m (minutes), or s (seconds). Examples: “7d” (7 days), “48h” (48 hours), “2880m” (2,880 minutes). Defaults to “7d”.
+
+<a href="#">Link to this property</a>
+
+min\_snapshots\_to\_keep: number
+
+Specifies the minimum number of snapshots to retain. Defaults to 100.
+
+formatint64
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: "enabled"or "disabled"
+
+Specifies the state of maintenance operations.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2_data_catalog.maintenance_configs%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get catalog maintenance configuration
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/maintenance-configs \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "credential_status": "present",
+    "maintenance_config": {
+      "compaction": {
+        "state": "enabled",
+        "target_size_mb": "128"
+      },
+      "snapshot_expiration": {
+        "max_snapshot_age": "7d",
+        "min_snapshots_to_keep": 100,
+        "state": "enabled"
+      }
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [],
   "messages": [],

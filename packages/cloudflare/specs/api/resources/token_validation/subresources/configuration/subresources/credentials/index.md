@@ -1,450 +1,547 @@
+---
+title: Credentials
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Token Validation](https://developers.cloudflare.com/api/resources/token_validation)
+
+[Configuration](https://developers.cloudflare.com/api/resources/token_validation/subresources/configuration)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Credentials
 
-## Update Token Configuration credentials
+##### [Replace token validation credentials](https://developers.cloudflare.com/api/resources/token_validation/subresources/configuration/subresources/credentials/methods/update)
 
-**put** `/zones/{zone_id}/token_validation/config/{config_id}/credentials`
+PUT/zones/{zone\_id}/token\_validation/config/{config\_id}/credentials
 
-Update Token Configuration credentials
+##### [Edit token validation credentials](https://developers.cloudflare.com/api/resources/token_validation/subresources/configuration/subresources/credentials/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/token\_validation/config/{config\_id}/credentials
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `config_id: string`
+<summary>
 
-  UUID.
+CredentialUpdateResponse object {keys }
 
-### Body Parameters
+</summary>
 
-- `keys: array of object { alg, e, kid, 2 more }  or object { alg, crv, kid, 3 more }  or object { alg, crv, kid, 3 more }`
+<details>
 
-  - `APIShieldCredentialsJWTKeyRSA object { alg, e, kid, 2 more }`
+<summary>
 
-    JSON representation of an RSA key.
+keys: array of object {alg, e, kid, 2 more } or object {alg, crv, kid, 3 more } or object {alg, crv, kid, 3 more } or object {alg, kid, kty }
 
-    - `alg: "RS256" or "RS384" or "RS512" or 3 more`
+</summary>
 
-      Algorithm
+One of the following:
 
-      - `"RS256"`
+<details>
 
-      - `"RS384"`
+<summary>
 
-      - `"RS512"`
+APIShieldCredentialsJWTKeyRSA object {alg, e, kid, 2 more }
 
-      - `"PS256"`
+JSON representation of an RSA key.
 
-      - `"PS384"`
+</summary>
 
-      - `"PS512"`
+<details>
 
-    - `e: string`
+<summary>
 
-      RSA exponent
+alg: "RS256"or "RS384"or "RS512"or 3 more
 
-    - `kid: string`
+Algorithm
 
-      Key ID
+</summary>
 
-    - `kty: "RSA"`
+One of the following:
 
-      Key Type
+"RS256"
 
-      - `"RSA"`
+<a href="#">Link to this property</a>
 
-    - `n: string`
+"RS384"
 
-      RSA modulus
+<a href="#">Link to this property</a>
 
-  - `APIShieldCredentialsJWTKeyEcEs256 object { alg, crv, kid, 3 more }`
+"RS512"
 
-    JSON representation of an ES256 key
+<a href="#">Link to this property</a>
 
-    - `alg: "ES256"`
+"PS256"
 
-      Algorithm
+<a href="#">Link to this property</a>
 
-      - `"ES256"`
+"PS384"
 
-    - `crv: "P-256"`
+<a href="#">Link to this property</a>
 
-      Curve
+"PS512"
 
-      - `"P-256"`
+<a href="#">Link to this property</a>
 
-    - `kid: string`
+</details>
 
-      Key ID
+<a href="#">Link to this property</a>
 
-    - `kty: "EC"`
+e: string
 
-      Key Type
+RSA exponent
 
-      - `"EC"`
+<a href="#">Link to this property</a>
 
-    - `x: string`
+kid: string
 
-      X EC coordinate
+Key ID
 
-    - `y: string`
+<a href="#">Link to this property</a>
 
-      Y EC coordinate
+kty: "RSA"
 
-  - `APIShieldCredentialsJWTKeyEcEs384 object { alg, crv, kid, 3 more }`
+Key Type
 
-    JSON representation of an ES384 key
+<a href="#">Link to this property</a>
 
-    - `alg: "ES384"`
+n: string
 
-      Algorithm
+RSA modulus
 
-      - `"ES384"`
+<a href="#">Link to this property</a>
 
-    - `crv: "P-384"`
+</details>
 
-      Curve
+<a href="#">Link to this property</a>
 
-      - `"P-384"`
+<details>
 
-    - `kid: string`
+<summary>
 
-      Key ID
+APIShieldCredentialsJWTKeyEcEs256 object {alg, crv, kid, 3 more }
 
-    - `kty: "EC"`
+JSON representation of an ES256 key
 
-      Key Type
+</summary>
 
-      - `"EC"`
+alg: "ES256"
 
-    - `x: string`
+Algorithm
 
-      X EC coordinate
+<a href="#">Link to this property</a>
 
-    - `y: string`
+crv: "P-256"
 
-      Y EC coordinate
+Curve
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+kid: string
 
-  - `code: number`
+Key ID
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+kty: "EC"
 
-  - `source: optional object { pointer }`
+Key Type
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `keys: array of object { alg, e, kid, 2 more }  or object { alg, crv, kid, 3 more }  or object { alg, crv, kid, 3 more }`
+x: string
 
-  - `APIShieldCredentialsJWTKeyRSA object { alg, e, kid, 2 more }`
+X EC coordinate
 
-    JSON representation of an RSA key.
+<a href="#">Link to this property</a>
 
-    - `alg: "RS256" or "RS384" or "RS512" or 3 more`
+y: string
 
-      Algorithm
+Y EC coordinate
 
-      - `"RS256"`
+<a href="#">Link to this property</a>
 
-      - `"RS384"`
+</details>
 
-      - `"RS512"`
+<a href="#">Link to this property</a>
 
-      - `"PS256"`
+<details>
 
-      - `"PS384"`
+<summary>
 
-      - `"PS512"`
+APIShieldCredentialsJWTKeyEcEs384 object {alg, crv, kid, 3 more }
 
-    - `e: string`
+JSON representation of an ES384 key
 
-      RSA exponent
+</summary>
 
-    - `kid: string`
+alg: "ES384"
 
-      Key ID
+Algorithm
 
-    - `kty: "RSA"`
+<a href="#">Link to this property</a>
 
-      Key Type
+crv: "P-384"
 
-      - `"RSA"`
+Curve
 
-    - `n: string`
+<a href="#">Link to this property</a>
 
-      RSA modulus
+kid: string
 
-  - `APIShieldCredentialsJWTKeyEcEs256 object { alg, crv, kid, 3 more }`
+Key ID
 
-    JSON representation of an ES256 key
+<a href="#">Link to this property</a>
 
-    - `alg: "ES256"`
+kty: "EC"
 
-      Algorithm
+Key Type
 
-      - `"ES256"`
+<a href="#">Link to this property</a>
 
-    - `crv: "P-256"`
+x: string
 
-      Curve
+X EC coordinate
 
-      - `"P-256"`
+<a href="#">Link to this property</a>
 
-    - `kid: string`
+y: string
 
-      Key ID
+Y EC coordinate
 
-    - `kty: "EC"`
+<a href="#">Link to this property</a>
 
-      Key Type
+</details>
 
-      - `"EC"`
+<a href="#">Link to this property</a>
 
-    - `x: string`
+<details>
 
-      X EC coordinate
+<summary>
 
-    - `y: string`
+APIShieldCredentialsJWTKeyOctResponse object {alg, kid, kty }
 
-      Y EC coordinate
+JSON representation of a symmetric verification key in API responses (secret material is redacted).
 
-  - `APIShieldCredentialsJWTKeyEcEs384 object { alg, crv, kid, 3 more }`
+</summary>
 
-    JSON representation of an ES384 key
+<details>
 
-    - `alg: "ES384"`
+<summary>
 
-      Algorithm
+alg: "HS256"or "HS384"or "HS512"
 
-      - `"ES384"`
+Algorithm
 
-    - `crv: "P-384"`
+</summary>
 
-      Curve
+One of the following:
 
-      - `"P-384"`
+"HS256"
 
-    - `kid: string`
+<a href="#">Link to this property</a>
 
-      Key ID
+"HS384"
 
-    - `kty: "EC"`
+<a href="#">Link to this property</a>
 
-      Key Type
+"HS512"
 
-      - `"EC"`
+<a href="#">Link to this property</a>
 
-    - `x: string`
+</details>
 
-      X EC coordinate
+<a href="#">Link to this property</a>
 
-    - `y: string`
+kid: string
 
-      Y EC coordinate
+Key ID
 
-- `messages: Message`
+<a href="#">Link to this property</a>
 
-- `success: true`
+kty: "oct"
 
-  Whether the API call was successful.
+Key Type
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/config/$CONFIG_ID/credentials \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "keys": [
-            {
-              "alg": "ES256",
-              "crv": "P-256",
-              "kid": "38013f13-c266-4eec-a72a-92ec92779f21",
-              "kty": "EC",
-              "x": "KN53JRwN3wCjm2o39bvZUX2VdrsHzS8pxOAGjm8m7EQ",
-              "y": "lnkkzIxaveggz-HFhcMWW15nxvOj0Z_uQsXbpK0GFcY"
-            }
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "keys": [
-    {
-      "alg": "ES256",
-      "crv": "P-256",
-      "kid": "38013f13-c266-4eec-a72a-92ec92779f21",
-      "kty": "EC",
-      "x": "KN53JRwN3wCjm2o39bvZUX2VdrsHzS8pxOAGjm8m7EQ",
-      "y": "lnkkzIxaveggz-HFhcMWW15nxvOj0Z_uQsXbpK0GFcY"
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Credential Update Response
+[Link to this property](#)%20token_validation.configuration.credentials%20%3E%20(model)%20credential_update_response%20%3E%20(schema)>)
 
-- `CredentialUpdateResponse object { errors, keys, messages, success }`
+<details>
 
-  - `errors: Message`
+<summary>
 
-    - `code: number`
+CredentialEditResponse object {keys }
 
-    - `message: string`
+</summary>
 
-    - `documentation_url: optional string`
+<details>
 
-    - `source: optional object { pointer }`
+<summary>
 
-      - `pointer: optional string`
+keys: array of object {alg, e, kid, 2 more } or object {alg, crv, kid, 3 more } or object {alg, crv, kid, 3 more } or object {alg, kid, kty }
 
-  - `keys: array of object { alg, e, kid, 2 more }  or object { alg, crv, kid, 3 more }  or object { alg, crv, kid, 3 more }`
+</summary>
 
-    - `APIShieldCredentialsJWTKeyRSA object { alg, e, kid, 2 more }`
+One of the following:
 
-      JSON representation of an RSA key.
+<details>
 
-      - `alg: "RS256" or "RS384" or "RS512" or 3 more`
+<summary>
 
-        Algorithm
+APIShieldCredentialsJWTKeyRSA object {alg, e, kid, 2 more }
 
-        - `"RS256"`
+JSON representation of an RSA key.
 
-        - `"RS384"`
+</summary>
 
-        - `"RS512"`
+<details>
 
-        - `"PS256"`
+<summary>
 
-        - `"PS384"`
+alg: "RS256"or "RS384"or "RS512"or 3 more
 
-        - `"PS512"`
+Algorithm
 
-      - `e: string`
+</summary>
 
-        RSA exponent
+One of the following:
 
-      - `kid: string`
+"RS256"
 
-        Key ID
+<a href="#">Link to this property</a>
 
-      - `kty: "RSA"`
+"RS384"
 
-        Key Type
+<a href="#">Link to this property</a>
 
-        - `"RSA"`
+"RS512"
 
-      - `n: string`
+<a href="#">Link to this property</a>
 
-        RSA modulus
+"PS256"
 
-    - `APIShieldCredentialsJWTKeyEcEs256 object { alg, crv, kid, 3 more }`
+<a href="#">Link to this property</a>
 
-      JSON representation of an ES256 key
+"PS384"
 
-      - `alg: "ES256"`
+<a href="#">Link to this property</a>
 
-        Algorithm
+"PS512"
 
-        - `"ES256"`
+<a href="#">Link to this property</a>
 
-      - `crv: "P-256"`
+</details>
 
-        Curve
+<a href="#">Link to this property</a>
 
-        - `"P-256"`
+e: string
 
-      - `kid: string`
+RSA exponent
 
-        Key ID
+<a href="#">Link to this property</a>
 
-      - `kty: "EC"`
+kid: string
 
-        Key Type
+Key ID
 
-        - `"EC"`
+<a href="#">Link to this property</a>
 
-      - `x: string`
+kty: "RSA"
 
-        X EC coordinate
+Key Type
 
-      - `y: string`
+<a href="#">Link to this property</a>
 
-        Y EC coordinate
+n: string
 
-    - `APIShieldCredentialsJWTKeyEcEs384 object { alg, crv, kid, 3 more }`
+RSA modulus
 
-      JSON representation of an ES384 key
+<a href="#">Link to this property</a>
 
-      - `alg: "ES384"`
+</details>
 
-        Algorithm
+<a href="#">Link to this property</a>
 
-        - `"ES384"`
+<details>
 
-      - `crv: "P-384"`
+<summary>
 
-        Curve
+APIShieldCredentialsJWTKeyEcEs256 object {alg, crv, kid, 3 more }
 
-        - `"P-384"`
+JSON representation of an ES256 key
 
-      - `kid: string`
+</summary>
 
-        Key ID
+alg: "ES256"
 
-      - `kty: "EC"`
+Algorithm
 
-        Key Type
+<a href="#">Link to this property</a>
 
-        - `"EC"`
+crv: "P-256"
 
-      - `x: string`
+Curve
 
-        X EC coordinate
+<a href="#">Link to this property</a>
 
-      - `y: string`
+kid: string
 
-        Y EC coordinate
+Key ID
 
-  - `messages: Message`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+kty: "EC"
 
-    Whether the API call was successful.
+Key Type
 
-    - `true`
+<a href="#">Link to this property</a>
+
+x: string
+
+X EC coordinate
+
+<a href="#">Link to this property</a>
+
+y: string
+
+Y EC coordinate
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+APIShieldCredentialsJWTKeyEcEs384 object {alg, crv, kid, 3 more }
+
+JSON representation of an ES384 key
+
+</summary>
+
+alg: "ES384"
+
+Algorithm
+
+<a href="#">Link to this property</a>
+
+crv: "P-384"
+
+Curve
+
+<a href="#">Link to this property</a>
+
+kid: string
+
+Key ID
+
+<a href="#">Link to this property</a>
+
+kty: "EC"
+
+Key Type
+
+<a href="#">Link to this property</a>
+
+x: string
+
+X EC coordinate
+
+<a href="#">Link to this property</a>
+
+y: string
+
+Y EC coordinate
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+APIShieldCredentialsJWTKeyOctResponse object {alg, kid, kty }
+
+JSON representation of a symmetric verification key in API responses (secret material is redacted).
+
+</summary>
+
+<details>
+
+<summary>
+
+alg: "HS256"or "HS384"or "HS512"
+
+Algorithm
+
+</summary>
+
+One of the following:
+
+"HS256"
+
+<a href="#">Link to this property</a>
+
+"HS384"
+
+<a href="#">Link to this property</a>
+
+"HS512"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+kid: string
+
+Key ID
+
+<a href="#">Link to this property</a>
+
+kty: "oct"
+
+Key Type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20token_validation.configuration.credentials%20%3E%20(model)%20credential_edit_response%20%3E%20(schema)>)

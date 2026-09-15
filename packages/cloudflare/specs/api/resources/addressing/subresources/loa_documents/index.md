@@ -1,185 +1,95 @@
+---
+title: LOA Documents
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # LOA Documents
 
-## Download LOA Document
+##### [Download LOA Document](https://developers.cloudflare.com/api/resources/addressing/subresources/loa_documents/methods/get)
 
-**get** `/accounts/{account_id}/addressing/loa_documents/{loa_document_id}/download`
+GET/accounts/{account\_id}/addressing/loa\_documents/{loa\_document\_id}/download
 
-Download specified LOA document under the account.
+##### [Upload LOA Document](https://developers.cloudflare.com/api/resources/addressing/subresources/loa_documents/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/addressing/loa\_documents
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier of a Cloudflare account.
+<details>
 
-- `loa_document_id: string`
+<summary>
 
-  Identifier for the uploaded LOA document.
+LOADocumentCreateResponse object {id, account\_id, auto\_generated, 5 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/loa_documents/$LOA_DOCUMENT_ID/download \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+id: optional string
 
-## Upload LOA Document
+Identifier for the uploaded LOA document.
 
-**post** `/accounts/{account_id}/addressing/loa_documents`
+maxLength32
 
-Submit LOA document (pdf format) under the account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+account\_id: optional string
 
-- `account_id: string`
+Identifier of a Cloudflare account.
 
-  Identifier of a Cloudflare account.
+maxLength32
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+auto\_generated: optional boolean
 
-  - `code: number`
+Whether the LOA has been auto-generated for the prefix owner by Cloudflare.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created: optional string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+filename: optional string
 
-  - `code: number`
+Name of LOA document. Max file size 10MB, and supported filetype is pdf.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+size\_bytes: optional number
 
-  - `source: optional object { pointer }`
+File size of the uploaded LOA document.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+verified: optional boolean
 
-  Whether the API call was successful.
+Whether the LOA has been verified by Cloudflare staff.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, account_id, auto_generated, 5 more }`
+verified\_at: optional string
 
-  - `id: optional string`
+Timestamp of the moment the LOA was marked as validated.
 
-    Identifier for the uploaded LOA document.
+formatdate-time
 
-  - `account_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier of a Cloudflare account.
+</details>
 
-  - `auto_generated: optional boolean`
-
-    Whether the LOA has been auto-generated for the prefix owner by Cloudflare.
-
-  - `created: optional string`
-
-  - `filename: optional string`
-
-    Name of LOA document. Max file size 10MB, and supported filetype is pdf.
-
-  - `size_bytes: optional number`
-
-    File size of the uploaded LOA document.
-
-  - `verified: optional boolean`
-
-    Whether the LOA has been verified by Cloudflare staff.
-
-  - `verified_at: optional string`
-
-    Timestamp of the moment the LOA was marked as validated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/loa_documents \
-    -H 'Content-Type: multipart/form-data' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -F loa_document=@document.pdf
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "d933b1530bc56c9953cf8ce166da8004",
-    "account_id": "258def64c72dae45f3e4c8516e2111f2",
-    "auto_generated": true,
-    "created": "2014-01-01T05:20:00.12345Z",
-    "filename": "site_loa_doc.pdf",
-    "size_bytes": 444,
-    "verified": true,
-    "verified_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
-
-## Domain Types
-
-### LOA Document Create Response
-
-- `LOADocumentCreateResponse object { id, account_id, auto_generated, 5 more }`
-
-  - `id: optional string`
-
-    Identifier for the uploaded LOA document.
-
-  - `account_id: optional string`
-
-    Identifier of a Cloudflare account.
-
-  - `auto_generated: optional boolean`
-
-    Whether the LOA has been auto-generated for the prefix owner by Cloudflare.
-
-  - `created: optional string`
-
-  - `filename: optional string`
-
-    Name of LOA document. Max file size 10MB, and supported filetype is pdf.
-
-  - `size_bytes: optional number`
-
-    File size of the uploaded LOA document.
-
-  - `verified: optional boolean`
-
-    Whether the LOA has been verified by Cloudflare staff.
-
-  - `verified_at: optional string`
-
-    Timestamp of the moment the LOA was marked as validated.
+[Link to this property](#)%20addressing.loa_documents%20%3E%20(model)%20loa_document_create_response%20%3E%20(schema)>)

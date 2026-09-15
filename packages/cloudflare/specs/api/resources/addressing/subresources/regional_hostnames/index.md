@@ -1,823 +1,327 @@
+---
+title: Regional Hostnames
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Regional Hostnames
 
-## List Regional Hostnames
+##### [List Regional Hostnames](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/list)
 
-**get** `/zones/{zone_id}/addressing/regional_hostnames`
+GET/zones/{zone\_id}/addressing/regional\_hostnames
 
-List all Regional Hostnames within a zone.
+##### [Fetch Regional Hostname](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/addressing/regional\_hostnames/{hostname}
 
-- `zone_id: string`
+##### [Create Regional Hostname](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/addressing/regional\_hostnames
 
-### Returns
+##### [Update Regional Hostname](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/edit)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PATCH/zones/{zone\_id}/addressing/regional\_hostnames/{hostname}
 
-  - `code: number`
+##### [Delete Regional Hostname](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/delete)
 
-  - `message: string`
+DELETE/zones/{zone\_id}/addressing/regional\_hostnames/{hostname}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+RegionalHostnameListResponse object {created\_on, hostname, region\_key, routing }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+When the regional hostname was created
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+hostname: string
 
-  Whether the API call was successful.
+DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g <code>*.example.com</code>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { created_on, hostname, region_key, routing }`
+region\_key: string
 
-  - `created_on: string`
+Identifying key for the region
 
-    When the regional hostname was created
+<a href="#">Link to this property</a>
 
-  - `hostname: string`
+routing: string
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+Configure which routing method to use for the regional hostname
 
-  - `region_key: string`
+<a href="#">Link to this property</a>
 
-    Identifying key for the region
+</details>
 
-  - `routing: string`
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_list_response%20%3E%20(schema)>)
 
-    Configure which routing method to use for the regional hostname
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+RegionalHostnameGetResponse object {created\_on, hostname, region\_key, routing }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+created\_on: string
 
-    Current page within paginated list of results.
+When the regional hostname was created
 
-  - `per_page: optional number`
+formatdate-time
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+hostname: string
 
-    Total results available without any search parameters.
+DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g <code>*.example.com</code>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+region\_key: string
 
-### Example
+Identifying key for the region
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+routing: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "hostname": "foo.example.com",
-      "region_key": "ca",
-      "routing": "dns"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+Configure which routing method to use for the regional hostname
 
-## Fetch Regional Hostname
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/addressing/regional_hostnames/{hostname}`
+</details>
 
-Fetch the configuration for a specific Regional Hostname, within a zone.
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_get_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+RegionalHostnameCreateResponse object {created\_on, hostname, region\_key, routing }
 
-- `hostname: string`
+</summary>
 
-  DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+created\_on: string
 
-### Returns
+When the regional hostname was created
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+hostname: string
 
-  - `documentation_url: optional string`
+DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g <code>*.example.com</code>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+region\_key: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifying key for the region
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+routing: string
 
-  - `documentation_url: optional string`
+Configure which routing method to use for the regional hostname
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_create_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { created_on, hostname, region_key, routing }`
+RegionalHostnameEditResponse object {created\_on, hostname, region\_key, routing }
 
-  - `created_on: string`
+</summary>
 
-    When the regional hostname was created
+created\_on: string
 
-  - `hostname: string`
+When the regional hostname was created
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+formatdate-time
 
-  - `region_key: string`
+<a href="#">Link to this property</a>
 
-    Identifying key for the region
+hostname: string
 
-  - `routing: string`
+DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g <code>*.example.com</code>
 
-    Configure which routing method to use for the regional hostname
+<a href="#">Link to this property</a>
 
-### Example
+region\_key: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames/$HOSTNAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Identifying key for the region
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "hostname": "foo.example.com",
-    "region_key": "ca",
-    "routing": "dns"
-  }
-}
-```
+routing: string
 
-## Create Regional Hostname
+Configure which routing method to use for the regional hostname
 
-**post** `/zones/{zone_id}/addressing/regional_hostnames`
+<a href="#">Link to this property</a>
 
-Create a new Regional Hostname entry. Cloudflare will only use data centers that are physically located within the chosen region to decrypt and service HTTPS traffic. Learn more about [Regional Services](https://developers.cloudflare.com/data-localization/regional-services/get-started/).
+</details>
 
-### Path Parameters
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_edit_response%20%3E%20(schema)>)
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+RegionalHostnameDeleteResponse object {errors, messages, success }
 
-- `hostname: string`
+</summary>
 
-  DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+<details>
 
-- `region_key: string`
+<summary>
 
-  Identifying key for the region
+errors: array of object {code, message, documentation\_url, source }
 
-- `routing: optional string`
+</summary>
 
-  Configure which routing method to use for the regional hostname
+code: number
 
-### Returns
+minimum1000
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+message: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+documentation\_url: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+source: optional object {pointer }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+pointer: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created_on, hostname, region_key, routing }`
+<details>
 
-  - `created_on: string`
+<summary>
 
-    When the regional hostname was created
+messages: array of object {code, message, documentation\_url, source }
 
-  - `hostname: string`
+</summary>
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+code: number
 
-  - `region_key: string`
+minimum1000
 
-    Identifying key for the region
+<a href="#">Link to this property</a>
 
-  - `routing: string`
+message: string
 
-    Configure which routing method to use for the regional hostname
+<a href="#">Link to this property</a>
 
-### Example
+documentation\_url: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "hostname": "foo.example.com",
-          "region_key": "ca",
-          "routing": "dns"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "hostname": "foo.example.com",
-    "region_key": "ca",
-    "routing": "dns"
-  }
-}
-```
+<summary>
 
-## Update Regional Hostname
+source: optional object {pointer }
 
-**patch** `/zones/{zone_id}/addressing/regional_hostnames/{hostname}`
+</summary>
 
-Update the configuration for a specific Regional Hostname. Only the region_key of a hostname is mutable.
+pointer: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `hostname: string`
+</details>
 
-  DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+success: true
 
-- `region_key: string`
+Whether the API call was successful.
 
-  Identifying key for the region
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_delete_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### Regional HostnamesRegions
 
-  - `message: string`
+##### [List Regions](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/subresources/regions/methods/list)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/addressing/regional\_hostnames/regions
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+RegionListResponse object {key, label }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+key: optional string
 
-  - `source: optional object { pointer }`
+Identifying key for the region
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+label: optional string
 
-  Whether the API call was successful.
+Human-readable text label for the region
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created_on, hostname, region_key, routing }`
+</details>
 
-  - `created_on: string`
-
-    When the regional hostname was created
-
-  - `hostname: string`
-
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
-
-  - `region_key: string`
-
-    Identifying key for the region
-
-  - `routing: string`
-
-    Configure which routing method to use for the regional hostname
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames/$HOSTNAME \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "region_key": "ca"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "hostname": "foo.example.com",
-    "region_key": "ca",
-    "routing": "dns"
-  }
-}
-```
-
-## Delete Regional Hostname
-
-**delete** `/zones/{zone_id}/addressing/regional_hostnames/{hostname}`
-
-Delete the region configuration for a specific Regional Hostname.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `hostname: string`
-
-  DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames/$HOSTNAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Regional Hostname List Response
-
-- `RegionalHostnameListResponse object { created_on, hostname, region_key, routing }`
-
-  - `created_on: string`
-
-    When the regional hostname was created
-
-  - `hostname: string`
-
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
-
-  - `region_key: string`
-
-    Identifying key for the region
-
-  - `routing: string`
-
-    Configure which routing method to use for the regional hostname
-
-### Regional Hostname Get Response
-
-- `RegionalHostnameGetResponse object { created_on, hostname, region_key, routing }`
-
-  - `created_on: string`
-
-    When the regional hostname was created
-
-  - `hostname: string`
-
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
-
-  - `region_key: string`
-
-    Identifying key for the region
-
-  - `routing: string`
-
-    Configure which routing method to use for the regional hostname
-
-### Regional Hostname Create Response
-
-- `RegionalHostnameCreateResponse object { created_on, hostname, region_key, routing }`
-
-  - `created_on: string`
-
-    When the regional hostname was created
-
-  - `hostname: string`
-
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
-
-  - `region_key: string`
-
-    Identifying key for the region
-
-  - `routing: string`
-
-    Configure which routing method to use for the regional hostname
-
-### Regional Hostname Edit Response
-
-- `RegionalHostnameEditResponse object { created_on, hostname, region_key, routing }`
-
-  - `created_on: string`
-
-    When the regional hostname was created
-
-  - `hostname: string`
-
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
-
-  - `region_key: string`
-
-    Identifying key for the region
-
-  - `routing: string`
-
-    Configure which routing method to use for the regional hostname
-
-### Regional Hostname Delete Response
-
-- `RegionalHostnameDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# Regions
-
-## List Regions
-
-**get** `/accounts/{account_id}/addressing/regional_hostnames/regions`
-
-List all Regional Services regions available for use by this account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { key, label }`
-
-  - `key: optional string`
-
-    Identifying key for the region
-
-  - `label: optional string`
-
-    Human-readable text label for the region
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/regional_hostnames/regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "key": "ca",
-      "label": "Canada"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Region List Response
-
-- `RegionListResponse object { key, label }`
-
-  - `key: optional string`
-
-    Identifying key for the region
-
-  - `label: optional string`
-
-    Human-readable text label for the region
+[Link to this property](#)%20addressing.regional_hostnames.regions%20%3E%20(model)%20region_list_response%20%3E%20(schema)>)

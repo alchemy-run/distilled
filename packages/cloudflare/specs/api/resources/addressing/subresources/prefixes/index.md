@@ -1,2863 +1,897 @@
+---
+title: Prefixes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Prefixes
 
-## List Prefixes
+##### [List Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/list)
 
-**get** `/accounts/{account_id}/addressing/prefixes`
+GET/accounts/{account\_id}/addressing/prefixes
 
-List all prefixes owned by the account.
+##### [Prefix Details](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}
 
-- `account_id: string`
+##### [Add Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/create)
 
-  Identifier of a Cloudflare account.
+POST/accounts/{account\_id}/addressing/prefixes
 
-### Returns
+##### [Update Prefix Description](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/edit)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}
 
-  - `code: number`
+##### [Delete Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}
 
-  - `documentation_url: optional string`
+##### [Validate Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/validate)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/validate
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+Prefix object {id, account\_id, advertised, 15 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+Identifier of an IP Prefix.
 
-- `success: true`
+maxLength32
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+account\_id: optional string
 
-- `result: optional array of Prefix`
+Identifier of a Cloudflare account.
 
-  - `id: optional string`
+maxLength32
 
-    Identifier of an IP Prefix.
+<a href="#">Link to this property</a>
 
-  - `account_id: optional string`
+Deprecatedadvertised: optional boolean
 
-    Identifier of a Cloudflare account.
+Prefer the <a href="https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/">BGP Prefixes API</a> instead, which allows for advertising multiple BGP routes within a single IP Prefix.
 
-  - `advertised: optional boolean`
+Prefix advertisement status to the Internet. This field is only not ‘null’ if on demand is enabled.
 
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
+<a href="#">Link to this property</a>
 
-  - `advertised_modified_at: optional string`
+Deprecatedadvertised\_modified\_at: optional string
 
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+Prefer the <a href="https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/">BGP Prefixes API</a> instead, which allows for advertising multiple BGP routes within a single IP Prefix.
 
-  - `approved: optional string`
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-    Approval state of the prefix (P = pending, V = active).
+formatdate-time
 
-  - `asn: optional number`
+<a href="#">Link to this property</a>
 
-    Autonomous System Number (ASN) the prefix will be advertised under.
+approved: optional string
 
-  - `cidr: optional string`
+Approval state of the prefix (P = pending, V = active).
 
-    IP Prefix in Classless Inter-Domain Routing format.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+asn: optional number
 
-  - `delegate_loa_creation: optional boolean`
+Autonomous System Number (ASN) the prefix will be advertised under.
 
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+cidr: optional string
 
-    Description of the prefix.
+IP Prefix in Classless Inter-Domain Routing format.
 
-  - `irr_validation_state: optional string`
+<a href="#">Link to this property</a>
 
-    State of one kind of validation for an IP prefix.
+created\_at: optional string
 
-  - `loa_document_id: optional string`
+formatdate-time
 
-    Identifier for the uploaded LOA document.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+delegate\_loa\_creation: optional boolean
 
-  - `on_demand_enabled: optional boolean`
+Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
 
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+<a href="#">Link to this property</a>
 
-  - `on_demand_locked: optional boolean`
+description: optional string
 
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
-
-  - `ownership_validation_state: optional string`
+Description of the prefix.
 
-    State of one kind of validation for an IP prefix.
+maxLength1000
 
-  - `ownership_validation_token: optional string`
+<a href="#">Link to this property</a>
 
-    Token provided to demonstrate ownership of the prefix.
+irr\_validation\_state: optional string
 
-  - `rpki_validation_state: optional string`
+State of one kind of validation for an IP prefix.
 
-    State of one kind of validation for an IP prefix.
+<a href="#">Link to this property</a>
 
-### Example
+loa\_document\_id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Identifier for the uploaded LOA document.
 
-#### Response
+maxLength32
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "2af39739cc4e3b5910c918468bb89828",
-      "account_id": "258def64c72dae45f3e4c8516e2111f2",
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "approved": "P",
-      "asn": 13335,
-      "cidr": "192.0.2.0/24",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "delegate_loa_creation": true,
-      "description": "Internal test prefix",
-      "irr_validation_state": "pending",
-      "loa_document_id": "d933b1530bc56c9953cf8ce166da8004",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false,
-      "ownership_validation_state": "pending",
-      "ownership_validation_token": "1234a5b6-1234-1abc-12a3-1234a5b6789c",
-      "rpki_validation_state": "pending"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Prefix Details
+modified\_at: optional string
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}`
+formatdate-time
 
-List a particular prefix owned by the account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+Deprecatedon\_demand\_enabled: optional boolean
 
-- `account_id: string`
+Prefer the <a href="https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/">BGP Prefixes API</a> instead, which allows for advertising multiple BGP routes within a single IP Prefix.
 
-  Identifier of a Cloudflare account.
+Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
 
-- `prefix_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of an IP Prefix.
+Deprecatedon\_demand\_locked: optional boolean
 
-### Returns
+Prefer the <a href="https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/">BGP Prefixes API</a> instead, which allows for advertising multiple BGP routes within a single IP Prefix.
 
-- `errors: array of object { code, message, documentation_url, source }`
+Whether advertisement status of the prefix is locked, meaning it cannot be changed.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+ownership\_validation\_state: optional string
 
-  - `documentation_url: optional string`
+State of one kind of validation for an IP prefix.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+ownership\_validation\_token: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Token provided to demonstrate ownership of the prefix.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+rpki\_validation\_state: optional string
 
-  - `documentation_url: optional string`
+State of one kind of validation for an IP prefix.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20addressing.prefixes%20%3E%20(model)%20prefix%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional Prefix`
+PrefixDeleteResponse object {errors, messages, success }
 
-  - `id: optional string`
+</summary>
 
-    Identifier of an IP Prefix.
+<details>
 
-  - `account_id: optional string`
+<summary>
 
-    Identifier of a Cloudflare account.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `advertised: optional boolean`
+</summary>
 
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
+code: number
 
-  - `advertised_modified_at: optional string`
+minimum1000
 
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+<a href="#">Link to this property</a>
 
-  - `approved: optional string`
+message: string
 
-    Approval state of the prefix (P = pending, V = active).
+<a href="#">Link to this property</a>
 
-  - `asn: optional number`
+documentation\_url: optional string
 
-    Autonomous System Number (ASN) the prefix will be advertised under.
+<a href="#">Link to this property</a>
 
-  - `cidr: optional string`
+<details>
 
-    IP Prefix in Classless Inter-Domain Routing format.
+<summary>
 
-  - `created_at: optional string`
+source: optional object {pointer }
 
-  - `delegate_loa_creation: optional boolean`
+</summary>
 
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
+pointer: optional string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Description of the prefix.
+</details>
 
-  - `irr_validation_state: optional string`
+<a href="#">Link to this property</a>
 
-    State of one kind of validation for an IP prefix.
+</details>
 
-  - `loa_document_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier for the uploaded LOA document.
+<details>
 
-  - `modified_at: optional string`
+<summary>
 
-  - `on_demand_enabled: optional boolean`
+messages: array of object {code, message, documentation\_url, source }
 
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+</summary>
 
-  - `on_demand_locked: optional boolean`
+code: number
 
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
+minimum1000
 
-  - `ownership_validation_state: optional string`
+<a href="#">Link to this property</a>
 
-    State of one kind of validation for an IP prefix.
+message: string
 
-  - `ownership_validation_token: optional string`
+<a href="#">Link to this property</a>
 
-    Token provided to demonstrate ownership of the prefix.
+documentation\_url: optional string
 
-  - `rpki_validation_state: optional string`
+<a href="#">Link to this property</a>
 
-    State of one kind of validation for an IP prefix.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+source: optional object {pointer }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "2af39739cc4e3b5910c918468bb89828",
-    "account_id": "258def64c72dae45f3e4c8516e2111f2",
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-    "approved": "P",
-    "asn": 13335,
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegate_loa_creation": true,
-    "description": "Internal test prefix",
-    "irr_validation_state": "pending",
-    "loa_document_id": "d933b1530bc56c9953cf8ce166da8004",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand_enabled": true,
-    "on_demand_locked": false,
-    "ownership_validation_state": "pending",
-    "ownership_validation_token": "1234a5b6-1234-1abc-12a3-1234a5b6789c",
-    "rpki_validation_state": "pending"
-  }
-}
-```
+pointer: optional string
 
-## Add Prefix
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/addressing/prefixes`
+</details>
 
-Add a new prefix under the account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+success: true
 
-### Body Parameters
+Whether the API call was successful.
 
-- `asn: number`
+<a href="#">Link to this property</a>
 
-  Autonomous System Number (ASN) the prefix will be advertised under.
+</details>
 
-- `cidr: string`
+[Link to this property](#)%20addressing.prefixes%20%3E%20(model)%20prefix_delete_response%20%3E%20(schema)>)
 
-  IP Prefix in Classless Inter-Domain Routing format.
+#### PrefixesService Bindings
 
-- `delegate_loa_creation: optional boolean`
+##### [List Service Bindings](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings/methods/list)
 
-  Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings
 
-- `description: optional string`
+##### [Get Service Binding](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings/methods/get)
 
-  Description of the prefix.
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings/{binding\_id}
 
-- `loa_document_id: optional string`
+##### [Create Service Binding](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings/methods/create)
 
-  Identifier for the uploaded LOA document.
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings
 
-### Returns
+##### [Delete Service Binding](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings/{binding\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ServiceBinding object {id, cidr, provisioning, 2 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+Identifier of a Service Binding.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+cidr: optional string
 
-    - `pointer: optional string`
+IP Prefix in Classless Inter-Domain Routing format.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional Prefix`
+provisioning: optional object {state }
 
-  - `id: optional string`
+Status of a Service Binding’s deployment to the Cloudflare network
 
-    Identifier of an IP Prefix.
+</summary>
 
-  - `account_id: optional string`
+<details>
 
-    Identifier of a Cloudflare account.
+<summary>
 
-  - `advertised: optional boolean`
+state: optional "provisioning"or "active"or "magic\_transit\_route\_missing"
 
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
+When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
 
-  - `advertised_modified_at: optional string`
+</summary>
 
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+One of the following:
 
-  - `approved: optional string`
+"provisioning"
 
-    Approval state of the prefix (P = pending, V = active).
+<a href="#">Link to this property</a>
 
-  - `asn: optional number`
+"active"
 
-    Autonomous System Number (ASN) the prefix will be advertised under.
+<a href="#">Link to this property</a>
 
-  - `cidr: optional string`
+"magic\_transit\_route\_missing"
 
-    IP Prefix in Classless Inter-Domain Routing format.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+</details>
 
-  - `delegate_loa_creation: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Description of the prefix.
+service\_id: optional string
 
-  - `irr_validation_state: optional string`
+Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint.
 
-    State of one kind of validation for an IP prefix.
+maxLength32
 
-  - `loa_document_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier for the uploaded LOA document.
+service\_name: optional string
 
-  - `modified_at: optional string`
+Name of a service running on the Cloudflare network
 
-  - `on_demand_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+</details>
 
-  - `on_demand_locked: optional boolean`
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(model)%20service_binding%20%3E%20(schema)>)
 
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
+<details>
 
-  - `ownership_validation_state: optional string`
+<summary>
 
-    State of one kind of validation for an IP prefix.
+ServiceBindingDeleteResponse object {errors, messages, success }
 
-  - `ownership_validation_token: optional string`
+</summary>
 
-    Token provided to demonstrate ownership of the prefix.
+<details>
 
-  - `rpki_validation_state: optional string`
+<summary>
 
-    State of one kind of validation for an IP prefix.
+errors: array of object {code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "asn": 13335,
-          "cidr": "192.0.2.0/24",
-          "delegate_loa_creation": true,
-          "description": "Internal test prefix",
-          "loa_document_id": "d933b1530bc56c9953cf8ce166da8004"
-        }'
-```
+code: number
 
-#### Response
+minimum1000
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "2af39739cc4e3b5910c918468bb89828",
-    "account_id": "258def64c72dae45f3e4c8516e2111f2",
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-    "approved": "P",
-    "asn": 13335,
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegate_loa_creation": true,
-    "description": "Internal test prefix",
-    "irr_validation_state": "pending",
-    "loa_document_id": "d933b1530bc56c9953cf8ce166da8004",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand_enabled": true,
-    "on_demand_locked": false,
-    "ownership_validation_state": "pending",
-    "ownership_validation_token": "1234a5b6-1234-1abc-12a3-1234a5b6789c",
-    "rpki_validation_state": "pending"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Prefix Description
+message: string
 
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}`
+<a href="#">Link to this property</a>
 
-Modify the description for a prefix owned by the account.
+documentation\_url: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>
 
-- `prefix_id: string`
+source: optional object {pointer }
 
-  Identifier of an IP Prefix.
+</summary>
 
-### Body Parameters
+pointer: optional string
 
-- `description: string`
+<a href="#">Link to this property</a>
 
-  Description of the prefix.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+code: number
 
-  - `code: number`
+minimum1000
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+message: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+documentation\_url: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional Prefix`
+source: optional object {pointer }
 
-  - `id: optional string`
+</summary>
 
-    Identifier of an IP Prefix.
+pointer: optional string
 
-  - `account_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier of a Cloudflare account.
+</details>
 
-  - `advertised: optional boolean`
+<a href="#">Link to this property</a>
 
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
+</details>
 
-  - `advertised_modified_at: optional string`
+<a href="#">Link to this property</a>
 
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+success: true
 
-  - `approved: optional string`
+Whether the API call was successful.
 
-    Approval state of the prefix (P = pending, V = active).
+<a href="#">Link to this property</a>
 
-  - `asn: optional number`
+</details>
 
-    Autonomous System Number (ASN) the prefix will be advertised under.
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(model)%20service_binding_delete_response%20%3E%20(schema)>)
 
-  - `cidr: optional string`
+#### PrefixesBGP Prefixes
 
-    IP Prefix in Classless Inter-Domain Routing format.
+##### [List BGP Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/list)
 
-  - `created_at: optional string`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes
 
-  - `delegate_loa_creation: optional boolean`
+##### [Fetch BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/get)
 
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-  - `description: optional string`
+##### [Create BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/create)
 
-    Description of the prefix.
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes
 
-  - `irr_validation_state: optional string`
+##### [Update BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/edit)
 
-    State of one kind of validation for an IP prefix.
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-  - `loa_document_id: optional string`
+##### [Delete BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/delete)
 
-    Identifier for the uploaded LOA document.
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-  - `modified_at: optional string`
+##### ModelsExpand Collapse
 
-  - `on_demand_enabled: optional boolean`
+<details>
 
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+<summary>
 
-  - `on_demand_locked: optional boolean`
+BGPPrefix object {id, asn, asn\_prepend\_count, 6 more }
 
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
+</summary>
 
-  - `ownership_validation_state: optional string`
+id: optional string
 
-    State of one kind of validation for an IP prefix.
+Identifier of BGP Prefix.
 
-  - `ownership_validation_token: optional string`
+maxLength32
 
-    Token provided to demonstrate ownership of the prefix.
+<a href="#">Link to this property</a>
 
-  - `rpki_validation_state: optional string`
+asn: optional number
 
-    State of one kind of validation for an IP prefix.
+Autonomous System Number (ASN) the prefix will be advertised under.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "description": "Internal test prefix"
-        }'
-```
+asn\_prepend\_count: optional number
 
-#### Response
+Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "2af39739cc4e3b5910c918468bb89828",
-    "account_id": "258def64c72dae45f3e4c8516e2111f2",
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-    "approved": "P",
-    "asn": 13335,
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegate_loa_creation": true,
-    "description": "Internal test prefix",
-    "irr_validation_state": "pending",
-    "loa_document_id": "d933b1530bc56c9953cf8ce166da8004",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand_enabled": true,
-    "on_demand_locked": false,
-    "ownership_validation_state": "pending",
-    "ownership_validation_token": "1234a5b6-1234-1abc-12a3-1234a5b6789c",
-    "rpki_validation_state": "pending"
-  }
-}
-```
+maximum3
 
-## Delete Prefix
+minimum0
 
-**delete** `/accounts/{account_id}/addressing/prefixes/{prefix_id}`
+<a href="#">Link to this property</a>
 
-Delete an unapproved prefix owned by the account.
+auto\_advertise\_withdraw: optional boolean
 
-### Path Parameters
+Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+<details>
 
-- `prefix_id: string`
+<summary>
 
-  Identifier of an IP Prefix.
+bgp\_signal\_opts: optional object {enabled, modified\_at }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+enabled: optional boolean
 
-  - `code: number`
+Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_at: optional string
 
-  - `source: optional object { pointer }`
+Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+cidr: optional string
 
-  - `source: optional object { pointer }`
+IP Prefix in Classless Inter-Domain Routing format.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: optional string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+modified\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Prefix
+on\_demand: optional object {advertised, advertised\_modified\_at, on\_demand\_enabled, on\_demand\_locked }
 
-- `Prefix object { id, account_id, advertised, 15 more }`
+</summary>
 
-  - `id: optional string`
+advertised: optional boolean
 
-    Identifier of an IP Prefix.
+Prefix advertisement status to the Internet. This field is only not ‘null’ if on demand is enabled.
 
-  - `account_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier of a Cloudflare account.
+advertised\_modified\_at: optional string
 
-  - `advertised: optional boolean`
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
+formatdate-time
 
-  - `advertised_modified_at: optional string`
+<a href="#">Link to this property</a>
 
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+on\_demand\_enabled: optional boolean
 
-  - `approved: optional string`
+Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
 
-    Approval state of the prefix (P = pending, V = active).
+<a href="#">Link to this property</a>
 
-  - `asn: optional number`
+on\_demand\_locked: optional boolean
 
-    Autonomous System Number (ASN) the prefix will be advertised under.
+Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
 
-  - `cidr: optional string`
+<a href="#">Link to this property</a>
 
-    IP Prefix in Classless Inter-Domain Routing format.
+</details>
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `delegate_loa_creation: optional boolean`
+</details>
 
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(model)%20bgp_prefix%20%3E%20(schema)>)
 
-  - `description: optional string`
+<details>
 
-    Description of the prefix.
+<summary>
 
-  - `irr_validation_state: optional string`
+BGPPrefixDeleteResponse object {errors, messages, success }
 
-    State of one kind of validation for an IP prefix.
+</summary>
 
-  - `loa_document_id: optional string`
+<details>
 
-    Identifier for the uploaded LOA document.
+<summary>
 
-  - `modified_at: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `on_demand_enabled: optional boolean`
+</summary>
 
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+code: number
 
-  - `on_demand_locked: optional boolean`
+minimum1000
 
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
+<a href="#">Link to this property</a>
 
-  - `ownership_validation_state: optional string`
+message: string
 
-    State of one kind of validation for an IP prefix.
+<a href="#">Link to this property</a>
 
-  - `ownership_validation_token: optional string`
+documentation\_url: optional string
 
-    Token provided to demonstrate ownership of the prefix.
+<a href="#">Link to this property</a>
 
-  - `rpki_validation_state: optional string`
+<details>
 
-    State of one kind of validation for an IP prefix.
+<summary>
 
-### Prefix Delete Response
+source: optional object {pointer }
 
-- `PrefixDeleteResponse object { errors, messages, success }`
+</summary>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+pointer: optional string
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+</details>
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-    - `code: number`
+<summary>
 
-    - `message: string`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `documentation_url: optional string`
+</summary>
 
-    - `source: optional object { pointer }`
+code: number
 
-      - `pointer: optional string`
+minimum1000
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+message: string
 
-    - `true`
+<a href="#">Link to this property</a>
 
-# Service Bindings
+documentation\_url: optional string
 
-## List Service Bindings
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings`
+<details>
 
-List the Cloudflare services this prefix is currently bound to. Traffic sent to an address within an IP prefix will be routed to the Cloudflare service of the most-specific Service Binding matching the address.
-**Example:** binding `192.0.2.0/24` to Cloudflare Magic Transit and `192.0.2.1/32` to the Cloudflare CDN would route traffic for `192.0.2.1` to the CDN, and traffic for all other IPs in the prefix to Cloudflare Magic Transit.
+<summary>
 
-### Path Parameters
+source: optional object {pointer }
 
-- `account_id: string`
+</summary>
 
-  Identifier of a Cloudflare account.
+pointer: optional string
 
-- `prefix_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of an IP Prefix.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+success: true
 
-  - `documentation_url: optional string`
+Whether the API call was successful.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(model)%20bgp_prefix_delete_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### PrefixesAdvertisement Status
 
-  - `message: string`
+##### [Get Advertisement Status](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/advertisement_status/methods/get)
 
-  - `documentation_url: optional string`
+Deprecated
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/status
 
-    - `pointer: optional string`
+##### [Update Prefix Dynamic Advertisement Status](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/advertisement_status/methods/edit)
 
-- `success: true`
+Deprecated
 
-  Whether the API call was successful.
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/status
 
-  - `true`
+##### ModelsExpand Collapse
 
-- `result: optional array of ServiceBinding`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Identifier of a Service Binding.
+AdvertisementStatusGetResponse object {advertised, advertised\_modified\_at }
 
-  - `cidr: optional string`
+</summary>
 
-    IP Prefix in Classless Inter-Domain Routing format.
+advertised: optional boolean
 
-  - `provisioning: optional object { state }`
+Advertisement status of the prefix. If <code>true</code>, the BGP route for the prefix is advertised to the Internet. If <code>false</code>, the BGP route is withdrawn.
 
-    Status of a Service Binding's deployment to the Cloudflare network
+<a href="#">Link to this property</a>
 
-    - `state: optional "provisioning" or "active"`
+advertised\_modified\_at: optional string
 
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-      - `"provisioning"`
+formatdate-time
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-  - `service_id: optional string`
+</details>
 
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(model)%20advertisement_status_get_response%20%3E%20(schema)>)
 
-  - `service_name: optional string`
+<details>
 
-    Name of a service running on the Cloudflare network
+<summary>
 
-### Example
+AdvertisementStatusEditResponse object {advertised, advertised\_modified\_at }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</summary>
 
-#### Response
+advertised: optional boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "0429b49b6a5155297b78e75a44b09e14",
-      "cidr": "192.0.2.0/24",
-      "provisioning": {
-        "state": "provisioning"
-      },
-      "service_id": "2db684ee7ca04e159946fd05b99e1bcd",
-      "service_name": "Magic Transit"
-    }
-  ]
-}
-```
+Advertisement status of the prefix. If <code>true</code>, the BGP route for the prefix is advertised to the Internet. If <code>false</code>, the BGP route is withdrawn.
 
-## Get Service Binding
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings/{binding_id}`
+advertised\_modified\_at: optional string
 
-Fetch a single Service Binding
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+</details>
 
-- `prefix_id: string`
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(model)%20advertisement_status_edit_response%20%3E%20(schema)>)
 
-  Identifier of an IP Prefix.
+#### PrefixesDelegations
 
-- `binding_id: string`
+##### [List Prefix Delegations](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/list)
 
-  Identifier of a Service Binding.
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations
 
-### Returns
+##### [Create Prefix Delegation](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/create)
 
-- `errors: array of object { code, message, documentation_url, source }`
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations
 
-  - `code: number`
+##### [Delete Prefix Delegation](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations/{delegation\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+Delegations object {id, cidr, created\_at, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+Identifier of a Delegation.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+cidr: optional string
 
-  Whether the API call was successful.
+IP Prefix in Classless Inter-Domain Routing format.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional ServiceBinding`
+created\_at: optional string
 
-  - `id: optional string`
+formatdate-time
 
-    Identifier of a Service Binding.
+<a href="#">Link to this property</a>
 
-  - `cidr: optional string`
+delegated\_account\_id: optional string
 
-    IP Prefix in Classless Inter-Domain Routing format.
+Account identifier for the account to which prefix is being delegated.
 
-  - `provisioning: optional object { state }`
+maxLength32
 
-    Status of a Service Binding's deployment to the Cloudflare network
+<a href="#">Link to this property</a>
 
-    - `state: optional "provisioning" or "active"`
+modified\_at: optional string
 
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
+formatdate-time
 
-      - `"provisioning"`
+<a href="#">Link to this property</a>
 
-      - `"active"`
+parent\_prefix\_id: optional string
 
-  - `service_id: optional string`
+Identifier of an IP Prefix.
 
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
+maxLength32
 
-  - `service_name: optional string`
+<a href="#">Link to this property</a>
 
-    Name of a service running on the Cloudflare network
+</details>
 
-### Example
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(model)%20delegations%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings/$BINDING_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "0429b49b6a5155297b78e75a44b09e14",
-    "cidr": "192.0.2.0/24",
-    "provisioning": {
-      "state": "provisioning"
-    },
-    "service_id": "2db684ee7ca04e159946fd05b99e1bcd",
-    "service_name": "Magic Transit"
-  }
-}
-```
+DelegationDeleteResponse object {id }
 
-## Create Service Binding
+</summary>
 
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings`
+id: optional string
 
-Creates a new Service Binding, routing traffic to IPs within the given CIDR to a service running on Cloudflare's network.
-**NOTE:** The first Service Binding created for an IP Prefix must exactly match the IP Prefix's CIDR. Subsequent Service Bindings may be created with a more-specific CIDR. Refer to the  [Service Bindings Documentation](https://developers.cloudflare.com/byoip/service-bindings/) for compatibility details.
+Identifier of a Delegation.
 
-### Path Parameters
+maxLength32
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+</details>
 
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `cidr: string`
-
-  IP Prefix in Classless Inter-Domain Routing format.
-
-- `service_id: string`
-
-  Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-  **List Services** endpoint.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ServiceBinding`
-
-  - `id: optional string`
-
-    Identifier of a Service Binding.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `provisioning: optional object { state }`
-
-    Status of a Service Binding's deployment to the Cloudflare network
-
-    - `state: optional "provisioning" or "active"`
-
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
-
-      - `"provisioning"`
-
-      - `"active"`
-
-  - `service_id: optional string`
-
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
-
-  - `service_name: optional string`
-
-    Name of a service running on the Cloudflare network
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "cidr": "192.0.2.0/24",
-          "service_id": "2db684ee7ca04e159946fd05b99e1bcd"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "0429b49b6a5155297b78e75a44b09e14",
-    "cidr": "192.0.2.0/24",
-    "provisioning": {
-      "state": "provisioning"
-    },
-    "service_id": "2db684ee7ca04e159946fd05b99e1bcd",
-    "service_name": "Magic Transit"
-  }
-}
-```
-
-## Delete Service Binding
-
-**delete** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings/{binding_id}`
-
-Delete a Service Binding
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `binding_id: string`
-
-  Identifier of a Service Binding.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings/$BINDING_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Service Binding
-
-- `ServiceBinding object { id, cidr, provisioning, 2 more }`
-
-  - `id: optional string`
-
-    Identifier of a Service Binding.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `provisioning: optional object { state }`
-
-    Status of a Service Binding's deployment to the Cloudflare network
-
-    - `state: optional "provisioning" or "active"`
-
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
-
-      - `"provisioning"`
-
-      - `"active"`
-
-  - `service_id: optional string`
-
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
-
-  - `service_name: optional string`
-
-    Name of a service running on the Cloudflare network
-
-### Service Binding Delete Response
-
-- `ServiceBindingDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# BGP Prefixes
-
-## List BGP Prefixes
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes`
-
-List all BGP Prefixes within the specified IP Prefix. BGP Prefixes are used to control which specific subnets are advertised to the Internet. It is possible to advertise subnets more specific than an IP Prefix by creating more specific BGP Prefixes.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7009ba364c7a5760798ceb430e603b74",
-      "asn": 13335,
-      "asn_prepend_count": 2,
-      "auto_advertise_withdraw": true,
-      "bgp_signal_opts": {
-        "enabled": false,
-        "modified_at": "2014-01-01T05:20:00.12345Z"
-      },
-      "cidr": "192.0.2.0/24",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand": {
-        "advertised": true,
-        "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-        "on_demand_enabled": true,
-        "on_demand_locked": false
-      }
-    }
-  ]
-}
-```
-
-## Fetch BGP Prefix
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}`
-
-Retrieve a single BGP Prefix according to its identifier
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `bgp_prefix_id: string`
-
-  Identifier of BGP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes/$BGP_PREFIX_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
-
-## Create BGP Prefix
-
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes`
-
-Create a BGP prefix, controlling the BGP advertisement status of a specific subnet. When created, BGP prefixes are initially withdrawn, and can be advertised with the Update BGP Prefix API.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `cidr: string`
-
-  IP Prefix in Classless Inter-Domain Routing format.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "cidr": "192.0.2.0/24"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
-
-## Update BGP Prefix
-
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}`
-
-Update the properties of a BGP Prefix, such as the on demand advertisement status (advertised or withdrawn).
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `bgp_prefix_id: string`
-
-  Identifier of BGP Prefix.
-
-### Body Parameters
-
-- `asn_prepend_count: optional number`
-
-  Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-- `auto_advertise_withdraw: optional boolean`
-
-  Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-- `on_demand: optional object { advertised }`
-
-  - `advertised: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes/$BGP_PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "asn_prepend_count": 2,
-          "auto_advertise_withdraw": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
-
-## Domain Types
-
-### BGP Prefix
-
-- `BGPPrefix object { id, asn, asn_prepend_count, 6 more }`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-# Advertisement Status
-
-## Get Advertisement Status
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/status`
-
-View the current advertisement state for a prefix.
-
-**Deprecated:** Prefer the BGP Prefixes endpoints, which additionally allow for advertising and withdrawing
-subnets of an IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/status \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update Prefix Dynamic Advertisement Status
-
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/status`
-
-Advertise or withdraw the BGP route for a prefix.
-
-**Deprecated:** Prefer the BGP Prefixes endpoints, which additionally allow for advertising and withdrawing
-subnets of an IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `advertised: boolean`
-
-  Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-  `false`, the BGP route is withdrawn.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/status \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "advertised": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Advertisement Status Get Response
-
-- `AdvertisementStatusGetResponse object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-### Advertisement Status Edit Response
-
-- `AdvertisementStatusEditResponse object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-# Delegations
-
-## List Prefix Delegations
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations`
-
-List all delegations for a given account IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Delegations`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegated_account_id: optional string`
-
-    Account identifier for the account to which prefix is being delegated.
-
-  - `modified_at: optional string`
-
-  - `parent_prefix_id: optional string`
-
-    Identifier of an IP Prefix.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "d933b1530bc56c9953cf8ce166da8004",
-      "cidr": "192.0.2.0/24",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "delegated_account_id": "b1946ac92492d2347c6235b4d2611184",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "parent_prefix_id": "2af39739cc4e3b5910c918468bb89828"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Create Prefix Delegation
-
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations`
-
-Create a new account delegation for a given IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `cidr: string`
-
-  IP Prefix in Classless Inter-Domain Routing format.
-
-- `delegated_account_id: string`
-
-  Account identifier for the account to which prefix is being delegated.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Delegations`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegated_account_id: optional string`
-
-    Account identifier for the account to which prefix is being delegated.
-
-  - `modified_at: optional string`
-
-  - `parent_prefix_id: optional string`
-
-    Identifier of an IP Prefix.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "cidr": "192.0.2.0/24",
-          "delegated_account_id": "b1946ac92492d2347c6235b4d2611184"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "d933b1530bc56c9953cf8ce166da8004",
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegated_account_id": "b1946ac92492d2347c6235b4d2611184",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "parent_prefix_id": "2af39739cc4e3b5910c918468bb89828"
-  }
-}
-```
-
-## Delete Prefix Delegation
-
-**delete** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations/{delegation_id}`
-
-Delete an account delegation for a given IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `delegation_id: string`
-
-  Identifier of a Delegation.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations/$DELEGATION_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "d933b1530bc56c9953cf8ce166da8004"
-  }
-}
-```
-
-## Domain Types
-
-### Delegations
-
-- `Delegations object { id, cidr, created_at, 3 more }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegated_account_id: optional string`
-
-    Account identifier for the account to which prefix is being delegated.
-
-  - `modified_at: optional string`
-
-  - `parent_prefix_id: optional string`
-
-    Identifier of an IP Prefix.
-
-### Delegation Delete Response
-
-- `DelegationDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(model)%20delegation_delete_response%20%3E%20(schema)>)

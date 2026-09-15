@@ -1,126 +1,89 @@
+---
+title: Roas
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[RPKI](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Roas
 
-## Get RPKI ROA deployment time series
+##### [Get RPKI ROA deployment time series](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki/subresources/roas/methods/timeseries)
 
-**get** `/radar/bgp/rpki/roas/timeseries`
+GET/radar/bgp/rpki/roas/timeseries
 
-Retrieves RPKI ROA (Route Origin Authorization) validation ratios over time. Returns the selected metric as a time series. Supports filtering by ASN or location (country code) — multiple values of the same filter type produce one series per value. If no ASN or location is specified, returns the global aggregate.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `asn: optional array of string`
+<summary>
 
-  Filters results by Autonomous System Number. Specify one or more ASNs. Multiple values generate one series per ASN.
+RoaTimeseriesResponse object {meta, serie\_0 }
 
-- `dateEnd: optional string`
+</summary>
 
-  End of the date range (inclusive).
+<details>
 
-- `dateStart: optional string`
+<summary>
 
-  Start of the date range (inclusive).
+meta: object {dataTime, queryTime }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+dataTime: string
 
-  - `"JSON"`
+Timestamp of the underlying data.
 
-  - `"CSV"`
+formatdate-time
 
-- `location: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
+queryTime: string
 
-- `metric: optional "validPfxsRatio" or "validPfxsV4Ratio" or "validPfxsV6Ratio" or 3 more`
+Timestamp when the query was executed.
 
-  Which RPKI ROA validation metric to return. validPfxsRatio = ratio of RPKI-valid prefixes (IPv4+IPv6 combined). validPfxsV4Ratio / validPfxsV6Ratio = same, split by IP version. validIpsRatio = ratio of RPKI-valid address space (IPv4 /24s + IPv6 /48s). validIpsV4Ratio / validIpsV6Ratio = same, split by IP version.
+formatdate-time
 
-  - `"validPfxsRatio"`
+<a href="#">Link to this property</a>
 
-  - `"validPfxsV4Ratio"`
+</details>
 
-  - `"validPfxsV6Ratio"`
+<a href="#">Link to this property</a>
 
-  - `"validIpsRatio"`
+<details>
 
-  - `"validIpsV4Ratio"`
+<summary>
 
-  - `"validIpsV6Ratio"`
+serie\_0: object {timestamps, values }
 
-- `name: optional array of string`
+</summary>
 
-  Array of names used to label the series in the response.
+timestamps: array of string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, serie_0 }`
+values: array of string
 
-  - `meta: object { dataTime, queryTime }`
+<a href="#">Link to this property</a>
 
-    - `dataTime: string`
+</details>
 
-      Timestamp of the underlying data.
+<a href="#">Link to this property</a>
 
-    - `queryTime: string`
+</details>
 
-      Timestamp when the query was executed.
-
-  - `serie_0: object { timestamps, values }`
-
-    - `timestamps: array of string`
-
-    - `values: array of string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/rpki/roas/timeseries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "meta": {
-      "dataTime": "2019-12-27T18:11:19.117Z",
-      "queryTime": "2019-12-27T18:11:19.117Z"
-    },
-    "serie_0": {
-      "timestamps": [
-        "2019-12-27T18:11:19.117Z"
-      ],
-      "values": [
-        "10"
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Roa Timeseries Response
-
-- `RoaTimeseriesResponse object { meta, serie_0 }`
-
-  - `meta: object { dataTime, queryTime }`
-
-    - `dataTime: string`
-
-      Timestamp of the underlying data.
-
-    - `queryTime: string`
-
-      Timestamp when the query was executed.
-
-  - `serie_0: object { timestamps, values }`
-
-    - `timestamps: array of string`
-
-    - `values: array of string`
+[Link to this property](#)%20radar.bgp.rpki.roas%20%3E%20(model)%20roa_timeseries_response%20%3E%20(schema)>)

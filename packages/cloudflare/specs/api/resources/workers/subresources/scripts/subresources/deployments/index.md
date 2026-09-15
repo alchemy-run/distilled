@@ -1,625 +1,333 @@
+---
+title: Deployments
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers/subresources/scripts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Deployments
 
-## List Deployments
+##### [List Deployments](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/deployments/methods/list)
 
-**get** `/accounts/{account_id}/workers/scripts/{script_name}/deployments`
+GET/accounts/{account\_id}/workers/scripts/{script\_name}/deployments
 
-List of Worker Deployments. The first deployment in the list is the latest deployment actively serving traffic.
+##### [Create Deployment](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/deployments/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/workers/scripts/{script\_name}/deployments
 
-- `account_id: string`
+##### [Get Deployment](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/deployments/methods/get)
 
-  Identifier.
+GET/accounts/{account\_id}/workers/scripts/{script\_name}/deployments/{deployment\_id}
 
-- `script_name: string`
+##### [Delete Deployment](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/deployments/methods/delete)
 
-  Name of the script, used in URLs and route configuration.
+DELETE/accounts/{account\_id}/workers/scripts/{script\_name}/deployments/{deployment\_id}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+Deployment object {id, created\_on, source, 4 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+formatuuid
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+source: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { deployments }`
+strategy: "percentage"
 
-  - `deployments: array of Deployment`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+<details>
 
-    - `created_on: string`
+<summary>
 
-    - `source: string`
+versions: array of object {percentage, version\_id }
 
-    - `strategy: "percentage"`
+</summary>
 
-      - `"percentage"`
+percentage: number
 
-    - `versions: array of object { percentage, version_id }`
+maximum100
 
-      - `percentage: number`
+minimum0.01
 
-      - `version_id: string`
+<a href="#">Link to this property</a>
 
-    - `annotations: optional object { "workers/message", "workers/triggered_by" }`
+version\_id: string
 
-      - `"workers/message": optional string`
+formatuuid
 
-        Human-readable message about the deployment. Truncated to 1000 bytes if longer.
+<a href="#">Link to this property</a>
 
-      - `"workers/triggered_by": optional string`
+</details>
 
-        Operation that triggered the creation of the deployment.
+<a href="#">Link to this property</a>
 
-    - `author_email: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+annotations: optional object {"workers/message", "workers/triggered\_by" }
 
-  - `true`
+</summary>
 
-### Example
+"workers/message": optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/deployments \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Human-readable message about the deployment. Truncated to 1000 bytes if longer.
 
-#### Response
+maxLength1000
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "deployments": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_on": "2019-12-27T18:11:19.117Z",
-        "source": "api",
-        "strategy": "percentage",
-        "versions": [
-          {
-            "percentage": 100,
-            "version_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-          }
-        ],
-        "annotations": {
-          "workers/message": "Deploy bug fix.",
-          "workers/triggered_by": "deployment"
-        },
-        "author_email": "dev@stainless.com"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Deployment
+"workers/triggered\_by": optional string
 
-**post** `/accounts/{account_id}/workers/scripts/{script_name}/deployments`
+Operation that triggered the creation of the deployment.
 
-Deployments configure how [Worker Versions](https://developers.cloudflare.com/api/operations/worker-versions-list-versions) are deployed to traffic. A deployment can consist of one or two versions of a Worker.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+author\_email: optional string
 
-- `script_name: string`
+formatemail
 
-  Name of the script, used in URLs and route configuration.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `force: optional boolean`
+[Link to this property](#)%20workers.scripts.deployments%20%3E%20(model)%20deployment%20%3E%20(schema)>)
 
-  If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed.
+<details>
 
-### Body Parameters
+<summary>
 
-- `strategy: "percentage"`
+DeploymentListResponse object {deployments }
 
-  - `"percentage"`
+</summary>
 
-- `versions: array of object { percentage, version_id }`
+<details>
 
-  - `percentage: number`
+<summary>
 
-  - `version_id: string`
+deployments: array of <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers.scripts.deployments%20%3E%20(model)%20deployment%20%3E%20(schema)">Deployment</a> { id, created\_on, source, 4 more }
 
-- `annotations: optional object { "workers/message", "workers/triggered_by" }`
+</summary>
 
-  - `"workers/message": optional string`
+id: string
 
-    Human-readable message about the deployment. Truncated to 1000 bytes if longer.
+formatuuid
 
-  - `"workers/triggered_by": optional string`
+<a href="#">Link to this property</a>
 
-    Operation that triggered the creation of the deployment.
+created\_on: string
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+source: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+strategy: "percentage"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+versions: array of object {percentage, version\_id }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+percentage: number
 
-  - `source: optional object { pointer }`
+maximum100
 
-    - `pointer: optional string`
+minimum0.01
 
-- `result: Deployment`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+version\_id: string
 
-  - `created_on: string`
+formatuuid
 
-  - `source: string`
+<a href="#">Link to this property</a>
 
-  - `strategy: "percentage"`
+</details>
 
-    - `"percentage"`
+<a href="#">Link to this property</a>
 
-  - `versions: array of object { percentage, version_id }`
+<details>
 
-    - `percentage: number`
+<summary>
 
-    - `version_id: string`
+annotations: optional object {"workers/message", "workers/triggered\_by" }
 
-  - `annotations: optional object { "workers/message", "workers/triggered_by" }`
+</summary>
 
-    - `"workers/message": optional string`
+"workers/message": optional string
 
-      Human-readable message about the deployment. Truncated to 1000 bytes if longer.
+Human-readable message about the deployment. Truncated to 1000 bytes if longer.
 
-    - `"workers/triggered_by": optional string`
+maxLength1000
 
-      Operation that triggered the creation of the deployment.
+<a href="#">Link to this property</a>
 
-  - `author_email: optional string`
+"workers/triggered\_by": optional string
 
-- `success: true`
+Operation that triggered the creation of the deployment.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/deployments \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "strategy": "percentage",
-          "versions": [
-            {
-              "percentage": 100,
-              "version_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-            }
-          ]
-        }'
-```
+author\_email: optional string
 
-#### Response
+formatemail
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "source": "api",
-    "strategy": "percentage",
-    "versions": [
-      {
-        "percentage": 100,
-        "version_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "annotations": {
-      "workers/message": "Deploy bug fix.",
-      "workers/triggered_by": "deployment"
-    },
-    "author_email": "dev@stainless.com"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get Deployment
+</details>
 
-**get** `/accounts/{account_id}/workers/scripts/{script_name}/deployments/{deployment_id}`
+<a href="#">Link to this property</a>
 
-Get information about a Worker Deployment.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20workers.scripts.deployments%20%3E%20(model)%20deployment_list_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `script_name: string`
+DeploymentDeleteResponse object {errors, messages, success }
 
-  Name of the script, used in URLs and route configuration.
+</summary>
 
-- `deployment_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+code: number
 
-  - `documentation_url: optional string`
+minimum1000
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+message: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+documentation\_url: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+source: optional object {pointer }
 
-- `result: Deployment`
+</summary>
 
-  - `id: string`
+pointer: optional string
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-  - `source: string`
+</details>
 
-  - `strategy: "percentage"`
+<a href="#">Link to this property</a>
 
-    - `"percentage"`
+</details>
 
-  - `versions: array of object { percentage, version_id }`
+<a href="#">Link to this property</a>
 
-    - `percentage: number`
+<details>
 
-    - `version_id: string`
+<summary>
 
-  - `annotations: optional object { "workers/message", "workers/triggered_by" }`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `"workers/message": optional string`
+</summary>
 
-      Human-readable message about the deployment. Truncated to 1000 bytes if longer.
+code: number
 
-    - `"workers/triggered_by": optional string`
+minimum1000
 
-      Operation that triggered the creation of the deployment.
+<a href="#">Link to this property</a>
 
-  - `author_email: optional string`
+message: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+documentation\_url: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/deployments/$DEPLOYMENT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+source: optional object {pointer }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "source": "api",
-    "strategy": "percentage",
-    "versions": [
-      {
-        "percentage": 100,
-        "version_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "annotations": {
-      "workers/message": "Deploy bug fix.",
-      "workers/triggered_by": "deployment"
-    },
-    "author_email": "dev@stainless.com"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Delete Deployment
+pointer: optional string
 
-**delete** `/accounts/{account_id}/workers/scripts/{script_name}/deployments/{deployment_id}`
+<a href="#">Link to this property</a>
 
-Delete a Worker Deployment. The latest deployment, which is actively serving traffic, cannot be deleted. All other deployments can be deleted.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `script_name: string`
+success: true
 
-  Name of the script, used in URLs and route configuration.
+Whether the API call was successful.
 
-- `deployment_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/deployments/$DEPLOYMENT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Deployment
-
-- `Deployment object { id, created_on, source, 4 more }`
-
-  - `id: string`
-
-  - `created_on: string`
-
-  - `source: string`
-
-  - `strategy: "percentage"`
-
-    - `"percentage"`
-
-  - `versions: array of object { percentage, version_id }`
-
-    - `percentage: number`
-
-    - `version_id: string`
-
-  - `annotations: optional object { "workers/message", "workers/triggered_by" }`
-
-    - `"workers/message": optional string`
-
-      Human-readable message about the deployment. Truncated to 1000 bytes if longer.
-
-    - `"workers/triggered_by": optional string`
-
-      Operation that triggered the creation of the deployment.
-
-  - `author_email: optional string`
-
-### Deployment List Response
-
-- `DeploymentListResponse object { deployments }`
-
-  - `deployments: array of Deployment`
-
-    - `id: string`
-
-    - `created_on: string`
-
-    - `source: string`
-
-    - `strategy: "percentage"`
-
-      - `"percentage"`
-
-    - `versions: array of object { percentage, version_id }`
-
-      - `percentage: number`
-
-      - `version_id: string`
-
-    - `annotations: optional object { "workers/message", "workers/triggered_by" }`
-
-      - `"workers/message": optional string`
-
-        Human-readable message about the deployment. Truncated to 1000 bytes if longer.
-
-      - `"workers/triggered_by": optional string`
-
-        Operation that triggered the creation of the deployment.
-
-    - `author_email: optional string`
-
-### Deployment Delete Response
-
-- `DeploymentDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20workers.scripts.deployments%20%3E%20(model)%20deployment_delete_response%20%3E%20(schema)>)

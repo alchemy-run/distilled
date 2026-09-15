@@ -1,80 +1,57 @@
+---
+title: Binary Storage
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Binary Storage
 
-## Retrieves a file from Binary Storage
+##### [Retrieves a file from Binary Storage](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/binary_storage/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/binary/{hash}`
+GET/accounts/{account\_id}/cloudforce-one/binary/{hash}
 
-Retrieves a binary file from the Cloudforce One binary storage for analysis.
+##### [Posts a file to Binary Storage](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/binary_storage/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/cloudforce-one/binary
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account ID.
+<details>
 
-- `hash: string`
+<summary>
 
-  hash of the binary
+BinaryStorageCreateResponse object {content\_type, md5, sha1, sha256 }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/binary/$HASH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+content\_type: string
 
-## Posts a file to Binary Storage
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/cloudforce-one/binary`
+md5: string
 
-Uploads a binary file to Cloudforce One's binary database for malware analysis and threat intelligence correlation.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+sha1: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+sha256: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `content_type: string`
+</details>
 
-- `md5: string`
-
-- `sha1: string`
-
-- `sha256: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/binary \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'file=@/path/to/file'
-```
-
-#### Response
-
-```json
-{
-  "content_type": "text/plain",
-  "md5": "5d84ade76d2a8387c81175bb0cbe6492",
-  "sha1": "9aff6879626d957eafadda044e4f879aae1e7278",
-  "sha256": "0000a7f2692ef479e2e3d02661568882cadec451cc8a64d4e7faca29810cd626"
-}
-```
-
-## Domain Types
-
-### Binary Storage Create Response
-
-- `BinaryStorageCreateResponse object { content_type, md5, sha1, sha256 }`
-
-  - `content_type: string`
-
-  - `md5: string`
-
-  - `sha1: string`
-
-  - `sha256: string`
+[Link to this property](#)%20cloudforce_one.binary_storage%20%3E%20(model)%20binary_storage_create_response%20%3E%20(schema)>)

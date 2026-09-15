@@ -1,671 +1,229 @@
+---
+title: Custom Pages
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Custom Pages
 
-## List custom pages
+##### [List custom pages](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/custom_pages/methods/list)
 
-**get** `/accounts/{account_id}/access/custom_pages`
+GET/accounts/{account\_id}/access/custom\_pages
 
-List custom pages
+##### [Get a custom page](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/custom_pages/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/access/custom\_pages/{custom\_page\_id}
 
-- `account_id: string`
+##### [Create a custom page](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/custom_pages/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/access/custom\_pages
 
-### Query Parameters
+##### [Update a custom page](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/custom_pages/methods/update)
 
-- `page: optional number`
+PUT/accounts/{account\_id}/access/custom\_pages/{custom\_page\_id}
 
-  Page number of results.
+##### [Delete a custom page](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/custom_pages/methods/delete)
 
-- `per_page: optional number`
+DELETE/accounts/{account\_id}/access/custom\_pages/{custom\_page\_id}
 
-  Number of results per page.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+CustomPage object {custom\_html, name, type, 2 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+custom\_html: string
 
-  - `source: optional object { pointer }`
+Custom page HTML.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+name: string
 
-  - `code: number`
+Custom page name.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+type: "identity\_denied"or "forbidden"or "login"or "interstitial"
 
-- `success: true`
+Custom page type.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional array of CustomPageWithoutHTML`
+"identity\_denied"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Custom page name.
+"forbidden"
 
-  - `type: "identity_denied" or "forbidden"`
+<a href="#">Link to this property</a>
 
-    Custom page type.
+"login"
 
-    - `"identity_denied"`
+<a href="#">Link to this property</a>
 
-    - `"forbidden"`
+"interstitial"
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    UUID.
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+contract\_version: optional number
 
-    Total number of results for the requested service.
+Contract version of the page’s Liquid template. Present (&gt;= 1) marks a sanitized template; absent or 0 marks a legacy page served verbatim.
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+uid: optional string
 
-  - `per_page: optional number`
+UUID.
 
-    Number of results per page of results.
+maxLength36
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+[Link to this property](#)%20zero_trust.access.custom_pages%20%3E%20(model)%20custom_page%20%3E%20(schema)>)
 
-    The number of total pages in the entire result set.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/custom_pages \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+CustomPageWithoutHTML object {name, type, contract\_version, 2 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "name": "name",
-      "type": "identity_denied",
-      "app_count": 0,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "updated_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+name: string
 
-## Get a custom page
+Custom page name.
 
-**get** `/accounts/{account_id}/access/custom_pages/{custom_page_id}`
+<a href="#">Link to this property</a>
 
-Fetches a custom page and also returns its HTML.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+type: "identity\_denied"or "forbidden"or "login"or "interstitial"
 
-  Identifier.
+Custom page type.
 
-- `custom_page_id: string`
+</summary>
 
-  UUID.
+One of the following:
 
-### Returns
+"identity\_denied"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"forbidden"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"login"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"interstitial"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+contract\_version: optional number
 
-  - `source: optional object { pointer }`
+Contract version of the page’s Liquid template. Present (&gt;= 1) marks a sanitized template; absent or 0 marks a legacy page served verbatim.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+uid: optional string
 
-  Whether the API call was successful.
+UUID.
 
-  - `true`
+maxLength36
 
-- `result: optional CustomPage`
+<a href="#">Link to this property</a>
 
-  - `custom_html: string`
+<details>
 
-    Custom page HTML.
+<summary>
 
-  - `name: string`
+warnings: optional array of object {message, tier, ref }
 
-    Custom page name.
+Advisory validation findings returned when creating or updating a template. Omitted when empty.
 
-  - `type: "identity_denied" or "forbidden"`
+</summary>
 
-    Custom page type.
+message: string
 
-    - `"identity_denied"`
+Human-readable description of the finding.
 
-    - `"forbidden"`
+<a href="#">Link to this property</a>
 
-  - `uid: optional string`
+tier: string
 
-    UUID.
+The validation tier that produced the finding (e.g. html, liquid).
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/custom_pages/$CUSTOM_PAGE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+ref: optional string
 
-#### Response
+Optional pointer to the part of the template the finding refers to.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "custom_html": "<html><body><h1>Access Denied</h1></body></html>",
-    "name": "name",
-    "type": "identity_denied",
-    "app_count": 0,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a custom page
+</details>
 
-**post** `/accounts/{account_id}/access/custom_pages`
+<a href="#">Link to this property</a>
 
-Create a custom page
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.access.custom_pages%20%3E%20(model)%20custom_page_without_html%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+CustomPageDeleteResponse object {id }
 
-- `custom_html: string`
+</summary>
 
-  Custom page HTML.
+id: optional string
 
-- `name: string`
+UUID.
 
-  Custom page name.
+maxLength36
 
-- `type: "identity_denied" or "forbidden"`
+<a href="#">Link to this property</a>
 
-  Custom page type.
+</details>
 
-  - `"identity_denied"`
-
-  - `"forbidden"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomPageWithoutHTML`
-
-  - `name: string`
-
-    Custom page name.
-
-  - `type: "identity_denied" or "forbidden"`
-
-    Custom page type.
-
-    - `"identity_denied"`
-
-    - `"forbidden"`
-
-  - `uid: optional string`
-
-    UUID.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/custom_pages \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "custom_html": "<html><body><h1>Access Denied</h1></body></html>",
-          "name": "name",
-          "type": "identity_denied"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "name": "name",
-    "type": "identity_denied",
-    "app_count": 0,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update a custom page
-
-**put** `/accounts/{account_id}/access/custom_pages/{custom_page_id}`
-
-Update a custom page
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `custom_page_id: string`
-
-  UUID.
-
-### Body Parameters
-
-- `custom_html: string`
-
-  Custom page HTML.
-
-- `name: string`
-
-  Custom page name.
-
-- `type: "identity_denied" or "forbidden"`
-
-  Custom page type.
-
-  - `"identity_denied"`
-
-  - `"forbidden"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomPageWithoutHTML`
-
-  - `name: string`
-
-    Custom page name.
-
-  - `type: "identity_denied" or "forbidden"`
-
-    Custom page type.
-
-    - `"identity_denied"`
-
-    - `"forbidden"`
-
-  - `uid: optional string`
-
-    UUID.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/custom_pages/$CUSTOM_PAGE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "custom_html": "<html><body><h1>Access Denied</h1></body></html>",
-          "name": "name",
-          "type": "identity_denied"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "name": "name",
-    "type": "identity_denied",
-    "app_count": 0,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete a custom page
-
-**delete** `/accounts/{account_id}/access/custom_pages/{custom_page_id}`
-
-Delete a custom page
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `custom_page_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    UUID.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/custom_pages/$CUSTOM_PAGE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
-
-## Domain Types
-
-### Custom Page
-
-- `CustomPage object { custom_html, name, type, uid }`
-
-  - `custom_html: string`
-
-    Custom page HTML.
-
-  - `name: string`
-
-    Custom page name.
-
-  - `type: "identity_denied" or "forbidden"`
-
-    Custom page type.
-
-    - `"identity_denied"`
-
-    - `"forbidden"`
-
-  - `uid: optional string`
-
-    UUID.
-
-### Custom Page Without HTML
-
-- `CustomPageWithoutHTML object { name, type, uid }`
-
-  - `name: string`
-
-    Custom page name.
-
-  - `type: "identity_denied" or "forbidden"`
-
-    Custom page type.
-
-    - `"identity_denied"`
-
-    - `"forbidden"`
-
-  - `uid: optional string`
-
-    UUID.
-
-### Custom Page Delete Response
-
-- `CustomPageDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    UUID.
+[Link to this property](#)%20zero_trust.access.custom_pages%20%3E%20(model)%20custom_page_delete_response%20%3E%20(schema)>)

@@ -1,149 +1,419 @@
-## [DEPRECATED] Get Pipeline
+---
+title: "[DEPRECATED] Get Pipeline"
+---
 
-**get** `/accounts/{account_id}/pipelines/{pipeline_name}`
+[Skip to content](#_top)
 
-[DEPRECATED] Get configuration of a pipeline. Use the new /pipelines/v1/pipelines endpoint instead.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Pipelines](https://developers.cloudflare.com/api/resources/pipelines)
 
-- `account_id: string`
+Copy Markdown
 
-  Specifies the public ID of the account.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `pipeline_name: string`
+---
 
-  Defines the name of the pipeline.
+**Copy Markdown****View as Markdown**
 
-### Returns
+# \[DEPRECATED] Get Pipeline
 
-- `result: object { id, destination, endpoint, 3 more }`
+Deprecated: Use get\_v1 instead. This endpoint will be removed in the future.
 
-  [DEPRECATED] Describes the configuration of a pipeline. Use the new streams/sinks/pipelines API instead.
+GET/accounts/{account\_id}/pipelines/{pipeline\_name}
 
-  - `id: string`
+\[DEPRECATED] Get configuration of a pipeline. Use the new /pipelines/v1/pipelines endpoint instead.
 
-    Specifies the pipeline identifier.
+##### Security
 
-  - `destination: object { batch, compression, format, 2 more }`
+<details>
 
-    - `batch: object { max_bytes, max_duration_s, max_rows }`
+<summary>API Token</summary>
 
-      - `max_bytes: number`
 
-        Specifies rough maximum size of files.
 
-      - `max_duration_s: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-        Specifies duration to wait to aggregate batches files.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-      - `max_rows: number`
+</details>
 
-        Specifies rough maximum number of rows per file.
+<details>
 
-    - `compression: object { type }`
+<summary>API Email + API Key</summary>
 
-      - `type: "none" or "gzip" or "deflate"`
 
-        Specifies the desired compression algorithm and format.
 
-        - `"none"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-        - `"gzip"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-        - `"deflate"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `format: "json"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      Specifies the format of data to deliver.
+</details>
 
-      - `"json"`
+##### Accepted Permissions (at least one required)
 
-    - `path: object { bucket, filename, filepath, prefix }`
+`Pipelines Write``Pipelines Read`
 
-      - `bucket: string`
+##### P ath ParametersExpand Collapse
 
-        Specifies the R2 Bucket to store files.
+account\_id: string
 
-      - `filename: optional string`
+Specifies the public ID of the account.
 
-        Specifies the name pattern to for individual data files.
+[Link to this property](#)%20pipelines%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `filepath: optional string`
+pipeline\_name: string
 
-        Specifies the name pattern for directory.
+Defines the name of the pipeline.
 
-      - `prefix: optional string`
+maxLength128
 
-        Specifies the base directory within the bucket.
+minLength1
 
-    - `type: "r2"`
+[Link to this property](#)%20pipelines%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20pipeline_name%20%3E%20(schema)>)
 
-      Specifies the type of destination.
+##### ReturnsExpand Collapse
 
-      - `"r2"`
+<details>
 
-  - `endpoint: string`
+<summary>
 
-    Indicates the endpoint URL to send traffic.
+Deprecatedresult: object {id, destination, endpoint, 3 more }
 
-  - `name: string`
+\[DEPRECATED] Describes the configuration of a pipeline. Use the new streams/sinks/pipelines API instead.
 
-    Defines the name of the pipeline.
+</summary>
 
-  - `source: array of object { format, type, authentication, cors }  or object { format, type }`
+id: string
 
-    - `CloudflarePipelinesWorkersPipelinesHTTPSource object { format, type, authentication, cors }`
+Specifies the pipeline identifier.
 
-      [DEPRECATED] HTTP source configuration. Use the new streams API instead.
+<a href="#">Link to this property</a>
 
-      - `format: "json"`
+<details>
 
-        Specifies the format of source data.
+<summary>
 
-        - `"json"`
+destination: object {batch, compression, format, 2 more }
 
-      - `type: string`
+</summary>
 
-      - `authentication: optional boolean`
+<details>
 
-        Specifies whether authentication is required to send to this pipeline via HTTP.
+<summary>
 
-      - `cors: optional object { origins }`
+batch: object {max\_bytes, max\_duration\_s, max\_rows }
 
-        - `origins: optional array of string`
+</summary>
 
-          Specifies allowed origins to allow Cross Origin HTTP Requests.
+max\_bytes: number
 
-    - `CloudflarePipelinesWorkersPipelinesBindingSource object { format, type }`
+Specifies rough maximum size of files.
 
-      [DEPRECATED] Worker binding source configuration. Use the new streams API instead.
+maximum100000000
 
-      - `format: "json"`
+minimum1000
 
-        Specifies the format of source data.
+<a href="#">Link to this property</a>
 
-        - `"json"`
+max\_duration\_s: number
 
-      - `type: string`
+Specifies duration to wait to aggregate batches files.
 
-  - `version: number`
+maximum300
 
-    Indicates the version number of last saved configuration.
+minimum0.25
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+max\_rows: number
 
-### Example
+Specifies rough maximum number of rows per file.
 
-```http
+maximum10000000
+
+minimum100
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+compression: object {type }
+
+</summary>
+
+<details>
+
+<summary>
+
+type: "none"or "gzip"or "deflate"
+
+Specifies the desired compression algorithm and format.
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"gzip"
+
+<a href="#">Link to this property</a>
+
+"deflate"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+format: "json"
+
+Specifies the format of data to deliver.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+path: object {bucket, filename, filepath, prefix }
+
+</summary>
+
+bucket: string
+
+Specifies the R2 Bucket to store files.
+
+<a href="#">Link to this property</a>
+
+filename: optional string
+
+Specifies the name pattern to for individual data files.
+
+<a href="#">Link to this property</a>
+
+filepath: optional string
+
+Specifies the name pattern for directory.
+
+<a href="#">Link to this property</a>
+
+prefix: optional string
+
+Specifies the base directory within the bucket.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "r2"
+
+Specifies the type of destination.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+endpoint: string
+
+Indicates the endpoint URL to send traffic.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Defines the name of the pipeline.
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: array of object {format, type, authentication, cors } or object {format, type }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+CloudflarePipelinesWorkersPipelinesHTTPSource object {format, type, authentication, cors }
+
+\[DEPRECATED] HTTP source configuration. Use the new streams API instead.
+
+</summary>
+
+format: "json"
+
+Specifies the format of source data.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+authentication: optional boolean
+
+Specifies whether authentication is required to send to this pipeline via HTTP.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cors: optional object {origins }
+
+</summary>
+
+origins: optional array of string
+
+Specifies allowed origins to allow Cross Origin HTTP Requests.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CloudflarePipelinesWorkersPipelinesBindingSource object {format, type }
+
+\[DEPRECATED] Worker binding source configuration. Use the new streams API instead.
+
+</summary>
+
+format: "json"
+
+Specifies the format of source data.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+version: number
+
+Indicates the version number of last saved configuration.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pipelines%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20pipelines%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### \[DEPRECATED] Get Pipeline
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/$PIPELINE_NAME \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "123f8a8258064ed892a347f173372359",
+    "destination": {
+      "batch": {
+        "max_bytes": 1000,
+        "max_duration_s": 0.25,
+        "max_rows": 100
+      },
+      "compression": {
+        "type": "gzip"
+      },
+      "format": "json",
+      "path": {
+        "bucket": "bucket",
+        "filename": "${slug}${extension}",
+        "filepath": "${date}/${hour}",
+        "prefix": "base"
+      },
+      "type": "r2"
+    },
+    "endpoint": "https://123f8a8258064ed892a347f173372359.pipelines.cloudflare.com",
+    "name": "sample_pipeline",
+    "source": [
+      {
+        "format": "json",
+        "type": "type",
+        "authentication": true,
+        "cors": {
+          "origins": [
+            "*"
+          ]
+        }
+      }
+    ],
+    "version": 2
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "123f8a8258064ed892a347f173372359",

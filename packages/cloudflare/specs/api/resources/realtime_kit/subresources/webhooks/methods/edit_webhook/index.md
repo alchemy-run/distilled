@@ -1,110 +1,258 @@
-## Edit a webhook
+---
+title: Edit a webhook
+---
 
-**patch** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+[Webhooks](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/webhooks)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Edit a webhook
+
+PATCH/accounts/{account\_id}/realtime/kit/{app\_id}/webhooks/{webhook\_id}
 
 Edits the webhook details for the given webhook ID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  The account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `app_id: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  The app identifier tag.
+##### Accepted Permissions (at least one required)
 
-- `webhook_id: string`
+`Realtime Admin``Realtime`
 
-### Body Parameters
+##### P ath ParametersExpand Collapse
 
-- `enabled: optional boolean`
+account\_id: string
 
-- `events: optional array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+The account identifier tag.
 
-  Events that the webhook will get triggered by
+maxLength32
 
-  - `"meeting.started"`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20edit_webhook%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"meeting.ended"`
+app\_id: string
 
-  - `"meeting.participantJoined"`
+The app identifier tag.
 
-  - `"meeting.participantLeft"`
+maxLength32
 
-  - `"recording.statusUpdate"`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20edit_webhook%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
 
-  - `"livestreaming.statusUpdate"`
+webhook\_id: string
 
-  - `"meeting.chatSynced"`
+formatuuid
 
-  - `"meeting.transcript"`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20edit_webhook%20%3E%20(params)%20default%20%3E%20(param)%20webhook_id%20%3E%20(schema)>)
 
-  - `"meeting.summary"`
+##### Body ParametersJSONExpand Collapse
 
-- `name: optional string`
+enabled: optional boolean
 
-  Name of the webhook
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20edit_webhook%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-- `url: optional string`
+<details>
 
-  URL the webhook will send events to
+<summary>
 
-### Returns
+events: optional array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
 
-- `data: object { id, created_at, enabled, 4 more }`
+Events that the webhook will get triggered by
 
-  - `id: string`
+</summary>
 
-    ID of the webhook
+One of the following:
 
-  - `created_at: string`
+"meeting.started"
 
-    Timestamp when this webhook was created
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"meeting.ended"
 
-    Set to true if the webhook is active
+<a href="#">Link to this property</a>
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+"meeting.participantJoined"
 
-    Events this webhook will send updates for
+<a href="#">Link to this property</a>
 
-    - `"meeting.started"`
+"meeting.participantLeft"
 
-    - `"meeting.ended"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.participantJoined"`
+"recording.statusUpdate"
 
-    - `"meeting.participantLeft"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.chatSynced"`
+"livestreaming.statusUpdate"
 
-    - `"recording.statusUpdate"`
+<a href="#">Link to this property</a>
 
-    - `"livestreaming.statusUpdate"`
+"meeting.chatSynced"
 
-    - `"meeting.transcript"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.summary"`
+"meeting.transcript"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the webhook
+"meeting.summary"
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp when this webhook was updated
+</details>
 
-  - `url: string`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20edit_webhook%20%3E%20(params)%200%20%3E%20(param)%20events%20%3E%20(schema)>)
 
-    URL the webhook will send events to
+name: optional string
 
-- `success: boolean`
+Name of the webhook
 
-### Example
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20edit_webhook%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-```http
+url: optional string
+
+URL the webhook will send events to
+
+formaturi
+
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20edit_webhook%20%3E%20(params)%200%20%3E%20(param)%20url%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+data: object {id, created\_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+ID of the webhook
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp when this webhook was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Set to true if the webhook is active
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+events: array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
+
+Events this webhook will send updates for
+
+</summary>
+
+One of the following:
+
+"meeting.started"
+
+<a href="#">Link to this property</a>
+
+"meeting.ended"
+
+<a href="#">Link to this property</a>
+
+"meeting.participantJoined"
+
+<a href="#">Link to this property</a>
+
+"meeting.participantLeft"
+
+<a href="#">Link to this property</a>
+
+"meeting.chatSynced"
+
+<a href="#">Link to this property</a>
+
+"recording.statusUpdate"
+
+<a href="#">Link to this property</a>
+
+"livestreaming.statusUpdate"
+
+<a href="#">Link to this property</a>
+
+"meeting.transcript"
+
+<a href="#">Link to this property</a>
+
+"meeting.summary"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the webhook
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when this webhook was updated
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+url: string
+
+URL the webhook will send events to
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_edit_webhook_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+success: boolean
+
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_edit_webhook_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Edit a webhook
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -114,9 +262,11 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP
         }'
 ```
 
-#### Response
+200 example
 
-```json
+401 example
+
+```
 {
   "data": {
     "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
@@ -139,4 +289,43 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP
   },
   "success": true
 }
+```
+
+```
+"{\n  \"message\": \"Unauthorized\"\n}\n"
+```
+
+##### Returns Examples
+
+200 example
+
+401 example
+
+```
+{
+  "data": {
+    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
+    "created_at": "2022-05-28T07:01:53.075Z",
+    "enabled": true,
+    "events": [
+      "meeting.started",
+      "meeting.ended",
+      "meeting.participantJoined",
+      "meeting.participantLeft",
+      "meeting.chatSynced",
+      "recording.statusUpdate",
+      "livestreaming.statusUpdate",
+      "meeting.transcript",
+      "meeting.summary"
+    ],
+    "name": "All events webhook",
+    "updated_at": "2022-05-28T07:01:53.075Z",
+    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
+  },
+  "success": true
+}
+```
+
+```
+"{\n  \"message\": \"Unauthorized\"\n}\n"
 ```

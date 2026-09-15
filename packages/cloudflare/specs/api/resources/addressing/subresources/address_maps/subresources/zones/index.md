@@ -1,357 +1,319 @@
+---
+title: Zones
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Address Maps](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Zones
 
-## Add a zone membership to an Address Map
+##### [Add a zone membership to an Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/subresources/zones/methods/update)
 
-**put** `/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{zone_id}`
+PUT/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}/zones/{zone\_id}
 
-Add a zone as a member of a particular address map.
+##### [Remove a zone membership from an Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/subresources/zones/methods/delete)
 
-### Path Parameters
+DELETE/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}/zones/{zone\_id}
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier of a zone.
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier of a Cloudflare account.
+ZoneUpdateResponse object {errors, messages, success, result\_info }
 
-- `address_map_id: string`
+</summary>
 
-  Identifier of an Address Map.
+<details>
 
-### Body Parameters
+<summary>
 
-- `body: unknown`
+errors: array of object {code, message, documentation\_url, source }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+code: number
 
-  - `code: number`
+minimum1000
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+message: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+documentation\_url: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+source: optional object {pointer }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+pointer: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+code: number
 
-  - `total_count: optional number`
+minimum1000
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+message: string
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+documentation\_url: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID/zones/$ZONE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<summary>
 
-## Remove a zone membership from an Address Map
+source: optional object {pointer }
 
-**delete** `/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{zone_id}`
+</summary>
 
-Remove a zone as a member of a particular address map.
+pointer: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier of a zone.
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier of a Cloudflare account.
+<a href="#">Link to this property</a>
 
-- `address_map_id: string`
+success: true
 
-  Identifier of an Address Map.
+Whether the API call was successful.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+result\_info: optional object {count, page, per\_page, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+count: optional number
 
-    - `pointer: optional string`
+Total number of results for the requested service.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+page: optional number
 
-  - `message: string`
+Current page within paginated list of results.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+per\_page: optional number
 
-    - `pointer: optional string`
+Number of results per page of results.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+total\_count: optional number
 
-  - `true`
+Total results available without any search parameters.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+total\_pages: optional number
 
-    Total number of results for the requested service.
+The number of total pages in the entire result set.
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+[Link to this property](#)%20addressing.address_maps.zones%20%3E%20(model)%20zone_update_response%20%3E%20(schema)>)
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+ZoneDeleteResponse object {errors, messages, success, result\_info }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID/zones/$ZONE_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+errors: array of object {code, message, documentation\_url, source }
 
-## Domain Types
+</summary>
 
-### Zone Update Response
+code: number
 
-- `ZoneUpdateResponse object { errors, messages, success, result_info }`
+minimum1000
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+message: string
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+documentation\_url: optional string
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+<details>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-    - `code: number`
+source: optional object {pointer }
 
-    - `message: string`
+</summary>
 
-    - `documentation_url: optional string`
+pointer: optional string
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+</details>
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+</details>
 
-    - `true`
+<a href="#">Link to this property</a>
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-    - `count: optional number`
+<summary>
 
-      Total number of results for the requested service.
+messages: array of object {code, message, documentation\_url, source }
 
-    - `page: optional number`
+</summary>
 
-      Current page within paginated list of results.
+code: number
 
-    - `per_page: optional number`
+minimum1000
 
-      Number of results per page of results.
+<a href="#">Link to this property</a>
 
-    - `total_count: optional number`
+message: string
 
-      Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-    - `total_pages: optional number`
+documentation\_url: optional string
 
-      The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Zone Delete Response
+<details>
 
-- `ZoneDeleteResponse object { errors, messages, success, result_info }`
+<summary>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+source: optional object {pointer }
 
-    - `code: number`
+</summary>
 
-    - `message: string`
+pointer: optional string
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+success: true
 
-    - `documentation_url: optional string`
+Whether the API call was successful.
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+<details>
 
-  - `success: true`
+<summary>
 
-    Whether the API call was successful.
+result\_info: optional object {count, page, per\_page, 2 more }
 
-    - `true`
+</summary>
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+count: optional number
 
-    - `count: optional number`
+Total number of results for the requested service.
 
-      Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-    - `page: optional number`
+page: optional number
 
-      Current page within paginated list of results.
+Current page within paginated list of results.
 
-    - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-      Number of results per page of results.
+per\_page: optional number
 
-    - `total_count: optional number`
+Number of results per page of results.
 
-      Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-    - `total_pages: optional number`
+total\_count: optional number
 
-      The number of total pages in the entire result set.
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.address_maps.zones%20%3E%20(model)%20zone_delete_response%20%3E%20(schema)>)

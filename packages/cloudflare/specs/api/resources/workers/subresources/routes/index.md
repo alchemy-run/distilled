@@ -1,601 +1,189 @@
+---
+title: Routes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Routes
 
-## List Routes
+##### [List Routes](https://developers.cloudflare.com/api/resources/workers/subresources/routes/methods/list)
 
-**get** `/zones/{zone_id}/workers/routes`
+GET/zones/{zone\_id}/workers/routes
 
-Returns routes for a zone.
+##### [Get Route](https://developers.cloudflare.com/api/resources/workers/subresources/routes/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/workers/routes/{route\_id}
 
-- `zone_id: string`
+##### [Create Route](https://developers.cloudflare.com/api/resources/workers/subresources/routes/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/workers/routes
 
-### Returns
+##### [Update Route](https://developers.cloudflare.com/api/resources/workers/subresources/routes/methods/update)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PUT/zones/{zone\_id}/workers/routes/{route\_id}
 
-  - `code: number`
+##### [Delete Route](https://developers.cloudflare.com/api/resources/workers/subresources/routes/methods/delete)
 
-  - `message: string`
+DELETE/zones/{zone\_id}/workers/routes/{route\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+RouteListResponse object {id, pattern, script }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+Identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, pattern, script }`
+pattern: string
 
-  - `id: string`
+Pattern to match incoming requests against. <a href="https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior">Learn more</a>.
 
-    Identifier.
+<a href="#">Link to this property</a>
 
-  - `pattern: string`
+script: optional string
 
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
+Name of the script to run if the route matches.
 
-  - `script: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the script to run if the route matches.
+</details>
 
-- `success: true`
+[Link to this property](#)%20workers.routes%20%3E%20(model)%20route_list_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+RouteGetResponse object {id, pattern, script }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/workers/routes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "pattern": "example.com/*",
-      "script": "my-workers-script"
-    }
-  ],
-  "success": true
-}
-```
+Identifier.
 
-## Get Route
+maxLength32
 
-**get** `/zones/{zone_id}/workers/routes/{route_id}`
+<a href="#">Link to this property</a>
 
-Returns information about a route, including URL pattern and Worker.
+pattern: string
 
-### Path Parameters
+Pattern to match incoming requests against. <a href="https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior">Learn more</a>.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+script: optional string
 
-- `route_id: string`
+Name of the script to run if the route matches.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20workers.routes%20%3E%20(model)%20route_get_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+RouteCreateResponse object {id, pattern, script }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+pattern: string
 
-  - `source: optional object { pointer }`
+Pattern to match incoming requests against. <a href="https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior">Learn more</a>.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, pattern, script }`
+script: optional string
 
-  - `id: string`
+Name of the script to run if the route matches.
 
-    Identifier.
+<a href="#">Link to this property</a>
 
-  - `pattern: string`
+</details>
 
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
+[Link to this property](#)%20workers.routes%20%3E%20(model)%20route_create_response%20%3E%20(schema)>)
 
-  - `script: optional string`
+<details>
 
-    Name of the script to run if the route matches.
+<summary>
 
-- `success: true`
+RouteUpdateResponse object {id, pattern, script }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+id: string
 
-### Example
+Identifier.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/workers/routes/$ROUTE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "pattern": "example.com/*",
-    "script": "my-workers-script"
-  },
-  "success": true
-}
-```
+pattern: string
 
-## Create Route
+Pattern to match incoming requests against. <a href="https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior">Learn more</a>.
 
-**post** `/zones/{zone_id}/workers/routes`
+<a href="#">Link to this property</a>
 
-Creates a route that maps a URL pattern to a Worker.
+script: optional string
 
-### Path Parameters
+Name of the script to run if the route matches.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Body Parameters
+[Link to this property](#)%20workers.routes%20%3E%20(model)%20route_update_response%20%3E%20(schema)>)
 
-- `pattern: string`
+<details>
 
-  Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
+<summary>
 
-- `script: optional string`
+RouteDeleteResponse object {id }
 
-  Name of the script to run if the route matches.
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { id, pattern, script }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `pattern: string`
-
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
-
-  - `script: optional string`
-
-    Name of the script to run if the route matches.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/workers/routes \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "pattern": "example.com/*",
-          "script": "my-workers-script"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "pattern": "example.com/*",
-    "script": "my-workers-script"
-  },
-  "success": true
-}
-```
-
-## Update Route
-
-**put** `/zones/{zone_id}/workers/routes/{route_id}`
-
-Updates the URL pattern or Worker associated with a route.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `route_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `pattern: string`
-
-  Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
-
-- `script: optional string`
-
-  Name of the script to run if the route matches.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { id, pattern, script }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `pattern: string`
-
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
-
-  - `script: optional string`
-
-    Name of the script to run if the route matches.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/workers/routes/$ROUTE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "pattern": "example.com/*",
-          "script": "my-workers-script"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "pattern": "example.com/*",
-    "script": "my-workers-script"
-  },
-  "success": true
-}
-```
-
-## Delete Route
-
-**delete** `/zones/{zone_id}/workers/routes/{route_id}`
-
-Deletes a route.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `route_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { id }`
-
-  - `id: optional string`
-
-    Identifier.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/workers/routes/$ROUTE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Route List Response
-
-- `RouteListResponse object { id, pattern, script }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `pattern: string`
-
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
-
-  - `script: optional string`
-
-    Name of the script to run if the route matches.
-
-### Route Get Response
-
-- `RouteGetResponse object { id, pattern, script }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `pattern: string`
-
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
-
-  - `script: optional string`
-
-    Name of the script to run if the route matches.
-
-### Route Create Response
-
-- `RouteCreateResponse object { id, pattern, script }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `pattern: string`
-
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
-
-  - `script: optional string`
-
-    Name of the script to run if the route matches.
-
-### Route Update Response
-
-- `RouteUpdateResponse object { id, pattern, script }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `pattern: string`
-
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
-
-  - `script: optional string`
-
-    Name of the script to run if the route matches.
-
-### Route Delete Response
-
-- `RouteDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier.
+[Link to this property](#)%20workers.routes%20%3E%20(model)%20route_delete_response%20%3E%20(schema)>)

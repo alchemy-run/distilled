@@ -1,177 +1,145 @@
+---
+title: Domain History
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Domain History
 
-## Get Domain History
+##### [Get Domain History](https://developers.cloudflare.com/api/resources/intel/subresources/domain_history/methods/get)
 
-**get** `/accounts/{account_id}/intel/domain-history`
+GET/accounts/{account\_id}/intel/domain-history
 
-Gets historical security threat and content categories currently and previously assigned to a domain.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+DomainHistory object {categorizations, domain }
 
-### Query Parameters
+</summary>
 
-- `domain: optional string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+categorizations: optional array of object {categories, end, start }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+categories: optional array of object {id, name }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: optional number
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: array of DomainHistory`
+<a href="#">Link to this property</a>
 
-  - `categorizations: optional array of object { categories, end, start }`
+end: optional string
 
-    - `categories: optional array of object { id, name }`
+formatdate
 
-      - `id: optional number`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+start: optional string
 
-    - `end: optional string`
+formatdate
 
-    - `start: optional string`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+domain: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+[Link to this property](#)%20intel.domain_history%20%3E%20(model)%20domain_history%20%3E%20(schema)>)
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+DomainHistoryGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.domain_history%20%3E%20(model)%20domain_history%20%3E%20(schema)">DomainHistory</a> { categorizations, domain }
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+categorizations: optional array of object {categories, end, start }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/domain-history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "categorizations": [
-        {
-          "categories": [
-            {
-              "id": 155,
-              "name": "Technology"
-            }
-          ],
-          "end": "2021-04-30",
-          "start": "2021-04-01"
-        }
-      ],
-      "domain": "cloudflare.com"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+categories: optional array of object {id, name }
 
-## Domain Types
+</summary>
 
-### Domain History
+id: optional number
 
-- `DomainHistory object { categorizations, domain }`
+<a href="#">Link to this property</a>
 
-  - `categorizations: optional array of object { categories, end, start }`
+name: optional string
 
-    - `categories: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: optional number`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `end: optional string`
+end: optional string
 
-    - `start: optional string`
+formatdate
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-### Domain History Get Response
+start: optional string
 
-- `DomainHistoryGetResponse = array of DomainHistory`
+formatdate
 
-  - `categorizations: optional array of object { categories, end, start }`
+<a href="#">Link to this property</a>
 
-    - `categories: optional array of object { id, name }`
+</details>
 
-      - `id: optional number`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+domain: optional string
 
-    - `end: optional string`
+<a href="#">Link to this property</a>
 
-    - `start: optional string`
+</details>
 
-  - `domain: optional string`
+[Link to this property](#)%20intel.domain_history%20%3E%20(model)%20domain_history_get_response%20%3E%20(schema)>)

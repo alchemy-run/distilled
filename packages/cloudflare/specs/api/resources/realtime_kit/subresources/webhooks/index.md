@@ -1,1094 +1,789 @@
+---
+title: Webhooks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Webhooks
 
-## Fetch all webhooks details
+##### [Fetch all webhooks details](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/webhooks/methods/get_webhooks)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/webhooks
 
-Returns details of all webhooks for an App.
+##### [Add a webhook](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/webhooks/methods/create_webhook)
 
-### Path Parameters
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/webhooks
 
-- `account_id: string`
+##### [Fetch details of a webhook](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/webhooks/methods/get_webhook_by_id)
 
-  The account identifier tag.
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/webhooks/{webhook\_id}
 
-- `app_id: string`
+##### [Replace a webhook](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/webhooks/methods/replace_webhook)
 
-  The app identifier tag.
+PUT/accounts/{account\_id}/realtime/kit/{app\_id}/webhooks/{webhook\_id}
 
-### Returns
+##### [Edit a webhook](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/webhooks/methods/edit_webhook)
 
-- `data: array of object { id, created_at, enabled, 4 more }`
+PATCH/accounts/{account\_id}/realtime/kit/{app\_id}/webhooks/{webhook\_id}
 
-  - `id: string`
+##### [Delete a webhook](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/webhooks/methods/delete_webhook)
 
-    ID of the webhook
+DELETE/accounts/{account\_id}/realtime/kit/{app\_id}/webhooks/{webhook\_id}
 
-  - `created_at: string`
+##### ModelsExpand Collapse
 
-    Timestamp when this webhook was created
+<details>
 
-  - `enabled: boolean`
+<summary>
 
-    Set to true if the webhook is active
+WebhookGetWebhooksResponse object {data, success }
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+</summary>
 
-    Events this webhook will send updates for
+<details>
 
-    - `"meeting.started"`
+<summary>
 
-    - `"meeting.ended"`
+data: array of object {id, created\_at, enabled, 4 more }
 
-    - `"meeting.participantJoined"`
+</summary>
 
-    - `"meeting.participantLeft"`
+id: string
 
-    - `"meeting.chatSynced"`
+ID of the webhook
 
-    - `"recording.statusUpdate"`
+formatuuid
 
-    - `"livestreaming.statusUpdate"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.transcript"`
+created\_at: string
 
-    - `"meeting.summary"`
+Timestamp when this webhook was created
 
-  - `name: string`
+formatdate-time
 
-    Name of the webhook
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+enabled: boolean
 
-    Timestamp when this webhook was updated
+Set to true if the webhook is active
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-    URL the webhook will send events to
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+events: array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Events this webhook will send updates for
 
-#### Response
+</summary>
 
-```json
-{
-  "data": [
-    {
-      "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-      "created_at": "2022-05-28T07:01:53.075Z",
-      "enabled": true,
-      "events": [
-        "meeting.started",
-        "meeting.ended",
-        "meeting.participantJoined",
-        "meeting.participantLeft",
-        "meeting.chatSynced",
-        "recording.statusUpdate",
-        "livestreaming.statusUpdate",
-        "meeting.transcript",
-        "meeting.summary"
-      ],
-      "name": "All events webhook",
-      "updated_at": "2022-05-28T07:01:53.075Z",
-      "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-    }
-  ],
-  "success": true
-}
-```
+One of the following:
 
-## Add a webhook
+"meeting.started"
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks`
+<a href="#">Link to this property</a>
 
-Adds a new webhook to an App.
+"meeting.ended"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"meeting.participantJoined"
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+"meeting.participantLeft"
 
-  The app identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"meeting.chatSynced"
 
-- `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+<a href="#">Link to this property</a>
 
-  Events that this webhook will get triggered by
+"recording.statusUpdate"
 
-  - `"meeting.started"`
+<a href="#">Link to this property</a>
 
-  - `"meeting.ended"`
+"livestreaming.statusUpdate"
 
-  - `"meeting.participantJoined"`
+<a href="#">Link to this property</a>
 
-  - `"meeting.participantLeft"`
+"meeting.transcript"
 
-  - `"meeting.chatSynced"`
+<a href="#">Link to this property</a>
 
-  - `"recording.statusUpdate"`
+"meeting.summary"
 
-  - `"livestreaming.statusUpdate"`
+<a href="#">Link to this property</a>
 
-  - `"meeting.transcript"`
+</details>
 
-  - `"meeting.summary"`
+<a href="#">Link to this property</a>
 
-- `name: string`
+name: string
 
-  Name of the webhook
+Name of the webhook
 
-- `url: string`
+<a href="#">Link to this property</a>
 
-  URL this webhook will send events to
+updated\_at: string
 
-- `enabled: optional boolean`
+Timestamp when this webhook was updated
 
-  Set whether or not the webhook should be active when created
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: object { id, created_at, enabled, 4 more }`
+url: string
 
-  - `id: string`
+URL the webhook will send events to
 
-    ID of the webhook
+formaturi
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp when this webhook was created
+</details>
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Set to true if the webhook is active
+success: boolean
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+<a href="#">Link to this property</a>
 
-    Events this webhook will send updates for
+</details>
 
-    - `"meeting.started"`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_get_webhooks_response%20%3E%20(schema)>)
 
-    - `"meeting.ended"`
+<details>
 
-    - `"meeting.participantJoined"`
+<summary>
 
-    - `"meeting.participantLeft"`
+WebhookCreateWebhookResponse object {data, success }
 
-    - `"meeting.chatSynced"`
+</summary>
 
-    - `"recording.statusUpdate"`
+<details>
 
-    - `"livestreaming.statusUpdate"`
+<summary>
 
-    - `"meeting.transcript"`
+data: object {id, created\_at, enabled, 4 more }
 
-    - `"meeting.summary"`
+</summary>
 
-  - `name: string`
+id: string
 
-    Name of the webhook
+ID of the webhook
 
-  - `updated_at: string`
+formatuuid
 
-    Timestamp when this webhook was updated
+<a href="#">Link to this property</a>
 
-  - `url: string`
+created\_at: string
 
-    URL the webhook will send events to
+Timestamp when this webhook was created
 
-- `success: boolean`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "events": [
-            "meeting.started",
-            "meeting.ended",
-            "meeting.participantJoined",
-            "meeting.participantLeft",
-            "meeting.chatSynced",
-            "recording.statusUpdate",
-            "livestreaming.statusUpdate",
-            "meeting.transcript",
-            "meeting.summary"
-          ],
-          "name": "All events webhook",
-          "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-        }'
-```
+enabled: boolean
 
-#### Response
+Set to true if the webhook is active
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Fetch details of a webhook
+<details>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+<summary>
 
-Returns webhook details for the given webhook ID.
+events: array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
 
-### Path Parameters
+Events this webhook will send updates for
 
-- `account_id: string`
+</summary>
 
-  The account identifier tag.
+One of the following:
 
-- `app_id: string`
+"meeting.started"
 
-  The app identifier tag.
+<a href="#">Link to this property</a>
 
-- `webhook_id: string`
+"meeting.ended"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: object { id, created_at, enabled, 4 more }`
+"meeting.participantJoined"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    ID of the webhook
+"meeting.participantLeft"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp when this webhook was created
+"meeting.chatSynced"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Set to true if the webhook is active
+"recording.statusUpdate"
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+<a href="#">Link to this property</a>
 
-    Events this webhook will send updates for
+"livestreaming.statusUpdate"
 
-    - `"meeting.started"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.ended"`
+"meeting.transcript"
 
-    - `"meeting.participantJoined"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.participantLeft"`
+"meeting.summary"
 
-    - `"meeting.chatSynced"`
+<a href="#">Link to this property</a>
 
-    - `"recording.statusUpdate"`
+</details>
 
-    - `"livestreaming.statusUpdate"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.transcript"`
+name: string
 
-    - `"meeting.summary"`
+Name of the webhook
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the webhook
+updated\_at: string
 
-  - `updated_at: string`
+Timestamp when this webhook was updated
 
-    Timestamp when this webhook was updated
+formatdate-time
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-    URL the webhook will send events to
+url: string
 
-- `success: boolean`
+URL the webhook will send events to
 
-### Example
+formaturi
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Replace a webhook
+success: boolean
 
-**put** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+<a href="#">Link to this property</a>
 
-Replace all details for the given webhook ID.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_create_webhook_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>
 
-- `app_id: string`
+WebhookGetWebhookByIDResponse object {data, success }
 
-  The app identifier tag.
+</summary>
 
-- `webhook_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+data: object {id, created\_at, enabled, 4 more }
 
-  Events that this webhook will get triggered by
+</summary>
 
-  - `"meeting.started"`
+id: string
 
-  - `"meeting.ended"`
+ID of the webhook
 
-  - `"meeting.participantJoined"`
+formatuuid
 
-  - `"meeting.participantLeft"`
+<a href="#">Link to this property</a>
 
-  - `"meeting.chatSynced"`
+created\_at: string
 
-  - `"recording.statusUpdate"`
+Timestamp when this webhook was created
 
-  - `"livestreaming.statusUpdate"`
+formatdate-time
 
-  - `"meeting.transcript"`
+<a href="#">Link to this property</a>
 
-  - `"meeting.summary"`
+enabled: boolean
 
-- `name: string`
+Set to true if the webhook is active
 
-  Name of the webhook
+<a href="#">Link to this property</a>
 
-- `url: string`
+<details>
 
-  URL this webhook will send events to
+<summary>
 
-- `enabled: optional boolean`
+events: array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
 
-  Set whether or not the webhook should be active when created
+Events this webhook will send updates for
 
-### Returns
+</summary>
 
-- `data: object { id, created_at, enabled, 4 more }`
+One of the following:
 
-  - `id: string`
+"meeting.started"
 
-    ID of the webhook
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"meeting.ended"
 
-    Timestamp when this webhook was created
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"meeting.participantJoined"
 
-    Set to true if the webhook is active
+<a href="#">Link to this property</a>
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+"meeting.participantLeft"
 
-    Events this webhook will send updates for
+<a href="#">Link to this property</a>
 
-    - `"meeting.started"`
+"meeting.chatSynced"
 
-    - `"meeting.ended"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.participantJoined"`
+"recording.statusUpdate"
 
-    - `"meeting.participantLeft"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.chatSynced"`
+"livestreaming.statusUpdate"
 
-    - `"recording.statusUpdate"`
+<a href="#">Link to this property</a>
 
-    - `"livestreaming.statusUpdate"`
+"meeting.transcript"
 
-    - `"meeting.transcript"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.summary"`
+"meeting.summary"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the webhook
+</details>
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp when this webhook was updated
+name: string
 
-  - `url: string`
+Name of the webhook
 
-    URL the webhook will send events to
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+updated\_at: string
 
-### Example
+Timestamp when this webhook was updated
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "events": [
-            "meeting.started",
-            "meeting.ended",
-            "meeting.participantJoined",
-            "meeting.participantLeft",
-            "meeting.chatSynced",
-            "recording.statusUpdate",
-            "livestreaming.statusUpdate",
-            "meeting.transcript",
-            "meeting.summary"
-          ],
-          "name": "All events webhook",
-          "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-        }'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+url: string
 
-## Edit a webhook
+URL the webhook will send events to
 
-**patch** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+formaturi
 
-Edits the webhook details for the given webhook ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+success: boolean
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+</details>
 
-- `webhook_id: string`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_get_webhook_by_id_response%20%3E%20(schema)>)
 
-### Body Parameters
+<details>
 
-- `enabled: optional boolean`
+<summary>
 
-- `events: optional array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+WebhookReplaceWebhookResponse object {data, success }
 
-  Events that the webhook will get triggered by
+</summary>
 
-  - `"meeting.started"`
+<details>
 
-  - `"meeting.ended"`
+<summary>
 
-  - `"meeting.participantJoined"`
+data: object {id, created\_at, enabled, 4 more }
 
-  - `"meeting.participantLeft"`
+</summary>
 
-  - `"recording.statusUpdate"`
+id: string
 
-  - `"livestreaming.statusUpdate"`
+ID of the webhook
 
-  - `"meeting.chatSynced"`
+formatuuid
 
-  - `"meeting.transcript"`
+<a href="#">Link to this property</a>
 
-  - `"meeting.summary"`
+created\_at: string
 
-- `name: optional string`
+Timestamp when this webhook was created
 
-  Name of the webhook
+formatdate-time
 
-- `url: optional string`
+<a href="#">Link to this property</a>
 
-  URL the webhook will send events to
+enabled: boolean
 
-### Returns
+Set to true if the webhook is active
 
-- `data: object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    ID of the webhook
+<summary>
 
-  - `created_at: string`
+events: array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
 
-    Timestamp when this webhook was created
+Events this webhook will send updates for
 
-  - `enabled: boolean`
+</summary>
 
-    Set to true if the webhook is active
+One of the following:
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+"meeting.started"
 
-    Events this webhook will send updates for
+<a href="#">Link to this property</a>
 
-    - `"meeting.started"`
+"meeting.ended"
 
-    - `"meeting.ended"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.participantJoined"`
+"meeting.participantJoined"
 
-    - `"meeting.participantLeft"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.chatSynced"`
+"meeting.participantLeft"
 
-    - `"recording.statusUpdate"`
+<a href="#">Link to this property</a>
 
-    - `"livestreaming.statusUpdate"`
+"meeting.chatSynced"
 
-    - `"meeting.transcript"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.summary"`
+"recording.statusUpdate"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the webhook
+"livestreaming.statusUpdate"
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp when this webhook was updated
+"meeting.transcript"
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-    URL the webhook will send events to
+"meeting.summary"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+Name of the webhook
 
-## Delete a webhook
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+updated\_at: string
 
-Removes a webhook for the given webhook ID.
+Timestamp when this webhook was updated
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+url: string
 
-- `app_id: string`
+URL the webhook will send events to
 
-  The app identifier tag.
+formaturi
 
-- `webhook_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `data: object { id, created_at, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+success: boolean
 
-    ID of the webhook
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-    Timestamp when this webhook was created
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_replace_webhook_response%20%3E%20(schema)>)
 
-  - `enabled: boolean`
+<details>
 
-    Set to true if the webhook is active
+<summary>
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+WebhookEditWebhookResponse object {data, success }
 
-    Events this webhook will send updates for
+</summary>
 
-    - `"meeting.started"`
+<details>
 
-    - `"meeting.ended"`
+<summary>
 
-    - `"meeting.participantJoined"`
+data: object {id, created\_at, enabled, 4 more }
 
-    - `"meeting.participantLeft"`
+</summary>
 
-    - `"meeting.chatSynced"`
+id: string
 
-    - `"recording.statusUpdate"`
+ID of the webhook
 
-    - `"livestreaming.statusUpdate"`
+formatuuid
 
-    - `"meeting.transcript"`
+<a href="#">Link to this property</a>
 
-    - `"meeting.summary"`
+created\_at: string
 
-  - `name: string`
+Timestamp when this webhook was created
 
-    Name of the webhook
+formatdate-time
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp when this webhook was updated
+enabled: boolean
 
-  - `url: string`
+Set to true if the webhook is active
 
-    URL the webhook will send events to
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+events: array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
 
-#### Response
+Events this webhook will send updates for
 
-```json
-{
-  "data": {
-    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
-    "created_at": "2022-05-28T07:01:53.075Z",
-    "enabled": true,
-    "events": [
-      "meeting.started",
-      "meeting.ended",
-      "meeting.participantJoined",
-      "meeting.participantLeft",
-      "meeting.chatSynced",
-      "recording.statusUpdate",
-      "livestreaming.statusUpdate",
-      "meeting.transcript",
-      "meeting.summary"
-    ],
-    "name": "All events webhook",
-    "updated_at": "2022-05-28T07:01:53.075Z",
-    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+One of the following:
 
-### Webhook Get Webhooks Response
+"meeting.started"
 
-- `WebhookGetWebhooksResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: array of object { id, created_at, enabled, 4 more }`
+"meeting.ended"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      ID of the webhook
+"meeting.participantJoined"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-      Timestamp when this webhook was created
+"meeting.participantLeft"
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Set to true if the webhook is active
+"meeting.chatSynced"
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+<a href="#">Link to this property</a>
 
-      Events this webhook will send updates for
+"recording.statusUpdate"
 
-      - `"meeting.started"`
+<a href="#">Link to this property</a>
 
-      - `"meeting.ended"`
+"livestreaming.statusUpdate"
 
-      - `"meeting.participantJoined"`
+<a href="#">Link to this property</a>
 
-      - `"meeting.participantLeft"`
+"meeting.transcript"
 
-      - `"meeting.chatSynced"`
+<a href="#">Link to this property</a>
 
-      - `"recording.statusUpdate"`
+"meeting.summary"
 
-      - `"livestreaming.statusUpdate"`
+<a href="#">Link to this property</a>
 
-      - `"meeting.transcript"`
+</details>
 
-      - `"meeting.summary"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+name: string
 
-      Name of the webhook
+Name of the webhook
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      Timestamp when this webhook was updated
+updated\_at: string
 
-    - `url: string`
+Timestamp when this webhook was updated
 
-      URL the webhook will send events to
+formatdate-time
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-### Webhook Create Webhook Response
+url: string
 
-- `WebhookCreateWebhookResponse object { data, success }`
+URL the webhook will send events to
 
-  - `data: object { id, created_at, enabled, 4 more }`
+formaturi
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      ID of the webhook
+</details>
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-      Timestamp when this webhook was created
+success: boolean
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Set to true if the webhook is active
+</details>
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_edit_webhook_response%20%3E%20(schema)>)
 
-      Events this webhook will send updates for
+<details>
 
-      - `"meeting.started"`
+<summary>
 
-      - `"meeting.ended"`
+WebhookDeleteWebhookResponse object {data, success }
 
-      - `"meeting.participantJoined"`
+</summary>
 
-      - `"meeting.participantLeft"`
+<details>
 
-      - `"meeting.chatSynced"`
+<summary>
 
-      - `"recording.statusUpdate"`
+data: object {id, created\_at, enabled, 4 more }
 
-      - `"livestreaming.statusUpdate"`
+</summary>
 
-      - `"meeting.transcript"`
+id: string
 
-      - `"meeting.summary"`
+ID of the webhook
 
-    - `name: string`
+formatuuid
 
-      Name of the webhook
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+created\_at: string
 
-      Timestamp when this webhook was updated
+Timestamp when this webhook was created
 
-    - `url: string`
+formatdate-time
 
-      URL the webhook will send events to
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+enabled: boolean
 
-### Webhook Get Webhook By ID Response
+Set to true if the webhook is active
 
-- `WebhookGetWebhookByIDResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: object { id, created_at, enabled, 4 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-      ID of the webhook
+events: array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
 
-    - `created_at: string`
+Events this webhook will send updates for
 
-      Timestamp when this webhook was created
+</summary>
 
-    - `enabled: boolean`
+One of the following:
 
-      Set to true if the webhook is active
+"meeting.started"
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+<a href="#">Link to this property</a>
 
-      Events this webhook will send updates for
+"meeting.ended"
 
-      - `"meeting.started"`
+<a href="#">Link to this property</a>
 
-      - `"meeting.ended"`
+"meeting.participantJoined"
 
-      - `"meeting.participantJoined"`
+<a href="#">Link to this property</a>
 
-      - `"meeting.participantLeft"`
+"meeting.participantLeft"
 
-      - `"meeting.chatSynced"`
+<a href="#">Link to this property</a>
 
-      - `"recording.statusUpdate"`
+"meeting.chatSynced"
 
-      - `"livestreaming.statusUpdate"`
+<a href="#">Link to this property</a>
 
-      - `"meeting.transcript"`
+"recording.statusUpdate"
 
-      - `"meeting.summary"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"livestreaming.statusUpdate"
 
-      Name of the webhook
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+"meeting.transcript"
 
-      Timestamp when this webhook was updated
+<a href="#">Link to this property</a>
 
-    - `url: string`
+"meeting.summary"
 
-      URL the webhook will send events to
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+</details>
 
-### Webhook Replace Webhook Response
+<a href="#">Link to this property</a>
 
-- `WebhookReplaceWebhookResponse object { data, success }`
+name: string
 
-  - `data: object { id, created_at, enabled, 4 more }`
+Name of the webhook
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      ID of the webhook
+updated\_at: string
 
-    - `created_at: string`
+Timestamp when this webhook was updated
 
-      Timestamp when this webhook was created
+formatdate-time
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Set to true if the webhook is active
+url: string
 
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+URL the webhook will send events to
 
-      Events this webhook will send updates for
+formaturi
 
-      - `"meeting.started"`
+<a href="#">Link to this property</a>
 
-      - `"meeting.ended"`
+</details>
 
-      - `"meeting.participantJoined"`
+<a href="#">Link to this property</a>
 
-      - `"meeting.participantLeft"`
+success: boolean
 
-      - `"meeting.chatSynced"`
+<a href="#">Link to this property</a>
 
-      - `"recording.statusUpdate"`
+</details>
 
-      - `"livestreaming.statusUpdate"`
-
-      - `"meeting.transcript"`
-
-      - `"meeting.summary"`
-
-    - `name: string`
-
-      Name of the webhook
-
-    - `updated_at: string`
-
-      Timestamp when this webhook was updated
-
-    - `url: string`
-
-      URL the webhook will send events to
-
-  - `success: boolean`
-
-### Webhook Edit Webhook Response
-
-- `WebhookEditWebhookResponse object { data, success }`
-
-  - `data: object { id, created_at, enabled, 4 more }`
-
-    - `id: string`
-
-      ID of the webhook
-
-    - `created_at: string`
-
-      Timestamp when this webhook was created
-
-    - `enabled: boolean`
-
-      Set to true if the webhook is active
-
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
-
-      Events this webhook will send updates for
-
-      - `"meeting.started"`
-
-      - `"meeting.ended"`
-
-      - `"meeting.participantJoined"`
-
-      - `"meeting.participantLeft"`
-
-      - `"meeting.chatSynced"`
-
-      - `"recording.statusUpdate"`
-
-      - `"livestreaming.statusUpdate"`
-
-      - `"meeting.transcript"`
-
-      - `"meeting.summary"`
-
-    - `name: string`
-
-      Name of the webhook
-
-    - `updated_at: string`
-
-      Timestamp when this webhook was updated
-
-    - `url: string`
-
-      URL the webhook will send events to
-
-  - `success: boolean`
-
-### Webhook Delete Webhook Response
-
-- `WebhookDeleteWebhookResponse object { data, success }`
-
-  - `data: object { id, created_at, enabled, 4 more }`
-
-    - `id: string`
-
-      ID of the webhook
-
-    - `created_at: string`
-
-      Timestamp when this webhook was created
-
-    - `enabled: boolean`
-
-      Set to true if the webhook is active
-
-    - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
-
-      Events this webhook will send updates for
-
-      - `"meeting.started"`
-
-      - `"meeting.ended"`
-
-      - `"meeting.participantJoined"`
-
-      - `"meeting.participantLeft"`
-
-      - `"meeting.chatSynced"`
-
-      - `"recording.statusUpdate"`
-
-      - `"livestreaming.statusUpdate"`
-
-      - `"meeting.transcript"`
-
-      - `"meeting.summary"`
-
-    - `name: string`
-
-      Name of the webhook
-
-    - `updated_at: string`
-
-      Timestamp when this webhook was updated
-
-    - `url: string`
-
-      URL the webhook will send events to
-
-  - `success: boolean`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_delete_webhook_response%20%3E%20(schema)>)

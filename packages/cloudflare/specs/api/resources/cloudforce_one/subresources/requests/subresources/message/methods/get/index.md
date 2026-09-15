@@ -1,110 +1,276 @@
-## List Request Messages
+---
+title: List Request Messages
+---
 
-**post** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/message`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Requests](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests)
+
+[Message](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/message)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Request Messages
+
+POST/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/message
 
 Lists messages in a Cloudforce One intelligence request conversation.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `request_id: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  UUID.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Body Parameters
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `page: number`
+##### Accepted Permissions (at least one required)
 
-  Page number of results.
+`Cloudforce One Write`
 
-- `per_page: number`
+##### P ath ParametersExpand Collapse
 
-  Number of results per page.
+account\_id: string
 
-- `after: optional string`
+Identifier.
 
-  Retrieve mes  ges created after this time.
+maxLength32
 
-- `before: optional string`
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Retrieve messages created before this time.
+request\_id: string
 
-- `sort_by: optional string`
+UUID.
 
-  Field to sort results by.
+maxLength36
 
-- `sort_order: optional "asc" or "desc"`
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20request_id%20%3E%20(schema)>)
 
-  Sort order (asc or desc).
+##### Body ParametersJSONExpand Collapse
 
-  - `"asc"`
+page: number
 
-  - `"desc"`
+Page number of results.
 
-### Returns
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(params)%200%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+per\_page: number
 
-  - `code: number`
+Number of results per page.
 
-  - `message: string`
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(params)%200%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+after: optional string
 
-  - `source: optional object { pointer }`
+Retrieve mes ges created after this time.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(params)%200%20%3E%20(param)%20after%20%3E%20(schema)>)
 
-  - `code: number`
+before: optional string
 
-  - `message: string`
+Retrieve messages created before this time.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(params)%200%20%3E%20(param)%20before%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+sort\_by: optional string
 
-- `success: true`
+Field to sort results by.
 
-  Whether the API call was successful.
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(params)%200%20%3E%20(param)%20sort_by%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-- `result: optional array of Message`
+<summary>
 
-  - `id: number`
+sort\_order: optional "asc"or "desc"
 
-    Message ID.
+Sort order (asc or desc).
 
-  - `author: string`
+</summary>
 
-    Author of message.
+One of the following:
 
-  - `content: string`
+"asc"
 
-    Content of message.
+<a href="#">Link to this property</a>
 
-  - `is_follow_on_request: boolean`
+"desc"
 
-    Whether the message is a follow-on request.
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+</details>
 
-    Defines the message last updated time.
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(params)%200%20%3E%20(param)%20sort_order%20%3E%20(schema)>)
 
-  - `created: optional string`
+##### ReturnsExpand Collapse
 
-    Defines the message creation time.
+<details>
 
-### Example
+<summary>
 
-```http
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/cloudforce_one#(resource)%20cloudforce_one.requests.message%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { id, author, content, 3 more }
+
+</summary>
+
+id: number
+
+Message ID.
+
+<a href="#">Link to this property</a>
+
+author: string
+
+Author of message.
+
+<a href="#">Link to this property</a>
+
+content: string
+
+Content of message.
+
+<a href="#">Link to this property</a>
+
+is\_follow\_on\_request: boolean
+
+Whether the message is a follow-on request.
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+Defines the message last updated time.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+Defines the message creation time.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List Request Messages
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/message \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -117,9 +283,49 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/re
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": 0,
+      "author": "user@domain.com",
+      "content": "Can you elaborate on the type of DoS that occurred?",
+      "is_follow_on_request": true,
+      "updated": "2022-01-01T00:00:00Z",
+      "created": "2022-01-01T00:00:00Z"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

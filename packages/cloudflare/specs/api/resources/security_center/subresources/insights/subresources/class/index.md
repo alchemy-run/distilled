@@ -1,166 +1,47 @@
+---
+title: Class
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Security Center](https://developers.cloudflare.com/api/resources/security_center)
+
+[Insights](https://developers.cloudflare.com/api/resources/security_center/subresources/insights)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Class
 
-## Retrieves Security Center Insight Counts by Class
+##### [Retrieves Security Center Insight Counts by Class](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/class/methods/get)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/class`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/class
 
-Retrieves Security Center insight counts aggregated by classification class.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: optional string`
+<summary>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+ClassGetResponse = array of object {count, value }
 
-- `zone_id: optional string`
+</summary>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+count: optional number
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `dismissed: optional boolean`
+value: optional string
 
-- `issue_class: optional array of string`
+<a href="#">Link to this property</a>
 
-- `"issue_class~neq": optional array of string`
+</details>
 
-- `issue_type: optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `"issue_type~neq": optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `product: optional array of string`
-
-- `"product~neq": optional array of string`
-
-- `severity: optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `"severity~neq": optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `subject: optional array of string`
-
-- `"subject~neq": optional array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/class \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Class Get Response
-
-- `ClassGetResponse = array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
+[Link to this property](#)%20security_center.insights.class%20%3E%20(model)%20class_get_response%20%3E%20(schema)>)

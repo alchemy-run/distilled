@@ -1,199 +1,524 @@
-## Update routing rule
+---
+title: Update routing rule
+---
 
-**put** `/zones/{zone_id}/email/routing/rules/{rule_identifier}`
+[Skip to content](#_top)
 
-Update actions and matches, or enable/disable specific routing rules. Forward actions require all destination addresses to be verified.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
 
-- `zone_id: string`
+[Rules](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules)
 
-  Identifier.
+Copy Markdown
 
-- `rule_identifier: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Routing rule identifier.
+---
 
-### Body Parameters
+**Copy Markdown****View as Markdown**
 
-- `actions: array of Action`
+# Update routing rule
 
-  List actions patterns.
+PUT/zones/{zone\_id}/email/routing/rules/{rule\_identifier}
 
-  - `type: "drop" or "forward" or "worker"`
+Update actions and matches, or enable/disable specific routing rules. Forward actions require exactly one verified destination address.
 
-    Type of supported action.
+##### Security
 
-    - `"drop"`
+API Email + API Key
 
-    - `"forward"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `"worker"`
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `value: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `matchers: array of Matcher`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  Matching patterns to forward to your actions.
+##### Accepted Permissions (at least one required)
 
-  - `type: "all" or "literal"`
+`Email Routing Rules Write`
 
-    Type of matcher.
+##### P ath ParametersExpand Collapse
 
-    - `"all"`
+zone\_id: string
 
-    - `"literal"`
+Identifier.
 
-  - `field: optional "to"`
+maxLength32
 
-    Field for type matcher.
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `"to"`
+rule\_identifier: string
 
-  - `value: optional string`
+Routing rule identifier.
 
-    Value for matcher.
+maxLength32
 
-- `enabled: optional true or false`
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20rule_identifier%20%3E%20(schema)>)
 
-  Routing rule status.
+##### Body ParametersJSONExpand Collapse
 
-  - `true`
+<details>
 
-  - `false`
+<summary>
 
-- `name: optional string`
+actions: array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20action%20%3E%20(schema)">Action</a> { type, value }
 
-  Routing rule name.
+List actions patterns.
 
-- `owner_worker_tag: optional string`
+</summary>
 
-  Public tag (script_tag) of the Worker that owns this rule. Required when
-  `source` is `wrangler`.
+<details>
 
-- `priority: optional number`
+<summary>
 
-  Priority of the routing rule.
+type: "drop"or "forward"or "worker"
 
-- `source: optional "api" or "wrangler"`
+Type of supported action.
 
-  Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-  `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-  to `api` when omitted on write.
+</summary>
 
-  - `"api"`
+One of the following:
 
-  - `"wrangler"`
+"drop"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"forward"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"worker"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+value: optional array of string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20actions%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+matchers: array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20matcher%20%3E%20(schema)">Matcher</a> { type, field, value }
 
-  Whether the API call was successful.
+Matching patterns to forward to your actions.
 
-  - `true`
+</summary>
 
-- `result: optional EmailRoutingRule`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Routing rule identifier.
+type: "all"or "literal"
 
-  - `actions: optional array of Action`
+Type of matcher.
 
-    List actions patterns.
+</summary>
 
-    - `type: "drop" or "forward" or "worker"`
+One of the following:
 
-      Type of supported action.
+"all"
 
-      - `"drop"`
+<a href="#">Link to this property</a>
 
-      - `"forward"`
+"literal"
 
-      - `"worker"`
+<a href="#">Link to this property</a>
 
-    - `value: optional array of string`
+</details>
 
-  - `enabled: optional true or false`
+<a href="#">Link to this property</a>
 
-    Routing rule status.
+field: optional "to"
 
-    - `true`
+Field for type matcher.
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `matchers: optional array of Matcher`
+value: optional string
 
-    Matching patterns to forward to your actions.
+Value for matcher.
 
-    - `type: "all" or "literal"`
+maxLength90
 
-      Type of matcher.
+<a href="#">Link to this property</a>
 
-      - `"all"`
+</details>
 
-      - `"literal"`
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20matchers%20%3E%20(schema)>)
 
-    - `field: optional "to"`
+<details>
 
-      Field for type matcher.
+<summary>
 
-      - `"to"`
+enabled: optional trueor false
 
-    - `value: optional string`
+Routing rule status.
 
-      Value for matcher.
+</summary>
 
-  - `name: optional string`
+One of the following:
 
-    Routing rule name.
+true
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    Priority of the routing rule.
+false
 
-  - `source: optional "api" or "wrangler"`
+<a href="#">Link to this property</a>
 
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
+</details>
 
-    - `"api"`
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-    - `"wrangler"`
+name: optional string
 
-  - `tag: optional string`
+Routing rule name.
 
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+maxLength256
 
-### Example
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-```http
+owner\_worker\_tag: optional string
+
+Public tag (script\_tag) of the Worker that owns this rule. Required when `source` is `wrangler`.
+
+maxLength32
+
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20owner_worker_tag%20%3E%20(schema)>)
+
+priority: optional number
+
+Priority of the routing rule.
+
+minimum0
+
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20priority%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+source: optional "api"or "wrangler"
+
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
+
+</summary>
+
+One of the following:
+
+"api"
+
+<a href="#">Link to this property</a>
+
+"wrangler"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20source%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20email_routing_rule%20%3E%20(schema)">EmailRoutingRule</a> { id, actions, enabled, 5 more }
+
+</summary>
+
+id: optional string
+
+Routing rule identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20action%20%3E%20(schema)">Action</a> { type, value }
+
+List actions patterns.
+
+</summary>
+
+<details>
+
+<summary>
+
+type: "drop"or "forward"or "worker"
+
+Type of supported action.
+
+</summary>
+
+One of the following:
+
+"drop"
+
+<a href="#">Link to this property</a>
+
+"forward"
+
+<a href="#">Link to this property</a>
+
+"worker"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enabled: optional trueor false
+
+Routing rule status.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20matcher%20%3E%20(schema)">Matcher</a> { type, field, value }
+
+Matching patterns to forward to your actions.
+
+</summary>
+
+<details>
+
+<summary>
+
+type: "all"or "literal"
+
+Type of matcher.
+
+</summary>
+
+One of the following:
+
+"all"
+
+<a href="#">Link to this property</a>
+
+"literal"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+field: optional "to"
+
+Field for type matcher.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+Value for matcher.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Routing rule name.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+Priority of the routing rule.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional "api"or "wrangler"
+
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
+
+</summary>
+
+One of the following:
+
+"api"
+
+<a href="#">Link to this property</a>
+
+"wrangler"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedtag: optional string
+
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update routing rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/$RULE_IDENTIFIER \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -217,9 +542,62 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/$RU
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
+    "actions": [
+      {
+        "type": "forward",
+        "value": [
+          "destinationaddress@example.net"
+        ]
+      }
+    ],
+    "enabled": true,
+    "matchers": [
+      {
+        "type": "literal",
+        "field": "to",
+        "value": "test@example.com"
+      }
+    ],
+    "name": "Send to user@example.net rule.",
+    "priority": 0,
+    "source": "api",
+    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

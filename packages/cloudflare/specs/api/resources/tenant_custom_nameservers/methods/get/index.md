@@ -1,119 +1,376 @@
-## List Tenant Custom Nameservers
+---
+title: List Tenant Custom Nameservers
+---
 
-**get** `/tenants/{tenant_tag}/custom_ns`
+[Skip to content](#_top)
 
-List a tenant's custom nameservers.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Tenant Custom Nameservers](https://developers.cloudflare.com/api/resources/tenant_custom_nameservers)
 
-- `tenant_tag: string`
+Copy Markdown
 
-  Tenant identifier tag.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Copy Markdown****View as Markdown**
 
-  - `code: number`
+# List Tenant Custom Nameservers
 
-  - `message: string`
+GET/tenants/{tenant\_tag}/custom\_ns
 
-  - `documentation_url: optional string`
+Lists a tenant’s custom nameservers.
 
-  - `source: optional object { pointer }`
+##### Security
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>API Token</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `source: optional object { pointer }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>API Email + API Key</summary>
 
-  - `true`
 
-- `result: optional array of object { dns_records, ns_name, status, 2 more }`
 
-  - `dns_records: array of object { type, value }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    A and AAAA records associated with the nameserver.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `type: optional "A" or "AAAA"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      DNS record type.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `"A"`
+</details>
 
-      - `"AAAA"`
+##### P ath ParametersExpand Collapse
 
-    - `value: optional string`
+tenant\_tag: string
 
-      DNS record contents (an IPv4 or IPv6 address).
+Tenant identifier tag.
 
-  - `ns_name: string`
+maxLength32
 
-    The FQDN of the name server.
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20tenant_tag%20%3E%20(schema)>)
 
-  - `status: "moved" or "pending" or "verified"`
+##### ReturnsExpand Collapse
 
-    Verification status of the nameserver.
+<details>
 
-    - `"moved"`
+<summary>
 
-    - `"pending"`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `"verified"`
+</summary>
 
-  - `zone_tag: string`
+code: number
 
-    Identifier.
+minimum1000
 
-  - `ns_set: optional number`
+<a href="#">Link to this property</a>
 
-    The number of the set that this name server belongs to.
+message: string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+documentation\_url: optional string
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+<details>
 
-    Current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+source: optional object {pointer }
 
-    Number of results per page of results.
+</summary>
 
-  - `total_count: optional number`
+pointer: optional string
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+</details>
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {dns\_records, ns\_name, status, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+dns\_records: array of object {type, value }
+
+A and AAAA records associated with the nameserver.
+
+</summary>
+
+<details>
+
+<summary>
+
+type: optional "A"or "AAAA"
+
+DNS record type.
+
+</summary>
+
+One of the following:
+
+"A"
+
+<a href="#">Link to this property</a>
+
+"AAAA"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+DNS record contents (an IPv4 or IPv6 address).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ns\_name: string
+
+The FQDN of the name server.
+
+formathostname
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedstatus: "moved"or "pending"or "verified"
+
+Verification status of the nameserver.
+
+</summary>
+
+One of the following:
+
+"moved"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"verified"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+zone\_tag: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+ns\_set: optional number
+
+The number of the set that this name server belongs to.
+
+maximum5
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Tenant Custom Nameservers
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/tenants/$TENANT_TAG/custom_ns \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "dns_records": [
+        {
+          "type": "A",
+          "value": "1.1.1.1"
+        }
+      ],
+      "ns_name": "ns1.example.com",
+      "status": "verified",
+      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353",
+      "ns_set": 1
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

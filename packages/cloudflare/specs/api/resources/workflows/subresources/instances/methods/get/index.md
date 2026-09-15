@@ -1,290 +1,877 @@
-## Get logs and status from instance
+---
+title: Get logs and status from instance
+---
 
-**get** `/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workflows](https://developers.cloudflare.com/api/resources/workflows)
+
+[Instances](https://developers.cloudflare.com/api/resources/workflows/subresources/instances)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get logs and status from instance
+
+GET/accounts/{account\_id}/workflows/{workflow\_name}/instances/{instance\_id}
 
 Retrieves logs and execution status for a specific workflow instance.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `workflow_name: string`
+<summary>API Token</summary>
 
-- `instance_id: string`
 
-  Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `order: optional "asc" or "desc"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Step ordering: "asc" (default, oldest first) or "desc" (newest first).
+</details>
 
-  - `"asc"`
+<details>
 
-  - `"desc"`
+<summary>API Email + API Key</summary>
 
-- `simple: optional "true" or "false"`
 
-  When true, omits step details and returns only metadata with step_count.
 
-  - `"true"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"false"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of object { code, message }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message }`
+`Workers Tail Read``Workers Scripts Write``Workers Scripts Read`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-- `result: object { end, error, output, 11 more }`
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `end: string`
+workflow\_name: string
 
-  - `error: object { message, name }`
+maxLength64
 
-    - `message: string`
+minLength1
 
-    - `name: string`
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20workflow_name%20%3E%20(schema)>)
 
-  - `output: string or number`
+instance\_id: string
 
-    - `string`
+maxLength271
 
-    - `number`
+minLength1
 
-  - `params: unknown`
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20instance_id%20%3E%20(schema)>)
 
-  - `queued: string`
+##### Q uery ParametersExpand Collapse
 
-  - `rollback: object { error, outcome }`
+<details>
 
-    - `error: object { message, name }`
+<summary>
 
-      - `message: string`
+order: optional "asc"or "desc"
 
-      - `name: string`
+Step ordering: “asc” (default, oldest first) or “desc” (newest first).
 
-    - `outcome: "complete" or "failed"`
+</summary>
 
-      - `"complete"`
+One of the following:
 
-      - `"failed"`
+"asc"
 
-  - `start: string`
+<a href="#">Link to this property</a>
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+"desc"
 
-    - `"queued"`
+<a href="#">Link to this property</a>
 
-    - `"running"`
+</details>
 
-    - `"paused"`
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-    - `"errored"`
+<details>
 
-    - `"terminated"`
+<summary>
 
-    - `"complete"`
+simple: optional "true"or "false"
 
-    - `"waitingForPause"`
+When true, omits step details and returns only metadata with step\_count.
 
-    - `"waiting"`
+</summary>
 
-    - `"rollingBack"`
+One of the following:
 
-  - `step_count: number`
+"true"
 
-  - `steps: array of object { attempts, config, end, 5 more }  or object { end, error, finished, 3 more }  or object { trigger, type }  or object { end, error, finished, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `object { attempts, config, end, 5 more }`
+"false"
 
-      - `attempts: array of object { end, error, start, success }`
+<a href="#">Link to this property</a>
 
-        - `end: string`
+</details>
 
-        - `error: object { message, name }`
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20simple%20%3E%20(schema)>)
 
-          - `message: string`
+##### ReturnsExpand Collapse
 
-          - `name: string`
+<details>
 
-        - `start: string`
+<summary>
 
-        - `success: boolean`
+errors: array of object {code, message }
 
-      - `config: object { retries, timeout, sensitive }`
+</summary>
 
-        - `retries: object { delay, limit, backoff }`
+code: number
 
-          - `delay: string or number`
+<a href="#">Link to this property</a>
 
-            Specifies the delay duration. '[dynamic]' indicates the delay is computed by a user-supplied function.
+message: string
 
-            - `string`
+<a href="#">Link to this property</a>
 
-            - `number`
+</details>
 
-          - `limit: number`
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-          - `backoff: optional "constant" or "linear" or "exponential"`
+<details>
 
-            - `"constant"`
+<summary>
 
-            - `"linear"`
+messages: array of object {code, message }
 
-            - `"exponential"`
+</summary>
 
-        - `timeout: string or number`
+code: number
 
-          Specifies the timeout duration.
+<a href="#">Link to this property</a>
 
-          - `string`
+message: string
 
-          - `number`
+<a href="#">Link to this property</a>
 
-        - `sensitive: optional "output"`
+</details>
 
-          When set to 'output', step output is redacted from log and step output responses.
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-          - `"output"`
+<details>
 
-      - `end: string`
+<summary>
 
-      - `name: string`
+result: object {end, error, output, 11 more }
 
-      - `output: string`
+</summary>
 
-      - `start: string`
+end: string
 
-      - `success: boolean`
+formatdate-time
 
-      - `type: "step" or "rollback"`
+<a href="#">Link to this property</a>
 
-        - `"step"`
+<details>
 
-        - `"rollback"`
+<summary>
 
-    - `object { end, error, finished, 3 more }`
+error: object {message, name }
 
-      - `end: string`
+</summary>
 
-      - `error: object { message, name }`
+message: string
 
-        - `message: string`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+name: string
 
-      - `finished: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-      - `start: string`
+<a href="#">Link to this property</a>
 
-      - `type: "sleep"`
+<details>
 
-        - `"sleep"`
+<summary>
 
-    - `object { trigger, type }`
+output: stringor number
 
-      - `trigger: object { source }`
+</summary>
 
-        - `source: string`
+One of the following:
 
-      - `type: "termination"`
+string
 
-        - `"termination"`
+<a href="#">Link to this property</a>
 
-    - `object { end, error, finished, 4 more }`
+number
 
-      - `end: string`
+<a href="#">Link to this property</a>
 
-      - `error: object { message, name }`
+</details>
 
-        - `message: string`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+params: unknown
 
-      - `finished: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+queued: string
 
-      - `start: string`
+formatdate-time
 
-      - `type: "waitForEvent"`
+<a href="#">Link to this property</a>
 
-        - `"waitForEvent"`
+<details>
 
-      - `output: optional string`
+<summary>
 
-  - `success: boolean`
+rollback: object {error, outcome }
 
-  - `trigger: object { source }`
+</summary>
 
-    - `source: "unknown" or "api" or "binding" or 2 more`
+<details>
 
-      - `"unknown"`
+<summary>
 
-      - `"api"`
+error: object {message, name }
 
-      - `"binding"`
+</summary>
 
-      - `"event"`
+message: string
 
-      - `"cron"`
+<a href="#">Link to this property</a>
 
-  - `versionId: string`
+name: string
 
-  - `schedule: optional object { cron, scheduledTime }`
+<a href="#">Link to this property</a>
 
-    - `cron: string`
+</details>
 
-    - `scheduledTime: number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+outcome: "complete"or "failed"
 
-  - `count: number`
+</summary>
 
-  - `per_page: number`
+One of the following:
 
-  - `total_count: number`
+"complete"
 
-  - `cursor: optional string`
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"failed"
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+start: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "queued"or "running"or "paused"or 6 more
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"running"
+
+<a href="#">Link to this property</a>
+
+"paused"
+
+<a href="#">Link to this property</a>
+
+"errored"
+
+<a href="#">Link to this property</a>
+
+"terminated"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+"waitingForPause"
+
+<a href="#">Link to this property</a>
+
+"waiting"
+
+<a href="#">Link to this property</a>
+
+"rollingBack"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+step\_count: number
+
+maximum9007199254740991
+
+minimum-9007199254740991
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+steps: array of object {attempts, config, end, 5 more } or object {end, error, finished, 3 more } or object {trigger, type } or object {end, error, finished, 5 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attempts, config, end, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+attempts: array of object {end, error, start, success }
+
+</summary>
+
+end: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+error: object {message, name }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+start: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+config: object {retries, timeout, sensitive }
+
+</summary>
+
+<details>
+
+<summary>
+
+retries: object {delay, limit, backoff }
+
+</summary>
+
+<details>
+
+<summary>
+
+delay: stringor number
+
+Specifies the delay duration. The value ‘\[dynamic]’ means that a user-supplied function computes the delay.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+backoff: optional "constant"or "linear"or "exponential"
+
+</summary>
+
+One of the following:
+
+"constant"
+
+<a href="#">Link to this property</a>
+
+"linear"
+
+<a href="#">Link to this property</a>
+
+"exponential"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+timeout: stringor number
+
+Specifies the timeout duration.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+sensitive: optional "output"
+
+When set to ‘output’, step output is redacted from log and step output responses.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+end: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+output: string
+
+<a href="#">Link to this property</a>
+
+start: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "step"or "rollback"
+
+</summary>
+
+One of the following:
+
+"step"
+
+<a href="#">Link to this property</a>
+
+"rollback"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {end, error, finished, 3 more }
+
+</summary>
+
+end: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+error: object {message, name }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+finished: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+start: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+type: "sleep"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {trigger, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+trigger: object {source }
+
+</summary>
+
+source: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "termination"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {end, error, finished, 5 more }
+
+</summary>
+
+end: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+error: object {message, name }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+finished: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+start: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+type: "waitForEvent"
+
+<a href="#">Link to this property</a>
+
+event\_type: optional string
+
+<a href="#">Link to this property</a>
+
+output: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+trigger: object {source }
+
+</summary>
+
+<details>
+
+<summary>
+
+source: "unknown"or "api"or "binding"or 2 more
+
+</summary>
+
+One of the following:
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+"api"
+
+<a href="#">Link to this property</a>
+
+"binding"
+
+<a href="#">Link to this property</a>
+
+"event"
+
+<a href="#">Link to this property</a>
+
+"cron"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+versionId: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schedule: optional object {cron, scheduledTime }
+
+</summary>
+
+cron: string
+
+<a href="#">Link to this property</a>
+
+scheduledTime: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, per\_page, total\_count, 3 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+cursor: optional string
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows.instances%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get logs and status from instance
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/$INSTANCE_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
+  "errors": [],
   "messages": [
     {
       "code": 0,
@@ -309,7 +896,91 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFL
     },
     "start": "2019-12-27T18:11:19.117Z",
     "status": "queued",
-    "step_count": 0,
+    "step_count": -9007199254740991,
+    "steps": [
+      {
+        "attempts": [
+          {
+            "end": "2019-12-27T18:11:19.117Z",
+            "error": {
+              "message": "message",
+              "name": "name"
+            },
+            "start": "2019-12-27T18:11:19.117Z",
+            "success": true
+          }
+        ],
+        "config": {
+          "retries": {
+            "delay": "string",
+            "limit": 0,
+            "backoff": "constant"
+          },
+          "timeout": "string",
+          "sensitive": "output"
+        },
+        "end": "2019-12-27T18:11:19.117Z",
+        "name": "name",
+        "output": "output",
+        "start": "2019-12-27T18:11:19.117Z",
+        "success": true,
+        "type": "step"
+      }
+    ],
+    "success": true,
+    "trigger": {
+      "source": "unknown"
+    },
+    "versionId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "schedule": {
+      "cron": "cron",
+      "scheduledTime": 0
+    }
+  },
+  "success": true,
+  "result_info": {
+    "count": 0,
+    "per_page": 0,
+    "total_count": 0,
+    "cursor": "cursor",
+    "page": 0,
+    "total_pages": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": {
+    "end": "2019-12-27T18:11:19.117Z",
+    "error": {
+      "message": "message",
+      "name": "name"
+    },
+    "output": "string",
+    "params": {},
+    "queued": "2019-12-27T18:11:19.117Z",
+    "rollback": {
+      "error": {
+        "message": "message",
+        "name": "name"
+      },
+      "outcome": "complete"
+    },
+    "start": "2019-12-27T18:11:19.117Z",
+    "status": "queued",
+    "step_count": -9007199254740991,
     "steps": [
       {
         "attempts": [

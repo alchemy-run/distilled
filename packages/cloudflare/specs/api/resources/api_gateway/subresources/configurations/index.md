@@ -1,333 +1,129 @@
+---
+title: Configurations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Configurations
 
-## Retrieve information about specific configuration properties
+##### [Get session identifier settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/configurations/methods/get)
 
-**get** `/zones/{zone_id}/api_gateway/configuration`
+GET/zones/{zone\_id}/api\_gateway/configuration
 
-Gets the current API Shield configuration settings for a zone, including validation behavior and enforcement mode.
+##### [Update session identifier settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/configurations/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/api\_gateway/configuration
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Query Parameters
+<summary>
 
-- `normalize: optional boolean`
+Configuration object {auth\_id\_characteristics }
 
-  Ensures that the configuration is written or retrieved in normalized fashion
+</summary>
 
-### Returns
+<details>
 
-- `errors: Message`
+<summary>
 
-  - `code: number`
+auth\_id\_characteristics: array of object {name, type } or object {name, type }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: Message`
+APIShieldAuthIDCharacteristic object {name, type }
 
-- `result: Configuration`
+Auth ID Characteristic
 
-  - `auth_id_characteristics: array of object { name, type }  or object { name, type }`
+</summary>
 
-    - `APIShieldAuthIDCharacteristic object { name, type }`
+name: string
 
-      Auth ID Characteristic
+The name of the characteristic field, i.e., the header or cookie name.
 
-      - `name: string`
+maxLength128
 
-        The name of the characteristic field, i.e., the header or cookie name.
+<a href="#">Link to this property</a>
 
-      - `type: "header" or "cookie"`
+<details>
 
-        The type of characteristic.
+<summary>
 
-        - `"header"`
+type: "header"or "cookie"
 
-        - `"cookie"`
+The type of characteristic.
 
-    - `APIShieldAuthIDCharacteristicJWTClaim object { name, type }`
+</summary>
 
-      Auth ID Characteristic extracted from JWT Token Claims
+One of the following:
 
-      - `name: string`
+"header"
 
-        Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`
-        is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535
-        JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html).
-        The JSONPath expression may be in dot or bracket notation, may only specify literal keys
-        or array indexes, and must return a singleton value, which will be interpreted as a string.
+<a href="#">Link to this property</a>
 
-      - `type: "jwt"`
+"cookie"
 
-        The type of characteristic.
+<a href="#">Link to this property</a>
 
-        - `"jwt"`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/configuration \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+APIShieldAuthIDCharacteristicJWTClaim object {name, type }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "auth_id_characteristics": [
-      {
-        "name": "authorization",
-        "type": "header"
-      }
-    ]
-  },
-  "success": true
-}
-```
+Auth ID Characteristic extracted from JWT Token Claims
 
-## Update configuration properties
+</summary>
 
-**put** `/zones/{zone_id}/api_gateway/configuration`
+name: string
 
-Updates API Shield configuration settings for a zone. Can modify validation strictness, enforcement mode, and other global settings.
+Claim location expressed as <code>$(token_config_id):$(json_path)</code>, where <code>token_config_id</code> is the ID of the token configuration used in validating the JWT, and <code>json_path</code> is a RFC 9535 JSONPath (<a href="https://goessner.net/articles/JsonPath/">https://goessner.net/articles/JsonPath/</a>, <a href="https://www.rfc-editor.org/rfc/rfc9535.html">https://www.rfc-editor.org/rfc/rfc9535.html</a>). The JSONPath expression may be in dot or bracket notation, may only specify literal keys or array indexes, and must return a singleton value, which will be interpreted as a string.
 
-### Path Parameters
+maxLength128
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+type: "jwt"
 
-### Query Parameters
+The type of characteristic.
 
-- `normalize: optional boolean`
+<a href="#">Link to this property</a>
 
-  Ensures that the configuration is written or retrieved in normalized fashion
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `auth_id_characteristics: array of object { name, type }  or object { name, type }`
+</details>
 
-  - `APIShieldAuthIDCharacteristic object { name, type }`
+<a href="#">Link to this property</a>
 
-    Auth ID Characteristic
+</details>
 
-    - `name: string`
-
-      The name of the characteristic field, i.e., the header or cookie name.
-
-    - `type: "header" or "cookie"`
-
-      The type of characteristic.
-
-      - `"header"`
-
-      - `"cookie"`
-
-  - `APIShieldAuthIDCharacteristicJWTClaim object { name, type }`
-
-    Auth ID Characteristic extracted from JWT Token Claims
-
-    - `name: string`
-
-      Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`
-      is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535
-      JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html).
-      The JSONPath expression may be in dot or bracket notation, may only specify literal keys
-      or array indexes, and must return a singleton value, which will be interpreted as a string.
-
-    - `type: "jwt"`
-
-      The type of characteristic.
-
-      - `"jwt"`
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: Configuration`
-
-  - `auth_id_characteristics: array of object { name, type }  or object { name, type }`
-
-    - `APIShieldAuthIDCharacteristic object { name, type }`
-
-      Auth ID Characteristic
-
-      - `name: string`
-
-        The name of the characteristic field, i.e., the header or cookie name.
-
-      - `type: "header" or "cookie"`
-
-        The type of characteristic.
-
-        - `"header"`
-
-        - `"cookie"`
-
-    - `APIShieldAuthIDCharacteristicJWTClaim object { name, type }`
-
-      Auth ID Characteristic extracted from JWT Token Claims
-
-      - `name: string`
-
-        Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`
-        is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535
-        JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html).
-        The JSONPath expression may be in dot or bracket notation, may only specify literal keys
-        or array indexes, and must return a singleton value, which will be interpreted as a string.
-
-      - `type: "jwt"`
-
-        The type of characteristic.
-
-        - `"jwt"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/configuration \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auth_id_characteristics": [
-            {
-              "name": "authorization",
-              "type": "header"
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "auth_id_characteristics": [
-      {
-        "name": "authorization",
-        "type": "header"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Configuration
-
-- `Configuration object { auth_id_characteristics }`
-
-  - `auth_id_characteristics: array of object { name, type }  or object { name, type }`
-
-    - `APIShieldAuthIDCharacteristic object { name, type }`
-
-      Auth ID Characteristic
-
-      - `name: string`
-
-        The name of the characteristic field, i.e., the header or cookie name.
-
-      - `type: "header" or "cookie"`
-
-        The type of characteristic.
-
-        - `"header"`
-
-        - `"cookie"`
-
-    - `APIShieldAuthIDCharacteristicJWTClaim object { name, type }`
-
-      Auth ID Characteristic extracted from JWT Token Claims
-
-      - `name: string`
-
-        Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`
-        is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535
-        JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html).
-        The JSONPath expression may be in dot or bracket notation, may only specify literal keys
-        or array indexes, and must return a singleton value, which will be interpreted as a string.
-
-      - `type: "jwt"`
-
-        The type of characteristic.
-
-        - `"jwt"`
+[Link to this property](#)%20api_gateway.configurations%20%3E%20(model)%20configuration%20%3E%20(schema)>)

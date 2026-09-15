@@ -1,106 +1,328 @@
-## List Prefix Delegations
+---
+title: List Prefix Delegations
+---
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes)
+
+[Delegations](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Prefix Delegations
+
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations
 
 List all delegations for a given account IP prefix.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>API Token</summary>
 
-- `prefix_id: string`
 
-  Identifier of an IP Prefix.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### P ath ParametersExpand Collapse
 
-- `success: true`
+account\_id: string
 
-  Whether the API call was successful.
+Identifier of a Cloudflare account.
 
-  - `true`
+maxLength32
 
-- `result: optional array of Delegations`
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `id: optional string`
+prefix\_id: string
 
-    Identifier of a Delegation.
+Identifier of an IP Prefix.
 
-  - `cidr: optional string`
+maxLength32
 
-    IP Prefix in Classless Inter-Domain Routing format.
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20prefix_id%20%3E%20(schema)>)
 
-  - `created_at: optional string`
+##### ReturnsExpand Collapse
 
-  - `delegated_account_id: optional string`
+<details>
 
-    Account identifier for the account to which prefix is being delegated.
+<summary>
 
-  - `modified_at: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `parent_prefix_id: optional string`
+</summary>
 
-    Identifier of an IP Prefix.
+code: number
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+minimum1000
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+message: string
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+documentation\_url: optional string
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+source: optional object {pointer }
 
-  - `total_pages: optional number`
+</summary>
 
-    The number of total pages in the entire result set.
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/addressing#(resource)%20addressing.prefixes.delegations%20%3E%20(model)%20delegations%20%3E%20(schema)">Delegations</a> { id, cidr, created\_at, 3 more }
+
+</summary>
+
+id: optional string
+
+Identifier of a Delegation.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+cidr: optional string
+
+IP Prefix in Classless Inter-Domain Routing format.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+delegated\_account\_id: optional string
+
+Account identifier for the account to which prefix is being delegated.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+parent\_prefix\_id: optional string
+
+Identifier of an IP Prefix.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Prefix Delegations
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "d933b1530bc56c9953cf8ce166da8004",
+      "cidr": "192.0.2.0/24",
+      "created_at": "2014-01-01T05:20:00.12345Z",
+      "delegated_account_id": "b1946ac92492d2347c6235b4d2611184",
+      "modified_at": "2014-01-01T05:20:00.12345Z",
+      "parent_prefix_id": "2af39739cc4e3b5910c918468bb89828"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

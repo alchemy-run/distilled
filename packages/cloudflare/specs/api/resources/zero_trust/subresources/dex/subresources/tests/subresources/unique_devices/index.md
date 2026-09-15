@@ -1,109 +1,47 @@
+---
+title: Unique Devices
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Tests](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/tests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Unique Devices
 
-## Get count of devices targeted
+##### [Get count of devices targeted](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/tests/subresources/unique_devices/methods/list)
 
-**get** `/accounts/{account_id}/dex/tests/unique-devices`
+GET/accounts/{account\_id}/dex/tests/unique-devices
 
-Returns unique count of devices that have run synthetic application monitoring tests in the past 7 days.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+UniqueDevices object {uniqueDevicesTotal }
 
-### Query Parameters
+</summary>
 
-- `deviceId: optional array of string`
+uniqueDevicesTotal: number
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+total number of unique devices
 
-- `testName: optional string`
+<a href="#">Link to this property</a>
 
-  Optionally filter results by test name.
+</details>
 
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional UniqueDevices`
-
-  - `uniqueDevicesTotal: number`
-
-    total number of unique devices
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/tests/unique-devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "uniqueDevicesTotal": 0
-  }
-}
-```
-
-## Domain Types
-
-### Unique Devices
-
-- `UniqueDevices object { uniqueDevicesTotal }`
-
-  - `uniqueDevicesTotal: number`
-
-    total number of unique devices
+[Link to this property](#)%20zero_trust.dex.tests.unique_devices%20%3E%20(model)%20unique_devices%20%3E%20(schema)>)

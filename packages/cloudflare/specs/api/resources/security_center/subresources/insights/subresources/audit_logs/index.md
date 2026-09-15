@@ -1,483 +1,211 @@
+---
+title: Audit Logs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Security Center](https://developers.cloudflare.com/api/resources/security_center)
+
+[Insights](https://developers.cloudflare.com/api/resources/security_center/subresources/insights)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Audit Logs
 
-## Retrieves account or zone Audit Log
+##### [Retrieves account or zone Audit Log](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/audit_logs/methods/list)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/audit-log`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/audit-log
 
-Lists audit log entries for all Security Center insights in the account or zone, showing changes to insight status and classification.
+##### [Retrieves Issue Audit Log](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/audit_logs/methods/list_by_insight)
 
-### Path Parameters
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/{issue\_id}/audit-log
 
-- `account_id: optional string`
+##### ModelsExpand Collapse
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<details>
 
-- `zone_id: optional string`
+<summary>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+AuditLogListResponse object {id, changed\_at, changed\_by, 6 more }
 
-### Query Parameters
+</summary>
 
-- `before: optional string`
+id: optional string
 
-  Filter entries changed before this timestamp (RFC 3339).
+UUIDv7 identifier for the audit log entry, time-ordered.
 
-- `changed_by: optional string`
+formatuuid
 
-  Filter by the actor that made the change.
+<a href="#">Link to this property</a>
 
-- `cursor: optional string`
+changed\_at: optional string
 
-  Opaque cursor for pagination. Use the cursor value from result_info of the previous response.
+The timestamp when the change occurred.
 
-- `field_changed: optional "status" or "user_classification"`
+formatdate-time
 
-  Filter by the field that was changed.
+<a href="#">Link to this property</a>
 
-  - `"status"`
+changed\_by: optional string
 
-  - `"user_classification"`
+The actor that made the change. ‘system’ for automated changes, or a user identifier.
 
-- `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  Sort order for results. Use 'asc' for oldest first or 'desc' for newest first.
+current\_value: optional string
 
-  - `"asc"`
+The value of the field after the change. Null if the field was cleared.
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+<details>
 
-  Number of results per page.
+<summary>
 
-- `since: optional string`
+field\_changed: optional "status"or "user\_classification"
 
-  Filter entries changed at or after this timestamp (RFC 3339).
+The field that was changed.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"status"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"user\_classification"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+issue\_id: optional string
 
-  - `message: string`
+The ID of the insight this audit log entry relates to.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+previous\_value: optional string
 
-    - `pointer: optional string`
+The value of the field before the change. Null if the field was not previously set.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+rationale: optional string
 
-  - `true`
+Optional rationale provided for the change.
 
-- `result: optional array of object { id, changed_at, changed_by, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+zone\_id: optional number
 
-    UUIDv7 identifier for the audit log entry, time-ordered.
+The zone ID associated with the insight. Only present for zone-level insights.
 
-  - `changed_at: optional string`
+formatint64
 
-    The timestamp when the change occurred.
+<a href="#">Link to this property</a>
 
-  - `changed_by: optional string`
+</details>
 
-    The actor that made the change. 'system' for automated changes, or a user identifier.
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(model)%20audit_log_list_response%20%3E%20(schema)>)
 
-  - `current_value: optional string`
+<details>
 
-    The value of the field after the change. Null if the field was cleared.
+<summary>
 
-  - `field_changed: optional "status" or "user_classification"`
+AuditLogListByInsightResponse object {id, changed\_at, changed\_by, 6 more }
 
-    The field that was changed.
+</summary>
 
-    - `"status"`
+id: optional string
 
-    - `"user_classification"`
+UUIDv7 identifier for the audit log entry, time-ordered.
 
-  - `issue_id: optional string`
+formatuuid
 
-    The ID of the insight this audit log entry relates to.
+<a href="#">Link to this property</a>
 
-  - `previous_value: optional string`
+changed\_at: optional string
 
-    The value of the field before the change. Null if the field was not previously set.
+The timestamp when the change occurred.
 
-  - `rationale: optional string`
+formatdate-time
 
-    Optional rationale provided for the change.
+<a href="#">Link to this property</a>
 
-  - `zone_id: optional number`
+changed\_by: optional string
 
-    The zone ID associated with the insight. Only present for zone-level insights.
+The actor that made the change. ‘system’ for automated changes, or a user identifier.
 
-- `result_info: optional object { count, cursor, per_page }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+current\_value: optional string
 
-    The number of items in the current result set.
+The value of the field after the change. Null if the field was cleared.
 
-  - `cursor: optional string`
+<a href="#">Link to this property</a>
 
-    Opaque cursor for the next page of results. Absent when there are no more results.
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    The requested number of items per page.
+field\_changed: optional "status"or "user\_classification"
 
-### Example
+The field that was changed.
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/audit-log \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "changed_at": "2019-12-27T18:11:19.117Z",
-      "changed_by": "system",
-      "current_value": "current_value",
-      "field_changed": "status",
-      "issue_id": "issue_id",
-      "previous_value": "previous_value",
-      "rationale": "rationale",
-      "zone_id": 0
-    }
-  ],
-  "result_info": {
-    "count": 25,
-    "cursor": "cursor",
-    "per_page": 25
-  }
-}
-```
+"status"
 
-## Retrieves Issue Audit Log
+<a href="#">Link to this property</a>
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/{issue_id}/audit-log`
+"user\_classification"
 
-Lists audit log entries for a specific Security Center insight, showing changes to its status and classification over time.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `issue_id: string`
+<a href="#">Link to this property</a>
 
-- `account_id: optional string`
+issue\_id: optional string
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+The ID of the insight this audit log entry relates to.
 
-- `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+previous\_value: optional string
 
-### Query Parameters
+The value of the field before the change. Null if the field was not previously set.
 
-- `before: optional string`
+<a href="#">Link to this property</a>
 
-  Filter entries changed before this timestamp (RFC 3339).
+rationale: optional string
 
-- `changed_by: optional string`
+Optional rationale provided for the change.
 
-  Filter by the actor that made the change.
+<a href="#">Link to this property</a>
 
-- `cursor: optional string`
+zone\_id: optional number
 
-  Opaque cursor for pagination. Use the cursor value from result_info of the previous response.
+The zone ID associated with the insight. Only present for zone-level insights.
 
-- `field_changed: optional "status" or "user_classification"`
+formatint64
 
-  Filter by the field that was changed.
+<a href="#">Link to this property</a>
 
-  - `"status"`
+</details>
 
-  - `"user_classification"`
-
-- `order: optional "asc" or "desc"`
-
-  Sort order for results. Use 'asc' for oldest first or 'desc' for newest first.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `per_page: optional number`
-
-  Number of results per page.
-
-- `since: optional string`
-
-  Filter entries changed at or after this timestamp (RFC 3339).
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, changed_at, changed_by, 6 more }`
-
-  - `id: optional string`
-
-    UUIDv7 identifier for the audit log entry, time-ordered.
-
-  - `changed_at: optional string`
-
-    The timestamp when the change occurred.
-
-  - `changed_by: optional string`
-
-    The actor that made the change. 'system' for automated changes, or a user identifier.
-
-  - `current_value: optional string`
-
-    The value of the field after the change. Null if the field was cleared.
-
-  - `field_changed: optional "status" or "user_classification"`
-
-    The field that was changed.
-
-    - `"status"`
-
-    - `"user_classification"`
-
-  - `issue_id: optional string`
-
-    The ID of the insight this audit log entry relates to.
-
-  - `previous_value: optional string`
-
-    The value of the field before the change. Null if the field was not previously set.
-
-  - `rationale: optional string`
-
-    Optional rationale provided for the change.
-
-  - `zone_id: optional number`
-
-    The zone ID associated with the insight. Only present for zone-level insights.
-
-- `result_info: optional object { count, cursor, per_page }`
-
-  - `count: optional number`
-
-    The number of items in the current result set.
-
-  - `cursor: optional string`
-
-    Opaque cursor for the next page of results. Absent when there are no more results.
-
-  - `per_page: optional number`
-
-    The requested number of items per page.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/$ISSUE_ID/audit-log \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "changed_at": "2019-12-27T18:11:19.117Z",
-      "changed_by": "system",
-      "current_value": "current_value",
-      "field_changed": "status",
-      "issue_id": "issue_id",
-      "previous_value": "previous_value",
-      "rationale": "rationale",
-      "zone_id": 0
-    }
-  ],
-  "result_info": {
-    "count": 25,
-    "cursor": "cursor",
-    "per_page": 25
-  }
-}
-```
-
-## Domain Types
-
-### Audit Log List Response
-
-- `AuditLogListResponse object { id, changed_at, changed_by, 6 more }`
-
-  - `id: optional string`
-
-    UUIDv7 identifier for the audit log entry, time-ordered.
-
-  - `changed_at: optional string`
-
-    The timestamp when the change occurred.
-
-  - `changed_by: optional string`
-
-    The actor that made the change. 'system' for automated changes, or a user identifier.
-
-  - `current_value: optional string`
-
-    The value of the field after the change. Null if the field was cleared.
-
-  - `field_changed: optional "status" or "user_classification"`
-
-    The field that was changed.
-
-    - `"status"`
-
-    - `"user_classification"`
-
-  - `issue_id: optional string`
-
-    The ID of the insight this audit log entry relates to.
-
-  - `previous_value: optional string`
-
-    The value of the field before the change. Null if the field was not previously set.
-
-  - `rationale: optional string`
-
-    Optional rationale provided for the change.
-
-  - `zone_id: optional number`
-
-    The zone ID associated with the insight. Only present for zone-level insights.
-
-### Audit Log List By Insight Response
-
-- `AuditLogListByInsightResponse object { id, changed_at, changed_by, 6 more }`
-
-  - `id: optional string`
-
-    UUIDv7 identifier for the audit log entry, time-ordered.
-
-  - `changed_at: optional string`
-
-    The timestamp when the change occurred.
-
-  - `changed_by: optional string`
-
-    The actor that made the change. 'system' for automated changes, or a user identifier.
-
-  - `current_value: optional string`
-
-    The value of the field after the change. Null if the field was cleared.
-
-  - `field_changed: optional "status" or "user_classification"`
-
-    The field that was changed.
-
-    - `"status"`
-
-    - `"user_classification"`
-
-  - `issue_id: optional string`
-
-    The ID of the insight this audit log entry relates to.
-
-  - `previous_value: optional string`
-
-    The value of the field before the change. Null if the field was not previously set.
-
-  - `rationale: optional string`
-
-    Optional rationale provided for the change.
-
-  - `zone_id: optional number`
-
-    The zone ID associated with the insight. Only present for zone-level insights.
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(model)%20audit_log_list_by_insight_response%20%3E%20(schema)>)

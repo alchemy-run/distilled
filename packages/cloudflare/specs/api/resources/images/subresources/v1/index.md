@@ -1,2149 +1,977 @@
+---
+title: V1
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Images](https://developers.cloudflare.com/api/resources/images)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # V1
 
-## List images
+##### [List images](https://developers.cloudflare.com/api/resources/images/subresources/v1/methods/list)
 
-**get** `/accounts/{account_id}/images/v1`
+Deprecated
 
-List up to 100 images with one request. Use the optional parameters below to get a specific range of images.
+GET/accounts/{account\_id}/images/v1
 
-### Path Parameters
+##### [Image details](https://developers.cloudflare.com/api/resources/images/subresources/v1/methods/get)
 
-- `account_id: string`
+GET/accounts/{account\_id}/images/v1/{image\_id}
 
-  Account identifier tag.
+##### [Upload an image](https://developers.cloudflare.com/api/resources/images/subresources/v1/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/images/v1
 
-- `creator: optional string`
+##### [Update image](https://developers.cloudflare.com/api/resources/images/subresources/v1/methods/edit)
 
-  Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set
+PATCH/accounts/{account\_id}/images/v1/{image\_id}
 
-- `page: optional number`
+##### [Delete image](https://developers.cloudflare.com/api/resources/images/subresources/v1/methods/delete)
 
-  Page number of paginated results.
+DELETE/accounts/{account\_id}/images/v1/{image\_id}
 
-- `per_page: optional number`
+##### ModelsExpand Collapse
 
-  Number of items per page.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+Image object {id, creator, filename, 4 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+Image unique identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+creator: optional string
 
-  - `code: number`
+Can set the creator field with an internal user ID.
 
-  - `message: string`
+maxLength1024
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+filename: optional string
 
-- `result: object { images }`
+Image file name.
 
-  - `images: optional array of Image`
+maxLength255
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Image unique identifier.
+meta: optional unknown
 
-    - `creator: optional string`
+User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
 
-      Can set the creator field with an internal user ID.
+<a href="#">Link to this property</a>
 
-    - `filename: optional string`
+requireSignedURLs: optional boolean
 
-      Image file name.
+Indicates whether the image can be a accessed only using it’s UID. If set to true, a signed token needs to be generated with a signing key to view the image.
 
-    - `meta: optional unknown`
+<a href="#">Link to this property</a>
 
-      User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+uploaded: optional string
 
-    - `requireSignedURLs: optional boolean`
+When the media item was uploaded.
 
-      Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+formatdate-time
 
-    - `uploaded: optional string`
+<a href="#">Link to this property</a>
 
-      When the media item was uploaded.
+variants: optional array of string
 
-    - `variants: optional array of string`
+Object specifying available variants for an image.
 
-      Object specifying available variants for an image.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful
+[Link to this property](#)%20images.v1%20%3E%20(model)%20image%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1 \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+V1ListResponse object {images }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "images": [
-      {
-        "id": "id",
-        "creator": "107b9558-dd06-4bbd-5fef-9c2c16bb7900",
-        "filename": "logo.png",
-        "meta": {
-          "key": "value"
-        },
-        "requireSignedURLs": true,
-        "uploaded": "2014-01-02T02:20:00.123Z",
-        "variants": [
-          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/thumbnail",
-          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/hero",
-          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/original"
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
+<details>
 
-## Image details
+<summary>
 
-**get** `/accounts/{account_id}/images/v1/{image_id}`
+images: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1%20%3E%20(model)%20image%20%3E%20(schema)">Image</a> { id, creator, filename, 4 more }
 
-Fetch details for a CF Images image.
+</summary>
 
-### Path Parameters
+id: optional string
 
-- `account_id: string`
+Image unique identifier.
 
-  Account identifier tag.
+maxLength32
 
-- `image_id: string`
+<a href="#">Link to this property</a>
 
-  Image unique identifier.
+creator: optional string
 
-### Returns
+Can set the creator field with an internal user ID.
 
-- `errors: array of ResponseInfo`
+maxLength1024
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+filename: optional string
 
-  - `documentation_url: optional string`
+Image file name.
 
-  - `source: optional object { pointer }`
+maxLength255
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+meta: optional unknown
 
-  - `code: number`
+User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+requireSignedURLs: optional boolean
 
-  - `source: optional object { pointer }`
+Indicates whether the image can be a accessed only using it’s UID. If set to true, a signed token needs to be generated with a signing key to view the image.
 
-- `result: Image`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+uploaded: optional string
 
-    Image unique identifier.
+When the media item was uploaded.
 
-  - `creator: optional string`
+formatdate-time
 
-    Can set the creator field with an internal user ID.
+<a href="#">Link to this property</a>
 
-  - `filename: optional string`
+variants: optional array of string
 
-    Image file name.
+Object specifying available variants for an image.
 
-  - `meta: optional unknown`
+<a href="#">Link to this property</a>
 
-    User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+</details>
 
-  - `requireSignedURLs: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+</details>
 
-  - `uploaded: optional string`
+[Link to this property](#)%20images.v1%20%3E%20(model)%20v1_list_response%20%3E%20(schema)>)
 
-    When the media item was uploaded.
+<details>
 
-  - `variants: optional array of string`
+<summary>
 
-    Object specifying available variants for an image.
+V1DeleteResponse = unknownor string
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+One of the following:
 
-  - `true`
+unknown
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/$IMAGE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "creator": "107b9558-dd06-4bbd-5fef-9c2c16bb7900",
-    "filename": "logo.png",
-    "meta": {
-      "key": "value"
-    },
-    "requireSignedURLs": true,
-    "uploaded": "2014-01-02T02:20:00.123Z",
-    "variants": [
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/thumbnail",
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/hero",
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/original"
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Upload an image
+[Link to this property](#)%20images.v1%20%3E%20(model)%20v1_delete_response%20%3E%20(schema)>)
 
-**post** `/accounts/{account_id}/images/v1`
+#### V1Keys
 
-Upload an image to CF Images. Images up to 10 Megabytes can be uploaded using a
-single HTTP POST (multipart/form-data) request by sending an image file or
-passing a URL accessible to the API.
+##### [List Signing Keys](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/keys/methods/list)
 
-### Path Parameters
+GET/accounts/{account\_id}/images/v1/keys
 
-- `account_id: string`
+##### [Create a new Signing Key](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/keys/methods/update)
 
-  Account identifier tag.
+PUT/accounts/{account\_id}/images/v1/keys/{signing\_key\_name}
 
-### Returns
+##### [Delete Signing Key](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/keys/methods/delete)
 
-- `errors: array of ResponseInfo`
+DELETE/accounts/{account\_id}/images/v1/keys/{signing\_key\_name}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+Key object {name, value }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+name: optional string
 
-  - `code: number`
+Key name.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+Key value.
 
-- `result: Image`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    Image unique identifier.
+[Link to this property](#)%20images.v1.keys%20%3E%20(model)%20key%20%3E%20(schema)>)
 
-  - `creator: optional string`
+<details>
 
-    Can set the creator field with an internal user ID.
+<summary>
 
-  - `filename: optional string`
+KeyListResponse object {keys }
 
-    Image file name.
+</summary>
 
-  - `meta: optional unknown`
+<details>
 
-    User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+<summary>
 
-  - `requireSignedURLs: optional boolean`
+keys: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1.keys%20%3E%20(model)%20key%20%3E%20(schema)">Key</a> { name, value }
 
-    Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+</summary>
 
-  - `uploaded: optional string`
+name: optional string
 
-    When the media item was uploaded.
+Key name.
 
-  - `variants: optional array of string`
+<a href="#">Link to this property</a>
 
-    Object specifying available variants for an image.
+value: optional string
 
-- `success: true`
+Key value.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1 \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F requireSignedURLs=true \
-    -F url=https://example.com/path/to/logo.png
-```
+</details>
 
-#### Response
+[Link to this property](#)%20images.v1.keys%20%3E%20(model)%20key_list_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "creator": "107b9558-dd06-4bbd-5fef-9c2c16bb7900",
-    "filename": "logo.png",
-    "meta": {
-      "key": "value"
-    },
-    "requireSignedURLs": true,
-    "uploaded": "2014-01-02T02:20:00.123Z",
-    "variants": [
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/thumbnail",
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/hero",
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/original"
-    ]
-  },
-  "success": true
-}
-```
+<details>
 
-## Update image
+<summary>
 
-**patch** `/accounts/{account_id}/images/v1/{image_id}`
+KeyUpdateResponse object {keys }
 
-Update a CF Images image's metadata, creator, or access control. On access control change, all copies of the image are purged from cache.
+</summary>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier tag.
+keys: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1.keys%20%3E%20(model)%20key%20%3E%20(schema)">Key</a> { name, value }
 
-- `image_id: string`
+</summary>
 
-  Image unique identifier.
+name: optional string
 
-### Body Parameters
+Key name.
 
-- `creator: optional string`
+<a href="#">Link to this property</a>
 
-  Can set the creator field with an internal user ID.
+value: optional string
 
-- `metadata: optional unknown`
+Key value.
 
-  User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified.
+<a href="#">Link to this property</a>
 
-- `requireSignedURLs: optional boolean`
+</details>
 
-  Indicates whether the image can be accessed using only its UID. If set to `true`, a signed token needs to be generated with a signing key to view the image. Returns a new UID on a change. No change if not specified.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20images.v1.keys%20%3E%20(model)%20key_update_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+KeyDeleteResponse object {keys }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+keys: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1.keys%20%3E%20(model)%20key%20%3E%20(schema)">Key</a> { name, value }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+name: optional string
 
-  - `source: optional object { pointer }`
+Key name.
 
-- `result: Image`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+value: optional string
 
-    Image unique identifier.
+Key value.
 
-  - `creator: optional string`
+<a href="#">Link to this property</a>
 
-    Can set the creator field with an internal user ID.
+</details>
 
-  - `filename: optional string`
+<a href="#">Link to this property</a>
 
-    Image file name.
+</details>
 
-  - `meta: optional unknown`
+[Link to this property](#)%20images.v1.keys%20%3E%20(model)%20key_delete_response%20%3E%20(schema)>)
 
-    User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+#### V1Stats
 
-  - `requireSignedURLs: optional boolean`
+##### [Images usage statistics](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/stats/methods/get)
 
-    Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+GET/accounts/{account\_id}/images/v1/stats
 
-  - `uploaded: optional string`
+##### ModelsExpand Collapse
 
-    When the media item was uploaded.
+<details>
 
-  - `variants: optional array of string`
+<summary>
 
-    Object specifying available variants for an image.
+Stat object {count }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+<details>
 
-  - `true`
+<summary>
 
-### Example
+count: optional object {allowed, current }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/$IMAGE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "requireSignedURLs": true
-        }'
-```
+</summary>
 
-#### Response
+allowed: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "creator": "107b9558-dd06-4bbd-5fef-9c2c16bb7900",
-    "filename": "logo.png",
-    "meta": {
-      "key": "value"
-    },
-    "requireSignedURLs": true,
-    "uploaded": "2014-01-02T02:20:00.123Z",
-    "variants": [
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/thumbnail",
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/hero",
-      "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/original"
-    ]
-  },
-  "success": true
-}
-```
+Cloudflare Images allowed usage.
 
-## Delete image
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/images/v1/{image_id}`
+current: optional number
 
-Delete an image on Cloudflare Images. On success, all copies of the image are deleted and purged from cache.
+Cloudflare Images current usage.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `image_id: string`
+</details>
 
-  Image unique identifier.
+[Link to this property](#)%20images.v1.stats%20%3E%20(model)%20stat%20%3E%20(schema)>)
 
-### Returns
+#### V1Variants
 
-- `errors: array of ResponseInfo`
+##### [List variants](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/list)
 
-  - `code: number`
+GET/accounts/{account\_id}/images/v1/variants
 
-  - `message: string`
+##### [Variant details](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/get)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/images/v1/variants/{variant\_id}
 
-  - `source: optional object { pointer }`
+##### [Create a variant](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/create)
 
-    - `pointer: optional string`
+POST/accounts/{account\_id}/images/v1/variants
 
-- `messages: array of ResponseInfo`
+##### [Update a variant](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/edit)
 
-  - `code: number`
+PATCH/accounts/{account\_id}/images/v1/variants/{variant\_id}
 
-  - `message: string`
+##### [Delete a variant](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/images/v1/variants/{variant\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-- `result: unknown or string`
+<details>
 
-  - `unknown`
+<summary>
 
-  - `string`
+Variant object {variants }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+<details>
 
-  - `true`
+<summary>
 
-### Example
+variants: optional object {hero }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/$IMAGE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+hero: optional object {id, options, neverRequireSignedURLs }
 
-### Image
+</summary>
 
-- `Image object { id, creator, filename, 4 more }`
+id: string
 
-  - `id: optional string`
+maxLength99
 
-    Image unique identifier.
+<a href="#">Link to this property</a>
 
-  - `creator: optional string`
+<details>
 
-    Can set the creator field with an internal user ID.
+<summary>
 
-  - `filename: optional string`
+options: object {fit, height, metadata, width }
 
-    Image file name.
+Allows you to define image resizing sizes for different use cases.
 
-  - `meta: optional unknown`
+</summary>
 
-    User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+<details>
 
-  - `requireSignedURLs: optional boolean`
+<summary>
 
-    Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+fit: "scale-down"or "contain"or "cover"or 2 more
 
-  - `uploaded: optional string`
+The fit property describes how the width and height dimensions should be interpreted.
 
-    When the media item was uploaded.
+</summary>
 
-  - `variants: optional array of string`
+One of the following:
 
-    Object specifying available variants for an image.
+"scale-down"
 
-### V1 List Response
+<a href="#">Link to this property</a>
 
-- `V1ListResponse object { images }`
+"contain"
 
-  - `images: optional array of Image`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"cover"
 
-      Image unique identifier.
+<a href="#">Link to this property</a>
 
-    - `creator: optional string`
+"crop"
 
-      Can set the creator field with an internal user ID.
+<a href="#">Link to this property</a>
 
-    - `filename: optional string`
+"pad"
 
-      Image file name.
+<a href="#">Link to this property</a>
 
-    - `meta: optional unknown`
+</details>
 
-      User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+<a href="#">Link to this property</a>
 
-    - `requireSignedURLs: optional boolean`
+height: number
 
-      Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+Maximum height in image pixels.
 
-    - `uploaded: optional string`
+minimum1
 
-      When the media item was uploaded.
+<a href="#">Link to this property</a>
 
-    - `variants: optional array of string`
+<details>
 
-      Object specifying available variants for an image.
+<summary>
 
-### V1 Delete Response
+metadata: "keep"or "copyright"or "none"
 
-- `V1DeleteResponse = unknown or string`
+What EXIF data should be preserved in the output image.
 
-  - `unknown`
+</summary>
 
-  - `string`
+One of the following:
 
-# Keys
+"keep"
 
-## List Signing Keys
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/images/v1/keys`
+"copyright"
 
-List your CF Images signing keys.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"none"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+width: number
 
-  - `code: number`
+Maximum width in image pixels.
 
-  - `message: string`
+minimum1
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+neverRequireSignedURLs: optional boolean
 
-  - `code: number`
+Indicates whether the variant can access an image without a signature, regardless of image access control.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { keys }`
+</details>
 
-  - `keys: optional array of Key`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      Key name.
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant%20%3E%20(schema)>)
 
-    - `value: optional string`
+<details>
 
-      Key value.
+<summary>
 
-- `success: true`
+VariantGetResponse object {variant }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/keys \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+variant: optional object {id, options, neverRequireSignedURLs }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "keys": [
-      {
-        "name": "default",
-        "value": "Oix0bbNaT8Rge9PuyxUBrjI6zrgnsyJ5="
-      }
-    ]
-  },
-  "success": true
-}
-```
+id: string
 
-## Create a new Signing Key
+maxLength99
 
-**put** `/accounts/{account_id}/images/v1/keys/{signing_key_name}`
+<a href="#">Link to this property</a>
 
-Create a new CF Images signing key with specified name. Returns all keys available.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+options: object {fit, height, metadata, width }
 
-  Account identifier tag.
+Allows you to define image resizing sizes for different use cases.
 
-- `signing_key_name: string`
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+fit: "scale-down"or "contain"or "cover"or 2 more
 
-  - `message: string`
+The fit property describes how the width and height dimensions should be interpreted.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"scale-down"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"contain"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"cover"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { keys }`
+"crop"
 
-  - `keys: optional array of Key`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"pad"
 
-      Key name.
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+</details>
 
-      Key value.
+<a href="#">Link to this property</a>
 
-- `success: true`
+height: number
 
-  Whether the API call was successful
+Maximum height in image pixels.
 
-  - `true`
+minimum1
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/keys/$SIGNING_KEY_NAME \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "keys": [
-      {
-        "name": "default",
-        "value": "Oix0bbNaT8Rge9PuyxUBrjI6zrgnsyJ5="
-      }
-    ]
-  },
-  "success": true
-}
-```
+metadata: "keep"or "copyright"or "none"
 
-## Delete Signing Key
+What EXIF data should be preserved in the output image.
 
-**delete** `/accounts/{account_id}/images/v1/keys/{signing_key_name}`
+</summary>
 
-Delete a CF Images signing key with specified name. Returns all keys available.
-When the last key is removed, a new default signing key will be generated.
+One of the following:
 
-### Path Parameters
+"keep"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+"copyright"
 
-- `signing_key_name: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"none"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+width: number
 
-  - `source: optional object { pointer }`
+Maximum width in image pixels.
 
-    - `pointer: optional string`
+minimum1
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+neverRequireSignedURLs: optional boolean
 
-  - `source: optional object { pointer }`
+Indicates whether the variant can access an image without a signature, regardless of image access control.
 
-- `result: object { keys }`
+<a href="#">Link to this property</a>
 
-  - `keys: optional array of Key`
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Key name.
+</details>
 
-    - `value: optional string`
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant_get_response%20%3E%20(schema)>)
 
-      Key value.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+VariantCreateResponse object {variant }
 
-  - `true`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/keys/$SIGNING_KEY_NAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+variant: optional object {id, options, neverRequireSignedURLs }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "keys": [
-      {
-        "name": "default",
-        "value": "Oix0bbNaT8Rge9PuyxUBrjI6zrgnsyJ5="
-      }
-    ]
-  },
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+id: string
 
-### Key
+maxLength99
 
-- `Key object { name, value }`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+<details>
 
-    Key name.
+<summary>
 
-  - `value: optional string`
+options: object {fit, height, metadata, width }
 
-    Key value.
+Allows you to define image resizing sizes for different use cases.
 
-### Key List Response
+</summary>
 
-- `KeyListResponse object { keys }`
+<details>
 
-  - `keys: optional array of Key`
+<summary>
 
-    - `name: optional string`
+fit: "scale-down"or "contain"or "cover"or 2 more
 
-      Key name.
+The fit property describes how the width and height dimensions should be interpreted.
 
-    - `value: optional string`
+</summary>
 
-      Key value.
+One of the following:
 
-### Key Update Response
+"scale-down"
 
-- `KeyUpdateResponse object { keys }`
+<a href="#">Link to this property</a>
 
-  - `keys: optional array of Key`
+"contain"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Key name.
+"cover"
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      Key value.
+"crop"
 
-### Key Delete Response
+<a href="#">Link to this property</a>
 
-- `KeyDeleteResponse object { keys }`
+"pad"
 
-  - `keys: optional array of Key`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      Key name.
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+height: number
 
-      Key value.
+Maximum height in image pixels.
 
-# Stats
+minimum1
 
-## Images usage statistics
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/images/v1/stats`
+<details>
 
-Fetch image statistics details for Cloudflare Images. The returned statistics detail storage usage, including the current image count vs this account's allowance.
+<summary>
 
-### Path Parameters
+metadata: "keep"or "copyright"or "none"
 
-- `account_id: string`
+What EXIF data should be preserved in the output image.
 
-  Account identifier tag.
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of ResponseInfo`
+"keep"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"copyright"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"none"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+width: number
 
-  - `documentation_url: optional string`
+Maximum width in image pixels.
 
-  - `source: optional object { pointer }`
+minimum1
 
-- `result: Stat`
+<a href="#">Link to this property</a>
 
-  - `count: optional object { allowed, current }`
+</details>
 
-    - `allowed: optional number`
+<a href="#">Link to this property</a>
 
-      Cloudflare Images allowed usage.
+neverRequireSignedURLs: optional boolean
 
-    - `current: optional number`
+Indicates whether the variant can access an image without a signature, regardless of image access control.
 
-      Cloudflare Images current usage.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant_create_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/stats \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "count": {
-      "allowed": 100000,
-      "current": 1000
-    }
-  },
-  "success": true
-}
-```
+VariantEditResponse object {variant }
 
-## Domain Types
+</summary>
 
-### Stat
+<details>
 
-- `Stat object { count }`
+<summary>
 
-  - `count: optional object { allowed, current }`
+variant: optional object {id, options, neverRequireSignedURLs }
 
-    - `allowed: optional number`
+</summary>
 
-      Cloudflare Images allowed usage.
+id: string
 
-    - `current: optional number`
+maxLength99
 
-      Cloudflare Images current usage.
+<a href="#">Link to this property</a>
 
-# Variants
+<details>
 
-## List variants
+<summary>
 
-**get** `/accounts/{account_id}/images/v1/variants`
+options: object {fit, height, metadata, width }
 
-List existing CF Images variants.
+Allows you to define image resizing sizes for different use cases.
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>
 
-### Returns
+fit: "scale-down"or "contain"or "cover"or 2 more
 
-- `errors: array of ResponseInfo`
+The fit property describes how the width and height dimensions should be interpreted.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"scale-down"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"contain"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"cover"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"crop"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: Variant`
+"pad"
 
-  - `variants: optional object { hero }`
+<a href="#">Link to this property</a>
 
-    - `hero: optional object { id, options, neverRequireSignedURLs }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `options: object { fit, height, metadata, width }`
+height: number
 
-        Allows you to define image resizing sizes for different use cases.
+Maximum height in image pixels.
 
-        - `fit: "scale-down" or "contain" or "cover" or 2 more`
+minimum1
 
-          The fit property describes how the width and height dimensions should be interpreted.
+<a href="#">Link to this property</a>
 
-          - `"scale-down"`
+<details>
 
-          - `"contain"`
+<summary>
 
-          - `"cover"`
+metadata: "keep"or "copyright"or "none"
 
-          - `"crop"`
+What EXIF data should be preserved in the output image.
 
-          - `"pad"`
+</summary>
 
-        - `height: number`
+One of the following:
 
-          Maximum height in image pixels.
+"keep"
 
-        - `metadata: "keep" or "copyright" or "none"`
+<a href="#">Link to this property</a>
 
-          What EXIF data should be preserved in the output image.
+"copyright"
 
-          - `"keep"`
+<a href="#">Link to this property</a>
 
-          - `"copyright"`
+"none"
 
-          - `"none"`
+<a href="#">Link to this property</a>
 
-        - `width: number`
+</details>
 
-          Maximum width in image pixels.
+<a href="#">Link to this property</a>
 
-      - `neverRequireSignedURLs: optional boolean`
+width: number
 
-        Indicates whether the variant can access an image without a signature, regardless of image access control.
+Maximum width in image pixels.
 
-- `success: true`
+minimum1
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+neverRequireSignedURLs: optional boolean
 
-#### Response
+Indicates whether the variant can access an image without a signature, regardless of image access control.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "variants": {
-      "hero": {
-        "id": "hero",
-        "options": {
-          "fit": "scale-down",
-          "height": 768,
-          "metadata": "none",
-          "width": 1366
-        },
-        "neverRequireSignedURLs": true
-      }
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Variant details
+</details>
 
-**get** `/accounts/{account_id}/images/v1/variants/{variant_id}`
+<a href="#">Link to this property</a>
 
-Fetch details for a CF Images variant.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant_edit_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>
 
-- `variant_id: string`
+VariantDeleteResponse = unknownor string
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+unknown
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant_delete_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### V1Blobs
 
-  - `message: string`
+##### [Download image](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/blobs/methods/get)
 
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants/$VARIANT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "variant": {
-      "id": "hero",
-      "options": {
-        "fit": "scale-down",
-        "height": 768,
-        "metadata": "none",
-        "width": 1366
-      },
-      "neverRequireSignedURLs": true
-    }
-  },
-  "success": true
-}
-```
-
-## Create a variant
-
-**post** `/accounts/{account_id}/images/v1/variants`
-
-Create a CF Images variant that allows you to resize images for different use cases.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Body Parameters
-
-- `id: string`
-
-- `options: object { fit, height, metadata, width }`
-
-  Allows you to define image resizing sizes for different use cases.
-
-  - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-    The fit property describes how the width and height dimensions should be interpreted.
-
-    - `"scale-down"`
-
-    - `"contain"`
-
-    - `"cover"`
-
-    - `"crop"`
-
-    - `"pad"`
-
-  - `height: number`
-
-    Maximum height in image pixels.
-
-  - `metadata: "keep" or "copyright" or "none"`
-
-    What EXIF data should be preserved in the output image.
-
-    - `"keep"`
-
-    - `"copyright"`
-
-    - `"none"`
-
-  - `width: number`
-
-    Maximum width in image pixels.
-
-- `neverRequireSignedURLs: optional boolean`
-
-  Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "hero",
-          "options": {
-            "fit": "scale-down",
-            "height": 768,
-            "metadata": "none",
-            "width": 1366
-          },
-          "neverRequireSignedURLs": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "variant": {
-      "id": "hero",
-      "options": {
-        "fit": "scale-down",
-        "height": 768,
-        "metadata": "none",
-        "width": 1366
-      },
-      "neverRequireSignedURLs": true
-    }
-  },
-  "success": true
-}
-```
-
-## Update a variant
-
-**patch** `/accounts/{account_id}/images/v1/variants/{variant_id}`
-
-Update a CF Images variant. This will purge the cache for all images associated with the variant.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `variant_id: string`
-
-### Body Parameters
-
-- `options: object { fit, height, metadata, width }`
-
-  Allows you to define image resizing sizes for different use cases.
-
-  - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-    The fit property describes how the width and height dimensions should be interpreted.
-
-    - `"scale-down"`
-
-    - `"contain"`
-
-    - `"cover"`
-
-    - `"crop"`
-
-    - `"pad"`
-
-  - `height: number`
-
-    Maximum height in image pixels.
-
-  - `metadata: "keep" or "copyright" or "none"`
-
-    What EXIF data should be preserved in the output image.
-
-    - `"keep"`
-
-    - `"copyright"`
-
-    - `"none"`
-
-  - `width: number`
-
-    Maximum width in image pixels.
-
-- `neverRequireSignedURLs: optional boolean`
-
-  Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants/$VARIANT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "options": {
-            "fit": "scale-down",
-            "height": 768,
-            "metadata": "none",
-            "width": 1366
-          },
-          "neverRequireSignedURLs": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "variant": {
-      "id": "hero",
-      "options": {
-        "fit": "scale-down",
-        "height": 768,
-        "metadata": "none",
-        "width": 1366
-      },
-      "neverRequireSignedURLs": true
-    }
-  },
-  "success": true
-}
-```
-
-## Delete a variant
-
-**delete** `/accounts/{account_id}/images/v1/variants/{variant_id}`
-
-Delete a CF Images variant. This will purge the cache for all images associated with the variant.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `variant_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants/$VARIANT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Variant
-
-- `Variant object { variants }`
-
-  - `variants: optional object { hero }`
-
-    - `hero: optional object { id, options, neverRequireSignedURLs }`
-
-      - `id: string`
-
-      - `options: object { fit, height, metadata, width }`
-
-        Allows you to define image resizing sizes for different use cases.
-
-        - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-          The fit property describes how the width and height dimensions should be interpreted.
-
-          - `"scale-down"`
-
-          - `"contain"`
-
-          - `"cover"`
-
-          - `"crop"`
-
-          - `"pad"`
-
-        - `height: number`
-
-          Maximum height in image pixels.
-
-        - `metadata: "keep" or "copyright" or "none"`
-
-          What EXIF data should be preserved in the output image.
-
-          - `"keep"`
-
-          - `"copyright"`
-
-          - `"none"`
-
-        - `width: number`
-
-          Maximum width in image pixels.
-
-      - `neverRequireSignedURLs: optional boolean`
-
-        Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Variant Get Response
-
-- `VariantGetResponse object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Variant Create Response
-
-- `VariantCreateResponse object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Variant Edit Response
-
-- `VariantEditResponse object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Variant Delete Response
-
-- `VariantDeleteResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-# Blobs
-
-## Download image
-
-**get** `/accounts/{account_id}/images/v1/{image_id}/blob`
-
-Download an image from CF Images. For most images this will be the originally uploaded file. For larger images it can be a near-lossless version of the original.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `image_id: string`
-
-  Image unique identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/$IMAGE_ID/blob \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+GET/accounts/{account\_id}/images/v1/{image\_id}/blob

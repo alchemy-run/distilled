@@ -1,34 +1,90 @@
-## Deletes a category
+---
+title: Deletes a category
+---
 
-**delete** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+[Skip to content](#_top)
 
-Deletes a category
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
 
-  Account ID.
+[Categories](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories)
 
-- `category_id: string`
+Copy Markdown
 
-  Category UUID.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `uuid: string`
+**Copy Markdown****View as Markdown**
 
-### Example
+# Deletes a category
 
-```http
+DELETE/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
+
+Removes a threat event category from Cloudforce One.
+
+##### Security
+
+API Token
+
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
+
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
+
+##### Accepted Permissions (at least one required)
+
+`Cloudforce One Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account ID.
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+category\_id: string
+
+Category UUID.
+
+formatuuid
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20category_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+uuid: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_delete_response%20%3E%20(schema)%20%3E%20(property)%20uuid>)
+
+### Deletes a category
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "uuid": "12345678-1234-1234-1234-1234567890ab"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "uuid": "12345678-1234-1234-1234-1234567890ab"
 }

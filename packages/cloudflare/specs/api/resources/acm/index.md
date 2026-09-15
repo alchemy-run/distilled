@@ -1,1070 +1,293 @@
+---
+title: ACM
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # ACM
 
-# Total TLS
+#### ACMTotal TLS
 
-## Total TLS Settings Details
+##### [Total TLS Settings Details](https://developers.cloudflare.com/api/resources/acm/subresources/total_tls/methods/get)
 
-**get** `/zones/{zone_id}/acm/total_tls`
+GET/zones/{zone\_id}/acm/total\_tls
 
-Get Total TLS Settings for a Zone.
+##### [Enable or Disable Total TLS](https://developers.cloudflare.com/api/resources/acm/subresources/total_tls/methods/update)
 
-### Path Parameters
+POST/zones/{zone\_id}/acm/total\_tls
 
-- `zone_id: string`
+##### [Enable or Disable Total TLS](https://developers.cloudflare.com/api/resources/acm/subresources/total_tls/methods/edit)
 
-  Identifier.
+POST/zones/{zone\_id}/acm/total\_tls
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+CertificateAuthority = "google"or "lets\_encrypt"or "ssl\_com"
 
-  - `documentation_url: optional string`
+The Certificate Authority that Total TLS certificates will be issued through.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"google"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"lets\_encrypt"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"ssl\_com"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20acm.total_tls%20%3E%20(model)%20certificate_authority%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-- `result: optional object { certificate_authority, enabled, validity_period }`
+<summary>
 
-  - `certificate_authority: optional CertificateAuthority`
+TotalTLSGetResponse object {certificate\_authority, enabled, validity\_period }
 
-    The Certificate Authority that Total TLS certificates will be issued through.
+</summary>
 
-    - `"google"`
+certificate\_authority: optional <a href="https://developers.cloudflare.com/api/resources/acm#(resource)%20acm.total_tls%20%3E%20(model)%20certificate_authority%20%3E%20(schema)">CertificateAuthority</a>
 
-    - `"lets_encrypt"`
+The Certificate Authority that Total TLS certificates will be issued through.
 
-    - `"ssl_com"`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+enabled: optional boolean
 
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
+If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
 
-  - `validity_period: optional 90`
+<a href="#">Link to this property</a>
 
-    The validity period in days for the certificates ordered via Total TLS.
+validity\_period: optional 90
 
-    - `90`
+The validity period in days for the certificates ordered via Total TLS.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/total_tls \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20acm.total_tls%20%3E%20(model)%20total_tls_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "certificate_authority": "google",
-    "enabled": true,
-    "validity_period": 90
-  }
-}
-```
+<details>
 
-## Enable or Disable Total TLS
+<summary>
 
-**post** `/zones/{zone_id}/acm/total_tls`
+TotalTLSUpdateResponse object {certificate\_authority, enabled, validity\_period }
 
-Set Total TLS Settings or disable the feature for a Zone.
+</summary>
 
-### Path Parameters
+certificate\_authority: optional <a href="https://developers.cloudflare.com/api/resources/acm#(resource)%20acm.total_tls%20%3E%20(model)%20certificate_authority%20%3E%20(schema)">CertificateAuthority</a>
 
-- `zone_id: string`
+The Certificate Authority that Total TLS certificates will be issued through.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+enabled: optional boolean
 
-- `enabled: boolean`
+If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
 
-  If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
+<a href="#">Link to this property</a>
 
-- `certificate_authority: optional CertificateAuthority`
+validity\_period: optional 90
 
-  The Certificate Authority that Total TLS certificates will be issued through.
+The validity period in days for the certificates ordered via Total TLS.
 
-  - `"google"`
+<a href="#">Link to this property</a>
 
-  - `"lets_encrypt"`
+</details>
 
-  - `"ssl_com"`
+[Link to this property](#)%20acm.total_tls%20%3E%20(model)%20total_tls_update_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+TotalTLSEditResponse object {certificate\_authority, enabled, validity\_period }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+certificate\_authority: optional <a href="https://developers.cloudflare.com/api/resources/acm#(resource)%20acm.total_tls%20%3E%20(model)%20certificate_authority%20%3E%20(schema)">CertificateAuthority</a>
 
-  - `source: optional object { pointer }`
+The Certificate Authority that Total TLS certificates will be issued through.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+enabled: optional boolean
 
-  - `code: number`
+If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+validity\_period: optional 90
 
-  - `source: optional object { pointer }`
+The validity period in days for the certificates ordered via Total TLS.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20acm.total_tls%20%3E%20(model)%20total_tls_edit_response%20%3E%20(schema)>)
 
-  - `true`
+#### ACMCustom Trust Store
 
-- `result: optional object { certificate_authority, enabled, validity_period }`
+##### [List Custom Origin Trust Store Details](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store/methods/list)
 
-  - `certificate_authority: optional CertificateAuthority`
+GET/zones/{zone\_id}/acm/custom\_trust\_store
 
-    The Certificate Authority that Total TLS certificates will be issued through.
+##### [Upload Custom Origin Trust Store](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store/methods/create)
 
-    - `"google"`
+POST/zones/{zone\_id}/acm/custom\_trust\_store
 
-    - `"lets_encrypt"`
+##### [Custom Origin Trust Store Details](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store/methods/get)
 
-    - `"ssl_com"`
+GET/zones/{zone\_id}/acm/custom\_trust\_store/{custom\_origin\_trust\_store\_id}
 
-  - `enabled: optional boolean`
+##### [Delete Custom Origin Trust Store](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store/methods/delete)
 
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
+DELETE/zones/{zone\_id}/acm/custom\_trust\_store/{custom\_origin\_trust\_store\_id}
 
-  - `validity_period: optional 90`
+##### ModelsExpand Collapse
 
-    The validity period in days for the certificates ordered via Total TLS.
+<details>
 
-    - `90`
+<summary>
 
-### Example
+CustomTrustStore object {id, certificate, expires\_on, 5 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/total_tls \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "certificate_authority": "google"
-        }'
-```
+</summary>
 
-#### Response
+id: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "certificate_authority": "google",
-    "enabled": true,
-    "validity_period": 90
-  }
-}
-```
+Identifier.
 
-## Enable or Disable Total TLS
+maxLength32
 
-**post** `/zones/{zone_id}/acm/total_tls`
+<a href="#">Link to this property</a>
 
-Set Total TLS Settings or disable the feature for a Zone.
+certificate: string
 
-### Path Parameters
+The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+expires\_on: string
 
-### Body Parameters
+When the certificate expires.
 
-- `enabled: boolean`
+formatdate-time
 
-  If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
+<a href="#">Link to this property</a>
 
-- `certificate_authority: optional CertificateAuthority`
+issuer: string
 
-  The Certificate Authority that Total TLS certificates will be issued through.
+The certificate authority that issued the certificate.
 
-  - `"google"`
+<a href="#">Link to this property</a>
 
-  - `"lets_encrypt"`
+signature: string
 
-  - `"ssl_com"`
+The type of hash used for the certificate.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+status: "initializing"or "pending\_deployment"or "active"or 3 more
 
-  - `documentation_url: optional string`
+Status of the zone’s custom SSL.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"initializing"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"pending\_deployment"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"active"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"pending\_deletion"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"deleted"
 
-- `result: optional object { certificate_authority, enabled, validity_period }`
+<a href="#">Link to this property</a>
 
-  - `certificate_authority: optional CertificateAuthority`
+"expired"
 
-    The Certificate Authority that Total TLS certificates will be issued through.
+<a href="#">Link to this property</a>
 
-    - `"google"`
+</details>
 
-    - `"lets_encrypt"`
+<a href="#">Link to this property</a>
 
-    - `"ssl_com"`
+updated\_at: string
 
-  - `enabled: optional boolean`
+When the certificate was last modified.
 
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
+formatdate-time
 
-  - `validity_period: optional 90`
+<a href="#">Link to this property</a>
 
-    The validity period in days for the certificates ordered via Total TLS.
+uploaded\_on: string
 
-    - `90`
+When the certificate was uploaded to Cloudflare.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/total_tls \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "certificate_authority": "google"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "certificate_authority": "google",
-    "enabled": true,
-    "validity_period": 90
-  }
-}
-```
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(model)%20custom-trust-store%20%3E%20(schema)>)
 
-## Domain Types
+<details>
 
-### Certificate Authority
+<summary>
 
-- `CertificateAuthority = "google" or "lets_encrypt" or "ssl_com"`
+CustomTrustStoreDeleteResponse object {id }
 
-  The Certificate Authority that Total TLS certificates will be issued through.
+</summary>
 
-  - `"google"`
+id: optional string
 
-  - `"lets_encrypt"`
+Identifier.
 
-  - `"ssl_com"`
+maxLength32
 
-### Total TLS Get Response
+<a href="#">Link to this property</a>
 
-- `TotalTLSGetResponse object { certificate_authority, enabled, validity_period }`
+</details>
 
-  - `certificate_authority: optional CertificateAuthority`
-
-    The Certificate Authority that Total TLS certificates will be issued through.
-
-    - `"google"`
-
-    - `"lets_encrypt"`
-
-    - `"ssl_com"`
-
-  - `enabled: optional boolean`
-
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-  - `validity_period: optional 90`
-
-    The validity period in days for the certificates ordered via Total TLS.
-
-    - `90`
-
-### Total TLS Update Response
-
-- `TotalTLSUpdateResponse object { certificate_authority, enabled, validity_period }`
-
-  - `certificate_authority: optional CertificateAuthority`
-
-    The Certificate Authority that Total TLS certificates will be issued through.
-
-    - `"google"`
-
-    - `"lets_encrypt"`
-
-    - `"ssl_com"`
-
-  - `enabled: optional boolean`
-
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-  - `validity_period: optional 90`
-
-    The validity period in days for the certificates ordered via Total TLS.
-
-    - `90`
-
-### Total TLS Edit Response
-
-- `TotalTLSEditResponse object { certificate_authority, enabled, validity_period }`
-
-  - `certificate_authority: optional CertificateAuthority`
-
-    The Certificate Authority that Total TLS certificates will be issued through.
-
-    - `"google"`
-
-    - `"lets_encrypt"`
-
-    - `"ssl_com"`
-
-  - `enabled: optional boolean`
-
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-  - `validity_period: optional 90`
-
-    The validity period in days for the certificates ordered via Total TLS.
-
-    - `90`
-
-# Custom Trust Store
-
-## List Custom Origin Trust Store Details
-
-**get** `/zones/{zone_id}/acm/custom_trust_store`
-
-Get Custom Origin Trust Store for a Zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `limit: optional number`
-
-  Limit to the number of records returned.
-
-- `offset: optional number`
-
-  Offset the results.
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Number of records per page.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of CustomTrustStore`
-
-  - `id: string`
-
-    Identifier.
-
-  - `certificate: string`
-
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-  - `expires_on: string`
-
-    When the certificate expires.
-
-  - `issuer: string`
-
-    The certificate authority that issued the certificate.
-
-  - `signature: string`
-
-    The type of hash used for the certificate.
-
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
-
-    Status of the zone's custom SSL.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"active"`
-
-    - `"pending_deletion"`
-
-    - `"deleted"`
-
-    - `"expired"`
-
-  - `updated_at: string`
-
-    When the certificate was last modified.
-
-  - `uploaded_on: string`
-
-    When the certificate was uploaded to Cloudflare.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "certificate": "-----BEGIN CERTIFICATE-----\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\n-----END CERTIFICATE-----\n",
-      "expires_on": "2122-10-29T16:59:47Z",
-      "issuer": "GlobalSign",
-      "signature": "SHA256WithRSA",
-      "status": "active",
-      "updated_at": "2014-01-01T05:20:00Z",
-      "uploaded_on": "2014-01-01T05:20:00Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Upload Custom Origin Trust Store
-
-**post** `/zones/{zone_id}/acm/custom_trust_store`
-
-Upload a root CA certificate to the Custom Origin Trust Store for a Zone. Only root CA certificates are accepted.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `certificate: string`
-
-  The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomTrustStore`
-
-  - `id: string`
-
-    Identifier.
-
-  - `certificate: string`
-
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-  - `expires_on: string`
-
-    When the certificate expires.
-
-  - `issuer: string`
-
-    The certificate authority that issued the certificate.
-
-  - `signature: string`
-
-    The type of hash used for the certificate.
-
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
-
-    Status of the zone's custom SSL.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"active"`
-
-    - `"pending_deletion"`
-
-    - `"deleted"`
-
-    - `"expired"`
-
-  - `updated_at: string`
-
-    When the certificate was last modified.
-
-  - `uploaded_on: string`
-
-    When the certificate was uploaded to Cloudflare.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\\n-----END CERTIFICATE-----\\n"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\n-----END CERTIFICATE-----\n",
-    "expires_on": "2122-10-29T16:59:47Z",
-    "issuer": "GlobalSign",
-    "signature": "SHA256WithRSA",
-    "status": "active",
-    "updated_at": "2014-01-01T05:20:00Z",
-    "uploaded_on": "2014-01-01T05:20:00Z"
-  }
-}
-```
-
-## Custom Origin Trust Store Details
-
-**get** `/zones/{zone_id}/acm/custom_trust_store/{custom_origin_trust_store_id}`
-
-Retrieves details about a specific root CA certificate in the custom origin trust store, including expiration and subject information.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `custom_origin_trust_store_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomTrustStore`
-
-  - `id: string`
-
-    Identifier.
-
-  - `certificate: string`
-
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-  - `expires_on: string`
-
-    When the certificate expires.
-
-  - `issuer: string`
-
-    The certificate authority that issued the certificate.
-
-  - `signature: string`
-
-    The type of hash used for the certificate.
-
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
-
-    Status of the zone's custom SSL.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"active"`
-
-    - `"pending_deletion"`
-
-    - `"deleted"`
-
-    - `"expired"`
-
-  - `updated_at: string`
-
-    When the certificate was last modified.
-
-  - `uploaded_on: string`
-
-    When the certificate was uploaded to Cloudflare.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store/$CUSTOM_ORIGIN_TRUST_STORE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\n-----END CERTIFICATE-----\n",
-    "expires_on": "2122-10-29T16:59:47Z",
-    "issuer": "GlobalSign",
-    "signature": "SHA256WithRSA",
-    "status": "active",
-    "updated_at": "2014-01-01T05:20:00Z",
-    "uploaded_on": "2014-01-01T05:20:00Z"
-  }
-}
-```
-
-## Delete Custom Origin Trust Store
-
-**delete** `/zones/{zone_id}/acm/custom_trust_store/{custom_origin_trust_store_id}`
-
-Removes a root CA certificate from the custom origin trust store. Origins using certificates signed by this CA will no longer be trusted.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `custom_origin_trust_store_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    Identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store/$CUSTOM_ORIGIN_TRUST_STORE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### Custom Trust Store
-
-- `CustomTrustStore object { id, certificate, expires_on, 5 more }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `certificate: string`
-
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-  - `expires_on: string`
-
-    When the certificate expires.
-
-  - `issuer: string`
-
-    The certificate authority that issued the certificate.
-
-  - `signature: string`
-
-    The type of hash used for the certificate.
-
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
-
-    Status of the zone's custom SSL.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"active"`
-
-    - `"pending_deletion"`
-
-    - `"deleted"`
-
-    - `"expired"`
-
-  - `updated_at: string`
-
-    When the certificate was last modified.
-
-  - `uploaded_on: string`
-
-    When the certificate was uploaded to Cloudflare.
-
-### Custom Trust Store Delete Response
-
-- `CustomTrustStoreDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier.
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(model)%20custom_trust_store_delete_response%20%3E%20(schema)>)

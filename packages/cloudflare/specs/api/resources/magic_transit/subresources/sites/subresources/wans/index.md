@@ -1,1051 +1,161 @@
+---
+title: WANs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # WANs
 
-## List Site WANs
+##### [List Site WANs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/list)
 
-**get** `/accounts/{account_id}/magic/sites/{site_id}/wans`
+GET/accounts/{account\_id}/magic/sites/{site\_id}/wans
 
-Lists Site WANs associated with an account.
+##### [Site WAN Details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/sites/{site\_id}/wans/{wan\_id}
 
-- `account_id: string`
+##### [Create a new Site WAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/magic/sites/{site\_id}/wans
 
-- `site_id: string`
+##### [Update Site WAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/update)
 
-  Identifier
+PUT/accounts/{account\_id}/magic/sites/{site\_id}/wans/{wan\_id}
 
-### Returns
+##### [Patch Site WAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/edit)
 
-- `errors: array of ResponseInfo`
+PATCH/accounts/{account\_id}/magic/sites/{site\_id}/wans/{wan\_id}
 
-  - `code: number`
+##### [Delete Site WAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/magic/sites/{site\_id}/wans/{wan\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+WAN object {id, health\_check\_rate, name, 5 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+Identifier
 
-  - `source: optional object { pointer }`
+maxLength32
 
-- `result: array of WAN`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Identifier
+<summary>
 
-  - `health_check_rate: optional "low" or "mid" or "high"`
+health\_check\_rate: optional "low"or "mid"or "high"
 
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
+Magic WAN health check rate for tunnels created on this link. The default value is <code>mid</code>.
 
-    - `"low"`
+</summary>
 
-    - `"mid"`
+One of the following:
 
-    - `"high"`
+"low"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-  - `physport: optional number`
+"mid"
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    Priority of WAN for traffic loadbalancing.
+"high"
 
-  - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier
+</details>
 
-  - `static_addressing: optional WANStaticAddressing`
+<a href="#">Link to this property</a>
 
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
+name: optional string
 
-    - `address: string`
+<a href="#">Link to this property</a>
 
-      A valid CIDR notation representing an IP range.
+physport: optional number
 
-    - `gateway_address: string`
+<a href="#">Link to this property</a>
 
-      A valid IPv4 address.
+priority: optional number
 
-    - `secondary_address: optional string`
+Priority of WAN for traffic loadbalancing.
 
-      A valid CIDR notation representing an IP range.
+<a href="#">Link to this property</a>
 
-  - `vlan_tag: optional number`
+site\_id: optional string
 
-    VLAN ID. Use zero for untagged.
+Identifier
 
-- `success: true`
+maxLength32
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+static\_addressing: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.wans%20%3E%20(model)%20wan_static_addressing%20%3E%20(schema)">WANStaticAddressing</a> { address, gateway\_address, secondary\_address }
 
-### Example
+(optional) if omitted, use DHCP. Submit secondary\_address when site is in high availability mode.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+vlan\_tag: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "health_check_rate": "low",
-      "name": "name",
-      "physport": 1,
-      "priority": 0,
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "static_addressing": {
-        "address": "192.0.2.0/24",
-        "gateway_address": "192.0.2.1",
-        "secondary_address": "192.0.2.0/24"
-      },
-      "vlan_tag": 42
-    }
-  ],
-  "success": true
-}
-```
+VLAN ID. Use zero for untagged.
 
-## Site WAN Details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/magic/sites/{site_id}/wans/{wan_id}`
+</details>
 
-Get a specific Site WAN.
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(model)%20wan%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier
+WANStaticAddressing object {address, gateway\_address, secondary\_address }
 
-- `site_id: string`
+(optional) if omitted, use DHCP. Submit secondary\_address when site is in high availability mode.
 
-  Identifier
+</summary>
 
-- `wan_id: string`
+address: string
 
-  Identifier
+A valid CIDR notation representing an IP range.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+gateway\_address: string
 
-  - `code: number`
+A valid IPv4 address.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+secondary\_address: optional string
 
-  - `source: optional object { pointer }`
+A valid CIDR notation representing an IP range.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans/$WAN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "health_check_rate": "low",
-    "name": "name",
-    "physport": 1,
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "gateway_address": "192.0.2.1",
-      "secondary_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Create a new Site WAN
-
-**post** `/accounts/{account_id}/magic/sites/{site_id}/wans`
-
-Creates a new Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `physport: number`
-
-- `name: optional string`
-
-- `priority: optional number`
-
-- `static_addressing: optional WANStaticAddressing`
-
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `gateway_address: string`
-
-    A valid IPv4 address.
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "health_check_rate": "low",
-      "name": "name",
-      "physport": 1,
-      "priority": 0,
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "static_addressing": {
-        "address": "192.0.2.0/24",
-        "gateway_address": "192.0.2.1",
-        "secondary_address": "192.0.2.0/24"
-      },
-      "vlan_tag": 42
-    }
-  ],
-  "success": true
-}
-```
-
-## Update Site WAN
-
-**put** `/accounts/{account_id}/magic/sites/{site_id}/wans/{wan_id}`
-
-Update a specific Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `wan_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `name: optional string`
-
-- `physport: optional number`
-
-- `priority: optional number`
-
-- `static_addressing: optional WANStaticAddressing`
-
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `gateway_address: string`
-
-    A valid IPv4 address.
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans/$WAN_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "health_check_rate": "low",
-    "name": "name",
-    "physport": 1,
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "gateway_address": "192.0.2.1",
-      "secondary_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Patch Site WAN
-
-**patch** `/accounts/{account_id}/magic/sites/{site_id}/wans/{wan_id}`
-
-Patch a specific Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `wan_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `name: optional string`
-
-- `physport: optional number`
-
-- `priority: optional number`
-
-- `static_addressing: optional WANStaticAddressing`
-
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `gateway_address: string`
-
-    A valid IPv4 address.
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans/$WAN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "health_check_rate": "low",
-    "name": "name",
-    "physport": 1,
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "gateway_address": "192.0.2.1",
-      "secondary_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Delete Site WAN
-
-**delete** `/accounts/{account_id}/magic/sites/{site_id}/wans/{wan_id}`
-
-Remove a specific Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `wan_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans/$WAN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "health_check_rate": "low",
-    "name": "name",
-    "physport": 1,
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "gateway_address": "192.0.2.1",
-      "secondary_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### WAN
-
-- `WAN object { id, health_check_rate, name, 5 more }`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-### WAN Static Addressing
-
-- `WANStaticAddressing object { address, gateway_address, secondary_address }`
-
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `gateway_address: string`
-
-    A valid IPv4 address.
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(model)%20wan_static_addressing%20%3E%20(schema)>)

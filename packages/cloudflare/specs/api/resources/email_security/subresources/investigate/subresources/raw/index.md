@@ -1,103 +1,45 @@
+---
+title: Raw
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Raw
 
-## Get raw email content
+##### [Get raw email content](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/raw/methods/get)
 
-**get** `/accounts/{account_id}/email-security/investigate/{investigate_id}/raw`
+GET/accounts/{account\_id}/email-security/investigate/{investigate\_id}/raw
 
-Returns the raw eml of any non-benign message.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+RawGetResponse object {raw }
 
-- `investigate_id: string`
+</summary>
 
-  Unique identifier for a message retrieved from investigation
+raw: string
 
-### Returns
+A UTF-8 encoded eml file of the email.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { raw }`
-
-  - `raw: string`
-
-    A UTF-8 encoded eml file of the email.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/$INVESTIGATE_ID/raw \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "raw": "raw"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Raw Get Response
-
-- `RawGetResponse object { raw }`
-
-  - `raw: string`
-
-    A UTF-8 encoded eml file of the email.
+[Link to this property](#)%20email_security.investigate.raw%20%3E%20(model)%20raw_get_response%20%3E%20(schema)>)

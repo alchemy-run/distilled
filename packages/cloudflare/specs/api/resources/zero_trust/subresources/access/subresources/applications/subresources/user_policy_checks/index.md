@@ -1,223 +1,153 @@
+---
+title: User Policy Checks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # User Policy Checks
 
-## Test Access policies
+##### [Test Access policies](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/user_policy_checks/methods/list)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/access/apps/{app_id}/user_policy_checks`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/apps/{app\_id}/user\_policy\_checks
 
-Tests if a specific user has permission to access an application.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `app_id: AppID`
+<summary>
 
-  Identifier.
+UserPolicyCheckListResponse object {app\_state, user\_identity }
 
-- `account_id: optional string`
+</summary>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<details>
 
-- `zone_id: optional string`
+<summary>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+app\_state: optional object {app\_uid, aud, hostname, 3 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+app\_uid: optional string
 
-  - `code: number`
+UUID.
 
-  - `message: string`
+maxLength36
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+aud: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+hostname: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+policies: optional array of unknown
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+status: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { app_state, user_identity }`
+<a href="#">Link to this property</a>
 
-  - `app_state: optional object { app_uid, aud, hostname, 3 more }`
+<details>
 
-    - `app_uid: optional string`
+<summary>
 
-      UUID.
+user\_identity: optional object {id, account\_id, device\_sessions, 8 more }
 
-    - `aud: optional string`
+</summary>
 
-    - `hostname: optional string`
+id: optional string
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `policies: optional array of unknown`
+account\_id: optional string
 
-    - `status: optional string`
+<a href="#">Link to this property</a>
 
-  - `user_identity: optional object { id, account_id, device_sessions, 8 more }`
+device\_sessions: optional unknown
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `account_id: optional string`
+email: optional string
 
-    - `device_sessions: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `email: optional string`
+<details>
 
-    - `geo: optional object { country }`
+<summary>
 
-      - `country: optional string`
+geo: optional object {country }
 
-    - `iat: optional number`
+</summary>
 
-    - `is_gateway: optional boolean`
+country: optional string
 
-    - `is_warp: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-    - `user_uuid: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+iat: optional number
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+is\_gateway: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/apps/$APP_ID/user_policy_checks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "app_state": {
-      "app_uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "aud": "737646a56ab1df6ec9bddc7e5ca84eaf3b0768850f3ffb5d74f1534911fe389",
-      "hostname": "test.com",
-      "name": "Test App",
-      "policies": [
-        {
-          "decision": "allow",
-          "exclude": [],
-          "include": [
-            {
-              "_type": "email",
-              "email": "testuser@gmail.com"
-            }
-          ],
-          "precedence": 1,
-          "require": [],
-          "status": "Success"
-        }
-      ],
-      "status": "Success"
-    },
-    "user_identity": {
-      "id": "1164449231815010287495",
-      "account_id": "41ecfbb341f033e52b46742756aabb8b",
-      "device_sessions": {},
-      "email": "testuser@gmail.com",
-      "geo": {
-        "country": "US"
-      },
-      "iat": 0,
-      "is_gateway": false,
-      "is_warp": false,
-      "name": "Test User",
-      "user_uuid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "version": 0
-    }
-  }
-}
-```
-
-## Domain Types
-
-### User Policy Check List Response
-
-- `UserPolicyCheckListResponse object { app_state, user_identity }`
-
-  - `app_state: optional object { app_uid, aud, hostname, 3 more }`
-
-    - `app_uid: optional string`
-
-      UUID.
-
-    - `aud: optional string`
-
-    - `hostname: optional string`
-
-    - `name: optional string`
-
-    - `policies: optional array of unknown`
-
-    - `status: optional string`
-
-  - `user_identity: optional object { id, account_id, device_sessions, 8 more }`
-
-    - `id: optional string`
-
-    - `account_id: optional string`
-
-    - `device_sessions: optional unknown`
-
-    - `email: optional string`
-
-    - `geo: optional object { country }`
-
-      - `country: optional string`
-
-    - `iat: optional number`
-
-    - `is_gateway: optional boolean`
-
-    - `is_warp: optional boolean`
-
-    - `name: optional string`
-
-    - `user_uuid: optional string`
-
-      UUID.
-
-    - `version: optional number`
+<a href="#">Link to this property</a>
+
+is\_warp: optional boolean
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+user\_uuid: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.applications.user_policy_checks%20%3E%20(model)%20user_policy_check_list_response%20%3E%20(schema)>)

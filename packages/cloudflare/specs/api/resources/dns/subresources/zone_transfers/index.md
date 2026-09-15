@@ -1,3501 +1,823 @@
+---
+title: Zone Transfers
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Zone Transfers
 
-# Force AXFR
+#### Zone TransfersForce AXFR
 
-## Force AXFR
+##### [Force AXFR](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/force_axfr/methods/create)
 
-**post** `/zones/{zone_id}/secondary_dns/force_axfr`
+POST/zones/{zone\_id}/secondary\_dns/force\_axfr
 
-Sends AXFR zone transfer request to primary nameserver(s).
+##### ModelsExpand Collapse
 
-### Path Parameters
+ForceAXFR = string
 
-- `zone_id: string`
+When force\_axfr query parameter is set to true, the response is a simple string.
 
-### Body Parameters
+[Link to this property](#)%20dns.zone_transfers.force_axfr%20%3E%20(model)%20force_axfr%20%3E%20(schema)>)
 
-- `body: unknown`
+#### Zone TransfersIncoming
 
-### Returns
+##### [Secondary Zone Configuration Details](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/incoming/methods/get)
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/zones/{zone\_id}/secondary\_dns/incoming
 
-  - `code: number`
+##### [Create Secondary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/incoming/methods/create)
 
-  - `message: string`
+POST/zones/{zone\_id}/secondary\_dns/incoming
 
-  - `documentation_url: optional string`
+##### [Update Secondary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/incoming/methods/update)
 
-  - `source: optional object { pointer }`
+PUT/zones/{zone\_id}/secondary\_dns/incoming
 
-    - `pointer: optional string`
+##### [Delete Secondary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/incoming/methods/delete)
 
-- `messages: array of object { code, message, documentation_url, source }`
+DELETE/zones/{zone\_id}/secondary\_dns/incoming
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+Incoming object {id, auto\_refresh\_seconds, checked\_time, 5 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+id: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+auto\_refresh\_seconds: optional number
 
-- `result: optional ForceAXFR`
+How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones.
 
-  When force_axfr query parameter is set to true, the response is a simple string.
+minimum300
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/force_axfr \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+checked\_time: optional string
 
-#### Response
+The time for a specific event.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "OK"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+created\_time: optional string
 
-### Force AXFR
+The time for a specific event.
 
-- `ForceAXFR = string`
+<a href="#">Link to this property</a>
 
-  When force_axfr query parameter is set to true, the response is a simple string.
+modified\_time: optional string
 
-# Incoming
+The time for a specific event.
 
-## Secondary Zone Configuration Details
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/secondary_dns/incoming`
+name: optional string
 
-Get secondary zone configuration for incoming zone transfers.
+Zone name.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+peers: optional array of string
 
-### Returns
+A list of peer tags.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+soa\_serial: optional number
 
-  - `message: string`
+The serial number of the SOA for the given zone.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+IncomingGetResponse object {id, auto\_refresh\_seconds, checked\_time, 5 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+auto\_refresh\_seconds: optional number
 
-  Whether the API call was successful.
+How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones.
 
-  - `true`
+minimum300
 
-- `result: optional object { id, auto_refresh_seconds, checked_time, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+checked\_time: optional string
 
-  - `auto_refresh_seconds: optional number`
+The time for a specific event.
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+<a href="#">Link to this property</a>
 
-  - `checked_time: optional string`
+created\_time: optional string
 
-    The time for a specific event.
+The time for a specific event.
 
-  - `created_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+modified\_time: optional string
 
-  - `modified_time: optional string`
+The time for a specific event.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+name: optional string
 
-    Zone name.
+Zone name.
 
-  - `peers: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of peer tags.
+peers: optional array of string
 
-  - `soa_serial: optional number`
+A list of peer tags.
 
-    The serial number of the SOA for the given zone.
+<a href="#">Link to this property</a>
 
-### Example
+soa\_serial: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/incoming \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The serial number of the SOA for the given zone.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "auto_refresh_seconds": 86400,
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "modified_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+</details>
 
-## Create Secondary Zone Configuration
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming_get_response%20%3E%20(schema)>)
 
-**post** `/zones/{zone_id}/secondary_dns/incoming`
+<details>
 
-Create secondary zone configuration for incoming zone transfers.
+<summary>
 
-### Path Parameters
+IncomingCreateResponse object {id, auto\_refresh\_seconds, checked\_time, 5 more }
 
-- `zone_id: string`
+</summary>
 
-### Body Parameters
+id: optional string
 
-- `auto_refresh_seconds: number`
+<a href="#">Link to this property</a>
 
-  How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-  Not applicable for primary zones.
+auto\_refresh\_seconds: optional number
 
-- `name: string`
+How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones.
 
-  Zone name.
+minimum300
 
-- `peers: array of string`
+<a href="#">Link to this property</a>
 
-  A list of peer tags.
+checked\_time: optional string
 
-### Returns
+The time for a specific event.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_time: optional string
 
-  - `message: string`
+The time for a specific event.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_time: optional string
 
-    - `pointer: optional string`
+The time for a specific event.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: optional string
 
-  - `message: string`
+Zone name.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+peers: optional array of string
 
-    - `pointer: optional string`
+A list of peer tags.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+soa\_serial: optional number
 
-  - `true`
+The serial number of the SOA for the given zone.
 
-- `result: optional object { id, auto_refresh_seconds, checked_time, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-  - `auto_refresh_seconds: optional number`
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming_create_response%20%3E%20(schema)>)
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+<details>
 
-  - `checked_time: optional string`
+<summary>
 
-    The time for a specific event.
+IncomingUpdateResponse object {id, auto\_refresh\_seconds, checked\_time, 5 more }
 
-  - `created_time: optional string`
+</summary>
 
-    The time for a specific event.
+id: optional string
 
-  - `modified_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+auto\_refresh\_seconds: optional number
 
-  - `name: optional string`
+How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones.
 
-    Zone name.
+minimum300
 
-  - `peers: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of peer tags.
+checked\_time: optional string
 
-  - `soa_serial: optional number`
+The time for a specific event.
 
-    The serial number of the SOA for the given zone.
+<a href="#">Link to this property</a>
 
-### Example
+created\_time: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/incoming \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auto_refresh_seconds": 86400,
-          "name": "www.example.com.",
-          "peers": [
-            "23ff594956f20c2a721606e94745a8aa",
-            "00920f38ce07c2e2f4df50b1f61d4194"
-          ]
-        }'
-```
+The time for a specific event.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "auto_refresh_seconds": 86400,
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "modified_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+modified\_time: optional string
 
-## Update Secondary Zone Configuration
+The time for a specific event.
 
-**put** `/zones/{zone_id}/secondary_dns/incoming`
+<a href="#">Link to this property</a>
 
-Update secondary zone configuration for incoming zone transfers.
+name: optional string
 
-### Path Parameters
+Zone name.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+peers: optional array of string
 
-- `auto_refresh_seconds: number`
+A list of peer tags.
 
-  How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-  Not applicable for primary zones.
+<a href="#">Link to this property</a>
 
-- `name: string`
+soa\_serial: optional number
 
-  Zone name.
+The serial number of the SOA for the given zone.
 
-- `peers: array of string`
+<a href="#">Link to this property</a>
 
-  A list of peer tags.
+</details>
 
-### Returns
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming_update_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+IncomingDeleteResponse object {id }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming_delete_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### Zone TransfersOutgoing
 
-  - `documentation_url: optional string`
+##### [Primary Zone Configuration Details](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/get)
 
-  - `source: optional object { pointer }`
+GET/zones/{zone\_id}/secondary\_dns/outgoing
 
-    - `pointer: optional string`
+##### [Create Primary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/create)
 
-- `success: true`
+POST/zones/{zone\_id}/secondary\_dns/outgoing
 
-  Whether the API call was successful.
+##### [Update Primary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/update)
 
-  - `true`
+PUT/zones/{zone\_id}/secondary\_dns/outgoing
 
-- `result: optional object { id, auto_refresh_seconds, checked_time, 5 more }`
+##### [Delete Primary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/delete)
 
-  - `id: optional string`
+DELETE/zones/{zone\_id}/secondary\_dns/outgoing
 
-  - `auto_refresh_seconds: optional number`
+##### [Disable Outgoing Zone Transfers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/disable)
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+POST/zones/{zone\_id}/secondary\_dns/outgoing/disable
 
-  - `checked_time: optional string`
+##### [Enable Outgoing Zone Transfers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/enable)
 
-    The time for a specific event.
+POST/zones/{zone\_id}/secondary\_dns/outgoing/enable
 
-  - `created_time: optional string`
+##### [Force DNS NOTIFY](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/force_notify)
 
-    The time for a specific event.
+POST/zones/{zone\_id}/secondary\_dns/outgoing/force\_notify
 
-  - `modified_time: optional string`
+##### ModelsExpand Collapse
 
-    The time for a specific event.
+DisableTransfer = string
 
-  - `name: optional string`
+The zone transfer status of a primary zone.
 
-    Zone name.
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20disable_transfer%20%3E%20(schema)>)
 
-  - `peers: optional array of string`
+EnableTransfer = string
 
-    A list of peer tags.
+The zone transfer status of a primary zone.
 
-  - `soa_serial: optional number`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20enable_transfer%20%3E%20(schema)>)
 
-    The serial number of the SOA for the given zone.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/incoming \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auto_refresh_seconds": 86400,
-          "name": "www.example.com.",
-          "peers": [
-            "23ff594956f20c2a721606e94745a8aa",
-            "00920f38ce07c2e2f4df50b1f61d4194"
-          ]
-        }'
-```
+Outgoing object {id, checked\_time, created\_time, 4 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "auto_refresh_seconds": 86400,
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "modified_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+id: optional string
 
-## Delete Secondary Zone Configuration
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/secondary_dns/incoming`
+checked\_time: optional string
 
-Delete secondary zone configuration for incoming zone transfers.
+The time for a specific event.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+created\_time: optional string
 
-### Returns
+The time for a specific event.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+last\_transferred\_time: optional string
 
-  - `message: string`
+The time for a specific event.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+Zone name.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+peers: optional array of string
 
-  - `message: string`
+A list of peer tags.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+soa\_serial: optional number
 
-    - `pointer: optional string`
+The serial number of the SOA for the given zone.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing%20%3E%20(schema)>)
 
-- `result: optional object { id }`
+OutgoingStatus = string
 
-  - `id: optional string`
+The zone transfer status of a primary zone.
 
-### Example
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_status%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/incoming \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20"
-  }
-}
-```
+OutgoingGetResponse object {id, checked\_time, created\_time, 4 more }
 
-## Domain Types
+</summary>
 
-### Incoming
+id: optional string
 
-- `Incoming object { id, auto_refresh_seconds, checked_time, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+checked\_time: optional string
 
-  - `auto_refresh_seconds: optional number`
+The time for a specific event.
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+<a href="#">Link to this property</a>
 
-  - `checked_time: optional string`
+created\_time: optional string
 
-    The time for a specific event.
+The time for a specific event.
 
-  - `created_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+last\_transferred\_time: optional string
 
-  - `modified_time: optional string`
+The time for a specific event.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+name: optional string
 
-    Zone name.
+Zone name.
 
-  - `peers: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of peer tags.
+peers: optional array of string
 
-  - `soa_serial: optional number`
+A list of peer tags.
 
-    The serial number of the SOA for the given zone.
+<a href="#">Link to this property</a>
 
-### Incoming Get Response
+soa\_serial: optional number
 
-- `IncomingGetResponse object { id, auto_refresh_seconds, checked_time, 5 more }`
+The serial number of the SOA for the given zone.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `auto_refresh_seconds: optional number`
+</details>
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_get_response%20%3E%20(schema)>)
 
-  - `checked_time: optional string`
+<details>
 
-    The time for a specific event.
+<summary>
 
-  - `created_time: optional string`
+OutgoingCreateResponse object {id, checked\_time, created\_time, 4 more }
 
-    The time for a specific event.
+</summary>
 
-  - `modified_time: optional string`
+id: optional string
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+checked\_time: optional string
 
-    Zone name.
+The time for a specific event.
 
-  - `peers: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of peer tags.
+created\_time: optional string
 
-  - `soa_serial: optional number`
+The time for a specific event.
 
-    The serial number of the SOA for the given zone.
+<a href="#">Link to this property</a>
 
-### Incoming Create Response
+last\_transferred\_time: optional string
 
-- `IncomingCreateResponse object { id, auto_refresh_seconds, checked_time, 5 more }`
+The time for a specific event.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `auto_refresh_seconds: optional number`
+name: optional string
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+Zone name.
 
-  - `checked_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+peers: optional array of string
 
-  - `created_time: optional string`
+A list of peer tags.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `modified_time: optional string`
+soa\_serial: optional number
 
-    The time for a specific event.
+The serial number of the SOA for the given zone.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Zone name.
+</details>
 
-  - `peers: optional array of string`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_create_response%20%3E%20(schema)>)
 
-    A list of peer tags.
+<details>
 
-  - `soa_serial: optional number`
+<summary>
 
-    The serial number of the SOA for the given zone.
+OutgoingUpdateResponse object {id, checked\_time, created\_time, 4 more }
 
-### Incoming Update Response
+</summary>
 
-- `IncomingUpdateResponse object { id, auto_refresh_seconds, checked_time, 5 more }`
+id: optional string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `auto_refresh_seconds: optional number`
+checked\_time: optional string
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+The time for a specific event.
 
-  - `checked_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+created\_time: optional string
 
-  - `created_time: optional string`
+The time for a specific event.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `modified_time: optional string`
+last\_transferred\_time: optional string
 
-    The time for a specific event.
+The time for a specific event.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Zone name.
+name: optional string
 
-  - `peers: optional array of string`
+Zone name.
 
-    A list of peer tags.
+<a href="#">Link to this property</a>
 
-  - `soa_serial: optional number`
+peers: optional array of string
 
-    The serial number of the SOA for the given zone.
+A list of peer tags.
 
-### Incoming Delete Response
+<a href="#">Link to this property</a>
 
-- `IncomingDeleteResponse object { id }`
+soa\_serial: optional number
 
-  - `id: optional string`
+The serial number of the SOA for the given zone.
 
-# Outgoing
+<a href="#">Link to this property</a>
 
-## Primary Zone Configuration Details
+</details>
 
-**get** `/zones/{zone_id}/secondary_dns/outgoing`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_update_response%20%3E%20(schema)>)
 
-Get primary zone configuration for outgoing zone transfers.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+OutgoingDeleteResponse object {id }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_delete_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+OutgoingForceNotifyResponse = string
 
-    - `pointer: optional string`
+When force\_notify query parameter is set to true, the response is a simple string.
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_force_notify_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### Zone TransfersOutgoingStatus
 
-  - `message: string`
+##### [Get Outgoing Zone Transfer Status](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/subresources/status/methods/get)
 
-  - `documentation_url: optional string`
+GET/zones/{zone\_id}/secondary\_dns/outgoing/status
 
-  - `source: optional object { pointer }`
+#### Zone TransfersACLs
 
-    - `pointer: optional string`
+##### [List ACLs](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/acls/methods/list)
 
-- `success: true`
+GET/accounts/{account\_id}/secondary\_dns/acls
 
-  Whether the API call was successful.
+##### [ACL Details](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/acls/methods/get)
 
-  - `true`
+GET/accounts/{account\_id}/secondary\_dns/acls/{acl\_id}
 
-- `result: optional object { id, checked_time, created_time, 4 more }`
+##### [Create ACL](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/acls/methods/create)
 
-  - `id: optional string`
+POST/accounts/{account\_id}/secondary\_dns/acls
 
-  - `checked_time: optional string`
+##### [Update ACL](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/acls/methods/update)
 
-    The time for a specific event.
+PUT/accounts/{account\_id}/secondary\_dns/acls/{acl\_id}
 
-  - `created_time: optional string`
+##### [Delete ACL](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/acls/methods/delete)
 
-    The time for a specific event.
+DELETE/accounts/{account\_id}/secondary\_dns/acls/{acl\_id}
 
-  - `last_transferred_time: optional string`
+##### ModelsExpand Collapse
 
-    The time for a specific event.
+<details>
 
-  - `name: optional string`
+<summary>
 
-    Zone name.
+ACL object {id, ip\_range, name }
 
-  - `peers: optional array of string`
+</summary>
 
-    A list of peer tags.
+id: string
 
-  - `soa_serial: optional number`
+<a href="#">Link to this property</a>
 
-    The serial number of the SOA for the given zone.
+ip\_range: string
 
-### Example
+Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "last_transferred_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+The name of the acl.
 
-## Create Primary Zone Configuration
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/secondary_dns/outgoing`
+</details>
 
-Create primary zone configuration for outgoing zone transfers.
+[Link to this property](#)%20dns.zone_transfers.acls%20%3E%20(model)%20acl%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-### Body Parameters
+ACLDeleteResponse object {id }
 
-- `name: string`
+</summary>
 
-  Zone name.
+id: optional string
 
-- `peers: array of string`
+<a href="#">Link to this property</a>
 
-  A list of peer tags.
+</details>
 
-### Returns
+[Link to this property](#)%20dns.zone_transfers.acls%20%3E%20(model)%20acl_delete_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+#### Zone TransfersPeers
 
-  - `code: number`
+##### [List Peers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/peers/methods/list)
 
-  - `message: string`
+GET/accounts/{account\_id}/secondary\_dns/peers
 
-  - `documentation_url: optional string`
+##### [Peer Details](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/peers/methods/get)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/secondary\_dns/peers/{peer\_id}
 
-    - `pointer: optional string`
+##### [Create Peer](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/peers/methods/create)
 
-- `messages: array of object { code, message, documentation_url, source }`
+POST/accounts/{account\_id}/secondary\_dns/peers
 
-  - `code: number`
+##### [Update Peer](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/peers/methods/update)
 
-  - `message: string`
+PUT/accounts/{account\_id}/secondary\_dns/peers/{peer\_id}
 
-  - `documentation_url: optional string`
+##### [Delete Peer](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/peers/methods/delete)
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/secondary\_dns/peers/{peer\_id}
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+Peer object {id, name, ip, 3 more }
 
-- `result: optional object { id, checked_time, created_time, 4 more }`
+</summary>
 
-  - `id: optional string`
+id: string
 
-  - `checked_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+name: string
 
-  - `created_time: optional string`
+The name of the peer.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `last_transferred_time: optional string`
+ip: optional string
 
-    The time for a specific event.
+IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Zone name.
+ixfr\_enable: optional boolean
 
-  - `peers: optional array of string`
+Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.
 
-    A list of peer tags.
+<a href="#">Link to this property</a>
 
-  - `soa_serial: optional number`
+port: optional number
 
-    The serial number of the SOA for the given zone.
+DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "www.example.com.",
-          "peers": [
-            "23ff594956f20c2a721606e94745a8aa",
-            "00920f38ce07c2e2f4df50b1f61d4194"
-          ]
-        }'
-```
+tsig\_id: optional string
 
-#### Response
+TSIG authentication will be used for zone transfer if configured.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "last_transferred_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Primary Zone Configuration
+</details>
 
-**put** `/zones/{zone_id}/secondary_dns/outgoing`
+[Link to this property](#)%20dns.zone_transfers.peers%20%3E%20(model)%20peer%20%3E%20(schema)>)
 
-Update primary zone configuration for outgoing zone transfers.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+PeerDeleteResponse object {id }
 
-### Body Parameters
+</summary>
 
-- `name: string`
+id: optional string
 
-  Zone name.
+<a href="#">Link to this property</a>
 
-- `peers: array of string`
+</details>
 
-  A list of peer tags.
+[Link to this property](#)%20dns.zone_transfers.peers%20%3E%20(model)%20peer_delete_response%20%3E%20(schema)>)
 
-### Returns
+#### Zone TransfersTSIGs
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [List TSIGs](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/list)
 
-  - `code: number`
+GET/accounts/{account\_id}/secondary\_dns/tsigs
 
-  - `message: string`
+##### [TSIG Details](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/get)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/secondary\_dns/tsigs/{tsig\_id}
 
-  - `source: optional object { pointer }`
+##### [Create TSIG](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/create)
 
-    - `pointer: optional string`
+POST/accounts/{account\_id}/secondary\_dns/tsigs
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### [Update TSIG](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/secondary\_dns/tsigs/{tsig\_id}
 
-  - `message: string`
+##### [Delete TSIG](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/secondary\_dns/tsigs/{tsig\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+TSIG object {id, algo, name, secret }
 
-  - `true`
+</summary>
 
-- `result: optional object { id, checked_time, created_time, 4 more }`
+id: string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `checked_time: optional string`
+algo: string
 
-    The time for a specific event.
+TSIG algorithm.
 
-  - `created_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+name: string
 
-  - `last_transferred_time: optional string`
+TSIG key name.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+secret: string
 
-    Zone name.
+TSIG secret.
 
-  - `peers: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of peer tags.
+</details>
 
-  - `soa_serial: optional number`
+[Link to this property](#)%20dns.zone_transfers.tsigs%20%3E%20(model)%20tsig%20%3E%20(schema)>)
 
-    The serial number of the SOA for the given zone.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "www.example.com.",
-          "peers": [
-            "23ff594956f20c2a721606e94745a8aa",
-            "00920f38ce07c2e2f4df50b1f61d4194"
-          ]
-        }'
-```
+TSIGDeleteResponse object {id }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "last_transferred_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+id: optional string
 
-## Delete Primary Zone Configuration
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/secondary_dns/outgoing`
+</details>
 
-Delete primary zone configuration for outgoing zone transfers.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20"
-  }
-}
-```
-
-## Disable Outgoing Zone Transfers
-
-**post** `/zones/{zone_id}/secondary_dns/outgoing/disable`
-
-Disable outgoing zone transfers for primary zone and clears IXFR backlog of primary zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional DisableTransfer`
-
-  The zone transfer status of a primary zone.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing/disable \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "Disabled"
-}
-```
-
-## Enable Outgoing Zone Transfers
-
-**post** `/zones/{zone_id}/secondary_dns/outgoing/enable`
-
-Enable outgoing zone transfers for primary zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional EnableTransfer`
-
-  The zone transfer status of a primary zone.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing/enable \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "Enabled"
-}
-```
-
-## Force DNS NOTIFY
-
-**post** `/zones/{zone_id}/secondary_dns/outgoing/force_notify`
-
-Notifies the secondary nameserver(s) and clears IXFR backlog of primary zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-  When force_notify query parameter is set to true, the response is a simple string.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing/force_notify \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "OK"
-}
-```
-
-## Domain Types
-
-### Disable Transfer
-
-- `DisableTransfer = string`
-
-  The zone transfer status of a primary zone.
-
-### Enable Transfer
-
-- `EnableTransfer = string`
-
-  The zone transfer status of a primary zone.
-
-### Outgoing
-
-- `Outgoing object { id, checked_time, created_time, 4 more }`
-
-  - `id: optional string`
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `last_transferred_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Outgoing Status
-
-- `OutgoingStatus = string`
-
-  The zone transfer status of a primary zone.
-
-### Outgoing Get Response
-
-- `OutgoingGetResponse object { id, checked_time, created_time, 4 more }`
-
-  - `id: optional string`
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `last_transferred_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Outgoing Create Response
-
-- `OutgoingCreateResponse object { id, checked_time, created_time, 4 more }`
-
-  - `id: optional string`
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `last_transferred_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Outgoing Update Response
-
-- `OutgoingUpdateResponse object { id, checked_time, created_time, 4 more }`
-
-  - `id: optional string`
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `last_transferred_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Outgoing Delete Response
-
-- `OutgoingDeleteResponse object { id }`
-
-  - `id: optional string`
-
-### Outgoing Force Notify Response
-
-- `OutgoingForceNotifyResponse = string`
-
-  When force_notify query parameter is set to true, the response is a simple string.
-
-# Status
-
-## Get Outgoing Zone Transfer Status
-
-**get** `/zones/{zone_id}/secondary_dns/outgoing/status`
-
-Get primary zone transfer status.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional EnableTransfer`
-
-  The zone transfer status of a primary zone.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing/status \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "Enabled"
-}
-```
-
-# ACLs
-
-## List ACLs
-
-**get** `/accounts/{account_id}/secondary_dns/acls`
-
-List ACLs.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of ACL`
-
-  - `id: string`
-
-  - `ip_range: string`
-
-    Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively.
-
-  - `name: string`
-
-    The name of the acl.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/acls \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "23ff594956f20c2a721606e94745a8aa",
-      "ip_range": "192.0.2.53/28",
-      "name": "my-acl-1"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## ACL Details
-
-**get** `/accounts/{account_id}/secondary_dns/acls/{acl_id}`
-
-Get ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `acl_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ACL`
-
-  - `id: string`
-
-  - `ip_range: string`
-
-    Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively.
-
-  - `name: string`
-
-    The name of the acl.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/acls/$ACL_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "23ff594956f20c2a721606e94745a8aa",
-    "ip_range": "192.0.2.53/28",
-    "name": "my-acl-1"
-  }
-}
-```
-
-## Create ACL
-
-**post** `/accounts/{account_id}/secondary_dns/acls`
-
-Create ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `ip_range: string`
-
-  Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively.
-
-- `name: string`
-
-  The name of the acl.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ACL`
-
-  - `id: string`
-
-  - `ip_range: string`
-
-    Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively.
-
-  - `name: string`
-
-    The name of the acl.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/acls \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ip_range": "192.0.2.53/28",
-          "name": "my-acl-1"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "23ff594956f20c2a721606e94745a8aa",
-    "ip_range": "192.0.2.53/28",
-    "name": "my-acl-1"
-  }
-}
-```
-
-## Update ACL
-
-**put** `/accounts/{account_id}/secondary_dns/acls/{acl_id}`
-
-Modify ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `acl_id: string`
-
-### Body Parameters
-
-- `ip_range: string`
-
-  Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively.
-
-- `name: string`
-
-  The name of the acl.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ACL`
-
-  - `id: string`
-
-  - `ip_range: string`
-
-    Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively.
-
-  - `name: string`
-
-    The name of the acl.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/acls/$ACL_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ip_range": "192.0.2.53/28",
-          "name": "my-acl-1"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "23ff594956f20c2a721606e94745a8aa",
-    "ip_range": "192.0.2.53/28",
-    "name": "my-acl-1"
-  }
-}
-```
-
-## Delete ACL
-
-**delete** `/accounts/{account_id}/secondary_dns/acls/{acl_id}`
-
-Delete ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `acl_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/acls/$ACL_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "23ff594956f20c2a721606e94745a8aa"
-  }
-}
-```
-
-## Domain Types
-
-### ACL
-
-- `ACL object { id, ip_range, name }`
-
-  - `id: string`
-
-  - `ip_range: string`
-
-    Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively.
-
-  - `name: string`
-
-    The name of the acl.
-
-### ACL Delete Response
-
-- `ACLDeleteResponse object { id }`
-
-  - `id: optional string`
-
-# Peers
-
-## List Peers
-
-**get** `/accounts/{account_id}/secondary_dns/peers`
-
-List Peers.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Peer`
-
-  - `id: string`
-
-  - `name: string`
-
-    The name of the peer.
-
-  - `ip: optional string`
-
-    IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.
-
-  - `ixfr_enable: optional boolean`
-
-    Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.
-
-  - `port: optional number`
-
-    DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.
-
-  - `tsig_id: optional string`
-
-    TSIG authentication will be used for zone transfer if configured.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/peers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "23ff594956f20c2a721606e94745a8aa",
-      "name": "my-peer-1",
-      "ip": "192.0.2.53",
-      "ixfr_enable": false,
-      "port": 53,
-      "tsig_id": "69cd1e104af3e6ed3cb344f263fd0d5a"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Peer Details
-
-**get** `/accounts/{account_id}/secondary_dns/peers/{peer_id}`
-
-Get Peer.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `peer_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Peer`
-
-  - `id: string`
-
-  - `name: string`
-
-    The name of the peer.
-
-  - `ip: optional string`
-
-    IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.
-
-  - `ixfr_enable: optional boolean`
-
-    Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.
-
-  - `port: optional number`
-
-    DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.
-
-  - `tsig_id: optional string`
-
-    TSIG authentication will be used for zone transfer if configured.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/peers/$PEER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "23ff594956f20c2a721606e94745a8aa",
-    "name": "my-peer-1",
-    "ip": "192.0.2.53",
-    "ixfr_enable": false,
-    "port": 53,
-    "tsig_id": "69cd1e104af3e6ed3cb344f263fd0d5a"
-  }
-}
-```
-
-## Create Peer
-
-**post** `/accounts/{account_id}/secondary_dns/peers`
-
-Create Peer.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-  The name of the peer.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Peer`
-
-  - `id: string`
-
-  - `name: string`
-
-    The name of the peer.
-
-  - `ip: optional string`
-
-    IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.
-
-  - `ixfr_enable: optional boolean`
-
-    Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.
-
-  - `port: optional number`
-
-    DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.
-
-  - `tsig_id: optional string`
-
-    TSIG authentication will be used for zone transfer if configured.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/peers \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my-peer-1"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "23ff594956f20c2a721606e94745a8aa",
-    "name": "my-peer-1",
-    "ip": "192.0.2.53",
-    "ixfr_enable": false,
-    "port": 53,
-    "tsig_id": "69cd1e104af3e6ed3cb344f263fd0d5a"
-  }
-}
-```
-
-## Update Peer
-
-**put** `/accounts/{account_id}/secondary_dns/peers/{peer_id}`
-
-Modify Peer.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `peer_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-  The name of the peer.
-
-- `ip: optional string`
-
-  IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.
-
-- `ixfr_enable: optional boolean`
-
-  Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.
-
-- `port: optional number`
-
-  DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.
-
-- `tsig_id: optional string`
-
-  TSIG authentication will be used for zone transfer if configured.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Peer`
-
-  - `id: string`
-
-  - `name: string`
-
-    The name of the peer.
-
-  - `ip: optional string`
-
-    IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.
-
-  - `ixfr_enable: optional boolean`
-
-    Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.
-
-  - `port: optional number`
-
-    DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.
-
-  - `tsig_id: optional string`
-
-    TSIG authentication will be used for zone transfer if configured.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/peers/$PEER_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my-peer-1",
-          "ip": "192.0.2.53",
-          "port": 53,
-          "tsig_id": "69cd1e104af3e6ed3cb344f263fd0d5a"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "23ff594956f20c2a721606e94745a8aa",
-    "name": "my-peer-1",
-    "ip": "192.0.2.53",
-    "ixfr_enable": false,
-    "port": 53,
-    "tsig_id": "69cd1e104af3e6ed3cb344f263fd0d5a"
-  }
-}
-```
-
-## Delete Peer
-
-**delete** `/accounts/{account_id}/secondary_dns/peers/{peer_id}`
-
-Delete Peer.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `peer_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/peers/$PEER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "23ff594956f20c2a721606e94745a8aa"
-  }
-}
-```
-
-## Domain Types
-
-### Peer
-
-- `Peer object { id, name, ip, 3 more }`
-
-  - `id: string`
-
-  - `name: string`
-
-    The name of the peer.
-
-  - `ip: optional string`
-
-    IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.
-
-  - `ixfr_enable: optional boolean`
-
-    Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.
-
-  - `port: optional number`
-
-    DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.
-
-  - `tsig_id: optional string`
-
-    TSIG authentication will be used for zone transfer if configured.
-
-### Peer Delete Response
-
-- `PeerDeleteResponse object { id }`
-
-  - `id: optional string`
-
-# TSIGs
-
-## List TSIGs
-
-**get** `/accounts/{account_id}/secondary_dns/tsigs`
-
-List TSIGs.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of TSIG`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "69cd1e104af3e6ed3cb344f263fd0d5a",
-      "algo": "hmac-sha512.",
-      "name": "tsig.customer.cf.",
-      "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## TSIG Details
-
-**get** `/accounts/{account_id}/secondary_dns/tsigs/{tsig_id}`
-
-Get TSIG.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `tsig_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TSIG`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs/$TSIG_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "69cd1e104af3e6ed3cb344f263fd0d5a",
-    "algo": "hmac-sha512.",
-    "name": "tsig.customer.cf.",
-    "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-  }
-}
-```
-
-## Create TSIG
-
-**post** `/accounts/{account_id}/secondary_dns/tsigs`
-
-Create TSIG.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `algo: string`
-
-  TSIG algorithm.
-
-- `name: string`
-
-  TSIG key name.
-
-- `secret: string`
-
-  TSIG secret.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TSIG`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "algo": "hmac-sha512.",
-          "name": "tsig.customer.cf.",
-          "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "69cd1e104af3e6ed3cb344f263fd0d5a",
-    "algo": "hmac-sha512.",
-    "name": "tsig.customer.cf.",
-    "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-  }
-}
-```
-
-## Update TSIG
-
-**put** `/accounts/{account_id}/secondary_dns/tsigs/{tsig_id}`
-
-Modify TSIG.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `tsig_id: string`
-
-### Body Parameters
-
-- `algo: string`
-
-  TSIG algorithm.
-
-- `name: string`
-
-  TSIG key name.
-
-- `secret: string`
-
-  TSIG secret.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TSIG`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs/$TSIG_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "algo": "hmac-sha512.",
-          "name": "tsig.customer.cf.",
-          "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "69cd1e104af3e6ed3cb344f263fd0d5a",
-    "algo": "hmac-sha512.",
-    "name": "tsig.customer.cf.",
-    "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-  }
-}
-```
-
-## Delete TSIG
-
-**delete** `/accounts/{account_id}/secondary_dns/tsigs/{tsig_id}`
-
-Delete TSIG.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `tsig_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs/$TSIG_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "69cd1e104af3e6ed3cb344f263fd0d5a"
-  }
-}
-```
-
-## Domain Types
-
-### TSIG
-
-- `TSIG object { id, algo, name, secret }`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-### TSIG Delete Response
-
-- `TSIGDeleteResponse object { id }`
-
-  - `id: optional string`
+[Link to this property](#)%20dns.zone_transfers.tsigs%20%3E%20(model)%20tsig_delete_response%20%3E%20(schema)>)

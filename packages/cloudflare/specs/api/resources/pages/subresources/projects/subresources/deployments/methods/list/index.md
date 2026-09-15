@@ -1,374 +1,957 @@
-## Get deployments
+---
+title: Get deployments
+---
 
-**get** `/accounts/{account_id}/pages/projects/{project_name}/deployments`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Pages](https://developers.cloudflare.com/api/resources/pages)
+
+[Projects](https://developers.cloudflare.com/api/resources/pages/subresources/projects)
+
+[Deployments](https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/deployments)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get deployments
+
+GET/accounts/{account\_id}/pages/projects/{project\_name}/deployments
 
 Fetch a list of project deployments.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `project_name: string`
 
-  Name of the project.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `env: optional "production" or "preview"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  What type of deployments to fetch.
+</details>
 
-  - `"production"`
+<details>
 
-  - `"preview"`
+<summary>API Email + API Key</summary>
 
-- `page: optional number`
 
-  Which page of deployments to fetch.
 
-- `per_page: optional number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  How many deployments to return per page.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Pages Read``Pages Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+project\_name: string
 
-  - `source: optional object { pointer }`
+Name of the project.
 
-    - `pointer: optional string`
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20project_name%20%3E%20(schema)>)
 
-- `result: array of Deployment`
+##### Q uery ParametersExpand Collapse
 
-  - `id: string`
+<details>
 
-    Id of the deployment.
+<summary>
 
-  - `aliases: array of string`
+env: optional "production"or "preview"
 
-    A list of alias URLs pointing to this deployment.
+What type of deployments to fetch.
 
-  - `build_config: object { web_analytics_tag, web_analytics_token, build_caching, 3 more }`
+</summary>
 
-    Configs for the project build process.
+One of the following:
 
-    - `web_analytics_tag: string`
+"production"
 
-      The classifying tag for analytics.
+<a href="#">Link to this property</a>
 
-    - `web_analytics_token: string`
+"preview"
 
-      The auth token for analytics.
+<a href="#">Link to this property</a>
 
-    - `build_caching: optional boolean`
+</details>
 
-      Enable build caching for the project.
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20env%20%3E%20(schema)>)
 
-    - `build_command: optional string`
+page: optional number
 
-      Command used to build project.
+Which page of deployments to fetch.
 
-    - `destination_dir: optional string`
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-      Assets output directory of the build.
+per\_page: optional number
 
-    - `root_dir: optional string`
+How many deployments to return per page.
 
-      Directory to run the command.
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `created_on: string`
+##### ReturnsExpand Collapse
 
-    When the deployment was created.
+<details>
 
-  - `deployment_trigger: object { metadata, type }`
+<summary>
 
-    Info about what caused the deployment.
+errors: array of object {code, message, documentation\_url, source }
 
-    - `metadata: object { branch, commit_dirty, commit_hash, commit_message }`
+</summary>
 
-      Additional info about the trigger.
+code: number
 
-      - `branch: string`
+minimum1000
 
-        Where the trigger happened.
+<a href="#">Link to this property</a>
 
-      - `commit_dirty: boolean`
+message: string
 
-        Whether the deployment trigger commit was dirty.
+<a href="#">Link to this property</a>
 
-      - `commit_hash: string`
+documentation\_url: optional string
 
-        Hash of the deployment trigger commit.
+<a href="#">Link to this property</a>
 
-      - `commit_message: string`
+<details>
 
-        Message of the deployment trigger commit.
+<summary>
 
-    - `type: "github:push" or "ad_hoc" or "deploy_hook"`
+source: optional object {pointer }
 
-      What caused the deployment.
+</summary>
 
-      - `"github:push"`
+pointer: optional string
 
-      - `"ad_hoc"`
+<a href="#">Link to this property</a>
 
-      - `"deploy_hook"`
+</details>
 
-  - `env_vars: map[object { type, value }  or object { type, value } ]`
+<a href="#">Link to this property</a>
 
-    Environment variables used for builds and Pages Functions.
+</details>
 
-    - `PlainText object { type, value }`
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      A plaintext environment variable.
+<details>
 
-      - `type: "plain_text"`
+<summary>
 
-        - `"plain_text"`
+messages: array of object {code, message, documentation\_url, source }
 
-      - `value: string`
+</summary>
 
-        Environment variable value.
+code: number
 
-    - `SecretText object { type, value }`
+minimum1000
 
-      An encrypted environment variable.
+<a href="#">Link to this property</a>
 
-      - `type: "secret_text"`
+message: string
 
-        - `"secret_text"`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+documentation\_url: optional string
 
-        Secret value.
+<a href="#">Link to this property</a>
 
-  - `environment: "preview" or "production"`
+<details>
 
-    Type of deploy.
+<summary>
 
-    - `"preview"`
+source: optional object {pointer }
 
-    - `"production"`
+</summary>
 
-  - `is_skipped: boolean`
+pointer: optional string
 
-    If the deployment has been skipped.
+<a href="#">Link to this property</a>
 
-  - `latest_stage: Stage`
+</details>
 
-    The status of the deployment.
+<a href="#">Link to this property</a>
 
-    - `ended_on: string`
+</details>
 
-      When the stage ended.
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `name: "queued" or "initialize" or "clone_repo" or 2 more`
+<details>
 
-      The current build stage.
+<summary>
 
-      - `"queued"`
+result: array of <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20deployment%20%3E%20(schema)">Deployment</a> { id, aliases, build\_config, 15 more }
 
-      - `"initialize"`
+</summary>
 
-      - `"clone_repo"`
+id: string
 
-      - `"build"`
+Id of the deployment.
 
-      - `"deploy"`
+<a href="#">Link to this property</a>
 
-    - `started_on: string`
+aliases: array of string
 
-      When the stage started.
+A list of alias URLs pointing to this deployment.
 
-    - `status: "success" or "idle" or "active" or 2 more`
+<a href="#">Link to this property</a>
 
-      State of the current stage.
+<details>
 
-      - `"success"`
+<summary>
 
-      - `"idle"`
+build\_config: object {web\_analytics\_tag, web\_analytics\_token, build\_caching, 3 more }
 
-      - `"active"`
+Configs for the project build process.
 
-      - `"failure"`
+</summary>
 
-      - `"canceled"`
+web\_analytics\_tag: string
 
-  - `modified_on: string`
+The classifying tag for analytics.
 
-    When the deployment was last modified.
+<a href="#">Link to this property</a>
 
-  - `project_id: string`
+web\_analytics\_token: string
 
-    Id of the project.
+The auth token for analytics.
 
-  - `project_name: string`
+<a href="#">Link to this property</a>
 
-    Name of the project.
+build\_caching: optional boolean
 
-  - `short_id: string`
+Enable build caching for the project.
 
-    Short Id (8 character) of the deployment.
+<a href="#">Link to this property</a>
 
-  - `source: object { config, type }`
+build\_command: optional string
 
-    Configs for the project source control.
+Command used to build project.
 
-    - `config: object { deployments_enabled, owner, owner_id, 10 more }`
+<a href="#">Link to this property</a>
 
-      - `deployments_enabled: boolean`
+destination\_dir: optional string
 
-        Whether to enable automatic deployments when pushing to the source repository.
-        When disabled, no deployments (production or preview) will be triggered automatically.
+Assets output directory of the build.
 
-      - `owner: string`
+<a href="#">Link to this property</a>
 
-        The owner of the repository.
+root\_dir: optional string
 
-      - `owner_id: string`
+Directory to run the command.
 
-        The owner ID of the repository.
+<a href="#">Link to this property</a>
 
-      - `path_excludes: array of string`
+</details>
 
-        A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported.
+<a href="#">Link to this property</a>
 
-      - `path_includes: array of string`
+created\_on: string
 
-        A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported.
+When the deployment was created.
 
-      - `pr_comments_enabled: boolean`
+formatdate-time
 
-        Whether to enable PR comments.
+<a href="#">Link to this property</a>
 
-      - `preview_branch_excludes: array of string`
+<details>
 
-        A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`.
+<summary>
 
-      - `preview_branch_includes: array of string`
+deployment\_trigger: object {metadata, type }
 
-        A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`.
+Info about what caused the deployment.
 
-      - `preview_deployment_setting: "all" or "none" or "custom"`
+</summary>
 
-        Controls whether commits to preview branches trigger a preview deployment.
+<details>
 
-        - `"all"`
+<summary>
 
-        - `"none"`
+metadata: object {branch, commit\_dirty, commit\_hash, commit\_message }
 
-        - `"custom"`
+Additional info about the trigger.
 
-      - `production_branch: string`
+</summary>
 
-        The production branch of the repository.
+branch: string
 
-      - `production_deployments_enabled: boolean`
+Where the trigger happened.
 
-        Whether to trigger a production deployment on commits to the production branch.
+<a href="#">Link to this property</a>
 
-      - `repo_id: string`
+commit\_dirty: boolean
 
-        The ID of the repository.
+Whether the deployment trigger commit was dirty.
 
-      - `repo_name: string`
+<a href="#">Link to this property</a>
 
-        The name of the repository.
+commit\_hash: string
 
-    - `type: "github" or "gitlab"`
+Hash of the deployment trigger commit.
 
-      The source control management provider.
+<a href="#">Link to this property</a>
 
-      - `"github"`
+commit\_message: string
 
-      - `"gitlab"`
+Message of the deployment trigger commit.
 
-  - `stages: array of Stage`
+<a href="#">Link to this property</a>
 
-    List of past stages.
+</details>
 
-    - `ended_on: string`
+<a href="#">Link to this property</a>
 
-      When the stage ended.
+<details>
 
-    - `name: "queued" or "initialize" or "clone_repo" or 2 more`
+<summary>
 
-      The current build stage.
+type: "github:push"or "ad\_hoc"or "deploy\_hook"
 
-    - `started_on: string`
+What caused the deployment.
 
-      When the stage started.
+</summary>
 
-    - `status: "success" or "idle" or "active" or 2 more`
+One of the following:
 
-      State of the current stage.
+"github:push"
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-    The live URL to view this deployment.
+"ad\_hoc"
 
-  - `uses_functions: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the deployment uses functions.
+"deploy\_hook"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+env\_vars: map\[object {type, value } or object {type, value } ]
 
-  - `per_page: optional number`
+Environment variables used for builds and Pages Functions.
 
-    Number of results per page of results.
+</summary>
 
-  - `total_count: optional number`
+One of the following:
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+PlainText object {type, value }
 
-### Example
+A plaintext environment variable.
 
-```http
+</summary>
+
+type: "plain\_text"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Environment variable value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SecretText object {type, value }
+
+An encrypted environment variable.
+
+</summary>
+
+type: "secret\_text"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Secret value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+environment: "preview"or "production"
+
+Type of deploy.
+
+</summary>
+
+One of the following:
+
+"preview"
+
+<a href="#">Link to this property</a>
+
+"production"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+is\_skipped: boolean
+
+If the deployment has been skipped.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+latest\_stage: <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20stage%20%3E%20(schema)">Stage</a> { ended\_on, name, started\_on, status }
+
+The status of the deployment.
+
+</summary>
+
+ended\_on: string
+
+When the stage ended.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+name: "queued"or "initialize"or "clone\_repo"or 2 more
+
+The current build stage.
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"initialize"
+
+<a href="#">Link to this property</a>
+
+"clone\_repo"
+
+<a href="#">Link to this property</a>
+
+"build"
+
+<a href="#">Link to this property</a>
+
+"deploy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+started\_on: string
+
+When the stage started.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "success"or "idle"or "active"or 2 more
+
+State of the current stage.
+
+</summary>
+
+One of the following:
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"idle"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"failure"
+
+<a href="#">Link to this property</a>
+
+"canceled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+When the deployment was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+project\_id: string
+
+Id of the project.
+
+<a href="#">Link to this property</a>
+
+project\_name: string
+
+Name of the project.
+
+<a href="#">Link to this property</a>
+
+short\_id: string
+
+Short Id (8 character) of the deployment.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: object {config, type }
+
+Configs for the project source control.
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {deployments\_enabled, owner, owner\_id, 10 more }
+
+</summary>
+
+Deprecateddeployments\_enabled: boolean
+
+Use <code>production_deployments_enabled</code> and <code>preview_deployment_setting</code> for more granular control.
+
+Whether to enable automatic deployments when pushing to the source repository. When disabled, no deployments (production or preview) will be triggered automatically.
+
+<a href="#">Link to this property</a>
+
+owner: string
+
+The owner of the repository.
+
+<a href="#">Link to this property</a>
+
+owner\_id: string
+
+The owner ID of the repository.
+
+<a href="#">Link to this property</a>
+
+path\_excludes: array of string
+
+A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (<code>*</code>) is supported.
+
+<a href="#">Link to this property</a>
+
+path\_includes: array of string
+
+A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported.
+
+<a href="#">Link to this property</a>
+
+pr\_comments\_enabled: boolean
+
+Whether to enable PR comments.
+
+<a href="#">Link to this property</a>
+
+preview\_branch\_excludes: array of string
+
+A list of branches that should not trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported. Must be used with <code>preview_deployment_setting</code> set to <code>custom</code>.
+
+<a href="#">Link to this property</a>
+
+preview\_branch\_includes: array of string
+
+A list of branches that should trigger a preview deployment. Wildcard syntax (<code>*</code>) is supported. Must be used with <code>preview_deployment_setting</code> set to <code>custom</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+preview\_deployment\_setting: "all"or "none"or "custom"
+
+Controls whether commits to preview branches trigger a preview deployment.
+
+</summary>
+
+One of the following:
+
+"all"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"custom"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+production\_branch: string
+
+The production branch of the repository.
+
+<a href="#">Link to this property</a>
+
+production\_deployments\_enabled: boolean
+
+Whether to trigger a production deployment on commits to the production branch.
+
+<a href="#">Link to this property</a>
+
+repo\_id: string
+
+The ID of the repository.
+
+<a href="#">Link to this property</a>
+
+repo\_name: string
+
+The name of the repository.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "github"or "gitlab"
+
+The source control management provider.
+
+</summary>
+
+One of the following:
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"gitlab"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stages: array of <a href="https://developers.cloudflare.com/api/resources/pages#(resource)%20pages.projects%20%3E%20(model)%20stage%20%3E%20(schema)">Stage</a> { ended\_on, name, started\_on, status }
+
+List of past stages.
+
+</summary>
+
+ended\_on: string
+
+When the stage ended.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+name: "queued"or "initialize"or "clone\_repo"or 2 more
+
+The current build stage.
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"initialize"
+
+<a href="#">Link to this property</a>
+
+"clone\_repo"
+
+<a href="#">Link to this property</a>
+
+"build"
+
+<a href="#">Link to this property</a>
+
+"deploy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+started\_on: string
+
+When the stage started.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "success"or "idle"or "active"or 2 more
+
+State of the current stage.
+
+</summary>
+
+One of the following:
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"idle"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"failure"
+
+<a href="#">Link to this property</a>
+
+"canceled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: string
+
+The live URL to view this deployment.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+skip\_reason: optional "commit\_message"or "preview\_deployments\_disabled"or "production\_deployments\_disabled"or 3 more
+
+Why the deployment was skipped.
+
+</summary>
+
+One of the following:
+
+"commit\_message"
+
+<a href="#">Link to this property</a>
+
+"preview\_deployments\_disabled"
+
+<a href="#">Link to this property</a>
+
+"production\_deployments\_disabled"
+
+<a href="#">Link to this property</a>
+
+"path\_config"
+
+<a href="#">Link to this property</a>
+
+"branch\_config"
+
+<a href="#">Link to this property</a>
+
+"pages\_to\_workers\_conversion"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uses\_functions: optional boolean
+
+Whether the deployment uses functions.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pages.projects.deployments%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get deployments
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/deployments \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -491,6 +1074,149 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$P
         }
       ],
       "url": "https://f64788e9.ninjakittens.pages.dev",
+      "skip_reason": "commit_message",
+      "uses_functions": true
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "f64788e9-fccd-4d4a-a28a-cb84f88f6",
+      "aliases": [
+        "https://branchname.projectname.pages.dev"
+      ],
+      "build_config": {
+        "web_analytics_tag": "cee1c73f6e4743d0b5e6bb1a0bcaabcc",
+        "web_analytics_token": "021e1057c18547eca7b79f2516f06o7x",
+        "build_caching": true,
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "root_dir": "/"
+      },
+      "created_on": "2021-03-09T00:55:03.923456Z",
+      "deployment_trigger": {
+        "metadata": {
+          "branch": "main",
+          "commit_dirty": false,
+          "commit_hash": "ad9ccd918a81025731e10e40267e11273a263421",
+          "commit_message": "Update index.html"
+        },
+        "type": "ad_hoc"
+      },
+      "env_vars": {
+        "foo": {
+          "type": "plain_text",
+          "value": "hello world"
+        }
+      },
+      "environment": "preview",
+      "is_skipped": true,
+      "latest_stage": {
+        "ended_on": "2021-03-09T00:58:59.045655Z",
+        "name": "deploy",
+        "started_on": "2021-03-09T00:55:03.923456Z",
+        "status": "success"
+      },
+      "modified_on": "2021-03-09T00:58:59.045655Z",
+      "project_id": "7b162ea7-7367-4d67-bcde-1160995d5",
+      "project_name": "this-is-my-project-01",
+      "short_id": "f64788e9",
+      "source": {
+        "config": {
+          "deployments_enabled": true,
+          "owner": "my-org",
+          "owner_id": "12345678",
+          "path_excludes": [
+            "string"
+          ],
+          "path_includes": [
+            "string"
+          ],
+          "pr_comments_enabled": true,
+          "preview_branch_excludes": [
+            "string"
+          ],
+          "preview_branch_includes": [
+            "string"
+          ],
+          "preview_deployment_setting": "all",
+          "production_branch": "main",
+          "production_deployments_enabled": true,
+          "repo_id": "12345678",
+          "repo_name": "my-repo"
+        },
+        "type": "github"
+      },
+      "stages": [
+        {
+          "ended_on": "2021-06-03T15:39:03.134378Z",
+          "name": "queued",
+          "started_on": "2021-06-03T15:38:15.608194Z",
+          "status": "active"
+        },
+        {
+          "ended_on": null,
+          "name": "initialize",
+          "started_on": null,
+          "status": "idle"
+        },
+        {
+          "ended_on": null,
+          "name": "clone_repo",
+          "started_on": null,
+          "status": "idle"
+        },
+        {
+          "ended_on": null,
+          "name": "build",
+          "started_on": null,
+          "status": "idle"
+        },
+        {
+          "ended_on": null,
+          "name": "deploy",
+          "started_on": null,
+          "status": "idle"
+        }
+      ],
+      "url": "https://f64788e9.ninjakittens.pages.dev",
+      "skip_reason": "commit_message",
       "uses_functions": true
     }
   ],

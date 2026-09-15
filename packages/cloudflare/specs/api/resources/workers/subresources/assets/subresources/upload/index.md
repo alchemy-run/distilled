@@ -1,108 +1,45 @@
+---
+title: Upload
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Assets](https://developers.cloudflare.com/api/resources/workers/subresources/assets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Upload
 
-## Upload Assets
+##### [Upload Assets](https://developers.cloudflare.com/api/resources/workers/subresources/assets/subresources/upload/methods/create)
 
-**post** `/accounts/{account_id}/workers/assets/upload`
+POST/accounts/{account\_id}/workers/assets/upload
 
-Upload assets ahead of creating a Worker version.  To learn more about the direct uploads of assets, see https://developers.cloudflare.com/workers/static-assets/direct-upload/.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+UploadCreateResponse object {jwt }
 
-### Query Parameters
+</summary>
 
-- `base64: true`
+jwt: optional string
 
-  Whether the file contents are base64-encoded. Must be `true`.
+A “completion” JWT which can be redeemed when creating a Worker version.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { jwt }`
-
-  - `jwt: optional string`
-
-    A "completion" JWT which can be redeemed when creating a Worker version.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/assets/upload \
-    -H 'Content-Type: multipart/form-data' \
-    -F body='{"foo":"string"}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "jwt": "jwt"
-  }
-}
-```
-
-## Domain Types
-
-### Upload Create Response
-
-- `UploadCreateResponse object { jwt }`
-
-  - `jwt: optional string`
-
-    A "completion" JWT which can be redeemed when creating a Worker version.
+[Link to this property](#)%20workers.assets.upload%20%3E%20(model)%20upload_create_response%20%3E%20(schema)>)

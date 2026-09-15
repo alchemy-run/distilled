@@ -1,1045 +1,443 @@
+---
+title: Registrations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Registrations
 
-## List registrations
+##### [List registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/list)
 
-**get** `/accounts/{account_id}/devices/registrations`
+GET/accounts/{account\_id}/devices/registrations
 
-Lists WARP registrations.
+##### [Get registration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/devices/registrations/{registration\_id}
 
-- `account_id: string`
+##### [Delete registration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/delete)
 
-### Query Parameters
+DELETE/accounts/{account\_id}/devices/registrations/{registration\_id}
 
-- `id: optional array of string`
+##### [Delete registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/bulk_delete)
 
-  Filter by registration ID.
+DELETE/accounts/{account\_id}/devices/registrations
 
-- `cursor: optional string`
+##### [Revoke registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/revoke)
 
-  Opaque token indicating the starting position when requesting the next set of records. A cursor value can be obtained from the result_info.cursor field in the response.
+POST/accounts/{account\_id}/devices/registrations/revoke
 
-- `device: optional object { id }`
+##### [Unrevoke registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/unrevoke)
 
-  - `id: optional string`
+POST/accounts/{account\_id}/devices/registrations/unrevoke
 
-    Filter by WARP device ID.
+##### ModelsExpand Collapse
 
-- `include: optional string`
+<details>
 
-  Comma-separated list of additional information that should be included in the registration response. Supported values are: "policy".
+<summary>
 
-- `per_page: optional number`
+RegistrationListResponse object {id, created\_at, device, 11 more }
 
-  The maximum number of devices to return in a single response.
+A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
 
-- `search: optional string`
+</summary>
 
-  Filter by registration details.
+id: string
 
-- `seen_after: optional string`
+The ID of the registration.
 
-  Filter by the last_seen timestamp - returns only registrations last seen after this timestamp.
+<a href="#">Link to this property</a>
 
-- `seen_before: optional string`
+created\_at: string
 
-  Filter by the last_seen timestamp - returns only registrations last seen before this timestamp.
+The RFC3339 timestamp when the registration was created.
 
-- `sort_by: optional "id" or "user.name" or "user.email" or 2 more`
+<a href="#">Link to this property</a>
 
-  The registration field to order results by.
+<details>
 
-  - `"id"`
+<summary>
 
-  - `"user.name"`
+device: object {id, name, client\_version }
 
-  - `"user.email"`
+Device details embedded inside of a registration.
 
-  - `"last_seen_at"`
+</summary>
 
-  - `"created_at"`
+id: string
 
-- `sort_order: optional "asc" or "desc"`
+The ID of the device.
 
-  Sort direction.
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+name: string
 
-  - `"desc"`
+The name of the device.
 
-- `status: optional "active" or "all" or "revoked"`
+<a href="#">Link to this property</a>
 
-  Filter by registration status. Defaults to 'active'.
+client\_version: optional string
 
-  - `"active"`
+Version of the WARP client.
 
-  - `"all"`
+<a href="#">Link to this property</a>
 
-  - `"revoked"`
+</details>
 
-- `user: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: optional array of string`
+key: string
 
-    Filter by user ID.
+The public key used to connect to the Cloudflare network.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+last\_seen\_at: string
 
-  - `code: number`
+The RFC3339 timestamp when the registration was last seen.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+updated\_at: string
 
-  - `code: number`
+The RFC3339 timestamp when the registration was last updated.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, created_at, device, 11 more }`
+deleted\_at: optional string
 
-  - `id: string`
+The RFC3339 timestamp when the registration was deleted.
 
-    The ID of the registration.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+key\_type: optional string
 
-    The RFC3339 timestamp when the registration was created.
+The type of encryption key used by the WARP client for the active key. Currently ‘curve25519’ for WireGuard and ‘secp256r1’ for MASQUE.
 
-  - `device: object { id, name, client_version }`
+<a href="#">Link to this property</a>
 
-    Device details embedded inside of a registration.
+<details>
 
-    - `id: string`
+<summary>
 
-      The ID of the device.
+policy: optional object {id, default, deleted, 2 more }
 
-    - `name: string`
+The device settings profile assigned to this registration.
 
-      The name of the device.
+</summary>
 
-    - `client_version: optional string`
+id: string
 
-      Version of the WARP client.
+The ID of the device settings profile.
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-    The public key used to connect to the Cloudflare network.
+default: boolean
 
-  - `last_seen_at: string`
+Whether the device settings profile is the default profile for the account.
 
-    The RFC3339 timestamp when the registration was last seen.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+deleted: boolean
 
-    The RFC3339 timestamp when the registration was last updated.
+Whether the device settings profile was deleted.
 
-  - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the registration was deleted.
+name: string
 
-  - `key_type: optional string`
+The name of the device settings profile.
 
-    The type of encryption key used by the WARP client for the active key. Currently 'curve25519' for WireGuard and 'secp256r1' for MASQUE.
+<a href="#">Link to this property</a>
 
-  - `policy: optional object { id, default, deleted, 2 more }`
+updated\_at: string
 
-    The device settings profile assigned to this registration.
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      The ID of the device settings profile.
+</details>
 
-    - `default: boolean`
+<a href="#">Link to this property</a>
 
-      Whether the device settings profile is the default profile for the account.
+revoked\_at: optional string
 
-    - `deleted: boolean`
+The RFC3339 timestamp when the registration was revoked.
 
-      Whether the device settings profile was deleted.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+tunnel\_type: optional string
 
-      The name of the device settings profile.
+Type of the tunnel - wireguard or masque.
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      The RFC3339 timestamp of when the device settings profile last changed for the registration.
+<details>
 
-  - `revoked_at: optional string`
+<summary>
 
-    The RFC3339 timestamp when the registration was revoked.
+user: optional object {id, email, name }
 
-  - `tunnel_type: optional string`
+</summary>
 
-    Type of the tunnel - wireguard or masque.
+id: optional string
 
-  - `user: optional object { id, email, name }`
+UUID.
 
-    - `id: optional string`
+maxLength36
 
-      UUID.
+<a href="#">Link to this property</a>
 
-    - `email: optional string`
+email: optional string
 
-      The contact email address of the user.
+The contact email address of the user.
 
-    - `name: optional string`
+maxLength90
 
-      The enrolled device user's name.
+<a href="#">Link to this property</a>
 
-  - `virtual_ipv4: optional string`
+name: optional string
 
-    The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
+The enrolled device user’s name.
 
-  - `virtual_ipv6: optional string`
+<a href="#">Link to this property</a>
 
-    The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+virtual\_ipv4: optional string
 
-- `result_info: optional object { count, cursor, per_page, total_count }`
+The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
 
-  V4 public API Pagination/Cursor info.
+<a href="#">Link to this property</a>
 
-  - `count: number`
+virtual\_ipv6: optional string
 
-    Number of records in the response.
+The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
 
-  - `cursor: string`
+<a href="#">Link to this property</a>
 
-    Opaque token to request the next set of records.
+</details>
 
-  - `per_page: number`
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_list_response%20%3E%20(schema)>)
 
-    The limit for the number of records in the response.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total number of records available.
+RegistrationGetResponse object {id, created\_at, device, 11 more }
 
-### Example
+A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: string
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": [
-    {
-      "created_at": "2025-02-14T13:17:00Z",
-      "deleted_at": null,
-      "device": {
-        "client_version": "1.0.0",
-        "id": "32aa0404-78f1-49a4-99e0-97f575081356",
-        "name": "My Device"
-      },
-      "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-      "key": "U+QTP50RsWfeLGHF4tlGDnmGeuwtsz46KCHr5OyhWq00Rsdfl45mgnQAuEJ6CO0YrkyTl9FUf5iB0bwYR3g4EEFEHhtu6jFaqfMrBMBSz6itv9HQXkaR9OieKQ==",
-      "key_type": "secp256r1",
-      "last_seen_at": "2025-02-14T13:17:00Z",
-      "revoked_at": null,
-      "tunnel_type": "masque",
-      "updated_at": "2025-02-14T13:17:00Z",
-      "user": {
-        "email": "alice@example.org",
-        "id": "30323c1f-318d-4ec9-92c7-5a8c4d25c4fc",
-        "name": "Alice"
-      }
-    },
-    {
-      "created_at": "2025-02-15T10:20:00Z",
-      "deleted_at": null,
-      "device": {
-        "client_version": "1.0.1",
-        "id": "43bb1515-8902-50b5-aa01-a88686192467",
-        "name": "Bob's Laptop"
-      },
-      "id": "22eedc7a-4a1d-5417-c5b3-f73a983c277b",
-      "key": "V/RSP61StXgfmLHJG5umHEonHfvxtz57LDIs6PziXr11Stegm56nhrRBvFK7DP1ZsLzUm0GVg6jC1cxZS4h5FFGFJiju7kGbrgNsCNCT77juw0IRYlS0QpjgLR==",
-      "key_type": "secp256r1",
-      "last_seen_at": "2025-02-15T10:25:00Z",
-      "revoked_at": null,
-      "tunnel_type": "masque",
-      "updated_at": "2025-02-15T10:25:00Z",
-      "user": {
-        "email": "bob@example.com",
-        "id": "41434d2a-429e-5fd0-a3d8-6b9d5e36d5ad",
-        "name": "Bob"
-      }
-    }
-  ],
-  "result_info": {
-    "count": 2,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  },
-  "success": true
-}
-```
+The ID of the registration.
 
-## Get registration
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/devices/registrations/{registration_id}`
+created\_at: string
 
-Fetches a single WARP registration.
+The RFC3339 timestamp when the registration was created.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-- `registration_id: string`
+<summary>
 
-### Query Parameters
+device: object {id, name, client\_version }
 
-- `include: optional string`
+Device details embedded inside of a registration.
 
-  Comma-separated list of additional information that should be included in the registration response. Supported values are: "policy".
+</summary>
 
-### Returns
+id: string
 
-- `errors: array of object { code, message }`
+The ID of the device.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-- `messages: array of object { code, message }`
+The name of the device.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+client\_version: optional string
 
-- `result: object { id, created_at, device, 11 more }`
+Version of the WARP client.
 
-  A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    The ID of the registration.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+key: string
 
-    The RFC3339 timestamp when the registration was created.
+The public key used to connect to the Cloudflare network.
 
-  - `device: object { id, name, client_version }`
+<a href="#">Link to this property</a>
 
-    Device details embedded inside of a registration.
+last\_seen\_at: string
 
-    - `id: string`
+The RFC3339 timestamp when the registration was last seen.
 
-      The ID of the device.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+updated\_at: string
 
-      The name of the device.
+The RFC3339 timestamp when the registration was last updated.
 
-    - `client_version: optional string`
+<a href="#">Link to this property</a>
 
-      Version of the WARP client.
+deleted\_at: optional string
 
-  - `key: string`
+The RFC3339 timestamp when the registration was deleted.
 
-    The public key used to connect to the Cloudflare network.
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+key\_type: optional string
 
-    The RFC3339 timestamp when the registration was last seen.
+The type of encryption key used by the WARP client for the active key. Currently ‘curve25519’ for WireGuard and ‘secp256r1’ for MASQUE.
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the registration was last updated.
+<details>
 
-  - `deleted_at: optional string`
+<summary>
 
-    The RFC3339 timestamp when the registration was deleted.
+policy: optional object {id, default, deleted, 2 more }
 
-  - `key_type: optional string`
+The device settings profile assigned to this registration.
 
-    The type of encryption key used by the WARP client for the active key. Currently 'curve25519' for WireGuard and 'secp256r1' for MASQUE.
+</summary>
 
-  - `policy: optional object { id, default, deleted, 2 more }`
+id: string
 
-    The device settings profile assigned to this registration.
+The ID of the device settings profile.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      The ID of the device settings profile.
+default: boolean
 
-    - `default: boolean`
+Whether the device settings profile is the default profile for the account.
 
-      Whether the device settings profile is the default profile for the account.
+<a href="#">Link to this property</a>
 
-    - `deleted: boolean`
+deleted: boolean
 
-      Whether the device settings profile was deleted.
+Whether the device settings profile was deleted.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the device settings profile.
+name: string
 
-    - `updated_at: string`
+The name of the device settings profile.
 
-      The RFC3339 timestamp of when the device settings profile last changed for the registration.
+<a href="#">Link to this property</a>
 
-  - `revoked_at: optional string`
+updated\_at: string
 
-    The RFC3339 timestamp when the registration was revoked.
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
 
-  - `tunnel_type: optional string`
+<a href="#">Link to this property</a>
 
-    Type of the tunnel - wireguard or masque.
+</details>
 
-  - `user: optional object { id, email, name }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+revoked\_at: optional string
 
-      UUID.
+The RFC3339 timestamp when the registration was revoked.
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+tunnel\_type: optional string
 
-    - `name: optional string`
+Type of the tunnel - wireguard or masque.
 
-      The enrolled device user's name.
+<a href="#">Link to this property</a>
 
-  - `virtual_ipv4: optional string`
+<details>
 
-    The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
+<summary>
 
-  - `virtual_ipv6: optional string`
+user: optional object {id, email, name }
 
-    The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
+</summary>
 
-- `success: boolean`
+id: optional string
 
-  Whether the API call was successful.
+UUID.
 
-### Example
+maxLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/$REGISTRATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+email: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-    "created_at": "2025-02-14T13:17:00Z",
-    "device": {
-      "id": "32aa0404-78f1-49a4-99e0-97f575081356",
-      "name": "My Device",
-      "client_version": "1.0.0"
-    },
-    "key": "U+QTP50RsWfeLGHF4tlGDnmGeuwtsz46KCHr5OyhWq00Rsdfl45mgnQAuEJ6CO0YrkyTl9FUf5iB0bwYR3g4EEFEHhtu6jFaqfMrBMBSz6itv9HQXkaR9OieKQ==",
-    "last_seen_at": "2025-02-14T13:17:00Z",
-    "updated_at": "2025-02-14T13:17:00Z",
-    "deleted_at": "2025-02-14T13:17:00Z",
-    "key_type": "secp256r1",
-    "policy": {
-      "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-      "default": true,
-      "deleted": true,
-      "name": "name",
-      "updated_at": "2025-02-14T13:17:00Z"
-    },
-    "revoked_at": "2025-02-14T13:17:00Z",
-    "tunnel_type": "masque",
-    "user": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "email": "user@example.com",
-      "name": "John Appleseed"
-    },
-    "virtual_ipv4": "100.96.0.1",
-    "virtual_ipv6": "2606:4700:0cf1:1000::1"
-  },
-  "success": true
-}
-```
+The contact email address of the user.
 
-## Delete registration
+maxLength90
 
-**delete** `/accounts/{account_id}/devices/registrations/{registration_id}`
+<a href="#">Link to this property</a>
 
-Deletes a WARP registration.
+name: optional string
 
-### Path Parameters
+The enrolled device user’s name.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `registration_id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+virtual\_ipv4: optional string
 
-  - `code: number`
+The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+virtual\_ipv6: optional string
 
-  - `code: number`
+The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_get_response%20%3E%20(schema)>)
 
-- `result: optional unknown`
+RegistrationDeleteResponse = unknown
 
-### Example
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_delete_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/$REGISTRATION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+RegistrationBulkDeleteResponse = unknown
 
-#### Response
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_bulk_delete_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+RegistrationRevokeResponse = unknown
 
-## Delete registrations
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_revoke_response%20%3E%20(schema)>)
 
-**delete** `/accounts/{account_id}/devices/registrations`
+RegistrationUnrevokeResponse = unknown
 
-Deletes a list of WARP registrations.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Query Parameters
-
-- `id: array of string`
-
-  A list of registration IDs to delete.
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result_info: optional object { count, cursor, per_page, total_count }`
-
-  V4 public API Pagination/Cursor info.
-
-  - `count: number`
-
-    Number of records in the response.
-
-  - `cursor: string`
-
-    Opaque token to request the next set of records.
-
-  - `per_page: number`
-
-    The limit for the number of records in the response.
-
-  - `total_count: optional number`
-
-    Total number of records available.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  }
-}
-```
-
-## Revoke registrations
-
-**post** `/accounts/{account_id}/devices/registrations/revoke`
-
-Revokes a list of WARP registrations.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Query Parameters
-
-- `id: array of string`
-
-  A list of registration IDs to revoke.
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result_info: optional object { count, cursor, per_page, total_count }`
-
-  V4 public API Pagination/Cursor info.
-
-  - `count: number`
-
-    Number of records in the response.
-
-  - `cursor: string`
-
-    Opaque token to request the next set of records.
-
-  - `per_page: number`
-
-    The limit for the number of records in the response.
-
-  - `total_count: optional number`
-
-    Total number of records available.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/revoke \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  }
-}
-```
-
-## Unrevoke registrations
-
-**post** `/accounts/{account_id}/devices/registrations/unrevoke`
-
-Unrevokes a list of WARP registrations.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Query Parameters
-
-- `id: array of string`
-
-  A list of registration IDs to unrevoke.
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result_info: optional object { count, cursor, per_page, total_count }`
-
-  V4 public API Pagination/Cursor info.
-
-  - `count: number`
-
-    Number of records in the response.
-
-  - `cursor: string`
-
-    Opaque token to request the next set of records.
-
-  - `per_page: number`
-
-    The limit for the number of records in the response.
-
-  - `total_count: optional number`
-
-    Total number of records available.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/unrevoke \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  }
-}
-```
-
-## Domain Types
-
-### Registration List Response
-
-- `RegistrationListResponse object { id, created_at, device, 11 more }`
-
-  A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
-
-  - `id: string`
-
-    The ID of the registration.
-
-  - `created_at: string`
-
-    The RFC3339 timestamp when the registration was created.
-
-  - `device: object { id, name, client_version }`
-
-    Device details embedded inside of a registration.
-
-    - `id: string`
-
-      The ID of the device.
-
-    - `name: string`
-
-      The name of the device.
-
-    - `client_version: optional string`
-
-      Version of the WARP client.
-
-  - `key: string`
-
-    The public key used to connect to the Cloudflare network.
-
-  - `last_seen_at: string`
-
-    The RFC3339 timestamp when the registration was last seen.
-
-  - `updated_at: string`
-
-    The RFC3339 timestamp when the registration was last updated.
-
-  - `deleted_at: optional string`
-
-    The RFC3339 timestamp when the registration was deleted.
-
-  - `key_type: optional string`
-
-    The type of encryption key used by the WARP client for the active key. Currently 'curve25519' for WireGuard and 'secp256r1' for MASQUE.
-
-  - `policy: optional object { id, default, deleted, 2 more }`
-
-    The device settings profile assigned to this registration.
-
-    - `id: string`
-
-      The ID of the device settings profile.
-
-    - `default: boolean`
-
-      Whether the device settings profile is the default profile for the account.
-
-    - `deleted: boolean`
-
-      Whether the device settings profile was deleted.
-
-    - `name: string`
-
-      The name of the device settings profile.
-
-    - `updated_at: string`
-
-      The RFC3339 timestamp of when the device settings profile last changed for the registration.
-
-  - `revoked_at: optional string`
-
-    The RFC3339 timestamp when the registration was revoked.
-
-  - `tunnel_type: optional string`
-
-    Type of the tunnel - wireguard or masque.
-
-  - `user: optional object { id, email, name }`
-
-    - `id: optional string`
-
-      UUID.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `name: optional string`
-
-      The enrolled device user's name.
-
-  - `virtual_ipv4: optional string`
-
-    The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
-
-  - `virtual_ipv6: optional string`
-
-    The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
-
-### Registration Get Response
-
-- `RegistrationGetResponse object { id, created_at, device, 11 more }`
-
-  A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
-
-  - `id: string`
-
-    The ID of the registration.
-
-  - `created_at: string`
-
-    The RFC3339 timestamp when the registration was created.
-
-  - `device: object { id, name, client_version }`
-
-    Device details embedded inside of a registration.
-
-    - `id: string`
-
-      The ID of the device.
-
-    - `name: string`
-
-      The name of the device.
-
-    - `client_version: optional string`
-
-      Version of the WARP client.
-
-  - `key: string`
-
-    The public key used to connect to the Cloudflare network.
-
-  - `last_seen_at: string`
-
-    The RFC3339 timestamp when the registration was last seen.
-
-  - `updated_at: string`
-
-    The RFC3339 timestamp when the registration was last updated.
-
-  - `deleted_at: optional string`
-
-    The RFC3339 timestamp when the registration was deleted.
-
-  - `key_type: optional string`
-
-    The type of encryption key used by the WARP client for the active key. Currently 'curve25519' for WireGuard and 'secp256r1' for MASQUE.
-
-  - `policy: optional object { id, default, deleted, 2 more }`
-
-    The device settings profile assigned to this registration.
-
-    - `id: string`
-
-      The ID of the device settings profile.
-
-    - `default: boolean`
-
-      Whether the device settings profile is the default profile for the account.
-
-    - `deleted: boolean`
-
-      Whether the device settings profile was deleted.
-
-    - `name: string`
-
-      The name of the device settings profile.
-
-    - `updated_at: string`
-
-      The RFC3339 timestamp of when the device settings profile last changed for the registration.
-
-  - `revoked_at: optional string`
-
-    The RFC3339 timestamp when the registration was revoked.
-
-  - `tunnel_type: optional string`
-
-    Type of the tunnel - wireguard or masque.
-
-  - `user: optional object { id, email, name }`
-
-    - `id: optional string`
-
-      UUID.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `name: optional string`
-
-      The enrolled device user's name.
-
-  - `virtual_ipv4: optional string`
-
-    The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
-
-  - `virtual_ipv6: optional string`
-
-    The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
-
-### Registration Delete Response
-
-- `RegistrationDeleteResponse = unknown`
-
-### Registration Bulk Delete Response
-
-- `RegistrationBulkDeleteResponse = unknown`
-
-### Registration Revoke Response
-
-- `RegistrationRevokeResponse = unknown`
-
-### Registration Unrevoke Response
-
-- `RegistrationUnrevokeResponse = unknown`
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_unrevoke_response%20%3E%20(schema)>)

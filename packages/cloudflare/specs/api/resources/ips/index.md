@@ -1,172 +1,129 @@
+---
+title: IPs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # IPs
 
-## Cloudflare/JD Cloud IP Details
+##### [Cloudflare/JD Cloud IP Details](https://developers.cloudflare.com/api/resources/ips/methods/list)
 
-**get** `/ips`
+GET/ips
 
-Get IPs used on the Cloudflare/JD Cloud network, see https://www.cloudflare.com/ips for Cloudflare IPs or https://developers.cloudflare.com/china-network/reference/infrastructure/ for JD Cloud IPs.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `networks: optional string`
+<summary>
 
-  Specified as `jdcloud` to list IPs used by JD Cloud data centers.
+IPs = array of object {created\_at, ip }
 
-### Returns
+The set of IPs on the Address Map.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+created\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+ip: optional string
 
-    - `pointer: optional string`
+An IPv4 or IPv6 address.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20ips%20%3E%20(model)%20ips%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+IPListResponse = object {etag, ipv4\_cidrs, ipv6\_cidrs } or object {etag, ipv4\_cidrs, ipv6\_cidrs, jdcloud\_cidrs }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+One of the following:
 
-  - `true`
+<details>
 
-- `result: optional object { etag, ipv4_cidrs, ipv6_cidrs }  or object { etag, ipv4_cidrs, ipv6_cidrs, jdcloud_cidrs }`
+<summary>
 
-  - `PublicIPIPs object { etag, ipv4_cidrs, ipv6_cidrs }`
+PublicIPIPs object {etag, ipv4\_cidrs, ipv6\_cidrs }
 
-    - `etag: optional string`
+</summary>
 
-      A digest of the IP data. Useful for determining if the data has changed.
+etag: optional string
 
-    - `ipv4_cidrs: optional array of string`
+A digest of the IP data. Useful for determining if the data has changed.
 
-      List of Cloudflare IPv4 CIDR addresses.
+<a href="#">Link to this property</a>
 
-    - `ipv6_cidrs: optional array of string`
+ipv4\_cidrs: optional array of string
 
-      List of Cloudflare IPv6 CIDR addresses.
+List of Cloudflare IPv4 CIDR addresses.
 
-  - `PublicIPIPsJDCloud object { etag, ipv4_cidrs, ipv6_cidrs, jdcloud_cidrs }`
+<a href="#">Link to this property</a>
 
-    - `etag: optional string`
+ipv6\_cidrs: optional array of string
 
-      A digest of the IP data. Useful for determining if the data has changed.
+List of Cloudflare IPv6 CIDR addresses.
 
-    - `ipv4_cidrs: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of Cloudflare IPv4 CIDR addresses.
+</details>
 
-    - `ipv6_cidrs: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of Cloudflare IPv6 CIDR addresses.
+<details>
 
-    - `jdcloud_cidrs: optional array of string`
+<summary>
 
-      List IPv4 and IPv6 CIDRs, only populated if `?networks=jdcloud` is used.
+PublicIPIPsJDCloud object {etag, ipv4\_cidrs, ipv6\_cidrs, jdcloud\_cidrs }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/ips
-```
+etag: optional string
 
-#### Response
+A digest of the IP data. Useful for determining if the data has changed.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "etag": "a8e453d9d129a3769407127936edfdb0",
-    "ipv4_cidrs": [
-      "199.27.128.0/21"
-    ],
-    "ipv6_cidrs": [
-      "2400:cb00::/32"
-    ]
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+ipv4\_cidrs: optional array of string
 
-### IPs
+List of Cloudflare IPv4 CIDR addresses.
 
-- `IPs = array of object { created_at, ip }`
+<a href="#">Link to this property</a>
 
-  The set of IPs on the Address Map.
+ipv6\_cidrs: optional array of string
 
-  - `created_at: optional string`
+List of Cloudflare IPv6 CIDR addresses.
 
-  - `ip: optional string`
+<a href="#">Link to this property</a>
 
-    An IPv4 or IPv6 address.
+jdcloud\_cidrs: optional array of string
 
-### IP List Response
+List IPv4 and IPv6 CIDRs, only populated if <code>?networks=jdcloud</code> is used.
 
-- `IPListResponse = object { etag, ipv4_cidrs, ipv6_cidrs }  or object { etag, ipv4_cidrs, ipv6_cidrs, jdcloud_cidrs }`
+<a href="#">Link to this property</a>
 
-  - `PublicIPIPs object { etag, ipv4_cidrs, ipv6_cidrs }`
+</details>
 
-    - `etag: optional string`
+<a href="#">Link to this property</a>
 
-      A digest of the IP data. Useful for determining if the data has changed.
+</details>
 
-    - `ipv4_cidrs: optional array of string`
-
-      List of Cloudflare IPv4 CIDR addresses.
-
-    - `ipv6_cidrs: optional array of string`
-
-      List of Cloudflare IPv6 CIDR addresses.
-
-  - `PublicIPIPsJDCloud object { etag, ipv4_cidrs, ipv6_cidrs, jdcloud_cidrs }`
-
-    - `etag: optional string`
-
-      A digest of the IP data. Useful for determining if the data has changed.
-
-    - `ipv4_cidrs: optional array of string`
-
-      List of Cloudflare IPv4 CIDR addresses.
-
-    - `ipv6_cidrs: optional array of string`
-
-      List of Cloudflare IPv6 CIDR addresses.
-
-    - `jdcloud_cidrs: optional array of string`
-
-      List IPv4 and IPv6 CIDRs, only populated if `?networks=jdcloud` is used.
+[Link to this property](#)%20ips%20%3E%20(model)%20ip_list_response%20%3E%20(schema)>)

@@ -1,238 +1,644 @@
-## Update DNS Settings
+---
+title: Update DNS Settings
+---
 
-**patch** `/accounts/{account_id}/dns_settings`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+[Settings](https://developers.cloudflare.com/api/resources/dns/subresources/settings)
+
+[Account](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update DNS Settings
+
+PATCH/accounts/{account\_id}/dns\_settings
 
 Update DNS settings for an account
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `enforce_dns_only: optional boolean`
 
-  When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record's individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only).
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `zone_defaults: optional object { flatten_all_cnames, foundation_dns, internal_dns, 6 more }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `flatten_all_cnames: optional boolean`
+</details>
 
-    Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened.
+<details>
 
-  - `foundation_dns: optional boolean`
+<summary>API Email + API Key</summary>
 
-    Whether to enable Foundation DNS Advanced Nameservers on the zone.
 
-  - `internal_dns: optional object { reference_zone_id }`
 
-    Settings for this internal zone.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `reference_zone_id: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      The ID of the zone to fallback to.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `multi_provider: optional boolean`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers.
+</details>
 
-  - `nameservers: optional object { type }`
+##### Accepted Permissions (at least one required)
 
-    Settings determining the nameservers through which the zone should be available.
+`Account DNS Settings Write`
 
-    - `type: optional "cloudflare.standard" or "cloudflare.standard.random" or "custom.account" or "custom.tenant"`
+##### P ath ParametersExpand Collapse
 
-      Nameserver type
+account\_id: string
 
-      - `"cloudflare.standard"`
+Identifier.
 
-      - `"cloudflare.standard.random"`
+maxLength32
 
-      - `"custom.account"`
+[Link to this property](#)%20dns.settings.account%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `"custom.tenant"`
+##### Body ParametersJSONExpand Collapse
 
-  - `ns_ttl: optional number`
+enforce\_dns\_only: optional boolean
 
-    The time to live (TTL) of the zone's nameserver (NS) records.
+When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record’s individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only).
 
-  - `secondary_overrides: optional boolean`
+[Link to this property](#)%20dns.settings.account%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20enforce_dns_only%20%3E%20(schema)>)
 
-    Allows a Secondary DNS zone to use (proxied) override records and CNAME flattening at the zone apex.
+<details>
 
-  - `soa: optional object { expire, min_ttl, mname, 4 more }`
+<summary>
 
-    Components of the zone's SOA record.
+zone\_defaults: optional object {flatten\_all\_cnames, foundation\_dns, internal\_dns, 6 more }
 
-    - `expire: optional number`
+</summary>
 
-      Time in seconds of being unable to query the primary server after which secondary servers should stop serving the zone.
+flatten\_all\_cnames: optional boolean
 
-    - `min_ttl: optional number`
+Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened.
 
-      The time to live (TTL) for negative caching of records within the zone.
+<a href="#">Link to this property</a>
 
-    - `mname: optional string`
+Deprecatedfoundation\_dns: optional boolean
 
-      The primary nameserver, which may be used for outbound zone transfers. If null, a Cloudflare-assigned value will be used.
+foundation\_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version.
 
-    - `refresh: optional number`
+Deprecated. Use nameservers.type to configure Advanced Nameservers.
 
-      Time in seconds after which secondary servers should re-check the SOA record to see if the zone has been updated.
+<a href="#">Link to this property</a>
 
-    - `retry: optional number`
+<details>
 
-      Time in seconds after which secondary servers should retry queries after the primary server was unresponsive.
+<summary>
 
-    - `rname: optional string`
+internal\_dns: optional object {reference\_zone\_id }
 
-      The email address of the zone administrator, with the first label representing the local part of the email address.
+Settings for this internal zone.
 
-    - `ttl: optional number`
+</summary>
 
-      The time to live (TTL) of the SOA record itself.
+reference\_zone\_id: optional string
 
-  - `zone_mode: optional "standard" or "cdn_only" or "dns_only"`
+The ID of the zone to fallback to.
 
-    Whether the zone mode is a regular or CDN/DNS only zone.
+<a href="#">Link to this property</a>
 
-    - `"standard"`
+</details>
 
-    - `"cdn_only"`
+<a href="#">Link to this property</a>
 
-    - `"dns_only"`
+multi\_provider: optional boolean
 
-### Returns
+Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+nameservers: optional object {type }
 
-  - `source: optional object { pointer }`
+Settings determining the nameservers through which the zone should be available.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+type: optional "cloudflare.standard"or "cloudflare.advanced"or "cloudflare.standard.random"or 2 more
 
-  - `documentation_url: optional string`
+Nameserver type
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `success: true`
+"cloudflare.standard"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"cloudflare.advanced"
 
-- `result: optional object { zone_defaults, enforce_dns_only }`
+<a href="#">Link to this property</a>
 
-  - `zone_defaults: object { flatten_all_cnames, foundation_dns, internal_dns, 6 more }`
+"cloudflare.standard.random"
 
-    - `flatten_all_cnames: boolean`
+<a href="#">Link to this property</a>
 
-      Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened.
+"custom.account"
 
-    - `foundation_dns: boolean`
+<a href="#">Link to this property</a>
 
-      Whether to enable Foundation DNS Advanced Nameservers on the zone.
+"custom.tenant"
 
-    - `internal_dns: object { reference_zone_id }`
+<a href="#">Link to this property</a>
 
-      Settings for this internal zone.
+</details>
 
-      - `reference_zone_id: optional string`
+<a href="#">Link to this property</a>
 
-        The ID of the zone to fallback to.
+</details>
 
-    - `multi_provider: boolean`
+<a href="#">Link to this property</a>
 
-      Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers.
+ns\_ttl: optional number
 
-    - `nameservers: object { type }`
+The time to live (TTL) of the zone’s nameserver (NS) records.
 
-      Settings determining the nameservers through which the zone should be available.
+maximum86400
 
-      - `type: "cloudflare.standard" or "cloudflare.standard.random" or "custom.account" or "custom.tenant"`
+minimum30
 
-        Nameserver type
+<a href="#">Link to this property</a>
 
-        - `"cloudflare.standard"`
+secondary\_overrides: optional boolean
 
-        - `"cloudflare.standard.random"`
+Allows a Secondary DNS zone to use (proxied) override records and CNAME flattening at the zone apex.
 
-        - `"custom.account"`
+<a href="#">Link to this property</a>
 
-        - `"custom.tenant"`
+<details>
 
-    - `ns_ttl: number`
+<summary>
 
-      The time to live (TTL) of the zone's nameserver (NS) records.
+soa: optional object {expire, min\_ttl, mname, 4 more }
 
-    - `secondary_overrides: boolean`
+Components of the zone’s SOA record.
 
-      Allows a Secondary DNS zone to use (proxied) override records and CNAME flattening at the zone apex.
+</summary>
 
-    - `soa: object { expire, min_ttl, mname, 4 more }`
+expire: optional number
 
-      Components of the zone's SOA record.
+Time in seconds of being unable to query the primary server after which secondary servers should stop serving the zone.
 
-      - `expire: optional number`
+maximum2419200
 
-        Time in seconds of being unable to query the primary server after which secondary servers should stop serving the zone.
+minimum86400
 
-      - `min_ttl: optional number`
+<a href="#">Link to this property</a>
 
-        The time to live (TTL) for negative caching of records within the zone.
+min\_ttl: optional number
 
-      - `mname: optional string`
+The time to live (TTL) for negative caching of records within the zone.
 
-        The primary nameserver, which may be used for outbound zone transfers. If null, a Cloudflare-assigned value will be used.
+maximum86400
 
-      - `refresh: optional number`
+minimum60
 
-        Time in seconds after which secondary servers should re-check the SOA record to see if the zone has been updated.
+<a href="#">Link to this property</a>
 
-      - `retry: optional number`
+mname: optional string
 
-        Time in seconds after which secondary servers should retry queries after the primary server was unresponsive.
+The primary nameserver, which may be used for outbound zone transfers. If null, a Cloudflare-assigned value will be used.
 
-      - `rname: optional string`
+<a href="#">Link to this property</a>
 
-        The email address of the zone administrator, with the first label representing the local part of the email address.
+refresh: optional number
 
-      - `ttl: optional number`
+Time in seconds after which secondary servers should re-check the SOA record to see if the zone has been updated.
 
-        The time to live (TTL) of the SOA record itself.
+maximum86400
 
-    - `zone_mode: "standard" or "cdn_only" or "dns_only"`
+minimum600
 
-      Whether the zone mode is a regular or CDN/DNS only zone.
+<a href="#">Link to this property</a>
 
-      - `"standard"`
+retry: optional number
 
-      - `"cdn_only"`
+Time in seconds after which secondary servers should retry queries after the primary server was unresponsive.
 
-      - `"dns_only"`
+maximum86400
 
-  - `enforce_dns_only: optional boolean`
+minimum600
 
-    When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record's individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only).
+<a href="#">Link to this property</a>
 
-### Example
+rname: optional string
 
-```http
+The email address of the zone administrator, with the first label representing the local part of the email address.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+The time to live (TTL) of the SOA record itself.
+
+maximum86400
+
+minimum300
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zone\_mode: optional "standard"or "cdn\_only"or "dns\_only"
+
+Whether the zone mode is a regular or CDN/DNS only zone.
+
+</summary>
+
+One of the following:
+
+"standard"
+
+<a href="#">Link to this property</a>
+
+"cdn\_only"
+
+<a href="#">Link to this property</a>
+
+"dns\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns.settings.account%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20zone_defaults%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns.settings.account%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns.settings.account%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20dns.settings.account%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {zone\_defaults, enforce\_dns\_only }
+
+</summary>
+
+<details>
+
+<summary>
+
+zone\_defaults: object {flatten\_all\_cnames, foundation\_dns, internal\_dns, 6 more }
+
+</summary>
+
+flatten\_all\_cnames: boolean
+
+Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened.
+
+<a href="#">Link to this property</a>
+
+Deprecatedfoundation\_dns: boolean
+
+foundation\_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version.
+
+Deprecated. Use nameservers.type to configure Advanced Nameservers.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+internal\_dns: object {reference\_zone\_id }
+
+Settings for this internal zone.
+
+</summary>
+
+reference\_zone\_id: optional string
+
+The ID of the zone to fallback to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+multi\_provider: boolean
+
+Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+nameservers: object {type }
+
+Settings determining the nameservers through which the zone should be available.
+
+</summary>
+
+<details>
+
+<summary>
+
+type: "cloudflare.standard"or "cloudflare.advanced"or "cloudflare.standard.random"or 2 more
+
+Nameserver type
+
+</summary>
+
+One of the following:
+
+"cloudflare.standard"
+
+<a href="#">Link to this property</a>
+
+"cloudflare.advanced"
+
+<a href="#">Link to this property</a>
+
+"cloudflare.standard.random"
+
+<a href="#">Link to this property</a>
+
+"custom.account"
+
+<a href="#">Link to this property</a>
+
+"custom.tenant"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ns\_ttl: number
+
+The time to live (TTL) of the zone’s nameserver (NS) records.
+
+maximum86400
+
+minimum30
+
+<a href="#">Link to this property</a>
+
+secondary\_overrides: boolean
+
+Allows a Secondary DNS zone to use (proxied) override records and CNAME flattening at the zone apex.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+soa: object {expire, min\_ttl, mname, 4 more }
+
+Components of the zone’s SOA record.
+
+</summary>
+
+expire: optional number
+
+Time in seconds of being unable to query the primary server after which secondary servers should stop serving the zone.
+
+maximum2419200
+
+minimum86400
+
+<a href="#">Link to this property</a>
+
+min\_ttl: optional number
+
+The time to live (TTL) for negative caching of records within the zone.
+
+maximum86400
+
+minimum60
+
+<a href="#">Link to this property</a>
+
+mname: optional string
+
+The primary nameserver, which may be used for outbound zone transfers. If null, a Cloudflare-assigned value will be used.
+
+<a href="#">Link to this property</a>
+
+refresh: optional number
+
+Time in seconds after which secondary servers should re-check the SOA record to see if the zone has been updated.
+
+maximum86400
+
+minimum600
+
+<a href="#">Link to this property</a>
+
+retry: optional number
+
+Time in seconds after which secondary servers should retry queries after the primary server was unresponsive.
+
+maximum86400
+
+minimum600
+
+<a href="#">Link to this property</a>
+
+rname: optional string
+
+The email address of the zone administrator, with the first label representing the local part of the email address.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+The time to live (TTL) of the SOA record itself.
+
+maximum86400
+
+minimum300
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zone\_mode: "standard"or "cdn\_only"or "dns\_only"
+
+Whether the zone mode is a regular or CDN/DNS only zone.
+
+</summary>
+
+One of the following:
+
+"standard"
+
+<a href="#">Link to this property</a>
+
+"cdn\_only"
+
+<a href="#">Link to this property</a>
+
+"dns\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enforce\_dns\_only: optional boolean
+
+When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record’s individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on <a href="https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only">Enforce DNS-only</a>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns.settings.account%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update DNS Settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_settings \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -240,9 +646,65 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_settings \
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "zone_defaults": {
+      "flatten_all_cnames": false,
+      "foundation_dns": false,
+      "internal_dns": {
+        "reference_zone_id": "reference_zone_id"
+      },
+      "multi_provider": false,
+      "nameservers": {
+        "type": "cloudflare.standard"
+      },
+      "ns_ttl": 86400,
+      "secondary_overrides": false,
+      "soa": {
+        "expire": 604800,
+        "min_ttl": 1800,
+        "mname": "kristina.ns.cloudflare.com",
+        "refresh": 10000,
+        "retry": 2400,
+        "rname": "admin.example.com",
+        "ttl": 3600
+      },
+      "zone_mode": "dns_only"
+    },
+    "enforce_dns_only": false
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

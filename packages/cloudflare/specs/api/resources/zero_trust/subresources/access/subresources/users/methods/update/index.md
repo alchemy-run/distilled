@@ -1,106 +1,282 @@
-## Update a user
+---
+title: Update a user
+---
 
-**put** `/accounts/{account_id}/access/users/{user_id}`
+[Skip to content](#_top)
 
-Updates a specific user's name for an account. Requires the user's current email as confirmation (email cannot be changed).
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
 
-  Identifier.
+[Users](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users)
 
-- `user_id: string`
+Copy Markdown
 
-  UUID.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `email: string`
+**Copy Markdown****View as Markdown**
 
-  The email of the user.
+# Update a user
 
-- `name: string`
+PUT/accounts/{account\_id}/access/users/{user\_id}
 
-  The name of the user.
+Updates a specific user’s name for an account. Requires the user’s current email as confirmation (email cannot be changed).
 
-### Returns
+##### Security
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `pointer: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Email + API Key</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `success: true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result: optional object { id, access_seat, active_device_count, 8 more }`
+</details>
 
-  - `id: optional string`
+##### Accepted Permissions (at least one required)
 
-    UUID.
+`Zero Trust: Seats Write`
 
-  - `access_seat: optional boolean`
+##### P ath ParametersExpand Collapse
 
-    True if the user has authenticated with Cloudflare Access.
+account\_id: string
 
-  - `active_device_count: optional number`
+Identifier.
 
-    The number of active devices registered to the user.
+maxLength32
 
-  - `created_at: optional string`
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `email: optional string`
+user\_id: string
 
-    The email of the user.
+UUID.
 
-  - `gateway_seat: optional boolean`
+maxLength36
 
-    True if the user has logged into the WARP client.
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20user_id%20%3E%20(schema)>)
 
-  - `last_successful_login: optional string`
+##### Body ParametersJSONExpand Collapse
 
-    The time at which the user last successfully logged in.
+email: string
 
-  - `name: optional string`
+The email of the user.
 
-    The name of the user.
+formatemail
 
-  - `seat_uid: optional string`
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20email%20%3E%20(schema)>)
 
-    The unique API identifier for the Zero Trust seat.
+name: string
 
-  - `uid: optional string`
+The name of the user.
 
-    The unique API identifier for the user.
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `updated_at: optional string`
+##### ReturnsExpand Collapse
 
-### Example
+<details>
 
-```http
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, access\_seat, active\_device\_count, 8 more }
+
+</summary>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+access\_seat: optional boolean
+
+True if the user has authenticated with Cloudflare Access.
+
+<a href="#">Link to this property</a>
+
+active\_device\_count: optional number
+
+The number of active devices registered to the user.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+The email of the user.
+
+formatemail
+
+<a href="#">Link to this property</a>
+
+gateway\_seat: optional boolean
+
+True if the user has logged into the WARP client.
+
+<a href="#">Link to this property</a>
+
+last\_successful\_login: optional string
+
+The time at which the user last successfully logged in.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the user.
+
+<a href="#">Link to this property</a>
+
+seat\_uid: optional string
+
+The unique API identifier for the Zero Trust seat.
+
+<a href="#">Link to this property</a>
+
+uid: optional string
+
+The unique API identifier for the user.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a user
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -111,9 +287,52 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USE
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "access_seat": false,
+    "active_device_count": 2,
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "email": "jdoe@example.com",
+    "gateway_seat": false,
+    "last_successful_login": "2020-07-01T05:20:00Z",
+    "name": "Jane Doe",
+    "seat_uid": "seat_uid",
+    "uid": "uid",
+    "updated_at": "2014-01-01T05:20:00.12345Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

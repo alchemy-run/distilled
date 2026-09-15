@@ -1,3672 +1,2355 @@
+---
+title: IPSEC Tunnels
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # IPSEC Tunnels
 
-## List IPsec tunnels
+##### [List IPsec tunnels](https://developers.cloudflare.com/api/resources/magic_transit/subresources/ipsec_tunnels/methods/list)
 
-**get** `/accounts/{account_id}/magic/ipsec_tunnels`
+GET/accounts/{account\_id}/magic/ipsec\_tunnels
 
-Lists IPsec tunnels associated with an account.
+##### [List IPsec tunnel details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/ipsec_tunnels/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/ipsec\_tunnels/{ipsec\_tunnel\_id}
 
-- `account_id: string`
+##### [Create an IPsec tunnel](https://developers.cloudflare.com/api/resources/magic_transit/subresources/ipsec_tunnels/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/magic/ipsec\_tunnels
 
-### Header Parameters
+##### [Update IPsec Tunnel](https://developers.cloudflare.com/api/resources/magic_transit/subresources/ipsec_tunnels/methods/update)
 
-- `"x-magic-new-hc-target": optional boolean`
+PUT/accounts/{account\_id}/magic/ipsec\_tunnels/{ipsec\_tunnel\_id}
 
-### Returns
+##### [Delete IPsec Tunnel](https://developers.cloudflare.com/api/resources/magic_transit/subresources/ipsec_tunnels/methods/delete)
 
-- `errors: array of ResponseInfo`
+DELETE/accounts/{account\_id}/magic/ipsec\_tunnels/{ipsec\_tunnel\_id}
 
-  - `code: number`
+##### [Update multiple IPsec tunnels](https://developers.cloudflare.com/api/resources/magic_transit/subresources/ipsec_tunnels/methods/bulk_update)
 
-  - `message: string`
+PUT/accounts/{account\_id}/magic/ipsec\_tunnels
 
-  - `documentation_url: optional string`
+##### [Generate Pre-Shared Key (PSK) for IPsec tunnels](https://developers.cloudflare.com/api/resources/magic_transit/subresources/ipsec_tunnels/methods/psk_generate)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/magic/ipsec\_tunnels/{ipsec\_tunnel\_id}/psk\_generate
 
-    - `pointer: optional string`
+##### [Set Pre-Shared Keys (PSK) for IPsec tunnels](https://developers.cloudflare.com/api/resources/magic_transit/subresources/ipsec_tunnels/methods/psk_set)
 
-- `messages: array of ResponseInfo`
+POST/accounts/{account\_id}/magic/ipsec\_tunnels/psk
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+PSKMetadata object {last\_generated\_on }
 
-- `result: object { ipsec_tunnels }`
+The PSK metadata that includes when the PSK was generated.
 
-  - `ipsec_tunnels: optional array of object { id, cloudflare_endpoint, interface_address, 14 more }`
+</summary>
 
-    - `id: string`
+last\_generated\_on: optional string
 
-      Identifier
+The date and time the tunnel was last modified.
 
-    - `cloudflare_endpoint: string`
+formatdate-time
 
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
+<a href="#">Link to this property</a>
 
-    - `interface_address: string`
+</details>
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)>)
 
-    - `name: string`
+<details>
 
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+<summary>
 
-    - `allow_null_cipher: optional boolean`
+IPSECTunnelListResponse object {ipsec\_tunnels }
 
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+</summary>
 
-    - `automatic_return_routing: optional boolean`
+<details>
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<summary>
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+ipsec\_tunnels: optional array of object {id, cloudflare\_endpoint, interface\_address, 14 more }
 
-      - `customer_asn: number`
+</summary>
 
-        ASN used on the customer end of the BGP session
+id: string
 
-      - `export_filter_id: optional string`
+Identifier
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+maxLength32
 
-      - `extra_prefixes: optional array of string`
+<a href="#">Link to this property</a>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+cloudflare\_endpoint: string
 
-      - `import_filter_id: optional string`
+The IP address assigned to the Cloudflare side of the IPsec tunnel.
 
-        ID of the BGP filter profile applied to routes received from the customer.
+<a href="#">Link to this property</a>
 
-      - `md5_key: optional string`
+interface\_address: string
 
-        MD5 key to use for session authentication.
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+name: string
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+The name of the IPsec tunnel. The name cannot share a name with other tunnels.
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+allow\_null\_cipher: optional boolean
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+When <code>true</code>, the tunnel can use a null-cipher (<code>ENCR_NULL</code>) in the ESP tunnel (Phase 2).
 
-        - `"BGP_DOWN"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_UP"`
+automatic\_return\_routing: optional boolean
 
-        - `"BGP_ESTABLISHING"`
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-      - `tcp_established: boolean`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+<details>
 
-      - `bgp_state: optional string`
+<summary>
 
-      - `cf_speaker_ip: optional string`
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-      - `cf_speaker_port: optional number`
+</summary>
 
-      - `customer_speaker_ip: optional string`
+customer\_asn: number
 
-      - `customer_speaker_port: optional number`
+ASN used on the customer end of the BGP session
 
-    - `created_on: optional string`
+formatint32
 
-      The date and time the tunnel was created.
+minimum0
 
-    - `custom_remote_identities: optional object { fqdn_id }`
+<a href="#">Link to this property</a>
 
-      - `fqdn_id: optional string`
+export\_filter\_id: optional string
 
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+<a href="#">Link to this property</a>
 
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
+extra\_prefixes: optional array of string
 
-    - `customer_endpoint: optional string`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+import\_filter\_id: optional string
 
-      An optional description forthe IPsec tunnel.
+ID of the BGP filter profile applied to routes received from the customer.
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+md5\_key: optional string
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+MD5 key to use for session authentication.
 
-        - `"unidirectional"`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-        - `"bidirectional"`
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-      - `enabled: optional boolean`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-        Determines whether to run healthchecks for a tunnel.
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-      - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-        How frequent the health check is run. The default value is `mid`.
+</details>
 
-        - `"low"`
+<a href="#">Link to this property</a>
 
-        - `"mid"`
+<details>
 
-        - `"high"`
+<summary>
 
-      - `target: optional object { effective, saved }  or string`
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+</summary>
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+<details>
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<summary>
 
-          - `effective: optional string`
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+</summary>
 
-          - `saved: optional string`
+One of the following:
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+"BGP\_DOWN"
 
-        - `string`
+<a href="#">Link to this property</a>
 
-      - `type: optional HealthCheckType`
+"BGP\_UP"
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+<a href="#">Link to this property</a>
 
-        - `"reply"`
+"BGP\_ESTABLISHING"
 
-        - `"request"`
+<a href="#">Link to this property</a>
 
-    - `interface_address6: optional string`
+</details>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+<a href="#">Link to this property</a>
 
-    - `modified_on: optional string`
+tcp\_established: boolean
 
-      The date and time the tunnel was last modified.
+<a href="#">Link to this property</a>
 
-    - `psk_metadata: optional PSKMetadata`
+updated\_at: string
 
-      The PSK metadata that includes when the PSK was generated.
+formatdate-time
 
-      - `last_generated_on: optional string`
+<a href="#">Link to this property</a>
 
-        The date and time the tunnel was last modified.
+bgp\_state: optional string
 
-    - `replay_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+cf\_speaker\_ip: optional string
 
-- `success: true`
+formatipv4
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+cf\_speaker\_port: optional number
 
-### Example
+maximum65535
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/ipsec_tunnels \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+minimum1
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "ipsec_tunnels": [
-      {
-        "id": "c4a7362d577a6c3019a474fd6f485821",
-        "cloudflare_endpoint": "203.0.113.1",
-        "interface_address": "192.0.2.0/31",
-        "name": "IPsec_1",
-        "allow_null_cipher": true,
-        "automatic_return_routing": true,
-        "bgp": {
-          "customer_asn": 0,
-          "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-          "extra_prefixes": [
-            "string"
-          ],
-          "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-          "md5_key": "md5_key"
-        },
-        "bgp_status": {
-          "state": "BGP_DOWN",
-          "tcp_established": true,
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "bgp_state": "bgp_state",
-          "cf_speaker_ip": "192.168.1.1",
-          "cf_speaker_port": 1,
-          "customer_speaker_ip": "192.168.1.1",
-          "customer_speaker_port": 1
-        },
-        "created_on": "2017-06-14T00:00:00Z",
-        "custom_remote_identities": {
-          "fqdn_id": "fqdn_id"
-        },
-        "customer_endpoint": "203.0.113.1",
-        "description": "Tunnel for ISP X",
-        "health_check": {
-          "direction": "bidirectional",
-          "enabled": true,
-          "rate": "low",
-          "target": {
-            "effective": "203.0.113.1",
-            "saved": "203.0.113.1"
-          },
-          "type": "request"
-        },
-        "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-        "modified_on": "2017-06-14T05:20:00Z",
-        "psk_metadata": {
-          "last_generated_on": "2017-06-14T05:20:00Z"
-        },
-        "replay_protection": false
-      }
-    ]
-  },
-  "success": true
-}
-```
+customer\_speaker\_ip: optional string
 
-## List IPsec tunnel details
+formatipv4
 
-**get** `/accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}`
+<a href="#">Link to this property</a>
 
-Lists details for a specific IPsec tunnel.
+customer\_speaker\_port: optional number
 
-### Path Parameters
+maximum65535
 
-- `account_id: string`
+minimum1
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `ipsec_tunnel_id: string`
+</details>
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Header Parameters
+created\_on: optional string
 
-- `"x-magic-new-hc-target": optional boolean`
+The date and time the tunnel was created.
 
-### Returns
+formatdate-time
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+custom\_remote\_identities: optional object {fqdn\_id }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+fqdn\_id: optional string
 
-- `messages: array of ResponseInfo`
+A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified.
 
-  - `code: number`
+Must be of the form <code>&lt;custom label&gt;.&lt;account ID&gt;.custom.ipsec.cloudflare.com</code>.
 
-  - `message: string`
+This custom ID does not need to be unique. Two IPsec tunnels may have the same custom fqdn\_id. However, if another IPsec tunnel has the same value then the two tunnels cannot have the same cloudflare\_endpoint.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { ipsec_tunnel }`
+<a href="#">Link to this property</a>
 
-  - `ipsec_tunnel: optional object { id, cloudflare_endpoint, interface_address, 14 more }`
+customer\_endpoint: optional string
 
-    - `id: string`
+The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `cloudflare_endpoint: string`
+description: optional string
 
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
+An optional description forthe IPsec tunnel.
 
-    - `interface_address: string`
+<a href="#">Link to this property</a>
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+<details>
 
-    - `name: string`
+<summary>
 
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-    - `allow_null_cipher: optional boolean`
+</summary>
 
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+<details>
 
-    - `automatic_return_routing: optional boolean`
+<summary>
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+direction: optional "unidirectional"or "bidirectional"
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-      - `customer_asn: number`
+</summary>
 
-        ASN used on the customer end of the BGP session
+One of the following:
 
-      - `export_filter_id: optional string`
+"unidirectional"
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+<a href="#">Link to this property</a>
 
-      - `extra_prefixes: optional array of string`
+"bidirectional"
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<a href="#">Link to this property</a>
 
-      - `import_filter_id: optional string`
+</details>
 
-        ID of the BGP filter profile applied to routes received from the customer.
+<a href="#">Link to this property</a>
 
-      - `md5_key: optional string`
+enabled: optional boolean
 
-        MD5 key to use for session authentication.
+Determines whether to run healthchecks for a tunnel.
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+How frequent the health check is run. The default value is <code>mid</code>.
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+<details>
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+<summary>
 
-        - `"BGP_DOWN"`
+target: optional object {effective, saved } or string
 
-        - `"BGP_UP"`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-        - `"BGP_ESTABLISHING"`
+</summary>
 
-      - `tcp_established: boolean`
+One of the following:
 
-      - `updated_at: string`
+<details>
 
-      - `bgp_state: optional string`
+<summary>
 
-      - `cf_speaker_ip: optional string`
+MagicHealthCheckTarget object {effective, saved }
 
-      - `cf_speaker_port: optional number`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-      - `customer_speaker_ip: optional string`
+</summary>
 
-      - `customer_speaker_port: optional number`
+effective: optional string
 
-    - `created_on: optional string`
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-      The date and time the tunnel was created.
+<a href="#">Link to this property</a>
 
-    - `custom_remote_identities: optional object { fqdn_id }`
+saved: optional string
 
-      - `fqdn_id: optional string`
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
+<a href="#">Link to this property</a>
 
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+</details>
 
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
+<a href="#">Link to this property</a>
 
-    - `customer_endpoint: optional string`
+string
 
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      An optional description forthe IPsec tunnel.
+<a href="#">Link to this property</a>
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+<a href="#">Link to this property</a>
 
-        - `"unidirectional"`
+</details>
 
-        - `"bidirectional"`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+interface\_address6: optional string
 
-        Determines whether to run healthchecks for a tunnel.
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-      - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-        How frequent the health check is run. The default value is `mid`.
+modified\_on: optional string
 
-        - `"low"`
+The date and time the tunnel was last modified.
 
-        - `"mid"`
+formatdate-time
 
-        - `"high"`
+<a href="#">Link to this property</a>
 
-      - `target: optional object { effective, saved }  or string`
+psk\_metadata: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)">PSKMetadata</a> { last\_generated\_on }
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+The PSK metadata that includes when the PSK was generated.
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+<a href="#">Link to this property</a>
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+replay\_protection: optional boolean
 
-          - `effective: optional string`
+If <code>true</code>, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+<a href="#">Link to this property</a>
 
-          - `saved: optional string`
+</details>
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+<a href="#">Link to this property</a>
 
-        - `string`
+</details>
 
-      - `type: optional HealthCheckType`
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20ipsec_tunnel_list_response%20%3E%20(schema)>)
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+<details>
 
-        - `"reply"`
+<summary>
 
-        - `"request"`
+IPSECTunnelGetResponse object {ipsec\_tunnel }
 
-    - `interface_address6: optional string`
+</summary>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      The date and time the tunnel was last modified.
+ipsec\_tunnel: optional object {id, cloudflare\_endpoint, interface\_address, 14 more }
 
-    - `psk_metadata: optional PSKMetadata`
+</summary>
 
-      The PSK metadata that includes when the PSK was generated.
+id: string
 
-      - `last_generated_on: optional string`
+Identifier
 
-        The date and time the tunnel was last modified.
+maxLength32
 
-    - `replay_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+cloudflare\_endpoint: string
 
-- `success: true`
+The IP address assigned to the Cloudflare side of the IPsec tunnel.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+interface\_address: string
 
-### Example
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/ipsec_tunnels/$IPSEC_TUNNEL_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "ipsec_tunnel": {
-      "id": "c4a7362d577a6c3019a474fd6f485821",
-      "cloudflare_endpoint": "203.0.113.1",
-      "interface_address": "192.0.2.0/31",
-      "name": "IPsec_1",
-      "allow_null_cipher": true,
-      "automatic_return_routing": true,
-      "bgp": {
-        "customer_asn": 0,
-        "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "extra_prefixes": [
-          "string"
-        ],
-        "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "md5_key": "md5_key"
-      },
-      "bgp_status": {
-        "state": "BGP_DOWN",
-        "tcp_established": true,
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "bgp_state": "bgp_state",
-        "cf_speaker_ip": "192.168.1.1",
-        "cf_speaker_port": 1,
-        "customer_speaker_ip": "192.168.1.1",
-        "customer_speaker_port": 1
-      },
-      "created_on": "2017-06-14T00:00:00Z",
-      "custom_remote_identities": {
-        "fqdn_id": "fqdn_id"
-      },
-      "customer_endpoint": "203.0.113.1",
-      "description": "Tunnel for ISP X",
-      "health_check": {
-        "direction": "bidirectional",
-        "enabled": true,
-        "rate": "low",
-        "target": {
-          "effective": "203.0.113.1",
-          "saved": "203.0.113.1"
-        },
-        "type": "request"
-      },
-      "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "psk_metadata": {
-        "last_generated_on": "2017-06-14T05:20:00Z"
-      },
-      "replay_protection": false
-    }
-  },
-  "success": true
-}
-```
+The name of the IPsec tunnel. The name cannot share a name with other tunnels.
 
-## Create an IPsec tunnel
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/magic/ipsec_tunnels`
+allow\_null\_cipher: optional boolean
 
-Creates a new IPsec tunnel associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.
+When <code>true</code>, the tunnel can use a null-cipher (<code>ENCR_NULL</code>) in the ESP tunnel (Phase 2).
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+automatic\_return\_routing: optional boolean
 
-  Identifier
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"x-magic-new-hc-target": optional boolean`
+<details>
 
-### Body Parameters
+<summary>
 
-- `cloudflare_endpoint: string`
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-  The IP address assigned to the Cloudflare side of the IPsec tunnel.
+</summary>
 
-- `interface_address: string`
+customer\_asn: number
 
-  A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+ASN used on the customer end of the BGP session
 
-- `name: string`
+formatint32
 
-  The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+minimum0
 
-- `automatic_return_routing: optional boolean`
+<a href="#">Link to this property</a>
 
-  True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+export\_filter\_id: optional string
 
-- `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-  - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-    ASN used on the customer end of the BGP session
+extra\_prefixes: optional array of string
 
-  - `export_filter_id: optional string`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-    ID of the BGP filter profile applied to routes advertised to the customer.
+<a href="#">Link to this property</a>
 
-  - `extra_prefixes: optional array of string`
+import\_filter\_id: optional string
 
-    Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+ID of the BGP filter profile applied to routes received from the customer.
 
-  - `import_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-    ID of the BGP filter profile applied to routes received from the customer.
+md5\_key: optional string
 
-  - `md5_key: optional string`
+MD5 key to use for session authentication.
 
-    MD5 key to use for session authentication.
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-- `custom_remote_identities: optional object { fqdn_id }`
+</details>
 
-  - `fqdn_id: optional string`
+<a href="#">Link to this property</a>
 
-    A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-    generated IKE IDs can still be used even if this custom value is specified.
+<details>
 
-    Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+<summary>
 
-    This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-    fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-    cannot have the same cloudflare_endpoint.
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-- `customer_endpoint: optional string`
+</summary>
 
-  The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<details>
 
-- `description: optional string`
+<summary>
 
-  An optional description forthe IPsec tunnel.
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-- `health_check: optional object { direction, enabled, rate, 2 more }`
+</summary>
 
-  - `direction: optional "unidirectional" or "bidirectional"`
+One of the following:
 
-    The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+"BGP\_DOWN"
 
-    - `"unidirectional"`
+<a href="#">Link to this property</a>
 
-    - `"bidirectional"`
+"BGP\_UP"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether to run healthchecks for a tunnel.
+"BGP\_ESTABLISHING"
 
-  - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-    How frequent the health check is run. The default value is `mid`.
+</details>
 
-    - `"low"`
+<a href="#">Link to this property</a>
 
-    - `"mid"`
+tcp\_established: boolean
 
-    - `"high"`
+<a href="#">Link to this property</a>
 
-  - `target: optional object { effective, saved }  or string`
+updated\_at: string
 
-    The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+formatdate-time
 
-    - `MagicHealthCheckTarget object { effective, saved }`
+<a href="#">Link to this property</a>
 
-      The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+bgp\_state: optional string
 
-      - `effective: optional string`
+<a href="#">Link to this property</a>
 
-        The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+cf\_speaker\_ip: optional string
 
-      - `saved: optional string`
+formatipv4
 
-        The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+<a href="#">Link to this property</a>
 
-    - `string`
+cf\_speaker\_port: optional number
 
-  - `type: optional HealthCheckType`
+maximum65535
 
-    The type of healthcheck to run, reply or request. The default value is `reply`.
+minimum1
 
-    - `"reply"`
+<a href="#">Link to this property</a>
 
-    - `"request"`
+customer\_speaker\_ip: optional string
 
-- `interface_address6: optional string`
+formatipv4
 
-  A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+<a href="#">Link to this property</a>
 
-- `psk: optional string`
+customer\_speaker\_port: optional number
 
-  A randomly generated or provided string for use in the IPsec tunnel.
+maximum65535
 
-- `replay_protection: optional boolean`
+minimum1
 
-  If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: optional string
 
-  - `message: string`
+The date and time the tunnel was created.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+custom\_remote\_identities: optional object {fqdn\_id }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+fqdn\_id: optional string
 
-  - `source: optional object { pointer }`
+A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified.
 
-- `result: object { id, cloudflare_endpoint, interface_address, 14 more }`
+Must be of the form <code>&lt;custom label&gt;.&lt;account ID&gt;.custom.ipsec.cloudflare.com</code>.
 
-  - `id: string`
+This custom ID does not need to be unique. Two IPsec tunnels may have the same custom fqdn\_id. However, if another IPsec tunnel has the same value then the two tunnels cannot have the same cloudflare\_endpoint.
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `cloudflare_endpoint: string`
+</details>
 
-    The IP address assigned to the Cloudflare side of the IPsec tunnel.
+<a href="#">Link to this property</a>
 
-  - `interface_address: string`
+customer\_endpoint: optional string
 
-    A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+description: optional string
 
-  - `allow_null_cipher: optional boolean`
+An optional description forthe IPsec tunnel.
 
-    When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+<a href="#">Link to this property</a>
 
-  - `automatic_return_routing: optional boolean`
+<details>
 
-    True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<summary>
 
-  - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-    - `customer_asn: number`
+</summary>
 
-      ASN used on the customer end of the BGP session
+<details>
 
-    - `export_filter_id: optional string`
+<summary>
 
-      ID of the BGP filter profile applied to routes advertised to the customer.
+direction: optional "unidirectional"or "bidirectional"
 
-    - `extra_prefixes: optional array of string`
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-      Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+</summary>
 
-    - `import_filter_id: optional string`
+One of the following:
 
-      ID of the BGP filter profile applied to routes received from the customer.
+"unidirectional"
 
-    - `md5_key: optional string`
+<a href="#">Link to this property</a>
 
-      MD5 key to use for session authentication.
+"bidirectional"
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+</details>
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+enabled: optional boolean
 
-  - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+Determines whether to run healthchecks for a tunnel.
 
-    - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+<a href="#">Link to this property</a>
 
-      - `"BGP_DOWN"`
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-      - `"BGP_UP"`
+How frequent the health check is run. The default value is <code>mid</code>.
 
-      - `"BGP_ESTABLISHING"`
+<a href="#">Link to this property</a>
 
-    - `tcp_established: boolean`
+<details>
 
-    - `updated_at: string`
+<summary>
 
-    - `bgp_state: optional string`
+target: optional object {effective, saved } or string
 
-    - `cf_speaker_ip: optional string`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-    - `cf_speaker_port: optional number`
+</summary>
 
-    - `customer_speaker_ip: optional string`
+One of the following:
 
-    - `customer_speaker_port: optional number`
+<details>
 
-  - `created_on: optional string`
+<summary>
 
-    The date and time the tunnel was created.
+MagicHealthCheckTarget object {effective, saved }
 
-  - `custom_remote_identities: optional object { fqdn_id }`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-    - `fqdn_id: optional string`
+</summary>
 
-      A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-      generated IKE IDs can still be used even if this custom value is specified.
+effective: optional string
 
-      Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-      This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-      fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-      cannot have the same cloudflare_endpoint.
+<a href="#">Link to this property</a>
 
-  - `customer_endpoint: optional string`
+saved: optional string
 
-    The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An optional description forthe IPsec tunnel.
+</details>
 
-  - `health_check: optional object { direction, enabled, rate, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `direction: optional "unidirectional" or "bidirectional"`
+string
 
-      The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+<a href="#">Link to this property</a>
 
-      - `"unidirectional"`
+</details>
 
-      - `"bidirectional"`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-      Determines whether to run healthchecks for a tunnel.
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-    - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-      How frequent the health check is run. The default value is `mid`.
+</details>
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"mid"`
+interface\_address6: optional string
 
-      - `"high"`
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-    - `target: optional object { effective, saved }  or string`
+<a href="#">Link to this property</a>
 
-      The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+modified\_on: optional string
 
-      - `MagicHealthCheckTarget object { effective, saved }`
+The date and time the tunnel was last modified.
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+formatdate-time
 
-        - `effective: optional string`
+<a href="#">Link to this property</a>
 
-          The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+psk\_metadata: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)">PSKMetadata</a> { last\_generated\_on }
 
-        - `saved: optional string`
+The PSK metadata that includes when the PSK was generated.
 
-          The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+<a href="#">Link to this property</a>
 
-      - `string`
+replay\_protection: optional boolean
 
-    - `type: optional HealthCheckType`
+If <code>true</code>, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
 
-      The type of healthcheck to run, reply or request. The default value is `reply`.
+<a href="#">Link to this property</a>
 
-      - `"reply"`
+</details>
 
-      - `"request"`
+<a href="#">Link to this property</a>
 
-  - `interface_address6: optional string`
+</details>
 
-    A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20ipsec_tunnel_get_response%20%3E%20(schema)>)
 
-  - `modified_on: optional string`
+<details>
 
-    The date and time the tunnel was last modified.
+<summary>
 
-  - `psk_metadata: optional PSKMetadata`
+IPSECTunnelCreateResponse object {id, cloudflare\_endpoint, interface\_address, 14 more }
 
-    The PSK metadata that includes when the PSK was generated.
+</summary>
 
-    - `last_generated_on: optional string`
+id: string
 
-      The date and time the tunnel was last modified.
+Identifier
 
-  - `replay_protection: optional boolean`
+maxLength32
 
-    If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+<a href="#">Link to this property</a>
 
-- `success: true`
+cloudflare\_endpoint: string
 
-  Whether the API call was successful
+The IP address assigned to the Cloudflare side of the IPsec tunnel.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+interface\_address: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/ipsec_tunnels \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cloudflare_endpoint": "203.0.113.1",
-          "interface_address": "192.0.2.0/31",
-          "name": "IPsec_1",
-          "automatic_return_routing": true,
-          "customer_endpoint": "203.0.113.1",
-          "description": "Tunnel for ISP X",
-          "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-          "psk": "O3bwKSjnaoCxDoUxjcq4Rk8ZKkezQUiy"
-        }'
-```
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "c4a7362d577a6c3019a474fd6f485821",
-    "cloudflare_endpoint": "203.0.113.1",
-    "interface_address": "192.0.2.0/31",
-    "name": "IPsec_1",
-    "allow_null_cipher": true,
-    "automatic_return_routing": true,
-    "bgp": {
-      "customer_asn": 0,
-      "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-      "extra_prefixes": [
-        "string"
-      ],
-      "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-      "md5_key": "md5_key"
-    },
-    "bgp_status": {
-      "state": "BGP_DOWN",
-      "tcp_established": true,
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "bgp_state": "bgp_state",
-      "cf_speaker_ip": "192.168.1.1",
-      "cf_speaker_port": 1,
-      "customer_speaker_ip": "192.168.1.1",
-      "customer_speaker_port": 1
-    },
-    "created_on": "2017-06-14T00:00:00Z",
-    "custom_remote_identities": {
-      "fqdn_id": "fqdn_id"
-    },
-    "customer_endpoint": "203.0.113.1",
-    "description": "Tunnel for ISP X",
-    "health_check": {
-      "direction": "bidirectional",
-      "enabled": true,
-      "rate": "low",
-      "target": {
-        "effective": "203.0.113.1",
-        "saved": "203.0.113.1"
-      },
-      "type": "request"
-    },
-    "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-    "modified_on": "2017-06-14T05:20:00Z",
-    "psk_metadata": {
-      "last_generated_on": "2017-06-14T05:20:00Z"
-    },
-    "replay_protection": false
-  },
-  "success": true
-}
-```
+name: string
 
-## Update IPsec Tunnel
+The name of the IPsec tunnel. The name cannot share a name with other tunnels.
 
-**put** `/accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}`
+<a href="#">Link to this property</a>
 
-Updates a specific IPsec tunnel associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.
+allow\_null\_cipher: optional boolean
 
-### Path Parameters
+When <code>true</code>, the tunnel can use a null-cipher (<code>ENCR_NULL</code>) in the ESP tunnel (Phase 2).
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+automatic\_return\_routing: optional boolean
 
-- `ipsec_tunnel_id: string`
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Header Parameters
+<details>
 
-- `"x-magic-new-hc-target": optional boolean`
+<summary>
 
-### Body Parameters
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-- `cloudflare_endpoint: string`
+</summary>
 
-  The IP address assigned to the Cloudflare side of the IPsec tunnel.
+customer\_asn: number
 
-- `interface_address: string`
+ASN used on the customer end of the BGP session
 
-  A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+formatint32
 
-- `name: string`
+minimum0
 
-  The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+<a href="#">Link to this property</a>
 
-- `automatic_return_routing: optional boolean`
+export\_filter\_id: optional string
 
-  True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-- `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `customer_asn: number`
+extra\_prefixes: optional array of string
 
-    ASN used on the customer end of the BGP session
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-  - `export_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-    ID of the BGP filter profile applied to routes advertised to the customer.
+import\_filter\_id: optional string
 
-  - `extra_prefixes: optional array of string`
+ID of the BGP filter profile applied to routes received from the customer.
 
-    Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<a href="#">Link to this property</a>
 
-  - `import_filter_id: optional string`
+md5\_key: optional string
 
-    ID of the BGP filter profile applied to routes received from the customer.
+MD5 key to use for session authentication.
 
-  - `md5_key: optional string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-    MD5 key to use for session authentication.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+</details>
 
-- `custom_remote_identities: optional object { fqdn_id }`
+<a href="#">Link to this property</a>
 
-  - `fqdn_id: optional string`
+<details>
 
-    A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-    generated IKE IDs can still be used even if this custom value is specified.
+<summary>
 
-    Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-    This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-    fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-    cannot have the same cloudflare_endpoint.
+</summary>
 
-- `customer_endpoint: optional string`
+<details>
 
-  The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<summary>
 
-- `description: optional string`
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-  An optional description forthe IPsec tunnel.
+</summary>
 
-- `health_check: optional object { direction, enabled, rate, 2 more }`
+One of the following:
 
-  - `direction: optional "unidirectional" or "bidirectional"`
+"BGP\_DOWN"
 
-    The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+<a href="#">Link to this property</a>
 
-    - `"unidirectional"`
+"BGP\_UP"
 
-    - `"bidirectional"`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+"BGP\_ESTABLISHING"
 
-    Determines whether to run healthchecks for a tunnel.
+<a href="#">Link to this property</a>
 
-  - `rate: optional HealthCheckRate`
+</details>
 
-    How frequent the health check is run. The default value is `mid`.
+<a href="#">Link to this property</a>
 
-    - `"low"`
+tcp\_established: boolean
 
-    - `"mid"`
+<a href="#">Link to this property</a>
 
-    - `"high"`
+updated\_at: string
 
-  - `target: optional object { effective, saved }  or string`
+formatdate-time
 
-    The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+<a href="#">Link to this property</a>
 
-    - `MagicHealthCheckTarget object { effective, saved }`
+bgp\_state: optional string
 
-      The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-      - `effective: optional string`
+cf\_speaker\_ip: optional string
 
-        The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+formatipv4
 
-      - `saved: optional string`
+<a href="#">Link to this property</a>
 
-        The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+cf\_speaker\_port: optional number
 
-    - `string`
+maximum65535
 
-  - `type: optional HealthCheckType`
+minimum1
 
-    The type of healthcheck to run, reply or request. The default value is `reply`.
+<a href="#">Link to this property</a>
 
-    - `"reply"`
+customer\_speaker\_ip: optional string
 
-    - `"request"`
+formatipv4
 
-- `interface_address6: optional string`
+<a href="#">Link to this property</a>
 
-  A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+customer\_speaker\_port: optional number
 
-- `psk: optional string`
+maximum65535
 
-  A randomly generated or provided string for use in the IPsec tunnel.
+minimum1
 
-- `replay_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-  If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+created\_on: optional string
 
-  - `code: number`
+The date and time the tunnel was created.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+custom\_remote\_identities: optional object {fqdn\_id }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+fqdn\_id: optional string
 
-  - `documentation_url: optional string`
+A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified.
 
-  - `source: optional object { pointer }`
+Must be of the form <code>&lt;custom label&gt;.&lt;account ID&gt;.custom.ipsec.cloudflare.com</code>.
 
-- `result: object { modified, modified_ipsec_tunnel }`
+This custom ID does not need to be unique. Two IPsec tunnels may have the same custom fqdn\_id. However, if another IPsec tunnel has the same value then the two tunnels cannot have the same cloudflare\_endpoint.
 
-  - `modified: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `modified_ipsec_tunnel: optional object { id, cloudflare_endpoint, interface_address, 14 more }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifier
+customer\_endpoint: optional string
 
-    - `cloudflare_endpoint: string`
+The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
 
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
+<a href="#">Link to this property</a>
 
-    - `interface_address: string`
+description: optional string
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+An optional description forthe IPsec tunnel.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+<details>
 
-    - `allow_null_cipher: optional boolean`
+<summary>
 
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-    - `automatic_return_routing: optional boolean`
+</summary>
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<details>
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+<summary>
 
-      - `customer_asn: number`
+direction: optional "unidirectional"or "bidirectional"
 
-        ASN used on the customer end of the BGP session
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-      - `export_filter_id: optional string`
+</summary>
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+One of the following:
 
-      - `extra_prefixes: optional array of string`
+"unidirectional"
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<a href="#">Link to this property</a>
 
-      - `import_filter_id: optional string`
+"bidirectional"
 
-        ID of the BGP filter profile applied to routes received from the customer.
+<a href="#">Link to this property</a>
 
-      - `md5_key: optional string`
+</details>
 
-        MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+enabled: optional boolean
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+Determines whether to run healthchecks for a tunnel.
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+How frequent the health check is run. The default value is <code>mid</code>.
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_DOWN"`
+<details>
 
-        - `"BGP_UP"`
+<summary>
 
-        - `"BGP_ESTABLISHING"`
+target: optional object {effective, saved } or string
 
-      - `tcp_established: boolean`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-      - `updated_at: string`
+</summary>
 
-      - `bgp_state: optional string`
+One of the following:
 
-      - `cf_speaker_ip: optional string`
+<details>
 
-      - `cf_speaker_port: optional number`
+<summary>
 
-      - `customer_speaker_ip: optional string`
+MagicHealthCheckTarget object {effective, saved }
 
-      - `customer_speaker_port: optional number`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-    - `created_on: optional string`
+</summary>
 
-      The date and time the tunnel was created.
+effective: optional string
 
-    - `custom_remote_identities: optional object { fqdn_id }`
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-      - `fqdn_id: optional string`
+<a href="#">Link to this property</a>
 
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
+saved: optional string
 
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
+<a href="#">Link to this property</a>
 
-    - `customer_endpoint: optional string`
+</details>
 
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+string
 
-      An optional description forthe IPsec tunnel.
+<a href="#">Link to this property</a>
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+</details>
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+<a href="#">Link to this property</a>
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-        - `"unidirectional"`
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-        - `"bidirectional"`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Determines whether to run healthchecks for a tunnel.
+<a href="#">Link to this property</a>
 
-      - `rate: optional HealthCheckRate`
+interface\_address6: optional string
 
-        How frequent the health check is run. The default value is `mid`.
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-        - `"low"`
+<a href="#">Link to this property</a>
 
-        - `"mid"`
+modified\_on: optional string
 
-        - `"high"`
+The date and time the tunnel was last modified.
 
-      - `target: optional object { effective, saved }  or string`
+formatdate-time
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+<a href="#">Link to this property</a>
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+psk\_metadata: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)">PSKMetadata</a> { last\_generated\_on }
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+The PSK metadata that includes when the PSK was generated.
 
-          - `effective: optional string`
+<a href="#">Link to this property</a>
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+replay\_protection: optional boolean
 
-          - `saved: optional string`
+If <code>true</code>, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+<a href="#">Link to this property</a>
 
-        - `string`
+</details>
 
-      - `type: optional HealthCheckType`
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20ipsec_tunnel_create_response%20%3E%20(schema)>)
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+<details>
 
-        - `"reply"`
+<summary>
 
-        - `"request"`
+IPSECTunnelUpdateResponse object {modified, modified\_ipsec\_tunnel }
 
-    - `interface_address6: optional string`
+</summary>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+modified: optional boolean
 
-    - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-      The date and time the tunnel was last modified.
+<details>
 
-    - `psk_metadata: optional PSKMetadata`
+<summary>
 
-      The PSK metadata that includes when the PSK was generated.
+modified\_ipsec\_tunnel: optional object {id, cloudflare\_endpoint, interface\_address, 14 more }
 
-      - `last_generated_on: optional string`
+</summary>
 
-        The date and time the tunnel was last modified.
+id: string
 
-    - `replay_protection: optional boolean`
+Identifier
 
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+maxLength32
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+cloudflare\_endpoint: string
 
-  - `true`
+The IP address assigned to the Cloudflare side of the IPsec tunnel.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/ipsec_tunnels/$IPSEC_TUNNEL_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cloudflare_endpoint": "203.0.113.1",
-          "interface_address": "192.0.2.0/31",
-          "name": "IPsec_1",
-          "automatic_return_routing": true,
-          "customer_endpoint": "203.0.113.1",
-          "description": "Tunnel for ISP X",
-          "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-          "psk": "O3bwKSjnaoCxDoUxjcq4Rk8ZKkezQUiy"
-        }'
-```
+interface\_address: string
 
-#### Response
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": true,
-    "modified_ipsec_tunnel": {
-      "id": "c4a7362d577a6c3019a474fd6f485821",
-      "cloudflare_endpoint": "203.0.113.1",
-      "interface_address": "192.0.2.0/31",
-      "name": "IPsec_1",
-      "allow_null_cipher": true,
-      "automatic_return_routing": true,
-      "bgp": {
-        "customer_asn": 0,
-        "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "extra_prefixes": [
-          "string"
-        ],
-        "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "md5_key": "md5_key"
-      },
-      "bgp_status": {
-        "state": "BGP_DOWN",
-        "tcp_established": true,
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "bgp_state": "bgp_state",
-        "cf_speaker_ip": "192.168.1.1",
-        "cf_speaker_port": 1,
-        "customer_speaker_ip": "192.168.1.1",
-        "customer_speaker_port": 1
-      },
-      "created_on": "2017-06-14T00:00:00Z",
-      "custom_remote_identities": {
-        "fqdn_id": "fqdn_id"
-      },
-      "customer_endpoint": "203.0.113.1",
-      "description": "Tunnel for ISP X",
-      "health_check": {
-        "direction": "bidirectional",
-        "enabled": true,
-        "rate": "low",
-        "target": {
-          "effective": "203.0.113.1",
-          "saved": "203.0.113.1"
-        },
-        "type": "request"
-      },
-      "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "psk_metadata": {
-        "last_generated_on": "2017-06-14T05:20:00Z"
-      },
-      "replay_protection": false
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete IPsec Tunnel
+name: string
 
-**delete** `/accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}`
+The name of the IPsec tunnel. The name cannot share a name with other tunnels.
 
-Disables and removes a specific static IPsec Tunnel associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+allow\_null\_cipher: optional boolean
 
-- `account_id: string`
+When <code>true</code>, the tunnel can use a null-cipher (<code>ENCR_NULL</code>) in the ESP tunnel (Phase 2).
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `ipsec_tunnel_id: string`
+automatic\_return\_routing: optional boolean
 
-  Identifier
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"x-magic-new-hc-target": optional boolean`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+customer\_asn: number
 
-  - `documentation_url: optional string`
+ASN used on the customer end of the BGP session
 
-  - `source: optional object { pointer }`
+formatint32
 
-    - `pointer: optional string`
+minimum0
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+export\_filter\_id: optional string
 
-  - `message: string`
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+extra\_prefixes: optional array of string
 
-- `result: object { deleted, deleted_ipsec_tunnel }`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-  - `deleted: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `deleted_ipsec_tunnel: optional object { id, cloudflare_endpoint, interface_address, 14 more }`
+import\_filter\_id: optional string
 
-    - `id: string`
+ID of the BGP filter profile applied to routes received from the customer.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `cloudflare_endpoint: string`
+md5\_key: optional string
 
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
+MD5 key to use for session authentication.
 
-    - `interface_address: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-    - `name: string`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-    - `allow_null_cipher: optional boolean`
+<a href="#">Link to this property</a>
 
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+</details>
 
-    - `automatic_return_routing: optional boolean`
+<a href="#">Link to this property</a>
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<details>
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+<summary>
 
-      - `customer_asn: number`
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-        ASN used on the customer end of the BGP session
+</summary>
 
-      - `export_filter_id: optional string`
+<details>
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+<summary>
 
-      - `extra_prefixes: optional array of string`
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+</summary>
 
-      - `import_filter_id: optional string`
+One of the following:
 
-        ID of the BGP filter profile applied to routes received from the customer.
+"BGP\_DOWN"
 
-      - `md5_key: optional string`
+<a href="#">Link to this property</a>
 
-        MD5 key to use for session authentication.
+"BGP\_UP"
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+"BGP\_ESTABLISHING"
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+</details>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+<a href="#">Link to this property</a>
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+tcp\_established: boolean
 
-        - `"BGP_DOWN"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_UP"`
+updated\_at: string
 
-        - `"BGP_ESTABLISHING"`
+formatdate-time
 
-      - `tcp_established: boolean`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+bgp\_state: optional string
 
-      - `bgp_state: optional string`
+<a href="#">Link to this property</a>
 
-      - `cf_speaker_ip: optional string`
+cf\_speaker\_ip: optional string
 
-      - `cf_speaker_port: optional number`
+formatipv4
 
-      - `customer_speaker_ip: optional string`
+<a href="#">Link to this property</a>
 
-      - `customer_speaker_port: optional number`
+cf\_speaker\_port: optional number
 
-    - `created_on: optional string`
+maximum65535
 
-      The date and time the tunnel was created.
+minimum1
 
-    - `custom_remote_identities: optional object { fqdn_id }`
+<a href="#">Link to this property</a>
 
-      - `fqdn_id: optional string`
+customer\_speaker\_ip: optional string
 
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
+formatipv4
 
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+<a href="#">Link to this property</a>
 
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
+customer\_speaker\_port: optional number
 
-    - `customer_endpoint: optional string`
+maximum65535
 
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+minimum1
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      An optional description forthe IPsec tunnel.
+</details>
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+created\_on: optional string
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+The date and time the tunnel was created.
 
-        - `"unidirectional"`
+formatdate-time
 
-        - `"bidirectional"`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+<details>
 
-        Determines whether to run healthchecks for a tunnel.
+<summary>
 
-      - `rate: optional HealthCheckRate`
+custom\_remote\_identities: optional object {fqdn\_id }
 
-        How frequent the health check is run. The default value is `mid`.
+</summary>
 
-        - `"low"`
+fqdn\_id: optional string
 
-        - `"mid"`
+A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified.
 
-        - `"high"`
+Must be of the form <code>&lt;custom label&gt;.&lt;account ID&gt;.custom.ipsec.cloudflare.com</code>.
 
-      - `target: optional object { effective, saved }  or string`
+This custom ID does not need to be unique. Two IPsec tunnels may have the same custom fqdn\_id. However, if another IPsec tunnel has the same value then the two tunnels cannot have the same cloudflare\_endpoint.
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+<a href="#">Link to this property</a>
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+</details>
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-          - `effective: optional string`
+customer\_endpoint: optional string
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
 
-          - `saved: optional string`
+<a href="#">Link to this property</a>
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+description: optional string
 
-        - `string`
+An optional description forthe IPsec tunnel.
 
-      - `type: optional HealthCheckType`
+<a href="#">Link to this property</a>
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+<details>
 
-        - `"reply"`
+<summary>
 
-        - `"request"`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-    - `interface_address6: optional string`
+</summary>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      The date and time the tunnel was last modified.
+direction: optional "unidirectional"or "bidirectional"
 
-    - `psk_metadata: optional PSKMetadata`
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-      The PSK metadata that includes when the PSK was generated.
+</summary>
 
-      - `last_generated_on: optional string`
+One of the following:
 
-        The date and time the tunnel was last modified.
+"unidirectional"
 
-    - `replay_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+"bidirectional"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+enabled: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/ipsec_tunnels/$IPSEC_TUNNEL_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Determines whether to run healthchecks for a tunnel.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "deleted": true,
-    "deleted_ipsec_tunnel": {
-      "id": "c4a7362d577a6c3019a474fd6f485821",
-      "cloudflare_endpoint": "203.0.113.1",
-      "interface_address": "192.0.2.0/31",
-      "name": "IPsec_1",
-      "allow_null_cipher": true,
-      "automatic_return_routing": true,
-      "bgp": {
-        "customer_asn": 0,
-        "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "extra_prefixes": [
-          "string"
-        ],
-        "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "md5_key": "md5_key"
-      },
-      "bgp_status": {
-        "state": "BGP_DOWN",
-        "tcp_established": true,
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "bgp_state": "bgp_state",
-        "cf_speaker_ip": "192.168.1.1",
-        "cf_speaker_port": 1,
-        "customer_speaker_ip": "192.168.1.1",
-        "customer_speaker_port": 1
-      },
-      "created_on": "2017-06-14T00:00:00Z",
-      "custom_remote_identities": {
-        "fqdn_id": "fqdn_id"
-      },
-      "customer_endpoint": "203.0.113.1",
-      "description": "Tunnel for ISP X",
-      "health_check": {
-        "direction": "bidirectional",
-        "enabled": true,
-        "rate": "low",
-        "target": {
-          "effective": "203.0.113.1",
-          "saved": "203.0.113.1"
-        },
-        "type": "request"
-      },
-      "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "psk_metadata": {
-        "last_generated_on": "2017-06-14T05:20:00Z"
-      },
-      "replay_protection": false
-    }
-  },
-  "success": true
-}
-```
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-## Update multiple IPsec tunnels
+How frequent the health check is run. The default value is <code>mid</code>.
 
-**put** `/accounts/{account_id}/magic/ipsec_tunnels`
+<a href="#">Link to this property</a>
 
-Update multiple IPsec tunnels associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+target: optional object {effective, saved } or string
 
-  Identifier
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-### Header Parameters
+</summary>
 
-- `"x-magic-new-hc-target": optional boolean`
+One of the following:
 
-### Body Parameters
+<details>
 
-- `body: unknown`
+<summary>
 
-### Returns
+MagicHealthCheckTarget object {effective, saved }
 
-- `errors: array of ResponseInfo`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+effective: optional string
 
-  - `documentation_url: optional string`
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+saved: optional string
 
-- `messages: array of ResponseInfo`
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+string
 
-- `result: object { modified, modified_ipsec_tunnels }`
+<a href="#">Link to this property</a>
 
-  - `modified: optional boolean`
+</details>
 
-  - `modified_ipsec_tunnels: optional array of object { id, cloudflare_endpoint, interface_address, 14 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-      Identifier
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-    - `cloudflare_endpoint: string`
+<a href="#">Link to this property</a>
 
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
+</details>
 
-    - `interface_address: string`
+<a href="#">Link to this property</a>
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+interface\_address6: optional string
 
-    - `name: string`
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+<a href="#">Link to this property</a>
 
-    - `allow_null_cipher: optional boolean`
+modified\_on: optional string
 
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+The date and time the tunnel was last modified.
 
-    - `automatic_return_routing: optional boolean`
+formatdate-time
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+psk\_metadata: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)">PSKMetadata</a> { last\_generated\_on }
 
-      - `customer_asn: number`
+The PSK metadata that includes when the PSK was generated.
 
-        ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-      - `export_filter_id: optional string`
+replay\_protection: optional boolean
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+If <code>true</code>, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
 
-      - `extra_prefixes: optional array of string`
+<a href="#">Link to this property</a>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+</details>
 
-      - `import_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the BGP filter profile applied to routes received from the customer.
+</details>
 
-      - `md5_key: optional string`
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20ipsec_tunnel_update_response%20%3E%20(schema)>)
 
-        MD5 key to use for session authentication.
+<details>
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<summary>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+IPSECTunnelDeleteResponse object {deleted, deleted\_ipsec\_tunnel }
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+</summary>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+deleted: optional boolean
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+<a href="#">Link to this property</a>
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+<details>
 
-        - `"BGP_DOWN"`
+<summary>
 
-        - `"BGP_UP"`
+deleted\_ipsec\_tunnel: optional object {id, cloudflare\_endpoint, interface\_address, 14 more }
 
-        - `"BGP_ESTABLISHING"`
+</summary>
 
-      - `tcp_established: boolean`
+id: string
 
-      - `updated_at: string`
+Identifier
 
-      - `bgp_state: optional string`
+maxLength32
 
-      - `cf_speaker_ip: optional string`
+<a href="#">Link to this property</a>
 
-      - `cf_speaker_port: optional number`
+cloudflare\_endpoint: string
 
-      - `customer_speaker_ip: optional string`
+The IP address assigned to the Cloudflare side of the IPsec tunnel.
 
-      - `customer_speaker_port: optional number`
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+interface\_address: string
 
-      The date and time the tunnel was created.
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-    - `custom_remote_identities: optional object { fqdn_id }`
+<a href="#">Link to this property</a>
 
-      - `fqdn_id: optional string`
+name: string
 
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
+The name of the IPsec tunnel. The name cannot share a name with other tunnels.
 
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+<a href="#">Link to this property</a>
 
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
+allow\_null\_cipher: optional boolean
 
-    - `customer_endpoint: optional string`
+When <code>true</code>, the tunnel can use a null-cipher (<code>ENCR_NULL</code>) in the ESP tunnel (Phase 2).
 
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+automatic\_return\_routing: optional boolean
 
-      An optional description forthe IPsec tunnel.
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+<details>
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+<summary>
 
-        - `"unidirectional"`
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-        - `"bidirectional"`
+</summary>
 
-      - `enabled: optional boolean`
+customer\_asn: number
 
-        Determines whether to run healthchecks for a tunnel.
+ASN used on the customer end of the BGP session
 
-      - `rate: optional HealthCheckRate`
+formatint32
 
-        How frequent the health check is run. The default value is `mid`.
+minimum0
 
-        - `"low"`
+<a href="#">Link to this property</a>
 
-        - `"mid"`
+export\_filter\_id: optional string
 
-        - `"high"`
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-      - `target: optional object { effective, saved }  or string`
+<a href="#">Link to this property</a>
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+extra\_prefixes: optional array of string
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-          - `effective: optional string`
+import\_filter\_id: optional string
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+ID of the BGP filter profile applied to routes received from the customer.
 
-          - `saved: optional string`
+<a href="#">Link to this property</a>
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+md5\_key: optional string
 
-        - `string`
+MD5 key to use for session authentication.
 
-      - `type: optional HealthCheckType`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-        - `"reply"`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-        - `"request"`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-    - `interface_address6: optional string`
+<a href="#">Link to this property</a>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+</details>
 
-    - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-      The date and time the tunnel was last modified.
+<details>
 
-    - `psk_metadata: optional PSKMetadata`
+<summary>
 
-      The PSK metadata that includes when the PSK was generated.
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-      - `last_generated_on: optional string`
+</summary>
 
-        The date and time the tunnel was last modified.
+<details>
 
-    - `replay_protection: optional boolean`
+<summary>
 
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+One of the following:
 
-  - `true`
+"BGP\_DOWN"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/ipsec_tunnels \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+"BGP\_UP"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": true,
-    "modified_ipsec_tunnels": [
-      {
-        "id": "c4a7362d577a6c3019a474fd6f485821",
-        "cloudflare_endpoint": "203.0.113.1",
-        "interface_address": "192.0.2.0/31",
-        "name": "IPsec_1",
-        "allow_null_cipher": true,
-        "automatic_return_routing": true,
-        "bgp": {
-          "customer_asn": 0,
-          "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-          "extra_prefixes": [
-            "string"
-          ],
-          "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-          "md5_key": "md5_key"
-        },
-        "bgp_status": {
-          "state": "BGP_DOWN",
-          "tcp_established": true,
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "bgp_state": "bgp_state",
-          "cf_speaker_ip": "192.168.1.1",
-          "cf_speaker_port": 1,
-          "customer_speaker_ip": "192.168.1.1",
-          "customer_speaker_port": 1
-        },
-        "created_on": "2017-06-14T00:00:00Z",
-        "custom_remote_identities": {
-          "fqdn_id": "fqdn_id"
-        },
-        "customer_endpoint": "203.0.113.1",
-        "description": "Tunnel for ISP X",
-        "health_check": {
-          "direction": "bidirectional",
-          "enabled": true,
-          "rate": "low",
-          "target": {
-            "effective": "203.0.113.1",
-            "saved": "203.0.113.1"
-          },
-          "type": "request"
-        },
-        "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-        "modified_on": "2017-06-14T05:20:00Z",
-        "psk_metadata": {
-          "last_generated_on": "2017-06-14T05:20:00Z"
-        },
-        "replay_protection": false
-      }
-    ]
-  },
-  "success": true
-}
-```
+"BGP\_ESTABLISHING"
 
-## Generate Pre-Shared Key (PSK) for IPsec tunnels
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}/psk_generate`
+</details>
 
-Generates a Pre-Shared Key for a specific IPsec tunnel used in the IKE session. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes. After a PSK is generated, the PSK is immediately persisted to Cloudflare's edge and cannot be retrieved later. Store the PSK in a safe place.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+tcp\_established: boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+updated\_at: string
 
-- `ipsec_tunnel_id: string`
+formatdate-time
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+bgp\_state: optional string
 
-- `body: unknown`
+<a href="#">Link to this property</a>
 
-### Returns
+cf\_speaker\_ip: optional string
 
-- `errors: array of ResponseInfo`
+formatipv4
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+cf\_speaker\_port: optional number
 
-  - `documentation_url: optional string`
+maximum65535
 
-  - `source: optional object { pointer }`
+minimum1
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+customer\_speaker\_ip: optional string
 
-  - `code: number`
+formatipv4
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+customer\_speaker\_port: optional number
 
-  - `source: optional object { pointer }`
+maximum65535
 
-- `result: object { ipsec_tunnel_id, psk, psk_metadata }`
+minimum1
 
-  - `ipsec_tunnel_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier
+</details>
 
-  - `psk: optional string`
+<a href="#">Link to this property</a>
 
-    A randomly generated or provided string for use in the IPsec tunnel.
+created\_on: optional string
 
-  - `psk_metadata: optional PSKMetadata`
+The date and time the tunnel was created.
 
-    The PSK metadata that includes when the PSK was generated.
+formatdate-time
 
-    - `last_generated_on: optional string`
+<a href="#">Link to this property</a>
 
-      The date and time the tunnel was last modified.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+custom\_remote\_identities: optional object {fqdn\_id }
 
-  - `true`
+</summary>
 
-### Example
+fqdn\_id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/ipsec_tunnels/$IPSEC_TUNNEL_ID/psk_generate \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified.
 
-#### Response
+Must be of the form <code>&lt;custom label&gt;.&lt;account ID&gt;.custom.ipsec.cloudflare.com</code>.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "ipsec_tunnel_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "psk": "O3bwKSjnaoCxDoUxjcq4Rk8ZKkezQUiy",
-    "psk_metadata": {
-      "last_generated_on": "2017-06-14T05:20:00Z"
-    }
-  },
-  "success": true
-}
-```
+This custom ID does not need to be unique. Two IPsec tunnels may have the same custom fqdn\_id. However, if another IPsec tunnel has the same value then the two tunnels cannot have the same cloudflare\_endpoint.
 
-## Set Pre-Shared Keys (PSK) for IPsec tunnels
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/magic/ipsec_tunnels/psk`
+</details>
 
-Sets Pre-Shared Keys for multiple IPsec tunnels associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes. After PSKs are applied, they are immediately persisted to Cloudflare's edge and cannot be retrieved later. Store the PSKs in a safe place.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+customer\_endpoint: optional string
 
-- `account_id: string`
+The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Query Parameters
+description: optional string
 
-- `validate_only: optional boolean`
+An optional description forthe IPsec tunnel.
 
-  If `true`, only run validation without persisting changes.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `psks: array of object { id, psk }`
+<summary>
 
-  List of tunnel ID and PSK pairs.
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-  - `id: string`
+</summary>
 
-    The ID of the IPsec tunnel.
+<details>
 
-  - `psk: string`
+<summary>
 
-    A randomly generated or provided string for use in the IPsec tunnel.
+direction: optional "unidirectional"or "bidirectional"
 
-### Returns
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"unidirectional"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"bidirectional"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+enabled: optional boolean
 
-  - `documentation_url: optional string`
+Determines whether to run healthchecks for a tunnel.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { successfully_applied_psks, unapplied_psks }`
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-  - `successfully_applied_psks: optional map[object { ipsec_id, ipsec_tunnel_id, psk, psk_metadata } ]`
+How frequent the health check is run. The default value is <code>mid</code>.
 
-    Map of tunnel IDs to successfully applied PSK details.
+<a href="#">Link to this property</a>
 
-    - `ipsec_id: string`
+<details>
 
-      The IKE identifier used for this tunnel on the Cloudflare edge.
+<summary>
 
-    - `ipsec_tunnel_id: string`
+target: optional object {effective, saved } or string
 
-      Identifier
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-    - `psk: string`
+</summary>
 
-      A randomly generated or provided string for use in the IPsec tunnel.
+One of the following:
 
-    - `psk_metadata: PSKMetadata`
+<details>
 
-      The PSK metadata that includes when the PSK was generated.
+<summary>
 
-      - `last_generated_on: optional string`
+MagicHealthCheckTarget object {effective, saved }
 
-        The date and time the tunnel was last modified.
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-  - `unapplied_psks: optional map[string]`
+</summary>
 
-    Map of tunnel IDs to failure reasons for PSKs that could not be applied.
+effective: optional string
 
-- `success: true`
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+saved: optional string
 
-### Example
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/ipsec_tunnels/psk \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "psks": [
-            {
-              "id": "023e105f4ecef8ad9ca31a8372d0c353",
-              "psk": "O3bwKSjnaoCxDoUxjcq4Rk8ZKkezQUiy"
-            }
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "successfully_applied_psks": {
-      "foo": {
-        "ipsec_id": "12345_abc123def4567890abcdef1234567890",
-        "ipsec_tunnel_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "psk": "O3bwKSjnaoCxDoUxjcq4Rk8ZKkezQUiy",
-        "psk_metadata": {
-          "last_generated_on": "2017-06-14T05:20:00Z"
-        }
-      }
-    },
-    "unapplied_psks": {
-      "foo": "string"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+string
 
-### PSK Metadata
+<a href="#">Link to this property</a>
 
-- `PSKMetadata object { last_generated_on }`
+</details>
 
-  The PSK metadata that includes when the PSK was generated.
+<a href="#">Link to this property</a>
 
-  - `last_generated_on: optional string`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-    The date and time the tunnel was last modified.
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-### IPSEC Tunnel List Response
+<a href="#">Link to this property</a>
 
-- `IPSECTunnelListResponse object { ipsec_tunnels }`
+</details>
 
-  - `ipsec_tunnels: optional array of object { id, cloudflare_endpoint, interface_address, 14 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+interface\_address6: optional string
 
-      Identifier
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-    - `cloudflare_endpoint: string`
+<a href="#">Link to this property</a>
 
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
+modified\_on: optional string
 
-    - `interface_address: string`
+The date and time the tunnel was last modified.
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+psk\_metadata: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)">PSKMetadata</a> { last\_generated\_on }
 
-    - `allow_null_cipher: optional boolean`
+The PSK metadata that includes when the PSK was generated.
 
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+<a href="#">Link to this property</a>
 
-    - `automatic_return_routing: optional boolean`
+replay\_protection: optional boolean
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+If <code>true</code>, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `customer_asn: number`
+</details>
 
-        ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-      - `export_filter_id: optional string`
+</details>
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20ipsec_tunnel_delete_response%20%3E%20(schema)>)
 
-      - `extra_prefixes: optional array of string`
+<details>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<summary>
 
-      - `import_filter_id: optional string`
+IPSECTunnelBulkUpdateResponse object {modified, modified\_ipsec\_tunnels }
 
-        ID of the BGP filter profile applied to routes received from the customer.
+</summary>
 
-      - `md5_key: optional string`
+modified: optional boolean
 
-        MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<details>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+<summary>
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+modified\_ipsec\_tunnels: optional array of object {id, cloudflare\_endpoint, interface\_address, 14 more }
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+</summary>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+id: string
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+Identifier
 
-        - `"BGP_DOWN"`
+maxLength32
 
-        - `"BGP_UP"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_ESTABLISHING"`
+cloudflare\_endpoint: string
 
-      - `tcp_established: boolean`
+The IP address assigned to the Cloudflare side of the IPsec tunnel.
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `bgp_state: optional string`
+interface\_address: string
 
-      - `cf_speaker_ip: optional string`
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-      - `cf_speaker_port: optional number`
+<a href="#">Link to this property</a>
 
-      - `customer_speaker_ip: optional string`
+name: string
 
-      - `customer_speaker_port: optional number`
+The name of the IPsec tunnel. The name cannot share a name with other tunnels.
 
-    - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-      The date and time the tunnel was created.
+allow\_null\_cipher: optional boolean
 
-    - `custom_remote_identities: optional object { fqdn_id }`
+When <code>true</code>, the tunnel can use a null-cipher (<code>ENCR_NULL</code>) in the ESP tunnel (Phase 2).
 
-      - `fqdn_id: optional string`
+<a href="#">Link to this property</a>
 
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
+automatic\_return\_routing: optional boolean
 
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
+<a href="#">Link to this property</a>
 
-    - `customer_endpoint: optional string`
+<details>
 
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<summary>
 
-    - `description: optional string`
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-      An optional description forthe IPsec tunnel.
+</summary>
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+customer\_asn: number
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+ASN used on the customer end of the BGP session
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+formatint32
 
-        - `"unidirectional"`
+minimum0
 
-        - `"bidirectional"`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+export\_filter\_id: optional string
 
-        Determines whether to run healthchecks for a tunnel.
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-      - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-        How frequent the health check is run. The default value is `mid`.
+extra\_prefixes: optional array of string
 
-        - `"low"`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-        - `"mid"`
+<a href="#">Link to this property</a>
 
-        - `"high"`
+import\_filter\_id: optional string
 
-      - `target: optional object { effective, saved }  or string`
+ID of the BGP filter profile applied to routes received from the customer.
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+<a href="#">Link to this property</a>
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+md5\_key: optional string
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+MD5 key to use for session authentication.
 
-          - `effective: optional string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-          - `saved: optional string`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-        - `string`
+<a href="#">Link to this property</a>
 
-      - `type: optional HealthCheckType`
+</details>
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+<a href="#">Link to this property</a>
 
-        - `"reply"`
+<details>
 
-        - `"request"`
+<summary>
 
-    - `interface_address6: optional string`
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+</summary>
 
-    - `modified_on: optional string`
+<details>
 
-      The date and time the tunnel was last modified.
+<summary>
 
-    - `psk_metadata: optional PSKMetadata`
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-      The PSK metadata that includes when the PSK was generated.
+</summary>
 
-      - `last_generated_on: optional string`
+One of the following:
 
-        The date and time the tunnel was last modified.
+"BGP\_DOWN"
 
-    - `replay_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+"BGP\_UP"
 
-### IPSEC Tunnel Get Response
+<a href="#">Link to this property</a>
 
-- `IPSECTunnelGetResponse object { ipsec_tunnel }`
+"BGP\_ESTABLISHING"
 
-  - `ipsec_tunnel: optional object { id, cloudflare_endpoint, interface_address, 14 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `cloudflare_endpoint: string`
+tcp\_established: boolean
 
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
+<a href="#">Link to this property</a>
 
-    - `interface_address: string`
+updated\_at: string
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+bgp\_state: optional string
 
-    - `allow_null_cipher: optional boolean`
+<a href="#">Link to this property</a>
 
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+cf\_speaker\_ip: optional string
 
-    - `automatic_return_routing: optional boolean`
+formatipv4
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+cf\_speaker\_port: optional number
 
-      - `customer_asn: number`
+maximum65535
 
-        ASN used on the customer end of the BGP session
+minimum1
 
-      - `export_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+customer\_speaker\_ip: optional string
 
-      - `extra_prefixes: optional array of string`
+formatipv4
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<a href="#">Link to this property</a>
 
-      - `import_filter_id: optional string`
+customer\_speaker\_port: optional number
 
-        ID of the BGP filter profile applied to routes received from the customer.
+maximum65535
 
-      - `md5_key: optional string`
+minimum1
 
-        MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+</details>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+<a href="#">Link to this property</a>
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+created\_on: optional string
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+The date and time the tunnel was created.
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+formatdate-time
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_DOWN"`
+<details>
 
-        - `"BGP_UP"`
+<summary>
 
-        - `"BGP_ESTABLISHING"`
+custom\_remote\_identities: optional object {fqdn\_id }
 
-      - `tcp_established: boolean`
+</summary>
 
-      - `updated_at: string`
+fqdn\_id: optional string
 
-      - `bgp_state: optional string`
+A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified.
 
-      - `cf_speaker_ip: optional string`
+Must be of the form <code>&lt;custom label&gt;.&lt;account ID&gt;.custom.ipsec.cloudflare.com</code>.
 
-      - `cf_speaker_port: optional number`
+This custom ID does not need to be unique. Two IPsec tunnels may have the same custom fqdn\_id. However, if another IPsec tunnel has the same value then the two tunnels cannot have the same cloudflare\_endpoint.
 
-      - `customer_speaker_ip: optional string`
+<a href="#">Link to this property</a>
 
-      - `customer_speaker_port: optional number`
+</details>
 
-    - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-      The date and time the tunnel was created.
+customer\_endpoint: optional string
 
-    - `custom_remote_identities: optional object { fqdn_id }`
+The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
 
-      - `fqdn_id: optional string`
+<a href="#">Link to this property</a>
 
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
+description: optional string
 
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+An optional description forthe IPsec tunnel.
 
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
+<a href="#">Link to this property</a>
 
-    - `customer_endpoint: optional string`
+<details>
 
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<summary>
 
-    - `description: optional string`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-      An optional description forthe IPsec tunnel.
+</summary>
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+<details>
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+<summary>
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+direction: optional "unidirectional"or "bidirectional"
 
-        - `"unidirectional"`
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-        - `"bidirectional"`
+</summary>
 
-      - `enabled: optional boolean`
+One of the following:
 
-        Determines whether to run healthchecks for a tunnel.
+"unidirectional"
 
-      - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-        How frequent the health check is run. The default value is `mid`.
+"bidirectional"
 
-        - `"low"`
+<a href="#">Link to this property</a>
 
-        - `"mid"`
+</details>
 
-        - `"high"`
+<a href="#">Link to this property</a>
 
-      - `target: optional object { effective, saved }  or string`
+enabled: optional boolean
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+Determines whether to run healthchecks for a tunnel.
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+<a href="#">Link to this property</a>
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-          - `effective: optional string`
+How frequent the health check is run. The default value is <code>mid</code>.
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+<a href="#">Link to this property</a>
 
-          - `saved: optional string`
+<details>
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+<summary>
 
-        - `string`
+target: optional object {effective, saved } or string
 
-      - `type: optional HealthCheckType`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+</summary>
 
-        - `"reply"`
+One of the following:
 
-        - `"request"`
+<details>
 
-    - `interface_address6: optional string`
+<summary>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+MagicHealthCheckTarget object {effective, saved }
 
-    - `modified_on: optional string`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-      The date and time the tunnel was last modified.
+</summary>
 
-    - `psk_metadata: optional PSKMetadata`
+effective: optional string
 
-      The PSK metadata that includes when the PSK was generated.
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-      - `last_generated_on: optional string`
+<a href="#">Link to this property</a>
 
-        The date and time the tunnel was last modified.
+saved: optional string
 
-    - `replay_protection: optional boolean`
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
+<a href="#">Link to this property</a>
 
-### IPSEC Tunnel Create Response
+</details>
 
-- `IPSECTunnelCreateResponse object { id, cloudflare_endpoint, interface_address, 14 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+string
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `cloudflare_endpoint: string`
+</details>
 
-    The IP address assigned to the Cloudflare side of the IPsec tunnel.
+<a href="#">Link to this property</a>
 
-  - `interface_address: string`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-    A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the IPsec tunnel. The name cannot share a name with other tunnels.
+</details>
 
-  - `allow_null_cipher: optional boolean`
+<a href="#">Link to this property</a>
 
-    When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
+interface\_address6: optional string
 
-  - `automatic_return_routing: optional boolean`
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-    True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<a href="#">Link to this property</a>
 
-  - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+modified\_on: optional string
 
-    - `customer_asn: number`
+The date and time the tunnel was last modified.
 
-      ASN used on the customer end of the BGP session
+formatdate-time
 
-    - `export_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the BGP filter profile applied to routes advertised to the customer.
+psk\_metadata: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)">PSKMetadata</a> { last\_generated\_on }
 
-    - `extra_prefixes: optional array of string`
+The PSK metadata that includes when the PSK was generated.
 
-      Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<a href="#">Link to this property</a>
 
-    - `import_filter_id: optional string`
+replay\_protection: optional boolean
 
-      ID of the BGP filter profile applied to routes received from the customer.
+If <code>true</code>, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
 
-    - `md5_key: optional string`
+<a href="#">Link to this property</a>
 
-      MD5 key to use for session authentication.
+</details>
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+</details>
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20ipsec_tunnel_bulk_update_response%20%3E%20(schema)>)
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+<details>
 
-  - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+<summary>
 
-    - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+IPSECTunnelPSKGenerateResponse object {ipsec\_tunnel\_id, psk, psk\_metadata }
 
-      - `"BGP_DOWN"`
+</summary>
 
-      - `"BGP_UP"`
+ipsec\_tunnel\_id: optional string
 
-      - `"BGP_ESTABLISHING"`
+Identifier
 
-    - `tcp_established: boolean`
+maxLength32
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `bgp_state: optional string`
+psk: optional string
 
-    - `cf_speaker_ip: optional string`
+A randomly generated or provided string for use in the IPsec tunnel.
 
-    - `cf_speaker_port: optional number`
+<a href="#">Link to this property</a>
 
-    - `customer_speaker_ip: optional string`
+psk\_metadata: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)">PSKMetadata</a> { last\_generated\_on }
 
-    - `customer_speaker_port: optional number`
+The PSK metadata that includes when the PSK was generated.
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the tunnel was created.
+</details>
 
-  - `custom_remote_identities: optional object { fqdn_id }`
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20ipsec_tunnel_psk_generate_response%20%3E%20(schema)>)
 
-    - `fqdn_id: optional string`
+<details>
 
-      A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-      generated IKE IDs can still be used even if this custom value is specified.
+<summary>
 
-      Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
+IPSECTunnelPSKSetResponse object {successfully\_applied\_psks, unapplied\_psks }
 
-      This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-      fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-      cannot have the same cloudflare_endpoint.
+</summary>
 
-  - `customer_endpoint: optional string`
+<details>
 
-    The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
+<summary>
 
-  - `description: optional string`
+successfully\_applied\_psks: optional map\[object {ipsec\_id, ipsec\_tunnel\_id, psk, psk\_metadata } ]
 
-    An optional description forthe IPsec tunnel.
+Map of tunnel IDs to successfully applied PSK details.
 
-  - `health_check: optional object { direction, enabled, rate, 2 more }`
+</summary>
 
-    - `direction: optional "unidirectional" or "bidirectional"`
+ipsec\_id: string
 
-      The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+The IKE identifier used for this tunnel on the Cloudflare edge.
 
-      - `"unidirectional"`
+<a href="#">Link to this property</a>
 
-      - `"bidirectional"`
+ipsec\_tunnel\_id: string
 
-    - `enabled: optional boolean`
+Identifier
 
-      Determines whether to run healthchecks for a tunnel.
+maxLength32
 
-    - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-      How frequent the health check is run. The default value is `mid`.
+psk: string
 
-      - `"low"`
+A randomly generated or provided string for use in the IPsec tunnel.
 
-      - `"mid"`
+<a href="#">Link to this property</a>
 
-      - `"high"`
+psk\_metadata: <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20psk_metadata%20%3E%20(schema)">PSKMetadata</a> { last\_generated\_on }
 
-    - `target: optional object { effective, saved }  or string`
+The PSK metadata that includes when the PSK was generated.
 
-      The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+<a href="#">Link to this property</a>
 
-      - `MagicHealthCheckTarget object { effective, saved }`
+</details>
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-        - `effective: optional string`
+unapplied\_psks: optional map\[string]
 
-          The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+Map of tunnel IDs to failure reasons for PSKs that could not be applied.
 
-        - `saved: optional string`
+<a href="#">Link to this property</a>
 
-          The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+</details>
 
-      - `string`
-
-    - `type: optional HealthCheckType`
-
-      The type of healthcheck to run, reply or request. The default value is `reply`.
-
-      - `"reply"`
-
-      - `"request"`
-
-  - `interface_address6: optional string`
-
-    A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
-
-  - `modified_on: optional string`
-
-    The date and time the tunnel was last modified.
-
-  - `psk_metadata: optional PSKMetadata`
-
-    The PSK metadata that includes when the PSK was generated.
-
-    - `last_generated_on: optional string`
-
-      The date and time the tunnel was last modified.
-
-  - `replay_protection: optional boolean`
-
-    If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
-
-### IPSEC Tunnel Update Response
-
-- `IPSECTunnelUpdateResponse object { modified, modified_ipsec_tunnel }`
-
-  - `modified: optional boolean`
-
-  - `modified_ipsec_tunnel: optional object { id, cloudflare_endpoint, interface_address, 14 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `cloudflare_endpoint: string`
-
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
-
-    - `interface_address: string`
-
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
-
-    - `name: string`
-
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
-
-    - `allow_null_cipher: optional boolean`
-
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
-
-    - `automatic_return_routing: optional boolean`
-
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
-
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
-
-      - `customer_asn: number`
-
-        ASN used on the customer end of the BGP session
-
-      - `export_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes advertised to the customer.
-
-      - `extra_prefixes: optional array of string`
-
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
-
-      - `import_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes received from the customer.
-
-      - `md5_key: optional string`
-
-        MD5 key to use for session authentication.
-
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
-
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
-
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
-
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
-
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
-
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
-
-        - `"BGP_DOWN"`
-
-        - `"BGP_UP"`
-
-        - `"BGP_ESTABLISHING"`
-
-      - `tcp_established: boolean`
-
-      - `updated_at: string`
-
-      - `bgp_state: optional string`
-
-      - `cf_speaker_ip: optional string`
-
-      - `cf_speaker_port: optional number`
-
-      - `customer_speaker_ip: optional string`
-
-      - `customer_speaker_port: optional number`
-
-    - `created_on: optional string`
-
-      The date and time the tunnel was created.
-
-    - `custom_remote_identities: optional object { fqdn_id }`
-
-      - `fqdn_id: optional string`
-
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
-
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
-
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
-
-    - `customer_endpoint: optional string`
-
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
-
-    - `description: optional string`
-
-      An optional description forthe IPsec tunnel.
-
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
-
-      - `direction: optional "unidirectional" or "bidirectional"`
-
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
-
-        - `"unidirectional"`
-
-        - `"bidirectional"`
-
-      - `enabled: optional boolean`
-
-        Determines whether to run healthchecks for a tunnel.
-
-      - `rate: optional HealthCheckRate`
-
-        How frequent the health check is run. The default value is `mid`.
-
-        - `"low"`
-
-        - `"mid"`
-
-        - `"high"`
-
-      - `target: optional object { effective, saved }  or string`
-
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
-
-        - `MagicHealthCheckTarget object { effective, saved }`
-
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
-
-          - `effective: optional string`
-
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
-
-          - `saved: optional string`
-
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
-
-        - `string`
-
-      - `type: optional HealthCheckType`
-
-        The type of healthcheck to run, reply or request. The default value is `reply`.
-
-        - `"reply"`
-
-        - `"request"`
-
-    - `interface_address6: optional string`
-
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
-
-    - `modified_on: optional string`
-
-      The date and time the tunnel was last modified.
-
-    - `psk_metadata: optional PSKMetadata`
-
-      The PSK metadata that includes when the PSK was generated.
-
-      - `last_generated_on: optional string`
-
-        The date and time the tunnel was last modified.
-
-    - `replay_protection: optional boolean`
-
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
-
-### IPSEC Tunnel Delete Response
-
-- `IPSECTunnelDeleteResponse object { deleted, deleted_ipsec_tunnel }`
-
-  - `deleted: optional boolean`
-
-  - `deleted_ipsec_tunnel: optional object { id, cloudflare_endpoint, interface_address, 14 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `cloudflare_endpoint: string`
-
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
-
-    - `interface_address: string`
-
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
-
-    - `name: string`
-
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
-
-    - `allow_null_cipher: optional boolean`
-
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
-
-    - `automatic_return_routing: optional boolean`
-
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
-
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
-
-      - `customer_asn: number`
-
-        ASN used on the customer end of the BGP session
-
-      - `export_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes advertised to the customer.
-
-      - `extra_prefixes: optional array of string`
-
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
-
-      - `import_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes received from the customer.
-
-      - `md5_key: optional string`
-
-        MD5 key to use for session authentication.
-
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
-
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
-
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
-
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
-
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
-
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
-
-        - `"BGP_DOWN"`
-
-        - `"BGP_UP"`
-
-        - `"BGP_ESTABLISHING"`
-
-      - `tcp_established: boolean`
-
-      - `updated_at: string`
-
-      - `bgp_state: optional string`
-
-      - `cf_speaker_ip: optional string`
-
-      - `cf_speaker_port: optional number`
-
-      - `customer_speaker_ip: optional string`
-
-      - `customer_speaker_port: optional number`
-
-    - `created_on: optional string`
-
-      The date and time the tunnel was created.
-
-    - `custom_remote_identities: optional object { fqdn_id }`
-
-      - `fqdn_id: optional string`
-
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
-
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
-
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
-
-    - `customer_endpoint: optional string`
-
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
-
-    - `description: optional string`
-
-      An optional description forthe IPsec tunnel.
-
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
-
-      - `direction: optional "unidirectional" or "bidirectional"`
-
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
-
-        - `"unidirectional"`
-
-        - `"bidirectional"`
-
-      - `enabled: optional boolean`
-
-        Determines whether to run healthchecks for a tunnel.
-
-      - `rate: optional HealthCheckRate`
-
-        How frequent the health check is run. The default value is `mid`.
-
-        - `"low"`
-
-        - `"mid"`
-
-        - `"high"`
-
-      - `target: optional object { effective, saved }  or string`
-
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
-
-        - `MagicHealthCheckTarget object { effective, saved }`
-
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
-
-          - `effective: optional string`
-
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
-
-          - `saved: optional string`
-
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
-
-        - `string`
-
-      - `type: optional HealthCheckType`
-
-        The type of healthcheck to run, reply or request. The default value is `reply`.
-
-        - `"reply"`
-
-        - `"request"`
-
-    - `interface_address6: optional string`
-
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
-
-    - `modified_on: optional string`
-
-      The date and time the tunnel was last modified.
-
-    - `psk_metadata: optional PSKMetadata`
-
-      The PSK metadata that includes when the PSK was generated.
-
-      - `last_generated_on: optional string`
-
-        The date and time the tunnel was last modified.
-
-    - `replay_protection: optional boolean`
-
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
-
-### IPSEC Tunnel Bulk Update Response
-
-- `IPSECTunnelBulkUpdateResponse object { modified, modified_ipsec_tunnels }`
-
-  - `modified: optional boolean`
-
-  - `modified_ipsec_tunnels: optional array of object { id, cloudflare_endpoint, interface_address, 14 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `cloudflare_endpoint: string`
-
-      The IP address assigned to the Cloudflare side of the IPsec tunnel.
-
-    - `interface_address: string`
-
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
-
-    - `name: string`
-
-      The name of the IPsec tunnel. The name cannot share a name with other tunnels.
-
-    - `allow_null_cipher: optional boolean`
-
-      When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2).
-
-    - `automatic_return_routing: optional boolean`
-
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
-
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
-
-      - `customer_asn: number`
-
-        ASN used on the customer end of the BGP session
-
-      - `export_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes advertised to the customer.
-
-      - `extra_prefixes: optional array of string`
-
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
-
-      - `import_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes received from the customer.
-
-      - `md5_key: optional string`
-
-        MD5 key to use for session authentication.
-
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
-
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
-
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
-
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
-
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
-
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
-
-        - `"BGP_DOWN"`
-
-        - `"BGP_UP"`
-
-        - `"BGP_ESTABLISHING"`
-
-      - `tcp_established: boolean`
-
-      - `updated_at: string`
-
-      - `bgp_state: optional string`
-
-      - `cf_speaker_ip: optional string`
-
-      - `cf_speaker_port: optional number`
-
-      - `customer_speaker_ip: optional string`
-
-      - `customer_speaker_port: optional number`
-
-    - `created_on: optional string`
-
-      The date and time the tunnel was created.
-
-    - `custom_remote_identities: optional object { fqdn_id }`
-
-      - `fqdn_id: optional string`
-
-        A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The
-        generated IKE IDs can still be used even if this custom value is specified.
-
-        Must be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.
-
-        This custom ID does not need to be unique. Two IPsec tunnels may have the same custom
-        fqdn_id. However, if another IPsec tunnel has the same value then the two tunnels
-        cannot have the same cloudflare_endpoint.
-
-    - `customer_endpoint: optional string`
-
-      The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.
-
-    - `description: optional string`
-
-      An optional description forthe IPsec tunnel.
-
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
-
-      - `direction: optional "unidirectional" or "bidirectional"`
-
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
-
-        - `"unidirectional"`
-
-        - `"bidirectional"`
-
-      - `enabled: optional boolean`
-
-        Determines whether to run healthchecks for a tunnel.
-
-      - `rate: optional HealthCheckRate`
-
-        How frequent the health check is run. The default value is `mid`.
-
-        - `"low"`
-
-        - `"mid"`
-
-        - `"high"`
-
-      - `target: optional object { effective, saved }  or string`
-
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
-
-        - `MagicHealthCheckTarget object { effective, saved }`
-
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
-
-          - `effective: optional string`
-
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
-
-          - `saved: optional string`
-
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
-
-        - `string`
-
-      - `type: optional HealthCheckType`
-
-        The type of healthcheck to run, reply or request. The default value is `reply`.
-
-        - `"reply"`
-
-        - `"request"`
-
-    - `interface_address6: optional string`
-
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
-
-    - `modified_on: optional string`
-
-      The date and time the tunnel was last modified.
-
-    - `psk_metadata: optional PSKMetadata`
-
-      The PSK metadata that includes when the PSK was generated.
-
-      - `last_generated_on: optional string`
-
-        The date and time the tunnel was last modified.
-
-    - `replay_protection: optional boolean`
-
-      If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.
-
-### IPSEC Tunnel PSK Generate Response
-
-- `IPSECTunnelPSKGenerateResponse object { ipsec_tunnel_id, psk, psk_metadata }`
-
-  - `ipsec_tunnel_id: optional string`
-
-    Identifier
-
-  - `psk: optional string`
-
-    A randomly generated or provided string for use in the IPsec tunnel.
-
-  - `psk_metadata: optional PSKMetadata`
-
-    The PSK metadata that includes when the PSK was generated.
-
-    - `last_generated_on: optional string`
-
-      The date and time the tunnel was last modified.
-
-### IPSEC Tunnel PSK Set Response
-
-- `IPSECTunnelPSKSetResponse object { successfully_applied_psks, unapplied_psks }`
-
-  - `successfully_applied_psks: optional map[object { ipsec_id, ipsec_tunnel_id, psk, psk_metadata } ]`
-
-    Map of tunnel IDs to successfully applied PSK details.
-
-    - `ipsec_id: string`
-
-      The IKE identifier used for this tunnel on the Cloudflare edge.
-
-    - `ipsec_tunnel_id: string`
-
-      Identifier
-
-    - `psk: string`
-
-      A randomly generated or provided string for use in the IPsec tunnel.
-
-    - `psk_metadata: PSKMetadata`
-
-      The PSK metadata that includes when the PSK was generated.
-
-      - `last_generated_on: optional string`
-
-        The date and time the tunnel was last modified.
-
-  - `unapplied_psks: optional map[string]`
-
-    Map of tunnel IDs to failure reasons for PSKs that could not be applied.
+[Link to this property](#)%20magic_transit.ipsec_tunnels%20%3E%20(model)%20ipsec_tunnel_psk_set_response%20%3E%20(schema)>)

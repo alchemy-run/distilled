@@ -1,571 +1,545 @@
+---
+title: Authorities
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[CT](https://developers.cloudflare.com/api/resources/radar/subresources/ct)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Authorities
 
-## Get certificate authority details
+##### [Get certificate authority details](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/authorities/methods/get)
 
-**get** `/radar/ct/authorities/{ca_slug}`
+GET/radar/ct/authorities/{ca\_slug}
 
-Retrieves the requested CA information.
+##### [List certificate authorities](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/authorities/methods/list)
 
-### Path Parameters
+GET/radar/ct/authorities
 
-- `ca_slug: string`
+##### ModelsExpand Collapse
 
-  Certificate authority SHA256 fingerprint.
+<details>
 
-### Query Parameters
+<summary>
 
-- `format: optional "JSON" or "CSV"`
+AuthorityGetResponse object {certificateAuthority }
 
-  Format in which results will be returned.
+</summary>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-### Returns
+certificateAuthority: object {appleStatus, authorityKeyIdentifier, certificateRecordType, 15 more }
 
-- `result: object { certificateAuthority }`
+</summary>
 
-  - `certificateAuthority: object { appleStatus, authorityKeyIdentifier, certificateRecordType, 15 more }`
+<details>
 
-    - `appleStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+<summary>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+appleStatus: "INCLUDED"or "NOT\_YET\_INCLUDED"or "NOT\_INCLUDED"or 4 more
 
-      - `"INCLUDED"`
+The inclusion status of a Certificate Authority (CA) in the trust store.
 
-      - `"NOT_YET_INCLUDED"`
+</summary>
 
-      - `"NOT_INCLUDED"`
+One of the following:
 
-      - `"NOT_BEFORE"`
+"INCLUDED"
 
-      - `"REMOVED"`
+<a href="#">Link to this property</a>
 
-      - `"DISABLED"`
+"NOT\_YET\_INCLUDED"
 
-      - `"BLOCKED"`
+<a href="#">Link to this property</a>
 
-    - `authorityKeyIdentifier: string`
+"NOT\_INCLUDED"
 
-      The authorityKeyIdentifier value extracted from the certificate PEM.
+<a href="#">Link to this property</a>
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+"NOT\_BEFORE"
 
-      Specifies the type of certificate in the trust chain.
+<a href="#">Link to this property</a>
 
-      - `"ROOT_CERTIFICATE"`
+"REMOVED"
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-    - `chromeStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+"DISABLED"
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+<a href="#">Link to this property</a>
 
-      - `"INCLUDED"`
+"BLOCKED"
 
-      - `"NOT_YET_INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_INCLUDED"`
+</details>
 
-      - `"NOT_BEFORE"`
+<a href="#">Link to this property</a>
 
-      - `"REMOVED"`
+authorityKeyIdentifier: string
 
-      - `"DISABLED"`
+The authorityKeyIdentifier value extracted from the certificate PEM.
 
-      - `"BLOCKED"`
+<a href="#">Link to this property</a>
 
-    - `country: string`
+<details>
 
-      The two-letter ISO country code where the CA organization is based.
+<summary>
 
-    - `countryName: string`
+certificateRecordType: "ROOT\_CERTIFICATE"or "INTERMEDIATE\_CERTIFICATE"
 
-      The full country name corresponding to the country code.
+Specifies the type of certificate in the trust chain.
 
-    - `microsoftStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+</summary>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+One of the following:
 
-      - `"INCLUDED"`
+"ROOT\_CERTIFICATE"
 
-      - `"NOT_YET_INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_INCLUDED"`
+"INTERMEDIATE\_CERTIFICATE"
 
-      - `"NOT_BEFORE"`
+<a href="#">Link to this property</a>
 
-      - `"REMOVED"`
+</details>
 
-      - `"DISABLED"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCKED"`
+<details>
 
-    - `mozillaStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+<summary>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+chromeStatus: "INCLUDED"or "NOT\_YET\_INCLUDED"or "NOT\_INCLUDED"or 4 more
 
-      - `"INCLUDED"`
+The inclusion status of a Certificate Authority (CA) in the trust store.
 
-      - `"NOT_YET_INCLUDED"`
+</summary>
 
-      - `"NOT_INCLUDED"`
+One of the following:
 
-      - `"NOT_BEFORE"`
+"INCLUDED"
 
-      - `"REMOVED"`
+<a href="#">Link to this property</a>
 
-      - `"DISABLED"`
+"NOT\_YET\_INCLUDED"
 
-      - `"BLOCKED"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"NOT\_INCLUDED"
 
-      The full name of the certificate authority (CA).
+<a href="#">Link to this property</a>
 
-    - `owner: string`
+"NOT\_BEFORE"
 
-      The organization that owns and operates the CA.
+<a href="#">Link to this property</a>
 
-    - `parentName: string`
+"REMOVED"
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+<a href="#">Link to this property</a>
 
-    - `parentSha256Fingerprint: string`
+"DISABLED"
 
-      The SHA-256 fingerprint of the parent certificate.
+<a href="#">Link to this property</a>
 
-    - `related: array of object { certificateRecordType, name, revocationStatus, sha256Fingerprint }`
+"BLOCKED"
 
-      CAs from the same owner.
+<a href="#">Link to this property</a>
 
-      - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+</details>
 
-        Specifies the type of certificate in the trust chain.
+<a href="#">Link to this property</a>
 
-        - `"ROOT_CERTIFICATE"`
+country: string
 
-        - `"INTERMEDIATE_CERTIFICATE"`
+The two-letter ISO country code where the CA organization is based.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        The full name of the certificate authority (CA).
+countryName: string
 
-      - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+The full country name corresponding to the country code.
 
-        The current revocation status of a Certificate Authority (CA) certificate.
+<a href="#">Link to this property</a>
 
-        - `"NOT_REVOKED"`
+<details>
 
-        - `"REVOKED"`
+<summary>
 
-        - `"PARENT_CERT_REVOKED"`
+microsoftStatus: "INCLUDED"or "NOT\_YET\_INCLUDED"or "NOT\_INCLUDED"or 4 more
 
-      - `sha256Fingerprint: string`
+The inclusion status of a Certificate Authority (CA) in the trust store.
 
-        The SHA-256 fingerprint of the intermediate certificate.
+</summary>
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+One of the following:
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+"INCLUDED"
 
-      - `"NOT_REVOKED"`
+<a href="#">Link to this property</a>
 
-      - `"REVOKED"`
+"NOT\_YET\_INCLUDED"
 
-      - `"PARENT_CERT_REVOKED"`
+<a href="#">Link to this property</a>
 
-    - `sha256Fingerprint: string`
+"NOT\_INCLUDED"
 
-      The SHA-256 fingerprint of the intermediate certificate.
+<a href="#">Link to this property</a>
 
-    - `subjectKeyIdentifier: string`
+"NOT\_BEFORE"
 
-      The subjectKeyIdentifier value extracted from the certificate PEM.
+<a href="#">Link to this property</a>
 
-    - `validFrom: string`
+"REMOVED"
 
-      The start date of the certificate’s validity period (ISO format).
+<a href="#">Link to this property</a>
 
-    - `validTo: string`
+"DISABLED"
 
-      The end date of the certificate’s validity period (ISO format).
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"BLOCKED"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/authorities/$CA_SLUG \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "certificateAuthority": {
-      "appleStatus": "INCLUDED",
-      "authorityKeyIdentifier": "1TkcnFtvBKqilUzvIN0pdKTFRXE",
-      "certificateRecordType": "ROOT_CERTIFICATE",
-      "chromeStatus": "INCLUDED",
-      "country": "PT",
-      "countryName": "Portugal",
-      "microsoftStatus": "INCLUDED",
-      "mozillaStatus": "INCLUDED",
-      "name": "MULTICERT Advanced Certification Authority 005",
-      "owner": "MULTICERT",
-      "parentName": "MULTICERT Root Certification Authority 01",
-      "parentSha256Fingerprint": "604D32D036895AED3BFEFAEB727C009EC0F2B3CDFA42A1C71730E6A72C3BE9D4",
-      "related": [
-        {
-          "certificateRecordType": "ROOT_CERTIFICATE",
-          "name": "MULTICERT Advanced Certification Authority 005",
-          "revocationStatus": "NOT_REVOKED",
-          "sha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3"
-        }
-      ],
-      "revocationStatus": "NOT_REVOKED",
-      "sha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3",
-      "subjectKeyIdentifier": "VbqXmCURhMmiMtD7nFY6iCr4z",
-      "validFrom": "2019-12-09",
-      "validTo": "2032-06-08"
-    }
-  },
-  "success": true
-}
-```
+<details>
 
-## List certificate authorities
+<summary>
 
-**get** `/radar/ct/authorities`
+mozillaStatus: "INCLUDED"or "NOT\_YET\_INCLUDED"or "NOT\_INCLUDED"or 4 more
 
-Retrieves a list of certificate authorities.
+The inclusion status of a Certificate Authority (CA) in the trust store.
 
-### Query Parameters
+</summary>
 
-- `format: optional "JSON" or "CSV"`
+One of the following:
 
-  Format in which results will be returned.
+"INCLUDED"
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+"NOT\_YET\_INCLUDED"
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects returned in the response.
+"NOT\_INCLUDED"
 
-- `offset: optional number`
+<a href="#">Link to this property</a>
 
-  Skips the specified number of objects before fetching the results.
+"NOT\_BEFORE"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { certificateAuthorities }`
+"REMOVED"
 
-  - `certificateAuthorities: array of object { certificateRecordType, country, countryName, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+"DISABLED"
 
-      Specifies the type of certificate in the trust chain.
+<a href="#">Link to this property</a>
 
-      - `"ROOT_CERTIFICATE"`
+"BLOCKED"
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-    - `country: string`
+</details>
 
-      The two-letter ISO country code where the CA organization is based.
+<a href="#">Link to this property</a>
 
-    - `countryName: string`
+name: string
 
-      The full country name corresponding to the country code.
+The full name of the certificate authority (CA).
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The full name of the certificate authority (CA).
+owner: string
 
-    - `owner: string`
+The organization that owns and operates the CA.
 
-      The organization that owns and operates the CA.
+<a href="#">Link to this property</a>
 
-    - `parentName: string`
+parentName: string
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+The name of the parent/root certificate authority that issued this intermediate certificate.
 
-    - `parentSha256Fingerprint: string`
+<a href="#">Link to this property</a>
 
-      The SHA-256 fingerprint of the parent certificate.
+parentSha256Fingerprint: string
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+The SHA-256 fingerprint of the parent certificate.
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+<a href="#">Link to this property</a>
 
-      - `"NOT_REVOKED"`
+<details>
 
-      - `"REVOKED"`
+<summary>
 
-      - `"PARENT_CERT_REVOKED"`
+related: array of object {certificateRecordType, name, revocationStatus, sha256Fingerprint }
 
-    - `sha256Fingerprint: string`
+CAs from the same owner.
 
-      The SHA-256 fingerprint of the intermediate certificate.
+</summary>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/authorities \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+certificateRecordType: "ROOT\_CERTIFICATE"or "INTERMEDIATE\_CERTIFICATE"
 
-#### Response
+Specifies the type of certificate in the trust chain.
 
-```json
-{
-  "result": {
-    "certificateAuthorities": [
-      {
-        "certificateRecordType": "ROOT_CERTIFICATE",
-        "country": "PT",
-        "countryName": "Portugal",
-        "name": "MULTICERT Advanced Certification Authority 005",
-        "owner": "MULTICERT",
-        "parentName": "MULTICERT Root Certification Authority 01",
-        "parentSha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3",
-        "revocationStatus": "NOT_REVOKED",
-        "sha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3"
-      }
-    ]
-  },
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+One of the following:
 
-### Authority Get Response
+"ROOT\_CERTIFICATE"
 
-- `AuthorityGetResponse object { certificateAuthority }`
+<a href="#">Link to this property</a>
 
-  - `certificateAuthority: object { appleStatus, authorityKeyIdentifier, certificateRecordType, 15 more }`
+"INTERMEDIATE\_CERTIFICATE"
 
-    - `appleStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+<a href="#">Link to this property</a>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+</details>
 
-      - `"INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_YET_INCLUDED"`
+name: string
 
-      - `"NOT_INCLUDED"`
+The full name of the certificate authority (CA).
 
-      - `"NOT_BEFORE"`
+<a href="#">Link to this property</a>
 
-      - `"REMOVED"`
+<details>
 
-      - `"DISABLED"`
+<summary>
 
-      - `"BLOCKED"`
+revocationStatus: "NOT\_REVOKED"or "REVOKED"or "PARENT\_CERT\_REVOKED"
 
-    - `authorityKeyIdentifier: string`
+The current revocation status of a Certificate Authority (CA) certificate.
 
-      The authorityKeyIdentifier value extracted from the certificate PEM.
+</summary>
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+One of the following:
 
-      Specifies the type of certificate in the trust chain.
+"NOT\_REVOKED"
 
-      - `"ROOT_CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+"REVOKED"
 
-    - `chromeStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+<a href="#">Link to this property</a>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+"PARENT\_CERT\_REVOKED"
 
-      - `"INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_YET_INCLUDED"`
+</details>
 
-      - `"NOT_INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_BEFORE"`
+sha256Fingerprint: string
 
-      - `"REMOVED"`
+The SHA-256 fingerprint of the intermediate certificate.
 
-      - `"DISABLED"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCKED"`
+</details>
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-      The two-letter ISO country code where the CA organization is based.
+<details>
 
-    - `countryName: string`
+<summary>
 
-      The full country name corresponding to the country code.
+revocationStatus: "NOT\_REVOKED"or "REVOKED"or "PARENT\_CERT\_REVOKED"
 
-    - `microsoftStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+The current revocation status of a Certificate Authority (CA) certificate.
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+</summary>
 
-      - `"INCLUDED"`
+One of the following:
 
-      - `"NOT_YET_INCLUDED"`
+"NOT\_REVOKED"
 
-      - `"NOT_INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_BEFORE"`
+"REVOKED"
 
-      - `"REMOVED"`
+<a href="#">Link to this property</a>
 
-      - `"DISABLED"`
+"PARENT\_CERT\_REVOKED"
 
-      - `"BLOCKED"`
+<a href="#">Link to this property</a>
 
-    - `mozillaStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+</details>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+<a href="#">Link to this property</a>
 
-      - `"INCLUDED"`
+sha256Fingerprint: string
 
-      - `"NOT_YET_INCLUDED"`
+The SHA-256 fingerprint of the intermediate certificate.
 
-      - `"NOT_INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_BEFORE"`
+subjectKeyIdentifier: string
 
-      - `"REMOVED"`
+The subjectKeyIdentifier value extracted from the certificate PEM.
 
-      - `"DISABLED"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCKED"`
+validFrom: string
 
-    - `name: string`
+The start date of the certificate’s validity period (ISO format).
 
-      The full name of the certificate authority (CA).
+<a href="#">Link to this property</a>
 
-    - `owner: string`
+validTo: string
 
-      The organization that owns and operates the CA.
+The end date of the certificate’s validity period (ISO format).
 
-    - `parentName: string`
+<a href="#">Link to this property</a>
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+</details>
 
-    - `parentSha256Fingerprint: string`
+<a href="#">Link to this property</a>
 
-      The SHA-256 fingerprint of the parent certificate.
+</details>
 
-    - `related: array of object { certificateRecordType, name, revocationStatus, sha256Fingerprint }`
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(model)%20authority_get_response%20%3E%20(schema)>)
 
-      CAs from the same owner.
+<details>
 
-      - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+<summary>
 
-        Specifies the type of certificate in the trust chain.
+AuthorityListResponse object {certificateAuthorities }
 
-        - `"ROOT_CERTIFICATE"`
+</summary>
 
-        - `"INTERMEDIATE_CERTIFICATE"`
+<details>
 
-      - `name: string`
+<summary>
 
-        The full name of the certificate authority (CA).
+certificateAuthorities: array of object {certificateRecordType, country, countryName, 6 more }
 
-      - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+</summary>
 
-        The current revocation status of a Certificate Authority (CA) certificate.
+<details>
 
-        - `"NOT_REVOKED"`
+<summary>
 
-        - `"REVOKED"`
+certificateRecordType: "ROOT\_CERTIFICATE"or "INTERMEDIATE\_CERTIFICATE"
 
-        - `"PARENT_CERT_REVOKED"`
+Specifies the type of certificate in the trust chain.
 
-      - `sha256Fingerprint: string`
+</summary>
 
-        The SHA-256 fingerprint of the intermediate certificate.
+One of the following:
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+"ROOT\_CERTIFICATE"
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+<a href="#">Link to this property</a>
 
-      - `"NOT_REVOKED"`
+"INTERMEDIATE\_CERTIFICATE"
 
-      - `"REVOKED"`
+<a href="#">Link to this property</a>
 
-      - `"PARENT_CERT_REVOKED"`
+</details>
 
-    - `sha256Fingerprint: string`
+<a href="#">Link to this property</a>
 
-      The SHA-256 fingerprint of the intermediate certificate.
+country: string
 
-    - `subjectKeyIdentifier: string`
+The two-letter ISO country code where the CA organization is based.
 
-      The subjectKeyIdentifier value extracted from the certificate PEM.
+<a href="#">Link to this property</a>
 
-    - `validFrom: string`
+countryName: string
 
-      The start date of the certificate’s validity period (ISO format).
+The full country name corresponding to the country code.
 
-    - `validTo: string`
+<a href="#">Link to this property</a>
 
-      The end date of the certificate’s validity period (ISO format).
+name: string
 
-### Authority List Response
+The full name of the certificate authority (CA).
 
-- `AuthorityListResponse object { certificateAuthorities }`
+<a href="#">Link to this property</a>
 
-  - `certificateAuthorities: array of object { certificateRecordType, country, countryName, 6 more }`
+owner: string
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+The organization that owns and operates the CA.
 
-      Specifies the type of certificate in the trust chain.
+<a href="#">Link to this property</a>
 
-      - `"ROOT_CERTIFICATE"`
+parentName: string
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+The name of the parent/root certificate authority that issued this intermediate certificate.
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-      The two-letter ISO country code where the CA organization is based.
+parentSha256Fingerprint: string
 
-    - `countryName: string`
+The SHA-256 fingerprint of the parent certificate.
 
-      The full country name corresponding to the country code.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-      The full name of the certificate authority (CA).
+<summary>
 
-    - `owner: string`
+revocationStatus: "NOT\_REVOKED"or "REVOKED"or "PARENT\_CERT\_REVOKED"
 
-      The organization that owns and operates the CA.
+The current revocation status of a Certificate Authority (CA) certificate.
 
-    - `parentName: string`
+</summary>
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+One of the following:
 
-    - `parentSha256Fingerprint: string`
+"NOT\_REVOKED"
 
-      The SHA-256 fingerprint of the parent certificate.
+<a href="#">Link to this property</a>
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+"REVOKED"
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+<a href="#">Link to this property</a>
 
-      - `"NOT_REVOKED"`
+"PARENT\_CERT\_REVOKED"
 
-      - `"REVOKED"`
+<a href="#">Link to this property</a>
 
-      - `"PARENT_CERT_REVOKED"`
+</details>
 
-    - `sha256Fingerprint: string`
+<a href="#">Link to this property</a>
 
-      The SHA-256 fingerprint of the intermediate certificate.
+sha256Fingerprint: string
+
+The SHA-256 fingerprint of the intermediate certificate.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(model)%20authority_list_response%20%3E%20(schema)>)

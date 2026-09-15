@@ -1,81 +1,265 @@
-## Storage use
+---
+title: Storage use
+---
 
-**get** `/accounts/{account_id}/stream/storage-usage`
+[Skip to content](#_top)
 
-Returns information about an account's storage use.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Stream](https://developers.cloudflare.com/api/resources/stream)
 
-- `account_id: string`
+[Videos](https://developers.cloudflare.com/api/resources/stream/subresources/videos)
 
-  The account identifier tag.
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `creator: optional string`
+---
 
-  A user-defined identifier for the media creator.
+**Copy Markdown****View as Markdown**
 
-### Returns
+# Storage use
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/stream/storage-usage
 
-  - `code: number`
+Returns information about an account’s storage use.
 
-  - `message: string`
+##### Security
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>API Token</summary>
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `success: true`
 
-  Whether the API call was successful.
 
-  - `true`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `result: optional object { creator, totalStorageMinutes, totalStorageMinutesLimit, videoCount }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `creator: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    A user-defined identifier for the media creator.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `totalStorageMinutes: optional number`
+</details>
 
-    The total minutes of video content stored in the account. May contain decimal values.
+##### Accepted Permissions (at least one required)
 
-  - `totalStorageMinutesLimit: optional number`
+`Stream Write``Stream Read`
 
-    The storage capacity alloted for the account.
+##### P ath ParametersExpand Collapse
 
-  - `videoCount: optional number`
+account\_id: string
 
-    The total count of videos associated with the account.
+The account identifier tag.
 
-### Example
+maxLength32
 
-```http
+[Link to this property](#)%20stream.videos%20%3E%20(method)%20storage_usage%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+creator: optional string
+
+A user-defined identifier for the media creator.
+
+maxLength64
+
+[Link to this property](#)%20stream.videos%20%3E%20(method)%20storage_usage%20%3E%20(params)%20default%20%3E%20(param)%20creator%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.videos%20%3E%20(method)%20storage_usage%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.videos%20%3E%20(method)%20storage_usage%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20stream.videos%20%3E%20(method)%20storage_usage%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {creator, totalStorageMinutes, totalStorageMinutesLimit, videoCount }
+
+</summary>
+
+creator: optional string
+
+A user-defined identifier for the media creator.
+
+maxLength64
+
+<a href="#">Link to this property</a>
+
+totalStorageMinutes: optional number
+
+The total minutes of video content stored in the account. May contain decimal values.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+totalStorageMinutesLimit: optional number
+
+The storage capacity alloted for the account.
+
+<a href="#">Link to this property</a>
+
+videoCount: optional number
+
+The total count of videos associated with the account.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.videos%20%3E%20(method)%20storage_usage%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Storage use
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/storage-usage \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "creator": "creator-id_abcde12345",
+    "totalStorageMinutes": 0,
+    "totalStorageMinutesLimit": 0,
+    "videoCount": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,73 +1,204 @@
-## Trigger deploy hook
+---
+title: Trigger deploy hook
+---
 
-**post** `/workers/builds/deploy_hooks/{deploy_hook_uuid}`
+[Skip to content](#_top)
 
-Trigger a build using a deploy hook. This endpoint does not require authentication - the deploy_hook_uuid acts as a secret token.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
 
-- `deploy_hook_uuid: string`
+[Deploy Hooks](https://developers.cloudflare.com/api/resources/workers_builds/subresources/deploy_hooks)
 
-  Deploy hook UUID.
+Copy Markdown
 
-### Returns
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `errors: array of object { code, message }`
+---
 
-  - `code: optional number`
+**Copy Markdown****View as Markdown**
 
-  - `message: optional string`
+# Trigger deploy hook
 
-- `messages: array of string`
+POST/workers/builds/deploy\_hooks/{deploy\_hook\_uuid}
 
-- `result: object { already_exists, build_uuid, created_on, status }`
+Trigger a build using a deploy hook. This endpoint does not require authentication - the deploy\_hook\_uuid acts as a secret token.
 
-  - `already_exists: optional boolean`
+##### Security
 
-    True if a pending build already exists for this branch
+<details>
 
-  - `build_uuid: optional string`
+<summary>API Token</summary>
 
-    Build UUID.
 
-  - `created_on: optional string`
 
-  - `status: optional "queued" or "initializing" or "running" or "stopped"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `"queued"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `"initializing"`
+</details>
 
-    - `"running"`
+<details>
 
-    - `"stopped"`
+<summary></summary>
 
-- `success: boolean`
 
-- `result_info: optional object { count, page, per_page, 2 more }`
 
-  - `count: optional number`
+</details>
 
-  - `page: optional number`
+##### P ath ParametersExpand Collapse
 
-  - `per_page: optional number`
+deploy\_hook\_uuid: string
 
-  - `total_count: optional number`
+Deploy hook UUID.
 
-  - `total_pages: optional number`
+formatuuid
 
-### Example
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(method)%20trigger%20%3E%20(params)%20default%20%3E%20(param)%20deploy_hook_uuid%20%3E%20(schema)>)
 
-```http
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {already\_exists, build\_uuid, created\_on, status }
+
+</summary>
+
+already\_exists: optional boolean
+
+True if a pending build already exists for this branch
+
+<a href="#">Link to this property</a>
+
+build\_uuid: optional string
+
+Build UUID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "queued"or "initializing"or "running"or "stopped"
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"running"
+
+<a href="#">Link to this property</a>
+
+"stopped"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Trigger deploy hook
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/workers/builds/deploy_hooks/$DEPLOY_HOOK_UUID \
     -X POST \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+404 example
+
+429 example
+
+```
 {
   "errors": [
     {
@@ -92,5 +223,97 @@ curl https://api.cloudflare.com/client/v4/workers/builds/deploy_hooks/$DEPLOY_HO
     "total_count": 150,
     "total_pages": 3
   }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12051,
+      "message": "Rate limit exceeded"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+404 example
+
+429 example
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "already_exists": false,
+    "build_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "created_on": "2019-12-27T18:11:19.117Z",
+    "status": "running"
+  },
+  "success": true,
+  "result_info": {
+    "count": 25,
+    "page": 1,
+    "per_page": 50,
+    "total_count": 150,
+    "total_pages": 3
+  }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12051,
+      "message": "Rate limit exceeded"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

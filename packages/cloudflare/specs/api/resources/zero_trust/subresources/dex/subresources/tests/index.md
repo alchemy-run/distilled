@@ -1,761 +1,637 @@
+---
+title: Tests
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tests
 
-## List DEX test analytics
+##### [List DEX test analytics](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/tests/methods/list)
 
-**get** `/accounts/{account_id}/dex/tests/overview`
+GET/accounts/{account\_id}/dex/tests/overview
 
-List DEX tests with overview metrics.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+AggregateTimePeriod object {units, value }
 
-### Query Parameters
+</summary>
 
-- `colo: optional string`
+<details>
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+<summary>
 
-- `deviceId: optional array of string`
+units: "hours"or "days"or "testRuns"
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+</summary>
 
-- `kind: optional "http" or "traceroute"`
+One of the following:
 
-  Filter by test type.
+"hours"
 
-  - `"http"`
+<a href="#">Link to this property</a>
 
-  - `"traceroute"`
+"days"
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Page number of paginated results
+"testRuns"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of items per page
+</details>
 
-- `registration_id: optional string`
+<a href="#">Link to this property</a>
 
-  Optionally filter results to a specific device registration. Must be used in combination with a single deviceId.
+value: number
 
-- `testName: optional string`
+<a href="#">Link to this property</a>
 
-  Optionally filter results by test name.
+</details>
 
-### Returns
+[Link to this property](#)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+Tests object {overviewMetrics, tests }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+overviewMetrics: object {testsTotal, avgHttpAvailabilityPct, avgTracerouteAvailabilityPct }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+testsTotal: number
 
-  - `documentation_url: optional string`
+number of tests.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+avgHttpAvailabilityPct: optional number
 
-- `success: true`
+percentage availability for all HTTP test results in response.
 
-  Whether the API call was successful.
+formatfloat
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Tests`
+avgTracerouteAvailabilityPct: optional number
 
-  - `overviewMetrics: object { testsTotal, avgHttpAvailabilityPct, avgTracerouteAvailabilityPct }`
+percentage availability for all traceroutes results in response.
 
-    - `testsTotal: number`
+formatfloat
 
-      number of tests.
+<a href="#">Link to this property</a>
 
-    - `avgHttpAvailabilityPct: optional number`
+</details>
 
-      percentage availability for all HTTP test results in response.
+<a href="#">Link to this property</a>
 
-    - `avgTracerouteAvailabilityPct: optional number`
+<details>
 
-      percentage availability for all traceroutes results in response.
+<summary>
 
-  - `tests: array of object { id, created, description, 13 more }`
+tests: array of object {id, created, description, 13 more }
 
-    array of test results objects.
+array of test results objects.
 
-    - `id: string`
+</summary>
 
-      API Resource UUID tag.
+id: string
 
-    - `created: string`
+API Resource UUID tag.
 
-      date the test was created.
+maxLength36
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      the test description defined during configuration
+created: string
 
-    - `enabled: boolean`
+date the test was created.
 
-      if true, then the test will run on targeted devices. Else, the test will not run.
+<a href="#">Link to this property</a>
 
-    - `host: string`
+description: string
 
-    - `interval: string`
+the test description defined during configuration
 
-      The interval at which the synthetic application test is set to run.
+<a href="#">Link to this property</a>
 
-    - `kind: "http" or "traceroute"`
+enabled: boolean
 
-      test type, http or traceroute
+if true, then the test will run on targeted devices. Else, the test will not run.
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"traceroute"`
+host: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      name given to this test
+interval: string
 
-    - `updated: string`
+The interval at which the synthetic application test is set to run.
 
-    - `httpResults: optional object { resourceFetchTime }`
+<a href="#">Link to this property</a>
 
-      - `resourceFetchTime: object { history, avgMs, overTime }`
+<details>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<summary>
 
-          - `timePeriod: AggregateTimePeriod`
+kind: "http"or "traceroute"
 
-            - `units: "hours" or "days" or "testRuns"`
+test type, http or traceroute
 
-              - `"hours"`
+</summary>
 
-              - `"days"`
+One of the following:
 
-              - `"testRuns"`
+"http"
 
-            - `value: number`
+<a href="#">Link to this property</a>
 
-          - `avgMs: optional number`
+"traceroute"
 
-          - `deltaPct: optional number`
+<a href="#">Link to this property</a>
 
-        - `avgMs: optional number`
+</details>
 
-        - `overTime: optional object { timePeriod, values }`
+<a href="#">Link to this property</a>
 
-          - `timePeriod: AggregateTimePeriod`
+name: string
 
-          - `values: array of object { avgMs, timestamp }`
+name given to this test
 
-            - `avgMs: number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: string`
+updated: string
 
-    - `httpResultsByColo: optional array of object { colo, resourceFetchTime }`
+<a href="#">Link to this property</a>
 
-      - `colo: string`
+<details>
 
-        Cloudflare colo
+<summary>
 
-      - `resourceFetchTime: object { history, avgMs, overTime }`
+httpResults: optional object {resourceFetchTime }
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+</summary>
 
-          - `timePeriod: AggregateTimePeriod`
+<details>
 
-          - `avgMs: optional number`
+<summary>
 
-          - `deltaPct: optional number`
+resourceFetchTime: object {history, avgMs, overTime }
 
-        - `avgMs: optional number`
+</summary>
 
-        - `overTime: optional object { timePeriod, values }`
+<details>
 
-          - `timePeriod: AggregateTimePeriod`
+<summary>
 
-          - `values: array of object { avgMs, timestamp }`
+history: array of object {timePeriod, avgMs, deltaPct }
 
-            - `avgMs: number`
+</summary>
 
-            - `timestamp: string`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-    - `method: optional string`
+<a href="#">Link to this property</a>
 
-      for HTTP, the method to use when running the test
+avgMs: optional number
 
-    - `target_policies: optional array of DigitalExperienceMonitor`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+deltaPct: optional number
 
-        API Resource UUID tag.
+formatfloat
 
-      - `default: boolean`
+<a href="#">Link to this property</a>
 
-        Whether the policy is the default for the account.
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `targeted: optional boolean`
+avgMs: optional number
 
-    - `tracerouteResults: optional object { roundTripTime }`
+<a href="#">Link to this property</a>
 
-      - `roundTripTime: object { history, avgMs, overTime }`
+<details>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<summary>
 
-          - `timePeriod: AggregateTimePeriod`
+overTime: optional object {timePeriod, values }
 
-          - `avgMs: optional number`
+</summary>
 
-          - `deltaPct: optional number`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-        - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-        - `overTime: optional object { timePeriod, values }`
+<details>
 
-          - `timePeriod: AggregateTimePeriod`
+<summary>
 
-          - `values: array of object { avgMs, timestamp }`
+values: array of object {avgMs, timestamp }
 
-            - `avgMs: number`
+</summary>
 
-            - `timestamp: string`
+avgMs: number
 
-    - `tracerouteResultsByColo: optional array of object { colo, roundTripTime }`
+<a href="#">Link to this property</a>
 
-      - `colo: string`
+timestamp: string
 
-        Cloudflare colo
+<a href="#">Link to this property</a>
 
-      - `roundTripTime: object { history, avgMs, overTime }`
+</details>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<a href="#">Link to this property</a>
 
-          - `timePeriod: AggregateTimePeriod`
+</details>
 
-          - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-          - `deltaPct: optional number`
+</details>
 
-        - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-        - `overTime: optional object { timePeriod, values }`
+</details>
 
-          - `timePeriod: AggregateTimePeriod`
+<a href="#">Link to this property</a>
 
-          - `values: array of object { avgMs, timestamp }`
+<details>
 
-            - `avgMs: number`
+<summary>
 
-            - `timestamp: string`
+httpResultsByColo: optional array of object {colo, resourceFetchTime }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/tests/overview \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+colo: string
 
-#### Response
+Cloudflare colo
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "overviewMetrics": {
-      "testsTotal": 0,
-      "avgHttpAvailabilityPct": 0,
-      "avgTracerouteAvailabilityPct": 0
-    },
-    "tests": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created": "created",
-        "description": "description",
-        "enabled": true,
-        "host": "host",
-        "interval": "interval",
-        "kind": "http",
-        "name": "name",
-        "updated": "updated",
-        "httpResults": {
-          "resourceFetchTime": {
-            "history": [
-              {
-                "timePeriod": {
-                  "units": "hours",
-                  "value": 0
-                },
-                "avgMs": 0,
-                "deltaPct": 0
-              }
-            ],
-            "avgMs": 0,
-            "overTime": {
-              "timePeriod": {
-                "units": "hours",
-                "value": 0
-              },
-              "values": [
-                {
-                  "avgMs": 0,
-                  "timestamp": "timestamp"
-                }
-              ]
-            }
-          }
-        },
-        "httpResultsByColo": [
-          {
-            "colo": "SJC",
-            "resourceFetchTime": {
-              "history": [
-                {
-                  "timePeriod": {
-                    "units": "hours",
-                    "value": 0
-                  },
-                  "avgMs": 0,
-                  "deltaPct": 0
-                }
-              ],
-              "avgMs": 0,
-              "overTime": {
-                "timePeriod": {
-                  "units": "hours",
-                  "value": 0
-                },
-                "values": [
-                  {
-                    "avgMs": 0,
-                    "timestamp": "timestamp"
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "method": "method",
-        "target_policies": [
-          {
-            "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-            "default": true,
-            "name": "name"
-          }
-        ],
-        "targeted": true,
-        "tracerouteResults": {
-          "roundTripTime": {
-            "history": [
-              {
-                "timePeriod": {
-                  "units": "hours",
-                  "value": 0
-                },
-                "avgMs": 0,
-                "deltaPct": 0
-              }
-            ],
-            "avgMs": 0,
-            "overTime": {
-              "timePeriod": {
-                "units": "hours",
-                "value": 0
-              },
-              "values": [
-                {
-                  "avgMs": 0,
-                  "timestamp": "timestamp"
-                }
-              ]
-            }
-          }
-        },
-        "tracerouteResultsByColo": [
-          {
-            "colo": "SJC",
-            "roundTripTime": {
-              "history": [
-                {
-                  "timePeriod": {
-                    "units": "hours",
-                    "value": 0
-                  },
-                  "avgMs": 0,
-                  "deltaPct": 0
-                }
-              ],
-              "avgMs": 0,
-              "overTime": {
-                "timePeriod": {
-                  "units": "hours",
-                  "value": 0
-                },
-                "values": [
-                  {
-                    "avgMs": 0,
-                    "timestamp": "timestamp"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Aggregate Time Period
+<summary>
 
-- `AggregateTimePeriod object { units, value }`
+resourceFetchTime: object {history, avgMs, overTime }
 
-  - `units: "hours" or "days" or "testRuns"`
+</summary>
 
-    - `"hours"`
+<details>
 
-    - `"days"`
+<summary>
 
-    - `"testRuns"`
+history: array of object {timePeriod, avgMs, deltaPct }
 
-  - `value: number`
+</summary>
 
-### Tests
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-- `Tests object { overviewMetrics, tests }`
+<a href="#">Link to this property</a>
 
-  - `overviewMetrics: object { testsTotal, avgHttpAvailabilityPct, avgTracerouteAvailabilityPct }`
+avgMs: optional number
 
-    - `testsTotal: number`
+<a href="#">Link to this property</a>
 
-      number of tests.
+deltaPct: optional number
 
-    - `avgHttpAvailabilityPct: optional number`
+formatfloat
 
-      percentage availability for all HTTP test results in response.
+<a href="#">Link to this property</a>
 
-    - `avgTracerouteAvailabilityPct: optional number`
+</details>
 
-      percentage availability for all traceroutes results in response.
+<a href="#">Link to this property</a>
 
-  - `tests: array of object { id, created, description, 13 more }`
+avgMs: optional number
 
-    array of test results objects.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+<details>
 
-      API Resource UUID tag.
+<summary>
 
-    - `created: string`
+overTime: optional object {timePeriod, values }
 
-      date the test was created.
+</summary>
 
-    - `description: string`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-      the test description defined during configuration
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+<details>
 
-      if true, then the test will run on targeted devices. Else, the test will not run.
+<summary>
 
-    - `host: string`
+values: array of object {avgMs, timestamp }
 
-    - `interval: string`
+</summary>
 
-      The interval at which the synthetic application test is set to run.
+avgMs: number
 
-    - `kind: "http" or "traceroute"`
+<a href="#">Link to this property</a>
 
-      test type, http or traceroute
+timestamp: string
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"traceroute"`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      name given to this test
+</details>
 
-    - `updated: string`
+<a href="#">Link to this property</a>
 
-    - `httpResults: optional object { resourceFetchTime }`
+</details>
 
-      - `resourceFetchTime: object { history, avgMs, overTime }`
+<a href="#">Link to this property</a>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+</details>
 
-          - `timePeriod: AggregateTimePeriod`
+<a href="#">Link to this property</a>
 
-            - `units: "hours" or "days" or "testRuns"`
+method: optional string
 
-              - `"hours"`
+for HTTP, the method to use when running the test
 
-              - `"days"`
+<a href="#">Link to this property</a>
 
-              - `"testRuns"`
+<details>
 
-            - `value: number`
+<summary>
 
-          - `avgMs: optional number`
+target\_policies: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20digital_experience_monitor%20%3E%20(schema)">DigitalExperienceMonitor</a> { id, default, name }
 
-          - `deltaPct: optional number`
+</summary>
 
-        - `avgMs: optional number`
+id: string
 
-        - `overTime: optional object { timePeriod, values }`
+API Resource UUID tag.
 
-          - `timePeriod: AggregateTimePeriod`
+maxLength36
 
-          - `values: array of object { avgMs, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `avgMs: number`
+default: boolean
 
-            - `timestamp: string`
+Whether the policy is the default for the account.
 
-    - `httpResultsByColo: optional array of object { colo, resourceFetchTime }`
+<a href="#">Link to this property</a>
 
-      - `colo: string`
+name: string
 
-        Cloudflare colo
+<a href="#">Link to this property</a>
 
-      - `resourceFetchTime: object { history, avgMs, overTime }`
+</details>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<a href="#">Link to this property</a>
 
-          - `timePeriod: AggregateTimePeriod`
+targeted: optional boolean
 
-          - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-          - `deltaPct: optional number`
+<details>
 
-        - `avgMs: optional number`
+<summary>
 
-        - `overTime: optional object { timePeriod, values }`
+tracerouteResults: optional object {roundTripTime }
 
-          - `timePeriod: AggregateTimePeriod`
+</summary>
 
-          - `values: array of object { avgMs, timestamp }`
+<details>
 
-            - `avgMs: number`
+<summary>
 
-            - `timestamp: string`
+roundTripTime: object {history, avgMs, overTime }
 
-    - `method: optional string`
+</summary>
 
-      for HTTP, the method to use when running the test
+<details>
 
-    - `target_policies: optional array of DigitalExperienceMonitor`
+<summary>
 
-      - `id: string`
+history: array of object {timePeriod, avgMs, deltaPct }
 
-        API Resource UUID tag.
+</summary>
 
-      - `default: boolean`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-        Whether the policy is the default for the account.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+avgMs: optional number
 
-    - `targeted: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `tracerouteResults: optional object { roundTripTime }`
+deltaPct: optional number
 
-      - `roundTripTime: object { history, avgMs, overTime }`
+formatfloat
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<a href="#">Link to this property</a>
 
-          - `timePeriod: AggregateTimePeriod`
+</details>
 
-          - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-          - `deltaPct: optional number`
+avgMs: optional number
 
-        - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-        - `overTime: optional object { timePeriod, values }`
+<details>
 
-          - `timePeriod: AggregateTimePeriod`
+<summary>
 
-          - `values: array of object { avgMs, timestamp }`
+overTime: optional object {timePeriod, values }
 
-            - `avgMs: number`
+</summary>
 
-            - `timestamp: string`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-    - `tracerouteResultsByColo: optional array of object { colo, roundTripTime }`
+<a href="#">Link to this property</a>
 
-      - `colo: string`
+<details>
 
-        Cloudflare colo
+<summary>
 
-      - `roundTripTime: object { history, avgMs, overTime }`
+values: array of object {avgMs, timestamp }
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+</summary>
 
-          - `timePeriod: AggregateTimePeriod`
+avgMs: number
 
-          - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-          - `deltaPct: optional number`
+timestamp: string
 
-        - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-        - `overTime: optional object { timePeriod, values }`
+</details>
 
-          - `timePeriod: AggregateTimePeriod`
+<a href="#">Link to this property</a>
 
-          - `values: array of object { avgMs, timestamp }`
+</details>
 
-            - `avgMs: number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: string`
+</details>
 
-# Unique Devices
+<a href="#">Link to this property</a>
 
-## Get count of devices targeted
+</details>
 
-**get** `/accounts/{account_id}/dex/tests/unique-devices`
+<a href="#">Link to this property</a>
 
-Returns unique count of devices that have run synthetic application monitoring tests in the past 7 days.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+tracerouteResultsByColo: optional array of object {colo, roundTripTime }
 
-  Unique identifier linked to an account.
+</summary>
 
-### Query Parameters
+colo: string
 
-- `deviceId: optional array of string`
+Cloudflare colo
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+<a href="#">Link to this property</a>
 
-- `testName: optional string`
+<details>
 
-  Optionally filter results by test name.
+<summary>
 
-### Returns
+roundTripTime: object {history, avgMs, overTime }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+history: array of object {timePeriod, avgMs, deltaPct }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+avgMs: optional number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+deltaPct: optional number
 
-  - `source: optional object { pointer }`
+formatfloat
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+avgMs: optional number
 
-- `result: optional UniqueDevices`
+<a href="#">Link to this property</a>
 
-  - `uniqueDevicesTotal: number`
+<details>
 
-    total number of unique devices
+<summary>
 
-### Example
+overTime: optional object {timePeriod, values }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/tests/unique-devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "uniqueDevicesTotal": 0
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Unique Devices
+<summary>
 
-- `UniqueDevices object { uniqueDevicesTotal }`
+values: array of object {avgMs, timestamp }
 
-  - `uniqueDevicesTotal: number`
+</summary>
 
-    total number of unique devices
+avgMs: number
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.tests%20%3E%20(model)%20tests%20%3E%20(schema)>)
+
+#### TestsUnique Devices
+
+##### [Get count of devices targeted](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/tests/subresources/unique_devices/methods/list)
+
+GET/accounts/{account\_id}/dex/tests/unique-devices
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+UniqueDevices object {uniqueDevicesTotal }
+
+</summary>
+
+uniqueDevicesTotal: number
+
+total number of unique devices
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.tests.unique_devices%20%3E%20(model)%20unique_devices%20%3E%20(schema)>)

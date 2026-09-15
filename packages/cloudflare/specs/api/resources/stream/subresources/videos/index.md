@@ -1,132 +1,65 @@
+---
+title: Videos
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Videos
 
-## Storage use
+##### [Storage use](https://developers.cloudflare.com/api/resources/stream/subresources/videos/methods/storage_usage)
 
-**get** `/accounts/{account_id}/stream/storage-usage`
+GET/accounts/{account\_id}/stream/storage-usage
 
-Returns information about an account's storage use.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+VideoStorageUsageResponse object {creator, totalStorageMinutes, totalStorageMinutesLimit, videoCount }
 
-### Query Parameters
+</summary>
 
-- `creator: optional string`
+creator: optional string
 
-  A user-defined identifier for the media creator.
+A user-defined identifier for the media creator.
 
-### Returns
+maxLength64
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+totalStorageMinutes: optional number
 
-  - `message: string`
+The total minutes of video content stored in the account. May contain decimal values.
 
-  - `documentation_url: optional string`
+formatfloat
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+totalStorageMinutesLimit: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+The storage capacity alloted for the account.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+videoCount: optional number
 
-  - `documentation_url: optional string`
+The total count of videos associated with the account.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { creator, totalStorageMinutes, totalStorageMinutesLimit, videoCount }`
-
-  - `creator: optional string`
-
-    A user-defined identifier for the media creator.
-
-  - `totalStorageMinutes: optional number`
-
-    The total minutes of video content stored in the account. May contain decimal values.
-
-  - `totalStorageMinutesLimit: optional number`
-
-    The storage capacity alloted for the account.
-
-  - `videoCount: optional number`
-
-    The total count of videos associated with the account.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/storage-usage \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "creator": "creator-id_abcde12345",
-    "totalStorageMinutes": 0,
-    "totalStorageMinutesLimit": 0,
-    "videoCount": 0
-  }
-}
-```
-
-## Domain Types
-
-### Video Storage Usage Response
-
-- `VideoStorageUsageResponse object { creator, totalStorageMinutes, totalStorageMinutesLimit, videoCount }`
-
-  - `creator: optional string`
-
-    A user-defined identifier for the media creator.
-
-  - `totalStorageMinutes: optional number`
-
-    The total minutes of video content stored in the account. May contain decimal values.
-
-  - `totalStorageMinutesLimit: optional number`
-
-    The storage capacity alloted for the account.
-
-  - `videoCount: optional number`
-
-    The total count of videos associated with the account.
+[Link to this property](#)%20stream.videos%20%3E%20(model)%20video_storage_usage_response%20%3E%20(schema)>)

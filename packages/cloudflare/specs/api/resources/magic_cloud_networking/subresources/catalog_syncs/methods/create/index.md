@@ -1,1084 +1,2362 @@
-## Create Catalog Sync
+---
+title: Create Catalog Sync
+---
 
-**post** `/accounts/{account_id}/magic/cloud/catalog-syncs`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Cloud Networking](https://developers.cloudflare.com/api/resources/magic_cloud_networking)
+
+[Catalog Syncs](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/catalog_syncs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create Catalog Sync
+
+POST/accounts/{account\_id}/magic/cloud/catalog-syncs
 
 Create a new Catalog Sync (Closed Beta).
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Header Parameters
+<summary>API Token</summary>
 
-- `forwarded: optional string`
 
-### Body Parameters
 
-- `destination_type: "NONE" or "ZERO_TRUST_LIST"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"NONE"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"ZERO_TRUST_LIST"`
+</details>
 
-- `name: string`
+<details>
 
-- `update_mode: "AUTO" or "MANUAL"`
+<summary>API Email + API Key</summary>
 
-  - `"AUTO"`
 
-  - `"MANUAL"`
 
-- `description: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `policy: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of object { code, message, documentation_url, 2 more }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+</details>
 
-    - `1001`
+##### Accepted Permissions (at least one required)
 
-    - `1002`
+`Magic WAN Write`
 
-    - `1003`
+##### P ath ParametersExpand Collapse
 
-    - `1004`
+account\_id: string
 
-    - `1005`
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `1006`
+##### H eader ParametersExpand Collapse
 
-    - `1007`
+forwarded: optional string
 
-    - `1008`
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20forwarded%20%3E%20(schema)>)
 
-    - `1009`
+##### Body ParametersJSONExpand Collapse
 
-    - `1010`
+<details>
 
-    - `1011`
+<summary>
 
-    - `1012`
+destination\_type: "NONE"or "ZERO\_TRUST\_LIST"
 
-    - `1013`
+</summary>
 
-    - `1014`
+One of the following:
 
-    - `1015`
+"NONE"
 
-    - `1016`
+<a href="#">Link to this property</a>
 
-    - `1017`
+"ZERO\_TRUST\_LIST"
 
-    - `1018`
+<a href="#">Link to this property</a>
 
-    - `2001`
+</details>
 
-    - `2002`
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20destination_type%20%3E%20(schema)>)
 
-    - `2003`
+name: string
 
-    - `2004`
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `2005`
+<details>
 
-    - `2006`
+<summary>
 
-    - `2007`
+update\_mode: "AUTO"or "MANUAL"
 
-    - `2008`
+</summary>
 
-    - `2009`
+One of the following:
 
-    - `2010`
+"AUTO"
 
-    - `2011`
+<a href="#">Link to this property</a>
 
-    - `2012`
+"MANUAL"
 
-    - `2013`
+<a href="#">Link to this property</a>
 
-    - `2014`
+</details>
 
-    - `2015`
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20update_mode%20%3E%20(schema)>)
 
-    - `2016`
+description: optional string
 
-    - `2017`
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    - `2018`
+policy: optional string
 
-    - `2019`
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20policy%20%3E%20(schema)>)
 
-    - `2020`
+##### ReturnsExpand Collapse
 
-    - `2021`
+<details>
 
-    - `2022`
+<summary>
 
-    - `3001`
+errors: array of object {code, message, documentation\_url, 2 more }
 
-    - `3002`
+maxLength0
 
-    - `3003`
+</summary>
 
-    - `3004`
+<details>
 
-    - `3005`
+<summary>
 
-    - `3006`
+code: 1001or 1002or 1003or 152 more
 
-    - `3007`
+</summary>
 
-    - `4001`
+One of the following:
 
-    - `4002`
+1001
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+1002
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+1003
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+1004
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+1005
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+1006
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+1007
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+1008
 
-    - `4017`
+<a href="#">Link to this property</a>
 
-    - `4018`
+1009
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+1010
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+1011
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+1012
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+1013
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+1014
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+1015
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+1016
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+1017
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+1018
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+2001
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+2002
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+2003
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+2004
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+2005
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+2006
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+2007
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+2008
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+2009
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+2010
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+2011
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+2012
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+2013
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+2014
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+2015
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+2016
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+2017
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+2018
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+2019
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+2020
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+2021
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+2022
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+3001
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+3002
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+3003
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+3004
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+3005
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+3006
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+3007
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+4001
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+4002
 
-    - `102071`
+<a href="#">Link to this property</a>
 
-    - `102072`
+4003
 
-    - `103001`
+<a href="#">Link to this property</a>
 
-    - `103002`
+4004
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+4005
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+4006
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+4007
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+4008
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+4009
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+4010
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+4011
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+4012
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, 2 more }`
+4013
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+<a href="#">Link to this property</a>
 
-    - `1001`
+4014
 
-    - `1002`
+<a href="#">Link to this property</a>
 
-    - `1003`
+4015
 
-    - `1004`
+<a href="#">Link to this property</a>
 
-    - `1005`
+4016
 
-    - `1006`
+<a href="#">Link to this property</a>
 
-    - `1007`
+4017
 
-    - `1008`
+<a href="#">Link to this property</a>
 
-    - `1009`
+4018
 
-    - `1010`
+<a href="#">Link to this property</a>
 
-    - `1011`
+4019
 
-    - `1012`
+<a href="#">Link to this property</a>
 
-    - `1013`
+4020
 
-    - `1014`
+<a href="#">Link to this property</a>
 
-    - `1015`
+4021
 
-    - `1016`
+<a href="#">Link to this property</a>
 
-    - `1017`
+4022
 
-    - `1018`
+<a href="#">Link to this property</a>
 
-    - `2001`
+4023
 
-    - `2002`
+<a href="#">Link to this property</a>
 
-    - `2003`
+5001
 
-    - `2004`
+<a href="#">Link to this property</a>
 
-    - `2005`
+5002
 
-    - `2006`
+<a href="#">Link to this property</a>
 
-    - `2007`
+5003
 
-    - `2008`
+<a href="#">Link to this property</a>
 
-    - `2009`
+5004
 
-    - `2010`
+<a href="#">Link to this property</a>
 
-    - `2011`
+102000
 
-    - `2012`
+<a href="#">Link to this property</a>
 
-    - `2013`
+102001
 
-    - `2014`
+<a href="#">Link to this property</a>
 
-    - `2015`
+102002
 
-    - `2016`
+<a href="#">Link to this property</a>
 
-    - `2017`
+102003
 
-    - `2018`
+<a href="#">Link to this property</a>
 
-    - `2019`
+102004
 
-    - `2020`
+<a href="#">Link to this property</a>
 
-    - `2021`
+102005
 
-    - `2022`
+<a href="#">Link to this property</a>
 
-    - `3001`
+102006
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+102007
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+102008
 
-    - `3006`
+<a href="#">Link to this property</a>
 
-    - `3007`
+102009
 
-    - `4001`
+<a href="#">Link to this property</a>
 
-    - `4002`
+102010
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+102011
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+102012
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+102013
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+102014
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+102015
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+102016
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+102017
 
-    - `4017`
+<a href="#">Link to this property</a>
 
-    - `4018`
+102018
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+102019
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+102020
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+102021
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+102022
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+102023
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+102024
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+102025
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+102026
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+102027
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+102028
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+102029
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+102030
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+102031
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+102032
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+102033
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+102034
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+102035
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+102036
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+102037
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+102038
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+102039
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+102040
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+102041
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+102042
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+102043
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+102044
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+102045
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+102046
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+102047
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+102048
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+102049
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+102050
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+102051
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+102052
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+102053
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+102054
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+102055
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+102056
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+102057
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+102058
 
-    - `102071`
+<a href="#">Link to this property</a>
 
-    - `102072`
+102059
 
-    - `103001`
+<a href="#">Link to this property</a>
 
-    - `103002`
+102060
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+102061
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+102062
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+102063
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+102064
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+102065
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+102066
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+102067
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+102068
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, description, destination_id, 9 more }`
+102069
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+102070
 
-  - `destination_id: string`
+<a href="#">Link to this property</a>
 
-  - `destination_type: "NONE" or "ZERO_TRUST_LIST"`
+102071
 
-    - `"NONE"`
+<a href="#">Link to this property</a>
 
-    - `"ZERO_TRUST_LIST"`
+102072
 
-  - `last_user_update_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+103001
 
-  - `policy: string`
+<a href="#">Link to this property</a>
 
-  - `update_mode: "AUTO" or "MANUAL"`
+103002
 
-    - `"AUTO"`
+<a href="#">Link to this property</a>
 
-    - `"MANUAL"`
+103003
 
-  - `errors: optional map[object { code, message, documentation_url, 2 more } ]`
+<a href="#">Link to this property</a>
 
-    - `code: 1001 or 1002 or 1003 or 152 more`
+103004
 
-      - `1001`
+<a href="#">Link to this property</a>
 
-      - `1002`
+103005
 
-      - `1003`
+<a href="#">Link to this property</a>
 
-      - `1004`
+103006
 
-      - `1005`
+<a href="#">Link to this property</a>
 
-      - `1006`
+103007
 
-      - `1007`
+<a href="#">Link to this property</a>
 
-      - `1008`
+103008
 
-      - `1009`
+<a href="#">Link to this property</a>
 
-      - `1010`
+</details>
 
-      - `1011`
+<a href="#">Link to this property</a>
 
-      - `1012`
+message: string
 
-      - `1013`
+<a href="#">Link to this property</a>
 
-      - `1014`
+documentation\_url: optional string
 
-      - `1015`
+<a href="#">Link to this property</a>
 
-      - `1016`
+<details>
 
-      - `1017`
+<summary>
 
-      - `1018`
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
 
-      - `2001`
+</summary>
 
-      - `2002`
+l10n\_key: optional string
 
-      - `2003`
+<a href="#">Link to this property</a>
 
-      - `2004`
+loggable\_error: optional string
 
-      - `2005`
+<a href="#">Link to this property</a>
 
-      - `2006`
+template\_data: optional unknown
 
-      - `2007`
+<a href="#">Link to this property</a>
 
-      - `2008`
+trace\_id: optional string
 
-      - `2009`
+<a href="#">Link to this property</a>
 
-      - `2010`
+</details>
 
-      - `2011`
+<a href="#">Link to this property</a>
 
-      - `2012`
+<details>
 
-      - `2013`
+<summary>
 
-      - `2014`
+source: optional object {parameter, parameter\_value\_index, pointer }
 
-      - `2015`
+</summary>
 
-      - `2016`
+parameter: optional string
 
-      - `2017`
+<a href="#">Link to this property</a>
 
-      - `2018`
+parameter\_value\_index: optional number
 
-      - `2019`
+<a href="#">Link to this property</a>
 
-      - `2020`
+pointer: optional string
 
-      - `2021`
+<a href="#">Link to this property</a>
 
-      - `2022`
+</details>
 
-      - `3001`
+<a href="#">Link to this property</a>
 
-      - `3002`
+</details>
 
-      - `3003`
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `3004`
+<details>
 
-      - `3005`
+<summary>
 
-      - `3006`
+messages: array of object {code, message, documentation\_url, 2 more }
 
-      - `3007`
+</summary>
 
-      - `4001`
+<details>
 
-      - `4002`
+<summary>
 
-      - `4003`
+code: 1001or 1002or 1003or 152 more
 
-      - `4004`
+</summary>
 
-      - `4005`
+One of the following:
 
-      - `4006`
+1001
 
-      - `4007`
+<a href="#">Link to this property</a>
 
-      - `4008`
+1002
 
-      - `4009`
+<a href="#">Link to this property</a>
 
-      - `4010`
+1003
 
-      - `4011`
+<a href="#">Link to this property</a>
 
-      - `4012`
+1004
 
-      - `4013`
+<a href="#">Link to this property</a>
 
-      - `4014`
+1005
 
-      - `4015`
+<a href="#">Link to this property</a>
 
-      - `4016`
+1006
 
-      - `4017`
+<a href="#">Link to this property</a>
 
-      - `4018`
+1007
 
-      - `4019`
+<a href="#">Link to this property</a>
 
-      - `4020`
+1008
 
-      - `4021`
+<a href="#">Link to this property</a>
 
-      - `4022`
+1009
 
-      - `4023`
+<a href="#">Link to this property</a>
 
-      - `5001`
+1010
 
-      - `5002`
+<a href="#">Link to this property</a>
 
-      - `5003`
+1011
 
-      - `5004`
+<a href="#">Link to this property</a>
 
-      - `102000`
+1012
 
-      - `102001`
+<a href="#">Link to this property</a>
 
-      - `102002`
+1013
 
-      - `102003`
+<a href="#">Link to this property</a>
 
-      - `102004`
+1014
 
-      - `102005`
+<a href="#">Link to this property</a>
 
-      - `102006`
+1015
 
-      - `102007`
+<a href="#">Link to this property</a>
 
-      - `102008`
+1016
 
-      - `102009`
+<a href="#">Link to this property</a>
 
-      - `102010`
+1017
 
-      - `102011`
+<a href="#">Link to this property</a>
 
-      - `102012`
+1018
 
-      - `102013`
+<a href="#">Link to this property</a>
 
-      - `102014`
+2001
 
-      - `102015`
+<a href="#">Link to this property</a>
 
-      - `102016`
+2002
 
-      - `102017`
+<a href="#">Link to this property</a>
 
-      - `102018`
+2003
 
-      - `102019`
+<a href="#">Link to this property</a>
 
-      - `102020`
+2004
 
-      - `102021`
+<a href="#">Link to this property</a>
 
-      - `102022`
+2005
 
-      - `102023`
+<a href="#">Link to this property</a>
 
-      - `102024`
+2006
 
-      - `102025`
+<a href="#">Link to this property</a>
 
-      - `102026`
+2007
 
-      - `102027`
+<a href="#">Link to this property</a>
 
-      - `102028`
+2008
 
-      - `102029`
+<a href="#">Link to this property</a>
 
-      - `102030`
+2009
 
-      - `102031`
+<a href="#">Link to this property</a>
 
-      - `102032`
+2010
 
-      - `102033`
+<a href="#">Link to this property</a>
 
-      - `102034`
+2011
 
-      - `102035`
+<a href="#">Link to this property</a>
 
-      - `102036`
+2012
 
-      - `102037`
+<a href="#">Link to this property</a>
 
-      - `102038`
+2013
 
-      - `102039`
+<a href="#">Link to this property</a>
 
-      - `102040`
+2014
 
-      - `102041`
+<a href="#">Link to this property</a>
 
-      - `102042`
+2015
 
-      - `102043`
+<a href="#">Link to this property</a>
 
-      - `102044`
+2016
 
-      - `102045`
+<a href="#">Link to this property</a>
 
-      - `102046`
+2017
 
-      - `102047`
+<a href="#">Link to this property</a>
 
-      - `102048`
+2018
 
-      - `102049`
+<a href="#">Link to this property</a>
 
-      - `102050`
+2019
 
-      - `102051`
+<a href="#">Link to this property</a>
 
-      - `102052`
+2020
 
-      - `102053`
+<a href="#">Link to this property</a>
 
-      - `102054`
+2021
 
-      - `102055`
+<a href="#">Link to this property</a>
 
-      - `102056`
+2022
 
-      - `102057`
+<a href="#">Link to this property</a>
 
-      - `102058`
+3001
 
-      - `102059`
+<a href="#">Link to this property</a>
 
-      - `102060`
+3002
 
-      - `102061`
+<a href="#">Link to this property</a>
 
-      - `102062`
+3003
 
-      - `102063`
+<a href="#">Link to this property</a>
 
-      - `102064`
+3004
 
-      - `102065`
+<a href="#">Link to this property</a>
 
-      - `102066`
+3005
 
-      - `102067`
+<a href="#">Link to this property</a>
 
-      - `102068`
+3006
 
-      - `102069`
+<a href="#">Link to this property</a>
 
-      - `102070`
+3007
 
-      - `102071`
+<a href="#">Link to this property</a>
 
-      - `102072`
+4001
 
-      - `103001`
+<a href="#">Link to this property</a>
 
-      - `103002`
+4002
 
-      - `103003`
+<a href="#">Link to this property</a>
 
-      - `103004`
+4003
 
-      - `103005`
+<a href="#">Link to this property</a>
 
-      - `103006`
+4004
 
-      - `103007`
+<a href="#">Link to this property</a>
 
-      - `103008`
+4005
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+4006
 
-    - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-      - `l10n_key: optional string`
+4007
 
-      - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-      - `template_data: optional unknown`
+4008
 
-      - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { parameter, parameter_value_index, pointer }`
+4009
 
-      - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-      - `parameter_value_index: optional number`
+4010
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `includes_discoveries_until: optional string`
+4011
 
-  - `last_attempted_update_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `last_successful_update_at: optional string`
+4012
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+4013
 
-```http
+<a href="#">Link to this property</a>
+
+4014
+
+<a href="#">Link to this property</a>
+
+4015
+
+<a href="#">Link to this property</a>
+
+4016
+
+<a href="#">Link to this property</a>
+
+4017
+
+<a href="#">Link to this property</a>
+
+4018
+
+<a href="#">Link to this property</a>
+
+4019
+
+<a href="#">Link to this property</a>
+
+4020
+
+<a href="#">Link to this property</a>
+
+4021
+
+<a href="#">Link to this property</a>
+
+4022
+
+<a href="#">Link to this property</a>
+
+4023
+
+<a href="#">Link to this property</a>
+
+5001
+
+<a href="#">Link to this property</a>
+
+5002
+
+<a href="#">Link to this property</a>
+
+5003
+
+<a href="#">Link to this property</a>
+
+5004
+
+<a href="#">Link to this property</a>
+
+102000
+
+<a href="#">Link to this property</a>
+
+102001
+
+<a href="#">Link to this property</a>
+
+102002
+
+<a href="#">Link to this property</a>
+
+102003
+
+<a href="#">Link to this property</a>
+
+102004
+
+<a href="#">Link to this property</a>
+
+102005
+
+<a href="#">Link to this property</a>
+
+102006
+
+<a href="#">Link to this property</a>
+
+102007
+
+<a href="#">Link to this property</a>
+
+102008
+
+<a href="#">Link to this property</a>
+
+102009
+
+<a href="#">Link to this property</a>
+
+102010
+
+<a href="#">Link to this property</a>
+
+102011
+
+<a href="#">Link to this property</a>
+
+102012
+
+<a href="#">Link to this property</a>
+
+102013
+
+<a href="#">Link to this property</a>
+
+102014
+
+<a href="#">Link to this property</a>
+
+102015
+
+<a href="#">Link to this property</a>
+
+102016
+
+<a href="#">Link to this property</a>
+
+102017
+
+<a href="#">Link to this property</a>
+
+102018
+
+<a href="#">Link to this property</a>
+
+102019
+
+<a href="#">Link to this property</a>
+
+102020
+
+<a href="#">Link to this property</a>
+
+102021
+
+<a href="#">Link to this property</a>
+
+102022
+
+<a href="#">Link to this property</a>
+
+102023
+
+<a href="#">Link to this property</a>
+
+102024
+
+<a href="#">Link to this property</a>
+
+102025
+
+<a href="#">Link to this property</a>
+
+102026
+
+<a href="#">Link to this property</a>
+
+102027
+
+<a href="#">Link to this property</a>
+
+102028
+
+<a href="#">Link to this property</a>
+
+102029
+
+<a href="#">Link to this property</a>
+
+102030
+
+<a href="#">Link to this property</a>
+
+102031
+
+<a href="#">Link to this property</a>
+
+102032
+
+<a href="#">Link to this property</a>
+
+102033
+
+<a href="#">Link to this property</a>
+
+102034
+
+<a href="#">Link to this property</a>
+
+102035
+
+<a href="#">Link to this property</a>
+
+102036
+
+<a href="#">Link to this property</a>
+
+102037
+
+<a href="#">Link to this property</a>
+
+102038
+
+<a href="#">Link to this property</a>
+
+102039
+
+<a href="#">Link to this property</a>
+
+102040
+
+<a href="#">Link to this property</a>
+
+102041
+
+<a href="#">Link to this property</a>
+
+102042
+
+<a href="#">Link to this property</a>
+
+102043
+
+<a href="#">Link to this property</a>
+
+102044
+
+<a href="#">Link to this property</a>
+
+102045
+
+<a href="#">Link to this property</a>
+
+102046
+
+<a href="#">Link to this property</a>
+
+102047
+
+<a href="#">Link to this property</a>
+
+102048
+
+<a href="#">Link to this property</a>
+
+102049
+
+<a href="#">Link to this property</a>
+
+102050
+
+<a href="#">Link to this property</a>
+
+102051
+
+<a href="#">Link to this property</a>
+
+102052
+
+<a href="#">Link to this property</a>
+
+102053
+
+<a href="#">Link to this property</a>
+
+102054
+
+<a href="#">Link to this property</a>
+
+102055
+
+<a href="#">Link to this property</a>
+
+102056
+
+<a href="#">Link to this property</a>
+
+102057
+
+<a href="#">Link to this property</a>
+
+102058
+
+<a href="#">Link to this property</a>
+
+102059
+
+<a href="#">Link to this property</a>
+
+102060
+
+<a href="#">Link to this property</a>
+
+102061
+
+<a href="#">Link to this property</a>
+
+102062
+
+<a href="#">Link to this property</a>
+
+102063
+
+<a href="#">Link to this property</a>
+
+102064
+
+<a href="#">Link to this property</a>
+
+102065
+
+<a href="#">Link to this property</a>
+
+102066
+
+<a href="#">Link to this property</a>
+
+102067
+
+<a href="#">Link to this property</a>
+
+102068
+
+<a href="#">Link to this property</a>
+
+102069
+
+<a href="#">Link to this property</a>
+
+102070
+
+<a href="#">Link to this property</a>
+
+102071
+
+<a href="#">Link to this property</a>
+
+102072
+
+<a href="#">Link to this property</a>
+
+103001
+
+<a href="#">Link to this property</a>
+
+103002
+
+<a href="#">Link to this property</a>
+
+103003
+
+<a href="#">Link to this property</a>
+
+103004
+
+<a href="#">Link to this property</a>
+
+103005
+
+<a href="#">Link to this property</a>
+
+103006
+
+<a href="#">Link to this property</a>
+
+103007
+
+<a href="#">Link to this property</a>
+
+103008
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
+
+</summary>
+
+l10n\_key: optional string
+
+<a href="#">Link to this property</a>
+
+loggable\_error: optional string
+
+<a href="#">Link to this property</a>
+
+template\_data: optional unknown
+
+<a href="#">Link to this property</a>
+
+trace\_id: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {parameter, parameter\_value\_index, pointer }
+
+</summary>
+
+parameter: optional string
+
+<a href="#">Link to this property</a>
+
+parameter\_value\_index: optional number
+
+<a href="#">Link to this property</a>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, description, destination\_id, 9 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+destination\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+destination\_type: "NONE"or "ZERO\_TRUST\_LIST"
+
+</summary>
+
+One of the following:
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+"ZERO\_TRUST\_LIST"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+last\_user\_update\_at: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+policy: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+update\_mode: "AUTO"or "MANUAL"
+
+</summary>
+
+One of the following:
+
+"AUTO"
+
+<a href="#">Link to this property</a>
+
+"MANUAL"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+errors: optional map\[object {code, message, documentation\_url, 2 more } ]
+
+</summary>
+
+<details>
+
+<summary>
+
+code: 1001or 1002or 1003or 152 more
+
+</summary>
+
+One of the following:
+
+1001
+
+<a href="#">Link to this property</a>
+
+1002
+
+<a href="#">Link to this property</a>
+
+1003
+
+<a href="#">Link to this property</a>
+
+1004
+
+<a href="#">Link to this property</a>
+
+1005
+
+<a href="#">Link to this property</a>
+
+1006
+
+<a href="#">Link to this property</a>
+
+1007
+
+<a href="#">Link to this property</a>
+
+1008
+
+<a href="#">Link to this property</a>
+
+1009
+
+<a href="#">Link to this property</a>
+
+1010
+
+<a href="#">Link to this property</a>
+
+1011
+
+<a href="#">Link to this property</a>
+
+1012
+
+<a href="#">Link to this property</a>
+
+1013
+
+<a href="#">Link to this property</a>
+
+1014
+
+<a href="#">Link to this property</a>
+
+1015
+
+<a href="#">Link to this property</a>
+
+1016
+
+<a href="#">Link to this property</a>
+
+1017
+
+<a href="#">Link to this property</a>
+
+1018
+
+<a href="#">Link to this property</a>
+
+2001
+
+<a href="#">Link to this property</a>
+
+2002
+
+<a href="#">Link to this property</a>
+
+2003
+
+<a href="#">Link to this property</a>
+
+2004
+
+<a href="#">Link to this property</a>
+
+2005
+
+<a href="#">Link to this property</a>
+
+2006
+
+<a href="#">Link to this property</a>
+
+2007
+
+<a href="#">Link to this property</a>
+
+2008
+
+<a href="#">Link to this property</a>
+
+2009
+
+<a href="#">Link to this property</a>
+
+2010
+
+<a href="#">Link to this property</a>
+
+2011
+
+<a href="#">Link to this property</a>
+
+2012
+
+<a href="#">Link to this property</a>
+
+2013
+
+<a href="#">Link to this property</a>
+
+2014
+
+<a href="#">Link to this property</a>
+
+2015
+
+<a href="#">Link to this property</a>
+
+2016
+
+<a href="#">Link to this property</a>
+
+2017
+
+<a href="#">Link to this property</a>
+
+2018
+
+<a href="#">Link to this property</a>
+
+2019
+
+<a href="#">Link to this property</a>
+
+2020
+
+<a href="#">Link to this property</a>
+
+2021
+
+<a href="#">Link to this property</a>
+
+2022
+
+<a href="#">Link to this property</a>
+
+3001
+
+<a href="#">Link to this property</a>
+
+3002
+
+<a href="#">Link to this property</a>
+
+3003
+
+<a href="#">Link to this property</a>
+
+3004
+
+<a href="#">Link to this property</a>
+
+3005
+
+<a href="#">Link to this property</a>
+
+3006
+
+<a href="#">Link to this property</a>
+
+3007
+
+<a href="#">Link to this property</a>
+
+4001
+
+<a href="#">Link to this property</a>
+
+4002
+
+<a href="#">Link to this property</a>
+
+4003
+
+<a href="#">Link to this property</a>
+
+4004
+
+<a href="#">Link to this property</a>
+
+4005
+
+<a href="#">Link to this property</a>
+
+4006
+
+<a href="#">Link to this property</a>
+
+4007
+
+<a href="#">Link to this property</a>
+
+4008
+
+<a href="#">Link to this property</a>
+
+4009
+
+<a href="#">Link to this property</a>
+
+4010
+
+<a href="#">Link to this property</a>
+
+4011
+
+<a href="#">Link to this property</a>
+
+4012
+
+<a href="#">Link to this property</a>
+
+4013
+
+<a href="#">Link to this property</a>
+
+4014
+
+<a href="#">Link to this property</a>
+
+4015
+
+<a href="#">Link to this property</a>
+
+4016
+
+<a href="#">Link to this property</a>
+
+4017
+
+<a href="#">Link to this property</a>
+
+4018
+
+<a href="#">Link to this property</a>
+
+4019
+
+<a href="#">Link to this property</a>
+
+4020
+
+<a href="#">Link to this property</a>
+
+4021
+
+<a href="#">Link to this property</a>
+
+4022
+
+<a href="#">Link to this property</a>
+
+4023
+
+<a href="#">Link to this property</a>
+
+5001
+
+<a href="#">Link to this property</a>
+
+5002
+
+<a href="#">Link to this property</a>
+
+5003
+
+<a href="#">Link to this property</a>
+
+5004
+
+<a href="#">Link to this property</a>
+
+102000
+
+<a href="#">Link to this property</a>
+
+102001
+
+<a href="#">Link to this property</a>
+
+102002
+
+<a href="#">Link to this property</a>
+
+102003
+
+<a href="#">Link to this property</a>
+
+102004
+
+<a href="#">Link to this property</a>
+
+102005
+
+<a href="#">Link to this property</a>
+
+102006
+
+<a href="#">Link to this property</a>
+
+102007
+
+<a href="#">Link to this property</a>
+
+102008
+
+<a href="#">Link to this property</a>
+
+102009
+
+<a href="#">Link to this property</a>
+
+102010
+
+<a href="#">Link to this property</a>
+
+102011
+
+<a href="#">Link to this property</a>
+
+102012
+
+<a href="#">Link to this property</a>
+
+102013
+
+<a href="#">Link to this property</a>
+
+102014
+
+<a href="#">Link to this property</a>
+
+102015
+
+<a href="#">Link to this property</a>
+
+102016
+
+<a href="#">Link to this property</a>
+
+102017
+
+<a href="#">Link to this property</a>
+
+102018
+
+<a href="#">Link to this property</a>
+
+102019
+
+<a href="#">Link to this property</a>
+
+102020
+
+<a href="#">Link to this property</a>
+
+102021
+
+<a href="#">Link to this property</a>
+
+102022
+
+<a href="#">Link to this property</a>
+
+102023
+
+<a href="#">Link to this property</a>
+
+102024
+
+<a href="#">Link to this property</a>
+
+102025
+
+<a href="#">Link to this property</a>
+
+102026
+
+<a href="#">Link to this property</a>
+
+102027
+
+<a href="#">Link to this property</a>
+
+102028
+
+<a href="#">Link to this property</a>
+
+102029
+
+<a href="#">Link to this property</a>
+
+102030
+
+<a href="#">Link to this property</a>
+
+102031
+
+<a href="#">Link to this property</a>
+
+102032
+
+<a href="#">Link to this property</a>
+
+102033
+
+<a href="#">Link to this property</a>
+
+102034
+
+<a href="#">Link to this property</a>
+
+102035
+
+<a href="#">Link to this property</a>
+
+102036
+
+<a href="#">Link to this property</a>
+
+102037
+
+<a href="#">Link to this property</a>
+
+102038
+
+<a href="#">Link to this property</a>
+
+102039
+
+<a href="#">Link to this property</a>
+
+102040
+
+<a href="#">Link to this property</a>
+
+102041
+
+<a href="#">Link to this property</a>
+
+102042
+
+<a href="#">Link to this property</a>
+
+102043
+
+<a href="#">Link to this property</a>
+
+102044
+
+<a href="#">Link to this property</a>
+
+102045
+
+<a href="#">Link to this property</a>
+
+102046
+
+<a href="#">Link to this property</a>
+
+102047
+
+<a href="#">Link to this property</a>
+
+102048
+
+<a href="#">Link to this property</a>
+
+102049
+
+<a href="#">Link to this property</a>
+
+102050
+
+<a href="#">Link to this property</a>
+
+102051
+
+<a href="#">Link to this property</a>
+
+102052
+
+<a href="#">Link to this property</a>
+
+102053
+
+<a href="#">Link to this property</a>
+
+102054
+
+<a href="#">Link to this property</a>
+
+102055
+
+<a href="#">Link to this property</a>
+
+102056
+
+<a href="#">Link to this property</a>
+
+102057
+
+<a href="#">Link to this property</a>
+
+102058
+
+<a href="#">Link to this property</a>
+
+102059
+
+<a href="#">Link to this property</a>
+
+102060
+
+<a href="#">Link to this property</a>
+
+102061
+
+<a href="#">Link to this property</a>
+
+102062
+
+<a href="#">Link to this property</a>
+
+102063
+
+<a href="#">Link to this property</a>
+
+102064
+
+<a href="#">Link to this property</a>
+
+102065
+
+<a href="#">Link to this property</a>
+
+102066
+
+<a href="#">Link to this property</a>
+
+102067
+
+<a href="#">Link to this property</a>
+
+102068
+
+<a href="#">Link to this property</a>
+
+102069
+
+<a href="#">Link to this property</a>
+
+102070
+
+<a href="#">Link to this property</a>
+
+102071
+
+<a href="#">Link to this property</a>
+
+102072
+
+<a href="#">Link to this property</a>
+
+103001
+
+<a href="#">Link to this property</a>
+
+103002
+
+<a href="#">Link to this property</a>
+
+103003
+
+<a href="#">Link to this property</a>
+
+103004
+
+<a href="#">Link to this property</a>
+
+103005
+
+<a href="#">Link to this property</a>
+
+103006
+
+<a href="#">Link to this property</a>
+
+103007
+
+<a href="#">Link to this property</a>
+
+103008
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
+
+</summary>
+
+l10n\_key: optional string
+
+<a href="#">Link to this property</a>
+
+loggable\_error: optional string
+
+<a href="#">Link to this property</a>
+
+template\_data: optional unknown
+
+<a href="#">Link to this property</a>
+
+trace\_id: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {parameter, parameter\_value\_index, pointer }
+
+</summary>
+
+parameter: optional string
+
+<a href="#">Link to this property</a>
+
+parameter\_value\_index: optional number
+
+<a href="#">Link to this property</a>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+includes\_discoveries\_until: optional string
+
+<a href="#">Link to this property</a>
+
+last\_attempted\_update\_at: optional string
+
+<a href="#">Link to this property</a>
+
+last\_successful\_update\_at: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20magic_cloud_networking.catalog_syncs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create Catalog Sync
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/catalog-syncs \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -1089,9 +2367,86 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/catal
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1001,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "meta": {
+        "l10n_key": "l10n_key",
+        "loggable_error": "loggable_error",
+        "template_data": {},
+        "trace_id": "trace_id"
+      },
+      "source": {
+        "parameter": "parameter",
+        "parameter_value_index": 0,
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1001,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "meta": {
+        "l10n_key": "l10n_key",
+        "loggable_error": "loggable_error",
+        "template_data": {},
+        "trace_id": "trace_id"
+      },
+      "source": {
+        "parameter": "parameter",
+        "parameter_value_index": 0,
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "description": "description",
+    "destination_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "destination_type": "NONE",
+    "last_user_update_at": "last_user_update_at",
+    "name": "name",
+    "policy": "policy",
+    "update_mode": "AUTO",
+    "errors": {
+      "foo": {
+        "code": 1001,
+        "message": "message",
+        "documentation_url": "documentation_url",
+        "meta": {
+          "l10n_key": "l10n_key",
+          "loggable_error": "loggable_error",
+          "template_data": {},
+          "trace_id": "trace_id"
+        },
+        "source": {
+          "parameter": "parameter",
+          "parameter_value_index": 0,
+          "pointer": "pointer"
+        }
+      }
+    },
+    "includes_discoveries_until": "includes_discoveries_until",
+    "last_attempted_update_at": "last_attempted_update_at",
+    "last_successful_update_at": "last_successful_update_at"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

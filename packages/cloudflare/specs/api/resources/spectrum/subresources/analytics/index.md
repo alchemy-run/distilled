@@ -1,1079 +1,607 @@
+---
+title: Analytics
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Spectrum](https://developers.cloudflare.com/api/resources/spectrum)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Analytics
 
-# Aggregates
+#### AnalyticsAggregates
 
-# Currents
+#### AnalyticsAggregatesCurrents
 
-## Get current aggregated analytics
+##### [Get current aggregated analytics](https://developers.cloudflare.com/api/resources/spectrum/subresources/analytics/subresources/aggregates/subresources/currents/methods/get)
 
-**get** `/zones/{zone_id}/spectrum/analytics/aggregate/current`
+GET/zones/{zone\_id}/spectrum/analytics/aggregate/current
 
-Retrieves analytics aggregated from the last minute of usage on Spectrum applications underneath a given zone.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+CurrentGetResponse = array of object {appID, bytesEgress, bytesIngress, 2 more }
 
-### Query Parameters
+</summary>
 
-- `appID: optional string`
+appID: string
 
-  Comma-delimited list of Spectrum Application Id(s). If provided, the response will be limited to Spectrum Application Id(s) that match.
+Application identifier.
 
-- `colo_name: optional string`
+maxLength32
 
-  Co-location identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+bytesEgress: number
 
-- `errors: array of object { code, message, documentation_url, source }`
+Number of bytes sent.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+bytesIngress: number
 
-  - `documentation_url: optional string`
+Number of bytes received.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+connections: number
 
-- `messages: array of object { code, message, documentation_url, source }`
+Number of connections.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+durationAvg: number
 
-  - `documentation_url: optional string`
+Average duration of connections.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20spectrum.analytics.aggregates.currents%20%3E%20(model)%20current_get_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+#### AnalyticsEvents
 
-  - `true`
+##### ModelsExpand Collapse
 
-- `result: optional array of object { appID, bytesEgress, bytesIngress, 2 more }`
+<details>
 
-  - `appID: string`
+<summary>
 
-    Application identifier.
+Dimension = "event"or "appID"or "coloName"or "ipVersion"
 
-  - `bytesEgress: number`
+</summary>
 
-    Number of bytes sent.
+One of the following:
 
-  - `bytesIngress: number`
+"event"
 
-    Number of bytes received.
+<a href="#">Link to this property</a>
 
-  - `connections: number`
+"appID"
 
-    Number of connections.
+<a href="#">Link to this property</a>
 
-  - `durationAvg: number`
+"coloName"
 
-    Average duration of connections.
+<a href="#">Link to this property</a>
 
-### Example
+"ipVersion"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/analytics/aggregate/current \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "appID": "023e105f4ecef8ad9ca31a8372d0c353",
-      "bytesEgress": 0,
-      "bytesIngress": 0,
-      "connections": 0,
-      "durationAvg": 0
-    }
-  ]
-}
-```
+[Link to this property](#)%20spectrum.analytics.events%20%3E%20(model)%20dimension%20%3E%20(schema)>)
 
-## Domain Types
+#### AnalyticsEventsBytimes
 
-### Current Get Response
+##### [Get analytics by time](https://developers.cloudflare.com/api/resources/spectrum/subresources/analytics/subresources/events/subresources/bytimes/methods/get)
 
-- `CurrentGetResponse = array of object { appID, bytesEgress, bytesIngress, 2 more }`
+GET/zones/{zone\_id}/spectrum/analytics/events/bytime
 
-  - `appID: string`
+##### ModelsExpand Collapse
 
-    Application identifier.
+<details>
 
-  - `bytesEgress: number`
+<summary>
 
-    Number of bytes sent.
+BytimeGetResponse object {data, data\_lag, max, 5 more }
 
-  - `bytesIngress: number`
+</summary>
 
-    Number of bytes received.
+<details>
 
-  - `connections: number`
+<summary>
 
-    Number of connections.
+data: array of object {dimensions, metrics }
 
-  - `durationAvg: number`
+List of columns returned by the analytics query.
 
-    Average duration of connections.
+</summary>
 
-# Events
+dimensions: optional array of string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Dimension
+<details>
 
-- `Dimension = "event" or "appID" or "coloName" or "ipVersion"`
+<summary>
 
-  - `"event"`
+metrics: optional array of numberor array of array of number
 
-  - `"appID"`
+</summary>
 
-  - `"coloName"`
+One of the following:
 
-  - `"ipVersion"`
+array of number
 
-# Bytimes
+<a href="#">Link to this property</a>
 
-## Get analytics by time
+array of array of number
 
-**get** `/zones/{zone_id}/spectrum/analytics/events/bytime`
+<a href="#">Link to this property</a>
 
-Retrieves a list of aggregate metrics grouped by time interval.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+data\_lag: number
 
-- `time_delta: "year" or "quarter" or "month" or 5 more`
+Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing.
 
-  Used to select time series resolution.
+minimum0
 
-  - `"year"`
+<a href="#">Link to this property</a>
 
-  - `"quarter"`
+max: map\[number]
 
-  - `"month"`
+Maximum result for each selected metrics across all data.
 
-  - `"week"`
+<a href="#">Link to this property</a>
 
-  - `"day"`
+min: map\[number]
 
-  - `"hour"`
+Minimum result for each selected metrics across all data.
 
-  - `"dekaminute"`
+<a href="#">Link to this property</a>
 
-  - `"minute"`
+<details>
 
-- `dimensions: optional array of Dimension`
+<summary>
 
-  Can be used to break down the data by given attributes. Options are:
+query: object {dimensions, filters, limit, 4 more }
 
-| Dimension | Name                          | Example                                                    |
-| --------- | ----------------------------- | ---------------------------------------------------------- |
-| event     | Connection Event              | connect, progress, disconnect, originError, clientFiltered |
-| appID     | Application ID                | 40d67c87c6cd4b889a4fd57805225e85                           |
-| coloName  | Colo Name                     | SFO                                                        |
-| ipVersion | IP version used by the client | 4, 6.                                                      |
+</summary>
 
-  - `"event"`
+<details>
 
-  - `"appID"`
+<summary>
 
-  - `"coloName"`
+dimensions: optional array of <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum.analytics.events%20%3E%20(model)%20dimension%20%3E%20(schema)">Dimension</a>
 
-  - `"ipVersion"`
+Can be used to break down the data by given attributes. Options are:
 
-- `filters: optional string`
+| Dimension | Name | Example |
+| --- | --- | --- |
+| event | Connection Event | connect, progress, disconnect, originError, clientFiltered |
+| appID | Application ID | 40d67c87c6cd4b889a4fd57805225e85 |
+| coloName | Colo Name | SFO |
+| ipVersion | IP version used by the client | 4, 6. |
 
-  Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:
+</summary>
 
-| Operator | Name                     | URL Encoded |
-| -------- | ------------------------ | ----------- |
-| ==       | Equals                   | %3D%3D      |
-| !=       | Does not equals          | !%3D        |
-| \>       | Greater Than             | %3E         |
-| <        | Less Than                | %3C         |
-| \>=      | Greater than or equal to | %3E%3D      |
-| <=       | Less than or equal to    | %3C%3D      |
+One of the following:
 
-  Use the above to construct filters.
+"event"
 
-- `metrics: optional array of "count" or "bytesIngress" or "bytesEgress" or 4 more`
+<a href="#">Link to this property</a>
 
-  One or more metrics to compute. Options are:
+"appID"
 
-| Metric         | Name                                | Example | Unit                  |
-| -------------- | ----------------------------------- | ------- | --------------------- |
-| count          | Count of total events               | 1000    | Count                 |
-| bytesIngress   | Sum of ingress bytes                | 1000    | Sum                   |
-| bytesEgress    | Sum of egress bytes                 | 1000    | Sum                   |
-| durationAvg    | Average connection duration         | 1.0     | Time in milliseconds  |
-| durationMedian | Median connection duration          | 1.0     | Time in milliseconds  |
-| duration90th   | 90th percentile connection duration | 1.0     | Time in milliseconds  |
-| duration99th   | 99th percentile connection duration | 1.0     | Time in milliseconds. |
+<a href="#">Link to this property</a>
 
-  - `"count"`
+"coloName"
 
-  - `"bytesIngress"`
+<a href="#">Link to this property</a>
 
-  - `"bytesEgress"`
+"ipVersion"
 
-  - `"durationAvg"`
+<a href="#">Link to this property</a>
 
-  - `"durationMedian"`
+</details>
 
-  - `"duration90th"`
+<a href="#">Link to this property</a>
 
-  - `"duration99th"`
+filters: optional string
 
-- `since: optional string`
+Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:
 
-  Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
+| Operator | Name | URL Encoded |
+| --- | --- | --- |
+| == | Equals | %3D%3D |
+| != | Does not equals | !%3D |
+| &gt; | Greater Than | %3E |
+| &lt; | Less Than | %3C |
+| &gt;= | Greater than or equal to | %3E%3D |
+| &lt;= | Less than or equal to | %3C%3D |
 
-- `sort: optional array of string`
+Use the above to construct filters.
 
-  The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.
+<a href="#">Link to this property</a>
 
-- `until: optional string`
+limit: optional number
 
-  End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
+Limit number of returned metrics.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+metrics: optional array of "count"or "bytesIngress"or "bytesEgress"or 4 more
 
-  - `documentation_url: optional string`
+One or more metrics to compute. Options are:
 
-  - `source: optional object { pointer }`
+| Metric | Name | Example | Unit |
+| --- | --- | --- | --- |
+| count | Count of total events | 1000 | Count |
+| bytesIngress | Sum of ingress bytes | 1000 | Sum |
+| bytesEgress | Sum of egress bytes | 1000 | Sum |
+| durationAvg | Average connection duration | 1.0 | Time in milliseconds |
+| durationMedian | Median connection duration | 1.0 | Time in milliseconds |
+| duration90th | 90th percentile connection duration | 1.0 | Time in milliseconds |
+| duration99th | 99th percentile connection duration | 1.0 | Time in milliseconds. |
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"count"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"bytesIngress"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"bytesEgress"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"durationAvg"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { data, data_lag, max, 5 more }`
+"durationMedian"
 
-  - `data: array of object { dimensions, metrics }`
+<a href="#">Link to this property</a>
 
-    List of columns returned by the analytics query.
+"duration90th"
 
-    - `dimensions: optional array of string`
+<a href="#">Link to this property</a>
 
-    - `metrics: optional array of number or array of array of number`
+"duration99th"
 
-      - `array of number`
+<a href="#">Link to this property</a>
 
-      - `array of array of number`
+</details>
 
-  - `data_lag: number`
+<a href="#">Link to this property</a>
 
-    Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing.
+since: optional string
 
-  - `max: map[number]`
+Start of time interval to query, defaults to <code>until</code> - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
 
-    Maximum result for each selected metrics across all data.
+formatdate-time
 
-  - `min: map[number]`
+<a href="#">Link to this property</a>
 
-    Minimum result for each selected metrics across all data.
+sort: optional array of string
 
-  - `query: object { dimensions, filters, limit, 4 more }`
+The sort order for the result set; sort fields must be included in <code>metrics</code> or <code>dimensions</code>.
 
-    - `dimensions: optional array of Dimension`
+<a href="#">Link to this property</a>
 
-      Can be used to break down the data by given attributes. Options are:
+until: optional string
 
-| Dimension | Name                          | Example                                                    |
-| --------- | ----------------------------- | ---------------------------------------------------------- |
-| event     | Connection Event              | connect, progress, disconnect, originError, clientFiltered |
-| appID     | Application ID                | 40d67c87c6cd4b889a4fd57805225e85                           |
-| coloName  | Colo Name                     | SFO                                                        |
-| ipVersion | IP version used by the client | 4, 6.                                                      |
+End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
 
-      - `"event"`
+formatdate-time
 
-      - `"appID"`
+<a href="#">Link to this property</a>
 
-      - `"coloName"`
+</details>
 
-      - `"ipVersion"`
+<a href="#">Link to this property</a>
 
-    - `filters: optional string`
+rows: number
 
-      Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:
+Total number of rows in the result.
 
-| Operator | Name                     | URL Encoded |
-| -------- | ------------------------ | ----------- |
-| ==       | Equals                   | %3D%3D      |
-| !=       | Does not equals          | !%3D        |
-| \>       | Greater Than             | %3E         |
-| <        | Less Than                | %3C         |
-| \>=      | Greater than or equal to | %3E%3D      |
-| <=       | Less than or equal to    | %3C%3D      |
+minimum0
 
-      Use the above to construct filters.
+<a href="#">Link to this property</a>
 
-    - `limit: optional number`
+totals: map\[number]
 
-      Limit number of returned metrics.
+Total result for each selected metrics across all data.
 
-    - `metrics: optional array of "count" or "bytesIngress" or "bytesEgress" or 4 more`
+<a href="#">Link to this property</a>
 
-      One or more metrics to compute. Options are:
+time\_intervals: optional array of array of string
 
-| Metric         | Name                                | Example | Unit                  |
-| -------------- | ----------------------------------- | ------- | --------------------- |
-| count          | Count of total events               | 1000    | Count                 |
-| bytesIngress   | Sum of ingress bytes                | 1000    | Sum                   |
-| bytesEgress    | Sum of egress bytes                 | 1000    | Sum                   |
-| durationAvg    | Average connection duration         | 1.0     | Time in milliseconds  |
-| durationMedian | Median connection duration          | 1.0     | Time in milliseconds  |
-| duration90th   | 90th percentile connection duration | 1.0     | Time in milliseconds  |
-| duration99th   | 99th percentile connection duration | 1.0     | Time in milliseconds. |
+List of time interval buckets: \[start, end].
 
-      - `"count"`
+<a href="#">Link to this property</a>
 
-      - `"bytesIngress"`
+</details>
 
-      - `"bytesEgress"`
+[Link to this property](#)%20spectrum.analytics.events.bytimes%20%3E%20(model)%20bytime_get_response%20%3E%20(schema)>)
 
-      - `"durationAvg"`
+#### AnalyticsEventsSummaries
 
-      - `"durationMedian"`
+##### [Get analytics summary](https://developers.cloudflare.com/api/resources/spectrum/subresources/analytics/subresources/events/subresources/summaries/methods/get)
 
-      - `"duration90th"`
+GET/zones/{zone\_id}/spectrum/analytics/events/summary
 
-      - `"duration99th"`
+##### ModelsExpand Collapse
 
-    - `since: optional string`
+<details>
 
-      Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
+<summary>
 
-    - `sort: optional array of string`
+SummaryGetResponse object {data, data\_lag, max, 5 more }
 
-      The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.
+</summary>
 
-    - `until: optional string`
+<details>
 
-      End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
+<summary>
 
-  - `rows: number`
+data: array of object {dimensions, metrics }
 
-    Total number of rows in the result.
+List of columns returned by the analytics query.
 
-  - `totals: map[number]`
+</summary>
 
-    Total result for each selected metrics across all data.
+dimensions: optional array of string
 
-  - `time_intervals: optional array of array of string`
+<a href="#">Link to this property</a>
 
-    List of time interval buckets: [start, end].
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/analytics/events/bytime \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+metrics: optional array of numberor array of array of number
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": [
-      {
-        "dimensions": [
-          "string"
-        ],
-        "metrics": [
-          0
-        ]
-      }
-    ],
-    "data_lag": 3,
-    "max": {
-      "bytesEgress": 100,
-      "bytesIngress": 50
-    },
-    "min": {
-      "bytesEgress": 100,
-      "bytesIngress": 50
-    },
-    "query": {
-      "dimensions": [
-        "event",
-        "appID"
-      ],
-      "filters": "event==disconnect%20AND%20coloName!=SFO",
-      "limit": 0,
-      "metrics": [
-        "count",
-        "bytesIngress"
-      ],
-      "since": "2014-01-01T05:20:00.12345Z",
-      "sort": [
-        "+count",
-        "-bytesIngress"
-      ],
-      "until": "2014-01-01T05:20:00.12345Z"
-    },
-    "rows": 5,
-    "totals": {
-      "bytesEgress": 100,
-      "bytesIngress": 50
-    },
-    "time_intervals": [
-      [
-        "2014-01-01T05:20:00.12345Z"
-      ]
-    ]
-  }
-}
-```
+One of the following:
 
-## Domain Types
+array of number
 
-### Bytime Get Response
+<a href="#">Link to this property</a>
 
-- `BytimeGetResponse object { data, data_lag, max, 5 more }`
+array of array of number
 
-  - `data: array of object { dimensions, metrics }`
+<a href="#">Link to this property</a>
 
-    List of columns returned by the analytics query.
+</details>
 
-    - `dimensions: optional array of string`
+<a href="#">Link to this property</a>
 
-    - `metrics: optional array of number or array of array of number`
+</details>
 
-      - `array of number`
+<a href="#">Link to this property</a>
 
-      - `array of array of number`
+data\_lag: number
 
-  - `data_lag: number`
+Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing.
 
-    Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing.
+minimum0
 
-  - `max: map[number]`
+<a href="#">Link to this property</a>
 
-    Maximum result for each selected metrics across all data.
+max: map\[number]
 
-  - `min: map[number]`
+Maximum result for each selected metrics across all data.
 
-    Minimum result for each selected metrics across all data.
+<a href="#">Link to this property</a>
 
-  - `query: object { dimensions, filters, limit, 4 more }`
+min: map\[number]
 
-    - `dimensions: optional array of Dimension`
+Minimum result for each selected metrics across all data.
 
-      Can be used to break down the data by given attributes. Options are:
+<a href="#">Link to this property</a>
 
-| Dimension | Name                          | Example                                                    |
-| --------- | ----------------------------- | ---------------------------------------------------------- |
-| event     | Connection Event              | connect, progress, disconnect, originError, clientFiltered |
-| appID     | Application ID                | 40d67c87c6cd4b889a4fd57805225e85                           |
-| coloName  | Colo Name                     | SFO                                                        |
-| ipVersion | IP version used by the client | 4, 6.                                                      |
+<details>
 
-      - `"event"`
+<summary>
 
-      - `"appID"`
+query: object {dimensions, filters, limit, 4 more }
 
-      - `"coloName"`
+</summary>
 
-      - `"ipVersion"`
+<details>
 
-    - `filters: optional string`
+<summary>
 
-      Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:
+dimensions: optional array of <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum.analytics.events%20%3E%20(model)%20dimension%20%3E%20(schema)">Dimension</a>
 
-| Operator | Name                     | URL Encoded |
-| -------- | ------------------------ | ----------- |
-| ==       | Equals                   | %3D%3D      |
-| !=       | Does not equals          | !%3D        |
-| \>       | Greater Than             | %3E         |
-| <        | Less Than                | %3C         |
-| \>=      | Greater than or equal to | %3E%3D      |
-| <=       | Less than or equal to    | %3C%3D      |
+Can be used to break down the data by given attributes. Options are:
 
-      Use the above to construct filters.
+| Dimension | Name | Example |
+| --- | --- | --- |
+| event | Connection Event | connect, progress, disconnect, originError, clientFiltered |
+| appID | Application ID | 40d67c87c6cd4b889a4fd57805225e85 |
+| coloName | Colo Name | SFO |
+| ipVersion | IP version used by the client | 4, 6. |
 
-    - `limit: optional number`
+</summary>
 
-      Limit number of returned metrics.
+One of the following:
 
-    - `metrics: optional array of "count" or "bytesIngress" or "bytesEgress" or 4 more`
+"event"
 
-      One or more metrics to compute. Options are:
+<a href="#">Link to this property</a>
 
-| Metric         | Name                                | Example | Unit                  |
-| -------------- | ----------------------------------- | ------- | --------------------- |
-| count          | Count of total events               | 1000    | Count                 |
-| bytesIngress   | Sum of ingress bytes                | 1000    | Sum                   |
-| bytesEgress    | Sum of egress bytes                 | 1000    | Sum                   |
-| durationAvg    | Average connection duration         | 1.0     | Time in milliseconds  |
-| durationMedian | Median connection duration          | 1.0     | Time in milliseconds  |
-| duration90th   | 90th percentile connection duration | 1.0     | Time in milliseconds  |
-| duration99th   | 99th percentile connection duration | 1.0     | Time in milliseconds. |
+"appID"
 
-      - `"count"`
+<a href="#">Link to this property</a>
 
-      - `"bytesIngress"`
+"coloName"
 
-      - `"bytesEgress"`
+<a href="#">Link to this property</a>
 
-      - `"durationAvg"`
+"ipVersion"
 
-      - `"durationMedian"`
+<a href="#">Link to this property</a>
 
-      - `"duration90th"`
+</details>
 
-      - `"duration99th"`
+<a href="#">Link to this property</a>
 
-    - `since: optional string`
+filters: optional string
 
-      Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
+Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:
 
-    - `sort: optional array of string`
+| Operator | Name | URL Encoded |
+| --- | --- | --- |
+| == | Equals | %3D%3D |
+| != | Does not equals | !%3D |
+| &gt; | Greater Than | %3E |
+| &lt; | Less Than | %3C |
+| &gt;= | Greater than or equal to | %3E%3D |
+| &lt;= | Less than or equal to | %3C%3D |
 
-      The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.
+Use the above to construct filters.
 
-    - `until: optional string`
+<a href="#">Link to this property</a>
 
-      End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
+limit: optional number
 
-  - `rows: number`
+Limit number of returned metrics.
 
-    Total number of rows in the result.
+<a href="#">Link to this property</a>
 
-  - `totals: map[number]`
+<details>
 
-    Total result for each selected metrics across all data.
+<summary>
 
-  - `time_intervals: optional array of array of string`
+metrics: optional array of "count"or "bytesIngress"or "bytesEgress"or 4 more
 
-    List of time interval buckets: [start, end].
+One or more metrics to compute. Options are:
 
-# Summaries
+| Metric | Name | Example | Unit |
+| --- | --- | --- | --- |
+| count | Count of total events | 1000 | Count |
+| bytesIngress | Sum of ingress bytes | 1000 | Sum |
+| bytesEgress | Sum of egress bytes | 1000 | Sum |
+| durationAvg | Average connection duration | 1.0 | Time in milliseconds |
+| durationMedian | Median connection duration | 1.0 | Time in milliseconds |
+| duration90th | 90th percentile connection duration | 1.0 | Time in milliseconds |
+| duration99th | 99th percentile connection duration | 1.0 | Time in milliseconds. |
 
-## Get analytics summary
+</summary>
 
-**get** `/zones/{zone_id}/spectrum/analytics/events/summary`
+One of the following:
 
-Retrieves a list of summarised aggregate metrics over a given time period.
+"count"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"bytesIngress"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+"bytesEgress"
 
-- `dimensions: optional array of Dimension`
+<a href="#">Link to this property</a>
 
-  Can be used to break down the data by given attributes. Options are:
+"durationAvg"
 
-| Dimension | Name                          | Example                                                    |
-| --------- | ----------------------------- | ---------------------------------------------------------- |
-| event     | Connection Event              | connect, progress, disconnect, originError, clientFiltered |
-| appID     | Application ID                | 40d67c87c6cd4b889a4fd57805225e85                           |
-| coloName  | Colo Name                     | SFO                                                        |
-| ipVersion | IP version used by the client | 4, 6.                                                      |
+<a href="#">Link to this property</a>
 
-  - `"event"`
+"durationMedian"
 
-  - `"appID"`
+<a href="#">Link to this property</a>
 
-  - `"coloName"`
+"duration90th"
 
-  - `"ipVersion"`
+<a href="#">Link to this property</a>
 
-- `filters: optional string`
+"duration99th"
 
-  Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:
+<a href="#">Link to this property</a>
 
-| Operator | Name                     | URL Encoded |
-| -------- | ------------------------ | ----------- |
-| ==       | Equals                   | %3D%3D      |
-| !=       | Does not equals          | !%3D        |
-| \>       | Greater Than             | %3E         |
-| <        | Less Than                | %3C         |
-| \>=      | Greater than or equal to | %3E%3D      |
-| <=       | Less than or equal to    | %3C%3D      |
+</details>
 
-  Use the above to construct filters.
+<a href="#">Link to this property</a>
 
-- `metrics: optional array of "count" or "bytesIngress" or "bytesEgress" or 4 more`
+since: optional string
 
-  One or more metrics to compute. Options are:
+Start of time interval to query, defaults to <code>until</code> - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
 
-| Metric         | Name                                | Example | Unit                  |
-| -------------- | ----------------------------------- | ------- | --------------------- |
-| count          | Count of total events               | 1000    | Count                 |
-| bytesIngress   | Sum of ingress bytes                | 1000    | Sum                   |
-| bytesEgress    | Sum of egress bytes                 | 1000    | Sum                   |
-| durationAvg    | Average connection duration         | 1.0     | Time in milliseconds  |
-| durationMedian | Median connection duration          | 1.0     | Time in milliseconds  |
-| duration90th   | 90th percentile connection duration | 1.0     | Time in milliseconds  |
-| duration99th   | 99th percentile connection duration | 1.0     | Time in milliseconds. |
+formatdate-time
 
-  - `"count"`
+<a href="#">Link to this property</a>
 
-  - `"bytesIngress"`
+sort: optional array of string
 
-  - `"bytesEgress"`
+The sort order for the result set; sort fields must be included in <code>metrics</code> or <code>dimensions</code>.
 
-  - `"durationAvg"`
+<a href="#">Link to this property</a>
 
-  - `"durationMedian"`
+until: optional string
 
-  - `"duration90th"`
+End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
 
-  - `"duration99th"`
+formatdate-time
 
-- `since: optional string`
+<a href="#">Link to this property</a>
 
-  Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
+</details>
 
-- `sort: optional array of string`
+<a href="#">Link to this property</a>
 
-  The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.
+rows: number
 
-- `until: optional string`
+Total number of rows in the result.
 
-  End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
+minimum0
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+totals: map\[number]
 
-  - `code: number`
+Total result for each selected metrics across all data.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+time\_intervals: optional array of array of string
 
-  - `source: optional object { pointer }`
+List of time interval buckets: \[start, end].
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { data, data_lag, max, 5 more }`
-
-  - `data: array of object { dimensions, metrics }`
-
-    List of columns returned by the analytics query.
-
-    - `dimensions: optional array of string`
-
-    - `metrics: optional array of number or array of array of number`
-
-      - `array of number`
-
-      - `array of array of number`
-
-  - `data_lag: number`
-
-    Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing.
-
-  - `max: map[number]`
-
-    Maximum result for each selected metrics across all data.
-
-  - `min: map[number]`
-
-    Minimum result for each selected metrics across all data.
-
-  - `query: object { dimensions, filters, limit, 4 more }`
-
-    - `dimensions: optional array of Dimension`
-
-      Can be used to break down the data by given attributes. Options are:
-
-| Dimension | Name                          | Example                                                    |
-| --------- | ----------------------------- | ---------------------------------------------------------- |
-| event     | Connection Event              | connect, progress, disconnect, originError, clientFiltered |
-| appID     | Application ID                | 40d67c87c6cd4b889a4fd57805225e85                           |
-| coloName  | Colo Name                     | SFO                                                        |
-| ipVersion | IP version used by the client | 4, 6.                                                      |
-
-      - `"event"`
-
-      - `"appID"`
-
-      - `"coloName"`
-
-      - `"ipVersion"`
-
-    - `filters: optional string`
-
-      Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:
-
-| Operator | Name                     | URL Encoded |
-| -------- | ------------------------ | ----------- |
-| ==       | Equals                   | %3D%3D      |
-| !=       | Does not equals          | !%3D        |
-| \>       | Greater Than             | %3E         |
-| <        | Less Than                | %3C         |
-| \>=      | Greater than or equal to | %3E%3D      |
-| <=       | Less than or equal to    | %3C%3D      |
-
-      Use the above to construct filters.
-
-    - `limit: optional number`
-
-      Limit number of returned metrics.
-
-    - `metrics: optional array of "count" or "bytesIngress" or "bytesEgress" or 4 more`
-
-      One or more metrics to compute. Options are:
-
-| Metric         | Name                                | Example | Unit                  |
-| -------------- | ----------------------------------- | ------- | --------------------- |
-| count          | Count of total events               | 1000    | Count                 |
-| bytesIngress   | Sum of ingress bytes                | 1000    | Sum                   |
-| bytesEgress    | Sum of egress bytes                 | 1000    | Sum                   |
-| durationAvg    | Average connection duration         | 1.0     | Time in milliseconds  |
-| durationMedian | Median connection duration          | 1.0     | Time in milliseconds  |
-| duration90th   | 90th percentile connection duration | 1.0     | Time in milliseconds  |
-| duration99th   | 99th percentile connection duration | 1.0     | Time in milliseconds. |
-
-      - `"count"`
-
-      - `"bytesIngress"`
-
-      - `"bytesEgress"`
-
-      - `"durationAvg"`
-
-      - `"durationMedian"`
-
-      - `"duration90th"`
-
-      - `"duration99th"`
-
-    - `since: optional string`
-
-      Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
-
-    - `sort: optional array of string`
-
-      The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.
-
-    - `until: optional string`
-
-      End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
-
-  - `rows: number`
-
-    Total number of rows in the result.
-
-  - `totals: map[number]`
-
-    Total result for each selected metrics across all data.
-
-  - `time_intervals: optional array of array of string`
-
-    List of time interval buckets: [start, end].
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/analytics/events/summary \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": [
-      {
-        "dimensions": [
-          "string"
-        ],
-        "metrics": [
-          0
-        ]
-      }
-    ],
-    "data_lag": 3,
-    "max": {
-      "bytesEgress": 100,
-      "bytesIngress": 50
-    },
-    "min": {
-      "bytesEgress": 100,
-      "bytesIngress": 50
-    },
-    "query": {
-      "dimensions": [
-        "event",
-        "appID"
-      ],
-      "filters": "event==disconnect%20AND%20coloName!=SFO",
-      "limit": 0,
-      "metrics": [
-        "count",
-        "bytesIngress"
-      ],
-      "since": "2014-01-01T05:20:00.12345Z",
-      "sort": [
-        "+count",
-        "-bytesIngress"
-      ],
-      "until": "2014-01-01T05:20:00.12345Z"
-    },
-    "rows": 5,
-    "totals": {
-      "bytesEgress": 100,
-      "bytesIngress": 50
-    },
-    "time_intervals": [
-      [
-        "2014-01-01T05:20:00.12345Z"
-      ]
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Summary Get Response
-
-- `SummaryGetResponse object { data, data_lag, max, 5 more }`
-
-  - `data: array of object { dimensions, metrics }`
-
-    List of columns returned by the analytics query.
-
-    - `dimensions: optional array of string`
-
-    - `metrics: optional array of number or array of array of number`
-
-      - `array of number`
-
-      - `array of array of number`
-
-  - `data_lag: number`
-
-    Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing.
-
-  - `max: map[number]`
-
-    Maximum result for each selected metrics across all data.
-
-  - `min: map[number]`
-
-    Minimum result for each selected metrics across all data.
-
-  - `query: object { dimensions, filters, limit, 4 more }`
-
-    - `dimensions: optional array of Dimension`
-
-      Can be used to break down the data by given attributes. Options are:
-
-| Dimension | Name                          | Example                                                    |
-| --------- | ----------------------------- | ---------------------------------------------------------- |
-| event     | Connection Event              | connect, progress, disconnect, originError, clientFiltered |
-| appID     | Application ID                | 40d67c87c6cd4b889a4fd57805225e85                           |
-| coloName  | Colo Name                     | SFO                                                        |
-| ipVersion | IP version used by the client | 4, 6.                                                      |
-
-      - `"event"`
-
-      - `"appID"`
-
-      - `"coloName"`
-
-      - `"ipVersion"`
-
-    - `filters: optional string`
-
-      Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:
-
-| Operator | Name                     | URL Encoded |
-| -------- | ------------------------ | ----------- |
-| ==       | Equals                   | %3D%3D      |
-| !=       | Does not equals          | !%3D        |
-| \>       | Greater Than             | %3E         |
-| <        | Less Than                | %3C         |
-| \>=      | Greater than or equal to | %3E%3D      |
-| <=       | Less than or equal to    | %3C%3D      |
-
-      Use the above to construct filters.
-
-    - `limit: optional number`
-
-      Limit number of returned metrics.
-
-    - `metrics: optional array of "count" or "bytesIngress" or "bytesEgress" or 4 more`
-
-      One or more metrics to compute. Options are:
-
-| Metric         | Name                                | Example | Unit                  |
-| -------------- | ----------------------------------- | ------- | --------------------- |
-| count          | Count of total events               | 1000    | Count                 |
-| bytesIngress   | Sum of ingress bytes                | 1000    | Sum                   |
-| bytesEgress    | Sum of egress bytes                 | 1000    | Sum                   |
-| durationAvg    | Average connection duration         | 1.0     | Time in milliseconds  |
-| durationMedian | Median connection duration          | 1.0     | Time in milliseconds  |
-| duration90th   | 90th percentile connection duration | 1.0     | Time in milliseconds  |
-| duration99th   | 99th percentile connection duration | 1.0     | Time in milliseconds. |
-
-      - `"count"`
-
-      - `"bytesIngress"`
-
-      - `"bytesEgress"`
-
-      - `"durationAvg"`
-
-      - `"durationMedian"`
-
-      - `"duration90th"`
-
-      - `"duration99th"`
-
-    - `since: optional string`
-
-      Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
-
-    - `sort: optional array of string`
-
-      The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.
-
-    - `until: optional string`
-
-      End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.
-
-  - `rows: number`
-
-    Total number of rows in the result.
-
-  - `totals: map[number]`
-
-    Total result for each selected metrics across all data.
-
-  - `time_intervals: optional array of array of string`
-
-    List of time interval buckets: [start, end].
+[Link to this property](#)%20spectrum.analytics.events.summaries%20%3E%20(model)%20summary_get_response%20%3E%20(schema)>)

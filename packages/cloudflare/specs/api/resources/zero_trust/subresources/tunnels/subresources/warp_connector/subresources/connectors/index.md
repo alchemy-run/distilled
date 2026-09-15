@@ -1,234 +1,167 @@
+---
+title: Connectors
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels)
+
+[WARP Connector](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Connectors
 
-## Get WARP Connector Tunnel connector
+##### [Get WARP Connector Tunnel connector](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/connectors/methods/get)
 
-**get** `/accounts/{account_id}/warp_connector/{tunnel_id}/connectors/{connector_id}`
+GET/accounts/{account\_id}/warp\_connector/{tunnel\_id}/connectors/{connector\_id}
 
-Fetches connector and connection details for a WARP Connector Tunnel.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Cloudflare account ID
+ConnectorGetResponse object {id, arch, conns, 4 more }
 
-- `tunnel_id: string`
+A WARP Connector client that maintains a connection to a Cloudflare data center.
 
-  UUID of the tunnel.
+</summary>
 
-- `connector_id: string`
+id: optional string
 
-  UUID of the Cloudflare Tunnel connector.
+UUID of the Cloudflare Tunnel connector.
 
-### Returns
+formatuuid
 
-- `errors: array of ResponseInfo`
+maxLength36
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+arch: optional string
 
-  - `documentation_url: optional string`
+The cloudflared OS architecture used to establish this connection.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+conns: optional array of object {id, client\_id, client\_version, 3 more }
 
-  - `message: string`
+The WARP Connector Tunnel connections between your origin and Cloudflare’s edge.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-- `result: object { id, arch, conns, 4 more }`
+UUID of the Cloudflare Tunnel connection.
 
-  A WARP Connector client that maintains a connection to a Cloudflare data center.
+formatuuid
 
-  - `id: optional string`
+maxLength36
 
-    UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-  - `arch: optional string`
+client\_id: optional string
 
-    The cloudflared OS architecture used to establish this connection.
+UUID of the Cloudflare Tunnel connector.
 
-  - `conns: optional array of object { id, client_id, client_version, 3 more }`
+formatuuid
 
-    The WARP Connector Tunnel connections between your origin and Cloudflare's edge.
+maxLength36
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID of the Cloudflare Tunnel connection.
+client\_version: optional string
 
-    - `client_id: optional string`
+The cloudflared version used to establish this connection.
 
-      UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-    - `client_version: optional string`
+colo\_name: optional string
 
-      The cloudflared version used to establish this connection.
+The Cloudflare data center used for this connection.
 
-    - `colo_name: optional string`
+<a href="#">Link to this property</a>
 
-      The Cloudflare data center used for this connection.
+opened\_at: optional string
 
-    - `opened_at: optional string`
+Timestamp of when the connection was established.
 
-      Timestamp of when the connection was established.
+formatdate-time
 
-    - `origin_ip: optional string`
+<a href="#">Link to this property</a>
 
-      The public IP address of the host running WARP Connector.
+origin\_ip: optional string
 
-  - `features: optional array of string`
+The public IP address of the host running WARP Connector.
 
-    Features enabled for the Cloudflare Tunnel.
+<a href="#">Link to this property</a>
 
-  - `ha_status: optional "offline" or "passive" or "active"`
+</details>
 
-    The HA status of a WARP Connector client.
+<a href="#">Link to this property</a>
 
-    - `"offline"`
+features: optional array of string
 
-    - `"passive"`
+Features enabled for the Cloudflare Tunnel.
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-  - `run_at: optional string`
+<details>
 
-    Timestamp of when the tunnel connection was started.
+<summary>
 
-  - `version: optional string`
+ha\_status: optional "offline"or "passive"or "active"
 
-    The cloudflared version used to establish this connection.
+The HA status of a WARP Connector client.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+One of the following:
 
-  - `true`
+"offline"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/connectors/$CONNECTOR_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"passive"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-    "arch": "linux_amd64",
-    "conns": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137"
-      }
-    ],
-    "features": [
-      "ha-origin"
-    ],
-    "ha_status": "offline",
-    "run_at": "2009-11-10T23:00:00Z",
-    "version": "2022.7.1"
-  },
-  "success": true
-}
-```
+"active"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Connector Get Response
+</details>
 
-- `ConnectorGetResponse object { id, arch, conns, 4 more }`
+<a href="#">Link to this property</a>
 
-  A WARP Connector client that maintains a connection to a Cloudflare data center.
+run\_at: optional string
 
-  - `id: optional string`
+Timestamp of when the tunnel connection was started.
 
-    UUID of the Cloudflare Tunnel connector.
+formatdate-time
 
-  - `arch: optional string`
+<a href="#">Link to this property</a>
 
-    The cloudflared OS architecture used to establish this connection.
+version: optional string
 
-  - `conns: optional array of object { id, client_id, client_version, 3 more }`
+The cloudflared version used to establish this connection.
 
-    The WARP Connector Tunnel connections between your origin and Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running WARP Connector.
-
-  - `features: optional array of string`
-
-    Features enabled for the Cloudflare Tunnel.
-
-  - `ha_status: optional "offline" or "passive" or "active"`
-
-    The HA status of a WARP Connector client.
-
-    - `"offline"`
-
-    - `"passive"`
-
-    - `"active"`
-
-  - `run_at: optional string`
-
-    Timestamp of when the tunnel connection was started.
-
-  - `version: optional string`
-
-    The cloudflared version used to establish this connection.
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.connectors%20%3E%20(model)%20connector_get_response%20%3E%20(schema)>)

@@ -1,155 +1,473 @@
-## List Custom CSRs
+---
+title: List Custom CSRs
+---
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/custom_csrs`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Custom Csrs](https://developers.cloudflare.com/api/resources/custom_csrs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Custom CSRs
+
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/custom\_csrs
 
 List all custom Certificate Signing Requests (CSRs) for an account or zone.
 
-### Path Parameters
+##### Security
 
-- `account_id: optional string`
+<details>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<summary>API Token</summary>
 
-- `zone_id: optional string`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Page number of paginated results.
+</details>
 
-- `per_page: optional number`
+<details>
 
-  Number of custom CSRs per page.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Account: SSL and Certificates Read``Account: SSL and Certificates Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: optional string
 
-  - `source: optional object { pointer }`
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-    - `pointer: optional string`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: true`
+zone\_id: optional string
 
-  Whether the API call was successful.
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-  - `true`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `result: optional array of object { id, created_at, key_type, 11 more }`
+##### Q uery ParametersExpand Collapse
 
-  - `id: string`
+<details>
 
-    Custom CSR identifier tag.
+<summary>
 
-  - `created_at: string`
+direction: optional "asc"or "desc"
 
-    When the CSR was created.
+The direction to sort by.
 
-  - `key_type: "rsa2048" or "p256v1"`
+</summary>
 
-    The key algorithm used to generate the CSR.
+One of the following:
 
-    - `"rsa2048"`
+"asc"
 
-    - `"p256v1"`
+<a href="#">Link to this property</a>
 
-  - `account_tag: optional string`
+"desc"
 
-    Account identifier associated with this CSR.
+<a href="#">Link to this property</a>
 
-  - `common_name: optional string`
+</details>
 
-    The common name (domain) for the CSR.
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-  - `country: optional string`
+<details>
 
-    Two-letter ISO 3166-1 alpha-2 country code.
+<summary>
 
-  - `csr: optional string`
+order: optional "name"or "account\_tag"or "created\_at"
 
-    The PEM-encoded Certificate Signing Request.
+The field to sort the returned custom CSRs by.
 
-  - `description: optional string`
+</summary>
 
-    Optional description for the CSR.
+One of the following:
 
-  - `locality: optional string`
+"name"
 
-    City or locality name.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+"account\_tag"
 
-    Human-readable name for the CSR.
+<a href="#">Link to this property</a>
 
-  - `organization: optional string`
+"created\_at"
 
-    Organization name.
+<a href="#">Link to this property</a>
 
-  - `organizational_unit: optional string`
+</details>
 
-    Organizational unit name.
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-  - `sans: optional array of string`
+page: optional number
 
-    Subject Alternative Names included in the CSR.
+Page number of paginated results.
 
-  - `state: optional string`
+minimum1
 
-    State or province name.
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+per\_page: optional number
 
-  - `count: optional number`
+Number of custom CSRs per page.
 
-    Total number of results for the requested service.
+maximum50
 
-  - `page: optional number`
+minimum5
 
-    Current page within paginated list of results.
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `per_page: optional number`
+##### ReturnsExpand Collapse
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `total_pages: optional number`
+</summary>
 
-    The number of total pages in the entire result set.
+code: number
 
-### Example
+minimum1000
 
-```http
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_at, key\_type, 11 more }
+
+</summary>
+
+id: string
+
+Custom CSR identifier tag.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the CSR was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+key\_type: "rsa2048"or "p256v1"
+
+The key algorithm used to generate the CSR.
+
+</summary>
+
+One of the following:
+
+"rsa2048"
+
+<a href="#">Link to this property</a>
+
+"p256v1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+account\_tag: optional string
+
+Account identifier associated with this CSR.
+
+<a href="#">Link to this property</a>
+
+common\_name: optional string
+
+The common name (domain) for the CSR.
+
+maxLength64
+
+<a href="#">Link to this property</a>
+
+country: optional string
+
+Two-letter ISO 3166-1 alpha-2 country code.
+
+<a href="#">Link to this property</a>
+
+csr: optional string
+
+The PEM-encoded Certificate Signing Request.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Optional description for the CSR.
+
+<a href="#">Link to this property</a>
+
+locality: optional string
+
+City or locality name.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Human-readable name for the CSR.
+
+<a href="#">Link to this property</a>
+
+organization: optional string
+
+Organization name.
+
+<a href="#">Link to this property</a>
+
+organizational\_unit: optional string
+
+Organizational unit name.
+
+<a href="#">Link to this property</a>
+
+sans: optional array of string
+
+Subject Alternative Names included in the CSR.
+
+<a href="#">Link to this property</a>
+
+state: optional string
+
+State or province name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Custom CSRs
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/custom_csrs \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "7b163417-1d2b-4c84-a38a-2fb7a0cd7752",
+      "created_at": "2024-01-15T10:30:00Z",
+      "key_type": "rsa2048",
+      "account_tag": "23e087bd19bc1d40ae95b6f297263ceb",
+      "common_name": "example.com",
+      "country": "US",
+      "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICYzCCAUsCAQAwHj...",
+      "description": "CSR for example.com wildcard",
+      "locality": "San Francisco",
+      "name": "My Custom CSR",
+      "organization": "Cloudflare, Inc.",
+      "organizational_unit": "Engineering",
+      "sans": [
+        "example.com",
+        "www.example.com"
+      ],
+      "state": "California"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

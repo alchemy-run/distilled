@@ -1,90 +1,248 @@
-## Create a Web Analytics rule
+---
+title: Create a Web Analytics rule
+---
 
-**post** `/accounts/{account_id}/rum/v2/{ruleset_id}/rule`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[RUM](https://developers.cloudflare.com/api/resources/rum)
+
+[Rules](https://developers.cloudflare.com/api/resources/rum/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a Web Analytics rule
+
+POST/accounts/{account\_id}/rum/v2/{ruleset\_id}/rule
 
 Creates a new rule in a Web Analytics ruleset.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `ruleset_id: string`
 
-  The Web Analytics ruleset identifier.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `host: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `inclusive: optional boolean`
+</details>
 
-  Whether the rule includes or excludes traffic from being measured.
+<details>
 
-- `is_paused: optional boolean`
+<summary>API Email + API Key</summary>
 
-  Whether the rule is paused or not.
 
-- `paths: optional array of string`
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `messages: array of ResponseInfo`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+ruleset\_id: string
 
-  - `source: optional object { pointer }`
+The Web Analytics ruleset identifier.
 
-- `success: boolean`
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20ruleset_id%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+##### Body ParametersJSONExpand Collapse
 
-- `result: optional RUMRule`
+host: optional string
 
-  - `id: optional string`
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20host%20%3E%20(schema)>)
 
-    The Web Analytics rule identifier.
+inclusive: optional boolean
 
-  - `created: optional string`
+Whether the rule includes or excludes traffic from being measured.
 
-  - `host: optional string`
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20inclusive%20%3E%20(schema)>)
 
-    The hostname the rule will be applied to.
+is\_paused: optional boolean
 
-  - `inclusive: optional boolean`
+Whether the rule is paused or not.
 
-    Whether the rule includes or excludes traffic from being measured.
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_paused%20%3E%20(schema)>)
 
-  - `is_paused: optional boolean`
+paths: optional array of string
 
-    Whether the rule is paused or not.
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20paths%20%3E%20(schema)>)
 
-  - `paths: optional array of string`
+##### ReturnsExpand Collapse
 
-    The paths the rule will be applied to.
+<details>
 
-  - `priority: optional number`
+<summary>
 
-### Example
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-```http
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/rum#(resource)%20rum.rules%20%3E%20(model)%20rum_rule%20%3E%20(schema)">RUMRule</a> { id, created, host, 4 more }
+
+</summary>
+
+id: optional string
+
+The Web Analytics rule identifier.
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+The hostname the rule will be applied to.
+
+<a href="#">Link to this property</a>
+
+inclusive: optional boolean
+
+Whether the rule includes or excludes traffic from being measured.
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the rule is paused or not.
+
+<a href="#">Link to this property</a>
+
+paths: optional array of string
+
+The paths the rule will be applied to.
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create a Web Analytics rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/v2/$RULESET_ID/rule \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -97,9 +255,50 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/v2/$RULESET_I
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "created": "2014-01-01T05:20:00.12345Z",
+    "host": "example.com",
+    "inclusive": true,
+    "is_paused": false,
+    "paths": [
+      "*"
+    ],
+    "priority": 1000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

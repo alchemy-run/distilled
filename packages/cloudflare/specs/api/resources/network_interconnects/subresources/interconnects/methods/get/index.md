@@ -1,93 +1,267 @@
-## Get information about an interconnect object
+---
+title: Get information about an interconnect object
+---
 
-**get** `/accounts/{account_id}/cni/interconnects/{icon}`
+[Skip to content](#_top)
 
-Get information about an interconnect object
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Network Interconnects](https://developers.cloudflare.com/api/resources/network_interconnects)
 
-- `account_id: string`
+[Interconnects](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects)
 
-  Customer account tag
+Copy Markdown
 
-- `icon: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+**Copy Markdown****View as Markdown**
 
-  - `account: string`
+# Get information about an interconnect object
 
-  - `facility: object { address, name }`
+GET/accounts/{account\_id}/cni/interconnects/{icon}
 
-    - `address: array of string`
+Retrieves configuration and status details for a specific network interconnect.
 
-    - `name: string`
+##### Security
 
-  - `name: string`
+<details>
 
-  - `site: string`
+<summary>API Token</summary>
 
-    A Cloudflare site name.
 
-  - `slot_id: string`
 
-  - `speed: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `type: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `owner: optional string`
+</details>
 
-- `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+<details>
 
-  - `account: string`
+<summary>API Email + API Key</summary>
 
-  - `name: string`
 
-  - `region: string`
 
-  - `type: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `owner: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `speed: optional "50M" or "100M" or "200M" or 9 more`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Bandwidth structure as visible through the customer-facing API.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"50M"`
+</details>
 
-    - `"100M"`
+##### Accepted Permissions (at least one required)
 
-    - `"200M"`
+`Magic WAN Write``Magic WAN Read``Magic Transit Read``Magic Transit Write`
 
-    - `"300M"`
+##### P ath ParametersExpand Collapse
 
-    - `"400M"`
+account\_id: string
 
-    - `"500M"`
+Customer account tag
 
-    - `"1G"`
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `"2G"`
+icon: string
 
-    - `"5G"`
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20icon%20%3E%20(schema)>)
 
-    - `"10G"`
+##### ReturnsExpand Collapse
 
-    - `"20G"`
+<details>
 
-    - `"50G"`
+<summary>
 
-### Example
+NscInterconnectPhysicalBody object {account, facility, name, 7 more }
 
-```http
+</summary>
+
+account: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+facility: object {address, name }
+
+</summary>
+
+address: array of string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+site: string
+
+A Cloudflare site name.
+
+<a href="#">Link to this property</a>
+
+slot\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+speed: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+virtual\_port\_reservation\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ccr\_device\_name: optional string
+
+<a href="#">Link to this property</a>
+
+owner: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_get_response%20%3E%20(schema)%20%3E%20(variant)%200>)
+
+<details>
+
+<summary>
+
+NscInterconnectGcpPartnerBody object {account, name, region, 4 more }
+
+</summary>
+
+account: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+region: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+virtual\_port\_reservation\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+owner: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+speed: optional "50M"or "100M"or "200M"or 9 more
+
+Bandwidth structure as visible through the customer-facing API.
+
+</summary>
+
+One of the following:
+
+"50M"
+
+<a href="#">Link to this property</a>
+
+"100M"
+
+<a href="#">Link to this property</a>
+
+"200M"
+
+<a href="#">Link to this property</a>
+
+"300M"
+
+<a href="#">Link to this property</a>
+
+"400M"
+
+<a href="#">Link to this property</a>
+
+"500M"
+
+<a href="#">Link to this property</a>
+
+"1G"
+
+<a href="#">Link to this property</a>
+
+"2G"
+
+<a href="#">Link to this property</a>
+
+"5G"
+
+<a href="#">Link to this property</a>
+
+"10G"
+
+<a href="#">Link to this property</a>
+
+"20G"
+
+<a href="#">Link to this property</a>
+
+"50G"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_get_response%20%3E%20(schema)%20%3E%20(variant)%201>)
+
+### Get information about an interconnect object
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "account": "account",
   "facility": {
@@ -101,6 +275,32 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects
   "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
   "speed": "speed",
   "type": "type",
+  "virtual_port_reservation_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "ccr_device_name": "ccr_device_name",
+  "owner": "owner"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "account": "account",
+  "facility": {
+    "address": [
+      "string"
+    ],
+    "name": "name"
+  },
+  "name": "name",
+  "site": "site",
+  "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "speed": "speed",
+  "type": "type",
+  "virtual_port_reservation_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "ccr_device_name": "ccr_device_name",
   "owner": "owner"
 }
 ```

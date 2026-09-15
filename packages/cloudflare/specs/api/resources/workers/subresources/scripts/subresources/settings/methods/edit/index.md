@@ -1,234 +1,558 @@
-## Patch Script Settings
+---
+title: Patch Script Settings
+---
 
-**patch** `/accounts/{account_id}/workers/scripts/{script_name}/script-settings`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers/subresources/scripts)
+
+[Settings](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/settings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Patch Script Settings
+
+PATCH/accounts/{account\_id}/workers/scripts/{script\_name}/script-settings
 
 Patch script-level settings when using [Worker Versions](https://developers.cloudflare.com/api/operations/worker-versions-list-versions). Including but not limited to Logpush and Tail Consumers.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `script_name: string`
 
-  Name of the script, used in URLs and route configuration.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `logpush: optional boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Whether Logpush is turned on for the Worker.
+</details>
 
-- `observability: optional object { enabled, head_sampling_rate, logs, traces }`
+<details>
 
-  Observability settings for the Worker.
+<summary>API Email + API Key</summary>
 
-  - `enabled: boolean`
 
-    Whether observability is enabled for the Worker.
 
-  - `head_sampling_rate: optional number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `logs: optional object { enabled, invocation_logs, destinations, 2 more }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Log settings for the Worker.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `enabled: boolean`
+</details>
 
-      Whether logs are enabled for the Worker.
+##### Accepted Permissions (at least one required)
 
-    - `invocation_logs: boolean`
+`Workers Scripts Write`
 
-      Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+##### P ath ParametersExpand Collapse
 
-    - `destinations: optional array of string`
+account\_id: string
 
-      A list of destinations where logs will be exported to.
+Identifier.
 
-    - `head_sampling_rate: optional number`
+maxLength32
 
-      The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `persist: optional boolean`
+script\_name: string
 
-      Whether log persistence is enabled for the Worker.
+Name of the script, used in URLs and route configuration.
 
-  - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20script_name%20%3E%20(schema)>)
 
-    Trace settings for the Worker.
+##### Body ParametersJSONExpand Collapse
 
-    - `destinations: optional array of string`
+logpush: optional boolean
 
-      A list of destinations where traces will be exported to.
+Whether Logpush is turned on for the Worker.
 
-    - `enabled: optional boolean`
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20logpush%20%3E%20(schema)>)
 
-      Whether traces are enabled for the Worker.
+<details>
 
-    - `head_sampling_rate: optional number`
+<summary>
 
-      The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+observability: optional object {enabled, head\_sampling\_rate, logs, 2 more }
 
-    - `persist: optional boolean`
+Observability settings for the Worker.
 
-      Whether trace persistence is enabled for the Worker.
+</summary>
 
-    - `propagation_policy: optional "authenticated" or "accept"`
+enabled: boolean
 
-      Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+Whether observability is enabled for the Worker.
 
-      - `"authenticated"`
+<a href="#">Link to this property</a>
 
-      - `"accept"`
+head\_sampling\_rate: optional number
 
-- `tags: optional array of string`
+The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
 
-  Tags associated with the Worker.
+<a href="#">Link to this property</a>
 
-- `tail_consumers: optional array of ConsumerScript`
+<details>
 
-  List of Workers that will consume logs from the attached Worker.
+<summary>
 
-  - `service: string`
+logs: optional object {enabled, invocation\_logs, destinations, 2 more }
 
-    Name of Worker that is to be the consumer.
+Log settings for the Worker.
 
-  - `environment: optional string`
+</summary>
 
-    Optional environment if the Worker utilizes one.
+enabled: boolean
 
-  - `namespace: optional string`
+Whether logs are enabled for the Worker.
 
-    Optional dispatch namespace the script belongs to.
+<a href="#">Link to this property</a>
 
-### Returns
+invocation\_logs: boolean
 
-- `errors: array of object { code, message, documentation_url, source }`
+Whether <a href="https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs">invocation logs</a> are enabled for the Worker.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+destinations: optional array of string
 
-  - `documentation_url: optional string`
+A list of destinations where logs will be exported to.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+head\_sampling\_rate: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+persist: optional boolean
 
-  - `documentation_url: optional string`
+Whether log persistence is enabled for the Worker.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `result: ScriptSetting`
+<a href="#">Link to this property</a>
 
-  - `logpush: optional boolean`
+redact\_query\_string: optional boolean
 
-    Whether Logpush is turned on for the Worker.
+Whether query strings are removed from request URLs in logs and traces.
 
-  - `observability: optional object { enabled, head_sampling_rate, logs, traces }`
+<a href="#">Link to this property</a>
 
-    Observability settings for the Worker.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Whether observability is enabled for the Worker.
+traces: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
 
-    - `head_sampling_rate: optional number`
+Trace settings for the Worker.
 
-      The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+</summary>
 
-    - `logs: optional object { enabled, invocation_logs, destinations, 2 more }`
+destinations: optional array of string
 
-      Log settings for the Worker.
+A list of destinations where traces will be exported to.
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        Whether logs are enabled for the Worker.
+enabled: optional boolean
 
-      - `invocation_logs: boolean`
+Whether traces are enabled for the Worker.
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `destinations: optional array of string`
+head\_sampling\_rate: optional number
 
-        A list of destinations where logs will be exported to.
+The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
 
-      - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+persist: optional boolean
 
-      - `persist: optional boolean`
+Whether trace persistence is enabled for the Worker.
 
-        Whether log persistence is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+<details>
 
-      Trace settings for the Worker.
+<summary>
 
-      - `destinations: optional array of string`
+propagation\_policy: optional "authenticated"or "accept"
 
-        A list of destinations where traces will be exported to.
+Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. “authenticated” honors inbound trace context only when accompanied by a valid trace auth token. “accept” unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Whether traces are enabled for the Worker.
+One of the following:
 
-      - `head_sampling_rate: optional number`
+"authenticated"
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+<a href="#">Link to this property</a>
 
-      - `persist: optional boolean`
+"accept"
 
-        Whether trace persistence is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+</details>
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+<a href="#">Link to this property</a>
 
-        - `"authenticated"`
+</details>
 
-        - `"accept"`
+<a href="#">Link to this property</a>
 
-  - `tags: optional array of string`
+</details>
 
-    Tags associated with the Worker.
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20observability%20%3E%20(schema)>)
 
-  - `tail_consumers: optional array of ConsumerScript`
+tags: optional array of string
 
-    List of Workers that will consume logs from the attached Worker.
+Tags associated with the Worker.
 
-    - `service: string`
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20tags%20%3E%20(schema)>)
 
-      Name of Worker that is to be the consumer.
+<details>
 
-    - `environment: optional string`
+<summary>
 
-      Optional environment if the Worker utilizes one.
+tail\_consumers: optional array of <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers.scripts.tail%20%3E%20(model)%20consumer_script%20%3E%20(schema)">ConsumerScript</a> { service, environment, namespace }
 
-    - `namespace: optional string`
+List of Workers that will consume logs from the attached Worker.
 
-      Optional dispatch namespace the script belongs to.
+</summary>
 
-- `success: true`
+service: string
 
-  Whether the API call was successful.
+Name of Worker that is to be the consumer.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+environment: optional string
 
-```http
+Optional environment if the Worker utilizes one.
+
+<a href="#">Link to this property</a>
+
+namespace: optional string
+
+Optional dispatch namespace the script belongs to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20tail_consumers%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers.scripts%20%3E%20(model)%20script_setting%20%3E%20(schema)">ScriptSetting</a> { logpush, observability, tags, tail\_consumers }
+
+</summary>
+
+logpush: optional boolean
+
+Whether Logpush is turned on for the Worker.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+observability: optional object {enabled, head\_sampling\_rate, logs, 2 more }
+
+Observability settings for the Worker.
+
+</summary>
+
+enabled: boolean
+
+Whether observability is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logs: optional object {enabled, invocation\_logs, destinations, 2 more }
+
+Log settings for the Worker.
+
+</summary>
+
+enabled: boolean
+
+Whether logs are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+invocation\_logs: boolean
+
+Whether <a href="https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs">invocation logs</a> are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+destinations: optional array of string
+
+A list of destinations where logs will be exported to.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+
+<a href="#">Link to this property</a>
+
+persist: optional boolean
+
+Whether log persistence is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+redact\_query\_string: optional boolean
+
+Whether query strings are removed from request URLs in logs and traces.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+traces: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
+
+Trace settings for the Worker.
+
+</summary>
+
+destinations: optional array of string
+
+A list of destinations where traces will be exported to.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether traces are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+
+<a href="#">Link to this property</a>
+
+persist: optional boolean
+
+Whether trace persistence is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+propagation\_policy: optional "authenticated"or "accept"
+
+Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. “authenticated” honors inbound trace context only when accompanied by a valid trace auth token. “accept” unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account.
+
+</summary>
+
+One of the following:
+
+"authenticated"
+
+<a href="#">Link to this property</a>
+
+"accept"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+Tags associated with the Worker.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tail\_consumers: optional array of <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers.scripts.tail%20%3E%20(model)%20consumer_script%20%3E%20(schema)">ConsumerScript</a> { service, environment, namespace }
+
+List of Workers that will consume logs from the attached Worker.
+
+</summary>
+
+service: string
+
+Name of Worker that is to be the consumer.
+
+<a href="#">Link to this property</a>
+
+environment: optional string
+
+Optional environment if the Worker utilizes one.
+
+<a href="#">Link to this property</a>
+
+namespace: optional string
+
+Optional dispatch namespace the script belongs to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers.scripts.settings%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Patch Script Settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/script-settings \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -241,9 +565,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -279,6 +603,74 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$
         "head_sampling_rate": 0.1,
         "persist": true
       },
+      "redact_query_string": false,
+      "traces": {
+        "destinations": [
+          "cloudflare"
+        ],
+        "enabled": true,
+        "head_sampling_rate": 0.1,
+        "persist": true,
+        "propagation_policy": "authenticated"
+      }
+    },
+    "tags": [
+      "my-team",
+      "my-public-api"
+    ],
+    "tail_consumers": [
+      {
+        "service": "my-log-consumer",
+        "environment": "production",
+        "namespace": "my-namespace"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "logpush": false,
+    "observability": {
+      "enabled": true,
+      "head_sampling_rate": 0.1,
+      "logs": {
+        "enabled": true,
+        "invocation_logs": true,
+        "destinations": [
+          "cloudflare"
+        ],
+        "head_sampling_rate": 0.1,
+        "persist": true
+      },
+      "redact_query_string": false,
       "traces": {
         "destinations": [
           "cloudflare"

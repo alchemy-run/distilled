@@ -1,167 +1,103 @@
+---
+title: Summary
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Risk Scoring](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Summary
 
-## Get risk score info for all users in the account
+##### [Get risk score info for all users in the account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/summary/methods/get)
 
-**get** `/accounts/{account_id}/zt_risk_scoring/summary`
+GET/accounts/{account\_id}/zt\_risk\_scoring/summary
 
-Gets an aggregate summary of risk scores across the account, including distribution and trends.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Returns
+SummaryGetResponse object {users }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+users: array of object {email, event\_count, last\_event, 3 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+email: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+event\_count: number
 
-  - `message: string`
+minimum0
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+last\_event: string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { users }`
+max\_risk\_level: "low"or "medium"or "high"
 
-  - `users: array of object { email, event_count, last_event, 3 more }`
+</summary>
 
-    - `email: string`
+One of the following:
 
-    - `event_count: number`
+"low"
 
-    - `last_event: string`
+<a href="#">Link to this property</a>
 
-    - `max_risk_level: "low" or "medium" or "high"`
+"medium"
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+"high"
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `user_id: string`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+name: string
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+user\_id: string
 
-  - `page: optional number`
+formatuuid
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/summary \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "users": [
-      {
-        "email": "email",
-        "event_count": 0,
-        "last_event": "2019-12-27T18:11:19.117Z",
-        "max_risk_level": "low",
-        "name": "name",
-        "user_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Summary Get Response
-
-- `SummaryGetResponse object { users }`
-
-  - `users: array of object { email, event_count, last_event, 3 more }`
-
-    - `email: string`
-
-    - `event_count: number`
-
-    - `last_event: string`
-
-    - `max_risk_level: "low" or "medium" or "high"`
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-    - `name: string`
-
-    - `user_id: string`
+[Link to this property](#)%20zero_trust.risk_scoring.summary%20%3E%20(model)%20summary_get_response%20%3E%20(schema)>)

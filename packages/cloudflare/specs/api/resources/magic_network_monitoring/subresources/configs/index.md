@@ -1,824 +1,107 @@
+---
+title: Configs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Network Monitoring](https://developers.cloudflare.com/api/resources/magic_network_monitoring)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Configs
 
-## List account configuration
+##### [List account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/get)
 
-**get** `/accounts/{account_id}/mnm/config`
+GET/accounts/{account\_id}/mnm/config
 
-Lists default sampling, router IPs and warp devices for account.
+##### [Create account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/mnm/config
 
-- `account_id: string`
+##### [Update an entire account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/update)
 
-### Returns
+PUT/accounts/{account\_id}/mnm/config
 
-- `errors: array of ResponseInfo`
+##### [Update account configuration fields](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/edit)
 
-  - `code: number`
+PATCH/accounts/{account\_id}/mnm/config
 
-  - `message: string`
+##### [Delete account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/mnm/config
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+Configuration object {default\_sampling, name, router\_ips, warp\_devices }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+default\_sampling: number
 
-  - `source: optional object { pointer }`
+Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
 
-- `result: Configuration`
+minimum1
 
-  - `default_sampling: number`
+<a href="#">Link to this property</a>
 
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
+name: string
 
-  - `name: string`
+The account name.
 
-    The account name.
+<a href="#">Link to this property</a>
 
-  - `router_ips: array of string`
+router\_ips: array of string
 
-  - `warp_devices: array of object { id, name, router_ip }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+<details>
 
-      Unique identifier for the warp device.
+<summary>
 
-    - `name: string`
+warp\_devices: array of object {id, name, router\_ip }
 
-      Name of the warp device.
+</summary>
 
-    - `router_ip: string`
+id: string
 
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
+Unique identifier for the warp device.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+name: string
 
-  - `true`
+Name of the warp device.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+router\_ip: string
 
-#### Response
+IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create account configuration
+</details>
 
-**post** `/accounts/{account_id}/mnm/config`
+<a href="#">Link to this property</a>
 
-Create a new network monitoring configuration.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20magic_network_monitoring.configs%20%3E%20(model)%20configuration%20%3E%20(schema)>)
 
-- `account_id: string`
+#### ConfigsFull
 
-### Body Parameters
+##### [List rules and account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/subresources/full/methods/get)
 
-- `default_sampling: number`
-
-  Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-- `name: string`
-
-  The account name.
-
-- `router_ips: optional array of string`
-
-- `warp_devices: optional array of object { id, name, router_ip }`
-
-  - `id: string`
-
-    Unique identifier for the warp device.
-
-  - `name: string`
-
-    Name of the warp device.
-
-  - `router_ip: string`
-
-    IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Configuration`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"default_sampling\": 1,
-          \"name\": \"cloudflare user's account\"
-        }"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Update an entire account configuration
-
-**put** `/accounts/{account_id}/mnm/config`
-
-Update an existing network monitoring configuration, requires the entire configuration to be updated at once.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `default_sampling: number`
-
-  Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-- `name: string`
-
-  The account name.
-
-- `router_ips: optional array of string`
-
-- `warp_devices: optional array of object { id, name, router_ip }`
-
-  - `id: string`
-
-    Unique identifier for the warp device.
-
-  - `name: string`
-
-    Name of the warp device.
-
-  - `router_ip: string`
-
-    IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Configuration`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"default_sampling\": 1,
-          \"name\": \"cloudflare user's account\"
-        }"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Update account configuration fields
-
-**patch** `/accounts/{account_id}/mnm/config`
-
-Update fields in an existing network monitoring configuration.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `default_sampling: optional number`
-
-  Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-- `name: optional string`
-
-  The account name.
-
-- `router_ips: optional array of string`
-
-- `warp_devices: optional array of object { id, name, router_ip }`
-
-  - `id: string`
-
-    Unique identifier for the warp device.
-
-  - `name: string`
-
-    Name of the warp device.
-
-  - `router_ip: string`
-
-    IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Configuration`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"name\": \"cloudflare user's account\"
-        }"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Delete account configuration
-
-**delete** `/accounts/{account_id}/mnm/config`
-
-Delete an existing network monitoring configuration.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Configuration`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Configuration
-
-- `Configuration object { default_sampling, name, router_ips, warp_devices }`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-# Full
-
-## List rules and account configuration
-
-**get** `/accounts/{account_id}/mnm/config/full`
-
-Lists default sampling, router IPs, warp devices, and rules for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Configuration`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config/full \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
+GET/accounts/{account\_id}/mnm/config/full

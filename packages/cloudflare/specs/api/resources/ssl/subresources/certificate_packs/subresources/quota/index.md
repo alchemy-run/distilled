@@ -1,114 +1,63 @@
+---
+title: Quota
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[SSL](https://developers.cloudflare.com/api/resources/ssl)
+
+[Certificate Packs](https://developers.cloudflare.com/api/resources/ssl/subresources/certificate_packs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Quota
 
-## Get Certificate Pack Quotas
+##### [Get Certificate Pack Quotas](https://developers.cloudflare.com/api/resources/ssl/subresources/certificate_packs/subresources/quota/methods/get)
 
-**get** `/zones/{zone_id}/ssl/certificate_packs/quota`
+GET/zones/{zone\_id}/ssl/certificate\_packs/quota
 
-For a given zone, list certificate pack quotas.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+QuotaGetResponse object {advanced }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+advanced: optional object {allocated, used }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+allocated: optional number
 
-    - `pointer: optional string`
+Quantity Allocated.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+used: optional number
 
-  - `message: string`
+Quantity Used.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { advanced }`
-
-  - `advanced: optional object { allocated, used }`
-
-    - `allocated: optional number`
-
-      Quantity Allocated.
-
-    - `used: optional number`
-
-      Quantity Used.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/certificate_packs/quota \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "advanced": {
-      "allocated": 0,
-      "used": 0
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Quota Get Response
-
-- `QuotaGetResponse object { advanced }`
-
-  - `advanced: optional object { allocated, used }`
-
-    - `allocated: optional number`
-
-      Quantity Allocated.
-
-    - `used: optional number`
-
-      Quantity Used.
+[Link to this property](#)%20ssl.certificate_packs.quota%20%3E%20(model)%20quota_get_response%20%3E%20(schema)>)

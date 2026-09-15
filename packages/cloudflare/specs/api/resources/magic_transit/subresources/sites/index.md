@@ -1,6641 +1,1459 @@
+---
+title: Sites
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Sites
 
-## List Sites
+##### [List Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/methods/list)
 
-**get** `/accounts/{account_id}/magic/sites`
+GET/accounts/{account\_id}/magic/sites
 
-Lists Sites associated with an account. Use connectorid query param to return sites where connectorid matches either site.ConnectorID or site.SecondaryConnectorID.
+##### [Site Details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/sites/{site\_id}
 
-- `account_id: string`
+##### [Create a new Site](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/magic/sites
 
-### Query Parameters
+##### [Update Site](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/methods/update)
 
-- `connectorid: optional string`
+PUT/accounts/{account\_id}/magic/sites/{site\_id}
 
-  Identifier
+##### [Patch Site](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/methods/edit)
 
-### Returns
+PATCH/accounts/{account\_id}/magic/sites/{site\_id}
 
-- `errors: array of ResponseInfo`
+##### [Delete Site](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/methods/delete)
 
-  - `code: number`
+DELETE/accounts/{account\_id}/magic/sites/{site\_id}
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+Site object {id, connector\_id, description, 4 more }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+Identifier
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of Site`
+connector\_id: optional string
 
-  - `id: optional string`
+Magic Connector identifier tag.
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `connector_id: optional string`
+description: optional string
 
-    Magic Connector identifier tag.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+ha\_mode: optional boolean
 
-  - `ha_mode: optional boolean`
+Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
 
-    Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
+<a href="#">Link to this property</a>
 
-  - `location: optional SiteLocation`
+location: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites%20%3E%20(model)%20site_location%20%3E%20(schema)">SiteLocation</a> { lat, lon }
 
-    Location of site in latitude and longitude.
+Location of site in latitude and longitude.
 
-    - `lat: optional string`
+<a href="#">Link to this property</a>
 
-      Latitude
+name: optional string
 
-    - `lon: optional string`
+The name of the site.
 
-      Longitude
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+secondary\_connector\_id: optional string
 
-    The name of the site.
+Magic Connector identifier tag. Used when high availability mode is on.
 
-  - `secondary_connector_id: optional string`
+<a href="#">Link to this property</a>
 
-    Magic Connector identifier tag. Used when high availability mode is on.
+</details>
 
-- `success: true`
+[Link to this property](#)%20magic_transit.sites%20%3E%20(model)%20site%20%3E%20(schema)>)
 
-  Whether the API call was successful
+<details>
 
-  - `true`
+<summary>
 
-### Example
+SiteLocation object {lat, lon }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Location of site in latitude and longitude.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-      "description": "description",
-      "ha_mode": true,
-      "location": {
-        "lat": "37.6192",
-        "lon": "122.3816"
-      },
-      "name": "site_1",
-      "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-    }
-  ],
-  "success": true
-}
-```
+lat: optional string
 
-## Site Details
+Latitude
 
-**get** `/accounts/{account_id}/magic/sites/{site_id}`
+<a href="#">Link to this property</a>
 
-Get a specific Site.
+lon: optional string
 
-### Path Parameters
+Longitude
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+</details>
 
-- `site_id: string`
+[Link to this property](#)%20magic_transit.sites%20%3E%20(model)%20site_location%20%3E%20(schema)>)
 
-  Identifier
+#### SitesApp Configuration
 
-### Header Parameters
+##### [List App Configs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/list)
 
-- `"x-magic-new-hc-target": optional boolean`
+GET/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs
 
-### Returns
+##### [Create a new App Config](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/create)
 
-- `errors: array of ResponseInfo`
+POST/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs
 
-  - `code: number`
+##### [Update an App Config](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/update)
 
-  - `message: string`
+PUT/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs/{app\_config\_id}
 
-  - `documentation_url: optional string`
+##### [Update an App Config](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/edit)
 
-  - `source: optional object { pointer }`
+PATCH/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs/{app\_config\_id}
 
-    - `pointer: optional string`
+##### [Delete App Config](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/delete)
 
-- `messages: array of ResponseInfo`
+DELETE/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs/{app\_config\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+AppConfigurationListResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-- `result: Site`
+Traffic decision configuration for an app.
 
-  - `id: optional string`
+</summary>
 
-    Identifier
+One of the following:
 
-  - `connector_id: optional string`
+<details>
 
-    Magic Connector identifier tag.
+<summary>
 
-  - `description: optional string`
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-  - `ha_mode: optional boolean`
+</summary>
 
-    Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
+account\_app\_id: string
 
-  - `location: optional SiteLocation`
+Magic account app ID.
 
-    Location of site in latitude and longitude.
+<a href="#">Link to this property</a>
 
-    - `lat: optional string`
+id: optional string
 
-      Latitude
+Identifier
 
-    - `lon: optional string`
+maxLength32
 
-      Longitude
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+breakout: optional boolean
 
-    The name of the site.
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-  - `secondary_connector_id: optional string`
+<a href="#">Link to this property</a>
 
-    Magic Connector identifier tag. Used when high availability mode is on.
+preferred\_wans: optional array of string
 
-- `success: true`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+priority: optional number
 
-### Example
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maximum1
 
-#### Response
+minimum0
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-    "description": "description",
-    "ha_mode": true,
-    "location": {
-      "lat": "37.6192",
-      "lon": "122.3816"
-    },
-    "name": "site_1",
-    "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new Site
+site\_id: optional string
 
-**post** `/accounts/{account_id}/magic/sites`
+Identifier
 
-Creates a new Site
+maxLength32
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `name: string`
+<summary>
 
-  The name of the site.
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-- `connector_id: optional string`
+</summary>
 
-  Magic Connector identifier tag.
+managed\_app\_id: string
 
-- `description: optional string`
+Managed app ID.
 
-- `ha_mode: optional boolean`
+<a href="#">Link to this property</a>
 
-  Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
+id: optional string
 
-- `location: optional SiteLocation`
+Identifier
 
-  Location of site in latitude and longitude.
+maxLength32
 
-  - `lat: optional string`
+<a href="#">Link to this property</a>
 
-    Latitude
+breakout: optional boolean
 
-  - `lon: optional string`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-    Longitude
+<a href="#">Link to this property</a>
 
-- `secondary_connector_id: optional string`
+preferred\_wans: optional array of string
 
-  Magic Connector identifier tag. Used when high availability mode is on.
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+priority: optional number
 
-  - `code: number`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `message: string`
+maximum1
 
-  - `documentation_url: optional string`
+minimum0
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+site\_id: optional string
 
-- `messages: array of ResponseInfo`
+Identifier
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: Site`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_list_response%20%3E%20(schema)>)
 
-    Identifier
+<details>
 
-  - `connector_id: optional string`
+<summary>
 
-    Magic Connector identifier tag.
+AppConfigurationCreateResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-  - `description: optional string`
+Traffic decision configuration for an app.
 
-  - `ha_mode: optional boolean`
+</summary>
 
-    Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
+One of the following:
 
-  - `location: optional SiteLocation`
+<details>
 
-    Location of site in latitude and longitude.
+<summary>
 
-    - `lat: optional string`
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-      Latitude
+</summary>
 
-    - `lon: optional string`
+account\_app\_id: string
 
-      Longitude
+Magic account app ID.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the site.
+id: optional string
 
-  - `secondary_connector_id: optional string`
+Identifier
 
-    Magic Connector identifier tag. Used when high availability mode is on.
+maxLength32
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+breakout: optional boolean
 
-  - `true`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "site_1",
-          "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-          "ha_mode": true,
-          "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-        }'
-```
+preferred\_wans: optional array of string
 
-#### Response
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-    "description": "description",
-    "ha_mode": true,
-    "location": {
-      "lat": "37.6192",
-      "lon": "122.3816"
-    },
-    "name": "site_1",
-    "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Site
+priority: optional number
 
-**put** `/accounts/{account_id}/magic/sites/{site_id}`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-Update a specific Site.
+maximum1
 
-### Path Parameters
+minimum0
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+site\_id: optional string
 
-- `site_id: string`
+Identifier
 
-  Identifier
+maxLength32
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `connector_id: optional string`
+</details>
 
-  Magic Connector identifier tag.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+<details>
 
-- `location: optional SiteLocation`
+<summary>
 
-  Location of site in latitude and longitude.
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-  - `lat: optional string`
+</summary>
 
-    Latitude
+managed\_app\_id: string
 
-  - `lon: optional string`
+Managed app ID.
 
-    Longitude
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+id: optional string
 
-  The name of the site.
+Identifier
 
-- `secondary_connector_id: optional string`
+maxLength32
 
-  Magic Connector identifier tag. Used when high availability mode is on.
+<a href="#">Link to this property</a>
 
-### Returns
+breakout: optional boolean
 
-- `errors: array of ResponseInfo`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+preferred\_wans: optional array of string
 
-  - `documentation_url: optional string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+priority: optional number
 
-- `messages: array of ResponseInfo`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `code: number`
+maximum1
 
-  - `message: string`
+minimum0
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+site\_id: optional string
 
-- `result: Site`
+Identifier
 
-  - `id: optional string`
+maxLength32
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `connector_id: optional string`
+</details>
 
-    Magic Connector identifier tag.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `ha_mode: optional boolean`
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_create_response%20%3E%20(schema)>)
 
-    Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
+<details>
 
-  - `location: optional SiteLocation`
+<summary>
 
-    Location of site in latitude and longitude.
+AppConfigurationUpdateResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-    - `lat: optional string`
+Traffic decision configuration for an app.
 
-      Latitude
+</summary>
 
-    - `lon: optional string`
+One of the following:
 
-      Longitude
+<details>
 
-  - `name: optional string`
+<summary>
 
-    The name of the site.
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-  - `secondary_connector_id: optional string`
+</summary>
 
-    Magic Connector identifier tag. Used when high availability mode is on.
+account\_app\_id: string
 
-- `success: true`
+Magic account app ID.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+id: optional string
 
-### Example
+Identifier
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-          "name": "site_1",
-          "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-        }'
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-    "description": "description",
-    "ha_mode": true,
-    "location": {
-      "lat": "37.6192",
-      "lon": "122.3816"
-    },
-    "name": "site_1",
-    "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-  },
-  "success": true
-}
-```
+breakout: optional boolean
 
-## Patch Site
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-**patch** `/accounts/{account_id}/magic/sites/{site_id}`
+<a href="#">Link to this property</a>
 
-Patch a specific Site.
+preferred\_wans: optional array of string
 
-### Path Parameters
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+priority: optional number
 
-- `site_id: string`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  Identifier
+maximum1
 
-### Body Parameters
+minimum0
 
-- `connector_id: optional string`
+<a href="#">Link to this property</a>
 
-  Magic Connector identifier tag.
+site\_id: optional string
 
-- `description: optional string`
+Identifier
 
-- `location: optional SiteLocation`
+maxLength32
 
-  Location of site in latitude and longitude.
+<a href="#">Link to this property</a>
 
-  - `lat: optional string`
+</details>
 
-    Latitude
+<a href="#">Link to this property</a>
 
-  - `lon: optional string`
+<details>
 
-    Longitude
+<summary>
 
-- `name: optional string`
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-  The name of the site.
+</summary>
 
-- `secondary_connector_id: optional string`
+managed\_app\_id: string
 
-  Magic Connector identifier tag. Used when high availability mode is on.
+Managed app ID.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+id: optional string
 
-  - `code: number`
+Identifier
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+breakout: optional boolean
 
-    - `pointer: optional string`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+preferred\_wans: optional array of string
 
-  - `message: string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+priority: optional number
 
-- `result: Site`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `id: optional string`
+maximum1
 
-    Identifier
+minimum0
 
-  - `connector_id: optional string`
+<a href="#">Link to this property</a>
 
-    Magic Connector identifier tag.
+site\_id: optional string
 
-  - `description: optional string`
+Identifier
 
-  - `ha_mode: optional boolean`
+maxLength32
 
-    Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
+<a href="#">Link to this property</a>
 
-  - `location: optional SiteLocation`
+</details>
 
-    Location of site in latitude and longitude.
+<a href="#">Link to this property</a>
 
-    - `lat: optional string`
+</details>
 
-      Latitude
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_update_response%20%3E%20(schema)>)
 
-    - `lon: optional string`
+<details>
 
-      Longitude
+<summary>
 
-  - `name: optional string`
+AppConfigurationEditResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-    The name of the site.
+Traffic decision configuration for an app.
 
-  - `secondary_connector_id: optional string`
+</summary>
 
-    Magic Connector identifier tag. Used when high availability mode is on.
+One of the following:
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-          "name": "site_1",
-          "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-        }'
-```
+account\_app\_id: string
 
-#### Response
+Magic account app ID.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-    "description": "description",
-    "ha_mode": true,
-    "location": {
-      "lat": "37.6192",
-      "lon": "122.3816"
-    },
-    "name": "site_1",
-    "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete Site
+id: optional string
 
-**delete** `/accounts/{account_id}/magic/sites/{site_id}`
+Identifier
 
-Remove a specific Site.
+maxLength32
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+breakout: optional boolean
 
-  Identifier
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-- `site_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+preferred\_wans: optional array of string
 
-### Returns
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+priority: optional number
 
-  - `message: string`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `documentation_url: optional string`
+maximum1
 
-  - `source: optional object { pointer }`
+minimum0
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+site\_id: optional string
 
-  - `code: number`
+Identifier
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: Site`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Identifier
+<summary>
 
-  - `connector_id: optional string`
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-    Magic Connector identifier tag.
+</summary>
 
-  - `description: optional string`
+managed\_app\_id: string
 
-  - `ha_mode: optional boolean`
+Managed app ID.
 
-    Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
+<a href="#">Link to this property</a>
 
-  - `location: optional SiteLocation`
+id: optional string
 
-    Location of site in latitude and longitude.
+Identifier
 
-    - `lat: optional string`
+maxLength32
 
-      Latitude
+<a href="#">Link to this property</a>
 
-    - `lon: optional string`
+breakout: optional boolean
 
-      Longitude
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the site.
+preferred\_wans: optional array of string
 
-  - `secondary_connector_id: optional string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-    Magic Connector identifier tag. Used when high availability mode is on.
+<a href="#">Link to this property</a>
 
-- `success: true`
+priority: optional number
 
-  Whether the API call was successful
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `true`
+maximum1
 
-### Example
+minimum0
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+site\_id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "connector_id": "ac60d3d0435248289d446cedd870bcf4",
-    "description": "description",
-    "ha_mode": true,
-    "location": {
-      "lat": "37.6192",
-      "lon": "122.3816"
-    },
-    "name": "site_1",
-    "secondary_connector_id": "8d67040d3835dbcf46ce29da440dc482"
-  },
-  "success": true
-}
-```
+Identifier
 
-## Domain Types
+maxLength32
 
-### Site
+<a href="#">Link to this property</a>
 
-- `Site object { id, connector_id, description, 4 more }`
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier
+</details>
 
-  - `connector_id: optional string`
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_edit_response%20%3E%20(schema)>)
 
-    Magic Connector identifier tag.
+<details>
 
-  - `description: optional string`
+<summary>
 
-  - `ha_mode: optional boolean`
+AppConfigurationDeleteResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-    Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
+Traffic decision configuration for an app.
 
-  - `location: optional SiteLocation`
+</summary>
 
-    Location of site in latitude and longitude.
+One of the following:
 
-    - `lat: optional string`
+<details>
 
-      Latitude
+<summary>
 
-    - `lon: optional string`
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-      Longitude
+</summary>
 
-  - `name: optional string`
+account\_app\_id: string
 
-    The name of the site.
+Magic account app ID.
 
-  - `secondary_connector_id: optional string`
+<a href="#">Link to this property</a>
 
-    Magic Connector identifier tag. Used when high availability mode is on.
+id: optional string
 
-### Site Location
+Identifier
 
-- `SiteLocation object { lat, lon }`
+maxLength32
 
-  Location of site in latitude and longitude.
+<a href="#">Link to this property</a>
 
-  - `lat: optional string`
+breakout: optional boolean
 
-    Latitude
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-  - `lon: optional string`
+<a href="#">Link to this property</a>
 
-    Longitude
+preferred\_wans: optional array of string
 
-# App Configuration
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-## List App Configs
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/magic/sites/{site_id}/app_configs`
+priority: optional number
 
-Lists App Configs associated with a site.
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-### Path Parameters
+maximum1
 
-- `account_id: string`
+minimum0
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `site_id: string`
+site\_id: optional string
 
-  Identifier
+Identifier
 
-### Returns
+maxLength32
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+managed\_app\_id: string
 
-  - `message: string`
+Managed app ID.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-- `result: array of object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+Identifier
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+maxLength32
 
-    - `account_app_id: string`
+<a href="#">Link to this property</a>
 
-      Magic account app ID.
+breakout: optional boolean
 
-    - `id: optional string`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `breakout: optional boolean`
+preferred\_wans: optional array of string
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-    - `preferred_wans: optional array of string`
+<a href="#">Link to this property</a>
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+priority: optional number
 
-    - `priority: optional number`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+maximum1
 
-    - `site_id: optional string`
+minimum0
 
-      Identifier
+<a href="#">Link to this property</a>
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+site\_id: optional string
 
-    - `managed_app_id: string`
+Identifier
 
-      Managed app ID.
+maxLength32
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+</details>
 
-    - `breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+</details>
 
-    - `preferred_wans: optional array of string`
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_delete_response%20%3E%20(schema)>)
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+#### SitesACLs
 
-    - `priority: optional number`
+##### [List Site ACLs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/acls/methods/list)
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+GET/accounts/{account\_id}/magic/sites/{site\_id}/acls
 
-    - `site_id: optional string`
+##### [Site ACL Details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/acls/methods/get)
 
-      Identifier
+GET/accounts/{account\_id}/magic/sites/{site\_id}/acls/{acl\_id}
 
-- `success: true`
+##### [Create a new Site ACL](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/acls/methods/create)
 
-  Whether the API call was successful
+POST/accounts/{account\_id}/magic/sites/{site\_id}/acls
 
-  - `true`
+##### [Update Site ACL](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/acls/methods/update)
 
-### Example
+PUT/accounts/{account\_id}/magic/sites/{site\_id}/acls/{acl\_id}
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Patch Site ACL](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/acls/methods/edit)
 
-#### Response
+PATCH/accounts/{account\_id}/magic/sites/{site\_id}/acls/{acl\_id}
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "breakout": true,
-      "preferred_wans": [
-        "023e105f4ecef8ad9ca31a8372d0c353"
-      ],
-      "priority": 0,
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-    }
-  ],
-  "success": true
-}
-```
+##### [Delete Site ACL](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/acls/methods/delete)
 
-## Create a new App Config
+DELETE/accounts/{account\_id}/magic/sites/{site\_id}/acls/{acl\_id}
 
-**post** `/accounts/{account_id}/magic/sites/{site_id}/app_configs`
+##### ModelsExpand Collapse
 
-Creates a new App Config for a site
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+ACL object {id, description, forward\_locally, 5 more }
 
-  Identifier
+Bidirectional ACL policy for network traffic within a site.
 
-- `site_id: string`
+</summary>
 
-  Identifier
+id: optional string
 
-### Body Parameters
+Identifier
 
-- `body: object { account_app_id, breakout, preferred_wans, priority }  or object { managed_app_id, breakout, preferred_wans, priority }`
+maxLength32
 
-  - `AccountApp object { account_app_id, breakout, preferred_wans, priority }`
+<a href="#">Link to this property</a>
 
-    - `account_app_id: string`
+description: optional string
 
-      Magic account app ID.
+Description for the ACL.
 
-    - `breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+forward\_locally: optional boolean
 
-    - `preferred_wans: optional array of string`
+The desired forwarding action for this ACL policy. If set to “false”, the policy will forward traffic to Cloudflare. If set to “true”, the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+lan\_1: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20acl_configuration%20%3E%20(schema)">ACLConfiguration</a> { lan\_id, lan\_name, port\_ranges, 2 more }
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+<a href="#">Link to this property</a>
 
-  - `ManagedApp object { managed_app_id, breakout, preferred_wans, priority }`
+lan\_2: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20acl_configuration%20%3E%20(schema)">ACLConfiguration</a> { lan\_id, lan\_name, port\_ranges, 2 more }
 
-    - `managed_app_id: string`
+<a href="#">Link to this property</a>
 
-      Managed app ID.
+name: optional string
 
-    - `breakout: optional boolean`
+The name of the ACL.
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+<details>
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<summary>
 
-    - `priority: optional number`
+protocols: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20allowed_protocol%20%3E%20(schema)">AllowedProtocol</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of ResponseInfo`
+"tcp"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"udp"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"icmp"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+unidirectional: optional boolean
 
-  - `documentation_url: optional string`
+The desired traffic direction for this ACL policy. If set to “false”, the policy will allow bidirectional traffic. If set to “true”, the policy will only allow traffic in one direction. If not included in request, will default to false.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+</details>
 
-  Traffic decision configuration for an app.
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(model)%20acl%20%3E%20(schema)>)
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+<details>
 
-    - `account_app_id: string`
+<summary>
 
-      Magic account app ID.
+ACLConfiguration object {lan\_id, lan\_name, port\_ranges, 2 more }
 
-    - `id: optional string`
+</summary>
 
-      Identifier
+lan\_id: string
 
-    - `breakout: optional boolean`
+The identifier for the LAN you want to create an ACL policy with.
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+lan\_name: optional string
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+The name of the LAN based on the provided lan\_id.
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+port\_ranges: optional array of string
 
-    - `site_id: optional string`
+Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+ports: optional array of number
 
-    - `managed_app_id: string`
+Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
 
-      Managed app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20subnet%20%3E%20(schema)">Subnet</a>
 
-      Identifier
+Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
 
-    - `breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+</details>
 
-    - `preferred_wans: optional array of string`
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(model)%20acl_configuration%20%3E%20(schema)>)
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<details>
 
-    - `priority: optional number`
+<summary>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+AllowedProtocol = "tcp"or "udp"or "icmp"
 
-    - `site_id: optional string`
+Array of allowed communication protocols between configured LANs. If no protocols are provided, all protocols are allowed.
 
-      Identifier
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful
+"tcp"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"udp"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-          "breakout": true
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"icmp"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "breakout": true,
-    "preferred_wans": [
-      "023e105f4ecef8ad9ca31a8372d0c353"
-    ],
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update an App Config
+</details>
 
-**put** `/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}`
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(model)%20allowed_protocol%20%3E%20(schema)>)
 
-Updates an App Config for a site
+Subnet = string
 
-### Path Parameters
+A valid IPv4 address.
 
-- `account_id: string`
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(model)%20subnet%20%3E%20(schema)>)
 
-  Identifier
+#### SitesLANs
 
-- `site_id: string`
+##### [List Site LANs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/list)
 
-  Identifier
+GET/accounts/{account\_id}/magic/sites/{site\_id}/lans
 
-- `app_config_id: string`
+##### [Site LAN Details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/get)
 
-  Identifier
+GET/accounts/{account\_id}/magic/sites/{site\_id}/lans/{lan\_id}
 
-### Body Parameters
+##### [Create a new Site LAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/create)
 
-- `account_app_id: optional string`
+POST/accounts/{account\_id}/magic/sites/{site\_id}/lans
 
-  Magic account app ID.
+##### [Update Site LAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/update)
 
-- `breakout: optional boolean`
+PUT/accounts/{account\_id}/magic/sites/{site\_id}/lans/{lan\_id}
 
-  Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+##### [Patch Site LAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/edit)
 
-- `managed_app_id: optional string`
+PATCH/accounts/{account\_id}/magic/sites/{site\_id}/lans/{lan\_id}
 
-  Managed app ID.
+##### [Delete Site LAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/delete)
 
-- `preferred_wans: optional array of string`
+DELETE/accounts/{account\_id}/magic/sites/{site\_id}/lans/{lan\_id}
 
-  WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+##### ModelsExpand Collapse
 
-- `priority: optional number`
+<details>
 
-  Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+<summary>
 
-### Returns
+DHCPRelay object {server\_addresses }
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+server\_addresses: optional array of string
 
-  - `message: string`
+List of DHCP server IPs.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_relay%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+DHCPServer object {dhcp\_options, dhcp\_pool\_end, dhcp\_pool\_start, 3 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+<summary>
 
-  Traffic decision configuration for an app.
+dhcp\_options: optional array of object {code, type, value }
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
 
-    - `account_app_id: string`
+</summary>
 
-      Magic account app ID.
+code: number
 
-    - `id: optional string`
+DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
 
-      Identifier
+maximum254
 
-    - `breakout: optional boolean`
+minimum1
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+<details>
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<summary>
 
-    - `priority: optional number`
+type: "text"or "hex"or "ip"or 3 more
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. “01:04:aa:bb:cc”, max 255 bytes). ip: an IPv4 address (e.g. “10.20.30.40”). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
 
-    - `site_id: optional string`
+</summary>
 
-      Identifier
+One of the following:
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+"text"
 
-    - `managed_app_id: string`
+<a href="#">Link to this property</a>
 
-      Managed app ID.
+"hex"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+"ip"
 
-    - `breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+"byte"
 
-    - `preferred_wans: optional array of string`
+<a href="#">Link to this property</a>
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+"short"
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+"integer"
 
-    - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+value: string
 
-  - `true`
+The option value, interpreted according to the type field.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs/$APP_CONFIG_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-          "breakout": true,
-          "managed_app_id": "cloudflare"
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "breakout": true,
-    "preferred_wans": [
-      "023e105f4ecef8ad9ca31a8372d0c353"
-    ],
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+dhcp\_pool\_end: optional string
 
-## Update an App Config
+A valid IPv4 address.
 
-**patch** `/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}`
+<a href="#">Link to this property</a>
 
-Updates an App Config for a site
+dhcp\_pool\_start: optional string
 
-### Path Parameters
+A valid IPv4 address.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+Deprecateddns\_server: optional string
 
-- `site_id: string`
+A valid IPv4 address.
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `app_config_id: string`
+dns\_servers: optional array of string
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+reservations: optional map\[string]
 
-- `account_app_id: optional string`
+Mapping of MAC addresses to IP addresses
 
-  Magic account app ID.
+<a href="#">Link to this property</a>
 
-- `breakout: optional boolean`
+</details>
 
-  Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_server%20%3E%20(schema)>)
 
-- `managed_app_id: optional string`
+<details>
 
-  Managed app ID.
+<summary>
 
-- `preferred_wans: optional array of string`
+LAN object {id, bond\_id, ha\_link, 9 more }
 
-  WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+</summary>
 
-- `priority: optional number`
+id: optional string
 
-  Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+Identifier
 
-### Returns
+maxLength32
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+bond\_id: optional number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+ha\_link: optional boolean
 
-  - `source: optional object { pointer }`
+mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha\_link.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+is\_breakout: optional boolean
 
-  - `code: number`
+mark true to use this LAN for source-based breakout traffic
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+is\_prioritized: optional boolean
 
-  - `source: optional object { pointer }`
+mark true to use this LAN for source-based prioritized traffic
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-  Traffic decision configuration for an app.
+name: optional string
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account_app_id: string`
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
 
-      Magic account app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+physport: optional number
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `breakout: optional boolean`
+<details>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<summary>
 
-    - `preferred_wans: optional array of string`
+routed\_subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20routed_subnet%20%3E%20(schema)">RoutedSubnet</a> { next\_hop, prefix, nat }
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+</summary>
 
-    - `priority: optional number`
+next\_hop: string
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+A valid IPv4 address.
 
-    - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+prefix: string
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+A valid CIDR notation representing an IP range.
 
-    - `managed_app_id: string`
+<a href="#">Link to this property</a>
 
-      Managed app ID.
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+</details>
 
-    - `breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+site\_id: optional string
 
-    - `preferred_wans: optional array of string`
+Identifier
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+maxLength32
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+static\_addressing: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20lan_static_addressing%20%3E%20(schema)">LANStaticAddressing</a> { address, dhcp\_relay, dhcp\_server, 2 more }
 
-    - `site_id: optional string`
+If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static\_address is required along with secondary and virtual address.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-- `success: true`
+vlan\_tag: optional number
 
-  Whether the API call was successful
+VLAN ID. Use zero for untagged.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs/$APP_CONFIG_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-          "breakout": true,
-          "managed_app_id": "cloudflare"
-        }'
-```
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20lan%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "breakout": true,
-    "preferred_wans": [
-      "023e105f4ecef8ad9ca31a8372d0c353"
-    ],
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Delete App Config
+LANStaticAddressing object {address, dhcp\_relay, dhcp\_server, 2 more }
 
-**delete** `/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}`
+If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static\_address is required along with secondary and virtual address.
 
-Deletes specific App Config associated with a site.
+</summary>
 
-### Path Parameters
+address: string
 
-- `account_id: string`
+A valid CIDR notation representing an IP range.
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `site_id: string`
+dhcp\_relay: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_relay%20%3E%20(schema)">DHCPRelay</a> { server\_addresses }
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `app_config_id: string`
+dhcp\_server: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_server%20%3E%20(schema)">DHCPServer</a> { dhcp\_options, dhcp\_pool\_end, dhcp\_pool\_start, 3 more }
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Returns
+secondary\_address: optional string
 
-- `errors: array of ResponseInfo`
+A valid CIDR notation representing an IP range.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+virtual\_address: optional string
 
-  - `documentation_url: optional string`
+A valid CIDR notation representing an IP range.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20lan_static_addressing%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+Nat object {static\_prefix }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+static\_prefix: optional string
 
-  Traffic decision configuration for an app.
+A valid CIDR notation representing an IP range.
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account_app_id: string`
+</details>
 
-      Magic account app ID.
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)>)
 
-    - `id: optional string`
+<details>
 
-      Identifier
+<summary>
 
-    - `breakout: optional boolean`
+RoutedSubnet object {next\_hop, prefix, nat }
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+</summary>
 
-    - `preferred_wans: optional array of string`
+next\_hop: string
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+A valid IPv4 address.
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+prefix: string
 
-    - `site_id: optional string`
+A valid CIDR notation representing an IP range.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
 
-    - `managed_app_id: string`
+<a href="#">Link to this property</a>
 
-      Managed app ID.
+</details>
 
-    - `id: optional string`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20routed_subnet%20%3E%20(schema)>)
 
-      Identifier
+#### SitesWANs
 
-    - `breakout: optional boolean`
+##### [List Site WANs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/list)
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+GET/accounts/{account\_id}/magic/sites/{site\_id}/wans
 
-    - `preferred_wans: optional array of string`
+##### [Site WAN Details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/get)
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+GET/accounts/{account\_id}/magic/sites/{site\_id}/wans/{wan\_id}
 
-    - `priority: optional number`
+##### [Create a new Site WAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/create)
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+POST/accounts/{account\_id}/magic/sites/{site\_id}/wans
 
-    - `site_id: optional string`
+##### [Update Site WAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/update)
 
-      Identifier
+PUT/accounts/{account\_id}/magic/sites/{site\_id}/wans/{wan\_id}
 
-- `success: true`
+##### [Patch Site WAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/edit)
 
-  Whether the API call was successful
+PATCH/accounts/{account\_id}/magic/sites/{site\_id}/wans/{wan\_id}
 
-  - `true`
+##### [Delete Site WAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans/methods/delete)
 
-### Example
+DELETE/accounts/{account\_id}/magic/sites/{site\_id}/wans/{wan\_id}
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs/$APP_CONFIG_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### ModelsExpand Collapse
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "breakout": true,
-    "preferred_wans": [
-      "023e105f4ecef8ad9ca31a8372d0c353"
-    ],
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+WAN object {id, health\_check\_rate, name, 5 more }
 
-### App Configuration List Response
+</summary>
 
-- `AppConfigurationListResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+id: optional string
 
-  Traffic decision configuration for an app.
+Identifier
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+maxLength32
 
-    - `account_app_id: string`
+<a href="#">Link to this property</a>
 
-      Magic account app ID.
+<details>
 
-    - `id: optional string`
+<summary>
 
-      Identifier
+health\_check\_rate: optional "low"or "mid"or "high"
 
-    - `breakout: optional boolean`
+Magic WAN health check rate for tunnels created on this link. The default value is <code>mid</code>.
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+</summary>
 
-    - `preferred_wans: optional array of string`
+One of the following:
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+"low"
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+"mid"
 
-    - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+"high"
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `managed_app_id: string`
+</details>
 
-      Managed app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+name: optional string
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `breakout: optional boolean`
+physport: optional number
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+priority: optional number
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+Priority of WAN for traffic loadbalancing.
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+site\_id: optional string
 
-    - `site_id: optional string`
+Identifier
 
-      Identifier
+maxLength32
 
-### App Configuration Create Response
+<a href="#">Link to this property</a>
 
-- `AppConfigurationCreateResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+static\_addressing: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.wans%20%3E%20(model)%20wan_static_addressing%20%3E%20(schema)">WANStaticAddressing</a> { address, gateway\_address, secondary\_address }
 
-  Traffic decision configuration for an app.
+(optional) if omitted, use DHCP. Submit secondary\_address when site is in high availability mode.
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account_app_id: string`
+vlan\_tag: optional number
 
-      Magic account app ID.
+VLAN ID. Use zero for untagged.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+</details>
 
-    - `breakout: optional boolean`
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(model)%20wan%20%3E%20(schema)>)
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<details>
 
-    - `preferred_wans: optional array of string`
+<summary>
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+WANStaticAddressing object {address, gateway\_address, secondary\_address }
 
-    - `priority: optional number`
+(optional) if omitted, use DHCP. Submit secondary\_address when site is in high availability mode.
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+</summary>
 
-    - `site_id: optional string`
+address: string
 
-      Identifier
+A valid CIDR notation representing an IP range.
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `managed_app_id: string`
+gateway\_address: string
 
-      Managed app ID.
+A valid IPv4 address.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+secondary\_address: optional string
 
-    - `breakout: optional boolean`
+A valid CIDR notation representing an IP range.
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+</details>
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-### App Configuration Update Response
-
-- `AppConfigurationUpdateResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
-
-  Traffic decision configuration for an app.
-
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
-
-    - `account_app_id: string`
-
-      Magic account app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-### App Configuration Edit Response
-
-- `AppConfigurationEditResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
-
-  Traffic decision configuration for an app.
-
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
-
-    - `account_app_id: string`
-
-      Magic account app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-### App Configuration Delete Response
-
-- `AppConfigurationDeleteResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
-
-  Traffic decision configuration for an app.
-
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
-
-    - `account_app_id: string`
-
-      Magic account app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-# ACLs
-
-## List Site ACLs
-
-**get** `/accounts/{account_id}/magic/sites/{site_id}/acls`
-
-Lists Site ACLs associated with an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of ACL`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `description: optional string`
-
-    Description for the ACL.
-
-  - `forward_locally: optional boolean`
-
-    The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-  - `lan_1: optional ACLConfiguration`
-
-    - `lan_id: string`
-
-      The identifier for the LAN you want to create an ACL policy with.
-
-    - `lan_name: optional string`
-
-      The name of the LAN based on the provided lan_id.
-
-    - `port_ranges: optional array of string`
-
-      Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-    - `ports: optional array of number`
-
-      Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-    - `subnets: optional array of Subnet`
-
-      Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-  - `lan_2: optional ACLConfiguration`
-
-  - `name: optional string`
-
-    The name of the ACL.
-
-  - `protocols: optional array of AllowedProtocol`
-
-    - `"tcp"`
-
-    - `"udp"`
-
-    - `"icmp"`
-
-  - `unidirectional: optional boolean`
-
-    The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/acls \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "description": "Allows local traffic between PIN pads and cash register.",
-      "forward_locally": true,
-      "lan_1": {
-        "lan_id": "lan_id",
-        "lan_name": "lan_name",
-        "port_ranges": [
-          "8080-9000"
-        ],
-        "ports": [
-          1
-        ],
-        "subnets": [
-          "192.0.2.1"
-        ]
-      },
-      "lan_2": {
-        "lan_id": "lan_id",
-        "lan_name": "lan_name",
-        "port_ranges": [
-          "8080-9000"
-        ],
-        "ports": [
-          1
-        ],
-        "subnets": [
-          "192.0.2.1"
-        ]
-      },
-      "name": "PIN Pad - Cash Register",
-      "protocols": [
-        "tcp"
-      ],
-      "unidirectional": true
-    }
-  ],
-  "success": true
-}
-```
-
-## Site ACL Details
-
-**get** `/accounts/{account_id}/magic/sites/{site_id}/acls/{acl_id}`
-
-Get a specific Site ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `acl_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: ACL`
-
-  Bidirectional ACL policy for network traffic within a site.
-
-  - `id: optional string`
-
-    Identifier
-
-  - `description: optional string`
-
-    Description for the ACL.
-
-  - `forward_locally: optional boolean`
-
-    The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-  - `lan_1: optional ACLConfiguration`
-
-    - `lan_id: string`
-
-      The identifier for the LAN you want to create an ACL policy with.
-
-    - `lan_name: optional string`
-
-      The name of the LAN based on the provided lan_id.
-
-    - `port_ranges: optional array of string`
-
-      Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-    - `ports: optional array of number`
-
-      Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-    - `subnets: optional array of Subnet`
-
-      Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-  - `lan_2: optional ACLConfiguration`
-
-  - `name: optional string`
-
-    The name of the ACL.
-
-  - `protocols: optional array of AllowedProtocol`
-
-    - `"tcp"`
-
-    - `"udp"`
-
-    - `"icmp"`
-
-  - `unidirectional: optional boolean`
-
-    The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/acls/$ACL_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "description": "Allows local traffic between PIN pads and cash register.",
-    "forward_locally": true,
-    "lan_1": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "lan_2": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "name": "PIN Pad - Cash Register",
-    "protocols": [
-      "tcp"
-    ],
-    "unidirectional": true
-  },
-  "success": true
-}
-```
-
-## Create a new Site ACL
-
-**post** `/accounts/{account_id}/magic/sites/{site_id}/acls`
-
-Creates a new Site ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `lan_1: ACLConfiguration`
-
-  - `lan_id: string`
-
-    The identifier for the LAN you want to create an ACL policy with.
-
-  - `lan_name: optional string`
-
-    The name of the LAN based on the provided lan_id.
-
-  - `port_ranges: optional array of string`
-
-    Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-  - `ports: optional array of number`
-
-    Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-  - `subnets: optional array of Subnet`
-
-    Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-- `lan_2: ACLConfiguration`
-
-- `name: string`
-
-  The name of the ACL.
-
-- `description: optional string`
-
-  Description for the ACL.
-
-- `forward_locally: optional boolean`
-
-  The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-- `protocols: optional array of AllowedProtocol`
-
-  - `"tcp"`
-
-  - `"udp"`
-
-  - `"icmp"`
-
-- `unidirectional: optional boolean`
-
-  The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: ACL`
-
-  Bidirectional ACL policy for network traffic within a site.
-
-  - `id: optional string`
-
-    Identifier
-
-  - `description: optional string`
-
-    Description for the ACL.
-
-  - `forward_locally: optional boolean`
-
-    The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-  - `lan_1: optional ACLConfiguration`
-
-    - `lan_id: string`
-
-      The identifier for the LAN you want to create an ACL policy with.
-
-    - `lan_name: optional string`
-
-      The name of the LAN based on the provided lan_id.
-
-    - `port_ranges: optional array of string`
-
-      Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-    - `ports: optional array of number`
-
-      Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-    - `subnets: optional array of Subnet`
-
-      Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-  - `lan_2: optional ACLConfiguration`
-
-  - `name: optional string`
-
-    The name of the ACL.
-
-  - `protocols: optional array of AllowedProtocol`
-
-    - `"tcp"`
-
-    - `"udp"`
-
-    - `"icmp"`
-
-  - `unidirectional: optional boolean`
-
-    The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/acls \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "lan_1": {
-            "lan_id": "lan_id"
-          },
-          "lan_2": {
-            "lan_id": "lan_id"
-          },
-          "name": "PIN Pad - Cash Register",
-          "description": "Allows local traffic between PIN pads and cash register."
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "description": "Allows local traffic between PIN pads and cash register.",
-    "forward_locally": true,
-    "lan_1": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "lan_2": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "name": "PIN Pad - Cash Register",
-    "protocols": [
-      "tcp"
-    ],
-    "unidirectional": true
-  },
-  "success": true
-}
-```
-
-## Update Site ACL
-
-**put** `/accounts/{account_id}/magic/sites/{site_id}/acls/{acl_id}`
-
-Update a specific Site ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `acl_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `description: optional string`
-
-  Description for the ACL.
-
-- `forward_locally: optional boolean`
-
-  The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-- `lan_1: optional ACLConfiguration`
-
-  - `lan_id: string`
-
-    The identifier for the LAN you want to create an ACL policy with.
-
-  - `lan_name: optional string`
-
-    The name of the LAN based on the provided lan_id.
-
-  - `port_ranges: optional array of string`
-
-    Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-  - `ports: optional array of number`
-
-    Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-  - `subnets: optional array of Subnet`
-
-    Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-- `lan_2: optional ACLConfiguration`
-
-- `name: optional string`
-
-  The name of the ACL.
-
-- `protocols: optional array of AllowedProtocol`
-
-  - `"tcp"`
-
-  - `"udp"`
-
-  - `"icmp"`
-
-- `unidirectional: optional boolean`
-
-  The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: ACL`
-
-  Bidirectional ACL policy for network traffic within a site.
-
-  - `id: optional string`
-
-    Identifier
-
-  - `description: optional string`
-
-    Description for the ACL.
-
-  - `forward_locally: optional boolean`
-
-    The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-  - `lan_1: optional ACLConfiguration`
-
-    - `lan_id: string`
-
-      The identifier for the LAN you want to create an ACL policy with.
-
-    - `lan_name: optional string`
-
-      The name of the LAN based on the provided lan_id.
-
-    - `port_ranges: optional array of string`
-
-      Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-    - `ports: optional array of number`
-
-      Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-    - `subnets: optional array of Subnet`
-
-      Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-  - `lan_2: optional ACLConfiguration`
-
-  - `name: optional string`
-
-    The name of the ACL.
-
-  - `protocols: optional array of AllowedProtocol`
-
-    - `"tcp"`
-
-    - `"udp"`
-
-    - `"icmp"`
-
-  - `unidirectional: optional boolean`
-
-    The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/acls/$ACL_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "Allows local traffic between PIN pads and cash register.",
-          "name": "PIN Pad - Cash Register"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "description": "Allows local traffic between PIN pads and cash register.",
-    "forward_locally": true,
-    "lan_1": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "lan_2": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "name": "PIN Pad - Cash Register",
-    "protocols": [
-      "tcp"
-    ],
-    "unidirectional": true
-  },
-  "success": true
-}
-```
-
-## Patch Site ACL
-
-**patch** `/accounts/{account_id}/magic/sites/{site_id}/acls/{acl_id}`
-
-Patch a specific Site ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `acl_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `description: optional string`
-
-  Description for the ACL.
-
-- `forward_locally: optional boolean`
-
-  The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-- `lan_1: optional ACLConfiguration`
-
-  - `lan_id: string`
-
-    The identifier for the LAN you want to create an ACL policy with.
-
-  - `lan_name: optional string`
-
-    The name of the LAN based on the provided lan_id.
-
-  - `port_ranges: optional array of string`
-
-    Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-  - `ports: optional array of number`
-
-    Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-  - `subnets: optional array of Subnet`
-
-    Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-- `lan_2: optional ACLConfiguration`
-
-- `name: optional string`
-
-  The name of the ACL.
-
-- `protocols: optional array of AllowedProtocol`
-
-  - `"tcp"`
-
-  - `"udp"`
-
-  - `"icmp"`
-
-- `unidirectional: optional boolean`
-
-  The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: ACL`
-
-  Bidirectional ACL policy for network traffic within a site.
-
-  - `id: optional string`
-
-    Identifier
-
-  - `description: optional string`
-
-    Description for the ACL.
-
-  - `forward_locally: optional boolean`
-
-    The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-  - `lan_1: optional ACLConfiguration`
-
-    - `lan_id: string`
-
-      The identifier for the LAN you want to create an ACL policy with.
-
-    - `lan_name: optional string`
-
-      The name of the LAN based on the provided lan_id.
-
-    - `port_ranges: optional array of string`
-
-      Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-    - `ports: optional array of number`
-
-      Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-    - `subnets: optional array of Subnet`
-
-      Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-  - `lan_2: optional ACLConfiguration`
-
-  - `name: optional string`
-
-    The name of the ACL.
-
-  - `protocols: optional array of AllowedProtocol`
-
-    - `"tcp"`
-
-    - `"udp"`
-
-    - `"icmp"`
-
-  - `unidirectional: optional boolean`
-
-    The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/acls/$ACL_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "Allows local traffic between PIN pads and cash register.",
-          "name": "PIN Pad - Cash Register"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "description": "Allows local traffic between PIN pads and cash register.",
-    "forward_locally": true,
-    "lan_1": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "lan_2": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "name": "PIN Pad - Cash Register",
-    "protocols": [
-      "tcp"
-    ],
-    "unidirectional": true
-  },
-  "success": true
-}
-```
-
-## Delete Site ACL
-
-**delete** `/accounts/{account_id}/magic/sites/{site_id}/acls/{acl_id}`
-
-Remove a specific Site ACL.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `acl_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: ACL`
-
-  Bidirectional ACL policy for network traffic within a site.
-
-  - `id: optional string`
-
-    Identifier
-
-  - `description: optional string`
-
-    Description for the ACL.
-
-  - `forward_locally: optional boolean`
-
-    The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-  - `lan_1: optional ACLConfiguration`
-
-    - `lan_id: string`
-
-      The identifier for the LAN you want to create an ACL policy with.
-
-    - `lan_name: optional string`
-
-      The name of the LAN based on the provided lan_id.
-
-    - `port_ranges: optional array of string`
-
-      Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-    - `ports: optional array of number`
-
-      Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-    - `subnets: optional array of Subnet`
-
-      Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-  - `lan_2: optional ACLConfiguration`
-
-  - `name: optional string`
-
-    The name of the ACL.
-
-  - `protocols: optional array of AllowedProtocol`
-
-    - `"tcp"`
-
-    - `"udp"`
-
-    - `"icmp"`
-
-  - `unidirectional: optional boolean`
-
-    The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/acls/$ACL_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "description": "Allows local traffic between PIN pads and cash register.",
-    "forward_locally": true,
-    "lan_1": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "lan_2": {
-      "lan_id": "lan_id",
-      "lan_name": "lan_name",
-      "port_ranges": [
-        "8080-9000"
-      ],
-      "ports": [
-        1
-      ],
-      "subnets": [
-        "192.0.2.1"
-      ]
-    },
-    "name": "PIN Pad - Cash Register",
-    "protocols": [
-      "tcp"
-    ],
-    "unidirectional": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### ACL
-
-- `ACL object { id, description, forward_locally, 5 more }`
-
-  Bidirectional ACL policy for network traffic within a site.
-
-  - `id: optional string`
-
-    Identifier
-
-  - `description: optional string`
-
-    Description for the ACL.
-
-  - `forward_locally: optional boolean`
-
-    The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
-
-  - `lan_1: optional ACLConfiguration`
-
-    - `lan_id: string`
-
-      The identifier for the LAN you want to create an ACL policy with.
-
-    - `lan_name: optional string`
-
-      The name of the LAN based on the provided lan_id.
-
-    - `port_ranges: optional array of string`
-
-      Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-    - `ports: optional array of number`
-
-      Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-    - `subnets: optional array of Subnet`
-
-      Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-  - `lan_2: optional ACLConfiguration`
-
-  - `name: optional string`
-
-    The name of the ACL.
-
-  - `protocols: optional array of AllowedProtocol`
-
-    - `"tcp"`
-
-    - `"udp"`
-
-    - `"icmp"`
-
-  - `unidirectional: optional boolean`
-
-    The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
-
-### ACL Configuration
-
-- `ACLConfiguration object { lan_id, lan_name, port_ranges, 2 more }`
-
-  - `lan_id: string`
-
-    The identifier for the LAN you want to create an ACL policy with.
-
-  - `lan_name: optional string`
-
-    The name of the LAN based on the provided lan_id.
-
-  - `port_ranges: optional array of string`
-
-    Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
-
-  - `ports: optional array of number`
-
-    Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
-
-  - `subnets: optional array of Subnet`
-
-    Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
-
-### Allowed Protocol
-
-- `AllowedProtocol = "tcp" or "udp" or "icmp"`
-
-  Array of allowed communication protocols between configured LANs. If no protocols are provided, all protocols are allowed.
-
-  - `"tcp"`
-
-  - `"udp"`
-
-  - `"icmp"`
-
-### Subnet
-
-- `Subnet = string`
-
-  A valid IPv4 address.
-
-# LANs
-
-## List Site LANs
-
-**get** `/accounts/{account_id}/magic/sites/{site_id}/lans`
-
-Lists Site LANs associated with an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "bond_id": 2,
-      "ha_link": true,
-      "is_breakout": true,
-      "is_prioritized": true,
-      "name": "name",
-      "nat": {
-        "static_prefix": "192.0.2.0/24"
-      },
-      "physport": 1,
-      "routed_subnets": [
-        {
-          "next_hop": "192.0.2.1",
-          "prefix": "192.0.2.0/24",
-          "nat": {
-            "static_prefix": "192.0.2.0/24"
-          }
-        }
-      ],
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "static_addressing": {
-        "address": "192.0.2.0/24",
-        "dhcp_relay": {
-          "server_addresses": [
-            "192.0.2.1"
-          ]
-        },
-        "dhcp_server": {
-          "dhcp_options": [
-            {
-              "code": 66,
-              "type": "ip",
-              "value": "10.20.30.40"
-            }
-          ],
-          "dhcp_pool_end": "192.0.2.1",
-          "dhcp_pool_start": "192.0.2.1",
-          "dns_server": "192.0.2.1",
-          "dns_servers": [
-            "192.0.2.1"
-          ],
-          "reservations": {
-            "00:11:22:33:44:55": "192.0.2.100",
-            "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-          }
-        },
-        "secondary_address": "192.0.2.0/24",
-        "virtual_address": "192.0.2.0/24"
-      },
-      "vlan_tag": 42
-    }
-  ],
-  "success": true
-}
-```
-
-## Site LAN Details
-
-**get** `/accounts/{account_id}/magic/sites/{site_id}/lans/{lan_id}`
-
-Get a specific Site LAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `lan_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans/$LAN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "bond_id": 2,
-    "ha_link": true,
-    "is_breakout": true,
-    "is_prioritized": true,
-    "name": "name",
-    "nat": {
-      "static_prefix": "192.0.2.0/24"
-    },
-    "physport": 1,
-    "routed_subnets": [
-      {
-        "next_hop": "192.0.2.1",
-        "prefix": "192.0.2.0/24",
-        "nat": {
-          "static_prefix": "192.0.2.0/24"
-        }
-      }
-    ],
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "dhcp_relay": {
-        "server_addresses": [
-          "192.0.2.1"
-        ]
-      },
-      "dhcp_server": {
-        "dhcp_options": [
-          {
-            "code": 66,
-            "type": "ip",
-            "value": "10.20.30.40"
-          }
-        ],
-        "dhcp_pool_end": "192.0.2.1",
-        "dhcp_pool_start": "192.0.2.1",
-        "dns_server": "192.0.2.1",
-        "dns_servers": [
-          "192.0.2.1"
-        ],
-        "reservations": {
-          "00:11:22:33:44:55": "192.0.2.100",
-          "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-        }
-      },
-      "secondary_address": "192.0.2.0/24",
-      "virtual_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Create a new Site LAN
-
-**post** `/accounts/{account_id}/magic/sites/{site_id}/lans`
-
-Creates a new Site LAN. If the site is in high availability mode, static_addressing is required along with secondary and virtual address.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `bond_id: optional number`
-
-- `ha_link: optional boolean`
-
-  mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-- `is_breakout: optional boolean`
-
-  mark true to use this LAN for source-based breakout traffic
-
-- `is_prioritized: optional boolean`
-
-  mark true to use this LAN for source-based prioritized traffic
-
-- `name: optional string`
-
-- `nat: optional Nat`
-
-  - `static_prefix: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `physport: optional number`
-
-- `routed_subnets: optional array of RoutedSubnet`
-
-  - `next_hop: string`
-
-    A valid IPv4 address.
-
-  - `prefix: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `nat: optional Nat`
-
-- `static_addressing: optional LANStaticAddressing`
-
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `dhcp_relay: optional DHCPRelay`
-
-    - `server_addresses: optional array of string`
-
-      List of DHCP server IPs.
-
-  - `dhcp_server: optional DHCPServer`
-
-    - `dhcp_options: optional array of object { code, type, value }`
-
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-      - `code: number`
-
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-      - `type: "text" or "hex" or "ip" or 3 more`
-
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-        - `"text"`
-
-        - `"hex"`
-
-        - `"ip"`
-
-        - `"byte"`
-
-        - `"short"`
-
-        - `"integer"`
-
-      - `value: string`
-
-        The option value, interpreted according to the type field.
-
-    - `dhcp_pool_end: optional string`
-
-      A valid IPv4 address.
-
-    - `dhcp_pool_start: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_server: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_servers: optional array of string`
-
-    - `reservations: optional map[string]`
-
-      Mapping of MAC addresses to IP addresses
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `virtual_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bond_id": 2,
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "bond_id": 2,
-      "ha_link": true,
-      "is_breakout": true,
-      "is_prioritized": true,
-      "name": "name",
-      "nat": {
-        "static_prefix": "192.0.2.0/24"
-      },
-      "physport": 1,
-      "routed_subnets": [
-        {
-          "next_hop": "192.0.2.1",
-          "prefix": "192.0.2.0/24",
-          "nat": {
-            "static_prefix": "192.0.2.0/24"
-          }
-        }
-      ],
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "static_addressing": {
-        "address": "192.0.2.0/24",
-        "dhcp_relay": {
-          "server_addresses": [
-            "192.0.2.1"
-          ]
-        },
-        "dhcp_server": {
-          "dhcp_options": [
-            {
-              "code": 66,
-              "type": "ip",
-              "value": "10.20.30.40"
-            }
-          ],
-          "dhcp_pool_end": "192.0.2.1",
-          "dhcp_pool_start": "192.0.2.1",
-          "dns_server": "192.0.2.1",
-          "dns_servers": [
-            "192.0.2.1"
-          ],
-          "reservations": {
-            "00:11:22:33:44:55": "192.0.2.100",
-            "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-          }
-        },
-        "secondary_address": "192.0.2.0/24",
-        "virtual_address": "192.0.2.0/24"
-      },
-      "vlan_tag": 42
-    }
-  ],
-  "success": true
-}
-```
-
-## Update Site LAN
-
-**put** `/accounts/{account_id}/magic/sites/{site_id}/lans/{lan_id}`
-
-Update a specific Site LAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `lan_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `bond_id: optional number`
-
-- `is_breakout: optional boolean`
-
-  mark true to use this LAN for source-based breakout traffic
-
-- `is_prioritized: optional boolean`
-
-  mark true to use this LAN for source-based prioritized traffic
-
-- `name: optional string`
-
-- `nat: optional Nat`
-
-  - `static_prefix: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `physport: optional number`
-
-- `routed_subnets: optional array of RoutedSubnet`
-
-  - `next_hop: string`
-
-    A valid IPv4 address.
-
-  - `prefix: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `nat: optional Nat`
-
-- `static_addressing: optional LANStaticAddressing`
-
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `dhcp_relay: optional DHCPRelay`
-
-    - `server_addresses: optional array of string`
-
-      List of DHCP server IPs.
-
-  - `dhcp_server: optional DHCPServer`
-
-    - `dhcp_options: optional array of object { code, type, value }`
-
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-      - `code: number`
-
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-      - `type: "text" or "hex" or "ip" or 3 more`
-
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-        - `"text"`
-
-        - `"hex"`
-
-        - `"ip"`
-
-        - `"byte"`
-
-        - `"short"`
-
-        - `"integer"`
-
-      - `value: string`
-
-        The option value, interpreted according to the type field.
-
-    - `dhcp_pool_end: optional string`
-
-      A valid IPv4 address.
-
-    - `dhcp_pool_start: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_server: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_servers: optional array of string`
-
-    - `reservations: optional map[string]`
-
-      Mapping of MAC addresses to IP addresses
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `virtual_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans/$LAN_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bond_id": 2,
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "bond_id": 2,
-    "ha_link": true,
-    "is_breakout": true,
-    "is_prioritized": true,
-    "name": "name",
-    "nat": {
-      "static_prefix": "192.0.2.0/24"
-    },
-    "physport": 1,
-    "routed_subnets": [
-      {
-        "next_hop": "192.0.2.1",
-        "prefix": "192.0.2.0/24",
-        "nat": {
-          "static_prefix": "192.0.2.0/24"
-        }
-      }
-    ],
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "dhcp_relay": {
-        "server_addresses": [
-          "192.0.2.1"
-        ]
-      },
-      "dhcp_server": {
-        "dhcp_options": [
-          {
-            "code": 66,
-            "type": "ip",
-            "value": "10.20.30.40"
-          }
-        ],
-        "dhcp_pool_end": "192.0.2.1",
-        "dhcp_pool_start": "192.0.2.1",
-        "dns_server": "192.0.2.1",
-        "dns_servers": [
-          "192.0.2.1"
-        ],
-        "reservations": {
-          "00:11:22:33:44:55": "192.0.2.100",
-          "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-        }
-      },
-      "secondary_address": "192.0.2.0/24",
-      "virtual_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Patch Site LAN
-
-**patch** `/accounts/{account_id}/magic/sites/{site_id}/lans/{lan_id}`
-
-Patch a specific Site LAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `lan_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `bond_id: optional number`
-
-- `is_breakout: optional boolean`
-
-  mark true to use this LAN for source-based breakout traffic
-
-- `is_prioritized: optional boolean`
-
-  mark true to use this LAN for source-based prioritized traffic
-
-- `name: optional string`
-
-- `nat: optional Nat`
-
-  - `static_prefix: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `physport: optional number`
-
-- `routed_subnets: optional array of RoutedSubnet`
-
-  - `next_hop: string`
-
-    A valid IPv4 address.
-
-  - `prefix: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `nat: optional Nat`
-
-- `static_addressing: optional LANStaticAddressing`
-
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `dhcp_relay: optional DHCPRelay`
-
-    - `server_addresses: optional array of string`
-
-      List of DHCP server IPs.
-
-  - `dhcp_server: optional DHCPServer`
-
-    - `dhcp_options: optional array of object { code, type, value }`
-
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-      - `code: number`
-
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-      - `type: "text" or "hex" or "ip" or 3 more`
-
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-        - `"text"`
-
-        - `"hex"`
-
-        - `"ip"`
-
-        - `"byte"`
-
-        - `"short"`
-
-        - `"integer"`
-
-      - `value: string`
-
-        The option value, interpreted according to the type field.
-
-    - `dhcp_pool_end: optional string`
-
-      A valid IPv4 address.
-
-    - `dhcp_pool_start: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_server: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_servers: optional array of string`
-
-    - `reservations: optional map[string]`
-
-      Mapping of MAC addresses to IP addresses
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `virtual_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans/$LAN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bond_id": 2,
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "bond_id": 2,
-    "ha_link": true,
-    "is_breakout": true,
-    "is_prioritized": true,
-    "name": "name",
-    "nat": {
-      "static_prefix": "192.0.2.0/24"
-    },
-    "physport": 1,
-    "routed_subnets": [
-      {
-        "next_hop": "192.0.2.1",
-        "prefix": "192.0.2.0/24",
-        "nat": {
-          "static_prefix": "192.0.2.0/24"
-        }
-      }
-    ],
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "dhcp_relay": {
-        "server_addresses": [
-          "192.0.2.1"
-        ]
-      },
-      "dhcp_server": {
-        "dhcp_options": [
-          {
-            "code": 66,
-            "type": "ip",
-            "value": "10.20.30.40"
-          }
-        ],
-        "dhcp_pool_end": "192.0.2.1",
-        "dhcp_pool_start": "192.0.2.1",
-        "dns_server": "192.0.2.1",
-        "dns_servers": [
-          "192.0.2.1"
-        ],
-        "reservations": {
-          "00:11:22:33:44:55": "192.0.2.100",
-          "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-        }
-      },
-      "secondary_address": "192.0.2.0/24",
-      "virtual_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Delete Site LAN
-
-**delete** `/accounts/{account_id}/magic/sites/{site_id}/lans/{lan_id}`
-
-Remove a specific Site LAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `lan_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans/$LAN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "bond_id": 2,
-    "ha_link": true,
-    "is_breakout": true,
-    "is_prioritized": true,
-    "name": "name",
-    "nat": {
-      "static_prefix": "192.0.2.0/24"
-    },
-    "physport": 1,
-    "routed_subnets": [
-      {
-        "next_hop": "192.0.2.1",
-        "prefix": "192.0.2.0/24",
-        "nat": {
-          "static_prefix": "192.0.2.0/24"
-        }
-      }
-    ],
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "dhcp_relay": {
-        "server_addresses": [
-          "192.0.2.1"
-        ]
-      },
-      "dhcp_server": {
-        "dhcp_options": [
-          {
-            "code": 66,
-            "type": "ip",
-            "value": "10.20.30.40"
-          }
-        ],
-        "dhcp_pool_end": "192.0.2.1",
-        "dhcp_pool_start": "192.0.2.1",
-        "dns_server": "192.0.2.1",
-        "dns_servers": [
-          "192.0.2.1"
-        ],
-        "reservations": {
-          "00:11:22:33:44:55": "192.0.2.100",
-          "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-        }
-      },
-      "secondary_address": "192.0.2.0/24",
-      "virtual_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### DHCP Relay
-
-- `DHCPRelay object { server_addresses }`
-
-  - `server_addresses: optional array of string`
-
-    List of DHCP server IPs.
-
-### DHCP Server
-
-- `DHCPServer object { dhcp_options, dhcp_pool_end, dhcp_pool_start, 3 more }`
-
-  - `dhcp_options: optional array of object { code, type, value }`
-
-    Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-    - `code: number`
-
-      DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-    - `type: "text" or "hex" or "ip" or 3 more`
-
-      The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-      - `"text"`
-
-      - `"hex"`
-
-      - `"ip"`
-
-      - `"byte"`
-
-      - `"short"`
-
-      - `"integer"`
-
-    - `value: string`
-
-      The option value, interpreted according to the type field.
-
-  - `dhcp_pool_end: optional string`
-
-    A valid IPv4 address.
-
-  - `dhcp_pool_start: optional string`
-
-    A valid IPv4 address.
-
-  - `dns_server: optional string`
-
-    A valid IPv4 address.
-
-  - `dns_servers: optional array of string`
-
-  - `reservations: optional map[string]`
-
-    Mapping of MAC addresses to IP addresses
-
-### LAN
-
-- `LAN object { id, bond_id, ha_link, 9 more }`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-### LAN Static Addressing
-
-- `LANStaticAddressing object { address, dhcp_relay, dhcp_server, 2 more }`
-
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `dhcp_relay: optional DHCPRelay`
-
-    - `server_addresses: optional array of string`
-
-      List of DHCP server IPs.
-
-  - `dhcp_server: optional DHCPServer`
-
-    - `dhcp_options: optional array of object { code, type, value }`
-
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-      - `code: number`
-
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-      - `type: "text" or "hex" or "ip" or 3 more`
-
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-        - `"text"`
-
-        - `"hex"`
-
-        - `"ip"`
-
-        - `"byte"`
-
-        - `"short"`
-
-        - `"integer"`
-
-      - `value: string`
-
-        The option value, interpreted according to the type field.
-
-    - `dhcp_pool_end: optional string`
-
-      A valid IPv4 address.
-
-    - `dhcp_pool_start: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_server: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_servers: optional array of string`
-
-    - `reservations: optional map[string]`
-
-      Mapping of MAC addresses to IP addresses
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `virtual_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-### Nat
-
-- `Nat object { static_prefix }`
-
-  - `static_prefix: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-### Routed Subnet
-
-- `RoutedSubnet object { next_hop, prefix, nat }`
-
-  - `next_hop: string`
-
-    A valid IPv4 address.
-
-  - `prefix: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-# WANs
-
-## List Site WANs
-
-**get** `/accounts/{account_id}/magic/sites/{site_id}/wans`
-
-Lists Site WANs associated with an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "health_check_rate": "low",
-      "name": "name",
-      "physport": 1,
-      "priority": 0,
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "static_addressing": {
-        "address": "192.0.2.0/24",
-        "gateway_address": "192.0.2.1",
-        "secondary_address": "192.0.2.0/24"
-      },
-      "vlan_tag": 42
-    }
-  ],
-  "success": true
-}
-```
-
-## Site WAN Details
-
-**get** `/accounts/{account_id}/magic/sites/{site_id}/wans/{wan_id}`
-
-Get a specific Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `wan_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans/$WAN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "health_check_rate": "low",
-    "name": "name",
-    "physport": 1,
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "gateway_address": "192.0.2.1",
-      "secondary_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Create a new Site WAN
-
-**post** `/accounts/{account_id}/magic/sites/{site_id}/wans`
-
-Creates a new Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `physport: number`
-
-- `name: optional string`
-
-- `priority: optional number`
-
-- `static_addressing: optional WANStaticAddressing`
-
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `gateway_address: string`
-
-    A valid IPv4 address.
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "health_check_rate": "low",
-      "name": "name",
-      "physport": 1,
-      "priority": 0,
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "static_addressing": {
-        "address": "192.0.2.0/24",
-        "gateway_address": "192.0.2.1",
-        "secondary_address": "192.0.2.0/24"
-      },
-      "vlan_tag": 42
-    }
-  ],
-  "success": true
-}
-```
-
-## Update Site WAN
-
-**put** `/accounts/{account_id}/magic/sites/{site_id}/wans/{wan_id}`
-
-Update a specific Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `wan_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `name: optional string`
-
-- `physport: optional number`
-
-- `priority: optional number`
-
-- `static_addressing: optional WANStaticAddressing`
-
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `gateway_address: string`
-
-    A valid IPv4 address.
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans/$WAN_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "health_check_rate": "low",
-    "name": "name",
-    "physport": 1,
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "gateway_address": "192.0.2.1",
-      "secondary_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Patch Site WAN
-
-**patch** `/accounts/{account_id}/magic/sites/{site_id}/wans/{wan_id}`
-
-Patch a specific Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `wan_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `name: optional string`
-
-- `physport: optional number`
-
-- `priority: optional number`
-
-- `static_addressing: optional WANStaticAddressing`
-
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `gateway_address: string`
-
-    A valid IPv4 address.
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans/$WAN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "health_check_rate": "low",
-    "name": "name",
-    "physport": 1,
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "gateway_address": "192.0.2.1",
-      "secondary_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Delete Site WAN
-
-**delete** `/accounts/{account_id}/magic/sites/{site_id}/wans/{wan_id}`
-
-Remove a specific Site WAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `wan_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: WAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans/$WAN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "health_check_rate": "low",
-    "name": "name",
-    "physport": 1,
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "gateway_address": "192.0.2.1",
-      "secondary_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### WAN
-
-- `WAN object { id, health_check_rate, name, 5 more }`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `health_check_rate: optional "low" or "mid" or "high"`
-
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
-
-    - `"low"`
-
-    - `"mid"`
-
-    - `"high"`
-
-  - `name: optional string`
-
-  - `physport: optional number`
-
-  - `priority: optional number`
-
-    Priority of WAN for traffic loadbalancing.
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional WANStaticAddressing`
-
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `gateway_address: string`
-
-      A valid IPv4 address.
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-### WAN Static Addressing
-
-- `WANStaticAddressing object { address, gateway_address, secondary_address }`
-
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `gateway_address: string`
-
-    A valid IPv4 address.
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(model)%20wan_static_addressing%20%3E%20(schema)>)

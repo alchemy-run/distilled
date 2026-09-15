@@ -34,14 +34,14 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address (e.g., 'user@example.com').",
+            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional — omit or set to null for no display name."
+            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
           }
         }
       }
@@ -81,14 +81,14 @@
         "content_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Content ID used to reference this attachment in HTML via cid: URI (e.g., <img src=\"cid:logo\">).",
+            "smithy.api#documentation": "Content ID used to reference this attachment in HTML via cid: URI (e.g., ![](cid:logo)).",
             "smithy.api#required": {}
           }
         },
         "disposition": {
           "target": "com.cloudflare.email_sending#SendRequestAttachmentsItemInlineDisposition",
           "traits": {
-            "smithy.api#documentation": "Must be 'inline'. Indicates the attachment is embedded in the email body.",
+            "smithy.api#documentation": "Use 'inline' to embed the attachment in the email body.",
             "smithy.api#required": {}
           }
         },
@@ -132,7 +132,7 @@
         "disposition": {
           "target": "com.cloudflare.email_sending#SendRequestAttachmentsItemAttachmentDisposition",
           "traits": {
-            "smithy.api#documentation": "Must be 'attachment'. Indicates a standard file attachment.",
+            "smithy.api#documentation": "Use 'attachment' for a standard file attachment.",
             "smithy.api#required": {}
           }
         },
@@ -175,14 +175,14 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address (e.g., 'user@example.com').",
+            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional — omit or set to null for no display name."
+            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
           }
         }
       }
@@ -193,14 +193,14 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address (e.g., 'user@example.com').",
+            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional — omit or set to null for no display name."
+            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
           }
         }
       }
@@ -242,14 +242,14 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address (e.g., 'user@example.com').",
+            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional — omit or set to null for no display name."
+            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
           }
         }
       }
@@ -260,14 +260,14 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address (e.g., 'user@example.com').",
+            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional — omit or set to null for no display name."
+            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
           }
         }
       }
@@ -318,14 +318,14 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address (e.g., 'user@example.com').",
+            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional — omit or set to null for no display name."
+            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
           }
         }
       }
@@ -347,14 +347,14 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address (e.g., 'user@example.com').",
+            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional — omit or set to null for no display name."
+            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
           }
         }
       }
@@ -365,14 +365,14 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address (e.g., 'user@example.com').",
+            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional — omit or set to null for no display name."
+            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
           }
         }
       }
@@ -426,6 +426,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.email_sending#SendResponseSuppressedRecipientsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.email_sending#SendRawRequestRecipientsList": {
       "type": "list",
       "member": {
@@ -450,7 +456,49 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.email_sending#SubdomainsListResultItem": {
+    "com.cloudflare.email_sending#SendRawResponseSuppressedRecipientsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.email_sending#EditSubdomainRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subdomain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sending subdomain identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "drop_suppressed_recipients": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request."
+          }
+        },
+        "preview_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether sent messages from this subdomain can be previewed in the activity log."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#EditSubdomainResponse": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -463,7 +511,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The subdomain domain name.",
+            "smithy.api#documentation": "The exact domain name or a leftmost wildcard such as `*.example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -483,7 +531,13 @@
         "dkim_selector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The DKIM selector used for email signing."
+            "smithy.api#documentation": "The DKIM selector used for email signing. Wildcard rows publish the selector and sign with `d=&lt;base&gt;`."
+          }
+        },
+        "drop_suppressed_recipients": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request."
           }
         },
         "modified": {
@@ -501,7 +555,90 @@
         "return_path_domain": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The return-path domain used for bounce handling."
+            "smithy.api#documentation": "The return-path domain used for bounce handling. Wildcard rows use `cf-bounce.&lt;base&gt;`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.email_sending#EditSubdomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.email_sending#EditSubdomainRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.email_sending#EditSubdomainResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/zones/{zone_id}/email/sending/subdomains/{subdomain_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Updates the activity-log preview preference for a sending subdomain."
+      }
+    },
+    "com.cloudflare.email_sending#SubdomainsListResultItem": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Email Sending is enabled on this subdomain.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The exact domain name or a leftmost wildcard such as `*.example.com`.",
+            "smithy.api#required": {}
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sending subdomain identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the destination address has been created."
+          }
+        },
+        "dkim_selector": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The DKIM selector used for email signing. Wildcard rows publish the selector and sign with `d=&lt;base&gt;`."
+          }
+        },
+        "drop_suppressed_recipients": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request."
+          }
+        },
+        "modified": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the destination address was last modified."
+          }
+        },
+        "preview_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether sent messages from this subdomain can be previewed in the activity log."
+          }
+        },
+        "return_path_domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The return-path domain used for bounce handling. Wildcard rows use `cf-bounce.&lt;base&gt;`."
           }
         }
       }
@@ -666,10 +803,744 @@
         "target": "com.cloudflare.email_sending#SubdomainsDnsGetResultItem"
       }
     },
+    "com.cloudflare.email_sending#CreateSuppressionRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address to suppress.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration timestamp for the suppression. Omit or set to null for a permanent suppression that never expires."
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advisory note for this suppression. Not enforced or validated beyond length."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The suppression's identifier.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppression": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.email_sending#CreateSuppressionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.email_sending#CreateSuppressionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/email/sending/suppressions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates an account-wide suppression. If a mutable legacy zone-linked row already exists, it is promoted without changing its identifier."
+      }
+    },
+    "com.cloudflare.email_sending#DeleteSuppressionRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "suppression_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The suppression's identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#DeleteSuppressionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The suppression's identifier.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.email_sending#DeleteSuppression": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.email_sending#DeleteSuppressionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.email_sending#DeleteSuppressionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/email/sending/suppressions/{suppression_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes the suppression, its note, and every legacy internal zone membership, allowing future delivery attempts to the address.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.email_sending#EditSuppressionRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "suppression_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The suppression's identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New expiry. Send `null` to make the suppression permanent; omit to leave it unchanged."
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement advisory note. Send an empty string to clear it; omit to leave it unchanged."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#EditSuppressionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this suppression.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the suppression was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The suppressed email address.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the suppression expires. Null for a permanent suppression.",
+            "smithy.api#required": {}
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether clients may mutate this suppression. This is determined by the server and must not be inferred from `reason`.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the address is suppressed: `manual`, `complaint`, `hard_bounce`, `soft_bounce`, or `policy`.",
+            "smithy.api#required": {}
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advisory note for this suppression, if any."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.email_sending#EditSuppression": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.email_sending#EditSuppressionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.email_sending#EditSuppressionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/accounts/{account_id}/email/sending/suppressions/{suppression_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Updates expiry or advisory note fields without changing legacy internal zone memberships."
+      }
+    },
+    "com.cloudflare.email_sending#GetSuppressionRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "suppression_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The suppression's identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#GetSuppressionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this suppression.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the suppression was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The suppressed email address.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the suppression expires. Null for a permanent suppression.",
+            "smithy.api#required": {}
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether clients may mutate this suppression. This is determined by the server and must not be inferred from `reason`.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the address is suppressed: `manual`, `complaint`, `hard_bounce`, `soft_bounce`, or `policy`.",
+            "smithy.api#required": {}
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advisory note for this suppression, if any."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.email_sending#GetSuppression": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.email_sending#GetSuppressionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.email_sending#GetSuppressionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/email/sending/suppressions/{suppression_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets an Email Sending suppression owned by the account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionRequestItemsItem": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address to suppress.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration timestamp for the suppression. Omit or set to null for a permanent suppression that never expires."
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advisory note for this suppression. Not enforced or validated beyond length."
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionRequestItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.email_sending#ImportSuppressionRequestItemsItem"
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionRequestItemsList",
+          "traits": {
+            "smithy.api#documentation": "Suppressions to import. Items with a duplicate email address are deduplicated before processing.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemStatus": {
+      "type": "enum",
+      "members": {
+        "PROCESSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processed"
+          }
+        },
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionResponseItemsItem": {
+      "type": "structure",
+      "members": {
+        "index": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Zero-based index of this item in the request body.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Outcome for this item.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The created or promoted suppression's identifier. Present when `status` is `processed`."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The submitted email address for this item."
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable error message. Present when `status` is `invalid`, `error`, or `skipped`."
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.email_sending#ImportSuppressionResponseItemsItem"
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionResponse": {
+      "type": "structure",
+      "members": {
+        "deduplicated": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of items dropped because their email address repeated an earlier item in this request. Counted once and excluded from `items`.",
+            "smithy.api#required": {}
+          }
+        },
+        "errors": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of items that failed to import due to an unexpected error.",
+            "smithy.api#required": {}
+          }
+        },
+        "invalid": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of items with an invalid email address.",
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionResponseItemsList",
+          "traits": {
+            "smithy.api#documentation": "Per-item results, in the same order as the request body.",
+            "smithy.api#required": {}
+          }
+        },
+        "processed": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of items successfully created or promoted.",
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of items skipped because the existing suppression is not customer-managed (for example, a read-only policy suppression).",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total number of items in the request body, including duplicates.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppression": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.email_sending#ImportSuppressionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.email_sending#ImportSuppressionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/email/sending/suppressions/bulk",
+          "code": 200
+        },
+        "smithy.api#documentation": "Imports up to 1,000 account-level Email Sending suppressions in one request."
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsRequestReason": {
+      "type": "enum",
+      "members": {
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        },
+        "COMPLAINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complaint"
+          }
+        },
+        "HARD_BOUNCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hard_bounce"
+          }
+        },
+        "SOFT_BOUNCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "soft_bounce"
+          }
+        },
+        "POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "policy"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque pagination cursor returned as `result_info.next_cursor`. It carries the filters that produced it.",
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact email-address filter.",
+            "smithy.api#httpQuery": "email"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of suppressions to return per page.",
+            "smithy.api#httpQuery": "per_page"
+          }
+        },
+        "reason": {
+          "target": "com.cloudflare.email_sending#ListSuppressionsRequestReason",
+          "traits": {
+            "smithy.api#documentation": "Filter to suppressions with this reason.",
+            "smithy.api#httpQuery": "reason"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A complete address is an exact match; a value ending in `@` matches that username across every domain. Prefix searches may return short intermediate pages while the bounded account scan advances.",
+            "smithy.api#httpQuery": "search"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this suppression.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the suppression was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The suppressed email address.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the suppression expires. Null for a permanent suppression.",
+            "smithy.api#required": {}
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether clients may mutate this suppression. This is determined by the server and must not be inferred from `reason`.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the address is suppressed: `manual`, `complaint`, `hard_bounce`, `soft_bounce`, or `policy`.",
+            "smithy.api#required": {}
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advisory note for this suppression, if any."
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.email_sending#ListSuppressionsResultItem"
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.email_sending#ListSuppressionsResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressions": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.email_sending#ListSuppressionsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.email_sending#ListSuppressionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/email/sending/suppressions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists every active Email Sending suppression owned by the account, including legacy rows with internal zone memberships.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.email_sending#EmailSending": {
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.email_sending#EditSubdomain"
+        },
+        {
+          "target": "com.cloudflare.email_sending#CreateSuppression"
+        },
+        {
+          "target": "com.cloudflare.email_sending#DeleteSuppression"
+        },
+        {
+          "target": "com.cloudflare.email_sending#EditSuppression"
+        },
+        {
+          "target": "com.cloudflare.email_sending#GetSuppression"
+        },
+        {
+          "target": "com.cloudflare.email_sending#ImportSuppression"
+        },
+        {
+          "target": "com.cloudflare.email_sending#ListSuppressions"
+        },
         {
           "target": "com.cloudflare.email_sending#CreateSubdomain"
         },
@@ -769,7 +1640,7 @@
           "uri": "/zones/{zone_id}/email/sending/subdomains",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new sending subdomain or re-enables sending on an existing subdomain that had it disabled. If zone-level Email Sending has not been enabled yet, the zone flag is automatically set when the entitlement is present."
+        "smithy.api#documentation": "Creates a new sending subdomain or re-enables sending on an existing subdomain that had it disabled. If zone-level Email Sending has not been enabled yet, the zone flag is automatically set when the entitlement is present. A leftmost wildcard such as `*.example.com` is accepted only for accounts with wildcard Email Sending enabled. Wildcard senders share the base domain's DKIM signing identity and `cf-bounce.<base>` return path."
       },
       "errors": [
         {
@@ -794,7 +1665,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The subdomain name. Must be within the zone.",
+            "smithy.api#documentation": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement.",
             "smithy.api#required": {}
           }
         }
@@ -816,7 +1687,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The subdomain domain name.",
+            "smithy.api#documentation": "The exact domain name or a leftmost wildcard such as `*.example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -836,7 +1707,13 @@
         "dkim_selector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The DKIM selector used for email signing."
+            "smithy.api#documentation": "The DKIM selector used for email signing. Wildcard rows publish the selector and sign with `d=&lt;base&gt;`."
+          }
+        },
+        "drop_suppressed_recipients": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request."
           }
         },
         "modified": {
@@ -854,7 +1731,7 @@
         "return_path_domain": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The return-path domain used for bounce handling."
+            "smithy.api#documentation": "The return-path domain used for bounce handling. Wildcard rows use `cf-bounce.&lt;base&gt;`."
           }
         }
       },
@@ -976,7 +1853,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The subdomain domain name.",
+            "smithy.api#documentation": "The exact domain name or a leftmost wildcard such as `*.example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -996,7 +1873,13 @@
         "dkim_selector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The DKIM selector used for email signing."
+            "smithy.api#documentation": "The DKIM selector used for email signing. Wildcard rows publish the selector and sign with `d=&lt;base&gt;`."
+          }
+        },
+        "drop_suppressed_recipients": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request."
           }
         },
         "modified": {
@@ -1014,7 +1897,7 @@
         "return_path_domain": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The return-path domain used for bounce handling."
+            "smithy.api#documentation": "The return-path domain used for bounce handling. Wildcard rows use `cf-bounce.&lt;base&gt;`."
           }
         }
       },
@@ -1156,7 +2039,7 @@
           "uri": "/accounts/{account_id}/email/sending/send",
           "code": 200
         },
-        "smithy.api#documentation": "Send an email"
+        "smithy.api#documentation": "Send an email for the specified account using the structured builder. Provide the sender, recipients, subject, and at least one of text or html; attachments are optional."
       }
     },
     "com.cloudflare.email_sending#SendEmailSendingRequest": {
@@ -1193,13 +2076,13 @@
         "bcc": {
           "target": "com.cloudflare.email_sending#SendRequestBcc",
           "traits": {
-            "smithy.api#documentation": "BCC recipient(s). A single email string, a named address object, or an array of either."
+            "smithy.api#documentation": "Blind carbon copy recipient(s). Optional. A single email string, a named address object, or an array of either."
           }
         },
         "cc": {
           "target": "com.cloudflare.email_sending#SendRequestCc",
           "traits": {
-            "smithy.api#documentation": "CC recipient(s). A single email string, a named address object, or an array of either."
+            "smithy.api#documentation": "Carbon copy recipient(s). Optional. A single email string, a named address object, or an array of either."
           }
         },
         "headers": {
@@ -1211,7 +2094,7 @@
         "html": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "HTML body of the email. At least one of text or html must be provided (non-empty)."
+            "smithy.api#documentation": "HTML body of the email. Provide at least one of text or html (non-empty)."
           }
         },
         "reply_to": {
@@ -1223,7 +2106,7 @@
         "text": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Plain text body of the email. At least one of text or html must be provided (non-empty)."
+            "smithy.api#documentation": "Plain text body of the email. Provide at least one of text or html (non-empty)."
           }
         },
         "to": {
@@ -1267,6 +2150,13 @@
             "smithy.api#documentation": "Email addresses for which delivery was queued for later.",
             "smithy.api#required": {}
           }
+        },
+        "suppressed_recipients": {
+          "target": "com.cloudflare.email_sending#SendResponseSuppressedRecipientsList",
+          "traits": {
+            "smithy.api#documentation": "Email addresses dropped because they are on the suppression list. Returned when suppressed-recipient dropping is enabled for the sending subdomain; otherwise the request fails instead.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -1288,7 +2178,7 @@
           "uri": "/accounts/{account_id}/email/sending/send_raw",
           "code": 200
         },
-        "smithy.api#documentation": "Send a raw MIME email"
+        "smithy.api#documentation": "Send a raw RFC 5322 (MIME) email for the specified account. Provide the full MIME message plus the SMTP envelope (from and recipients)."
       }
     },
     "com.cloudflare.email_sending#SendRawEmailSendingRequest": {
@@ -1356,6 +2246,13 @@
           "target": "com.cloudflare.email_sending#SendRawResponseQueuedList",
           "traits": {
             "smithy.api#documentation": "Email addresses for which delivery was queued for later.",
+            "smithy.api#required": {}
+          }
+        },
+        "suppressed_recipients": {
+          "target": "com.cloudflare.email_sending#SendRawResponseSuppressedRecipientsList",
+          "traits": {
+            "smithy.api#documentation": "Email addresses dropped because they are on the suppression list. Returned when suppressed-recipient dropping is enabled for the sending subdomain; otherwise the request fails instead.",
             "smithy.api#required": {}
           }
         }

@@ -1,71 +1,210 @@
-## Get Chrome DevTools Protocol schema.
+---
+title: Get Chrome DevTools Protocol schema.
+---
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/protocol`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+[Devtools](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools)
+
+[Browser](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Chrome DevTools Protocol schema.
+
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/protocol
 
 Returns the complete Chrome DevTools Protocol schema including all domains, commands, events, and types. This schema describes the entire CDP API surface.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-- `session_id: string`
 
-  Browser session ID.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `domains: array of object { domain, commands, dependencies, 3 more }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  List of protocol domains.
+</details>
 
-  - `domain: string`
+<details>
 
-    Domain name.
+<summary>API Email + API Key</summary>
 
-  - `commands: optional array of map[unknown]`
 
-    Available commands.
 
-  - `dependencies: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    Domain dependencies.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `events: optional array of map[unknown]`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Available events.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `experimental: optional boolean`
+</details>
 
-    Whether this domain is experimental.
+##### Accepted Permissions (at least one required)
 
-  - `types: optional array of map[unknown]`
+`Browser Rendering Write``Browser Rendering Read`
 
-    Type definitions.
+##### P ath ParametersExpand Collapse
 
-- `version: optional object { major, minor }`
+account\_id: string
 
-  Protocol version.
+Account ID.
 
-  - `major: string`
+[Link to this property](#)%20browser_rendering.devtools.browser%20%3E%20(method)%20protocol%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    Major version.
+session\_id: string
 
-  - `minor: string`
+Browser session ID.
 
-    Minor version.
+formatuuid
 
-### Example
+[Link to this property](#)%20browser_rendering.devtools.browser%20%3E%20(method)%20protocol%20%3E%20(params)%20default%20%3E%20(param)%20session_id%20%3E%20(schema)>)
 
-```http
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+domains: array of object {domain, commands, dependencies, 3 more }
+
+List of protocol domains.
+
+</summary>
+
+domain: string
+
+Domain name.
+
+<a href="#">Link to this property</a>
+
+commands: optional array of map\[unknown]
+
+Available commands.
+
+<a href="#">Link to this property</a>
+
+dependencies: optional array of string
+
+Domain dependencies.
+
+<a href="#">Link to this property</a>
+
+events: optional array of map\[unknown]
+
+Available events.
+
+<a href="#">Link to this property</a>
+
+experimental: optional boolean
+
+Whether this domain is experimental.
+
+<a href="#">Link to this property</a>
+
+types: optional array of map\[unknown]
+
+Type definitions.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.devtools.browser%20%3E%20(model)%20browser_protocol_response%20%3E%20(schema)%20%3E%20(property)%20domains>)
+
+<details>
+
+<summary>
+
+version: optional object {major, minor }
+
+Protocol version.
+
+</summary>
+
+major: string
+
+Major version.
+
+<a href="#">Link to this property</a>
+
+minor: string
+
+Minor version.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.devtools.browser%20%3E%20(model)%20browser_protocol_response%20%3E%20(schema)%20%3E%20(property)%20version>)
+
+### Get Chrome DevTools Protocol schema.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/protocol \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "domains": [
+    {
+      "domain": "domain",
+      "commands": [
+        {
+          "foo": {}
+        }
+      ],
+      "dependencies": [
+        "string"
+      ],
+      "events": [
+        {
+          "foo": {}
+        }
+      ],
+      "experimental": true,
+      "types": [
+        {
+          "foo": {}
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": "major",
+    "minor": "minor"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "domains": [
     {

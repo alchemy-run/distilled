@@ -1,7843 +1,3315 @@
+---
+title: Versions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Rulesets](https://developers.cloudflare.com/api/resources/rulesets)
+
+[Phases](https://developers.cloudflare.com/api/resources/rulesets/subresources/phases)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Versions
 
-## List an account or zone entry point ruleset's versions
+##### [List an account or zone entry point ruleset's versions](https://developers.cloudflare.com/api/resources/rulesets/subresources/phases/subresources/versions/methods/list)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/rulesets/phases/{ruleset\_phase}/entrypoint/versions
 
-Fetches the versions of an account or zone entry point ruleset.
+##### [Get an account or zone entry point ruleset version](https://developers.cloudflare.com/api/resources/rulesets/subresources/phases/subresources/versions/methods/get)
 
-### Path Parameters
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/rulesets/phases/{ruleset\_phase}/entrypoint/versions/{ruleset\_version}
 
-- `ruleset_phase: Phase`
+##### ModelsExpand Collapse
 
-  The phase of the ruleset.
+<details>
 
-  - `"ddos_l4"`
+<summary>
 
-  - `"ddos_l7"`
+VersionListResponse object {id, kind, last\_updated, 4 more }
 
-  - `"http_config_settings"`
+A ruleset object.
 
-  - `"http_custom_errors"`
+</summary>
 
-  - `"http_log_custom_fields"`
+id: string
 
-  - `"http_ratelimit"`
+The unique ID of the ruleset.
 
-  - `"http_request_cache_settings"`
+<a href="#">Link to this property</a>
 
-  - `"http_request_dynamic_redirect"`
+kind: <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets%20%3E%20(model)%20kind%20%3E%20(schema)">Kind</a>
 
-  - `"http_request_firewall_custom"`
+The kind of the ruleset.
 
-  - `"http_request_firewall_managed"`
+<a href="#">Link to this property</a>
 
-  - `"http_request_late_transform"`
+last\_updated: string
 
-  - `"http_request_origin"`
+The timestamp of when the ruleset was last modified.
 
-  - `"http_request_redirect"`
+formatdate-time
 
-  - `"http_request_sanitize"`
+<a href="#">Link to this property</a>
 
-  - `"http_request_sbfm"`
+name: string
 
-  - `"http_request_transform"`
+The human-readable name of the ruleset.
 
-  - `"http_response_cache_settings"`
+minLength1
 
-  - `"http_response_compression"`
+<a href="#">Link to this property</a>
 
-  - `"http_response_firewall_managed"`
+phase: <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets%20%3E%20(model)%20phase%20%3E%20(schema)">Phase</a>
 
-  - `"http_response_headers_transform"`
+The phase of the ruleset.
 
-  - `"magic_transit"`
+<a href="#">Link to this property</a>
 
-  - `"magic_transit_ids_managed"`
+version: string
 
-  - `"magic_transit_managed"`
+The version of the ruleset.
 
-  - `"magic_transit_ratelimit"`
+<a href="#">Link to this property</a>
 
-- `account_id: optional string`
+description: optional string
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+An informative description of the ruleset.
 
-- `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+</details>
 
-### Returns
+[Link to this property](#)%20rulesets.phases.versions%20%3E%20(model)%20version_list_response%20%3E%20(schema)>)
 
-- `errors: array of object { message, code, source }`
+<details>
 
-  A list of error messages.
+<summary>
 
-  - `message: string`
+VersionGetResponse object {id, kind, last\_updated, 5 more }
 
-    A text description of this message.
+A ruleset object.
 
-  - `code: optional number`
+</summary>
 
-    A unique code for this message.
+id: string
 
-  - `source: optional object { pointer }`
+The unique ID of the ruleset.
 
-    The source of this message.
+<a href="#">Link to this property</a>
 
-    - `pointer: string`
+kind: <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets%20%3E%20(model)%20kind%20%3E%20(schema)">Kind</a>
 
-      A JSON pointer to the field that is the source of the message.
+The kind of the ruleset.
 
-- `messages: array of object { message, code, source }`
+<a href="#">Link to this property</a>
 
-  A list of warning messages.
+last\_updated: string
 
-  - `message: string`
+The timestamp of when the ruleset was last modified.
 
-    A text description of this message.
+formatdate-time
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-    A unique code for this message.
+name: string
 
-  - `source: optional object { pointer }`
+The human-readable name of the ruleset.
 
-    The source of this message.
+minLength1
 
-    - `pointer: string`
+<a href="#">Link to this property</a>
 
-      A JSON pointer to the field that is the source of the message.
+phase: <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets%20%3E%20(model)%20phase%20%3E%20(schema)">Phase</a>
 
-- `result: array of object { id, kind, last_updated, 4 more }`
+The phase of the ruleset.
 
-  A list of rulesets. The returned information will not include the rules in each ruleset.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    The unique ID of the ruleset.
+<summary>
 
-  - `kind: Kind`
+rules: array of <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20block_rule%20%3E%20(schema)">BlockRule</a> { last\_updated, version, id, 10 more } or object {id, action, enabled, 10 more } or <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20compress_response_rule%20%3E%20(schema)">CompressResponseRule</a> { last\_updated, version, id, 10 more } or 18 more
 
-    The kind of the ruleset.
+The list of rules in the ruleset.
 
-    - `"managed"`
+</summary>
 
-    - `"custom"`
+One of the following:
 
-    - `"root"`
+<details>
 
-    - `"zone"`
+<summary>
 
-  - `last_updated: string`
+BlockRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20block_rule%20%3E%20(schema)">BlockRule</a> { last\_updated, version, id, 10 more }
 
-    The timestamp of when the ruleset was last modified.
+</summary>
 
-  - `name: string`
+id: string
 
-    The human-readable name of the ruleset.
+<a href="#">Link to this property</a>
 
-  - `phase: Phase`
+action: string
 
-    The phase of the ruleset.
+<a href="#">Link to this property</a>
 
-    - `"ddos_l4"`
+enabled: boolean
 
-    - `"ddos_l7"`
+<a href="#">Link to this property</a>
 
-    - `"http_config_settings"`
+expression: string
 
-    - `"http_custom_errors"`
+<a href="#">Link to this property</a>
 
-    - `"http_log_custom_fields"`
+ref: string
 
-    - `"http_ratelimit"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_cache_settings"`
+</details>
 
-    - `"http_request_dynamic_redirect"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_firewall_custom"`
+<details>
 
-    - `"http_request_firewall_managed"`
+<summary>
 
-    - `"http_request_late_transform"`
+ChallengeRule object {id, action, enabled, 10 more }
 
-    - `"http_request_origin"`
+</summary>
 
-    - `"http_request_redirect"`
+id: string
 
-    - `"http_request_sanitize"`
+The unique ID of the rule.
 
-    - `"http_request_sbfm"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_transform"`
+action: "challenge"
 
-    - `"http_response_cache_settings"`
+The action to perform when the rule matches.
 
-    - `"http_response_compression"`
+<a href="#">Link to this property</a>
 
-    - `"http_response_firewall_managed"`
+enabled: boolean
 
-    - `"http_response_headers_transform"`
+Whether the rule should be executed.
 
-    - `"magic_transit"`
+<a href="#">Link to this property</a>
 
-    - `"magic_transit_ids_managed"`
+expression: string
 
-    - `"magic_transit_managed"`
+The expression defining which traffic will match the rule.
 
-    - `"magic_transit_ratelimit"`
+minLength1
 
-  - `version: string`
+<a href="#">Link to this property</a>
 
-    The version of the ruleset.
+last\_updated: string
 
-  - `description: optional string`
+The timestamp of when the rule was last modified.
 
-    An informative description of the ruleset.
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+ref: string
 
-  - `true`
+The reference of the rule (the rule’s ID by default).
 
-- `result_info: optional object { cursors }`
+minLength1
 
-  Information to navigate the results.
+<a href="#">Link to this property</a>
 
-  - `cursors: optional object { after }`
+version: string
 
-    The set of cursors.
+The version of the rule.
 
-    - `after: string`
+<a href="#">Link to this property</a>
 
-      The cursor to use for the next page.
+action\_parameters: optional unknown
 
-### Example
+The parameters configuring the rule’s action.
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/rulesets/phases/$RULESET_PHASE/entrypoint/versions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+categories: optional array of string
 
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "2f2feab2026849078ba485f918791bdc",
-      "kind": "root",
-      "last_updated": "2000-01-01T00:00:00.000000Z",
-      "name": "My ruleset",
-      "phase": "http_request_firewall_custom",
-      "version": "1",
-      "description": "A description for my ruleset."
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "cursors": {
-      "after": "dGhpc2lzYW5leGFtcGxlCg"
-    }
-  }
-}
-```
+The categories of the rule.
 
-## Get an account or zone entry point ruleset version
+<a href="#">Link to this property</a>
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}`
+description: optional string
 
-Fetches a specific version of an account or zone entry point ruleset.
+An informative description of the rule.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `ruleset_phase: Phase`
+<details>
 
-  The phase of the ruleset.
+<summary>
 
-  - `"ddos_l4"`
+exposed\_credential\_check: optional object {password\_expression, username\_expression }
 
-  - `"ddos_l7"`
+Configuration for exposed credential checking.
 
-  - `"http_config_settings"`
+</summary>
 
-  - `"http_custom_errors"`
+password\_expression: string
 
-  - `"http_log_custom_fields"`
+An expression that selects the password used in the credentials check.
 
-  - `"http_ratelimit"`
+minLength1
 
-  - `"http_request_cache_settings"`
+<a href="#">Link to this property</a>
 
-  - `"http_request_dynamic_redirect"`
+username\_expression: string
 
-  - `"http_request_firewall_custom"`
+An expression that selects the user ID used in the credentials check.
 
-  - `"http_request_firewall_managed"`
+minLength1
 
-  - `"http_request_late_transform"`
+<a href="#">Link to this property</a>
 
-  - `"http_request_origin"`
+</details>
 
-  - `"http_request_redirect"`
+<a href="#">Link to this property</a>
 
-  - `"http_request_sanitize"`
+logging: optional <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20logging%20%3E%20(schema)">Logging</a> { enabled }
 
-  - `"http_request_sbfm"`
+An object configuring the rule’s logging behavior.
 
-  - `"http_request_transform"`
+<a href="#">Link to this property</a>
 
-  - `"http_response_cache_settings"`
+<details>
 
-  - `"http_response_compression"`
+<summary>
 
-  - `"http_response_firewall_managed"`
+ratelimit: optional object {characteristics, period, counting\_expression, 5 more }
 
-  - `"http_response_headers_transform"`
+An object configuring the rule’s rate limit behavior.
 
-  - `"magic_transit"`
+</summary>
 
-  - `"magic_transit_ids_managed"`
+characteristics: array of string
 
-  - `"magic_transit_managed"`
+Characteristics of the request on which the rate limit counter will be incremented.
 
-  - `"magic_transit_ratelimit"`
+<a href="#">Link to this property</a>
 
-- `ruleset_version: string`
+period: number
 
-  The version of the ruleset.
+Period in seconds over which the counter is being incremented.
 
-- `account_id: optional string`
+minimum0
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<a href="#">Link to this property</a>
 
-- `zone_id: optional string`
+counting\_expression: optional string
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule’s expression.
 
-### Returns
+minLength1
 
-- `errors: array of object { message, code, source }`
+<a href="#">Link to this property</a>
 
-  A list of error messages.
+mitigation\_timeout: optional number
 
-  - `message: string`
+Period of time in seconds after which the action will be disabled following its first execution.
 
-    A text description of this message.
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+requests\_per\_period: optional number
 
-    A unique code for this message.
+The threshold of requests per period after which the action will be executed for the first time.
 
-  - `source: optional object { pointer }`
+minimum1
 
-    The source of this message.
+<a href="#">Link to this property</a>
 
-    - `pointer: string`
+requests\_to\_origin: optional boolean
 
-      A JSON pointer to the field that is the source of the message.
+Whether counting is only performed when an origin is reached.
 
-- `messages: array of object { message, code, source }`
+<a href="#">Link to this property</a>
 
-  A list of warning messages.
+score\_per\_period: optional number
 
-  - `message: string`
+The score threshold per period for which the action will be executed the first time.
 
-    A text description of this message.
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+score\_response\_header\_name: optional string
 
-    A unique code for this message.
+A response header name provided by the origin, which contains the score to increment rate limit counter with.
 
-  - `source: optional object { pointer }`
+minLength1
 
-    The source of this message.
+<a href="#">Link to this property</a>
 
-    - `pointer: string`
+</details>
 
-      A JSON pointer to the field that is the source of the message.
+<a href="#">Link to this property</a>
 
-- `result: object { id, kind, last_updated, 5 more }`
+</details>
 
-  A ruleset object.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    The unique ID of the ruleset.
+<summary>
 
-  - `kind: Kind`
+ResponseCompressionRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20compress_response_rule%20%3E%20(schema)">CompressResponseRule</a> { last\_updated, version, id, 10 more }
 
-    The kind of the ruleset.
+</summary>
 
-    - `"managed"`
+id: string
 
-    - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `"root"`
+action: string
 
-    - `"zone"`
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+enabled: boolean
 
-    The timestamp of when the ruleset was last modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+expression: string
 
-    The human-readable name of the ruleset.
+<a href="#">Link to this property</a>
 
-  - `phase: Phase`
+ref: string
 
-    The phase of the ruleset.
+<a href="#">Link to this property</a>
 
-    - `"ddos_l4"`
+</details>
 
-    - `"ddos_l7"`
+<a href="#">Link to this property</a>
 
-    - `"http_config_settings"`
+<details>
 
-    - `"http_custom_errors"`
+<summary>
 
-    - `"http_log_custom_fields"`
+DDoSDynamicRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20ddos_dynamic_rule%20%3E%20(schema)">DDoSDynamicRule</a> { last\_updated, version, id, 10 more }
 
-    - `"http_ratelimit"`
+</summary>
 
-    - `"http_request_cache_settings"`
+id: string
 
-    - `"http_request_dynamic_redirect"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_firewall_custom"`
+action: string
 
-    - `"http_request_firewall_managed"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_late_transform"`
+enabled: boolean
 
-    - `"http_request_origin"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_redirect"`
+expression: string
 
-    - `"http_request_sanitize"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_sbfm"`
+ref: string
 
-    - `"http_request_transform"`
+<a href="#">Link to this property</a>
 
-    - `"http_response_cache_settings"`
+</details>
 
-    - `"http_response_compression"`
+<a href="#">Link to this property</a>
 
-    - `"http_response_firewall_managed"`
+<details>
 
-    - `"http_response_headers_transform"`
+<summary>
 
-    - `"magic_transit"`
+ExecuteRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20execute_rule%20%3E%20(schema)">ExecuteRule</a> { last\_updated, version, id, 10 more }
 
-    - `"magic_transit_ids_managed"`
+</summary>
 
-    - `"magic_transit_managed"`
+id: string
 
-    - `"magic_transit_ratelimit"`
+<a href="#">Link to this property</a>
 
-  - `rules: array of BlockRule or object { last_updated, version, id, 10 more }  or CompressResponseRule or 18 more`
+action: string
 
-    The list of rules in the ruleset.
+<a href="#">Link to this property</a>
 
-    - `BlockRule object { last_updated, version, id, 10 more }`
+enabled: boolean
 
-      - `last_updated: string`
+<a href="#">Link to this property</a>
 
-        The timestamp of when the rule was last modified.
+expression: string
 
-      - `version: string`
+<a href="#">Link to this property</a>
 
-        The version of the rule.
+ref: string
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique ID of the rule.
+</details>
 
-      - `action: optional "block"`
+<a href="#">Link to this property</a>
 
-        The action to perform when the rule matches.
+<details>
 
-        - `"block"`
+<summary>
 
-      - `action_parameters: optional object { response }`
+ForceConnectionCloseRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20force_connection_close_rule%20%3E%20(schema)">ForceConnectionCloseRule</a> { last\_updated, version, id, 10 more }
 
-        The parameters configuring the rule's action.
+</summary>
 
-        - `response: optional object { content, content_type, status_code }`
+id: string
 
-          The response to show when the block is applied.
+<a href="#">Link to this property</a>
 
-          - `content: string`
+action: string
 
-            The content to return.
+<a href="#">Link to this property</a>
 
-          - `content_type: string`
+enabled: boolean
 
-            The type of the content to return.
+<a href="#">Link to this property</a>
 
-          - `status_code: number`
+expression: string
 
-            The status code to return.
+<a href="#">Link to this property</a>
 
-      - `categories: optional array of string`
+ref: string
 
-        The categories of the rule.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+</details>
 
-        An informative description of the rule.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+<details>
 
-        Whether the rule should be executed.
+<summary>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+JavaScriptChallengeRule object {id, action, enabled, 10 more }
 
-        Configuration for exposed credential checking.
+</summary>
 
-        - `password_expression: string`
+id: string
 
-          An expression that selects the password used in the credentials check.
+The unique ID of the rule.
 
-        - `username_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the user ID used in the credentials check.
+action: "js\_challenge"
 
-      - `expression: optional string`
+The action to perform when the rule matches.
 
-        The expression defining which traffic will match the rule.
+<a href="#">Link to this property</a>
 
-      - `logging: optional Logging`
+enabled: boolean
 
-        An object configuring the rule's logging behavior.
+Whether the rule should be executed.
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-          Whether to generate a log when the rule matches.
+expression: string
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+The expression defining which traffic will match the rule.
 
-        An object configuring the rule's rate limit behavior.
+minLength1
 
-        - `characteristics: array of string`
+<a href="#">Link to this property</a>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+last\_updated: string
 
-        - `period: number`
+The timestamp of when the rule was last modified.
 
-          Period in seconds over which the counter is being incremented.
+formatdate-time
 
-        - `counting_expression: optional string`
+<a href="#">Link to this property</a>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+ref: string
 
-        - `mitigation_timeout: optional number`
+The reference of the rule (the rule’s ID by default).
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+minLength1
 
-        - `requests_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The threshold of requests per period after which the action will be executed for the first time.
+version: string
 
-        - `requests_to_origin: optional boolean`
+The version of the rule.
 
-          Whether counting is only performed when an origin is reached.
+<a href="#">Link to this property</a>
 
-        - `score_per_period: optional number`
+action\_parameters: optional unknown
 
-          The score threshold per period for which the action will be executed the first time.
+The parameters configuring the rule’s action.
 
-        - `score_response_header_name: optional string`
+<a href="#">Link to this property</a>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+categories: optional array of string
 
-      - `ref: optional string`
+The categories of the rule.
 
-        The reference of the rule (the rule's ID by default).
+<a href="#">Link to this property</a>
 
-    - `Challenge object { last_updated, version, id, 10 more }`
+description: optional string
 
-      - `last_updated: string`
+An informative description of the rule.
 
-        The timestamp of when the rule was last modified.
+<a href="#">Link to this property</a>
 
-      - `version: string`
+<details>
 
-        The version of the rule.
+<summary>
 
-      - `id: optional string`
+exposed\_credential\_check: optional object {password\_expression, username\_expression }
 
-        The unique ID of the rule.
+Configuration for exposed credential checking.
 
-      - `action: optional "challenge"`
+</summary>
 
-        The action to perform when the rule matches.
+password\_expression: string
 
-        - `"challenge"`
+An expression that selects the password used in the credentials check.
 
-      - `action_parameters: optional unknown`
+minLength1
 
-        The parameters configuring the rule's action.
+<a href="#">Link to this property</a>
 
-      - `categories: optional array of string`
+username\_expression: string
 
-        The categories of the rule.
+An expression that selects the user ID used in the credentials check.
 
-      - `description: optional string`
+minLength1
 
-        An informative description of the rule.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Whether the rule should be executed.
+<a href="#">Link to this property</a>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+logging: optional <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20logging%20%3E%20(schema)">Logging</a> { enabled }
 
-        Configuration for exposed credential checking.
+An object configuring the rule’s logging behavior.
 
-        - `password_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the password used in the credentials check.
+<details>
 
-        - `username_expression: string`
+<summary>
 
-          An expression that selects the user ID used in the credentials check.
+ratelimit: optional object {characteristics, period, counting\_expression, 5 more }
 
-      - `expression: optional string`
+An object configuring the rule’s rate limit behavior.
 
-        The expression defining which traffic will match the rule.
+</summary>
 
-      - `logging: optional Logging`
+characteristics: array of string
 
-        An object configuring the rule's logging behavior.
+Characteristics of the request on which the rate limit counter will be incremented.
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+<a href="#">Link to this property</a>
 
-        An object configuring the rule's rate limit behavior.
+period: number
 
-        - `characteristics: array of string`
+Period in seconds over which the counter is being incremented.
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+minimum0
 
-        - `period: number`
+<a href="#">Link to this property</a>
 
-          Period in seconds over which the counter is being incremented.
+counting\_expression: optional string
 
-        - `counting_expression: optional string`
+An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule’s expression.
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+minLength1
 
-        - `mitigation_timeout: optional number`
+<a href="#">Link to this property</a>
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+mitigation\_timeout: optional number
 
-        - `requests_per_period: optional number`
+Period of time in seconds after which the action will be disabled following its first execution.
 
-          The threshold of requests per period after which the action will be executed for the first time.
+<a href="#">Link to this property</a>
 
-        - `requests_to_origin: optional boolean`
+requests\_per\_period: optional number
 
-          Whether counting is only performed when an origin is reached.
+The threshold of requests per period after which the action will be executed for the first time.
 
-        - `score_per_period: optional number`
+minimum1
 
-          The score threshold per period for which the action will be executed the first time.
+<a href="#">Link to this property</a>
 
-        - `score_response_header_name: optional string`
+requests\_to\_origin: optional boolean
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+Whether counting is only performed when an origin is reached.
 
-      - `ref: optional string`
+<a href="#">Link to this property</a>
 
-        The reference of the rule (the rule's ID by default).
+score\_per\_period: optional number
 
-    - `CompressResponseRule object { last_updated, version, id, 10 more }`
+The score threshold per period for which the action will be executed the first time.
 
-      - `last_updated: string`
+<a href="#">Link to this property</a>
 
-        The timestamp of when the rule was last modified.
+score\_response\_header\_name: optional string
 
-      - `version: string`
+A response header name provided by the origin, which contains the score to increment rate limit counter with.
 
-        The version of the rule.
+minLength1
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique ID of the rule.
+</details>
 
-      - `action: optional "compress_response"`
+<a href="#">Link to this property</a>
 
-        The action to perform when the rule matches.
+</details>
 
-        - `"compress_response"`
+<a href="#">Link to this property</a>
 
-      - `action_parameters: optional object { algorithms }`
+<details>
 
-        The parameters configuring the rule's action.
+<summary>
 
-        - `algorithms: array of object { name }`
+LogRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20log_rule%20%3E%20(schema)">LogRule</a> { last\_updated, version, id, 10 more }
 
-          Custom order for compression algorithms.
+</summary>
 
-          - `name: optional "none" or "auto" or "default" or 3 more`
+id: string
 
-            Name of the compression algorithm to enable.
+<a href="#">Link to this property</a>
 
-            - `"none"`
+action: string
 
-            - `"auto"`
+<a href="#">Link to this property</a>
 
-            - `"default"`
+enabled: boolean
 
-            - `"gzip"`
+<a href="#">Link to this property</a>
 
-            - `"brotli"`
+expression: string
 
-            - `"zstd"`
+<a href="#">Link to this property</a>
 
-      - `categories: optional array of string`
+ref: string
 
-        The categories of the rule.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+</details>
 
-        An informative description of the rule.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+<details>
 
-        Whether the rule should be executed.
+<summary>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+LogCustomFieldRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20log_custom_field_rule%20%3E%20(schema)">LogCustomFieldRule</a> { last\_updated, version, id, 10 more }
 
-        Configuration for exposed credential checking.
+</summary>
 
-        - `password_expression: string`
+id: string
 
-          An expression that selects the password used in the credentials check.
+<a href="#">Link to this property</a>
 
-        - `username_expression: string`
+action: string
 
-          An expression that selects the user ID used in the credentials check.
+<a href="#">Link to this property</a>
 
-      - `expression: optional string`
+enabled: boolean
 
-        The expression defining which traffic will match the rule.
+<a href="#">Link to this property</a>
 
-      - `logging: optional Logging`
+expression: string
 
-        An object configuring the rule's logging behavior.
+<a href="#">Link to this property</a>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+ref: string
 
-        An object configuring the rule's rate limit behavior.
+<a href="#">Link to this property</a>
 
-        - `characteristics: array of string`
+</details>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+<a href="#">Link to this property</a>
 
-        - `period: number`
+<details>
 
-          Period in seconds over which the counter is being incremented.
+<summary>
 
-        - `counting_expression: optional string`
+ManagedChallengeRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20managed_challenge_rule%20%3E%20(schema)">ManagedChallengeRule</a> { last\_updated, version, id, 10 more }
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+</summary>
 
-        - `mitigation_timeout: optional number`
+id: string
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+<a href="#">Link to this property</a>
 
-        - `requests_per_period: optional number`
+action: string
 
-          The threshold of requests per period after which the action will be executed for the first time.
+<a href="#">Link to this property</a>
 
-        - `requests_to_origin: optional boolean`
+enabled: boolean
 
-          Whether counting is only performed when an origin is reached.
+<a href="#">Link to this property</a>
 
-        - `score_per_period: optional number`
+expression: string
 
-          The score threshold per period for which the action will be executed the first time.
+<a href="#">Link to this property</a>
 
-        - `score_response_header_name: optional string`
+ref: string
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+<a href="#">Link to this property</a>
 
-      - `ref: optional string`
+</details>
 
-        The reference of the rule (the rule's ID by default).
+<a href="#">Link to this property</a>
 
-    - `DDoSDynamicRule object { last_updated, version, id, 10 more }`
+<details>
 
-      - `last_updated: string`
+<summary>
 
-        The timestamp of when the rule was last modified.
+RedirectRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20redirect_rule%20%3E%20(schema)">RedirectRule</a> { last\_updated, version, id, 10 more }
 
-      - `version: string`
+</summary>
 
-        The version of the rule.
+id: string
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique ID of the rule.
+action: string
 
-      - `action: optional "ddos_dynamic"`
+<a href="#">Link to this property</a>
 
-        The action to perform when the rule matches.
+enabled: boolean
 
-        - `"ddos_dynamic"`
+<a href="#">Link to this property</a>
 
-      - `action_parameters: optional unknown`
+expression: string
 
-        The parameters configuring the rule's action.
+<a href="#">Link to this property</a>
 
-      - `categories: optional array of string`
+ref: string
 
-        The categories of the rule.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+</details>
 
-        An informative description of the rule.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+<details>
 
-        Whether the rule should be executed.
+<summary>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+RewriteRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20rewrite_rule%20%3E%20(schema)">RewriteRule</a> { last\_updated, version, id, 10 more }
 
-        Configuration for exposed credential checking.
+</summary>
 
-        - `password_expression: string`
+id: string
 
-          An expression that selects the password used in the credentials check.
+<a href="#">Link to this property</a>
 
-        - `username_expression: string`
+action: string
 
-          An expression that selects the user ID used in the credentials check.
+<a href="#">Link to this property</a>
 
-      - `expression: optional string`
+enabled: boolean
 
-        The expression defining which traffic will match the rule.
+<a href="#">Link to this property</a>
 
-      - `logging: optional Logging`
+expression: string
 
-        An object configuring the rule's logging behavior.
+<a href="#">Link to this property</a>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+ref: string
 
-        An object configuring the rule's rate limit behavior.
+<a href="#">Link to this property</a>
 
-        - `characteristics: array of string`
+</details>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+<a href="#">Link to this property</a>
 
-        - `period: number`
+<details>
 
-          Period in seconds over which the counter is being incremented.
+<summary>
 
-        - `counting_expression: optional string`
+RouteRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20route_rule%20%3E%20(schema)">RouteRule</a> { last\_updated, version, id, 10 more }
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+</summary>
 
-        - `mitigation_timeout: optional number`
+id: string
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+<a href="#">Link to this property</a>
 
-        - `requests_per_period: optional number`
+action: string
 
-          The threshold of requests per period after which the action will be executed for the first time.
+<a href="#">Link to this property</a>
 
-        - `requests_to_origin: optional boolean`
+enabled: boolean
 
-          Whether counting is only performed when an origin is reached.
+<a href="#">Link to this property</a>
 
-        - `score_per_period: optional number`
+expression: string
 
-          The score threshold per period for which the action will be executed the first time.
+<a href="#">Link to this property</a>
 
-        - `score_response_header_name: optional string`
+ref: string
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+<a href="#">Link to this property</a>
 
-      - `ref: optional string`
+</details>
 
-        The reference of the rule (the rule's ID by default).
+<a href="#">Link to this property</a>
 
-    - `ExecuteRule object { last_updated, version, id, 10 more }`
+<details>
 
-      - `last_updated: string`
+<summary>
 
-        The timestamp of when the rule was last modified.
+ScoreRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20score_rule%20%3E%20(schema)">ScoreRule</a> { last\_updated, version, id, 10 more }
 
-      - `version: string`
+</summary>
 
-        The version of the rule.
+id: string
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique ID of the rule.
+action: string
 
-      - `action: optional "execute"`
+<a href="#">Link to this property</a>
 
-        The action to perform when the rule matches.
+enabled: boolean
 
-        - `"execute"`
+<a href="#">Link to this property</a>
 
-      - `action_parameters: optional object { id, matched_data, overrides }`
+expression: string
 
-        The parameters configuring the rule's action.
+<a href="#">Link to this property</a>
 
-        - `id: string`
+ref: string
 
-          The ID of the ruleset to execute.
+<a href="#">Link to this property</a>
 
-        - `matched_data: optional object { public_key }`
+</details>
 
-          The configuration to use for matched data logging.
+<a href="#">Link to this property</a>
 
-          - `public_key: string`
+<details>
 
-            The public key to encrypt matched data logs with.
+<summary>
 
-        - `overrides: optional object { action, categories, enabled, 2 more }`
+ServeErrorRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20serve_error_rule%20%3E%20(schema)">ServeErrorRule</a> { last\_updated, version, id, 10 more }
 
-          A set of overrides to apply to the target ruleset.
+</summary>
 
-          - `action: optional string`
+id: string
 
-            An action to override all rules with. This option has lower precedence than rule and category overrides.
+<a href="#">Link to this property</a>
 
-          - `categories: optional array of object { category, action, enabled, sensitivity_level }`
+action: string
 
-            A list of category-level overrides. This option has the second-highest precedence after rule-level overrides.
+<a href="#">Link to this property</a>
 
-            - `category: string`
+enabled: boolean
 
-              The name of the category to override.
+<a href="#">Link to this property</a>
 
-            - `action: optional string`
+expression: string
 
-              The action to override rules in the category with.
+<a href="#">Link to this property</a>
 
-            - `enabled: optional boolean`
+ref: string
 
-              Whether to enable execution of rules in the category.
+<a href="#">Link to this property</a>
 
-            - `sensitivity_level: optional "default" or "medium" or "low" or "eoff"`
+</details>
 
-              The sensitivity level to use for rules in the category. This option is only applicable for DDoS phases.
+<a href="#">Link to this property</a>
 
-              - `"default"`
+<details>
 
-              - `"medium"`
+<summary>
 
-              - `"low"`
+SetCacheControlRule object {id, action, enabled, 10 more }
 
-              - `"eoff"`
+</summary>
 
-          - `enabled: optional boolean`
+id: string
 
-            Whether to enable execution of all rules. This option has lower precedence than rule and category overrides.
+The unique ID of the rule.
 
-          - `rules: optional array of object { id, action, enabled, 2 more }`
+<a href="#">Link to this property</a>
 
-            A list of rule-level overrides. This option has the highest precedence.
+action: "set\_cache\_control"
 
-            - `id: string`
+The action to perform when the rule matches.
 
-              The ID of the rule to override.
+<a href="#">Link to this property</a>
 
-            - `action: optional string`
+enabled: boolean
 
-              The action to override the rule with.
+<a href="#">Link to this property</a>
 
-            - `enabled: optional boolean`
+expression: string
 
-              Whether to enable execution of the rule.
+The expression defining which traffic will match the rule.
 
-            - `score_threshold: optional number`
+minLength1
 
-              The score threshold to use for the rule.
+<a href="#">Link to this property</a>
 
-            - `sensitivity_level: optional "default" or "medium" or "low" or "eoff"`
+last\_updated: string
 
-              The sensitivity level to use for the rule. This option is only applicable for DDoS phases.
+The timestamp of when the rule was last modified.
 
-              - `"default"`
+formatdate-time
 
-              - `"medium"`
+<a href="#">Link to this property</a>
 
-              - `"low"`
+ref: string
 
-              - `"eoff"`
+The reference of the rule (the rule’s ID by default).
 
-          - `sensitivity_level: optional "default" or "medium" or "low" or "eoff"`
+minLength1
 
-            A sensitivity level to set for all rules. This option has lower precedence than rule and category overrides and is only applicable for DDoS phases.
+<a href="#">Link to this property</a>
 
-            - `"default"`
+version: string
 
-            - `"medium"`
+The version of the rule.
 
-            - `"low"`
+<a href="#">Link to this property</a>
 
-            - `"eoff"`
+<details>
 
-      - `categories: optional array of string`
+<summary>
 
-        The categories of the rule.
+action\_parameters: optional object {immutable, "max-age", "must-revalidate", 10 more }
 
-      - `description: optional string`
+The parameters configuring the rule’s action.
 
-        An informative description of the rule.
+</summary>
 
-      - `enabled: optional boolean`
+<details>
 
-        Whether the rule should be executed.
+<summary>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+immutable: optional object {operation, cloudflare\_only } or object {operation, cloudflare\_only }
 
-        Configuration for exposed credential checking.
+A cache-control directive configuration.
 
-        - `password_expression: string`
+</summary>
 
-          An expression that selects the password used in the credentials check.
+One of the following:
 
-        - `username_expression: string`
+<details>
 
-          An expression that selects the user ID used in the credentials check.
+<summary>
 
-      - `expression: optional string`
+SetDirective object {operation, cloudflare\_only }
 
-        The expression defining which traffic will match the rule.
+Set the directive.
 
-      - `logging: optional Logging`
+</summary>
 
-        An object configuring the rule's logging behavior.
+<details>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+<summary>
 
-        An object configuring the rule's rate limit behavior.
+operation: "set"or "remove"
 
-        - `characteristics: array of string`
+The operation to perform on the cache-control directive.
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+</summary>
 
-        - `period: number`
+One of the following:
 
-          Period in seconds over which the counter is being incremented.
+"set"
 
-        - `counting_expression: optional string`
+<a href="#">Link to this property</a>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+"remove"
 
-        - `mitigation_timeout: optional number`
+<a href="#">Link to this property</a>
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+</details>
 
-        - `requests_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The threshold of requests per period after which the action will be executed for the first time.
+cloudflare\_only: optional boolean
 
-        - `requests_to_origin: optional boolean`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-          Whether counting is only performed when an origin is reached.
+<a href="#">Link to this property</a>
 
-        - `score_per_period: optional number`
+</details>
 
-          The score threshold per period for which the action will be executed the first time.
+<a href="#">Link to this property</a>
 
-        - `score_response_header_name: optional string`
+<details>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+<summary>
 
-      - `ref: optional string`
+RemoveDirective object {operation, cloudflare\_only }
 
-        The reference of the rule (the rule's ID by default).
+Remove the directive.
 
-    - `ForceConnectionCloseRule object { last_updated, version, id, 10 more }`
+</summary>
 
-      - `last_updated: string`
+<details>
 
-        The timestamp of when the rule was last modified.
+<summary>
 
-      - `version: string`
+operation: "set"or "remove"
 
-        The version of the rule.
+The operation to perform on the cache-control directive.
 
-      - `id: optional string`
+</summary>
 
-        The unique ID of the rule.
+One of the following:
 
-      - `action: optional "force_connection_close"`
+"set"
 
-        The action to perform when the rule matches.
+<a href="#">Link to this property</a>
 
-        - `"force_connection_close"`
+"remove"
 
-      - `action_parameters: optional unknown`
+<a href="#">Link to this property</a>
 
-        The parameters configuring the rule's action.
+</details>
 
-      - `categories: optional array of string`
+<a href="#">Link to this property</a>
 
-        The categories of the rule.
+cloudflare\_only: optional boolean
 
-      - `description: optional string`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        An informative description of the rule.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Whether the rule should be executed.
+<a href="#">Link to this property</a>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+</details>
 
-        Configuration for exposed credential checking.
+<a href="#">Link to this property</a>
 
-        - `password_expression: string`
+<details>
 
-          An expression that selects the password used in the credentials check.
+<summary>
 
-        - `username_expression: string`
+"max-age": optional object {operation, value, cloudflare\_only } or object {operation, cloudflare\_only }
 
-          An expression that selects the user ID used in the credentials check.
+A cache-control directive configuration that accepts a duration value in seconds.
 
-      - `expression: optional string`
+</summary>
 
-        The expression defining which traffic will match the rule.
+One of the following:
 
-      - `logging: optional Logging`
+<details>
 
-        An object configuring the rule's logging behavior.
+<summary>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+SetDirective object {operation, value, cloudflare\_only }
 
-        An object configuring the rule's rate limit behavior.
+Set the directive with a duration value in seconds.
 
-        - `characteristics: array of string`
+</summary>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+<details>
 
-        - `period: number`
+<summary>
 
-          Period in seconds over which the counter is being incremented.
+operation: "set"or "remove"
 
-        - `counting_expression: optional string`
+The operation to perform on the cache-control directive.
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+</summary>
 
-        - `mitigation_timeout: optional number`
+One of the following:
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+"set"
 
-        - `requests_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The threshold of requests per period after which the action will be executed for the first time.
+"remove"
 
-        - `requests_to_origin: optional boolean`
+<a href="#">Link to this property</a>
 
-          Whether counting is only performed when an origin is reached.
+</details>
 
-        - `score_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The score threshold per period for which the action will be executed the first time.
+value: number
 
-        - `score_response_header_name: optional string`
+The duration value in seconds for the directive.
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+minimum0
 
-      - `ref: optional string`
+<a href="#">Link to this property</a>
 
-        The reference of the rule (the rule's ID by default).
+cloudflare\_only: optional boolean
 
-    - `JSChallenge object { last_updated, version, id, 10 more }`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-      - `last_updated: string`
+<a href="#">Link to this property</a>
 
-        The timestamp of when the rule was last modified.
+</details>
 
-      - `version: string`
+<a href="#">Link to this property</a>
 
-        The version of the rule.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        The unique ID of the rule.
+RemoveDirective object {operation, cloudflare\_only }
 
-      - `action: optional "js_challenge"`
+Remove the directive.
 
-        The action to perform when the rule matches.
+</summary>
 
-        - `"js_challenge"`
+<details>
 
-      - `action_parameters: optional unknown`
+<summary>
 
-        The parameters configuring the rule's action.
+operation: "set"or "remove"
 
-      - `categories: optional array of string`
+The operation to perform on the cache-control directive.
 
-        The categories of the rule.
+</summary>
 
-      - `description: optional string`
+One of the following:
 
-        An informative description of the rule.
+"set"
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether the rule should be executed.
+"remove"
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+<a href="#">Link to this property</a>
 
-        Configuration for exposed credential checking.
+</details>
 
-        - `password_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the password used in the credentials check.
+cloudflare\_only: optional boolean
 
-        - `username_expression: string`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-          An expression that selects the user ID used in the credentials check.
+<a href="#">Link to this property</a>
 
-      - `expression: optional string`
+</details>
 
-        The expression defining which traffic will match the rule.
+<a href="#">Link to this property</a>
 
-      - `logging: optional Logging`
+</details>
 
-        An object configuring the rule's logging behavior.
+<a href="#">Link to this property</a>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+<details>
 
-        An object configuring the rule's rate limit behavior.
+<summary>
 
-        - `characteristics: array of string`
+"must-revalidate": optional object {operation, cloudflare\_only } or object {operation, cloudflare\_only }
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+A cache-control directive configuration.
 
-        - `period: number`
+</summary>
 
-          Period in seconds over which the counter is being incremented.
+One of the following:
 
-        - `counting_expression: optional string`
+<details>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+<summary>
 
-        - `mitigation_timeout: optional number`
+SetDirective object {operation, cloudflare\_only }
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+Set the directive.
 
-        - `requests_per_period: optional number`
+</summary>
 
-          The threshold of requests per period after which the action will be executed for the first time.
+<details>
 
-        - `requests_to_origin: optional boolean`
+<summary>
 
-          Whether counting is only performed when an origin is reached.
+operation: "set"or "remove"
 
-        - `score_per_period: optional number`
+The operation to perform on the cache-control directive.
 
-          The score threshold per period for which the action will be executed the first time.
+</summary>
 
-        - `score_response_header_name: optional string`
+One of the following:
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+"set"
 
-      - `ref: optional string`
+<a href="#">Link to this property</a>
 
-        The reference of the rule (the rule's ID by default).
+"remove"
 
-    - `LogRule object { last_updated, version, id, 10 more }`
+<a href="#">Link to this property</a>
 
-      - `last_updated: string`
+</details>
 
-        The timestamp of when the rule was last modified.
+<a href="#">Link to this property</a>
 
-      - `version: string`
+cloudflare\_only: optional boolean
 
-        The version of the rule.
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique ID of the rule.
+</details>
 
-      - `action: optional "log"`
+<a href="#">Link to this property</a>
 
-        The action to perform when the rule matches.
+<details>
 
-        - `"log"`
+<summary>
 
-      - `action_parameters: optional unknown`
+RemoveDirective object {operation, cloudflare\_only }
 
-        The parameters configuring the rule's action.
+Remove the directive.
 
-      - `categories: optional array of string`
+</summary>
 
-        The categories of the rule.
+<details>
 
-      - `description: optional string`
+<summary>
 
-        An informative description of the rule.
+operation: "set"or "remove"
 
-      - `enabled: optional boolean`
+The operation to perform on the cache-control directive.
 
-        Whether the rule should be executed.
+</summary>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+One of the following:
 
-        Configuration for exposed credential checking.
+"set"
 
-        - `password_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the password used in the credentials check.
+"remove"
 
-        - `username_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the user ID used in the credentials check.
+</details>
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The expression defining which traffic will match the rule.
+cloudflare\_only: optional boolean
 
-      - `logging: optional Logging`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        An object configuring the rule's logging behavior.
+<a href="#">Link to this property</a>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+</details>
 
-        An object configuring the rule's rate limit behavior.
+<a href="#">Link to this property</a>
 
-        - `characteristics: array of string`
+</details>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+<a href="#">Link to this property</a>
 
-        - `period: number`
+<details>
 
-          Period in seconds over which the counter is being incremented.
+<summary>
 
-        - `counting_expression: optional string`
+"must-understand": optional object {operation, cloudflare\_only } or object {operation, cloudflare\_only }
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+A cache-control directive configuration.
 
-        - `mitigation_timeout: optional number`
+</summary>
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+One of the following:
 
-        - `requests_per_period: optional number`
+<details>
 
-          The threshold of requests per period after which the action will be executed for the first time.
+<summary>
 
-        - `requests_to_origin: optional boolean`
+SetDirective object {operation, cloudflare\_only }
 
-          Whether counting is only performed when an origin is reached.
+Set the directive.
 
-        - `score_per_period: optional number`
+</summary>
 
-          The score threshold per period for which the action will be executed the first time.
+<details>
 
-        - `score_response_header_name: optional string`
+<summary>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+operation: "set"or "remove"
 
-      - `ref: optional string`
+The operation to perform on the cache-control directive.
 
-        The reference of the rule (the rule's ID by default).
+</summary>
 
-    - `LogCustomFieldRule object { last_updated, version, id, 10 more }`
+One of the following:
 
-      - `last_updated: string`
+"set"
 
-        The timestamp of when the rule was last modified.
+<a href="#">Link to this property</a>
 
-      - `version: string`
+"remove"
 
-        The version of the rule.
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+</details>
 
-        The unique ID of the rule.
+<a href="#">Link to this property</a>
 
-      - `action: optional "log_custom_field"`
+cloudflare\_only: optional boolean
 
-        The action to perform when the rule matches.
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        - `"log_custom_field"`
+<a href="#">Link to this property</a>
 
-      - `action_parameters: optional object { cookie_fields, raw_response_fields, request_fields, 2 more }`
+</details>
 
-        The parameters configuring the rule's action.
+<a href="#">Link to this property</a>
 
-        - `cookie_fields: optional array of object { name }`
+<details>
 
-          The cookie fields to log.
+<summary>
 
-          - `name: string`
+RemoveDirective object {operation, cloudflare\_only }
 
-            The name of the cookie.
+Remove the directive.
 
-        - `raw_response_fields: optional array of object { name, preserve_duplicates }`
+</summary>
 
-          The raw response fields to log.
+<details>
 
-          - `name: string`
+<summary>
 
-            The name of the response header.
+operation: "set"or "remove"
 
-          - `preserve_duplicates: optional boolean`
+The operation to perform on the cache-control directive.
 
-            Whether to log duplicate values of the same header.
+</summary>
 
-        - `request_fields: optional array of object { name }`
+One of the following:
 
-          The raw request fields to log.
+"set"
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-            The name of the header.
+"remove"
 
-        - `response_fields: optional array of object { name, preserve_duplicates }`
+<a href="#">Link to this property</a>
 
-          The transformed response fields to log.
+</details>
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-            The name of the response header.
+cloudflare\_only: optional boolean
 
-          - `preserve_duplicates: optional boolean`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-            Whether to log duplicate values of the same header.
+<a href="#">Link to this property</a>
 
-        - `transformed_request_fields: optional array of object { name }`
+</details>
 
-          The transformed request fields to log.
+<a href="#">Link to this property</a>
 
-          - `name: string`
+</details>
 
-            The name of the header.
+<a href="#">Link to this property</a>
 
-      - `categories: optional array of string`
+<details>
 
-        The categories of the rule.
+<summary>
 
-      - `description: optional string`
+"no-cache": optional object {operation, cloudflare\_only, qualifiers } or object {operation, cloudflare\_only }
 
-        An informative description of the rule.
+A cache-control directive configuration that accepts optional qualifiers (header names).
 
-      - `enabled: optional boolean`
+</summary>
 
-        Whether the rule should be executed.
+One of the following:
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+<details>
 
-        Configuration for exposed credential checking.
+<summary>
 
-        - `password_expression: string`
+SetDirective object {operation, cloudflare\_only, qualifiers }
 
-          An expression that selects the password used in the credentials check.
+Set the directive with optional qualifiers.
 
-        - `username_expression: string`
+</summary>
 
-          An expression that selects the user ID used in the credentials check.
+<details>
 
-      - `expression: optional string`
+<summary>
 
-        The expression defining which traffic will match the rule.
+operation: "set"or "remove"
 
-      - `logging: optional Logging`
+The operation to perform on the cache-control directive.
 
-        An object configuring the rule's logging behavior.
+</summary>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+One of the following:
 
-        An object configuring the rule's rate limit behavior.
+"set"
 
-        - `characteristics: array of string`
+<a href="#">Link to this property</a>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+"remove"
 
-        - `period: number`
+<a href="#">Link to this property</a>
 
-          Period in seconds over which the counter is being incremented.
+</details>
 
-        - `counting_expression: optional string`
+<a href="#">Link to this property</a>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+cloudflare\_only: optional boolean
 
-        - `mitigation_timeout: optional number`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+<a href="#">Link to this property</a>
 
-        - `requests_per_period: optional number`
+qualifiers: optional array of string
 
-          The threshold of requests per period after which the action will be executed for the first time.
+Optional list of header names to qualify the directive (e.g., for “private” or “no-cache” directives).
 
-        - `requests_to_origin: optional boolean`
+<a href="#">Link to this property</a>
 
-          Whether counting is only performed when an origin is reached.
+</details>
 
-        - `score_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The score threshold per period for which the action will be executed the first time.
+<details>
 
-        - `score_response_header_name: optional string`
+<summary>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+RemoveDirective object {operation, cloudflare\_only }
 
-      - `ref: optional string`
+Remove the directive.
 
-        The reference of the rule (the rule's ID by default).
+</summary>
 
-    - `ManagedChallengeRule object { last_updated, version, id, 10 more }`
+<details>
 
-      - `last_updated: string`
+<summary>
 
-        The timestamp of when the rule was last modified.
+operation: "set"or "remove"
 
-      - `version: string`
+The operation to perform on the cache-control directive.
 
-        The version of the rule.
+</summary>
 
-      - `id: optional string`
+One of the following:
 
-        The unique ID of the rule.
+"set"
 
-      - `action: optional "managed_challenge"`
+<a href="#">Link to this property</a>
 
-        The action to perform when the rule matches.
+"remove"
 
-        - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-      - `action_parameters: optional unknown`
+</details>
 
-        The parameters configuring the rule's action.
+<a href="#">Link to this property</a>
 
-      - `categories: optional array of string`
+cloudflare\_only: optional boolean
 
-        The categories of the rule.
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        An informative description of the rule.
+</details>
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether the rule should be executed.
+</details>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+<a href="#">Link to this property</a>
 
-        Configuration for exposed credential checking.
+<details>
 
-        - `password_expression: string`
+<summary>
 
-          An expression that selects the password used in the credentials check.
+"no-store": optional object {operation, cloudflare\_only } or object {operation, cloudflare\_only }
 
-        - `username_expression: string`
+A cache-control directive configuration.
 
-          An expression that selects the user ID used in the credentials check.
+</summary>
 
-      - `expression: optional string`
+One of the following:
 
-        The expression defining which traffic will match the rule.
+<details>
 
-      - `logging: optional Logging`
+<summary>
 
-        An object configuring the rule's logging behavior.
+SetDirective object {operation, cloudflare\_only }
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+Set the directive.
 
-        An object configuring the rule's rate limit behavior.
+</summary>
 
-        - `characteristics: array of string`
+<details>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+<summary>
 
-        - `period: number`
+operation: "set"or "remove"
 
-          Period in seconds over which the counter is being incremented.
+The operation to perform on the cache-control directive.
 
-        - `counting_expression: optional string`
+</summary>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+One of the following:
 
-        - `mitigation_timeout: optional number`
+"set"
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+<a href="#">Link to this property</a>
 
-        - `requests_per_period: optional number`
+"remove"
 
-          The threshold of requests per period after which the action will be executed for the first time.
+<a href="#">Link to this property</a>
 
-        - `requests_to_origin: optional boolean`
+</details>
 
-          Whether counting is only performed when an origin is reached.
+<a href="#">Link to this property</a>
 
-        - `score_per_period: optional number`
+cloudflare\_only: optional boolean
 
-          The score threshold per period for which the action will be executed the first time.
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        - `score_response_header_name: optional string`
+<a href="#">Link to this property</a>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+</details>
 
-      - `ref: optional string`
+<a href="#">Link to this property</a>
 
-        The reference of the rule (the rule's ID by default).
+<details>
 
-    - `RedirectRule object { last_updated, version, id, 10 more }`
+<summary>
 
-      - `last_updated: string`
+RemoveDirective object {operation, cloudflare\_only }
 
-        The timestamp of when the rule was last modified.
+Remove the directive.
 
-      - `version: string`
+</summary>
 
-        The version of the rule.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        The unique ID of the rule.
+operation: "set"or "remove"
 
-      - `action: optional "redirect"`
+The operation to perform on the cache-control directive.
 
-        The action to perform when the rule matches.
+</summary>
 
-        - `"redirect"`
+One of the following:
 
-      - `action_parameters: optional object { from_list, from_value }`
+"set"
 
-        The parameters configuring the rule's action.
+<a href="#">Link to this property</a>
 
-        - `from_list: optional object { key, name }`
+"remove"
 
-          A redirect based on a bulk list lookup.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+</details>
 
-            An expression that evaluates to the list lookup key.
+<a href="#">Link to this property</a>
 
-          - `name: string`
+cloudflare\_only: optional boolean
 
-            The name of the list to match against.
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        - `from_value: optional object { target_url, preserve_query_string, status_code }`
+<a href="#">Link to this property</a>
 
-          A redirect based on the request properties.
+</details>
 
-          - `target_url: object { expression, value }`
+<a href="#">Link to this property</a>
 
-            A URL to redirect the request to.
+</details>
 
-            - `expression: optional string`
+<a href="#">Link to this property</a>
 
-              An expression that evaluates to a URL to redirect the request to.
+<details>
 
-            - `value: optional string`
+<summary>
 
-              A URL to redirect the request to.
+"no-transform": optional object {operation, cloudflare\_only } or object {operation, cloudflare\_only }
 
-          - `preserve_query_string: optional boolean`
+A cache-control directive configuration.
 
-            Whether to keep the query string of the original request.
+</summary>
 
-          - `status_code: optional 301 or 302 or 303 or 2 more`
+One of the following:
 
-            The status code to use for the redirect.
+<details>
 
-            - `301`
+<summary>
 
-            - `302`
+SetDirective object {operation, cloudflare\_only }
 
-            - `303`
+Set the directive.
 
-            - `307`
+</summary>
 
-            - `308`
+<details>
 
-      - `categories: optional array of string`
+<summary>
 
-        The categories of the rule.
+operation: "set"or "remove"
 
-      - `description: optional string`
+The operation to perform on the cache-control directive.
 
-        An informative description of the rule.
+</summary>
 
-      - `enabled: optional boolean`
+One of the following:
 
-        Whether the rule should be executed.
+"set"
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+<a href="#">Link to this property</a>
 
-        Configuration for exposed credential checking.
+"remove"
 
-        - `password_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the password used in the credentials check.
+</details>
 
-        - `username_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the user ID used in the credentials check.
+cloudflare\_only: optional boolean
 
-      - `expression: optional string`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        The expression defining which traffic will match the rule.
+<a href="#">Link to this property</a>
 
-      - `logging: optional Logging`
+</details>
 
-        An object configuring the rule's logging behavior.
+<a href="#">Link to this property</a>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+<details>
 
-        An object configuring the rule's rate limit behavior.
+<summary>
 
-        - `characteristics: array of string`
+RemoveDirective object {operation, cloudflare\_only }
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+Remove the directive.
 
-        - `period: number`
+</summary>
 
-          Period in seconds over which the counter is being incremented.
+<details>
 
-        - `counting_expression: optional string`
+<summary>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+operation: "set"or "remove"
 
-        - `mitigation_timeout: optional number`
+The operation to perform on the cache-control directive.
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+</summary>
 
-        - `requests_per_period: optional number`
+One of the following:
 
-          The threshold of requests per period after which the action will be executed for the first time.
+"set"
 
-        - `requests_to_origin: optional boolean`
+<a href="#">Link to this property</a>
 
-          Whether counting is only performed when an origin is reached.
+"remove"
 
-        - `score_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The score threshold per period for which the action will be executed the first time.
+</details>
 
-        - `score_response_header_name: optional string`
+<a href="#">Link to this property</a>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+cloudflare\_only: optional boolean
 
-      - `ref: optional string`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        The reference of the rule (the rule's ID by default).
+<a href="#">Link to this property</a>
 
-    - `RewriteRule object { last_updated, version, id, 10 more }`
+</details>
 
-      - `last_updated: string`
+<a href="#">Link to this property</a>
 
-        The timestamp of when the rule was last modified.
+</details>
 
-      - `version: string`
+<a href="#">Link to this property</a>
 
-        The version of the rule.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        The unique ID of the rule.
+private: optional object {operation, cloudflare\_only, qualifiers } or object {operation, cloudflare\_only }
 
-      - `action: optional "rewrite"`
+A cache-control directive configuration that accepts optional qualifiers (header names).
 
-        The action to perform when the rule matches.
+</summary>
 
-        - `"rewrite"`
+One of the following:
 
-      - `action_parameters: optional object { headers, uri }`
+<details>
 
-        The parameters configuring the rule's action.
+<summary>
 
-        - `headers: optional map[object { operation, value }  or object { expression, operation }  or object { operation, value }  or 2 more]`
+SetDirective object {operation, cloudflare\_only, qualifiers }
 
-          A map of headers to rewrite.
+Set the directive with optional qualifiers.
 
-          - `AddStaticHeader object { operation, value }`
+</summary>
 
-            A header with a static value to add.
+<details>
 
-            - `operation: "add"`
+<summary>
 
-              The operation to perform on the header.
+operation: "set"or "remove"
 
-              - `"add"`
+The operation to perform on the cache-control directive.
 
-            - `value: string`
+</summary>
 
-              A static value for the header.
+One of the following:
 
-          - `AddDynamicHeader object { expression, operation }`
+"set"
 
-            A header with a dynamic value to add.
+<a href="#">Link to this property</a>
 
-            - `expression: string`
+"remove"
 
-              An expression that evaluates to a value for the header.
+<a href="#">Link to this property</a>
 
-            - `operation: "add"`
+</details>
 
-              The operation to perform on the header.
+<a href="#">Link to this property</a>
 
-              - `"add"`
+cloudflare\_only: optional boolean
 
-          - `SetStaticHeader object { operation, value }`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-            A header with a static value to set.
+<a href="#">Link to this property</a>
 
-            - `operation: "set"`
+qualifiers: optional array of string
 
-              The operation to perform on the header.
+Optional list of header names to qualify the directive (e.g., for “private” or “no-cache” directives).
 
-              - `"set"`
+<a href="#">Link to this property</a>
 
-            - `value: string`
+</details>
 
-              A static value for the header.
+<a href="#">Link to this property</a>
 
-          - `SetDynamicHeader object { expression, operation }`
+<details>
 
-            A header with a dynamic value to set.
+<summary>
 
-            - `expression: string`
+RemoveDirective object {operation, cloudflare\_only }
 
-              An expression that evaluates to a value for the header.
+Remove the directive.
 
-            - `operation: "set"`
+</summary>
 
-              The operation to perform on the header.
+<details>
 
-              - `"set"`
+<summary>
 
-          - `RemoveHeader object { operation }`
+operation: "set"or "remove"
 
-            A header to remove.
+The operation to perform on the cache-control directive.
 
-            - `operation: "remove"`
+</summary>
 
-              The operation to perform on the header.
+One of the following:
 
-              - `"remove"`
+"set"
 
-        - `uri: optional object { path, origin }  or object { query, origin }`
+<a href="#">Link to this property</a>
 
-          A URI path rewrite.
+"remove"
 
-          - `URIPath object { path, origin }`
+<a href="#">Link to this property</a>
 
-            A URI path rewrite.
+</details>
 
-            - `path: object { expression, value }`
+<a href="#">Link to this property</a>
 
-              A URI path rewrite.
+cloudflare\_only: optional boolean
 
-              - `expression: optional string`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-                An expression that evaluates to a value to rewrite the URI path to.
+<a href="#">Link to this property</a>
 
-              - `value: optional string`
+</details>
 
-                A value to rewrite the URI path to.
+<a href="#">Link to this property</a>
 
-            - `origin: optional boolean`
+</details>
 
-              Whether to propagate the rewritten URI to origin.
+<a href="#">Link to this property</a>
 
-          - `URIQuery object { query, origin }`
+<details>
 
-            A URI query rewrite.
+<summary>
 
-            - `query: object { expression, value }`
+"proxy-revalidate": optional object {operation, cloudflare\_only } or object {operation, cloudflare\_only }
 
-              A URI query rewrite.
+A cache-control directive configuration.
 
-              - `expression: optional string`
+</summary>
 
-                An expression that evaluates to a value to rewrite the URI query to.
+One of the following:
 
-              - `value: optional string`
+<details>
 
-                A value to rewrite the URI query to.
+<summary>
 
-            - `origin: optional boolean`
+SetDirective object {operation, cloudflare\_only }
 
-              Whether to propagate the rewritten URI to origin.
+Set the directive.
 
-      - `categories: optional array of string`
+</summary>
 
-        The categories of the rule.
+<details>
 
-      - `description: optional string`
+<summary>
 
-        An informative description of the rule.
+operation: "set"or "remove"
 
-      - `enabled: optional boolean`
+The operation to perform on the cache-control directive.
 
-        Whether the rule should be executed.
+</summary>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+One of the following:
 
-        Configuration for exposed credential checking.
+"set"
 
-        - `password_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the password used in the credentials check.
+"remove"
 
-        - `username_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the user ID used in the credentials check.
+</details>
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The expression defining which traffic will match the rule.
+cloudflare\_only: optional boolean
 
-      - `logging: optional Logging`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        An object configuring the rule's logging behavior.
+<a href="#">Link to this property</a>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+</details>
 
-        An object configuring the rule's rate limit behavior.
+<a href="#">Link to this property</a>
 
-        - `characteristics: array of string`
+<details>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+<summary>
 
-        - `period: number`
+RemoveDirective object {operation, cloudflare\_only }
 
-          Period in seconds over which the counter is being incremented.
+Remove the directive.
 
-        - `counting_expression: optional string`
+</summary>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+<details>
 
-        - `mitigation_timeout: optional number`
+<summary>
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+operation: "set"or "remove"
 
-        - `requests_per_period: optional number`
+The operation to perform on the cache-control directive.
 
-          The threshold of requests per period after which the action will be executed for the first time.
+</summary>
 
-        - `requests_to_origin: optional boolean`
+One of the following:
 
-          Whether counting is only performed when an origin is reached.
+"set"
 
-        - `score_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The score threshold per period for which the action will be executed the first time.
+"remove"
 
-        - `score_response_header_name: optional string`
+<a href="#">Link to this property</a>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+</details>
 
-      - `ref: optional string`
+<a href="#">Link to this property</a>
 
-        The reference of the rule (the rule's ID by default).
+cloudflare\_only: optional boolean
 
-    - `RouteRule object { last_updated, version, id, 10 more }`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-      - `last_updated: string`
+<a href="#">Link to this property</a>
 
-        The timestamp of when the rule was last modified.
+</details>
 
-      - `version: string`
+<a href="#">Link to this property</a>
 
-        The version of the rule.
+</details>
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique ID of the rule.
+<details>
 
-      - `action: optional "route"`
+<summary>
 
-        The action to perform when the rule matches.
+public: optional object {operation, cloudflare\_only } or object {operation, cloudflare\_only }
 
-        - `"route"`
+A cache-control directive configuration.
 
-      - `action_parameters: optional object { host_header, origin, sni }`
+</summary>
 
-        The parameters configuring the rule's action.
+One of the following:
 
-        - `host_header: optional string`
+<details>
 
-          A value to rewrite the HTTP host header to.
+<summary>
 
-        - `origin: optional object { host, port }`
+SetDirective object {operation, cloudflare\_only }
 
-          An origin to route to.
+Set the directive.
 
-          - `host: optional string`
+</summary>
 
-            A resolved host to route to.
+<details>
 
-          - `port: optional number`
+<summary>
 
-            A destination port to route to.
+operation: "set"or "remove"
 
-        - `sni: optional object { value }`
+The operation to perform on the cache-control directive.
 
-          A Server Name Indication (SNI) override.
+</summary>
 
-          - `value: string`
+One of the following:
 
-            A value to override the SNI to.
+"set"
 
-      - `categories: optional array of string`
+<a href="#">Link to this property</a>
 
-        The categories of the rule.
+"remove"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        An informative description of the rule.
+</details>
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether the rule should be executed.
+cloudflare\_only: optional boolean
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        Configuration for exposed credential checking.
+<a href="#">Link to this property</a>
 
-        - `password_expression: string`
+</details>
 
-          An expression that selects the password used in the credentials check.
+<a href="#">Link to this property</a>
 
-        - `username_expression: string`
+<details>
 
-          An expression that selects the user ID used in the credentials check.
+<summary>
 
-      - `expression: optional string`
+RemoveDirective object {operation, cloudflare\_only }
 
-        The expression defining which traffic will match the rule.
+Remove the directive.
 
-      - `logging: optional Logging`
+</summary>
 
-        An object configuring the rule's logging behavior.
+<details>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+<summary>
 
-        An object configuring the rule's rate limit behavior.
+operation: "set"or "remove"
 
-        - `characteristics: array of string`
+The operation to perform on the cache-control directive.
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+</summary>
 
-        - `period: number`
+One of the following:
 
-          Period in seconds over which the counter is being incremented.
+"set"
 
-        - `counting_expression: optional string`
+<a href="#">Link to this property</a>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+"remove"
 
-        - `mitigation_timeout: optional number`
+<a href="#">Link to this property</a>
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+</details>
 
-        - `requests_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The threshold of requests per period after which the action will be executed for the first time.
+cloudflare\_only: optional boolean
 
-        - `requests_to_origin: optional boolean`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-          Whether counting is only performed when an origin is reached.
+<a href="#">Link to this property</a>
 
-        - `score_per_period: optional number`
+</details>
 
-          The score threshold per period for which the action will be executed the first time.
+<a href="#">Link to this property</a>
 
-        - `score_response_header_name: optional string`
+</details>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+<a href="#">Link to this property</a>
 
-      - `ref: optional string`
+<details>
 
-        The reference of the rule (the rule's ID by default).
+<summary>
 
-    - `ScoreRule object { last_updated, version, id, 10 more }`
+"s-maxage": optional object {operation, value, cloudflare\_only } or object {operation, cloudflare\_only }
 
-      - `last_updated: string`
+A cache-control directive configuration that accepts a duration value in seconds.
 
-        The timestamp of when the rule was last modified.
+</summary>
 
-      - `version: string`
+One of the following:
 
-        The version of the rule.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        The unique ID of the rule.
+SetDirective object {operation, value, cloudflare\_only }
 
-      - `action: optional "score"`
+Set the directive with a duration value in seconds.
 
-        The action to perform when the rule matches.
+</summary>
 
-        - `"score"`
+<details>
 
-      - `action_parameters: optional object { increment }`
+<summary>
 
-        The parameters configuring the rule's action.
+operation: "set"or "remove"
 
-        - `increment: number`
+The operation to perform on the cache-control directive.
 
-          A delta to change the score by, which can be either positive or negative.
+</summary>
 
-      - `categories: optional array of string`
+One of the following:
 
-        The categories of the rule.
+"set"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        An informative description of the rule.
+"remove"
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether the rule should be executed.
+</details>
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+<a href="#">Link to this property</a>
 
-        Configuration for exposed credential checking.
+value: number
 
-        - `password_expression: string`
+The duration value in seconds for the directive.
 
-          An expression that selects the password used in the credentials check.
+minimum0
 
-        - `username_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the user ID used in the credentials check.
+cloudflare\_only: optional boolean
 
-      - `expression: optional string`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        The expression defining which traffic will match the rule.
+<a href="#">Link to this property</a>
 
-      - `logging: optional Logging`
+</details>
 
-        An object configuring the rule's logging behavior.
+<a href="#">Link to this property</a>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+<details>
 
-        An object configuring the rule's rate limit behavior.
+<summary>
 
-        - `characteristics: array of string`
+RemoveDirective object {operation, cloudflare\_only }
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+Remove the directive.
 
-        - `period: number`
+</summary>
 
-          Period in seconds over which the counter is being incremented.
+<details>
 
-        - `counting_expression: optional string`
+<summary>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+operation: "set"or "remove"
 
-        - `mitigation_timeout: optional number`
+The operation to perform on the cache-control directive.
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+</summary>
 
-        - `requests_per_period: optional number`
+One of the following:
 
-          The threshold of requests per period after which the action will be executed for the first time.
+"set"
 
-        - `requests_to_origin: optional boolean`
+<a href="#">Link to this property</a>
 
-          Whether counting is only performed when an origin is reached.
+"remove"
 
-        - `score_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The score threshold per period for which the action will be executed the first time.
+</details>
 
-        - `score_response_header_name: optional string`
+<a href="#">Link to this property</a>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+cloudflare\_only: optional boolean
 
-      - `ref: optional string`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-        The reference of the rule (the rule's ID by default).
+<a href="#">Link to this property</a>
 
-    - `ServeErrorRule object { last_updated, version, id, 10 more }`
+</details>
 
-      - `last_updated: string`
+<a href="#">Link to this property</a>
 
-        The timestamp of when the rule was last modified.
+</details>
 
-      - `version: string`
+<a href="#">Link to this property</a>
 
-        The version of the rule.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        The unique ID of the rule.
+"stale-if-error": optional object {operation, value, cloudflare\_only } or object {operation, cloudflare\_only }
 
-      - `action: optional "serve_error"`
+A cache-control directive configuration that accepts a duration value in seconds.
 
-        The action to perform when the rule matches.
+</summary>
 
-        - `"serve_error"`
+One of the following:
 
-      - `action_parameters: optional object { content, content_type, status_code }  or object { asset_name, content_type, status_code }`
+<details>
 
-        The parameters configuring the rule's action.
+<summary>
 
-        - `ActionParametersContent object { content, content_type, status_code }`
+SetDirective object {operation, value, cloudflare\_only }
 
-          - `content: string`
+Set the directive with a duration value in seconds.
 
-            The response content.
+</summary>
 
-          - `content_type: optional "application/json" or "text/html" or "text/plain" or "text/xml"`
+<details>
 
-            The content type header to set with the error response.
+<summary>
 
-            - `"application/json"`
+operation: "set"or "remove"
 
-            - `"text/html"`
+The operation to perform on the cache-control directive.
 
-            - `"text/plain"`
+</summary>
 
-            - `"text/xml"`
+One of the following:
 
-          - `status_code: optional number`
+"set"
 
-            The status code to use for the error.
+<a href="#">Link to this property</a>
 
-        - `ActionParametersAsset object { asset_name, content_type, status_code }`
+"remove"
 
-          - `asset_name: string`
+<a href="#">Link to this property</a>
 
-            The name of a custom asset to serve as the error response.
+</details>
 
-          - `content_type: optional "application/json" or "text/html" or "text/plain" or "text/xml"`
+<a href="#">Link to this property</a>
 
-            The content type header to set with the error response.
+value: number
 
-            - `"application/json"`
+The duration value in seconds for the directive.
 
-            - `"text/html"`
+minimum0
 
-            - `"text/plain"`
+<a href="#">Link to this property</a>
 
-            - `"text/xml"`
+cloudflare\_only: optional boolean
 
-          - `status_code: optional number`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-            The status code to use for the error.
+<a href="#">Link to this property</a>
 
-      - `categories: optional array of string`
+</details>
 
-        The categories of the rule.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+<details>
 
-        An informative description of the rule.
+<summary>
 
-      - `enabled: optional boolean`
+RemoveDirective object {operation, cloudflare\_only }
 
-        Whether the rule should be executed.
+Remove the directive.
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+</summary>
 
-        Configuration for exposed credential checking.
+<details>
 
-        - `password_expression: string`
+<summary>
 
-          An expression that selects the password used in the credentials check.
+operation: "set"or "remove"
 
-        - `username_expression: string`
+The operation to perform on the cache-control directive.
 
-          An expression that selects the user ID used in the credentials check.
+</summary>
 
-      - `expression: optional string`
+One of the following:
 
-        The expression defining which traffic will match the rule.
+"set"
 
-      - `logging: optional Logging`
+<a href="#">Link to this property</a>
 
-        An object configuring the rule's logging behavior.
+"remove"
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+<a href="#">Link to this property</a>
 
-        An object configuring the rule's rate limit behavior.
+</details>
 
-        - `characteristics: array of string`
+<a href="#">Link to this property</a>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+cloudflare\_only: optional boolean
 
-        - `period: number`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-          Period in seconds over which the counter is being incremented.
+<a href="#">Link to this property</a>
 
-        - `counting_expression: optional string`
+</details>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+<a href="#">Link to this property</a>
 
-        - `mitigation_timeout: optional number`
+</details>
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+<a href="#">Link to this property</a>
 
-        - `requests_per_period: optional number`
+<details>
 
-          The threshold of requests per period after which the action will be executed for the first time.
+<summary>
 
-        - `requests_to_origin: optional boolean`
+"stale-while-revalidate": optional object {operation, value, cloudflare\_only } or object {operation, cloudflare\_only }
 
-          Whether counting is only performed when an origin is reached.
+A cache-control directive configuration that accepts a duration value in seconds.
 
-        - `score_per_period: optional number`
+</summary>
 
-          The score threshold per period for which the action will be executed the first time.
+One of the following:
 
-        - `score_response_header_name: optional string`
+<details>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+<summary>
 
-      - `ref: optional string`
+SetDirective object {operation, value, cloudflare\_only }
 
-        The reference of the rule (the rule's ID by default).
+Set the directive with a duration value in seconds.
 
-    - `SetCacheControl object { last_updated, version, id, 10 more }`
+</summary>
 
-      - `last_updated: string`
+<details>
 
-        The timestamp of when the rule was last modified.
+<summary>
 
-      - `version: string`
+operation: "set"or "remove"
 
-        The version of the rule.
+The operation to perform on the cache-control directive.
 
-      - `id: optional string`
+</summary>
 
-        The unique ID of the rule.
+One of the following:
 
-      - `action: optional "set_cache_control"`
+"set"
 
-        The action to perform when the rule matches.
+<a href="#">Link to this property</a>
 
-        - `"set_cache_control"`
+"remove"
 
-      - `action_parameters: optional object { immutable, "max-age", "must-revalidate", 10 more }`
+<a href="#">Link to this property</a>
 
-        The parameters configuring the rule's action.
+</details>
 
-        - `immutable: optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-          A cache-control directive configuration.
+value: number
 
-          - `SetDirective object { operation, cloudflare_only }`
+The duration value in seconds for the directive.
 
-            Set the directive.
+minimum0
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+cloudflare\_only: optional boolean
 
-              - `"set"`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-              - `"remove"`
+<a href="#">Link to this property</a>
 
-            - `cloudflare_only: optional boolean`
+</details>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+<a href="#">Link to this property</a>
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+<details>
 
-            Remove the directive.
+<summary>
 
-            - `operation: "set" or "remove"`
+RemoveDirective object {operation, cloudflare\_only }
 
-              The operation to perform on the cache-control directive.
+Remove the directive.
 
-              - `"set"`
+</summary>
 
-              - `"remove"`
+<details>
 
-            - `cloudflare_only: optional boolean`
+<summary>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+operation: "set"or "remove"
 
-        - `"max-age": optional object { operation, value, cloudflare_only }  or object { operation, cloudflare_only }`
+The operation to perform on the cache-control directive.
 
-          A cache-control directive configuration that accepts a duration value in seconds.
+</summary>
 
-          - `SetDirective object { operation, value, cloudflare_only }`
+One of the following:
 
-            Set the directive with a duration value in seconds.
+"set"
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+"remove"
 
-              - `"set"`
+<a href="#">Link to this property</a>
 
-              - `"remove"`
+</details>
 
-            - `value: number`
+<a href="#">Link to this property</a>
 
-              The duration value in seconds for the directive.
+cloudflare\_only: optional boolean
 
-            - `cloudflare_only: optional boolean`
+Whether the directive should only be applied to the Cloudflare CDN cache.
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+<a href="#">Link to this property</a>
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+</details>
 
-            Remove the directive.
+<a href="#">Link to this property</a>
 
-            - `operation: "set" or "remove"`
+</details>
 
-              The operation to perform on the cache-control directive.
+<a href="#">Link to this property</a>
 
-              - `"set"`
+</details>
 
-              - `"remove"`
+<a href="#">Link to this property</a>
 
-            - `cloudflare_only: optional boolean`
+categories: optional array of string
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+The categories of the rule.
 
-        - `"must-revalidate": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-          A cache-control directive configuration.
+description: optional string
 
-          - `SetDirective object { operation, cloudflare_only }`
+An informative description of the rule.
 
-            Set the directive.
+<a href="#">Link to this property</a>
 
-            - `operation: "set" or "remove"`
+<details>
 
-              The operation to perform on the cache-control directive.
+<summary>
 
-              - `"set"`
+exposed\_credential\_check: optional object {password\_expression, username\_expression }
 
-              - `"remove"`
+Configuration for exposed credential checking.
 
-            - `cloudflare_only: optional boolean`
+</summary>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+password\_expression: string
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+An expression that selects the password used in the credentials check.
 
-            Remove the directive.
+minLength1
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+username\_expression: string
 
-              - `"set"`
+An expression that selects the user ID used in the credentials check.
 
-              - `"remove"`
+minLength1
 
-            - `cloudflare_only: optional boolean`
+<a href="#">Link to this property</a>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+</details>
 
-        - `"must-understand": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-          A cache-control directive configuration.
+logging: optional <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20logging%20%3E%20(schema)">Logging</a> { enabled }
 
-          - `SetDirective object { operation, cloudflare_only }`
+An object configuring the rule’s logging behavior.
 
-            Set the directive.
+<a href="#">Link to this property</a>
 
-            - `operation: "set" or "remove"`
+<details>
 
-              The operation to perform on the cache-control directive.
+<summary>
 
-              - `"set"`
+ratelimit: optional object {characteristics, period, counting\_expression, 5 more }
 
-              - `"remove"`
+An object configuring the rule’s rate limit behavior.
 
-            - `cloudflare_only: optional boolean`
+</summary>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+characteristics: array of string
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+Characteristics of the request on which the rate limit counter will be incremented.
 
-            Remove the directive.
+<a href="#">Link to this property</a>
 
-            - `operation: "set" or "remove"`
+period: number
 
-              The operation to perform on the cache-control directive.
+Period in seconds over which the counter is being incremented.
 
-              - `"set"`
+minimum0
 
-              - `"remove"`
+<a href="#">Link to this property</a>
 
-            - `cloudflare_only: optional boolean`
+counting\_expression: optional string
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule’s expression.
 
-        - `"no-cache": optional object { operation, cloudflare_only, qualifiers }  or object { operation, cloudflare_only }`
+minLength1
 
-          A cache-control directive configuration that accepts optional qualifiers (header names).
+<a href="#">Link to this property</a>
 
-          - `SetDirective object { operation, cloudflare_only, qualifiers }`
+mitigation\_timeout: optional number
 
-            Set the directive with optional qualifiers.
+Period of time in seconds after which the action will be disabled following its first execution.
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+requests\_per\_period: optional number
 
-              - `"set"`
+The threshold of requests per period after which the action will be executed for the first time.
 
-              - `"remove"`
+minimum1
 
-            - `cloudflare_only: optional boolean`
+<a href="#">Link to this property</a>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+requests\_to\_origin: optional boolean
 
-            - `qualifiers: optional array of string`
+Whether counting is only performed when an origin is reached.
 
-              Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives).
+<a href="#">Link to this property</a>
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+score\_per\_period: optional number
 
-            Remove the directive.
+The score threshold per period for which the action will be executed the first time.
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+score\_response\_header\_name: optional string
 
-              - `"set"`
+A response header name provided by the origin, which contains the score to increment rate limit counter with.
 
-              - `"remove"`
+minLength1
 
-            - `cloudflare_only: optional boolean`
+<a href="#">Link to this property</a>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+</details>
 
-        - `"no-store": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-          A cache-control directive configuration.
+</details>
 
-          - `SetDirective object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-            Set the directive.
+<details>
 
-            - `operation: "set" or "remove"`
+<summary>
 
-              The operation to perform on the cache-control directive.
+SetCacheSettingsRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20set_cache_settings_rule%20%3E%20(schema)">SetCacheSettingsRule</a> { last\_updated, version, id, 10 more }
 
-              - `"set"`
+</summary>
 
-              - `"remove"`
+id: string
 
-            - `cloudflare_only: optional boolean`
+<a href="#">Link to this property</a>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+action: string
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-            Remove the directive.
+enabled: boolean
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+expression: string
 
-              - `"set"`
+<a href="#">Link to this property</a>
 
-              - `"remove"`
+ref: string
 
-            - `cloudflare_only: optional boolean`
+<a href="#">Link to this property</a>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+</details>
 
-        - `"no-transform": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-          A cache-control directive configuration.
+<details>
 
-          - `SetDirective object { operation, cloudflare_only }`
+<summary>
 
-            Set the directive.
+SetCacheTagsRule object {id, action, enabled, 10 more }
 
-            - `operation: "set" or "remove"`
+</summary>
 
-              The operation to perform on the cache-control directive.
+id: string
 
-              - `"set"`
+The unique ID of the rule.
 
-              - `"remove"`
+<a href="#">Link to this property</a>
 
-            - `cloudflare_only: optional boolean`
+action: "set\_cache\_tags"
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+The action to perform when the rule matches.
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-            Remove the directive.
+enabled: boolean
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+expression: string
 
-              - `"set"`
+The expression defining which traffic will match the rule.
 
-              - `"remove"`
+minLength1
 
-            - `cloudflare_only: optional boolean`
+<a href="#">Link to this property</a>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+last\_updated: string
 
-        - `private: optional object { operation, cloudflare_only, qualifiers }  or object { operation, cloudflare_only }`
+The timestamp of when the rule was last modified.
 
-          A cache-control directive configuration that accepts optional qualifiers (header names).
+formatdate-time
 
-          - `SetDirective object { operation, cloudflare_only, qualifiers }`
+<a href="#">Link to this property</a>
 
-            Set the directive with optional qualifiers.
+ref: string
 
-            - `operation: "set" or "remove"`
+The reference of the rule (the rule’s ID by default).
 
-              The operation to perform on the cache-control directive.
+minLength1
 
-              - `"set"`
+<a href="#">Link to this property</a>
 
-              - `"remove"`
+version: string
 
-            - `cloudflare_only: optional boolean`
+The version of the rule.
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+<a href="#">Link to this property</a>
 
-            - `qualifiers: optional array of string`
+<details>
 
-              Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives).
+<summary>
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+action\_parameters: optional object {operation, values } or object {expression, operation } or object {operation, values } or 3 more
 
-            Remove the directive.
+The parameters configuring the rule’s action.
 
-            - `operation: "set" or "remove"`
+</summary>
 
-              The operation to perform on the cache-control directive.
+One of the following:
 
-              - `"set"`
+<details>
 
-              - `"remove"`
+<summary>
 
-            - `cloudflare_only: optional boolean`
+AddCacheTagsValues object {operation, values }
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+Add cache tags using a list of values.
 
-        - `"proxy-revalidate": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
+</summary>
 
-          A cache-control directive configuration.
+<details>
 
-          - `SetDirective object { operation, cloudflare_only }`
+<summary>
 
-            Set the directive.
+operation: "add"or "remove"or "set"
 
-            - `operation: "set" or "remove"`
+The operation to perform on the cache tags.
 
-              The operation to perform on the cache-control directive.
+</summary>
 
-              - `"set"`
+One of the following:
 
-              - `"remove"`
+"add"
 
-            - `cloudflare_only: optional boolean`
+<a href="#">Link to this property</a>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+"remove"
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-            Remove the directive.
+"set"
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+</details>
 
-              - `"set"`
+<a href="#">Link to this property</a>
 
-              - `"remove"`
+values: array of string
 
-            - `cloudflare_only: optional boolean`
+A list of cache tag values.
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+<a href="#">Link to this property</a>
 
-        - `public: optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
+</details>
 
-          A cache-control directive configuration.
+<a href="#">Link to this property</a>
 
-          - `SetDirective object { operation, cloudflare_only }`
+<details>
 
-            Set the directive.
+<summary>
 
-            - `operation: "set" or "remove"`
+AddCacheTagsExpression object {expression, operation }
 
-              The operation to perform on the cache-control directive.
+Add cache tags using an expression.
 
-              - `"set"`
+</summary>
 
-              - `"remove"`
+expression: string
 
-            - `cloudflare_only: optional boolean`
+An expression that evaluates to an array of cache tag values.
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+minLength1
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-            Remove the directive.
+<details>
 
-            - `operation: "set" or "remove"`
+<summary>
 
-              The operation to perform on the cache-control directive.
+operation: "add"or "remove"or "set"
 
-              - `"set"`
+The operation to perform on the cache tags.
 
-              - `"remove"`
+</summary>
 
-            - `cloudflare_only: optional boolean`
+One of the following:
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+"add"
 
-        - `"s-maxage": optional object { operation, value, cloudflare_only }  or object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-          A cache-control directive configuration that accepts a duration value in seconds.
+"remove"
 
-          - `SetDirective object { operation, value, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-            Set the directive with a duration value in seconds.
+"set"
 
-            - `operation: "set" or "remove"`
+<a href="#">Link to this property</a>
 
-              The operation to perform on the cache-control directive.
+</details>
 
-              - `"set"`
+<a href="#">Link to this property</a>
 
-              - `"remove"`
+</details>
 
-            - `value: number`
+<a href="#">Link to this property</a>
 
-              The duration value in seconds for the directive.
+<details>
 
-            - `cloudflare_only: optional boolean`
+<summary>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+RemoveCacheTagsValues object {operation, values }
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+Remove cache tags using a list of values.
 
-            Remove the directive.
+</summary>
 
-            - `operation: "set" or "remove"`
+<details>
 
-              The operation to perform on the cache-control directive.
+<summary>
 
-              - `"set"`
+operation: "add"or "remove"or "set"
 
-              - `"remove"`
+The operation to perform on the cache tags.
 
-            - `cloudflare_only: optional boolean`
+</summary>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+One of the following:
 
-        - `"stale-if-error": optional object { operation, value, cloudflare_only }  or object { operation, cloudflare_only }`
+"add"
 
-          A cache-control directive configuration that accepts a duration value in seconds.
+<a href="#">Link to this property</a>
 
-          - `SetDirective object { operation, value, cloudflare_only }`
+"remove"
 
-            Set the directive with a duration value in seconds.
+<a href="#">Link to this property</a>
 
-            - `operation: "set" or "remove"`
+"set"
 
-              The operation to perform on the cache-control directive.
+<a href="#">Link to this property</a>
 
-              - `"set"`
+</details>
 
-              - `"remove"`
+<a href="#">Link to this property</a>
 
-            - `value: number`
+values: array of string
 
-              The duration value in seconds for the directive.
+A list of cache tag values.
 
-            - `cloudflare_only: optional boolean`
+<a href="#">Link to this property</a>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+</details>
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+<a href="#">Link to this property</a>
 
-            Remove the directive.
+<details>
 
-            - `operation: "set" or "remove"`
+<summary>
 
-              The operation to perform on the cache-control directive.
+RemoveCacheTagsExpression object {expression, operation }
 
-              - `"set"`
+Remove cache tags using an expression.
 
-              - `"remove"`
+</summary>
 
-            - `cloudflare_only: optional boolean`
+expression: string
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+An expression that evaluates to an array of cache tag values.
 
-        - `"stale-while-revalidate": optional object { operation, value, cloudflare_only }  or object { operation, cloudflare_only }`
+minLength1
 
-          A cache-control directive configuration that accepts a duration value in seconds.
+<a href="#">Link to this property</a>
 
-          - `SetDirective object { operation, value, cloudflare_only }`
+<details>
 
-            Set the directive with a duration value in seconds.
+<summary>
 
-            - `operation: "set" or "remove"`
+operation: "add"or "remove"or "set"
 
-              The operation to perform on the cache-control directive.
+The operation to perform on the cache tags.
 
-              - `"set"`
+</summary>
 
-              - `"remove"`
+One of the following:
 
-            - `value: number`
+"add"
 
-              The duration value in seconds for the directive.
+<a href="#">Link to this property</a>
 
-            - `cloudflare_only: optional boolean`
+"remove"
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+<a href="#">Link to this property</a>
 
-          - `RemoveDirective object { operation, cloudflare_only }`
+"set"
 
-            Remove the directive.
+<a href="#">Link to this property</a>
 
-            - `operation: "set" or "remove"`
+</details>
 
-              The operation to perform on the cache-control directive.
+<a href="#">Link to this property</a>
 
-              - `"set"`
+</details>
 
-              - `"remove"`
+<a href="#">Link to this property</a>
 
-            - `cloudflare_only: optional boolean`
+<details>
 
-              Whether the directive should only be applied to the Cloudflare CDN cache.
+<summary>
 
-      - `categories: optional array of string`
+SetCacheTagsValues object {operation, values }
 
-        The categories of the rule.
+Set cache tags using a list of values.
 
-      - `description: optional string`
+</summary>
 
-        An informative description of the rule.
+<details>
 
-      - `enabled: optional boolean`
+<summary>
 
-        Whether the rule should be executed.
+operation: "add"or "remove"or "set"
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+The operation to perform on the cache tags.
 
-        Configuration for exposed credential checking.
+</summary>
 
-        - `password_expression: string`
+One of the following:
 
-          An expression that selects the password used in the credentials check.
+"add"
 
-        - `username_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the user ID used in the credentials check.
+"remove"
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The expression defining which traffic will match the rule.
+"set"
 
-      - `logging: optional Logging`
+<a href="#">Link to this property</a>
 
-        An object configuring the rule's logging behavior.
+</details>
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+<a href="#">Link to this property</a>
 
-        An object configuring the rule's rate limit behavior.
+values: array of string
 
-        - `characteristics: array of string`
+A list of cache tag values.
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+<a href="#">Link to this property</a>
 
-        - `period: number`
+</details>
 
-          Period in seconds over which the counter is being incremented.
+<a href="#">Link to this property</a>
 
-        - `counting_expression: optional string`
+<details>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+<summary>
 
-        - `mitigation_timeout: optional number`
+SetCacheTagsExpression object {expression, operation }
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+Set cache tags using an expression.
 
-        - `requests_per_period: optional number`
+</summary>
 
-          The threshold of requests per period after which the action will be executed for the first time.
+expression: string
 
-        - `requests_to_origin: optional boolean`
+An expression that evaluates to an array of cache tag values.
 
-          Whether counting is only performed when an origin is reached.
+minLength1
 
-        - `score_per_period: optional number`
+<a href="#">Link to this property</a>
 
-          The score threshold per period for which the action will be executed the first time.
+<details>
 
-        - `score_response_header_name: optional string`
+<summary>
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+operation: "add"or "remove"or "set"
 
-      - `ref: optional string`
+The operation to perform on the cache tags.
 
-        The reference of the rule (the rule's ID by default).
+</summary>
 
-    - `SetCacheSettingsRule object { last_updated, version, id, 10 more }`
+One of the following:
 
-      - `last_updated: string`
+"add"
 
-        The timestamp of when the rule was last modified.
+<a href="#">Link to this property</a>
 
-      - `version: string`
+"remove"
 
-        The version of the rule.
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+"set"
 
-        The unique ID of the rule.
+<a href="#">Link to this property</a>
 
-      - `action: optional "set_cache_settings"`
+</details>
 
-        The action to perform when the rule matches.
+<a href="#">Link to this property</a>
 
-        - `"set_cache_settings"`
+</details>
 
-      - `action_parameters: optional object { additional_cacheable_ports, browser_ttl, cache, 13 more }`
+<a href="#">Link to this property</a>
 
-        The parameters configuring the rule's action.
+</details>
 
-        - `additional_cacheable_ports: optional array of number`
+<a href="#">Link to this property</a>
 
-          A list of additional ports that caching should be enabled on.
+categories: optional array of string
 
-        - `browser_ttl: optional object { mode, default }`
+The categories of the rule.
 
-          How long client browsers should cache the response. Cloudflare cache purge will not purge content cached on client browsers, so high browser TTLs may lead to stale content.
+<a href="#">Link to this property</a>
 
-          - `mode: "respect_origin" or "bypass_by_default" or "override_origin" or "bypass"`
+description: optional string
 
-            The browser TTL mode.
+An informative description of the rule.
 
-            - `"respect_origin"`
+<a href="#">Link to this property</a>
 
-            - `"bypass_by_default"`
+<details>
 
-            - `"override_origin"`
+<summary>
 
-            - `"bypass"`
+exposed\_credential\_check: optional object {password\_expression, username\_expression }
 
-          - `default: optional number`
+Configuration for exposed credential checking.
 
-            The browser TTL (in seconds) if you choose the "override_origin" mode.
+</summary>
 
-        - `cache: optional boolean`
+password\_expression: string
 
-          Whether the request's response from the origin is eligible for caching. Caching itself will still depend on the cache control header and your other caching configurations.
+An expression that selects the password used in the credentials check.
 
-        - `cache_key: optional object { cache_by_device_type, cache_deception_armor, custom_key, ignore_query_strings_order }`
+minLength1
 
-          Which components of the request are included in or excluded from the cache key Cloudflare uses to store the response in cache.
+<a href="#">Link to this property</a>
 
-          - `cache_by_device_type: optional boolean`
+username\_expression: string
 
-            Whether to separate cached content based on the visitor's device type.
+An expression that selects the user ID used in the credentials check.
 
-          - `cache_deception_armor: optional boolean`
+minLength1
 
-            Whether to protect from web cache deception attacks, while allowing static assets to be cached.
+<a href="#">Link to this property</a>
 
-          - `custom_key: optional object { cookie, header, host, 2 more }`
+</details>
 
-            Which components of the request are included or excluded from the cache key.
+<a href="#">Link to this property</a>
 
-            - `cookie: optional object { check_presence, include }`
+logging: optional <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20logging%20%3E%20(schema)">Logging</a> { enabled }
 
-              Which cookies to include in the cache key.
+An object configuring the rule’s logging behavior.
 
-              - `check_presence: optional array of string`
+<a href="#">Link to this property</a>
 
-                A list of cookies to check for the presence of. The presence of these cookies is included in the cache key.
+<details>
 
-              - `include: optional array of string`
+<summary>
 
-                A list of cookies to include in the cache key.
+ratelimit: optional object {characteristics, period, counting\_expression, 5 more }
 
-            - `header: optional object { check_presence, contains, exclude_origin, include }`
+An object configuring the rule’s rate limit behavior.
 
-              Which headers to include in the cache key.
+</summary>
 
-              - `check_presence: optional array of string`
+characteristics: array of string
 
-                A list of headers to check for the presence of. The presence of these headers is included in the cache key.
+Characteristics of the request on which the rate limit counter will be incremented.
 
-              - `contains: optional map[array of string]`
+<a href="#">Link to this property</a>
 
-                A mapping of header names to a list of values. If a header is present in the request and contains any of the values provided, its value is included in the cache key.
+period: number
 
-              - `exclude_origin: optional boolean`
+Period in seconds over which the counter is being incremented.
 
-                Whether to exclude the origin header in the cache key.
+minimum0
 
-              - `include: optional array of string`
+<a href="#">Link to this property</a>
 
-                A list of headers to include in the cache key.
+counting\_expression: optional string
 
-            - `host: optional object { resolved }`
+An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule’s expression.
 
-              How to use the host in the cache key.
+minLength1
 
-              - `resolved: optional boolean`
+<a href="#">Link to this property</a>
 
-                Whether to use the resolved host in the cache key.
+mitigation\_timeout: optional number
 
-            - `query_string: optional object { exclude, include }`
+Period of time in seconds after which the action will be disabled following its first execution.
 
-              Which query string parameters to include in or exclude from the cache key.
+<a href="#">Link to this property</a>
 
-              - `exclude: optional object { all, list }`
+requests\_per\_period: optional number
 
-                Which query string parameters to exclude from the cache key.
+The threshold of requests per period after which the action will be executed for the first time.
 
-                - `all: optional true`
+minimum1
 
-                  Whether to exclude all query string parameters from the cache key.
+<a href="#">Link to this property</a>
 
-                  - `true`
+requests\_to\_origin: optional boolean
 
-                - `list: optional array of string`
+Whether counting is only performed when an origin is reached.
 
-                  A list of query string parameters to exclude from the cache key.
+<a href="#">Link to this property</a>
 
-              - `include: optional object { all, list }`
+score\_per\_period: optional number
 
-                Which query string parameters to include in the cache key.
+The score threshold per period for which the action will be executed the first time.
 
-                - `all: optional true`
+<a href="#">Link to this property</a>
 
-                  Whether to include all query string parameters in the cache key.
+score\_response\_header\_name: optional string
 
-                  - `true`
+A response header name provided by the origin, which contains the score to increment rate limit counter with.
 
-                - `list: optional array of string`
+minLength1
 
-                  A list of query string parameters to include in the cache key.
+<a href="#">Link to this property</a>
 
-            - `user: optional object { device_type, geo, lang }`
+</details>
 
-              How to use characteristics of the request user agent in the cache key.
+<a href="#">Link to this property</a>
 
-              - `device_type: optional boolean`
+</details>
 
-                Whether to use the user agent's device type in the cache key.
+<a href="#">Link to this property</a>
 
-              - `geo: optional boolean`
+<details>
 
-                Whether to use the user agents's country in the cache key.
+<summary>
 
-              - `lang: optional boolean`
+SetConfigurationRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20set_config_rule%20%3E%20(schema)">SetConfigRule</a> { last\_updated, version, id, 10 more }
 
-                Whether to use the user agent's language in the cache key.
+</summary>
 
-          - `ignore_query_strings_order: optional boolean`
+id: string
 
-            Whether to treat requests with the same query parameters the same, regardless of the order those query parameters are in.
+<a href="#">Link to this property</a>
 
-        - `cache_reserve: optional object { eligible, minimum_file_size }`
+action: string
 
-          Settings to determine whether the request's response from origin is eligible for Cache Reserve (requires a Cache Reserve add-on plan).
+<a href="#">Link to this property</a>
 
-          - `eligible: boolean`
+enabled: boolean
 
-            Whether Cache Reserve is enabled. If this is true and a request meets eligibility criteria, Cloudflare will write the resource to Cache Reserve.
+<a href="#">Link to this property</a>
 
-          - `minimum_file_size: optional number`
+expression: string
 
-            The minimum file size eligible for storage in Cache Reserve.
+<a href="#">Link to this property</a>
 
-        - `edge_ttl: optional object { mode, default, status_code_ttl }`
+ref: string
 
-          How long the Cloudflare edge network should cache the response.
+<a href="#">Link to this property</a>
 
-          - `mode: "respect_origin" or "bypass_by_default" or "override_origin"`
+</details>
 
-            The edge TTL mode.
+<a href="#">Link to this property</a>
 
-            - `"respect_origin"`
+<details>
 
-            - `"bypass_by_default"`
+<summary>
 
-            - `"override_origin"`
+SkipRule = <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20skip_rule%20%3E%20(schema)">SkipRule</a> { last\_updated, version, id, 10 more }
 
-          - `default: optional number`
+</summary>
 
-            The edge TTL (in seconds) if you choose the "override_origin" mode.
+id: string
 
-          - `status_code_ttl: optional array of object { value, status_code, status_code_range }`
+<a href="#">Link to this property</a>
 
-            A list of TTLs to apply to specific status codes or status code ranges.
+action: string
 
-            - `value: number`
+<a href="#">Link to this property</a>
 
-              The time to cache the response for (in seconds). A value of 0 is equivalent to setting the cache control header with the value "no-cache". A value of -1 is equivalent to setting the cache control header with the value of "no-store".
+enabled: boolean
 
-            - `status_code: optional number`
+<a href="#">Link to this property</a>
 
-              A single status code to apply the TTL to.
+expression: string
 
-            - `status_code_range: optional object { from, to }`
+<a href="#">Link to this property</a>
 
-              A range of status codes to apply the TTL to.
+ref: string
 
-              - `from: optional number`
+<a href="#">Link to this property</a>
 
-                The lower bound of the range.
+</details>
 
-              - `to: optional number`
+<a href="#">Link to this property</a>
 
-                The upper bound of the range.
+<details>
 
-        - `origin_cache_control: optional boolean`
+<summary>
 
-          Whether Cloudflare will aim to strictly adhere to RFC 7234.
+TransformResponseHTMLRule object {id, action, enabled, 10 more }
 
-        - `origin_error_page_passthru: optional boolean`
+</summary>
 
-          Whether to generate Cloudflare error pages for issues from the origin server.
+id: string
 
-        - `read_timeout: optional number`
+The unique ID of the rule.
 
-          A timeout value between two successive read operations to use for your origin server. Historically, the timeout value between two read options from Cloudflare to an origin server is 100 seconds. If you are attempting to reduce HTTP 524 errors because of timeouts from an origin server, try increasing this timeout value.
+<a href="#">Link to this property</a>
 
-        - `respect_strong_etags: optional boolean`
+action: "transform\_response\_html"
 
-          Whether Cloudflare should respect strong ETag (entity tag) headers. If false, Cloudflare converts strong ETag headers to weak ETag headers.
+The action to perform when the rule matches.
 
-        - `serve_stale: optional object { disable_stale_while_updating }`
+<a href="#">Link to this property</a>
 
-          When to serve stale content from cache.
+enabled: boolean
 
-          - `disable_stale_while_updating: optional boolean`
+<a href="#">Link to this property</a>
 
-            Whether Cloudflare should disable serving stale content while getting the latest content from the origin.
+expression: string
 
-        - `shared_dictionary: optional object { match_pattern }`
+The expression defining which traffic will match the rule.
 
-          Configuration for shared dictionary compression. When set, Cloudflare injects Use-As-Dictionary headers on matching cacheable responses.
+minLength1
 
-          - `match_pattern: string`
+<a href="#">Link to this property</a>
 
-            URL pattern for the Use-As-Dictionary match field. This pattern specifies which URLs can use this response as a dictionary.
+last\_updated: string
 
-        - `strip_etags: optional boolean`
+The timestamp of when the rule was last modified.
 
-          Whether to strip ETag headers from the origin response before caching.
+formatdate-time
 
-        - `strip_last_modified: optional boolean`
+<a href="#">Link to this property</a>
 
-          Whether to strip Last-Modified headers from the origin response before caching.
+ref: string
 
-        - `strip_set_cookie: optional boolean`
+The reference of the rule (the rule’s ID by default).
 
-          Whether to strip Set-Cookie headers from the origin response before caching.
+minLength1
 
-        - `vary: optional object { default, headers }`
+<a href="#">Link to this property</a>
 
-          Controls how cached responses vary based on request headers. `default` is required by the API and applies to any Vary response header that does not have a per-header override.
+version: string
 
-          - `default: optional object { action }`
+The version of the rule.
 
-            Controls how response Vary headers without a per-header override contribute to the cache key.
+<a href="#">Link to this property</a>
 
-            - `action: "bypass" or "passthrough" or "normalize"`
+<details>
 
-              How the header value is treated when building the cache key.
+<summary>
 
-              - `"bypass"`
+action\_parameters: optional object {link\_maze }
 
-              - `"passthrough"`
+The parameters configuring the rule’s action.
 
-              - `"normalize"`
+</summary>
 
-          - `headers: optional map[object { action, languages, media_types } ]`
+link\_maze: unknown
 
-            A mapping of lowercase request header names to their vary configuration.
+Enables the link maze transformation on the response.
 
-            - `action: "bypass" or "passthrough" or "normalize"`
+<a href="#">Link to this property</a>
 
-              How the header value is treated when building the cache key.
+</details>
 
-              - `"bypass"`
+<a href="#">Link to this property</a>
 
-              - `"passthrough"`
+categories: optional array of string
 
-              - `"normalize"`
+The categories of the rule.
 
-            - `languages: optional array of string`
+<a href="#">Link to this property</a>
 
-              The set of languages to normalize against. Only valid for the `accept-language` header.
+description: optional string
 
-            - `media_types: optional array of string`
+An informative description of the rule.
 
-              The set of media types to normalize against. Only valid for the `accept` header.
+<a href="#">Link to this property</a>
 
-      - `categories: optional array of string`
+<details>
 
-        The categories of the rule.
+<summary>
 
-      - `description: optional string`
+exposed\_credential\_check: optional object {password\_expression, username\_expression }
 
-        An informative description of the rule.
+Configuration for exposed credential checking.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Whether the rule should be executed.
+password\_expression: string
 
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
+An expression that selects the password used in the credentials check.
 
-        Configuration for exposed credential checking.
+minLength1
 
-        - `password_expression: string`
+<a href="#">Link to this property</a>
 
-          An expression that selects the password used in the credentials check.
+username\_expression: string
 
-        - `username_expression: string`
+An expression that selects the user ID used in the credentials check.
 
-          An expression that selects the user ID used in the credentials check.
+minLength1
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The expression defining which traffic will match the rule.
+</details>
 
-      - `logging: optional Logging`
+<a href="#">Link to this property</a>
 
-        An object configuring the rule's logging behavior.
+logging: optional <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets.rules%20%3E%20(model)%20logging%20%3E%20(schema)">Logging</a> { enabled }
 
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
+An object configuring the rule’s logging behavior.
 
-        An object configuring the rule's rate limit behavior.
+<a href="#">Link to this property</a>
 
-        - `characteristics: array of string`
+<details>
 
-          Characteristics of the request on which the rate limit counter will be incremented.
+<summary>
 
-        - `period: number`
+ratelimit: optional object {characteristics, period, counting\_expression, 5 more }
 
-          Period in seconds over which the counter is being incremented.
+An object configuring the rule’s rate limit behavior.
 
-        - `counting_expression: optional string`
+</summary>
 
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
+characteristics: array of string
 
-        - `mitigation_timeout: optional number`
+Characteristics of the request on which the rate limit counter will be incremented.
 
-          Period of time in seconds after which the action will be disabled following its first execution.
+<a href="#">Link to this property</a>
 
-        - `requests_per_period: optional number`
+period: number
 
-          The threshold of requests per period after which the action will be executed for the first time.
+Period in seconds over which the counter is being incremented.
 
-        - `requests_to_origin: optional boolean`
+minimum0
 
-          Whether counting is only performed when an origin is reached.
+<a href="#">Link to this property</a>
 
-        - `score_per_period: optional number`
+counting\_expression: optional string
 
-          The score threshold per period for which the action will be executed the first time.
+An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule’s expression.
 
-        - `score_response_header_name: optional string`
+minLength1
 
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
+<a href="#">Link to this property</a>
 
-      - `ref: optional string`
+mitigation\_timeout: optional number
 
-        The reference of the rule (the rule's ID by default).
+Period of time in seconds after which the action will be disabled following its first execution.
 
-    - `SetCacheTags object { last_updated, version, id, 10 more }`
+<a href="#">Link to this property</a>
 
-      - `last_updated: string`
+requests\_per\_period: optional number
 
-        The timestamp of when the rule was last modified.
+The threshold of requests per period after which the action will be executed for the first time.
 
-      - `version: string`
+minimum1
 
-        The version of the rule.
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+requests\_to\_origin: optional boolean
 
-        The unique ID of the rule.
+Whether counting is only performed when an origin is reached.
 
-      - `action: optional "set_cache_tags"`
+<a href="#">Link to this property</a>
 
-        The action to perform when the rule matches.
+score\_per\_period: optional number
 
-        - `"set_cache_tags"`
+The score threshold per period for which the action will be executed the first time.
 
-      - `action_parameters: optional object { operation, values }  or object { expression, operation }  or object { operation, values }  or 3 more`
+<a href="#">Link to this property</a>
 
-        The parameters configuring the rule's action.
+score\_response\_header\_name: optional string
 
-        - `AddCacheTagsValues object { operation, values }`
+A response header name provided by the origin, which contains the score to increment rate limit counter with.
 
-          Add cache tags using a list of values.
+minLength1
 
-          - `operation: "add" or "remove" or "set"`
+<a href="#">Link to this property</a>
 
-            The operation to perform on the cache tags.
+</details>
 
-            - `"add"`
+<a href="#">Link to this property</a>
 
-            - `"remove"`
+</details>
 
-            - `"set"`
+<a href="#">Link to this property</a>
 
-          - `values: array of string`
+</details>
 
-            A list of cache tag values.
+<a href="#">Link to this property</a>
 
-        - `AddCacheTagsExpression object { expression, operation }`
+version: string
 
-          Add cache tags using an expression.
+The version of the ruleset.
 
-          - `expression: string`
+<a href="#">Link to this property</a>
 
-            An expression that evaluates to an array of cache tag values.
+description: optional string
 
-          - `operation: "add" or "remove" or "set"`
+An informative description of the ruleset.
 
-            The operation to perform on the cache tags.
+<a href="#">Link to this property</a>
 
-            - `"add"`
+</details>
 
-            - `"remove"`
-
-            - `"set"`
-
-        - `RemoveCacheTagsValues object { operation, values }`
-
-          Remove cache tags using a list of values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-          - `values: array of string`
-
-            A list of cache tag values.
-
-        - `RemoveCacheTagsExpression object { expression, operation }`
-
-          Remove cache tags using an expression.
-
-          - `expression: string`
-
-            An expression that evaluates to an array of cache tag values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-        - `SetCacheTagsValues object { operation, values }`
-
-          Set cache tags using a list of values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-          - `values: array of string`
-
-            A list of cache tag values.
-
-        - `SetCacheTagsExpression object { expression, operation }`
-
-          Set cache tags using an expression.
-
-          - `expression: string`
-
-            An expression that evaluates to an array of cache tag values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `SetConfigRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "set_config"`
-
-        The action to perform when the rule matches.
-
-        - `"set_config"`
-
-      - `action_parameters: optional object { automatic_https_rewrites, autominify, bic, 19 more }`
-
-        The parameters configuring the rule's action.
-
-        - `automatic_https_rewrites: optional boolean`
-
-          Whether to enable Automatic HTTPS Rewrites.
-
-        - `autominify: optional object { css, html, js }`
-
-          Which file extensions to minify automatically.
-
-          - `css: optional boolean`
-
-            Whether to minify CSS files.
-
-          - `html: optional boolean`
-
-            Whether to minify HTML files.
-
-          - `js: optional boolean`
-
-            Whether to minify JavaScript files.
-
-        - `bic: optional boolean`
-
-          Whether to enable Browser Integrity Check (BIC).
-
-        - `content_converter: optional boolean`
-
-          Whether to enable content conversion (e.g., HTML to Markdown).
-
-        - `disable_apps: optional true`
-
-          Whether to disable Cloudflare Apps.
-
-          - `true`
-
-        - `disable_pay_per_crawl: optional true`
-
-          Whether to disable Pay Per Crawl.
-
-          - `true`
-
-        - `disable_rum: optional true`
-
-          Whether to disable Real User Monitoring (RUM).
-
-          - `true`
-
-        - `disable_zaraz: optional true`
-
-          Whether to disable Zaraz.
-
-          - `true`
-
-        - `email_obfuscation: optional boolean`
-
-          Whether to enable Email Obfuscation.
-
-        - `fonts: optional boolean`
-
-          Whether to enable Cloudflare Fonts.
-
-        - `hotlink_protection: optional boolean`
-
-          Whether to enable Hotlink Protection.
-
-        - `mirage: optional boolean`
-
-          Whether to enable Mirage.
-
-        - `opportunistic_encryption: optional boolean`
-
-          Whether to enable Opportunistic Encryption.
-
-        - `polish: optional "off" or "lossless" or "lossy" or "webp"`
-
-          The Polish level to configure.
-
-          - `"off"`
-
-          - `"lossless"`
-
-          - `"lossy"`
-
-          - `"webp"`
-
-        - `redirects_for_ai_training: optional boolean`
-
-          Whether to redirect verified AI training crawlers to canonical URLs found in the HTML response.
-
-        - `request_body_buffering: optional "none" or "standard" or "full"`
-
-          The request body buffering mode.
-
-          - `"none"`
-
-          - `"standard"`
-
-          - `"full"`
-
-        - `response_body_buffering: optional "none" or "standard"`
-
-          The response body buffering mode.
-
-          - `"none"`
-
-          - `"standard"`
-
-        - `rocket_loader: optional boolean`
-
-          Whether to enable Rocket Loader.
-
-        - `security_level: optional "off" or "essentially_off" or "low" or 3 more`
-
-          The Security Level to configure.
-
-          - `"off"`
-
-          - `"essentially_off"`
-
-          - `"low"`
-
-          - `"medium"`
-
-          - `"high"`
-
-          - `"under_attack"`
-
-        - `server_side_excludes: optional boolean`
-
-          Whether to enable Server-Side Excludes.
-
-        - `ssl: optional "off" or "flexible" or "full" or 2 more`
-
-          The SSL level to configure.
-
-          - `"off"`
-
-          - `"flexible"`
-
-          - `"full"`
-
-          - `"strict"`
-
-          - `"origin_pull"`
-
-        - `sxg: optional boolean`
-
-          Whether to enable Signed Exchanges (SXG).
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `SkipRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "skip"`
-
-        The action to perform when the rule matches.
-
-        - `"skip"`
-
-      - `action_parameters: optional object { phase, phases, products, 3 more }`
-
-        The parameters configuring the rule's action.
-
-        - `phase: optional "current"`
-
-          A phase to skip the execution of. This option is only compatible with the products option.
-
-          - `"current"`
-
-        - `phases: optional array of Phase`
-
-          A list of phases to skip the execution of. This option is incompatible with the rulesets option.
-
-          - `"ddos_l4"`
-
-          - `"ddos_l7"`
-
-          - `"http_config_settings"`
-
-          - `"http_custom_errors"`
-
-          - `"http_log_custom_fields"`
-
-          - `"http_ratelimit"`
-
-          - `"http_request_cache_settings"`
-
-          - `"http_request_dynamic_redirect"`
-
-          - `"http_request_firewall_custom"`
-
-          - `"http_request_firewall_managed"`
-
-          - `"http_request_late_transform"`
-
-          - `"http_request_origin"`
-
-          - `"http_request_redirect"`
-
-          - `"http_request_sanitize"`
-
-          - `"http_request_sbfm"`
-
-          - `"http_request_transform"`
-
-          - `"http_response_cache_settings"`
-
-          - `"http_response_compression"`
-
-          - `"http_response_firewall_managed"`
-
-          - `"http_response_headers_transform"`
-
-          - `"magic_transit"`
-
-          - `"magic_transit_ids_managed"`
-
-          - `"magic_transit_managed"`
-
-          - `"magic_transit_ratelimit"`
-
-        - `products: optional array of "bic" or "hot" or "rateLimit" or 4 more`
-
-          A list of legacy security products to skip the execution of.
-
-          - `"bic"`
-
-          - `"hot"`
-
-          - `"rateLimit"`
-
-          - `"securityLevel"`
-
-          - `"uaBlock"`
-
-          - `"waf"`
-
-          - `"zoneLockdown"`
-
-        - `rules: optional map[array of string]`
-
-          A mapping of ruleset IDs to a list of rule IDs in that ruleset to skip the execution of. This option is incompatible with the ruleset option.
-
-        - `ruleset: optional "current"`
-
-          A ruleset to skip the execution of. This option is incompatible with the rulesets option.
-
-          - `"current"`
-
-        - `rulesets: optional array of string`
-
-          A list of ruleset IDs to skip the execution of. This option is incompatible with the ruleset and phases options.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `TransformResponseHTML object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "transform_response_html"`
-
-        The action to perform when the rule matches.
-
-        - `"transform_response_html"`
-
-      - `action_parameters: optional object { link_maze }`
-
-        The parameters configuring the rule's action.
-
-        - `link_maze: unknown`
-
-          Enables the link maze transformation on the response.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-  - `version: string`
-
-    The version of the ruleset.
-
-  - `description: optional string`
-
-    An informative description of the ruleset.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/rulesets/phases/$RULESET_PHASE/entrypoint/versions/$RULESET_VERSION \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "result": {
-    "id": "2f2feab2026849078ba485f918791bdc",
-    "kind": "root",
-    "last_updated": "2000-01-01T00:00:00.000000Z",
-    "name": "My ruleset",
-    "phase": "http_request_firewall_custom",
-    "rules": [
-      {
-        "last_updated": "2000-01-01T00:00:00.000000Z",
-        "version": "1",
-        "id": "3a03d665bac047339bb530ecb439a90d",
-        "action": "block",
-        "action_parameters": {
-          "response": {
-            "content": "{\n  \"success\": false,\n  \"error\": \"you have been blocked\"\n}",
-            "content_type": "application/json",
-            "status_code": 400
-          }
-        },
-        "categories": [
-          "directory-traversal"
-        ],
-        "description": "Block the request.",
-        "enabled": true,
-        "exposed_credential_check": {
-          "password_expression": "url_decode(http.request.body.form[\\\"password\\\"][0])",
-          "username_expression": "url_decode(http.request.body.form[\\\"username\\\"][0])"
-        },
-        "expression": "ip.src eq 1.1.1.1",
-        "logging": {
-          "enabled": true
-        },
-        "ratelimit": {
-          "characteristics": [
-            "cf.colo.id"
-          ],
-          "period": 60,
-          "counting_expression": "http.request.body.raw eq \"abcd\"",
-          "mitigation_timeout": 600,
-          "requests_per_period": 1000,
-          "requests_to_origin": true,
-          "score_per_period": 400,
-          "score_response_header_name": "my-score"
-        },
-        "ref": "my_ref"
-      }
-    ],
-    "version": "1",
-    "description": "A description for my ruleset."
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Version List Response
-
-- `VersionListResponse object { id, kind, last_updated, 4 more }`
-
-  A ruleset object.
-
-  - `id: string`
-
-    The unique ID of the ruleset.
-
-  - `kind: Kind`
-
-    The kind of the ruleset.
-
-    - `"managed"`
-
-    - `"custom"`
-
-    - `"root"`
-
-    - `"zone"`
-
-  - `last_updated: string`
-
-    The timestamp of when the ruleset was last modified.
-
-  - `name: string`
-
-    The human-readable name of the ruleset.
-
-  - `phase: Phase`
-
-    The phase of the ruleset.
-
-    - `"ddos_l4"`
-
-    - `"ddos_l7"`
-
-    - `"http_config_settings"`
-
-    - `"http_custom_errors"`
-
-    - `"http_log_custom_fields"`
-
-    - `"http_ratelimit"`
-
-    - `"http_request_cache_settings"`
-
-    - `"http_request_dynamic_redirect"`
-
-    - `"http_request_firewall_custom"`
-
-    - `"http_request_firewall_managed"`
-
-    - `"http_request_late_transform"`
-
-    - `"http_request_origin"`
-
-    - `"http_request_redirect"`
-
-    - `"http_request_sanitize"`
-
-    - `"http_request_sbfm"`
-
-    - `"http_request_transform"`
-
-    - `"http_response_cache_settings"`
-
-    - `"http_response_compression"`
-
-    - `"http_response_firewall_managed"`
-
-    - `"http_response_headers_transform"`
-
-    - `"magic_transit"`
-
-    - `"magic_transit_ids_managed"`
-
-    - `"magic_transit_managed"`
-
-    - `"magic_transit_ratelimit"`
-
-  - `version: string`
-
-    The version of the ruleset.
-
-  - `description: optional string`
-
-    An informative description of the ruleset.
-
-### Version Get Response
-
-- `VersionGetResponse object { id, kind, last_updated, 5 more }`
-
-  A ruleset object.
-
-  - `id: string`
-
-    The unique ID of the ruleset.
-
-  - `kind: Kind`
-
-    The kind of the ruleset.
-
-    - `"managed"`
-
-    - `"custom"`
-
-    - `"root"`
-
-    - `"zone"`
-
-  - `last_updated: string`
-
-    The timestamp of when the ruleset was last modified.
-
-  - `name: string`
-
-    The human-readable name of the ruleset.
-
-  - `phase: Phase`
-
-    The phase of the ruleset.
-
-    - `"ddos_l4"`
-
-    - `"ddos_l7"`
-
-    - `"http_config_settings"`
-
-    - `"http_custom_errors"`
-
-    - `"http_log_custom_fields"`
-
-    - `"http_ratelimit"`
-
-    - `"http_request_cache_settings"`
-
-    - `"http_request_dynamic_redirect"`
-
-    - `"http_request_firewall_custom"`
-
-    - `"http_request_firewall_managed"`
-
-    - `"http_request_late_transform"`
-
-    - `"http_request_origin"`
-
-    - `"http_request_redirect"`
-
-    - `"http_request_sanitize"`
-
-    - `"http_request_sbfm"`
-
-    - `"http_request_transform"`
-
-    - `"http_response_cache_settings"`
-
-    - `"http_response_compression"`
-
-    - `"http_response_firewall_managed"`
-
-    - `"http_response_headers_transform"`
-
-    - `"magic_transit"`
-
-    - `"magic_transit_ids_managed"`
-
-    - `"magic_transit_managed"`
-
-    - `"magic_transit_ratelimit"`
-
-  - `rules: array of BlockRule or object { last_updated, version, id, 10 more }  or CompressResponseRule or 18 more`
-
-    The list of rules in the ruleset.
-
-    - `BlockRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "block"`
-
-        The action to perform when the rule matches.
-
-        - `"block"`
-
-      - `action_parameters: optional object { response }`
-
-        The parameters configuring the rule's action.
-
-        - `response: optional object { content, content_type, status_code }`
-
-          The response to show when the block is applied.
-
-          - `content: string`
-
-            The content to return.
-
-          - `content_type: string`
-
-            The type of the content to return.
-
-          - `status_code: number`
-
-            The status code to return.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-        - `enabled: boolean`
-
-          Whether to generate a log when the rule matches.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `Challenge object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "challenge"`
-
-        The action to perform when the rule matches.
-
-        - `"challenge"`
-
-      - `action_parameters: optional unknown`
-
-        The parameters configuring the rule's action.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `CompressResponseRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "compress_response"`
-
-        The action to perform when the rule matches.
-
-        - `"compress_response"`
-
-      - `action_parameters: optional object { algorithms }`
-
-        The parameters configuring the rule's action.
-
-        - `algorithms: array of object { name }`
-
-          Custom order for compression algorithms.
-
-          - `name: optional "none" or "auto" or "default" or 3 more`
-
-            Name of the compression algorithm to enable.
-
-            - `"none"`
-
-            - `"auto"`
-
-            - `"default"`
-
-            - `"gzip"`
-
-            - `"brotli"`
-
-            - `"zstd"`
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `DDoSDynamicRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "ddos_dynamic"`
-
-        The action to perform when the rule matches.
-
-        - `"ddos_dynamic"`
-
-      - `action_parameters: optional unknown`
-
-        The parameters configuring the rule's action.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `ExecuteRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "execute"`
-
-        The action to perform when the rule matches.
-
-        - `"execute"`
-
-      - `action_parameters: optional object { id, matched_data, overrides }`
-
-        The parameters configuring the rule's action.
-
-        - `id: string`
-
-          The ID of the ruleset to execute.
-
-        - `matched_data: optional object { public_key }`
-
-          The configuration to use for matched data logging.
-
-          - `public_key: string`
-
-            The public key to encrypt matched data logs with.
-
-        - `overrides: optional object { action, categories, enabled, 2 more }`
-
-          A set of overrides to apply to the target ruleset.
-
-          - `action: optional string`
-
-            An action to override all rules with. This option has lower precedence than rule and category overrides.
-
-          - `categories: optional array of object { category, action, enabled, sensitivity_level }`
-
-            A list of category-level overrides. This option has the second-highest precedence after rule-level overrides.
-
-            - `category: string`
-
-              The name of the category to override.
-
-            - `action: optional string`
-
-              The action to override rules in the category with.
-
-            - `enabled: optional boolean`
-
-              Whether to enable execution of rules in the category.
-
-            - `sensitivity_level: optional "default" or "medium" or "low" or "eoff"`
-
-              The sensitivity level to use for rules in the category. This option is only applicable for DDoS phases.
-
-              - `"default"`
-
-              - `"medium"`
-
-              - `"low"`
-
-              - `"eoff"`
-
-          - `enabled: optional boolean`
-
-            Whether to enable execution of all rules. This option has lower precedence than rule and category overrides.
-
-          - `rules: optional array of object { id, action, enabled, 2 more }`
-
-            A list of rule-level overrides. This option has the highest precedence.
-
-            - `id: string`
-
-              The ID of the rule to override.
-
-            - `action: optional string`
-
-              The action to override the rule with.
-
-            - `enabled: optional boolean`
-
-              Whether to enable execution of the rule.
-
-            - `score_threshold: optional number`
-
-              The score threshold to use for the rule.
-
-            - `sensitivity_level: optional "default" or "medium" or "low" or "eoff"`
-
-              The sensitivity level to use for the rule. This option is only applicable for DDoS phases.
-
-              - `"default"`
-
-              - `"medium"`
-
-              - `"low"`
-
-              - `"eoff"`
-
-          - `sensitivity_level: optional "default" or "medium" or "low" or "eoff"`
-
-            A sensitivity level to set for all rules. This option has lower precedence than rule and category overrides and is only applicable for DDoS phases.
-
-            - `"default"`
-
-            - `"medium"`
-
-            - `"low"`
-
-            - `"eoff"`
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `ForceConnectionCloseRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "force_connection_close"`
-
-        The action to perform when the rule matches.
-
-        - `"force_connection_close"`
-
-      - `action_parameters: optional unknown`
-
-        The parameters configuring the rule's action.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `JSChallenge object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "js_challenge"`
-
-        The action to perform when the rule matches.
-
-        - `"js_challenge"`
-
-      - `action_parameters: optional unknown`
-
-        The parameters configuring the rule's action.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `LogRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "log"`
-
-        The action to perform when the rule matches.
-
-        - `"log"`
-
-      - `action_parameters: optional unknown`
-
-        The parameters configuring the rule's action.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `LogCustomFieldRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "log_custom_field"`
-
-        The action to perform when the rule matches.
-
-        - `"log_custom_field"`
-
-      - `action_parameters: optional object { cookie_fields, raw_response_fields, request_fields, 2 more }`
-
-        The parameters configuring the rule's action.
-
-        - `cookie_fields: optional array of object { name }`
-
-          The cookie fields to log.
-
-          - `name: string`
-
-            The name of the cookie.
-
-        - `raw_response_fields: optional array of object { name, preserve_duplicates }`
-
-          The raw response fields to log.
-
-          - `name: string`
-
-            The name of the response header.
-
-          - `preserve_duplicates: optional boolean`
-
-            Whether to log duplicate values of the same header.
-
-        - `request_fields: optional array of object { name }`
-
-          The raw request fields to log.
-
-          - `name: string`
-
-            The name of the header.
-
-        - `response_fields: optional array of object { name, preserve_duplicates }`
-
-          The transformed response fields to log.
-
-          - `name: string`
-
-            The name of the response header.
-
-          - `preserve_duplicates: optional boolean`
-
-            Whether to log duplicate values of the same header.
-
-        - `transformed_request_fields: optional array of object { name }`
-
-          The transformed request fields to log.
-
-          - `name: string`
-
-            The name of the header.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `ManagedChallengeRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "managed_challenge"`
-
-        The action to perform when the rule matches.
-
-        - `"managed_challenge"`
-
-      - `action_parameters: optional unknown`
-
-        The parameters configuring the rule's action.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `RedirectRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "redirect"`
-
-        The action to perform when the rule matches.
-
-        - `"redirect"`
-
-      - `action_parameters: optional object { from_list, from_value }`
-
-        The parameters configuring the rule's action.
-
-        - `from_list: optional object { key, name }`
-
-          A redirect based on a bulk list lookup.
-
-          - `key: string`
-
-            An expression that evaluates to the list lookup key.
-
-          - `name: string`
-
-            The name of the list to match against.
-
-        - `from_value: optional object { target_url, preserve_query_string, status_code }`
-
-          A redirect based on the request properties.
-
-          - `target_url: object { expression, value }`
-
-            A URL to redirect the request to.
-
-            - `expression: optional string`
-
-              An expression that evaluates to a URL to redirect the request to.
-
-            - `value: optional string`
-
-              A URL to redirect the request to.
-
-          - `preserve_query_string: optional boolean`
-
-            Whether to keep the query string of the original request.
-
-          - `status_code: optional 301 or 302 or 303 or 2 more`
-
-            The status code to use for the redirect.
-
-            - `301`
-
-            - `302`
-
-            - `303`
-
-            - `307`
-
-            - `308`
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `RewriteRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "rewrite"`
-
-        The action to perform when the rule matches.
-
-        - `"rewrite"`
-
-      - `action_parameters: optional object { headers, uri }`
-
-        The parameters configuring the rule's action.
-
-        - `headers: optional map[object { operation, value }  or object { expression, operation }  or object { operation, value }  or 2 more]`
-
-          A map of headers to rewrite.
-
-          - `AddStaticHeader object { operation, value }`
-
-            A header with a static value to add.
-
-            - `operation: "add"`
-
-              The operation to perform on the header.
-
-              - `"add"`
-
-            - `value: string`
-
-              A static value for the header.
-
-          - `AddDynamicHeader object { expression, operation }`
-
-            A header with a dynamic value to add.
-
-            - `expression: string`
-
-              An expression that evaluates to a value for the header.
-
-            - `operation: "add"`
-
-              The operation to perform on the header.
-
-              - `"add"`
-
-          - `SetStaticHeader object { operation, value }`
-
-            A header with a static value to set.
-
-            - `operation: "set"`
-
-              The operation to perform on the header.
-
-              - `"set"`
-
-            - `value: string`
-
-              A static value for the header.
-
-          - `SetDynamicHeader object { expression, operation }`
-
-            A header with a dynamic value to set.
-
-            - `expression: string`
-
-              An expression that evaluates to a value for the header.
-
-            - `operation: "set"`
-
-              The operation to perform on the header.
-
-              - `"set"`
-
-          - `RemoveHeader object { operation }`
-
-            A header to remove.
-
-            - `operation: "remove"`
-
-              The operation to perform on the header.
-
-              - `"remove"`
-
-        - `uri: optional object { path, origin }  or object { query, origin }`
-
-          A URI path rewrite.
-
-          - `URIPath object { path, origin }`
-
-            A URI path rewrite.
-
-            - `path: object { expression, value }`
-
-              A URI path rewrite.
-
-              - `expression: optional string`
-
-                An expression that evaluates to a value to rewrite the URI path to.
-
-              - `value: optional string`
-
-                A value to rewrite the URI path to.
-
-            - `origin: optional boolean`
-
-              Whether to propagate the rewritten URI to origin.
-
-          - `URIQuery object { query, origin }`
-
-            A URI query rewrite.
-
-            - `query: object { expression, value }`
-
-              A URI query rewrite.
-
-              - `expression: optional string`
-
-                An expression that evaluates to a value to rewrite the URI query to.
-
-              - `value: optional string`
-
-                A value to rewrite the URI query to.
-
-            - `origin: optional boolean`
-
-              Whether to propagate the rewritten URI to origin.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `RouteRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "route"`
-
-        The action to perform when the rule matches.
-
-        - `"route"`
-
-      - `action_parameters: optional object { host_header, origin, sni }`
-
-        The parameters configuring the rule's action.
-
-        - `host_header: optional string`
-
-          A value to rewrite the HTTP host header to.
-
-        - `origin: optional object { host, port }`
-
-          An origin to route to.
-
-          - `host: optional string`
-
-            A resolved host to route to.
-
-          - `port: optional number`
-
-            A destination port to route to.
-
-        - `sni: optional object { value }`
-
-          A Server Name Indication (SNI) override.
-
-          - `value: string`
-
-            A value to override the SNI to.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `ScoreRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "score"`
-
-        The action to perform when the rule matches.
-
-        - `"score"`
-
-      - `action_parameters: optional object { increment }`
-
-        The parameters configuring the rule's action.
-
-        - `increment: number`
-
-          A delta to change the score by, which can be either positive or negative.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `ServeErrorRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "serve_error"`
-
-        The action to perform when the rule matches.
-
-        - `"serve_error"`
-
-      - `action_parameters: optional object { content, content_type, status_code }  or object { asset_name, content_type, status_code }`
-
-        The parameters configuring the rule's action.
-
-        - `ActionParametersContent object { content, content_type, status_code }`
-
-          - `content: string`
-
-            The response content.
-
-          - `content_type: optional "application/json" or "text/html" or "text/plain" or "text/xml"`
-
-            The content type header to set with the error response.
-
-            - `"application/json"`
-
-            - `"text/html"`
-
-            - `"text/plain"`
-
-            - `"text/xml"`
-
-          - `status_code: optional number`
-
-            The status code to use for the error.
-
-        - `ActionParametersAsset object { asset_name, content_type, status_code }`
-
-          - `asset_name: string`
-
-            The name of a custom asset to serve as the error response.
-
-          - `content_type: optional "application/json" or "text/html" or "text/plain" or "text/xml"`
-
-            The content type header to set with the error response.
-
-            - `"application/json"`
-
-            - `"text/html"`
-
-            - `"text/plain"`
-
-            - `"text/xml"`
-
-          - `status_code: optional number`
-
-            The status code to use for the error.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `SetCacheControl object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "set_cache_control"`
-
-        The action to perform when the rule matches.
-
-        - `"set_cache_control"`
-
-      - `action_parameters: optional object { immutable, "max-age", "must-revalidate", 10 more }`
-
-        The parameters configuring the rule's action.
-
-        - `immutable: optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration.
-
-          - `SetDirective object { operation, cloudflare_only }`
-
-            Set the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"max-age": optional object { operation, value, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration that accepts a duration value in seconds.
-
-          - `SetDirective object { operation, value, cloudflare_only }`
-
-            Set the directive with a duration value in seconds.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `value: number`
-
-              The duration value in seconds for the directive.
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"must-revalidate": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration.
-
-          - `SetDirective object { operation, cloudflare_only }`
-
-            Set the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"must-understand": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration.
-
-          - `SetDirective object { operation, cloudflare_only }`
-
-            Set the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"no-cache": optional object { operation, cloudflare_only, qualifiers }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration that accepts optional qualifiers (header names).
-
-          - `SetDirective object { operation, cloudflare_only, qualifiers }`
-
-            Set the directive with optional qualifiers.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-            - `qualifiers: optional array of string`
-
-              Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives).
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"no-store": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration.
-
-          - `SetDirective object { operation, cloudflare_only }`
-
-            Set the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"no-transform": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration.
-
-          - `SetDirective object { operation, cloudflare_only }`
-
-            Set the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `private: optional object { operation, cloudflare_only, qualifiers }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration that accepts optional qualifiers (header names).
-
-          - `SetDirective object { operation, cloudflare_only, qualifiers }`
-
-            Set the directive with optional qualifiers.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-            - `qualifiers: optional array of string`
-
-              Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives).
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"proxy-revalidate": optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration.
-
-          - `SetDirective object { operation, cloudflare_only }`
-
-            Set the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `public: optional object { operation, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration.
-
-          - `SetDirective object { operation, cloudflare_only }`
-
-            Set the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"s-maxage": optional object { operation, value, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration that accepts a duration value in seconds.
-
-          - `SetDirective object { operation, value, cloudflare_only }`
-
-            Set the directive with a duration value in seconds.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `value: number`
-
-              The duration value in seconds for the directive.
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"stale-if-error": optional object { operation, value, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration that accepts a duration value in seconds.
-
-          - `SetDirective object { operation, value, cloudflare_only }`
-
-            Set the directive with a duration value in seconds.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `value: number`
-
-              The duration value in seconds for the directive.
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-        - `"stale-while-revalidate": optional object { operation, value, cloudflare_only }  or object { operation, cloudflare_only }`
-
-          A cache-control directive configuration that accepts a duration value in seconds.
-
-          - `SetDirective object { operation, value, cloudflare_only }`
-
-            Set the directive with a duration value in seconds.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `value: number`
-
-              The duration value in seconds for the directive.
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-          - `RemoveDirective object { operation, cloudflare_only }`
-
-            Remove the directive.
-
-            - `operation: "set" or "remove"`
-
-              The operation to perform on the cache-control directive.
-
-              - `"set"`
-
-              - `"remove"`
-
-            - `cloudflare_only: optional boolean`
-
-              Whether the directive should only be applied to the Cloudflare CDN cache.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `SetCacheSettingsRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "set_cache_settings"`
-
-        The action to perform when the rule matches.
-
-        - `"set_cache_settings"`
-
-      - `action_parameters: optional object { additional_cacheable_ports, browser_ttl, cache, 13 more }`
-
-        The parameters configuring the rule's action.
-
-        - `additional_cacheable_ports: optional array of number`
-
-          A list of additional ports that caching should be enabled on.
-
-        - `browser_ttl: optional object { mode, default }`
-
-          How long client browsers should cache the response. Cloudflare cache purge will not purge content cached on client browsers, so high browser TTLs may lead to stale content.
-
-          - `mode: "respect_origin" or "bypass_by_default" or "override_origin" or "bypass"`
-
-            The browser TTL mode.
-
-            - `"respect_origin"`
-
-            - `"bypass_by_default"`
-
-            - `"override_origin"`
-
-            - `"bypass"`
-
-          - `default: optional number`
-
-            The browser TTL (in seconds) if you choose the "override_origin" mode.
-
-        - `cache: optional boolean`
-
-          Whether the request's response from the origin is eligible for caching. Caching itself will still depend on the cache control header and your other caching configurations.
-
-        - `cache_key: optional object { cache_by_device_type, cache_deception_armor, custom_key, ignore_query_strings_order }`
-
-          Which components of the request are included in or excluded from the cache key Cloudflare uses to store the response in cache.
-
-          - `cache_by_device_type: optional boolean`
-
-            Whether to separate cached content based on the visitor's device type.
-
-          - `cache_deception_armor: optional boolean`
-
-            Whether to protect from web cache deception attacks, while allowing static assets to be cached.
-
-          - `custom_key: optional object { cookie, header, host, 2 more }`
-
-            Which components of the request are included or excluded from the cache key.
-
-            - `cookie: optional object { check_presence, include }`
-
-              Which cookies to include in the cache key.
-
-              - `check_presence: optional array of string`
-
-                A list of cookies to check for the presence of. The presence of these cookies is included in the cache key.
-
-              - `include: optional array of string`
-
-                A list of cookies to include in the cache key.
-
-            - `header: optional object { check_presence, contains, exclude_origin, include }`
-
-              Which headers to include in the cache key.
-
-              - `check_presence: optional array of string`
-
-                A list of headers to check for the presence of. The presence of these headers is included in the cache key.
-
-              - `contains: optional map[array of string]`
-
-                A mapping of header names to a list of values. If a header is present in the request and contains any of the values provided, its value is included in the cache key.
-
-              - `exclude_origin: optional boolean`
-
-                Whether to exclude the origin header in the cache key.
-
-              - `include: optional array of string`
-
-                A list of headers to include in the cache key.
-
-            - `host: optional object { resolved }`
-
-              How to use the host in the cache key.
-
-              - `resolved: optional boolean`
-
-                Whether to use the resolved host in the cache key.
-
-            - `query_string: optional object { exclude, include }`
-
-              Which query string parameters to include in or exclude from the cache key.
-
-              - `exclude: optional object { all, list }`
-
-                Which query string parameters to exclude from the cache key.
-
-                - `all: optional true`
-
-                  Whether to exclude all query string parameters from the cache key.
-
-                  - `true`
-
-                - `list: optional array of string`
-
-                  A list of query string parameters to exclude from the cache key.
-
-              - `include: optional object { all, list }`
-
-                Which query string parameters to include in the cache key.
-
-                - `all: optional true`
-
-                  Whether to include all query string parameters in the cache key.
-
-                  - `true`
-
-                - `list: optional array of string`
-
-                  A list of query string parameters to include in the cache key.
-
-            - `user: optional object { device_type, geo, lang }`
-
-              How to use characteristics of the request user agent in the cache key.
-
-              - `device_type: optional boolean`
-
-                Whether to use the user agent's device type in the cache key.
-
-              - `geo: optional boolean`
-
-                Whether to use the user agents's country in the cache key.
-
-              - `lang: optional boolean`
-
-                Whether to use the user agent's language in the cache key.
-
-          - `ignore_query_strings_order: optional boolean`
-
-            Whether to treat requests with the same query parameters the same, regardless of the order those query parameters are in.
-
-        - `cache_reserve: optional object { eligible, minimum_file_size }`
-
-          Settings to determine whether the request's response from origin is eligible for Cache Reserve (requires a Cache Reserve add-on plan).
-
-          - `eligible: boolean`
-
-            Whether Cache Reserve is enabled. If this is true and a request meets eligibility criteria, Cloudflare will write the resource to Cache Reserve.
-
-          - `minimum_file_size: optional number`
-
-            The minimum file size eligible for storage in Cache Reserve.
-
-        - `edge_ttl: optional object { mode, default, status_code_ttl }`
-
-          How long the Cloudflare edge network should cache the response.
-
-          - `mode: "respect_origin" or "bypass_by_default" or "override_origin"`
-
-            The edge TTL mode.
-
-            - `"respect_origin"`
-
-            - `"bypass_by_default"`
-
-            - `"override_origin"`
-
-          - `default: optional number`
-
-            The edge TTL (in seconds) if you choose the "override_origin" mode.
-
-          - `status_code_ttl: optional array of object { value, status_code, status_code_range }`
-
-            A list of TTLs to apply to specific status codes or status code ranges.
-
-            - `value: number`
-
-              The time to cache the response for (in seconds). A value of 0 is equivalent to setting the cache control header with the value "no-cache". A value of -1 is equivalent to setting the cache control header with the value of "no-store".
-
-            - `status_code: optional number`
-
-              A single status code to apply the TTL to.
-
-            - `status_code_range: optional object { from, to }`
-
-              A range of status codes to apply the TTL to.
-
-              - `from: optional number`
-
-                The lower bound of the range.
-
-              - `to: optional number`
-
-                The upper bound of the range.
-
-        - `origin_cache_control: optional boolean`
-
-          Whether Cloudflare will aim to strictly adhere to RFC 7234.
-
-        - `origin_error_page_passthru: optional boolean`
-
-          Whether to generate Cloudflare error pages for issues from the origin server.
-
-        - `read_timeout: optional number`
-
-          A timeout value between two successive read operations to use for your origin server. Historically, the timeout value between two read options from Cloudflare to an origin server is 100 seconds. If you are attempting to reduce HTTP 524 errors because of timeouts from an origin server, try increasing this timeout value.
-
-        - `respect_strong_etags: optional boolean`
-
-          Whether Cloudflare should respect strong ETag (entity tag) headers. If false, Cloudflare converts strong ETag headers to weak ETag headers.
-
-        - `serve_stale: optional object { disable_stale_while_updating }`
-
-          When to serve stale content from cache.
-
-          - `disable_stale_while_updating: optional boolean`
-
-            Whether Cloudflare should disable serving stale content while getting the latest content from the origin.
-
-        - `shared_dictionary: optional object { match_pattern }`
-
-          Configuration for shared dictionary compression. When set, Cloudflare injects Use-As-Dictionary headers on matching cacheable responses.
-
-          - `match_pattern: string`
-
-            URL pattern for the Use-As-Dictionary match field. This pattern specifies which URLs can use this response as a dictionary.
-
-        - `strip_etags: optional boolean`
-
-          Whether to strip ETag headers from the origin response before caching.
-
-        - `strip_last_modified: optional boolean`
-
-          Whether to strip Last-Modified headers from the origin response before caching.
-
-        - `strip_set_cookie: optional boolean`
-
-          Whether to strip Set-Cookie headers from the origin response before caching.
-
-        - `vary: optional object { default, headers }`
-
-          Controls how cached responses vary based on request headers. `default` is required by the API and applies to any Vary response header that does not have a per-header override.
-
-          - `default: optional object { action }`
-
-            Controls how response Vary headers without a per-header override contribute to the cache key.
-
-            - `action: "bypass" or "passthrough" or "normalize"`
-
-              How the header value is treated when building the cache key.
-
-              - `"bypass"`
-
-              - `"passthrough"`
-
-              - `"normalize"`
-
-          - `headers: optional map[object { action, languages, media_types } ]`
-
-            A mapping of lowercase request header names to their vary configuration.
-
-            - `action: "bypass" or "passthrough" or "normalize"`
-
-              How the header value is treated when building the cache key.
-
-              - `"bypass"`
-
-              - `"passthrough"`
-
-              - `"normalize"`
-
-            - `languages: optional array of string`
-
-              The set of languages to normalize against. Only valid for the `accept-language` header.
-
-            - `media_types: optional array of string`
-
-              The set of media types to normalize against. Only valid for the `accept` header.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `SetCacheTags object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "set_cache_tags"`
-
-        The action to perform when the rule matches.
-
-        - `"set_cache_tags"`
-
-      - `action_parameters: optional object { operation, values }  or object { expression, operation }  or object { operation, values }  or 3 more`
-
-        The parameters configuring the rule's action.
-
-        - `AddCacheTagsValues object { operation, values }`
-
-          Add cache tags using a list of values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-          - `values: array of string`
-
-            A list of cache tag values.
-
-        - `AddCacheTagsExpression object { expression, operation }`
-
-          Add cache tags using an expression.
-
-          - `expression: string`
-
-            An expression that evaluates to an array of cache tag values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-        - `RemoveCacheTagsValues object { operation, values }`
-
-          Remove cache tags using a list of values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-          - `values: array of string`
-
-            A list of cache tag values.
-
-        - `RemoveCacheTagsExpression object { expression, operation }`
-
-          Remove cache tags using an expression.
-
-          - `expression: string`
-
-            An expression that evaluates to an array of cache tag values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-        - `SetCacheTagsValues object { operation, values }`
-
-          Set cache tags using a list of values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-          - `values: array of string`
-
-            A list of cache tag values.
-
-        - `SetCacheTagsExpression object { expression, operation }`
-
-          Set cache tags using an expression.
-
-          - `expression: string`
-
-            An expression that evaluates to an array of cache tag values.
-
-          - `operation: "add" or "remove" or "set"`
-
-            The operation to perform on the cache tags.
-
-            - `"add"`
-
-            - `"remove"`
-
-            - `"set"`
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `SetConfigRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "set_config"`
-
-        The action to perform when the rule matches.
-
-        - `"set_config"`
-
-      - `action_parameters: optional object { automatic_https_rewrites, autominify, bic, 19 more }`
-
-        The parameters configuring the rule's action.
-
-        - `automatic_https_rewrites: optional boolean`
-
-          Whether to enable Automatic HTTPS Rewrites.
-
-        - `autominify: optional object { css, html, js }`
-
-          Which file extensions to minify automatically.
-
-          - `css: optional boolean`
-
-            Whether to minify CSS files.
-
-          - `html: optional boolean`
-
-            Whether to minify HTML files.
-
-          - `js: optional boolean`
-
-            Whether to minify JavaScript files.
-
-        - `bic: optional boolean`
-
-          Whether to enable Browser Integrity Check (BIC).
-
-        - `content_converter: optional boolean`
-
-          Whether to enable content conversion (e.g., HTML to Markdown).
-
-        - `disable_apps: optional true`
-
-          Whether to disable Cloudflare Apps.
-
-          - `true`
-
-        - `disable_pay_per_crawl: optional true`
-
-          Whether to disable Pay Per Crawl.
-
-          - `true`
-
-        - `disable_rum: optional true`
-
-          Whether to disable Real User Monitoring (RUM).
-
-          - `true`
-
-        - `disable_zaraz: optional true`
-
-          Whether to disable Zaraz.
-
-          - `true`
-
-        - `email_obfuscation: optional boolean`
-
-          Whether to enable Email Obfuscation.
-
-        - `fonts: optional boolean`
-
-          Whether to enable Cloudflare Fonts.
-
-        - `hotlink_protection: optional boolean`
-
-          Whether to enable Hotlink Protection.
-
-        - `mirage: optional boolean`
-
-          Whether to enable Mirage.
-
-        - `opportunistic_encryption: optional boolean`
-
-          Whether to enable Opportunistic Encryption.
-
-        - `polish: optional "off" or "lossless" or "lossy" or "webp"`
-
-          The Polish level to configure.
-
-          - `"off"`
-
-          - `"lossless"`
-
-          - `"lossy"`
-
-          - `"webp"`
-
-        - `redirects_for_ai_training: optional boolean`
-
-          Whether to redirect verified AI training crawlers to canonical URLs found in the HTML response.
-
-        - `request_body_buffering: optional "none" or "standard" or "full"`
-
-          The request body buffering mode.
-
-          - `"none"`
-
-          - `"standard"`
-
-          - `"full"`
-
-        - `response_body_buffering: optional "none" or "standard"`
-
-          The response body buffering mode.
-
-          - `"none"`
-
-          - `"standard"`
-
-        - `rocket_loader: optional boolean`
-
-          Whether to enable Rocket Loader.
-
-        - `security_level: optional "off" or "essentially_off" or "low" or 3 more`
-
-          The Security Level to configure.
-
-          - `"off"`
-
-          - `"essentially_off"`
-
-          - `"low"`
-
-          - `"medium"`
-
-          - `"high"`
-
-          - `"under_attack"`
-
-        - `server_side_excludes: optional boolean`
-
-          Whether to enable Server-Side Excludes.
-
-        - `ssl: optional "off" or "flexible" or "full" or 2 more`
-
-          The SSL level to configure.
-
-          - `"off"`
-
-          - `"flexible"`
-
-          - `"full"`
-
-          - `"strict"`
-
-          - `"origin_pull"`
-
-        - `sxg: optional boolean`
-
-          Whether to enable Signed Exchanges (SXG).
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `SkipRule object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "skip"`
-
-        The action to perform when the rule matches.
-
-        - `"skip"`
-
-      - `action_parameters: optional object { phase, phases, products, 3 more }`
-
-        The parameters configuring the rule's action.
-
-        - `phase: optional "current"`
-
-          A phase to skip the execution of. This option is only compatible with the products option.
-
-          - `"current"`
-
-        - `phases: optional array of Phase`
-
-          A list of phases to skip the execution of. This option is incompatible with the rulesets option.
-
-          - `"ddos_l4"`
-
-          - `"ddos_l7"`
-
-          - `"http_config_settings"`
-
-          - `"http_custom_errors"`
-
-          - `"http_log_custom_fields"`
-
-          - `"http_ratelimit"`
-
-          - `"http_request_cache_settings"`
-
-          - `"http_request_dynamic_redirect"`
-
-          - `"http_request_firewall_custom"`
-
-          - `"http_request_firewall_managed"`
-
-          - `"http_request_late_transform"`
-
-          - `"http_request_origin"`
-
-          - `"http_request_redirect"`
-
-          - `"http_request_sanitize"`
-
-          - `"http_request_sbfm"`
-
-          - `"http_request_transform"`
-
-          - `"http_response_cache_settings"`
-
-          - `"http_response_compression"`
-
-          - `"http_response_firewall_managed"`
-
-          - `"http_response_headers_transform"`
-
-          - `"magic_transit"`
-
-          - `"magic_transit_ids_managed"`
-
-          - `"magic_transit_managed"`
-
-          - `"magic_transit_ratelimit"`
-
-        - `products: optional array of "bic" or "hot" or "rateLimit" or 4 more`
-
-          A list of legacy security products to skip the execution of.
-
-          - `"bic"`
-
-          - `"hot"`
-
-          - `"rateLimit"`
-
-          - `"securityLevel"`
-
-          - `"uaBlock"`
-
-          - `"waf"`
-
-          - `"zoneLockdown"`
-
-        - `rules: optional map[array of string]`
-
-          A mapping of ruleset IDs to a list of rule IDs in that ruleset to skip the execution of. This option is incompatible with the ruleset option.
-
-        - `ruleset: optional "current"`
-
-          A ruleset to skip the execution of. This option is incompatible with the rulesets option.
-
-          - `"current"`
-
-        - `rulesets: optional array of string`
-
-          A list of ruleset IDs to skip the execution of. This option is incompatible with the ruleset and phases options.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-    - `TransformResponseHTML object { last_updated, version, id, 10 more }`
-
-      - `last_updated: string`
-
-        The timestamp of when the rule was last modified.
-
-      - `version: string`
-
-        The version of the rule.
-
-      - `id: optional string`
-
-        The unique ID of the rule.
-
-      - `action: optional "transform_response_html"`
-
-        The action to perform when the rule matches.
-
-        - `"transform_response_html"`
-
-      - `action_parameters: optional object { link_maze }`
-
-        The parameters configuring the rule's action.
-
-        - `link_maze: unknown`
-
-          Enables the link maze transformation on the response.
-
-      - `categories: optional array of string`
-
-        The categories of the rule.
-
-      - `description: optional string`
-
-        An informative description of the rule.
-
-      - `enabled: optional boolean`
-
-        Whether the rule should be executed.
-
-      - `exposed_credential_check: optional object { password_expression, username_expression }`
-
-        Configuration for exposed credential checking.
-
-        - `password_expression: string`
-
-          An expression that selects the password used in the credentials check.
-
-        - `username_expression: string`
-
-          An expression that selects the user ID used in the credentials check.
-
-      - `expression: optional string`
-
-        The expression defining which traffic will match the rule.
-
-      - `logging: optional Logging`
-
-        An object configuring the rule's logging behavior.
-
-      - `ratelimit: optional object { characteristics, period, counting_expression, 5 more }`
-
-        An object configuring the rule's rate limit behavior.
-
-        - `characteristics: array of string`
-
-          Characteristics of the request on which the rate limit counter will be incremented.
-
-        - `period: number`
-
-          Period in seconds over which the counter is being incremented.
-
-        - `counting_expression: optional string`
-
-          An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression.
-
-        - `mitigation_timeout: optional number`
-
-          Period of time in seconds after which the action will be disabled following its first execution.
-
-        - `requests_per_period: optional number`
-
-          The threshold of requests per period after which the action will be executed for the first time.
-
-        - `requests_to_origin: optional boolean`
-
-          Whether counting is only performed when an origin is reached.
-
-        - `score_per_period: optional number`
-
-          The score threshold per period for which the action will be executed the first time.
-
-        - `score_response_header_name: optional string`
-
-          A response header name provided by the origin, which contains the score to increment rate limit counter with.
-
-      - `ref: optional string`
-
-        The reference of the rule (the rule's ID by default).
-
-  - `version: string`
-
-    The version of the ruleset.
-
-  - `description: optional string`
-
-    An informative description of the ruleset.
+[Link to this property](#)%20rulesets.phases.versions%20%3E%20(model)%20version_get_response%20%3E%20(schema)>)

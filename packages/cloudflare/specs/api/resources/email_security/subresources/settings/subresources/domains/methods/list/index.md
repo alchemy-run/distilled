@@ -1,287 +1,797 @@
-## List protected email domains
+---
+title: List protected email domains
+---
 
-**get** `/accounts/{account_id}/email-security/settings/domains`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+[Domains](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List protected email domains
+
+GET/accounts/{account\_id}/email-security/settings/domains
 
 Returns a paginated list of email domains protected by Email Security. Includes domain configuration, delivery modes, and authorization status. Supports filtering by delivery mode and integration ID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `active_delivery_mode: optional "DIRECT" or "BCC" or "JOURNAL" or 2 more`
 
-  Currently active delivery mode to filter by.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"DIRECT"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"BCC"`
+</details>
 
-  - `"JOURNAL"`
+<details>
 
-  - `"API"`
+<summary>API Email + API Key</summary>
 
-  - `"RETRO_SCAN"`
 
-- `allowed_delivery_mode: optional "DIRECT" or "BCC" or "JOURNAL" or 2 more`
 
-  Delivery mode to filter by.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"DIRECT"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"BCC"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"JOURNAL"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"API"`
+</details>
 
-  - `"RETRO_SCAN"`
+##### Accepted Permissions (at least one required)
 
-- `direction: optional "asc" or "desc"`
+`Cloud Email Security: Write``Cloud Email Security: Read`
 
-  The sorting direction.
+##### P ath ParametersExpand Collapse
 
-  - `"asc"`
+account\_id: string
 
-  - `"desc"`
+Identifier.
 
-- `domain: optional array of string`
+maxLength32
 
-  Domain names to filter by.
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `integration_id: optional string`
+##### Q uery ParametersExpand Collapse
 
-  Integration ID to filter by.
+<details>
 
-- `order: optional "domain" or "created_at"`
+<summary>
 
-  Field to sort by.
+active\_delivery\_mode: optional "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-  - `"domain"`
+Currently active delivery mode to filter by.
 
-  - `"created_at"`
+</summary>
 
-- `page: optional number`
+One of the following:
 
-  Current page within paginated list of results.
+"DIRECT"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The number of results per page. Maximum value is 1000.
+"BCC"
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-  Search term for filtering records. Behavior may change.
+"JOURNAL"
 
-- `status: optional "pending" or "active" or "failed" or "timeout"`
+<a href="#">Link to this property</a>
 
-  Filters response to domains with the provided status.
+"API"
 
-  - `"pending"`
+<a href="#">Link to this property</a>
 
-  - `"active"`
+"RETRO\_SCAN"
 
-  - `"failed"`
+<a href="#">Link to this property</a>
 
-  - `"timeout"`
+</details>
 
-### Returns
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20active_delivery_mode%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+allowed\_delivery\_mode: optional "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-  - `documentation_url: optional string`
+Delivery mode to filter by.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"DIRECT"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"BCC"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"JOURNAL"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"API"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"RETRO\_SCAN"
 
-- `result: optional array of object { id, allowed_delivery_modes, authorization, 19 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    Domain identifier
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20allowed_delivery_mode%20%3E%20(schema)>)
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+<details>
 
-    - `"DIRECT"`
+<summary>
 
-    - `"BCC"`
+direction: optional "asc"or "desc"
 
-    - `"JOURNAL"`
+The sorting direction.
 
-    - `"API"`
+</summary>
 
-    - `"RETRO_SCAN"`
+One of the following:
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+"asc"
 
-    - `authorized: boolean`
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+"desc"
 
-    - `status_message: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+</details>
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-    - `"none"`
+domain: optional array of string
 
-    - `"good"`
+Domain names to filter by.
 
-    - `"invalid"`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20domain%20%3E%20(schema)>)
 
-  - `domain: optional string`
+integration\_id: optional string
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+Integration ID to filter by.
 
-    - `"MALICIOUS"`
+formatuuid
 
-    - `"MALICIOUS-BEC"`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20integration_id%20%3E%20(schema)>)
 
-    - `"SUSPICIOUS"`
+<details>
 
-    - `"SPOOF"`
+<summary>
 
-    - `"SPAM"`
+order: optional "domain"or "created\_at"
 
-    - `"BULK"`
+Field to sort by.
 
-    - `"ENCRYPTED"`
+</summary>
 
-    - `"EXTERNAL"`
+One of the following:
 
-    - `"UNKNOWN"`
+"domain"
 
-    - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+"created\_at"
 
-    - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed: number`
+</details>
 
-    - `total_emails_processed_previous: number`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-  - `folder: optional "AllItems" or "Inbox"`
+page: optional number
 
-    - `"AllItems"`
+Current page within paginated list of results.
 
-    - `"Inbox"`
+minimum1
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `"Microsoft"`
+per\_page: optional number
 
-    - `"Google"`
+The number of results per page. Maximum value is 1000.
 
-  - `integration_id: optional string`
+maximum1000
 
-  - `ip_restrictions: optional array of string`
+minimum1
 
-  - `last_modified: optional string`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+search: optional string
 
-  - `lookback_hops: optional number`
+Search term for filtering records. Behavior may change.
 
-  - `modified_at: optional string`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
 
-  - `o365_tenant_id: optional string`
+<details>
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+<summary>
 
-    - `"GLOBAL"`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-    - `"AU"`
+Filters response to domains with the provided status.
 
-    - `"DE"`
+</summary>
 
-    - `"IN"`
+One of the following:
 
-    - `"US"`
+"PENDING"
 
-  - `require_tls_inbound: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `require_tls_outbound: optional boolean`
+"ACTIVE"
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+"FAILED"
 
-    - `"good"`
+<a href="#">Link to this property</a>
 
-    - `"neutral"`
+"TIMEOUT"
 
-    - `"open"`
+<a href="#">Link to this property</a>
 
-    - `"invalid"`
+</details>
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-    - `"pending"`
+##### ReturnsExpand Collapse
 
-    - `"active"`
+<details>
 
-    - `"failed"`
+<summary>
 
-    - `"timeout"`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `transport: optional string`
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+code: number
 
-  - `count: optional number`
+minimum1000
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+message: string
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+documentation\_url: optional string
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+<details>
 
-    Total results available without any search parameters.
+<summary>
 
-### Example
+source: optional object {pointer }
 
-```http
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, allowed\_delivery\_modes, authorization, 19 more }
+
+</summary>
+
+id: optional string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authorization: optional object {authorized, timestamp, status\_message }
+
+</summary>
+
+authorized: boolean
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc\_status: optional "none"or "good"or "invalid"
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
+
+</summary>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed\_previous: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+folder: optional "AllItems"or "Inbox"
+
+</summary>
+
+One of the following:
+
+"AllItems"
+
+<a href="#">Link to this property</a>
+
+"Inbox"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inbox\_provider: optional "Microsoft"or "Google"
+
+</summary>
+
+One of the following:
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Google"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+integration\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ip\_restrictions: optional array of string
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+lookback\_hops: optional number
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+o365\_tenant\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
+
+</summary>
+
+One of the following:
+
+"GLOBAL"
+
+<a href="#">Link to this property</a>
+
+"AU"
+
+<a href="#">Link to this property</a>
+
+"DE"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"US"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+require\_tls\_inbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+require\_tls\_outbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf\_status: optional "none"or "good"or "neutral"or 2 more
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
+
+</summary>
+
+One of the following:
+
+"PENDING"
+
+<a href="#">Link to this property</a>
+
+"ACTIVE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+"TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+transport: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List protected email domains
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -343,7 +853,86 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/se
       "require_tls_inbound": true,
       "require_tls_outbound": true,
       "spf_status": "none",
-      "status": "pending",
+      "status": "PENDING",
+      "transport": "transport"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "allowed_delivery_modes": [
+        "DIRECT"
+      ],
+      "authorization": {
+        "authorized": true,
+        "timestamp": "2019-12-27T18:11:19.117Z",
+        "status_message": "status_message"
+      },
+      "created_at": "2014-01-01T05:20:00.12345Z",
+      "dmarc_status": "none",
+      "domain": "example.com",
+      "drop_dispositions": [
+        "MALICIOUS"
+      ],
+      "emails_processed": {
+        "timestamp": "2019-12-27T18:11:19.117Z",
+        "total_emails_processed": 0,
+        "total_emails_processed_previous": 0
+      },
+      "folder": "AllItems",
+      "inbox_provider": "Microsoft",
+      "integration_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "ip_restrictions": [
+        "192.0.2.0/24",
+        "2001:db8::/32"
+      ],
+      "last_modified": "2014-01-01T05:20:00.12345Z",
+      "lookback_hops": 0,
+      "modified_at": "2014-01-01T05:20:00.12345Z",
+      "o365_tenant_id": "o365_tenant_id",
+      "regions": [
+        "GLOBAL"
+      ],
+      "require_tls_inbound": true,
+      "require_tls_outbound": true,
+      "spf_status": "none",
+      "status": "PENDING",
       "transport": "transport"
     }
   ],

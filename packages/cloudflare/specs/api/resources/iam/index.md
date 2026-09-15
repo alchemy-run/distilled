@@ -1,6580 +1,3575 @@
+---
+title: IAM
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # IAM
 
-# Permission Groups
+#### IAMPermission Groups
 
-## List Account Permission Groups
+##### [List Account Permission Groups](https://developers.cloudflare.com/api/resources/iam/subresources/permission_groups/methods/list)
 
-**get** `/accounts/{account_id}/iam/permission_groups`
+GET/accounts/{account\_id}/iam/permission\_groups
 
-List all the permissions groups for an account.
+##### [Permission Group Details](https://developers.cloudflare.com/api/resources/iam/subresources/permission_groups/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/iam/permission\_groups/{permission\_group\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account identifier tag.
+<details>
 
-### Query Parameters
+<summary>
 
-- `id: optional string`
+PermissionGroupListResponse object {id, meta, name }
 
-  ID of the permission group to be fetched.
+A named group of permissions that map to a group of operations against resources.
 
-- `label: optional string`
+</summary>
 
-  Label of the permission group to be fetched.
+id: string
 
-- `name: optional string`
+Identifier of the permission group.
 
-  Name of the permission group to be fetched.
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+<details>
 
-  Page number of paginated results.
+<summary>
 
-- `per_page: optional number`
+meta: optional object {key, value }
 
-  Maximum number of results per page.
+Attributes associated to the permission group.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+key: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+value: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+name: optional string
 
-  - `code: number`
+Name of the permission group.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20iam.permission_groups%20%3E%20(model)%20permission_group_list_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+PermissionGroupGetResponse object {id, meta, name }
 
-  - `true`
+A named group of permissions that map to a group of operations against resources.
 
-- `result: optional array of object { id, meta, name }`
+</summary>
 
-  A set of permission groups that are specified to the policy.
+id: string
 
-  - `id: string`
+Identifier of the permission group.
 
-    Identifier of the permission group.
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { key, value }`
+<details>
 
-    Attributes associated to the permission group.
+<summary>
 
-    - `key: optional string`
+meta: optional object {key, value }
 
-    - `value: optional string`
+Attributes associated to the permission group.
 
-  - `name: optional string`
+</summary>
 
-    Name of the permission group.
+key: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+value: optional string
 
-    Total number of results for the requested service
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+name: optional string
 
-    Number of results per page of results
-
-  - `total_count: optional number`
+Name of the permission group.
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20iam.permission_groups%20%3E%20(model)%20permission_group_get_response%20%3E%20(schema)>)
 
-#### Response
+#### IAMResource Groups
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "c8fed203ed3043cba015a93ad1616f1f",
-      "meta": {
-        "key": "key",
-        "value": "value"
-      },
-      "name": "Zone Read"
-    },
-    {
-      "id": "82e64a83756745bbbb1c9c2701bf816b",
-      "meta": {
-        "key": "key",
-        "value": "value"
-      },
-      "name": "Magic Network Monitoring"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+##### [List Resource Groups](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/list)
 
-## Permission Group Details
+GET/accounts/{account\_id}/iam/resource\_groups
 
-**get** `/accounts/{account_id}/iam/permission_groups/{permission_group_id}`
+##### [Resource Group Details](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/get)
 
-Get information about a specific permission group in an account.
+GET/accounts/{account\_id}/iam/resource\_groups/{resource\_group\_id}
 
-### Path Parameters
+##### [Create Resource Group](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/create)
 
-- `account_id: string`
+POST/accounts/{account\_id}/iam/resource\_groups
 
-  Account identifier tag.
+##### [Update Resource Group](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/update)
 
-- `permission_group_id: string`
+PUT/accounts/{account\_id}/iam/resource\_groups/{resource\_group\_id}
 
-  Permission Group identifier tag.
+##### [Remove Resource Group](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/delete)
 
-### Returns
+DELETE/accounts/{account\_id}/iam/resource\_groups/{resource\_group\_id}
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ResourceGroupListResponse object {id, scope, meta, name }
 
-  - `source: optional object { pointer }`
+A group of scoped resources.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+Identifier of the resource group.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+scope: object {key, objects }
 
-- `success: true`
+A scope is a combination of scope objects which provides additional context.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+key: string
 
-- `result: optional object { id, meta, name }`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-  A named group of permissions that map to a group of operations against resources.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    Identifier of the permission group.
+<summary>
 
-  - `meta: optional object { key, value }`
+objects: array of object {key }
 
-    Attributes associated to the permission group.
+A list of scope objects for additional context.
 
-    - `key: optional string`
+</summary>
 
-    - `value: optional string`
+key: string
 
-  - `name: optional string`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-    Name of the permission group.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/permission_groups/$PERMISSION_GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "meta": {
-      "key": "key",
-      "value": "value"
-    },
-    "name": "Load Balancer"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Permission Group List Response
+<summary>
 
-- `PermissionGroupListResponse object { id, meta, name }`
+meta: optional object {key, value }
 
-  A named group of permissions that map to a group of operations against resources.
+Attributes associated to the resource group.
 
-  - `id: string`
+</summary>
 
-    Identifier of the permission group.
+key: optional string
 
-  - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-    Attributes associated to the permission group.
+value: optional string
 
-    - `key: optional string`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the permission group.
+name: optional string
 
-### Permission Group Get Response
+Name of the resource group.
 
-- `PermissionGroupGetResponse object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-  A named group of permissions that map to a group of operations against resources.
+</details>
 
-  - `id: string`
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_list_response%20%3E%20(schema)>)
 
-    Identifier of the permission group.
+<details>
 
-  - `meta: optional object { key, value }`
+<summary>
 
-    Attributes associated to the permission group.
+ResourceGroupGetResponse object {id, scope, meta, name }
 
-    - `key: optional string`
+A group of scoped resources.
 
-    - `value: optional string`
+</summary>
 
-  - `name: optional string`
+id: string
 
-    Name of the permission group.
+Identifier of the resource group.
 
-# Resource Groups
+<a href="#">Link to this property</a>
 
-## List Resource Groups
+<details>
 
-**get** `/accounts/{account_id}/iam/resource_groups`
+<summary>
 
-List all the resource groups for an account.
+scope: object {key, objects }
 
-### Path Parameters
+A scope is a combination of scope objects which provides additional context.
 
-- `account_id: string`
+</summary>
 
-  Account identifier tag.
+key: string
 
-### Query Parameters
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-- `id: optional string`
+<a href="#">Link to this property</a>
 
-  ID of the resource group to be fetched.
+<details>
 
-- `name: optional string`
+<summary>
 
-  Name of the resource group to be fetched.
+objects: array of object {key }
 
-### Returns
+A list of scope objects for additional context.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+key: string
 
-  - `message: string`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+meta: optional object {key, value }
 
-    - `pointer: optional string`
+Attributes associated to the resource group.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+key: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, scope, meta, name }`
+value: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier of the resource group.
+</details>
 
-  - `scope: array of object { key, objects }`
+<a href="#">Link to this property</a>
 
-    The scope associated to the resource group
+name: optional string
 
-    - `key: string`
+Name of the resource group.
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+<a href="#">Link to this property</a>
 
-    - `objects: array of object { key }`
+</details>
 
-      A list of scope objects for additional context.
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_get_response%20%3E%20(schema)>)
 
-      - `key: string`
+<details>
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<summary>
 
-  - `meta: optional object { key, value }`
+ResourceGroupCreateResponse object {id, scope, meta, name }
 
-    Attributes associated to the resource group.
+A group of scoped resources.
 
-    - `key: optional string`
+</summary>
 
-    - `value: optional string`
+id: string
 
-  - `name: optional string`
+Identifier of the resource group.
 
-    Name of the resource group.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+scope: object {key, objects }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-      "scope": [
-        {
-          "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-          "objects": [
-            {
-              "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-            }
-          ]
-        }
-      ],
-      "meta": {
-        "key": "key",
-        "value": "value"
-      },
-      "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-    }
-  ]
-}
-```
+A scope is a combination of scope objects which provides additional context.
 
-## Resource Group Details
+</summary>
 
-**get** `/accounts/{account_id}/iam/resource_groups/{resource_group_id}`
+key: string
 
-Get information about a specific resource group in an account.
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>
 
-- `resource_group_id: string`
+objects: array of object {key }
 
-  Resource Group identifier tag.
+A list of scope objects for additional context.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+key: string
 
-  - `code: number`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+meta: optional object {key, value }
 
-  - `source: optional object { pointer }`
+Attributes associated to the resource group.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+key: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+value: optional string
 
-- `result: optional object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-  A group of scoped resources.
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier of the resource group.
+name: optional string
 
-  - `scope: array of object { key, objects }`
+Name of the resource group.
 
-    The scope associated to the resource group
+<a href="#">Link to this property</a>
 
-    - `key: string`
+</details>
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_create_response%20%3E%20(schema)>)
 
-    - `objects: array of object { key }`
+<details>
 
-      A list of scope objects for additional context.
+<summary>
 
-      - `key: string`
+ResourceGroupUpdateResponse object {id, scope, meta, name }
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+A group of scoped resources.
 
-  - `meta: optional object { key, value }`
+</summary>
 
-    Attributes associated to the resource group.
+id: string
 
-    - `key: optional string`
+Identifier of the resource group.
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+<details>
 
-    Name of the resource group.
+<summary>
 
-### Example
+scope: object {key, objects }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups/$RESOURCE_GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+A scope is a combination of scope objects which provides additional context.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "scope": [
-      {
-        "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-        "objects": [
-          {
-            "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-          }
-        ]
-      }
-    ],
-    "meta": {
-      "key": "key",
-      "value": "value"
-    },
-    "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-  }
-}
-```
+key: string
 
-## Create Resource Group
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-**post** `/accounts/{account_id}/iam/resource_groups`
+<a href="#">Link to this property</a>
 
-Create a new Resource Group under the specified account.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+objects: array of object {key }
 
-  Account identifier tag.
+A list of scope objects for additional context.
 
-### Body Parameters
+</summary>
 
-- `name: string`
+key: string
 
-  Name of the resource group
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-- `scope: object { key, objects }`
+<a href="#">Link to this property</a>
 
-  A scope is a combination of scope objects which provides additional context.
+</details>
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-    This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+</details>
 
-  - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-    A list of scope objects for additional context. The number of Scope objects should not be zero.
+<details>
 
-    - `key: string`
+<summary>
 
-      This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+meta: optional object {key, value }
 
-### Returns
+Attributes associated to the resource group.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+key: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: optional string
 
-  - `message: string`
+Name of the resource group.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_update_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+ResourceGroupDeleteResponse object {id }
 
-- `result: optional object { id, scope, meta, name }`
+</summary>
 
-  A group of scoped resources.
+id: string
 
-  - `id: string`
+Identifier
 
-    Identifier of the resource group.
+maxLength32
 
-  - `scope: array of object { key, objects }`
+minLength32
 
-    The scope associated to the resource group
+<a href="#">Link to this property</a>
 
-    - `key: string`
+</details>
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_delete_response%20%3E%20(schema)>)
 
-    - `objects: array of object { key }`
+#### IAMUser Groups
 
-      A list of scope objects for additional context.
+##### [List User Groups](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/list)
 
-      - `key: string`
+GET/accounts/{account\_id}/iam/user\_groups
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+##### [User Group Details](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/get)
 
-  - `meta: optional object { key, value }`
+GET/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}
 
-    Attributes associated to the resource group.
+##### [Create User Group](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/create)
 
-    - `key: optional string`
+POST/accounts/{account\_id}/iam/user\_groups
 
-    - `value: optional string`
+##### [Update User Group](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/update)
 
-  - `name: optional string`
+PUT/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}
 
-    Name of the resource group.
+##### [Remove User Group](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/delete)
 
-### Example
+DELETE/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "NewResourceGroup",
-          "scope": {
-            "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-            "objects": [
-              {
-                "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-              }
-            ]
-          }
-        }'
-```
+##### ModelsExpand Collapse
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "scope": [
-      {
-        "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-        "objects": [
-          {
-            "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-          }
-        ]
-      }
-    ],
-    "meta": {
-      "key": "key",
-      "value": "value"
-    },
-    "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-  }
-}
-```
+<summary>
 
-## Update Resource Group
+UserGroupListResponse object {id, created\_on, modified\_on, 2 more }
 
-**put** `/accounts/{account_id}/iam/resource_groups/{resource_group_id}`
+A group of policies resources.
 
-Modify an existing resource group.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+User Group identifier tag.
 
-  Account identifier tag.
+maxLength32
 
-- `resource_group_id: string`
+minLength32
 
-  Resource Group identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+created\_on: string
 
-- `name: optional string`
+Timestamp for the creation of the user group
 
-  Name of the resource group
+formatdate-time
 
-- `scope: optional object { key, objects }`
+<a href="#">Link to this property</a>
 
-  A scope is a combination of scope objects which provides additional context.
+modified\_on: string
 
-  - `key: string`
+Last time the user group was modified.
 
-    This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+formatdate-time
 
-  - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-    A list of scope objects for additional context. The number of Scope objects should not be zero.
+name: string
 
-    - `key: string`
+Name of the user group.
 
-      This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-  - `message: string`
+Policies attached to the User group
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+Policy identifier.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+access: optional "allow"or "deny"
 
-  - `source: optional object { pointer }`
+Allow or deny operations against the resources.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"allow"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, scope, meta, name }`
+"deny"
 
-  A group of scoped resources.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Identifier of the resource group.
+<a href="#">Link to this property</a>
 
-  - `scope: array of object { key, objects }`
+<details>
 
-    The scope associated to the resource group
+<summary>
 
-    - `key: string`
+permission\_groups: optional array of object {id, meta, name }
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+A set of permission groups that are specified to the policy.
 
-    - `objects: array of object { key }`
+</summary>
 
-      A list of scope objects for additional context.
+id: string
 
-      - `key: string`
+Identifier of the permission group.
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { key, value }`
+<details>
 
-    Attributes associated to the resource group.
+<summary>
 
-    - `key: optional string`
+meta: optional object {key, value }
 
-    - `value: optional string`
+Attributes associated to the permission group.
 
-  - `name: optional string`
+</summary>
 
-    Name of the resource group.
+key: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups/$RESOURCE_GROUP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "UpdatedResourceGroup"
-        }'
-```
+value: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "scope": [
-      {
-        "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-        "objects": [
-          {
-            "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-          }
-        ]
-      }
-    ],
-    "meta": {
-      "key": "key",
-      "value": "value"
-    },
-    "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-  }
-}
-```
+</details>
 
-## Remove Resource Group
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/iam/resource_groups/{resource_group_id}`
+name: optional string
 
-Remove a resource group from an account.
+Name of the permission group.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `resource_group_id: string`
+<details>
 
-  Resource Group identifier tag.
+<summary>
 
-### Returns
+resource\_groups: optional array of object {id, scope, meta, name }
 
-- `errors: array of object { code, message, documentation_url, source }`
+A list of resource groups that the policy applies to.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+Identifier of the resource group.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+scope: object {key, objects }
 
-  - `message: string`
+A scope is a combination of scope objects which provides additional context.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+key: string
 
-    - `pointer: optional string`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id }`
+objects: array of object {key }
 
-  - `id: string`
+A list of scope objects for additional context.
 
-    Identifier
+</summary>
 
-### Example
+key: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups/$RESOURCE_GROUP_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Resource Group List Response
+</details>
 
-- `ResourceGroupListResponse object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-  A group of scoped resources.
+<details>
 
-  - `id: string`
+<summary>
 
-    Identifier of the resource group.
+meta: optional object {key, value }
 
-  - `scope: array of object { key, objects }`
+Attributes associated to the resource group.
 
-    The scope associated to the resource group
+</summary>
 
-    - `key: string`
+key: optional string
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+<a href="#">Link to this property</a>
 
-    - `objects: array of object { key }`
+value: optional string
 
-      A list of scope objects for additional context.
+<a href="#">Link to this property</a>
 
-      - `key: string`
+</details>
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { key, value }`
+name: optional string
 
-    Attributes associated to the resource group.
+Name of the resource group.
 
-    - `key: optional string`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the resource group.
+</details>
 
-### Resource Group Get Response
+<a href="#">Link to this property</a>
 
-- `ResourceGroupGetResponse object { id, scope, meta, name }`
+</details>
 
-  A group of scoped resources.
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_list_response%20%3E%20(schema)>)
 
-  - `id: string`
+<details>
 
-    Identifier of the resource group.
+<summary>
 
-  - `scope: array of object { key, objects }`
+UserGroupGetResponse object {id, created\_on, modified\_on, 2 more }
 
-    The scope associated to the resource group
+A group of policies resources.
 
-    - `key: string`
+</summary>
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+id: string
 
-    - `objects: array of object { key }`
+User Group identifier tag.
 
-      A list of scope objects for additional context.
+maxLength32
 
-      - `key: string`
+minLength32
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { key, value }`
+created\_on: string
 
-    Attributes associated to the resource group.
+Timestamp for the creation of the user group
 
-    - `key: optional string`
+formatdate-time
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+modified\_on: string
 
-    Name of the resource group.
+Last time the user group was modified.
 
-### Resource Group Create Response
+formatdate-time
 
-- `ResourceGroupCreateResponse object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-  A group of scoped resources.
+name: string
 
-  - `id: string`
+Name of the user group.
 
-    Identifier of the resource group.
+<a href="#">Link to this property</a>
 
-  - `scope: array of object { key, objects }`
+<details>
 
-    The scope associated to the resource group
+<summary>
 
-    - `key: string`
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+Policies attached to the User group
 
-    - `objects: array of object { key }`
+</summary>
 
-      A list of scope objects for additional context.
+id: optional string
 
-      - `key: string`
+Policy identifier.
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { key, value }`
+<details>
 
-    Attributes associated to the resource group.
+<summary>
 
-    - `key: optional string`
+access: optional "allow"or "deny"
 
-    - `value: optional string`
+Allow or deny operations against the resources.
 
-  - `name: optional string`
+</summary>
 
-    Name of the resource group.
+One of the following:
 
-### Resource Group Update Response
+"allow"
 
-- `ResourceGroupUpdateResponse object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-  A group of scoped resources.
+"deny"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier of the resource group.
+</details>
 
-  - `scope: array of object { key, objects }`
+<a href="#">Link to this property</a>
 
-    The scope associated to the resource group
+<details>
 
-    - `key: string`
+<summary>
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+permission\_groups: optional array of object {id, meta, name }
 
-    - `objects: array of object { key }`
+A set of permission groups that are specified to the policy.
 
-      A list of scope objects for additional context.
+</summary>
 
-      - `key: string`
+id: string
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+Identifier of the permission group.
 
-  - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-    Attributes associated to the resource group.
+<details>
 
-    - `key: optional string`
+<summary>
 
-    - `value: optional string`
+meta: optional object {key, value }
 
-  - `name: optional string`
+Attributes associated to the permission group.
 
-    Name of the resource group.
+</summary>
 
-### Resource Group Delete Response
+key: optional string
 
-- `ResourceGroupDeleteResponse object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+value: optional string
 
-    Identifier
+<a href="#">Link to this property</a>
 
-# User Groups
+</details>
 
-## List User Groups
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/iam/user_groups`
+name: optional string
 
-List all the user groups for an account.
+Name of the permission group.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+<details>
 
-- `id: optional string`
+<summary>
 
-  ID of the user group to be fetched.
+resource\_groups: optional array of object {id, scope, meta, name }
 
-- `direction: optional "asc" or "desc"`
+A list of resource groups that the policy applies to.
 
-  The sort order of returned user groups by name (ascending or descending).
+</summary>
 
-  - `"asc"`
+id: string
 
-  - `"desc"`
+Identifier of the resource group.
 
-- `fuzzyName: optional string`
+<a href="#">Link to this property</a>
 
-  A string used for searching for user groups containing that substring.
+<details>
 
-- `name: optional string`
+<summary>
 
-  Name of the user group to be fetched.
+scope: object {key, objects }
 
-- `page: optional number`
+A scope is a combination of scope objects which provides additional context.
 
-  Page number of paginated results.
+</summary>
 
-- `per_page: optional number`
+key: string
 
-  Maximum number of results per page.
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+objects: array of object {key }
 
-  - `documentation_url: optional string`
+A list of scope objects for additional context.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+key: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+meta: optional object {key, value }
 
-- `result: optional array of object { id, created_on, modified_on, 2 more }`
+Attributes associated to the resource group.
 
-  A list of user groups for the account.
+</summary>
 
-  - `id: string`
+key: optional string
 
-    User Group identifier tag.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+value: optional string
 
-    Timestamp for the creation of the user group
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+</details>
 
-    Last time the user group was modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: optional string
 
-    Name of the user group.
+Name of the resource group.
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Policies attached to the User group
+</details>
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+</details>
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+</details>
 
-      - `"allow"`
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_get_response%20%3E%20(schema)>)
 
-      - `"deny"`
+<details>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<summary>
 
-      A set of permission groups that are specified to the policy.
+UserGroupCreateResponse object {id, created\_on, modified\_on, 2 more }
 
-      - `id: string`
+A group of policies resources.
 
-        Identifier of the permission group.
+</summary>
 
-      - `meta: optional object { key, value }`
+id: string
 
-        Attributes associated to the permission group.
+User Group identifier tag.
 
-        - `key: optional string`
+maxLength32
 
-        - `value: optional string`
+minLength32
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the permission group.
+created\_on: string
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+Timestamp for the creation of the user group
 
-      A list of resource groups that the policy applies to.
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the resource group.
+modified\_on: string
 
-      - `scope: array of object { key, objects }`
+Last time the user group was modified.
 
-        The scope associated to the resource group
+formatdate-time
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+name: string
 
-        - `objects: array of object { key }`
+Name of the user group.
 
-          A list of scope objects for additional context.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+<details>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<summary>
 
-      - `meta: optional object { key, value }`
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-        Attributes associated to the resource group.
+Policies attached to the User group
 
-        - `key: optional string`
+</summary>
 
-        - `value: optional string`
+id: optional string
 
-      - `name: optional string`
+Policy identifier.
 
-        Name of the resource group.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service
+access: optional "allow"or "deny"
 
-  - `page: optional number`
+Allow or deny operations against the resources.
 
-    Current page within paginated list of results
+</summary>
 
-  - `per_page: optional number`
+One of the following:
 
-    Number of results per page of results
+"allow"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters
+"deny"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2024-03-01T12:21:02.0000Z",
-      "modified_on": "2024-03-01T12:21:02.0000Z",
-      "name": "My New User Group",
-      "policies": [
-        {
-          "id": "f267e341f3dd4697bd3b9f71dd96247f",
-          "access": "allow",
-          "permission_groups": [
-            {
-              "id": "c8fed203ed3043cba015a93ad1616f1f",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Zone Read"
-            },
-            {
-              "id": "82e64a83756745bbbb1c9c2701bf816b",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Magic Network Monitoring"
-            }
-          ],
-          "resource_groups": [
-            {
-              "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-              "scope": [
-                {
-                  "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                  "objects": [
-                    {
-                      "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                    }
-                  ]
-                }
-              ],
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<details>
 
-## User Group Details
+<summary>
 
-**get** `/accounts/{account_id}/iam/user_groups/{user_group_id}`
+permission\_groups: optional array of object {id, meta, name }
 
-Get information about a specific user group in an account.
+A set of permission groups that are specified to the policy.
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: string
 
-  Account identifier tag.
+Identifier of the permission group.
 
-- `user_group_id: string`
+<a href="#">Link to this property</a>
 
-  User Group identifier tag.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+meta: optional object {key, value }
 
-  - `code: number`
+Attributes associated to the permission group.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+key: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+value: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: optional string
 
-  - `source: optional object { pointer }`
+Name of the permission group.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { id, created_on, modified_on, 2 more }`
+<summary>
 
-  A group of policies resources.
+resource\_groups: optional array of object {id, scope, meta, name }
 
-  - `id: string`
+A list of resource groups that the policy applies to.
 
-    User Group identifier tag.
+</summary>
 
-  - `created_on: string`
+id: string
 
-    Timestamp for the creation of the user group
+Identifier of the resource group.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    Last time the user group was modified.
+<details>
 
-  - `name: string`
+<summary>
 
-    Name of the user group.
+scope: object {key, objects }
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+A scope is a combination of scope objects which provides additional context.
 
-    Policies attached to the User group
+</summary>
 
-    - `id: optional string`
+key: string
 
-      Policy identifier.
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+<details>
 
-      - `"allow"`
+<summary>
 
-      - `"deny"`
+objects: array of object {key }
 
-    - `permission_groups: optional array of object { id, meta, name }`
+A list of scope objects for additional context.
 
-      A set of permission groups that are specified to the policy.
+</summary>
 
-      - `id: string`
+key: string
 
-        Identifier of the permission group.
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+</details>
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the permission group.
+<details>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<summary>
 
-      A list of resource groups that the policy applies to.
+meta: optional object {key, value }
 
-      - `id: string`
+Attributes associated to the resource group.
 
-        Identifier of the resource group.
+</summary>
 
-      - `scope: array of object { key, objects }`
+key: optional string
 
-        The scope associated to the resource group
+<a href="#">Link to this property</a>
 
-        - `key: string`
+value: optional string
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+<a href="#">Link to this property</a>
 
-        - `objects: array of object { key }`
+</details>
 
-          A list of scope objects for additional context.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+name: optional string
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+Name of the resource group.
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the resource group.
+</details>
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the resource group.
+</details>
 
-### Example
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_create_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2024-03-01T12:21:02.0000Z",
-    "modified_on": "2024-03-01T12:21:02.0000Z",
-    "name": "My New User Group",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+UserGroupUpdateResponse object {id, created\_on, modified\_on, 2 more }
 
-## Create User Group
+A group of policies resources.
 
-**post** `/accounts/{account_id}/iam/user_groups`
+</summary>
 
-Create a new user group under the specified account.
+id: string
 
-### Path Parameters
+User Group identifier tag.
 
-- `account_id: string`
+maxLength32
 
-  Account identifier tag.
+minLength32
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: string`
+created\_on: string
 
-  Name of the User group.
+Timestamp for the creation of the user group
 
-- `policies: optional array of object { access, permission_groups, resource_groups }`
+formatdate-time
 
-  Policies attached to the User group
+<a href="#">Link to this property</a>
 
-  - `access: "allow" or "deny"`
+modified\_on: string
 
-    Allow or deny operations against the resources.
+Last time the user group was modified.
 
-    - `"allow"`
+formatdate-time
 
-    - `"deny"`
+<a href="#">Link to this property</a>
 
-  - `permission_groups: array of object { id }`
+name: string
 
-    A set of permission groups that are specified to the policy.
+Name of the user group.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Permission Group identifier tag.
+<details>
 
-  - `resource_groups: array of object { id }`
+<summary>
 
-    A set of resource groups that are specified to the policy.
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-    - `id: string`
+Policies attached to the User group
 
-      Resource Group identifier tag.
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Policy identifier.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+access: optional "allow"or "deny"
 
-    - `pointer: optional string`
+Allow or deny operations against the resources.
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"allow"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"deny"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { id, created_on, modified_on, 2 more }`
+<summary>
 
-  A group of policies resources.
+permission\_groups: optional array of object {id, meta, name }
 
-  - `id: string`
+A set of permission groups that are specified to the policy.
 
-    User Group identifier tag.
+</summary>
 
-  - `created_on: string`
+id: string
 
-    Timestamp for the creation of the user group
+Identifier of the permission group.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    Last time the user group was modified.
+<details>
 
-  - `name: string`
+<summary>
 
-    Name of the user group.
+meta: optional object {key, value }
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+Attributes associated to the permission group.
 
-    Policies attached to the User group
+</summary>
 
-    - `id: optional string`
+key: optional string
 
-      Policy identifier.
+<a href="#">Link to this property</a>
 
-    - `access: optional "allow" or "deny"`
+value: optional string
 
-      Allow or deny operations against the resources.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+</details>
 
-      - `"deny"`
+<a href="#">Link to this property</a>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+name: optional string
 
-      A set of permission groups that are specified to the policy.
+Name of the permission group.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the permission group.
+</details>
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+<details>
 
-        - `key: optional string`
+<summary>
 
-        - `value: optional string`
+resource\_groups: optional array of object {id, scope, meta, name }
 
-      - `name: optional string`
+A list of resource groups that the policy applies to.
 
-        Name of the permission group.
+</summary>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+id: string
 
-      A list of resource groups that the policy applies to.
+Identifier of the resource group.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the resource group.
+<details>
 
-      - `scope: array of object { key, objects }`
+<summary>
 
-        The scope associated to the resource group
+scope: object {key, objects }
 
-        - `key: string`
+A scope is a combination of scope objects which provides additional context.
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+</summary>
 
-        - `objects: array of object { key }`
+key: string
 
-          A list of scope objects for additional context.
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<details>
 
-      - `meta: optional object { key, value }`
+<summary>
 
-        Attributes associated to the resource group.
+objects: array of object {key }
 
-        - `key: optional string`
+A list of scope objects for additional context.
 
-        - `value: optional string`
+</summary>
 
-      - `name: optional string`
+key: string
 
-        Name of the resource group.
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "name": "My New User Group"
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2024-03-01T12:21:02.0000Z",
-    "modified_on": "2024-03-01T12:21:02.0000Z",
-    "name": "My New User Group",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+</details>
 
-## Update User Group
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/iam/user_groups/{user_group_id}`
+<details>
 
-Modify an existing user group.
+<summary>
 
-### Path Parameters
+meta: optional object {key, value }
 
-- `account_id: string`
+Attributes associated to the resource group.
 
-  Account identifier tag.
+</summary>
 
-- `user_group_id: string`
+key: optional string
 
-  User Group identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+value: optional string
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  Name of the User group.
+</details>
 
-- `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-  Policies attached to the User group
+name: optional string
 
-  - `id: string`
+Name of the resource group.
 
-    Policy identifier.
+<a href="#">Link to this property</a>
 
-  - `access: "allow" or "deny"`
+</details>
 
-    Allow or deny operations against the resources.
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+</details>
 
-    - `"deny"`
+<a href="#">Link to this property</a>
 
-  - `permission_groups: array of object { id }`
+</details>
 
-    A set of permission groups that are specified to the policy.
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_update_response%20%3E%20(schema)>)
 
-    - `id: string`
+<details>
 
-      Permission Group identifier tag.
+<summary>
 
-  - `resource_groups: array of object { id }`
+UserGroupDeleteResponse object {id }
 
-    A set of resource groups that are specified to the policy.
+</summary>
 
-    - `id: string`
+id: string
 
-      Resource Group identifier tag.
+Identifier
 
-### Returns
+maxLength32
 
-- `errors: array of object { code, message, documentation_url, source }`
+minLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_delete_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+#### IAMUser GroupsMembers
 
-    - `pointer: optional string`
+##### [List User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/list)
 
-- `messages: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-  - `code: number`
+##### [Get User Group Member](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/get)
 
-  - `message: string`
+GET/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members/{member\_id}
 
-  - `documentation_url: optional string`
+##### [Add User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/create)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-    - `pointer: optional string`
+##### [Update User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/update)
 
-- `success: true`
+PUT/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-  Whether the API call was successful.
+##### [Remove User Group Member](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/delete)
 
-  - `true`
+DELETE/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members/{member\_id}
 
-- `result: optional object { id, created_on, modified_on, 2 more }`
+##### ModelsExpand Collapse
 
-  A group of policies resources.
+<details>
 
-  - `id: string`
+<summary>
 
-    User Group identifier tag.
+MemberListResponse object {id, email, status }
 
-  - `created_on: string`
+Member attached to a User Group.
 
-    Timestamp for the creation of the user group
+</summary>
 
-  - `modified_on: string`
+id: string
 
-    Last time the user group was modified.
+Account member identifier.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the user group.
+email: optional string
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+The contact email address of the user.
 
-    Policies attached to the User group
+maxLength90
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+<details>
 
-    - `access: optional "allow" or "deny"`
+<summary>
 
-      Allow or deny operations against the resources.
+status: optional "accepted"or "pending"
 
-      - `"allow"`
+The member’s status in the account.
 
-      - `"deny"`
+</summary>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+One of the following:
 
-      A set of permission groups that are specified to the policy.
+"accepted"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the permission group.
+"pending"
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+</details>
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+</details>
 
-      - `name: optional string`
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_list_response%20%3E%20(schema)>)
 
-        Name of the permission group.
+<details>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<summary>
 
-      A list of resource groups that the policy applies to.
+MemberGetResponse object {id, created\_at, email, 2 more }
 
-      - `id: string`
+Detailed member information for a User Group member.
 
-        Identifier of the resource group.
+</summary>
 
-      - `scope: array of object { key, objects }`
+id: string
 
-        The scope associated to the resource group
+Account member identifier.
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+created\_at: optional string
 
-        - `objects: array of object { key }`
+When the member was added to the user group.
 
-          A list of scope objects for additional context.
+formatdate-time
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+email: optional string
 
-      - `meta: optional object { key, value }`
+The contact email address of the user.
 
-        Attributes associated to the resource group.
+maxLength90
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+<details>
 
-      - `name: optional string`
+<summary>
 
-        Name of the resource group.
+status: optional "accepted"or "pending"
 
-### Example
+The member’s status in the account.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "name": "My New User Group"
-        }'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2024-03-01T12:21:02.0000Z",
-    "modified_on": "2024-03-01T12:21:02.0000Z",
-    "name": "My New User Group",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+"accepted"
 
-## Remove User Group
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/iam/user_groups/{user_group_id}`
+"pending"
 
-Remove a user group from an account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+<details>
 
-- `user_group_id: string`
+<summary>
 
-  User Group identifier tag.
+user: optional object {id, email, first\_name, last\_name }
 
-### Returns
+Details of the user associated with this membership.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+User identifier tag.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+email: optional string
 
-    - `pointer: optional string`
+The contact email address of the user.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength90
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+first\_name: optional string
 
-  - `documentation_url: optional string`
+User’s first name.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+last\_name: optional string
 
-- `success: true`
+User’s last name.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Identifier
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_get_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<summary>
 
-#### Response
+MemberCreateResponse object {id, email, status }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+Member attached to a User Group.
 
-## Domain Types
+</summary>
 
-### User Group List Response
+id: string
 
-- `UserGroupListResponse object { id, created_on, modified_on, 2 more }`
+Account member identifier.
 
-  A group of policies resources.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+email: optional string
 
-    User Group identifier tag.
+The contact email address of the user.
 
-  - `created_on: string`
+maxLength90
 
-    Timestamp for the creation of the user group
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+<details>
 
-    Last time the user group was modified.
+<summary>
 
-  - `name: string`
+status: optional "accepted"or "pending"
 
-    Name of the user group.
+The member’s status in the account.
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+</summary>
 
-    Policies attached to the User group
+One of the following:
 
-    - `id: optional string`
+"accepted"
 
-      Policy identifier.
+<a href="#">Link to this property</a>
 
-    - `access: optional "allow" or "deny"`
+"pending"
 
-      Allow or deny operations against the resources.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+</details>
 
-      - `"deny"`
+<a href="#">Link to this property</a>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+</details>
 
-      A set of permission groups that are specified to the policy.
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_create_response%20%3E%20(schema)>)
 
-      - `id: string`
+<details>
 
-        Identifier of the permission group.
+<summary>
 
-      - `meta: optional object { key, value }`
+MemberUpdateResponse object {id, email, status }
 
-        Attributes associated to the permission group.
+Member attached to a User Group.
 
-        - `key: optional string`
+</summary>
 
-        - `value: optional string`
+id: string
 
-      - `name: optional string`
+Account member identifier.
 
-        Name of the permission group.
+<a href="#">Link to this property</a>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+email: optional string
 
-      A list of resource groups that the policy applies to.
+The contact email address of the user.
 
-      - `id: string`
+maxLength90
 
-        Identifier of the resource group.
+<a href="#">Link to this property</a>
 
-      - `scope: array of object { key, objects }`
+<details>
 
-        The scope associated to the resource group
+<summary>
 
-        - `key: string`
+status: optional "accepted"or "pending"
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+The member’s status in the account.
 
-        - `objects: array of object { key }`
+</summary>
 
-          A list of scope objects for additional context.
+One of the following:
 
-          - `key: string`
+"accepted"
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-      - `meta: optional object { key, value }`
+"pending"
 
-        Attributes associated to the resource group.
+<a href="#">Link to this property</a>
 
-        - `key: optional string`
+</details>
 
-        - `value: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        Name of the resource group.
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_update_response%20%3E%20(schema)>)
 
-### User Group Get Response
+<details>
 
-- `UserGroupGetResponse object { id, created_on, modified_on, 2 more }`
+<summary>
 
-  A group of policies resources.
+MemberDeleteResponse object {id, email, status }
 
-  - `id: string`
+Member attached to a User Group.
 
-    User Group identifier tag.
+</summary>
 
-  - `created_on: string`
+id: string
 
-    Timestamp for the creation of the user group
+Account member identifier.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    Last time the user group was modified.
+email: optional string
 
-  - `name: string`
+The contact email address of the user.
 
-    Name of the user group.
+maxLength90
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Policies attached to the User group
+<details>
 
-    - `id: optional string`
+<summary>
 
-      Policy identifier.
+status: optional "accepted"or "pending"
 
-    - `access: optional "allow" or "deny"`
+The member’s status in the account.
 
-      Allow or deny operations against the resources.
+</summary>
 
-      - `"allow"`
+One of the following:
 
-      - `"deny"`
+"accepted"
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+"pending"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the permission group.
+</details>
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+</details>
 
-        - `key: optional string`
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_delete_response%20%3E%20(schema)>)
 
-        - `value: optional string`
+#### IAMSSO
 
-      - `name: optional string`
+##### [Get all SSO connectors](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/list)
 
-        Name of the permission group.
+GET/accounts/{account\_id}/sso\_connectors
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+##### [Get single SSO connector](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/get)
 
-      A list of resource groups that the policy applies to.
+GET/accounts/{account\_id}/sso\_connectors/{sso\_connector\_id}
 
-      - `id: string`
+##### [Initialize new SSO connector](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/create)
 
-        Identifier of the resource group.
+POST/accounts/{account\_id}/sso\_connectors
 
-      - `scope: array of object { key, objects }`
+##### [Update SSO connector state](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/update)
 
-        The scope associated to the resource group
+PATCH/accounts/{account\_id}/sso\_connectors/{sso\_connector\_id}
 
-        - `key: string`
+##### [Delete SSO connector](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/delete)
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+DELETE/accounts/{account\_id}/sso\_connectors/{sso\_connector\_id}
 
-        - `objects: array of object { key }`
+##### [Begin SSO connector verification](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/begin_verification)
 
-          A list of scope objects for additional context.
+POST/accounts/{account\_id}/sso\_connectors/{sso\_connector\_id}/begin\_verification
 
-          - `key: string`
+##### ModelsExpand Collapse
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<details>
 
-      - `meta: optional object { key, value }`
+<summary>
 
-        Attributes associated to the resource group.
+SSOListResponse object {id, created\_on, email\_domain, 4 more }
 
-        - `key: optional string`
+</summary>
 
-        - `value: optional string`
+id: optional string
 
-      - `name: optional string`
+SSO Connector identifier tag.
 
-        Name of the resource group.
+maxLength32
 
-### User Group Create Response
+minLength32
 
-- `UserGroupCreateResponse object { id, created_on, modified_on, 2 more }`
+<a href="#">Link to this property</a>
 
-  A group of policies resources.
+created\_on: optional string
 
-  - `id: string`
+Timestamp for the creation of the SSO connector
 
-    User Group identifier tag.
+formatdate-time
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the user group
+email\_domain: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    Last time the user group was modified.
+enabled: optional boolean
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the user group.
+updated\_on: optional string
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+Timestamp for the last update of the SSO connector
 
-    Policies attached to the User group
+formatdate-time
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+use\_fedramp\_language: optional boolean
 
-    - `access: optional "allow" or "deny"`
+Controls the display of FedRAMP language to the user during SSO login
 
-      Allow or deny operations against the resources.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+<details>
 
-      - `"deny"`
+<summary>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+verification: optional object {code, status }
 
-      A set of permission groups that are specified to the policy.
+</summary>
 
-      - `id: string`
+code: optional string
 
-        Identifier of the permission group.
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+<details>
 
-        - `key: optional string`
+<summary>
 
-        - `value: optional string`
+status: optional "awaiting"or "pending"or "failed"or "verified"
 
-      - `name: optional string`
+The status of the verification code from the verification process.
 
-        Name of the permission group.
+</summary>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+One of the following:
 
-      A list of resource groups that the policy applies to.
+"awaiting"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the resource group.
+"pending"
 
-      - `scope: array of object { key, objects }`
+<a href="#">Link to this property</a>
 
-        The scope associated to the resource group
+"failed"
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+"verified"
 
-        - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-          A list of scope objects for additional context.
+</details>
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+</details>
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the resource group.
+</details>
 
-        - `key: optional string`
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_list_response%20%3E%20(schema)>)
 
-        - `value: optional string`
+<details>
 
-      - `name: optional string`
+<summary>
 
-        Name of the resource group.
+SSOGetResponse object {id, created\_on, email\_domain, 4 more }
 
-### User Group Update Response
+</summary>
 
-- `UserGroupUpdateResponse object { id, created_on, modified_on, 2 more }`
+id: optional string
 
-  A group of policies resources.
+SSO Connector identifier tag.
 
-  - `id: string`
+maxLength32
 
-    User Group identifier tag.
+minLength32
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the user group
+created\_on: optional string
 
-  - `modified_on: string`
+Timestamp for the creation of the SSO connector
 
-    Last time the user group was modified.
+formatdate-time
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the user group.
+email\_domain: optional string
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Policies attached to the User group
+enabled: optional boolean
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+updated\_on: optional string
 
-    - `access: optional "allow" or "deny"`
+Timestamp for the last update of the SSO connector
 
-      Allow or deny operations against the resources.
+formatdate-time
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+use\_fedramp\_language: optional boolean
 
-    - `permission_groups: optional array of object { id, meta, name }`
+Controls the display of FedRAMP language to the user during SSO login
 
-      A set of permission groups that are specified to the policy.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-        Identifier of the permission group.
+<summary>
 
-      - `meta: optional object { key, value }`
+verification: optional object {code, status }
 
-        Attributes associated to the permission group.
+</summary>
 
-        - `key: optional string`
+code: optional string
 
-        - `value: optional string`
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the permission group.
+<details>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<summary>
 
-      A list of resource groups that the policy applies to.
+status: optional "awaiting"or "pending"or "failed"or "verified"
 
-      - `id: string`
+The status of the verification code from the verification process.
 
-        Identifier of the resource group.
+</summary>
 
-      - `scope: array of object { key, objects }`
+One of the following:
 
-        The scope associated to the resource group
+"awaiting"
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+"pending"
 
-        - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-          A list of scope objects for additional context.
+"failed"
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+"verified"
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the resource group.
+</details>
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the resource group.
+</details>
 
-### User Group Delete Response
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_get_response%20%3E%20(schema)>)
 
-- `UserGroupDeleteResponse object { id }`
+<details>
 
-  - `id: string`
+<summary>
 
-    Identifier
+SSOCreateResponse object {id, created\_on, email\_domain, 4 more }
 
-# Members
+</summary>
 
-## List User Group Members
+id: optional string
 
-**get** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
+SSO Connector identifier tag.
 
-List all the members attached to a user group.
+maxLength32
 
-### Path Parameters
+minLength32
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+created\_on: optional string
 
-- `user_group_id: string`
+Timestamp for the creation of the SSO connector
 
-  User Group identifier tag.
+formatdate-time
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `direction: optional "asc" or "desc"`
+email\_domain: optional string
 
-  The sort order of returned user group members by email.
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+enabled: optional boolean
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-- `fuzzyEmail: optional string`
+updated\_on: optional string
 
-  A string used for filtering members by partial email match.
+Timestamp for the last update of the SSO connector
 
-- `page: optional number`
+formatdate-time
 
-  Page number of paginated results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+use\_fedramp\_language: optional boolean
 
-  Maximum number of results per page.
+Controls the display of FedRAMP language to the user during SSO login
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+verification: optional object {code, status }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+code: optional string
 
-    - `pointer: optional string`
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+status: optional "awaiting"or "pending"or "failed"or "verified"
 
-  - `source: optional object { pointer }`
+The status of the verification code from the verification process.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"awaiting"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, email, status }`
+"pending"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Account member identifier.
+"failed"
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The contact email address of the user.
+"verified"
 
-  - `status: optional "accepted" or "pending"`
+<a href="#">Link to this property</a>
 
-    The member's status in the account.
+</details>
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_create_response%20%3E%20(schema)>)
 
-  - `page: optional number`
+<details>
 
-    Current page within paginated list of results
+<summary>
 
-  - `per_page: optional number`
+SSOUpdateResponse object {id, created\_on, email\_domain, 4 more }
 
-    Number of results per page of results
+</summary>
 
-  - `total_count: optional number`
+id: optional string
 
-    Total results available without any search parameters
+SSO Connector identifier tag.
 
-### Example
+maxLength32
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+minLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+created\_on: optional string
 
-## Get User Group Member
+Timestamp for the creation of the SSO connector
 
-**get** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}`
+formatdate-time
 
-Get details of a specific member in a user group.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+email\_domain: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+enabled: optional boolean
 
-- `user_group_id: string`
+<a href="#">Link to this property</a>
 
-  User Group identifier tag.
+updated\_on: optional string
 
-- `member_id: string`
+Timestamp for the last update of the SSO connector
 
-  The identifier of an existing account Member.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+use\_fedramp\_language: optional boolean
 
-  - `code: number`
+Controls the display of FedRAMP language to the user during SSO login
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+verification: optional object {code, status }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+code: optional string
 
-  - `message: string`
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+status: optional "awaiting"or "pending"or "failed"or "verified"
 
-  Whether the API call was successful.
+The status of the verification code from the verification process.
 
-  - `true`
+</summary>
 
-- `result: optional object { id, created_at, email, 2 more }`
+One of the following:
 
-  Detailed member information for a User Group member.
+"awaiting"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Account member identifier.
+"pending"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    When the member was added to the user group.
+"failed"
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The contact email address of the user.
+"verified"
 
-  - `status: optional "accepted" or "pending"`
+<a href="#">Link to this property</a>
 
-    The member's status in the account.
+</details>
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+</details>
 
-  - `user: optional object { id, email, first_name, last_name }`
+<a href="#">Link to this property</a>
 
-    Details of the user associated with this membership.
+</details>
 
-    - `id: optional string`
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_update_response%20%3E%20(schema)>)
 
-      User identifier tag.
+<details>
 
-    - `email: optional string`
+<summary>
 
-      The contact email address of the user.
+SSODeleteResponse object {id }
 
-    - `first_name: optional string`
+</summary>
 
-      User's first name.
+id: string
 
-    - `last_name: optional string`
+Identifier
 
-      User's last name.
+maxLength32
 
-### Example
+minLength32
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members/$MEMBER_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-    "created_at": "2026-01-15T10:30:00Z",
-    "email": "user@example.com",
-    "status": "accepted",
-    "user": {
-      "id": "7c5dae5552338874e5053f2534d2767a",
-      "email": "user@example.com",
-      "first_name": "Alice",
-      "last_name": "Smith"
-    }
-  }
-}
-```
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_delete_response%20%3E%20(schema)>)
 
-## Add User Group Members
+<details>
 
-**post** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
+<summary>
 
-Add members to a User Group.
+SSOBeginVerificationResponse object {errors, messages, success }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>
 
-- `user_group_id: string`
+errors: array of object {code, message, documentation\_url, source }
 
-  User Group identifier tag.
+</summary>
 
-### Body Parameters
+code: number
 
-- `members: array of object { id }`
+minimum1000
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The identifier of an existing account Member.
+message: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+documentation\_url: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+source: optional object {pointer }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+pointer: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+messages: array of object {code, message, documentation\_url, source }
 
-- `result: optional array of object { id, email, status }`
+</summary>
 
-  - `id: string`
+code: number
 
-    Account member identifier.
+minimum1000
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The contact email address of the user.
+message: string
 
-  - `status: optional "accepted" or "pending"`
+<a href="#">Link to this property</a>
 
-    The member's status in the account.
+documentation\_url: optional string
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '[
-          {
-            "id": "023e105f4ecef8ad9ca31a8372d0c353"
-          }
-        ]'
-```
+source: optional object {pointer }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ]
-}
-```
+pointer: optional string
 
-## Update User Group Members
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
+</details>
 
-Replace the set of members attached to a User Group.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+success: true
 
-- `user_group_id: string`
+Whether the API call was successful.
 
-  User Group identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `members: array of object { id }`
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_begin_verification_response%20%3E%20(schema)>)
 
-  Set/Replace members to a user group.
+#### IAMOAuth Clients
 
-  - `id: string`
+##### [List OAuth Clients](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_clients/methods/list)
 
-    The identifier of an existing account Member.
+GET/accounts/{account\_id}/oauth\_clients
 
-### Returns
+##### [OAuth Client Details](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_clients/methods/get)
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/oauth\_clients/{oauth\_client\_id}
 
-  - `code: number`
+##### [Create OAuth Client](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_clients/methods/create)
 
-  - `message: string`
+POST/accounts/{account\_id}/oauth\_clients
 
-  - `documentation_url: optional string`
+##### [Update OAuth Client](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_clients/methods/update)
 
-  - `source: optional object { pointer }`
+PATCH/accounts/{account\_id}/oauth\_clients/{oauth\_client\_id}
 
-    - `pointer: optional string`
+##### [Delete OAuth Client](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_clients/methods/delete)
 
-- `messages: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/oauth\_clients/{oauth\_client\_id}
 
-  - `code: number`
+##### [Rotate OAuth Client Secret](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_clients/methods/rotate_secret)
 
-  - `message: string`
+POST/accounts/{account\_id}/oauth\_clients/{oauth\_client\_id}/rotate\_secret
 
-  - `documentation_url: optional string`
+##### [Delete Rotated OAuth Client Secret](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_clients/methods/delete_rotated_secret)
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/oauth\_clients/{oauth\_client\_id}/rotate\_secret
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+OAuthClientListResponse object {client\_id, visibility, allowed\_cors\_origins, 17 more }
 
-- `result: optional array of object { id, email, status }`
+Fields shared by OAuth client responses and create/update requests.
 
-  - `id: string`
+</summary>
 
-    Account member identifier.
+client\_id: string
 
-  - `email: optional string`
+The unique identifier for an OAuth client.
 
-    The contact email address of the user.
+<a href="#">Link to this property</a>
 
-  - `status: optional "accepted" or "pending"`
+<details>
 
-    The member's status in the account.
+<summary>
 
-    - `"accepted"`
+visibility: "public"or "private"
 
-    - `"pending"`
+Visibility of the OAuth client.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '[
-          {
-            "id": "023e105f4ecef8ad9ca31a8372d0c353"
-          }
-        ]'
-```
+One of the following:
 
-#### Response
+"public"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Remove User Group Member
+"private"
 
-**delete** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}`
+<a href="#">Link to this property</a>
 
-Remove a member from User Group
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+allowed\_cors\_origins: optional array of string
 
-  Account identifier tag.
+Array of allowed CORS origins.
 
-- `user_group_id: string`
+<a href="#">Link to this property</a>
 
-  User Group identifier tag.
+client\_name: optional string
 
-- `member_id: string`
+Human-readable name of the OAuth client.
 
-  The identifier of an existing account Member.
+<a href="#">Link to this property</a>
 
-### Returns
+client\_uri: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+URL of the home page of the client.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+client\_uri\_verification: optional object {status, text }
 
-    - `pointer: optional string`
+Client URI domain control verification state.
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+status: optional "pending"or "in\_progress"or "verified"or "failed"
 
-  - `source: optional object { pointer }`
+Current verification status for the client URI host.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"pending"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, email, status }`
+"in\_progress"
 
-  Member attached to a User Group.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"verified"
 
-    Account member identifier.
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+"failed"
 
-    The contact email address of the user.
+<a href="#">Link to this property</a>
 
-  - `status: optional "accepted" or "pending"`
+</details>
 
-    The member's status in the account.
+<a href="#">Link to this property</a>
 
-    - `"accepted"`
+text: optional string
 
-    - `"pending"`
+Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members/$MEMBER_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-    "email": "user@example.com",
-    "status": "accepted"
-  }
-}
-```
+created\_at: optional string
 
-## Domain Types
+Timestamp when the OAuth client was created.
 
-### Member List Response
+formatdate-time
 
-- `MemberListResponse object { id, email, status }`
+<a href="#">Link to this property</a>
 
-  Member attached to a User Group.
+<details>
 
-  - `id: string`
+<summary>
 
-    Account member identifier.
+grant\_types: optional array of "authorization\_code"or "refresh\_token"
 
-  - `email: optional string`
+Array of OAuth grant types the client is allowed to use. <code>authorization_code</code> is required; <code>refresh_token</code> may be included optionally.
 
-    The contact email address of the user.
+</summary>
 
-  - `status: optional "accepted" or "pending"`
+One of the following:
 
-    The member's status in the account.
+"authorization\_code"
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"refresh\_token"
 
-### Member Get Response
+<a href="#">Link to this property</a>
 
-- `MemberGetResponse object { id, created_at, email, 2 more }`
+</details>
 
-  Detailed member information for a User Group member.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+has\_rotated\_secret: optional boolean
 
-    Account member identifier.
+Indicates whether the client has a rotated secret that has not yet been deleted.
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    When the member was added to the user group.
+logo\_uri: optional string
 
-  - `email: optional string`
+URL of the client’s logo.
 
-    The contact email address of the user.
+<a href="#">Link to this property</a>
 
-  - `status: optional "accepted" or "pending"`
+optional\_scopes: optional array of string
 
-    The member's status in the account.
+Scopes that the authorizing user may decline during consent. Each value must also appear in <code>scopes</code>. The scopes <code>openid</code>, <code>offline</code>, and <code>offline_access</code> cannot be optional.
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+policy\_uri: optional string
 
-  - `user: optional object { id, email, first_name, last_name }`
+URL that points to a privacy policy document.
 
-    Details of the user associated with this membership.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+post\_logout\_redirect\_uris: optional array of string
 
-      User identifier tag.
+Array of allowed post-logout redirect URIs.
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+promoted\_at: optional string
 
-    - `first_name: optional string`
+Timestamp when the OAuth client was promoted to public visibility.
 
-      User's first name.
+formatdate-time
 
-    - `last_name: optional string`
+<a href="#">Link to this property</a>
 
-      User's last name.
+redirect\_uris: optional array of string
 
-### Member Create Response
+Array of allowed redirect URIs for the client.
 
-- `MemberCreateResponse object { id, email, status }`
+<a href="#">Link to this property</a>
 
-  Member attached to a User Group.
+<details>
 
-  - `id: string`
+<summary>
 
-    Account member identifier.
+response\_types: optional array of "token"or "id\_token"or "code"
 
-  - `email: optional string`
+Array of OAuth response types the client is allowed to use.
 
-    The contact email address of the user.
+</summary>
 
-  - `status: optional "accepted" or "pending"`
+One of the following:
 
-    The member's status in the account.
+"token"
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"id\_token"
 
-### Member Update Response
+<a href="#">Link to this property</a>
 
-- `MemberUpdateResponse object { id, email, status }`
+"code"
 
-  Member attached to a User Group.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Account member identifier.
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+scopes: optional array of string
 
-    The contact email address of the user.
+Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes <code>offline_access</code> and <code>openid</code> are added or removed automatically based on <code>grant_types</code> and <code>response_types</code>.
 
-  - `status: optional "accepted" or "pending"`
+<a href="#">Link to this property</a>
 
-    The member's status in the account.
+<details>
 
-    - `"accepted"`
+<summary>
 
-    - `"pending"`
+token\_endpoint\_auth\_method: optional "none"or "client\_secret\_basic"or "client\_secret\_post"
 
-### Member Delete Response
+The authentication method the client uses at the token endpoint.
 
-- `MemberDeleteResponse object { id, email, status }`
+</summary>
 
-  Member attached to a User Group.
+One of the following:
 
-  - `id: string`
+"none"
 
-    Account member identifier.
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+"client\_secret\_basic"
 
-    The contact email address of the user.
+<a href="#">Link to this property</a>
 
-  - `status: optional "accepted" or "pending"`
+"client\_secret\_post"
 
-    The member's status in the account.
+<a href="#">Link to this property</a>
 
-    - `"accepted"`
+</details>
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-# SSO
+tos\_uri: optional string
 
-## Get all SSO connectors
+URL that points to a terms of service document.
 
-**get** `/accounts/{account_id}/sso_connectors`
+<a href="#">Link to this property</a>
 
-Lists all SSO connectors configured for the account.
+updated\_at: optional string
 
-### Path Parameters
+Timestamp when the OAuth client was last updated.
 
-- `account_id: string`
+formatdate-time
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(model)%20oauth_client_list_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+OAuthClientGetResponse object {client\_id, visibility, allowed\_cors\_origins, 17 more }
 
-  - `source: optional object { pointer }`
+Fields shared by OAuth client responses and create/update requests.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+client\_id: string
 
-  - `code: number`
+The unique identifier for an OAuth client.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+visibility: "public"or "private"
 
-- `success: true`
+Visibility of the OAuth client.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional array of object { id, created_on, email_domain, 4 more }`
+"public"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    SSO Connector identifier tag.
+"private"
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the SSO connector
+</details>
 
-  - `email_domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+allowed\_cors\_origins: optional array of string
 
-  - `updated_on: optional string`
+Array of allowed CORS origins.
 
-    Timestamp for the last update of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `use_fedramp_language: optional boolean`
+client\_name: optional string
 
-    Controls the display of FedRAMP language to the user during SSO login
+Human-readable name of the OAuth client.
 
-  - `verification: optional object { code, status }`
+<a href="#">Link to this property</a>
 
-    - `code: optional string`
+client\_uri: optional string
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+URL of the home page of the client.
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+<a href="#">Link to this property</a>
 
-      The status of the verification code from the verification process.
+<details>
 
-      - `"awaiting"`
+<summary>
 
-      - `"pending"`
+client\_uri\_verification: optional object {status, text }
 
-      - `"failed"`
+Client URI domain control verification state.
 
-      - `"verified"`
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service
+status: optional "pending"or "in\_progress"or "verified"or "failed"
 
-  - `page: optional number`
+Current verification status for the client URI host.
 
-    Current page within paginated list of results
+</summary>
 
-  - `per_page: optional number`
+One of the following:
 
-    Number of results per page of results
+"pending"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters
+"in\_progress"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"verified"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2025-01-01T12:21:02.0000Z",
-      "email_domain": "example.com",
-      "enabled": false,
-      "updated_on": "2025-01-01T12:21:02.0000Z",
-      "use_fedramp_language": false,
-      "verification": {
-        "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
-        "status": "pending"
-      }
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+"failed"
 
-## Get single SSO connector
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/sso_connectors/{sso_connector_id}`
+</details>
 
-Retrieves details for a specific SSO connector.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+text: optional string
 
-- `account_id: string`
+Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `sso_connector_id: string`
+</details>
 
-  SSO Connector identifier tag.
+<a href="#">Link to this property</a>
 
-### Returns
+created\_at: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Timestamp when the OAuth client was created.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+grant\_types: optional array of "authorization\_code"or "refresh\_token"
 
-- `messages: array of object { code, message, documentation_url, source }`
+Array of OAuth grant types the client is allowed to use. <code>authorization_code</code> is required; <code>refresh_token</code> may be included optionally.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"authorization\_code"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"refresh\_token"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, email_domain, 4 more }`
+has\_rotated\_secret: optional boolean
 
-  - `id: optional string`
+Indicates whether the client has a rotated secret that has not yet been deleted.
 
-    SSO Connector identifier tag.
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+logo\_uri: optional string
 
-    Timestamp for the creation of the SSO connector
+URL of the client’s logo.
 
-  - `email_domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+optional\_scopes: optional array of string
 
-  - `updated_on: optional string`
+Scopes that the authorizing user may decline during consent. Each value must also appear in <code>scopes</code>. The scopes <code>openid</code>, <code>offline</code>, and <code>offline_access</code> cannot be optional.
 
-    Timestamp for the last update of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `use_fedramp_language: optional boolean`
+policy\_uri: optional string
 
-    Controls the display of FedRAMP language to the user during SSO login
+URL that points to a privacy policy document.
 
-  - `verification: optional object { code, status }`
+<a href="#">Link to this property</a>
 
-    - `code: optional string`
+post\_logout\_redirect\_uris: optional array of string
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+Array of allowed post-logout redirect URIs.
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+<a href="#">Link to this property</a>
 
-      The status of the verification code from the verification process.
+promoted\_at: optional string
 
-      - `"awaiting"`
+Timestamp when the OAuth client was promoted to public visibility.
 
-      - `"pending"`
+formatdate-time
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"verified"`
+redirect\_uris: optional array of string
 
-### Example
+Array of allowed redirect URIs for the client.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors/$SSO_CONNECTOR_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2025-01-01T12:21:02.0000Z",
-    "email_domain": "example.com",
-    "enabled": false,
-    "updated_on": "2025-01-01T12:21:02.0000Z",
-    "use_fedramp_language": false,
-    "verification": {
-      "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
-      "status": "pending"
-    }
-  }
-}
-```
+<summary>
 
-## Initialize new SSO connector
+response\_types: optional array of "token"or "id\_token"or "code"
 
-**post** `/accounts/{account_id}/sso_connectors`
+Array of OAuth response types the client is allowed to use.
 
-Creates a new SSO connector for logging into Cloudflare through an identity provider.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"token"
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"id\_token"
 
-- `email_domain: string`
+<a href="#">Link to this property</a>
 
-  Email domain of the new SSO connector
+"code"
 
-- `begin_verification: optional boolean`
+<a href="#">Link to this property</a>
 
-  Begin the verification process after creation
+</details>
 
-- `use_fedramp_language: optional boolean`
+<a href="#">Link to this property</a>
 
-  Controls the display of FedRAMP language to the user during SSO login
+scopes: optional array of string
 
-### Returns
+Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes <code>offline_access</code> and <code>openid</code> are added or removed automatically based on <code>grant_types</code> and <code>response_types</code>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+token\_endpoint\_auth\_method: optional "none"or "client\_secret\_basic"or "client\_secret\_post"
 
-  - `source: optional object { pointer }`
+The authentication method the client uses at the token endpoint.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"none"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"client\_secret\_basic"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"client\_secret\_post"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, email_domain, 4 more }`
+tos\_uri: optional string
 
-  - `id: optional string`
+URL that points to a terms of service document.
 
-    SSO Connector identifier tag.
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+updated\_at: optional string
 
-    Timestamp for the creation of the SSO connector
+Timestamp when the OAuth client was last updated.
 
-  - `email_domain: optional string`
+formatdate-time
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `updated_on: optional string`
+</details>
 
-    Timestamp for the last update of the SSO connector
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(model)%20oauth_client_get_response%20%3E%20(schema)>)
 
-  - `use_fedramp_language: optional boolean`
+<details>
 
-    Controls the display of FedRAMP language to the user during SSO login
+<summary>
 
-  - `verification: optional object { code, status }`
+OAuthClientCreateResponse object {client\_id, visibility, allowed\_cors\_origins, 18 more }
 
-    - `code: optional string`
+Fields shared by OAuth client responses and create/update requests.
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+</summary>
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+client\_id: string
 
-      The status of the verification code from the verification process.
+The unique identifier for an OAuth client.
 
-      - `"awaiting"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+<details>
 
-      - `"failed"`
+<summary>
 
-      - `"verified"`
+visibility: "public"or "private"
 
-### Example
+Visibility of the OAuth client.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email_domain": "example.com",
-          "begin_verification": true
-        }'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2025-01-01T12:21:02.0000Z",
-    "email_domain": "example.com",
-    "enabled": false,
-    "updated_on": "2025-01-01T12:21:02.0000Z",
-    "use_fedramp_language": false,
-    "verification": {
-      "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
-      "status": "pending"
-    }
-  }
-}
-```
+"public"
 
-## Update SSO connector state
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/sso_connectors/{sso_connector_id}`
+"private"
 
-Updates the state or configuration of an SSO connector.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+allowed\_cors\_origins: optional array of string
 
-- `sso_connector_id: string`
+Array of allowed CORS origins.
 
-  SSO Connector identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+client\_name: optional string
 
-- `enabled: optional boolean`
+Human-readable name of the OAuth client.
 
-  SSO Connector enabled state
+<a href="#">Link to this property</a>
 
-- `use_fedramp_language: optional boolean`
+client\_secret: optional string
 
-  Controls the display of FedRAMP language to the user during SSO login
+The client secret. This is the only time the secret is returned in a response.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+client\_uri: optional string
 
-  - `code: number`
+URL of the home page of the client.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+client\_uri\_verification: optional object {status, text }
 
-- `messages: array of object { code, message, documentation_url, source }`
+Client URI domain control verification state.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+status: optional "pending"or "in\_progress"or "verified"or "failed"
 
-    - `pointer: optional string`
+Current verification status for the client URI host.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+One of the following:
 
-  - `true`
+"pending"
 
-- `result: optional object { id, created_on, email_domain, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"in\_progress"
 
-    SSO Connector identifier tag.
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+"verified"
 
-    Timestamp for the creation of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `email_domain: optional string`
+"failed"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `updated_on: optional string`
+</details>
 
-    Timestamp for the last update of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `use_fedramp_language: optional boolean`
+text: optional string
 
-    Controls the display of FedRAMP language to the user during SSO login
+Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
 
-  - `verification: optional object { code, status }`
+<a href="#">Link to this property</a>
 
-    - `code: optional string`
+</details>
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+<a href="#">Link to this property</a>
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+created\_at: optional string
 
-      The status of the verification code from the verification process.
+Timestamp when the OAuth client was created.
 
-      - `"awaiting"`
+formatdate-time
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+<details>
 
-      - `"verified"`
+<summary>
 
-### Example
+grant\_types: optional array of "authorization\_code"or "refresh\_token"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors/$SSO_CONNECTOR_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Array of OAuth grant types the client is allowed to use. <code>authorization_code</code> is required; <code>refresh_token</code> may be included optionally.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2025-01-01T12:21:02.0000Z",
-    "email_domain": "example.com",
-    "enabled": false,
-    "updated_on": "2025-01-01T12:21:02.0000Z",
-    "use_fedramp_language": false,
-    "verification": {
-      "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
-      "status": "pending"
-    }
-  }
-}
-```
+One of the following:
 
-## Delete SSO connector
+"authorization\_code"
 
-**delete** `/accounts/{account_id}/sso_connectors/{sso_connector_id}`
+<a href="#">Link to this property</a>
 
-Deletes an SSO connector from the account.
+"refresh\_token"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `sso_connector_id: string`
+has\_rotated\_secret: optional boolean
 
-  SSO Connector identifier tag.
+Indicates whether the client has a rotated secret that has not yet been deleted.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+logo\_uri: optional string
 
-  - `code: number`
+URL of the client’s logo.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+optional\_scopes: optional array of string
 
-  - `source: optional object { pointer }`
+Scopes that the authorizing user may decline during consent. Each value must also appear in <code>scopes</code>. The scopes <code>openid</code>, <code>offline</code>, and <code>offline_access</code> cannot be optional.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+policy\_uri: optional string
 
-  - `code: number`
+URL that points to a privacy policy document.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+post\_logout\_redirect\_uris: optional array of string
 
-  - `source: optional object { pointer }`
+Array of allowed post-logout redirect URIs.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+promoted\_at: optional string
 
-  Whether the API call was successful.
+Timestamp when the OAuth client was promoted to public visibility.
 
-  - `true`
+formatdate-time
 
-- `result: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+redirect\_uris: optional array of string
 
-    Identifier
+Array of allowed redirect URIs for the client.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors/$SSO_CONNECTOR_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+response\_types: optional array of "token"or "id\_token"or "code"
 
-## Begin SSO connector verification
+Array of OAuth response types the client is allowed to use.
 
-**post** `/accounts/{account_id}/sso_connectors/{sso_connector_id}/begin_verification`
+</summary>
 
-Validates the user has added the DNS TXT record required for validating ownership of the domain they are trying to set up a connector for.
+One of the following:
 
-### Path Parameters
+"token"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+"id\_token"
 
-- `sso_connector_id: string`
+<a href="#">Link to this property</a>
 
-  SSO Connector identifier tag.
+"code"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+scopes: optional array of string
 
-  - `documentation_url: optional string`
+Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes <code>offline_access</code> and <code>openid</code> are added or removed automatically based on <code>grant_types</code> and <code>response_types</code>.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+token\_endpoint\_auth\_method: optional "none"or "client\_secret\_basic"or "client\_secret\_post"
 
-  - `message: string`
+The authentication method the client uses at the token endpoint.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"none"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"client\_secret\_basic"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"client\_secret\_post"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors/$SSO_CONNECTOR_ID/begin_verification \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+tos\_uri: optional string
 
-### SSO List Response
+URL that points to a terms of service document.
 
-- `SSOListResponse object { id, created_on, email_domain, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+updated\_at: optional string
 
-    SSO Connector identifier tag.
+Timestamp when the OAuth client was last updated.
 
-  - `created_on: optional string`
+formatdate-time
 
-    Timestamp for the creation of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `email_domain: optional string`
+</details>
 
-  - `enabled: optional boolean`
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(model)%20oauth_client_create_response%20%3E%20(schema)>)
 
-  - `updated_on: optional string`
+<details>
 
-    Timestamp for the last update of the SSO connector
+<summary>
 
-  - `use_fedramp_language: optional boolean`
+OAuthClientUpdateResponse object {client\_id, visibility, allowed\_cors\_origins, 17 more }
 
-    Controls the display of FedRAMP language to the user during SSO login
+Fields shared by OAuth client responses and create/update requests.
 
-  - `verification: optional object { code, status }`
+</summary>
 
-    - `code: optional string`
+client\_id: string
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+The unique identifier for an OAuth client.
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+<a href="#">Link to this property</a>
 
-      The status of the verification code from the verification process.
+<details>
 
-      - `"awaiting"`
+<summary>
 
-      - `"pending"`
+visibility: "public"or "private"
 
-      - `"failed"`
+Visibility of the OAuth client.
 
-      - `"verified"`
+</summary>
 
-### SSO Get Response
+One of the following:
 
-- `SSOGetResponse object { id, created_on, email_domain, 4 more }`
+"public"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    SSO Connector identifier tag.
+"private"
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the SSO connector
+</details>
 
-  - `email_domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+allowed\_cors\_origins: optional array of string
 
-  - `updated_on: optional string`
+Array of allowed CORS origins.
 
-    Timestamp for the last update of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `use_fedramp_language: optional boolean`
+client\_name: optional string
 
-    Controls the display of FedRAMP language to the user during SSO login
+Human-readable name of the OAuth client.
 
-  - `verification: optional object { code, status }`
+<a href="#">Link to this property</a>
 
-    - `code: optional string`
+client\_uri: optional string
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+URL of the home page of the client.
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+<a href="#">Link to this property</a>
 
-      The status of the verification code from the verification process.
+<details>
 
-      - `"awaiting"`
+<summary>
 
-      - `"pending"`
+client\_uri\_verification: optional object {status, text }
 
-      - `"failed"`
+Client URI domain control verification state.
 
-      - `"verified"`
+</summary>
 
-### SSO Create Response
+<details>
 
-- `SSOCreateResponse object { id, created_on, email_domain, 4 more }`
+<summary>
 
-  - `id: optional string`
+status: optional "pending"or "in\_progress"or "verified"or "failed"
 
-    SSO Connector identifier tag.
+Current verification status for the client URI host.
 
-  - `created_on: optional string`
+</summary>
 
-    Timestamp for the creation of the SSO connector
+One of the following:
 
-  - `email_domain: optional string`
+"pending"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `updated_on: optional string`
+"in\_progress"
 
-    Timestamp for the last update of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `use_fedramp_language: optional boolean`
+"verified"
 
-    Controls the display of FedRAMP language to the user during SSO login
+<a href="#">Link to this property</a>
 
-  - `verification: optional object { code, status }`
+"failed"
 
-    - `code: optional string`
+<a href="#">Link to this property</a>
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+</details>
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+<a href="#">Link to this property</a>
 
-      The status of the verification code from the verification process.
+text: optional string
 
-      - `"awaiting"`
+Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+</details>
 
-      - `"verified"`
+<a href="#">Link to this property</a>
 
-### SSO Update Response
+created\_at: optional string
 
-- `SSOUpdateResponse object { id, created_on, email_domain, 4 more }`
+Timestamp when the OAuth client was created.
 
-  - `id: optional string`
+formatdate-time
 
-    SSO Connector identifier tag.
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+<details>
 
-    Timestamp for the creation of the SSO connector
+<summary>
 
-  - `email_domain: optional string`
+grant\_types: optional array of "authorization\_code"or "refresh\_token"
 
-  - `enabled: optional boolean`
+Array of OAuth grant types the client is allowed to use. <code>authorization_code</code> is required; <code>refresh_token</code> may be included optionally.
 
-  - `updated_on: optional string`
+</summary>
 
-    Timestamp for the last update of the SSO connector
+One of the following:
 
-  - `use_fedramp_language: optional boolean`
+"authorization\_code"
 
-    Controls the display of FedRAMP language to the user during SSO login
+<a href="#">Link to this property</a>
 
-  - `verification: optional object { code, status }`
+"refresh\_token"
 
-    - `code: optional string`
+<a href="#">Link to this property</a>
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+</details>
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+<a href="#">Link to this property</a>
 
-      The status of the verification code from the verification process.
+has\_rotated\_secret: optional boolean
 
-      - `"awaiting"`
+Indicates whether the client has a rotated secret that has not yet been deleted.
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+logo\_uri: optional string
 
-      - `"verified"`
+URL of the client’s logo.
 
-### SSO Delete Response
+<a href="#">Link to this property</a>
 
-- `SSODeleteResponse object { id }`
+optional\_scopes: optional array of string
 
-  - `id: string`
+Scopes that the authorizing user may decline during consent. Each value must also appear in <code>scopes</code>. The scopes <code>openid</code>, <code>offline</code>, and <code>offline_access</code> cannot be optional.
 
-    Identifier
+<a href="#">Link to this property</a>
 
-### SSO Begin Verification Response
+policy\_uri: optional string
 
-- `SSOBeginVerificationResponse object { errors, messages, success }`
+URL that points to a privacy policy document.
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+post\_logout\_redirect\_uris: optional array of string
 
-    - `message: string`
+Array of allowed post-logout redirect URIs.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+promoted\_at: optional string
 
-      - `pointer: optional string`
+Timestamp when the OAuth client was promoted to public visibility.
 
-  - `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+redirect\_uris: optional array of string
 
-    - `documentation_url: optional string`
+Array of allowed redirect URIs for the client.
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+<details>
 
-  - `success: true`
+<summary>
 
-    Whether the API call was successful.
+response\_types: optional array of "token"or "id\_token"or "code"
 
-    - `true`
+Array of OAuth response types the client is allowed to use.
 
-# OAuth Clients
+</summary>
 
-## List OAuth Clients
+One of the following:
 
-**get** `/accounts/{account_id}/oauth_clients`
+"token"
 
-List all OAuth clients for an account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"id\_token"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+"code"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+scopes: optional array of string
 
-  - `documentation_url: optional string`
+Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes <code>offline_access</code> and <code>openid</code> are added or removed automatically based on <code>grant_types</code> and <code>response_types</code>.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+token\_endpoint\_auth\_method: optional "none"or "client\_secret\_basic"or "client\_secret\_post"
 
-  - `message: string`
+The authentication method the client uses at the token endpoint.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"none"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"client\_secret\_basic"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { client_id, visibility, allowed_cors_origins, 16 more }`
+"client\_secret\_post"
 
-  - `client_id: string`
+<a href="#">Link to this property</a>
 
-    The unique identifier for an OAuth client.
+</details>
 
-  - `visibility: "public" or "private"`
+<a href="#">Link to this property</a>
 
-    Visibility of the OAuth client.
+tos\_uri: optional string
 
-    - `"public"`
+URL that points to a terms of service document.
 
-    - `"private"`
+<a href="#">Link to this property</a>
 
-  - `allowed_cors_origins: optional array of string`
+updated\_at: optional string
 
-    Array of allowed CORS origins.
+Timestamp when the OAuth client was last updated.
 
-  - `client_name: optional string`
+formatdate-time
 
-    Human-readable name of the OAuth client.
+<a href="#">Link to this property</a>
 
-  - `client_uri: optional string`
+</details>
 
-    URL of the home page of the client.
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(model)%20oauth_client_update_response%20%3E%20(schema)>)
 
-  - `client_uri_verification: optional object { status, text }`
+<details>
 
-    Client URI domain control verification state.
+<summary>
 
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
+OAuthClientDeleteResponse object {id }
 
-      Current verification status for the client URI host.
+</summary>
 
-      - `"pending"`
+id: string
 
-      - `"in_progress"`
+Identifier
 
-      - `"verified"`
+maxLength32
 
-      - `"failed"`
+minLength32
 
-    - `text: optional string`
+<a href="#">Link to this property</a>
 
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
+</details>
 
-  - `created_at: optional string`
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(model)%20oauth_client_delete_response%20%3E%20(schema)>)
 
-    Timestamp when the OAuth client was created.
+<details>
 
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
+<summary>
 
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
+OAuthClientRotateSecretResponse object {client\_secret }
 
-    - `"authorization_code"`
+</summary>
 
-    - `"refresh_token"`
+client\_secret: optional string
 
-  - `has_rotated_secret: optional boolean`
+The new client secret.
 
-    Indicates whether the client has a rotated secret that has not yet been deleted.
+<a href="#">Link to this property</a>
 
-  - `logo_uri: optional string`
+</details>
 
-    URL of the client's logo.
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(model)%20oauth_client_rotate_secret_response%20%3E%20(schema)>)
 
-  - `policy_uri: optional string`
+<details>
 
-    URL that points to a privacy policy document.
+<summary>
 
-  - `post_logout_redirect_uris: optional array of string`
+OAuthClientDeleteRotatedSecretResponse object {id }
 
-    Array of allowed post-logout redirect URIs.
+</summary>
 
-  - `promoted_at: optional string`
+id: string
 
-    Timestamp when the OAuth client was promoted to public visibility.
+Identifier
 
-  - `redirect_uris: optional array of string`
+maxLength32
 
-    Array of allowed redirect URIs for the client.
+minLength32
 
-  - `response_types: optional array of "token" or "id_token" or "code"`
+<a href="#">Link to this property</a>
 
-    Array of OAuth response types the client is allowed to use.
+</details>
 
-    - `"token"`
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(model)%20oauth_client_delete_rotated_secret_response%20%3E%20(schema)>)
 
-    - `"id_token"`
+#### IAMOAuth Scopes
 
-    - `"code"`
+##### [List OAuth Scopes](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_scopes/methods/list)
 
-  - `scopes: optional array of string`
+GET/oauth/scopes
 
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
+##### ModelsExpand Collapse
 
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
+<details>
 
-    The authentication method the client uses at the token endpoint.
+<summary>
 
-    - `"none"`
+OAuthScopeListResponse object {id, name, category, scopes }
 
-    - `"client_secret_basic"`
+An available OAuth scope that can be assigned to an OAuth client.
 
-    - `"client_secret_post"`
+</summary>
 
-  - `tos_uri: optional string`
+id: string
 
-    URL that points to a terms of service document.
+The scope label to use in the scopes array when creating or updating an OAuth client.
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp when the OAuth client was last updated.
+name: string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+Human-readable name of the OAuth scope.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+category: optional string
 
-  - `page: optional number`
+Category for grouping scopes in the UI.
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+scopes: optional array of string
 
-    Number of results per page of results
+The underlying resource scopes (Bach scopes) that define which resources this OAuth scope can act upon.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "client_id": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
-      "visibility": "private",
-      "allowed_cors_origins": [
-        "https://example.com"
-      ],
-      "client_name": "My OAuth App",
-      "client_uri": "https://example.com",
-      "client_uri_verification": {
-        "status": "in_progress",
-        "text": "cloudflare_oauth_client_publisher=example"
-      },
-      "created_at": "2025-01-01T00:00:00Z",
-      "grant_types": [
-        "authorization_code",
-        "refresh_token"
-      ],
-      "has_rotated_secret": false,
-      "logo_uri": "https://example.com/logo.png",
-      "policy_uri": "https://example.com/privacy",
-      "post_logout_redirect_uris": [
-        "https://example.com/logout"
-      ],
-      "promoted_at": "2026-05-13T12:00:00Z",
-      "redirect_uris": [
-        "https://example.com/callback"
-      ],
-      "response_types": [
-        "code"
-      ],
-      "scopes": [
-        "account.read"
-      ],
-      "token_endpoint_auth_method": "client_secret_post",
-      "tos_uri": "https://example.com/tos",
-      "updated_at": "2025-01-01T00:00:00Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## OAuth Client Details
-
-**get** `/accounts/{account_id}/oauth_clients/{oauth_client_id}`
-
-Get details of a specific OAuth client.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `oauth_client_id: string`
-
-  The unique identifier for an OAuth client.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { client_id, visibility, allowed_cors_origins, 16 more }`
-
-  Fields shared by OAuth client responses and create/update requests.
-
-  - `client_id: string`
-
-    The unique identifier for an OAuth client.
-
-  - `visibility: "public" or "private"`
-
-    Visibility of the OAuth client.
-
-    - `"public"`
-
-    - `"private"`
-
-  - `allowed_cors_origins: optional array of string`
-
-    Array of allowed CORS origins.
-
-  - `client_name: optional string`
-
-    Human-readable name of the OAuth client.
-
-  - `client_uri: optional string`
-
-    URL of the home page of the client.
-
-  - `client_uri_verification: optional object { status, text }`
-
-    Client URI domain control verification state.
-
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
-
-      Current verification status for the client URI host.
-
-      - `"pending"`
-
-      - `"in_progress"`
-
-      - `"verified"`
-
-      - `"failed"`
-
-    - `text: optional string`
-
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
-
-  - `created_at: optional string`
-
-    Timestamp when the OAuth client was created.
-
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
-
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-    - `"authorization_code"`
-
-    - `"refresh_token"`
-
-  - `has_rotated_secret: optional boolean`
-
-    Indicates whether the client has a rotated secret that has not yet been deleted.
-
-  - `logo_uri: optional string`
-
-    URL of the client's logo.
-
-  - `policy_uri: optional string`
-
-    URL that points to a privacy policy document.
-
-  - `post_logout_redirect_uris: optional array of string`
-
-    Array of allowed post-logout redirect URIs.
-
-  - `promoted_at: optional string`
-
-    Timestamp when the OAuth client was promoted to public visibility.
-
-  - `redirect_uris: optional array of string`
-
-    Array of allowed redirect URIs for the client.
-
-  - `response_types: optional array of "token" or "id_token" or "code"`
-
-    Array of OAuth response types the client is allowed to use.
-
-    - `"token"`
-
-    - `"id_token"`
-
-    - `"code"`
-
-  - `scopes: optional array of string`
-
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
-
-    The authentication method the client uses at the token endpoint.
-
-    - `"none"`
-
-    - `"client_secret_basic"`
-
-    - `"client_secret_post"`
-
-  - `tos_uri: optional string`
-
-    URL that points to a terms of service document.
-
-  - `updated_at: optional string`
-
-    Timestamp when the OAuth client was last updated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients/$OAUTH_CLIENT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "client_id": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
-    "visibility": "private",
-    "allowed_cors_origins": [
-      "https://example.com"
-    ],
-    "client_name": "My OAuth App",
-    "client_uri": "https://example.com",
-    "client_uri_verification": {
-      "status": "in_progress",
-      "text": "cloudflare_oauth_client_publisher=example"
-    },
-    "created_at": "2025-01-01T00:00:00Z",
-    "grant_types": [
-      "authorization_code",
-      "refresh_token"
-    ],
-    "has_rotated_secret": false,
-    "logo_uri": "https://example.com/logo.png",
-    "policy_uri": "https://example.com/privacy",
-    "post_logout_redirect_uris": [
-      "https://example.com/logout"
-    ],
-    "promoted_at": "2026-05-13T12:00:00Z",
-    "redirect_uris": [
-      "https://example.com/callback"
-    ],
-    "response_types": [
-      "code"
-    ],
-    "scopes": [
-      "account.read"
-    ],
-    "token_endpoint_auth_method": "client_secret_post",
-    "tos_uri": "https://example.com/tos",
-    "updated_at": "2025-01-01T00:00:00Z"
-  }
-}
-```
-
-## Create OAuth Client
-
-**post** `/accounts/{account_id}/oauth_clients`
-
-Create a new OAuth client for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Body Parameters
-
-- `client_name: string`
-
-  Human-readable name of the OAuth client.
-
-- `grant_types: array of "authorization_code" or "refresh_token"`
-
-  Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-  - `"authorization_code"`
-
-  - `"refresh_token"`
-
-- `redirect_uris: array of string`
-
-  Array of allowed redirect URIs for the client.
-
-- `response_types: array of "token" or "id_token" or "code"`
-
-  Array of OAuth response types the client is allowed to use.
-
-  - `"token"`
-
-  - `"id_token"`
-
-  - `"code"`
-
-- `scopes: array of string`
-
-  Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-- `token_endpoint_auth_method: "none" or "client_secret_basic" or "client_secret_post"`
-
-  The authentication method the client uses at the token endpoint.
-
-  - `"none"`
-
-  - `"client_secret_basic"`
-
-  - `"client_secret_post"`
-
-- `allowed_cors_origins: optional array of string`
-
-  Array of allowed CORS origins.
-
-- `client_uri: optional string`
-
-  URL of the home page of the client.
-
-- `logo_uri: optional string`
-
-  URL of the client's logo.
-
-- `policy_uri: optional string`
-
-  URL that points to a privacy policy document.
-
-- `post_logout_redirect_uris: optional array of string`
-
-  Array of allowed post-logout redirect URIs.
-
-- `tos_uri: optional string`
-
-  URL that points to a terms of service document.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { client_id, visibility, allowed_cors_origins, 17 more }`
-
-  Fields shared by OAuth client responses and create/update requests.
-
-  - `client_id: string`
-
-    The unique identifier for an OAuth client.
-
-  - `visibility: "public" or "private"`
-
-    Visibility of the OAuth client.
-
-    - `"public"`
-
-    - `"private"`
-
-  - `allowed_cors_origins: optional array of string`
-
-    Array of allowed CORS origins.
-
-  - `client_name: optional string`
-
-    Human-readable name of the OAuth client.
-
-  - `client_secret: optional string`
-
-    The client secret. This is the only time the secret is returned in a response.
-
-  - `client_uri: optional string`
-
-    URL of the home page of the client.
-
-  - `client_uri_verification: optional object { status, text }`
-
-    Client URI domain control verification state.
-
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
-
-      Current verification status for the client URI host.
-
-      - `"pending"`
-
-      - `"in_progress"`
-
-      - `"verified"`
-
-      - `"failed"`
-
-    - `text: optional string`
-
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
-
-  - `created_at: optional string`
-
-    Timestamp when the OAuth client was created.
-
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
-
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-    - `"authorization_code"`
-
-    - `"refresh_token"`
-
-  - `has_rotated_secret: optional boolean`
-
-    Indicates whether the client has a rotated secret that has not yet been deleted.
-
-  - `logo_uri: optional string`
-
-    URL of the client's logo.
-
-  - `policy_uri: optional string`
-
-    URL that points to a privacy policy document.
-
-  - `post_logout_redirect_uris: optional array of string`
-
-    Array of allowed post-logout redirect URIs.
-
-  - `promoted_at: optional string`
-
-    Timestamp when the OAuth client was promoted to public visibility.
-
-  - `redirect_uris: optional array of string`
-
-    Array of allowed redirect URIs for the client.
-
-  - `response_types: optional array of "token" or "id_token" or "code"`
-
-    Array of OAuth response types the client is allowed to use.
-
-    - `"token"`
-
-    - `"id_token"`
-
-    - `"code"`
-
-  - `scopes: optional array of string`
-
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
-
-    The authentication method the client uses at the token endpoint.
-
-    - `"none"`
-
-    - `"client_secret_basic"`
-
-    - `"client_secret_post"`
-
-  - `tos_uri: optional string`
-
-    URL that points to a terms of service document.
-
-  - `updated_at: optional string`
-
-    Timestamp when the OAuth client was last updated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "client_name": "My OAuth App",
-          "grant_types": [
-            "authorization_code",
-            "refresh_token"
-          ],
-          "redirect_uris": [
-            "https://example.com/callback"
-          ],
-          "response_types": [
-            "code"
-          ],
-          "scopes": [
-            "account.read"
-          ],
-          "token_endpoint_auth_method": "client_secret_post",
-          "allowed_cors_origins": [
-            "https://example.com"
-          ],
-          "client_uri": "https://example.com",
-          "logo_uri": "https://example.com/logo.png",
-          "policy_uri": "https://example.com/privacy",
-          "post_logout_redirect_uris": [
-            "https://example.com/logout"
-          ],
-          "tos_uri": "https://example.com/tos"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "client_id": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
-    "visibility": "private",
-    "allowed_cors_origins": [
-      "https://example.com"
-    ],
-    "client_name": "My OAuth App",
-    "client_secret": "cf-oauth-secret-example",
-    "client_uri": "https://example.com",
-    "client_uri_verification": {
-      "status": "in_progress",
-      "text": "cloudflare_oauth_client_publisher=example"
-    },
-    "created_at": "2025-01-01T00:00:00Z",
-    "grant_types": [
-      "authorization_code",
-      "refresh_token"
-    ],
-    "has_rotated_secret": false,
-    "logo_uri": "https://example.com/logo.png",
-    "policy_uri": "https://example.com/privacy",
-    "post_logout_redirect_uris": [
-      "https://example.com/logout"
-    ],
-    "promoted_at": "2026-05-13T12:00:00Z",
-    "redirect_uris": [
-      "https://example.com/callback"
-    ],
-    "response_types": [
-      "code"
-    ],
-    "scopes": [
-      "account.read"
-    ],
-    "token_endpoint_auth_method": "client_secret_post",
-    "tos_uri": "https://example.com/tos",
-    "updated_at": "2025-01-01T00:00:00Z"
-  }
-}
-```
-
-## Update OAuth Client
-
-**patch** `/accounts/{account_id}/oauth_clients/{oauth_client_id}`
-
-Update an existing OAuth client. Only include fields you want to update.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `oauth_client_id: string`
-
-  The unique identifier for an OAuth client.
-
-### Body Parameters
-
-- `allowed_cors_origins: optional array of string`
-
-  Array of allowed CORS origins.
-
-- `client_name: optional string`
-
-  Human-readable name of the OAuth client.
-
-- `client_uri: optional string`
-
-  URL of the home page of the client.
-
-- `grant_types: optional array of "authorization_code" or "refresh_token"`
-
-  Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-  - `"authorization_code"`
-
-  - `"refresh_token"`
-
-- `logo_uri: optional string`
-
-  URL of the client's logo.
-
-- `policy_uri: optional string`
-
-  URL that points to a privacy policy document.
-
-- `post_logout_redirect_uris: optional array of string`
-
-  Array of allowed post-logout redirect URIs.
-
-- `redirect_uris: optional array of string`
-
-  Array of allowed redirect URIs for the client.
-
-- `response_types: optional array of "token" or "id_token" or "code"`
-
-  Array of OAuth response types the client is allowed to use.
-
-  - `"token"`
-
-  - `"id_token"`
-
-  - `"code"`
-
-- `scopes: optional array of string`
-
-  Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-- `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
-
-  The authentication method the client uses at the token endpoint.
-
-  - `"none"`
-
-  - `"client_secret_basic"`
-
-  - `"client_secret_post"`
-
-- `tos_uri: optional string`
-
-  URL that points to a terms of service document.
-
-- `visibility: optional "public"`
-
-  Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope.
-
-  - `"public"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { client_id, visibility, allowed_cors_origins, 16 more }`
-
-  Fields shared by OAuth client responses and create/update requests.
-
-  - `client_id: string`
-
-    The unique identifier for an OAuth client.
-
-  - `visibility: "public" or "private"`
-
-    Visibility of the OAuth client.
-
-    - `"public"`
-
-    - `"private"`
-
-  - `allowed_cors_origins: optional array of string`
-
-    Array of allowed CORS origins.
-
-  - `client_name: optional string`
-
-    Human-readable name of the OAuth client.
-
-  - `client_uri: optional string`
-
-    URL of the home page of the client.
-
-  - `client_uri_verification: optional object { status, text }`
-
-    Client URI domain control verification state.
-
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
-
-      Current verification status for the client URI host.
-
-      - `"pending"`
-
-      - `"in_progress"`
-
-      - `"verified"`
-
-      - `"failed"`
-
-    - `text: optional string`
-
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
-
-  - `created_at: optional string`
-
-    Timestamp when the OAuth client was created.
-
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
-
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-    - `"authorization_code"`
-
-    - `"refresh_token"`
-
-  - `has_rotated_secret: optional boolean`
-
-    Indicates whether the client has a rotated secret that has not yet been deleted.
-
-  - `logo_uri: optional string`
-
-    URL of the client's logo.
-
-  - `policy_uri: optional string`
-
-    URL that points to a privacy policy document.
-
-  - `post_logout_redirect_uris: optional array of string`
-
-    Array of allowed post-logout redirect URIs.
-
-  - `promoted_at: optional string`
-
-    Timestamp when the OAuth client was promoted to public visibility.
-
-  - `redirect_uris: optional array of string`
-
-    Array of allowed redirect URIs for the client.
-
-  - `response_types: optional array of "token" or "id_token" or "code"`
-
-    Array of OAuth response types the client is allowed to use.
-
-    - `"token"`
-
-    - `"id_token"`
-
-    - `"code"`
-
-  - `scopes: optional array of string`
-
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
-
-    The authentication method the client uses at the token endpoint.
-
-    - `"none"`
-
-    - `"client_secret_basic"`
-
-    - `"client_secret_post"`
-
-  - `tos_uri: optional string`
-
-    URL that points to a terms of service document.
-
-  - `updated_at: optional string`
-
-    Timestamp when the OAuth client was last updated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients/$OAUTH_CLIENT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allowed_cors_origins": [
-            "https://example.com"
-          ],
-          "client_name": "My OAuth App",
-          "client_uri": "https://example.com",
-          "grant_types": [
-            "authorization_code",
-            "refresh_token"
-          ],
-          "logo_uri": "https://example.com/logo.png",
-          "policy_uri": "https://example.com/privacy",
-          "post_logout_redirect_uris": [
-            "https://example.com/logout"
-          ],
-          "redirect_uris": [
-            "https://example.com/callback"
-          ],
-          "response_types": [
-            "code"
-          ],
-          "scopes": [
-            "account.read"
-          ],
-          "token_endpoint_auth_method": "client_secret_post",
-          "tos_uri": "https://example.com/tos",
-          "visibility": "public"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "client_id": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
-    "visibility": "private",
-    "allowed_cors_origins": [
-      "https://example.com"
-    ],
-    "client_name": "My OAuth App",
-    "client_uri": "https://example.com",
-    "client_uri_verification": {
-      "status": "in_progress",
-      "text": "cloudflare_oauth_client_publisher=example"
-    },
-    "created_at": "2025-01-01T00:00:00Z",
-    "grant_types": [
-      "authorization_code",
-      "refresh_token"
-    ],
-    "has_rotated_secret": false,
-    "logo_uri": "https://example.com/logo.png",
-    "policy_uri": "https://example.com/privacy",
-    "post_logout_redirect_uris": [
-      "https://example.com/logout"
-    ],
-    "promoted_at": "2026-05-13T12:00:00Z",
-    "redirect_uris": [
-      "https://example.com/callback"
-    ],
-    "response_types": [
-      "code"
-    ],
-    "scopes": [
-      "account.read"
-    ],
-    "token_endpoint_auth_method": "client_secret_post",
-    "tos_uri": "https://example.com/tos",
-    "updated_at": "2025-01-01T00:00:00Z"
-  }
-}
-```
-
-## Delete OAuth Client
-
-**delete** `/accounts/{account_id}/oauth_clients/{oauth_client_id}`
-
-Delete an OAuth client.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `oauth_client_id: string`
-
-  The unique identifier for an OAuth client.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients/$OAUTH_CLIENT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Rotate OAuth Client Secret
-
-**post** `/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret`
-
-Creates a second client secret so you can update your client configuration before deleting the old one. The `has_rotated_secret` field on the client will be set to `true`.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `oauth_client_id: string`
-
-  The unique identifier for an OAuth client.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { client_secret }`
-
-  - `client_secret: optional string`
-
-    The new client secret.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients/$OAUTH_CLIENT_ID/rotate_secret \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "client_secret": "cf-oauth-secret-new-example"
-  }
-}
-```
-
-## Delete Rotated OAuth Client Secret
-
-**delete** `/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret`
-
-Removes the old client secret after a rotation, keeping only the new one. Use this after you have updated your client configuration to use the new secret. The `has_rotated_secret` field on the client indicates whether there is an old secret to delete.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `oauth_client_id: string`
-
-  The unique identifier for an OAuth client.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients/$OAUTH_CLIENT_ID/rotate_secret \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### OAuth Client List Response
-
-- `OAuthClientListResponse object { client_id, visibility, allowed_cors_origins, 16 more }`
-
-  Fields shared by OAuth client responses and create/update requests.
-
-  - `client_id: string`
-
-    The unique identifier for an OAuth client.
-
-  - `visibility: "public" or "private"`
-
-    Visibility of the OAuth client.
-
-    - `"public"`
-
-    - `"private"`
-
-  - `allowed_cors_origins: optional array of string`
-
-    Array of allowed CORS origins.
-
-  - `client_name: optional string`
-
-    Human-readable name of the OAuth client.
-
-  - `client_uri: optional string`
-
-    URL of the home page of the client.
-
-  - `client_uri_verification: optional object { status, text }`
-
-    Client URI domain control verification state.
-
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
-
-      Current verification status for the client URI host.
-
-      - `"pending"`
-
-      - `"in_progress"`
-
-      - `"verified"`
-
-      - `"failed"`
-
-    - `text: optional string`
-
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
-
-  - `created_at: optional string`
-
-    Timestamp when the OAuth client was created.
-
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
-
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-    - `"authorization_code"`
-
-    - `"refresh_token"`
-
-  - `has_rotated_secret: optional boolean`
-
-    Indicates whether the client has a rotated secret that has not yet been deleted.
-
-  - `logo_uri: optional string`
-
-    URL of the client's logo.
-
-  - `policy_uri: optional string`
-
-    URL that points to a privacy policy document.
-
-  - `post_logout_redirect_uris: optional array of string`
-
-    Array of allowed post-logout redirect URIs.
-
-  - `promoted_at: optional string`
-
-    Timestamp when the OAuth client was promoted to public visibility.
-
-  - `redirect_uris: optional array of string`
-
-    Array of allowed redirect URIs for the client.
-
-  - `response_types: optional array of "token" or "id_token" or "code"`
-
-    Array of OAuth response types the client is allowed to use.
-
-    - `"token"`
-
-    - `"id_token"`
-
-    - `"code"`
-
-  - `scopes: optional array of string`
-
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
-
-    The authentication method the client uses at the token endpoint.
-
-    - `"none"`
-
-    - `"client_secret_basic"`
-
-    - `"client_secret_post"`
-
-  - `tos_uri: optional string`
-
-    URL that points to a terms of service document.
-
-  - `updated_at: optional string`
-
-    Timestamp when the OAuth client was last updated.
-
-### OAuth Client Get Response
-
-- `OAuthClientGetResponse object { client_id, visibility, allowed_cors_origins, 16 more }`
-
-  Fields shared by OAuth client responses and create/update requests.
-
-  - `client_id: string`
-
-    The unique identifier for an OAuth client.
-
-  - `visibility: "public" or "private"`
-
-    Visibility of the OAuth client.
-
-    - `"public"`
-
-    - `"private"`
-
-  - `allowed_cors_origins: optional array of string`
-
-    Array of allowed CORS origins.
-
-  - `client_name: optional string`
-
-    Human-readable name of the OAuth client.
-
-  - `client_uri: optional string`
-
-    URL of the home page of the client.
-
-  - `client_uri_verification: optional object { status, text }`
-
-    Client URI domain control verification state.
-
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
-
-      Current verification status for the client URI host.
-
-      - `"pending"`
-
-      - `"in_progress"`
-
-      - `"verified"`
-
-      - `"failed"`
-
-    - `text: optional string`
-
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
-
-  - `created_at: optional string`
-
-    Timestamp when the OAuth client was created.
-
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
-
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-    - `"authorization_code"`
-
-    - `"refresh_token"`
-
-  - `has_rotated_secret: optional boolean`
-
-    Indicates whether the client has a rotated secret that has not yet been deleted.
-
-  - `logo_uri: optional string`
-
-    URL of the client's logo.
-
-  - `policy_uri: optional string`
-
-    URL that points to a privacy policy document.
-
-  - `post_logout_redirect_uris: optional array of string`
-
-    Array of allowed post-logout redirect URIs.
-
-  - `promoted_at: optional string`
-
-    Timestamp when the OAuth client was promoted to public visibility.
-
-  - `redirect_uris: optional array of string`
-
-    Array of allowed redirect URIs for the client.
-
-  - `response_types: optional array of "token" or "id_token" or "code"`
-
-    Array of OAuth response types the client is allowed to use.
-
-    - `"token"`
-
-    - `"id_token"`
-
-    - `"code"`
-
-  - `scopes: optional array of string`
-
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
-
-    The authentication method the client uses at the token endpoint.
-
-    - `"none"`
-
-    - `"client_secret_basic"`
-
-    - `"client_secret_post"`
-
-  - `tos_uri: optional string`
-
-    URL that points to a terms of service document.
-
-  - `updated_at: optional string`
-
-    Timestamp when the OAuth client was last updated.
-
-### OAuth Client Create Response
-
-- `OAuthClientCreateResponse object { client_id, visibility, allowed_cors_origins, 17 more }`
-
-  Fields shared by OAuth client responses and create/update requests.
-
-  - `client_id: string`
-
-    The unique identifier for an OAuth client.
-
-  - `visibility: "public" or "private"`
-
-    Visibility of the OAuth client.
-
-    - `"public"`
-
-    - `"private"`
-
-  - `allowed_cors_origins: optional array of string`
-
-    Array of allowed CORS origins.
-
-  - `client_name: optional string`
-
-    Human-readable name of the OAuth client.
-
-  - `client_secret: optional string`
-
-    The client secret. This is the only time the secret is returned in a response.
-
-  - `client_uri: optional string`
-
-    URL of the home page of the client.
-
-  - `client_uri_verification: optional object { status, text }`
-
-    Client URI domain control verification state.
-
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
-
-      Current verification status for the client URI host.
-
-      - `"pending"`
-
-      - `"in_progress"`
-
-      - `"verified"`
-
-      - `"failed"`
-
-    - `text: optional string`
-
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
-
-  - `created_at: optional string`
-
-    Timestamp when the OAuth client was created.
-
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
-
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-    - `"authorization_code"`
-
-    - `"refresh_token"`
-
-  - `has_rotated_secret: optional boolean`
-
-    Indicates whether the client has a rotated secret that has not yet been deleted.
-
-  - `logo_uri: optional string`
-
-    URL of the client's logo.
-
-  - `policy_uri: optional string`
-
-    URL that points to a privacy policy document.
-
-  - `post_logout_redirect_uris: optional array of string`
-
-    Array of allowed post-logout redirect URIs.
-
-  - `promoted_at: optional string`
-
-    Timestamp when the OAuth client was promoted to public visibility.
-
-  - `redirect_uris: optional array of string`
-
-    Array of allowed redirect URIs for the client.
-
-  - `response_types: optional array of "token" or "id_token" or "code"`
-
-    Array of OAuth response types the client is allowed to use.
-
-    - `"token"`
-
-    - `"id_token"`
-
-    - `"code"`
-
-  - `scopes: optional array of string`
-
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
-
-    The authentication method the client uses at the token endpoint.
-
-    - `"none"`
-
-    - `"client_secret_basic"`
-
-    - `"client_secret_post"`
-
-  - `tos_uri: optional string`
-
-    URL that points to a terms of service document.
-
-  - `updated_at: optional string`
-
-    Timestamp when the OAuth client was last updated.
-
-### OAuth Client Update Response
-
-- `OAuthClientUpdateResponse object { client_id, visibility, allowed_cors_origins, 16 more }`
-
-  Fields shared by OAuth client responses and create/update requests.
-
-  - `client_id: string`
-
-    The unique identifier for an OAuth client.
-
-  - `visibility: "public" or "private"`
-
-    Visibility of the OAuth client.
-
-    - `"public"`
-
-    - `"private"`
-
-  - `allowed_cors_origins: optional array of string`
-
-    Array of allowed CORS origins.
-
-  - `client_name: optional string`
-
-    Human-readable name of the OAuth client.
-
-  - `client_uri: optional string`
-
-    URL of the home page of the client.
-
-  - `client_uri_verification: optional object { status, text }`
-
-    Client URI domain control verification state.
-
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
-
-      Current verification status for the client URI host.
-
-      - `"pending"`
-
-      - `"in_progress"`
-
-      - `"verified"`
-
-      - `"failed"`
-
-    - `text: optional string`
-
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
-
-  - `created_at: optional string`
-
-    Timestamp when the OAuth client was created.
-
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
-
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
-
-    - `"authorization_code"`
-
-    - `"refresh_token"`
-
-  - `has_rotated_secret: optional boolean`
-
-    Indicates whether the client has a rotated secret that has not yet been deleted.
-
-  - `logo_uri: optional string`
-
-    URL of the client's logo.
-
-  - `policy_uri: optional string`
-
-    URL that points to a privacy policy document.
-
-  - `post_logout_redirect_uris: optional array of string`
-
-    Array of allowed post-logout redirect URIs.
-
-  - `promoted_at: optional string`
-
-    Timestamp when the OAuth client was promoted to public visibility.
-
-  - `redirect_uris: optional array of string`
-
-    Array of allowed redirect URIs for the client.
-
-  - `response_types: optional array of "token" or "id_token" or "code"`
-
-    Array of OAuth response types the client is allowed to use.
-
-    - `"token"`
-
-    - `"id_token"`
-
-    - `"code"`
-
-  - `scopes: optional array of string`
-
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
-
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
-
-    The authentication method the client uses at the token endpoint.
-
-    - `"none"`
-
-    - `"client_secret_basic"`
-
-    - `"client_secret_post"`
-
-  - `tos_uri: optional string`
-
-    URL that points to a terms of service document.
-
-  - `updated_at: optional string`
-
-    Timestamp when the OAuth client was last updated.
-
-### OAuth Client Delete Response
-
-- `OAuthClientDeleteResponse object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### OAuth Client Rotate Secret Response
-
-- `OAuthClientRotateSecretResponse object { client_secret }`
-
-  - `client_secret: optional string`
-
-    The new client secret.
-
-### OAuth Client Delete Rotated Secret Response
-
-- `OAuthClientDeleteRotatedSecretResponse object { id }`
-
-  - `id: string`
-
-    Identifier
-
-# OAuth Scopes
-
-## List OAuth Scopes
-
-**get** `/oauth/scopes`
-
-List all available OAuth scopes. This endpoint requires authentication but has no authorization role requirements.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, name, category, scopes }`
-
-  - `id: string`
-
-    The scope label to use in the scopes array when creating or updating an OAuth client.
-
-  - `name: string`
-
-    Human-readable name of the OAuth scope.
-
-  - `category: optional string`
-
-    Category for grouping scopes in the UI.
-
-  - `scopes: optional array of string`
-
-    The underlying resource scopes (Bach scopes) that define which resources this OAuth scope can act upon.
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/oauth/scopes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "account.read",
-      "name": "Account Read",
-      "category": "account_and_billing",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### OAuth Scope List Response
-
-- `OAuthScopeListResponse object { id, name, category, scopes }`
-
-  An available OAuth scope that can be assigned to an OAuth client.
-
-  - `id: string`
-
-    The scope label to use in the scopes array when creating or updating an OAuth client.
-
-  - `name: string`
-
-    Human-readable name of the OAuth scope.
-
-  - `category: optional string`
-
-    Category for grouping scopes in the UI.
-
-  - `scopes: optional array of string`
-
-    The underlying resource scopes (Bach scopes) that define which resources this OAuth scope can act upon.
+[Link to this property](#)%20iam.oauth_scopes%20%3E%20(model)%20oauth_scope_list_response%20%3E%20(schema)>)

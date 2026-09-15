@@ -1,74 +1,214 @@
-## Update CT Alerting Subscription
+---
+title: Update CT Alerting Subscription
+---
 
-**patch** `/zones/{zone_id}/ct/alerting`
+[Skip to content](#_top)
 
-Create or update the Certificate Transparency alerting subscription for a zone. Enables or disables email notifications when certificates are issued for the zone's domains.
-For Free and Pro zones, the subscription is toggled on or off using the enabled field. Notification emails are sent to all users with SSL permissions on the zone.
-For Business and Enterprise zones, the emails field is required and controls which addresses receive alerts. Setting emails to an empty list disables the subscription regardless of the enabled field. A maximum of 10 email addresses may be configured.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zones](https://developers.cloudflare.com/api/resources/zones)
 
-- `zone_id: string`
+[CT](https://developers.cloudflare.com/api/resources/zones/subresources/ct)
 
-  Identifier.
+[Alerting](https://developers.cloudflare.com/api/resources/zones/subresources/ct/subresources/alerting)
 
-### Body Parameters
+Copy Markdown
 
-- `enabled: boolean`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Whether CT alerting is enabled for the zone.
+---
 
-- `emails: optional array of string`
+**Copy Markdown****View as Markdown**
 
-  Email addresses that receive CT alert notifications. Only present and configurable for Business and Enterprise zones. Maximum of 10 addresses. For Free and Pro zones, notifications are sent to all users with SSL permissions on the zone.
+# Update CT Alerting Subscription
 
-### Returns
+PATCH/zones/{zone\_id}/ct/alerting
 
-- `errors: array of object { code, message, documentation_url, source }`
+Create or update the Certificate Transparency alerting subscription for a zone. Enables or disables email notifications when certificates are issued for the zone’s domains. The `enabled` field is required on every request and controls whether the subscription is active. The `emails` field is optional and, when provided, replaces the stored recipient list for the zone. When `emails` is omitted, the stored recipient list is preserved and only the enabled state is toggled. A maximum of 100 email addresses may be configured per zone. Requests that omit `enabled` are rejected with error code 1008. Subscribe and unsubscribe notification emails are only sent for recipients whose effective subscription state changes. Idempotent requests (no state change) send no notification email.
 
-  - `code: number`
+##### Security
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Token</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `code: number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>API Email + API Key</summary>
 
-    - `pointer: optional string`
 
-- `success: true`
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `result: optional object { enabled, emails }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Certificate Transparency alerting subscription settings for a zone.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `enabled: boolean`
+</details>
 
-    Whether CT alerting is enabled for the zone.
+##### Accepted Permissions (at least one required)
 
-  - `emails: optional array of string`
+`SSL and Certificates Write`
 
-    Email addresses that receive CT alert notifications. Only present and configurable for Business and Enterprise zones. Maximum of 10 addresses. For Free and Pro zones, notifications are sent to all users with SSL permissions on the zone.
+##### P ath ParametersExpand Collapse
 
-### Example
+zone\_id: string
 
-```http
+Identifier.
+
+maxLength32
+
+[Link to this property](#)%20zones.ct.alerting%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+enabled: boolean
+
+Whether CT alerting is enabled for the zone.
+
+[Link to this property](#)%20zones.ct.alerting%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
+
+emails: optional array of string
+
+Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma.
+
+[Link to this property](#)%20zones.ct.alerting%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20emails%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.ct.alerting%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.ct.alerting%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zones.ct.alerting%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones.ct.alerting%20%3E%20(model)%20ct_alerting_subscription%20%3E%20(schema)">CTAlertingSubscription</a> { enabled, emails }
+
+Certificate Transparency alerting subscription settings for a zone.
+
+</summary>
+
+enabled: boolean
+
+Whether CT alerting is enabled for the zone.
+
+<a href="#">Link to this property</a>
+
+emails: optional array of string
+
+Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.ct.alerting%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update CT Alerting Subscription
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ct/alerting \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -82,9 +222,46 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ct/alerting \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "enabled": true,
+    "emails": [
+      "security@example.com",
+      "admin@example.com"
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

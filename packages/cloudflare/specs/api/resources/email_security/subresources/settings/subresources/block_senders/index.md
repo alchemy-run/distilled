@@ -1,882 +1,800 @@
+---
+title: Block Senders
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Block Senders
 
-## List blocked email senders
+##### [List blocked email senders](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/list)
 
-**get** `/accounts/{account_id}/email-security/settings/block_senders`
+GET/accounts/{account\_id}/email-security/settings/block\_senders
 
-Returns a paginated list of blocked email sender patterns. These patterns prevent emails from matching senders from being delivered. Supports filtering by pattern type and searching across patterns.
+##### [Get a blocked email sender](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/email-security/settings/block\_senders/{pattern\_id}
 
-- `account_id: string`
+##### [Create blocked email sender](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/email-security/settings/block\_senders
 
-### Query Parameters
+##### [Update a blocked email sender](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/edit)
 
-- `direction: optional "asc" or "desc"`
+PATCH/accounts/{account\_id}/email-security/settings/block\_senders/{pattern\_id}
 
-  The sorting direction.
+##### [Delete a blocked email sender](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/email-security/settings/block\_senders/{pattern\_id}
 
-  - `"desc"`
+##### [Batch blocked senders operations](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/batch)
 
-- `order: optional "pattern" or "created_at"`
+POST/accounts/{account\_id}/email-security/settings/block\_senders/batch
 
-  Field to sort by.
+##### ModelsExpand Collapse
 
-  - `"pattern"`
+<details>
 
-  - `"created_at"`
+<summary>
 
-- `page: optional number`
+BlockSenderListResponse object {id, comments, created\_at, 5 more }
 
-  Current page within paginated list of results.
+A blocked sender pattern.
 
-- `pattern: optional string`
+</summary>
 
-  Filter by pattern value.
+id: optional string
 
-- `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+Blocked sender pattern identifier.
 
-  Filter by pattern type.
+formatuuid
 
-  - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-  - `"DOMAIN"`
+comments: optional string
 
-  - `"IP"`
+maxLength1024
 
-  - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+created\_at: optional string
 
-  The number of results per page. Maximum value is 1000.
+formatdate-time
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-  Search term for filtering records. Behavior may change.
+is\_regex: optional boolean
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+Deprecatedlast\_modified: optional string
 
-  - `code: number`
+Use <code>modified_at</code> instead.
 
-  - `message: string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+modified\_at: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+pattern: optional string
 
-  - `documentation_url: optional string`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `source: optional object { pointer }`
+maxLength1024
 
-    - `pointer: optional string`
+minLength1
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional array of object { id, comments, created_at, 5 more }`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `id: optional string`
+Type of pattern matching.
 
-    Blocked sender pattern identifier
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `comments: optional string`
+</summary>
 
-  - `created_at: optional string`
+One of the following:
 
-  - `is_regex: optional boolean`
+"EMAIL"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"DOMAIN"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+"IP"
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<a href="#">Link to this property</a>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+"UNKNOWN"
 
-    - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-    - `"DOMAIN"`
+</details>
 
-    - `"IP"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_list_response%20%3E%20(schema)>)
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+BlockSenderGetResponse object {id, comments, created\_at, 5 more }
 
-    Current page within paginated list of results.
+A blocked sender pattern.
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+id: optional string
 
-  - `total_count: optional number`
+Blocked sender pattern identifier.
 
-    Total results available without any search parameters.
+formatuuid
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+comments: optional string
 
-#### Response
+maxLength1024
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "comments": "Block sender with email test@example.com",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "is_regex": false,
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "pattern": "test@example.com",
-      "pattern_type": "EMAIL"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get a blocked email sender
+created\_at: optional string
 
-**get** `/accounts/{account_id}/email-security/settings/block_senders/{pattern_id}`
+formatdate-time
 
-Retrieves details for a specific blocked sender pattern including its pattern type, value, and metadata.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+is\_regex: optional boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+Deprecatedlast\_modified: optional string
 
-- `pattern_id: string`
+Use <code>modified_at</code> instead.
 
-  Blocked sender pattern identifier
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+pattern: optional string
 
-    - `pointer: optional string`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength1024
 
-  - `code: number`
+minLength1
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-- `success: true`
+Type of pattern matching.
 
-  Whether the API call was successful.
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `true`
+</summary>
 
-- `result: optional object { id, comments, created_at, 5 more }`
+One of the following:
 
-  A blocked sender pattern
+"EMAIL"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Blocked sender pattern identifier
+"DOMAIN"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"IP"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+"UNKNOWN"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+</details>
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+</details>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_get_response%20%3E%20(schema)>)
 
-    - `"EMAIL"`
+<details>
 
-    - `"DOMAIN"`
+<summary>
 
-    - `"IP"`
+BlockSenderCreateResponse object {id, comments, created\_at, 5 more }
 
-    - `"UNKNOWN"`
+A blocked sender pattern.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders/$PATTERN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: optional string
 
-#### Response
+Blocked sender pattern identifier.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Block sender with email test@example.com",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL"
-  }
-}
-```
+formatuuid
 
-## Create blocked email sender
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/email-security/settings/block_senders`
+comments: optional string
 
-Creates a new blocked sender pattern. Emails matching this pattern will be blocked from delivery. Patterns can be email addresses, domains, or IP addresses, and support regular expressions.
+maxLength1024
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created\_at: optional string
 
-  Identifier.
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `is_regex: boolean`
+is\_regex: optional boolean
 
-- `pattern: string`
+<a href="#">Link to this property</a>
 
-- `pattern_type: "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+Deprecatedlast\_modified: optional string
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+Use <code>modified_at</code> instead.
 
-  - `"EMAIL"`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `"DOMAIN"`
+formatdate-time
 
-  - `"IP"`
+<a href="#">Link to this property</a>
 
-  - `"UNKNOWN"`
+modified\_at: optional string
 
-- `comments: optional string`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+pattern: optional string
 
-  - `code: number`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `message: string`
+maxLength1024
 
-  - `documentation_url: optional string`
+minLength1
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `message: string`
+Type of pattern matching.
 
-  - `documentation_url: optional string`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `success: true`
+"EMAIL"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"DOMAIN"
 
-- `result: optional object { id, comments, created_at, 5 more }`
+<a href="#">Link to this property</a>
 
-  A blocked sender pattern
+"IP"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Blocked sender pattern identifier
+"UNKNOWN"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+</details>
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+</details>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_create_response%20%3E%20(schema)>)
 
-  - `modified_at: optional string`
+<details>
 
-  - `pattern: optional string`
+<summary>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+BlockSenderEditResponse object {id, comments, created\_at, 5 more }
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+A blocked sender pattern.
 
-    - `"EMAIL"`
+</summary>
 
-    - `"DOMAIN"`
+id: optional string
 
-    - `"IP"`
+Blocked sender pattern identifier.
 
-    - `"UNKNOWN"`
+formatuuid
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "is_regex": false,
-          "pattern": "test@example.com",
-          "pattern_type": "EMAIL",
-          "comments": "Block sender with email test@example.com"
-        }'
-```
+comments: optional string
 
-#### Response
+maxLength1024
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Block sender with email test@example.com",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update a blocked email sender
+created\_at: optional string
 
-**patch** `/accounts/{account_id}/email-security/settings/block_senders/{pattern_id}`
+formatdate-time
 
-Updates an existing blocked sender pattern. Only provided fields will be modified. The pattern will continue blocking emails until deleted.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+is\_regex: optional boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+Deprecatedlast\_modified: optional string
 
-- `pattern_id: string`
+Use <code>modified_at</code> instead.
 
-  Blocked sender pattern identifier
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-### Body Parameters
+formatdate-time
 
-- `comments: optional string`
+<a href="#">Link to this property</a>
 
-- `is_regex: optional boolean`
+modified\_at: optional string
 
-- `pattern: optional string`
+formatdate-time
 
-- `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+pattern: optional string
 
-  - `"EMAIL"`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `"DOMAIN"`
+maxLength1024
 
-  - `"IP"`
+minLength1
 
-  - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `message: string`
+Type of pattern matching.
 
-  - `documentation_url: optional string`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"EMAIL"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"DOMAIN"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"IP"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"UNKNOWN"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id, comments, created_at, 5 more }`
+<a href="#">Link to this property</a>
 
-  A blocked sender pattern
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_edit_response%20%3E%20(schema)>)
 
-    Blocked sender pattern identifier
+<details>
 
-  - `comments: optional string`
+<summary>
 
-  - `created_at: optional string`
+BlockSenderDeleteResponse object {id }
 
-  - `is_regex: optional boolean`
+</summary>
 
-  - `last_modified: optional string`
+id: string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+Blocked sender pattern identifier.
 
-  - `modified_at: optional string`
+formatuuid
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+</details>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_delete_response%20%3E%20(schema)>)
 
-    - `"EMAIL"`
+<details>
 
-    - `"DOMAIN"`
+<summary>
 
-    - `"IP"`
+BlockSenderBatchResponse object {deletes, patches, posts, puts }
 
-    - `"UNKNOWN"`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders/$PATTERN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Block sender with email test@example.com",
-          "pattern": "test@example.com",
-          "pattern_type": "EMAIL"
-        }'
-```
+<summary>
 
-#### Response
+deletes: optional array of object {id }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Block sender with email test@example.com",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL"
-  }
-}
-```
+</summary>
 
-## Delete a blocked email sender
+id: string
 
-**delete** `/accounts/{account_id}/email-security/settings/block_senders/{pattern_id}`
+Blocked sender pattern identifier.
 
-Removes a blocked sender pattern. After deletion, emails from this sender will no longer be automatically blocked based on this rule.
+formatuuid
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `pattern_id: string`
+<details>
 
-  Blocked sender pattern identifier
+<summary>
 
-### Returns
+patches: optional array of object {id, comments, created\_at, 5 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+Blocked sender pattern identifier.
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+comments: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength1024
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_at: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+is\_regex: optional boolean
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+Deprecatedlast\_modified: optional string
 
-  - `true`
+Use <code>modified_at</code> instead.
 
-- `result: optional object { id }`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `id: string`
+formatdate-time
 
-    Blocked sender pattern identifier
+<a href="#">Link to this property</a>
 
-### Example
+modified\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders/$PATTERN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+pattern: optional string
 
-## Domain Types
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-### Block Sender List Response
+maxLength1024
 
-- `BlockSenderListResponse object { id, comments, created_at, 5 more }`
+minLength1
 
-  A blocked sender pattern
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Blocked sender pattern identifier
+<summary>
 
-  - `comments: optional string`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `created_at: optional string`
+Type of pattern matching.
 
-  - `is_regex: optional boolean`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `last_modified: optional string`
+</summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+One of the following:
 
-  - `modified_at: optional string`
+"EMAIL"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+"DOMAIN"
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+"IP"
 
-    - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+"UNKNOWN"
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-### Block Sender Get Response
+</details>
 
-- `BlockSenderGetResponse object { id, comments, created_at, 5 more }`
+<a href="#">Link to this property</a>
 
-  A blocked sender pattern
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Blocked sender pattern identifier
+<details>
 
-  - `comments: optional string`
+<summary>
 
-  - `created_at: optional string`
+posts: optional array of object {id, comments, created\_at, 5 more }
 
-  - `is_regex: optional boolean`
+</summary>
 
-  - `last_modified: optional string`
+id: optional string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+Blocked sender pattern identifier.
 
-  - `modified_at: optional string`
+formatuuid
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+comments: optional string
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+maxLength1024
 
-    - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-    - `"DOMAIN"`
+created\_at: optional string
 
-    - `"IP"`
+formatdate-time
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-### Block Sender Create Response
+is\_regex: optional boolean
 
-- `BlockSenderCreateResponse object { id, comments, created_at, 5 more }`
+<a href="#">Link to this property</a>
 
-  A blocked sender pattern
+Deprecatedlast\_modified: optional string
 
-  - `id: optional string`
+Use <code>modified_at</code> instead.
 
-    Blocked sender pattern identifier
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `comments: optional string`
+formatdate-time
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_regex: optional boolean`
+modified\_at: optional string
 
-  - `last_modified: optional string`
+formatdate-time
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+pattern: optional string
 
-  - `pattern: optional string`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+maxLength1024
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+minLength1
 
-    - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-    - `"DOMAIN"`
+<details>
 
-    - `"IP"`
+<summary>
 
-    - `"UNKNOWN"`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-### Block Sender Edit Response
+Type of pattern matching.
 
-- `BlockSenderEditResponse object { id, comments, created_at, 5 more }`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  A blocked sender pattern
+</summary>
 
-  - `id: optional string`
+One of the following:
 
-    Blocked sender pattern identifier
+"EMAIL"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"DOMAIN"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+"IP"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"UNKNOWN"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+</details>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+</details>
 
-    - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+<details>
 
-    - `"UNKNOWN"`
+<summary>
 
-### Block Sender Delete Response
+puts: optional array of object {id, comments, created\_at, 5 more }
 
-- `BlockSenderDeleteResponse object { id }`
+</summary>
 
-  - `id: string`
+id: optional string
 
-    Blocked sender pattern identifier
+Blocked sender pattern identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
+
+Type of pattern matching.
+
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
+
+</summary>
+
+One of the following:
+
+"EMAIL"
+
+<a href="#">Link to this property</a>
+
+"DOMAIN"
+
+<a href="#">Link to this property</a>
+
+"IP"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_batch_response%20%3E%20(schema)>)

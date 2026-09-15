@@ -1,4795 +1,2145 @@
+---
+title: Cache
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Cache
 
-## Purge Cached Content
+##### [Purge Cached Content](https://developers.cloudflare.com/api/resources/cache/methods/purge)
 
-**post** `/zones/{zone_id}/purge_cache`
+POST/zones/{zone\_id}/purge\_cache
 
-### Purge All Cached Content
+##### [Purge Cached Content by Environment](https://developers.cloudflare.com/api/resources/cache/methods/purge_environment)
 
-Removes ALL files from Cloudflare's cache. All tiers can purge everything.
+POST/zones/{zone\_id}/environments/{environment\_id}/purge\_cache
 
-```
-{"purge_everything": true}
-```
+##### ModelsExpand Collapse
 
-### Purge Cached Content by URL
+<details>
 
-Granularly removes one or more files from Cloudflare's cache by specifying URLs. All tiers can purge by URL.
+<summary>
 
-To purge files with custom cache keys, include the headers used to compute the cache key as in the example. If you have a device type or geo in your cache key, you will need to include the CF-Device-Type or CF-IPCountry headers. If you have lang in your cache key, you will need to include the Accept-Language header.
+CachePurgeResponse object {id }
 
-**NB:** When including the Origin header, be sure to include the **scheme** and **hostname**. The port number can be omitted if it is the default port (80 for http, 443 for https), but must be included otherwise.
+</summary>
 
-Single file purge example with files:
+id: string
 
-```
-{"files": ["http://www.example.com/css/styles.css", "http://www.example.com/js/index.js"]}
-```
+maxLength32
 
-Single file purge example with url and header pairs:
+<a href="#">Link to this property</a>
 
-```
-{"files": [{"url": "http://www.example.com/cat_picture.jpg", "headers": {"CF-IPCountry": "US", "CF-Device-Type": "desktop", "Accept-Language": "zh-CN"}}, {"url": "http://www.example.com/dog_picture.jpg", "headers": {"CF-IPCountry": "EU", "CF-Device-Type": "mobile", "Accept-Language": "en-US"}}]}
-```
+</details>
 
-### Purge Cached Content by Tag, Host or Prefix
+[Link to this property](#)%20cache%20%3E%20(model)%20cache_purge_response%20%3E%20(schema)>)
 
-Granularly removes one or more files from Cloudflare's cache either by specifying the host, the associated Cache-Tag, or a Prefix.
+<details>
 
-Flex purge with tags:
+<summary>
 
-```
-{"tags": ["a-cache-tag", "another-cache-tag"]}
-```
+CachePurgeEnvironmentResponse object {id }
 
-Flex purge with hosts:
+</summary>
 
-```
-{"hosts": ["www.example.com", "images.example.com"]}
-```
+id: string
 
-Flex purge with prefixes:
+maxLength32
 
-```
-{"prefixes": ["www.example.com/foo", "images.example.com/bar/baz"]}
-```
+<a href="#">Link to this property</a>
 
-### Availability and limits
+</details>
 
-Please refer to [purge cache availability and limits documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).
+[Link to this property](#)%20cache%20%3E%20(model)%20cache_purge_environment_response%20%3E%20(schema)>)
 
-### Path Parameters
+#### CacheCache Reserve
 
-- `zone_id: string`
+##### [Get Cache Reserve setting](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve/methods/get)
 
-### Body Parameters
+GET/zones/{zone\_id}/cache/cache\_reserve
 
-- `body: object { tags }  or object { hosts }  or object { prefixes }  or 3 more`
+##### [Change Cache Reserve setting](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve/methods/edit)
 
-  - `CachePurgeFlexPurgeByTags object { tags }`
+PATCH/zones/{zone\_id}/cache/cache\_reserve
 
-    - `tags: optional array of string`
+##### [Get Cache Reserve Clear](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve/methods/status)
 
-      For more information on cache tags and purging by tags, please refer to [purge by cache-tags documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/).
+GET/zones/{zone\_id}/cache/cache\_reserve\_clear
 
-  - `CachePurgeFlexPurgeByHostnames object { hosts }`
+##### [Start Cache Reserve Clear](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve/methods/clear)
 
-    - `hosts: optional array of string`
+POST/zones/{zone\_id}/cache/cache\_reserve\_clear
 
-      For more information purging by hostnames, please refer to [purge by hostname documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/).
+##### ModelsExpand Collapse
 
-  - `CachePurgeFlexPurgeByPrefixes object { prefixes }`
+CacheReserve = "cache\_reserve"
 
-    - `prefixes: optional array of string`
+The identifier of the caching setting.
 
-      For more information on purging by prefixes, please refer to [purge by prefix documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/).
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve%20%3E%20(schema)>)
 
-  - `CachePurgeEverything object { purge_everything }`
+CacheReserveClear = "cache\_reserve\_clear"
 
-    - `purge_everything: optional boolean`
+ID of the zone setting.
 
-      For more information, please refer to [purge everything documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/).
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)>)
 
-  - `CachePurgeSingleFile object { files }`
+<details>
 
-    - `files: optional array of string`
+<summary>
 
-      For more information on purging files, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/).
+State = "In-progress"or "Completed"
 
-  - `CachePurgeSingleFileWithURLAndHeaders object { files }`
+The current state of the Cache Reserve Clear operation.
 
-    - `files: optional array of object { headers, url }`
+</summary>
 
-      For more information on purging files with URL and headers, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/).
+One of the following:
 
-      - `headers: optional map[string]`
+"In-progress"
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+"Completed"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20state%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+CacheReserveGetResponse object {id, editable, value, modified\_on }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve%20%3E%20(schema)">CacheReserve</a>
 
-  - `message: string`
+The identifier of the caching setting.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+editable: boolean
 
-- `success: boolean`
+Whether the setting is editable.
 
-  Indicates the API call's success or failure.
+<a href="#">Link to this property</a>
 
-- `result: optional object { id }`
+<details>
 
-  - `id: string`
+<summary>
 
-### Example
+value: "on"or "off"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "tags": [
-            "a-cache-tag",
-            "another-cache-tag"
-          ]
-        }'
-```
+Value of the Cache Reserve zone setting.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+One of the following:
 
-## Purge Cached Content by Environment
+"on"
 
-**post** `/zones/{zone_id}/environments/{environment_id}/purge_cache`
+<a href="#">Link to this property</a>
 
-Purge cached content scoped to a specific environment. Supports the same purge types as the zone-level endpoint (purge everything, by URL, by tag, host, or prefix).
+"off"
 
-### Availability and limits
+<a href="#">Link to this property</a>
 
-Please refer to [purge cache availability and limits documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+modified\_on: optional string
 
-- `environment_id: string`
+Last time this setting was modified.
 
-### Body Parameters
+formatdate-time
 
-- `body: object { tags }  or object { hosts }  or object { prefixes }  or 3 more`
+<a href="#">Link to this property</a>
 
-  - `CachePurgeFlexPurgeByTags object { tags }`
+</details>
 
-    - `tags: optional array of string`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_get_response%20%3E%20(schema)>)
 
-      For more information on cache tags and purging by tags, please refer to [purge by cache-tags documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/).
+<details>
 
-  - `CachePurgeFlexPurgeByHostnames object { hosts }`
+<summary>
 
-    - `hosts: optional array of string`
+CacheReserveEditResponse object {id, editable, value, modified\_on }
 
-      For more information purging by hostnames, please refer to [purge by hostname documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/).
+</summary>
 
-  - `CachePurgeFlexPurgeByPrefixes object { prefixes }`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve%20%3E%20(schema)">CacheReserve</a>
 
-    - `prefixes: optional array of string`
+The identifier of the caching setting.
 
-      For more information on purging by prefixes, please refer to [purge by prefix documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/).
+<a href="#">Link to this property</a>
 
-  - `CachePurgeEverything object { purge_everything }`
+editable: boolean
 
-    - `purge_everything: optional boolean`
+Whether the setting is editable.
 
-      For more information, please refer to [purge everything documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/).
+<a href="#">Link to this property</a>
 
-  - `CachePurgeSingleFile object { files }`
+<details>
 
-    - `files: optional array of string`
+<summary>
 
-      For more information on purging files, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/).
+value: "on"or "off"
 
-  - `CachePurgeSingleFileWithURLAndHeaders object { files }`
+Value of the Cache Reserve zone setting.
 
-    - `files: optional array of object { headers, url }`
+</summary>
 
-      For more information on purging files with URL and headers, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/).
+One of the following:
 
-      - `headers: optional map[string]`
+"on"
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+"off"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: optional string
 
-  - `source: optional object { pointer }`
+Last time this setting was modified.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_edit_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `success: boolean`
-
-  Indicates the API call's success or failure.
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/environments/$ENVIRONMENT_ID/purge_cache \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "tags": [
-            "a-cache-tag",
-            "another-cache-tag"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### Cache Purge Response
-
-- `CachePurgeResponse object { id }`
-
-  - `id: string`
-
-### Cache Purge Environment Response
-
-- `CachePurgeEnvironmentResponse object { id }`
-
-  - `id: string`
-
-# Cache Reserve
-
-## Get Cache Reserve setting
-
-**get** `/zones/{zone_id}/cache/cache_reserve`
-
-Increase cache lifetimes by automatically storing all cacheable files into Cloudflare's persistent object storage buckets. Requires Cache Reserve subscription. Note: using Tiered Cache with Cache Reserve is highly recommended to reduce Reserve operations costs. See the [developer docs](https://developers.cloudflare.com/cache/about/cache-reserve) for more information.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  - `id: CacheReserve`
-
-    The identifier of the caching setting.
-
-    - `"cache_reserve"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Cache Reserve zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "cache_reserve",
-    "value": "off"
-  },
-  "success": true
-}
-```
-
-## Change Cache Reserve setting
-
-**patch** `/zones/{zone_id}/cache/cache_reserve`
-
-Increase cache lifetimes by automatically storing all cacheable files into Cloudflare's persistent object storage buckets. Requires Cache Reserve subscription. Note: using Tiered Cache with Cache Reserve is highly recommended to reduce Reserve operations costs. See the [developer docs](https://developers.cloudflare.com/cache/about/cache-reserve) for more information.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `value: "on" or "off"`
-
-  Value of the Cache Reserve zone setting.
-
-  - `"on"`
-
-  - `"off"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  - `id: CacheReserve`
-
-    The identifier of the caching setting.
-
-    - `"cache_reserve"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Cache Reserve zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "cache_reserve",
-    "value": "on"
-  },
-  "success": true
-}
-```
-
-## Get Cache Reserve Clear
-
-**get** `/zones/{zone_id}/cache/cache_reserve_clear`
+CacheReserveStatusResponse object {id, start\_ts, state, 2 more }
 
 You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)">CacheReserveClear</a>
 
-  Identifier.
+ID of the zone setting.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+start\_ts: string
 
-  - `code: number`
+The time that the latest Cache Reserve Clear operation started.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+state: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20state%20%3E%20(schema)">State</a>
 
-    - `pointer: optional string`
+The current state of the Cache Reserve Clear operation.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+end\_ts: optional string
 
-  - `message: string`
+The time that the latest Cache Reserve Clear operation completed.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+modified\_on: optional string
 
-  Whether the API call was successful.
+Last time this setting was modified.
 
-  - `true`
+formatdate-time
 
-- `result: optional object { id, start_ts, state, 2 more }`
+<a href="#">Link to this property</a>
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+</details>
 
-  - `id: CacheReserveClear`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_status_response%20%3E%20(schema)>)
 
-    ID of the zone setting.
+<details>
 
-    - `"cache_reserve_clear"`
+<summary>
 
-  - `start_ts: string`
-
-    The time that the latest Cache Reserve Clear operation started.
-
-  - `state: State`
-
-    The current state of the Cache Reserve Clear operation.
-
-    - `"In-progress"`
-
-    - `"Completed"`
-
-  - `end_ts: optional string`
-
-    The time that the latest Cache Reserve Clear operation completed.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve_clear \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "end_ts": "2023-10-02T12:00:00.12345Z",
-    "id": "cache_reserve_clear",
-    "start_ts": "2023-10-02T10:00:00.12345Z",
-    "state": "Completed"
-  },
-  "success": true
-}
-```
-
-## Start Cache Reserve Clear
-
-**post** `/zones/{zone_id}/cache/cache_reserve_clear`
+CacheReserveClearResponse object {id, start\_ts, state, 2 more }
 
 You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)">CacheReserveClear</a>
 
-  Identifier.
+ID of the zone setting.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: unknown`
+start\_ts: string
 
-### Returns
+The time that the latest Cache Reserve Clear operation started.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+state: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20state%20%3E%20(schema)">State</a>
 
-  - `documentation_url: optional string`
+The current state of the Cache Reserve Clear operation.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+end\_ts: optional string
 
-- `messages: array of ResponseInfo`
+The time that the latest Cache Reserve Clear operation completed.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: optional string
 
-  - `source: optional object { pointer }`
+Last time this setting was modified.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id, start_ts, state, 2 more }`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear_response%20%3E%20(schema)>)
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+#### CacheSmart Tiered Cache
 
-  - `id: CacheReserveClear`
+##### [Get Smart Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/smart_tiered_cache/methods/get)
 
-    ID of the zone setting.
+GET/zones/{zone\_id}/cache/tiered\_cache\_smart\_topology\_enable
 
-    - `"cache_reserve_clear"`
+##### [Create Smart Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/smart_tiered_cache/methods/create)
 
-  - `start_ts: string`
+POST/zones/{zone\_id}/cache/tiered\_cache\_smart\_topology\_enable
 
-    The time that the latest Cache Reserve Clear operation started.
+##### [Patch Smart Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/smart_tiered_cache/methods/edit)
 
-  - `state: State`
+PATCH/zones/{zone\_id}/cache/tiered\_cache\_smart\_topology\_enable
 
-    The current state of the Cache Reserve Clear operation.
+##### [Delete Smart Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/smart_tiered_cache/methods/delete)
 
-    - `"In-progress"`
+DELETE/zones/{zone\_id}/cache/tiered\_cache\_smart\_topology\_enable
 
-    - `"Completed"`
+##### ModelsExpand Collapse
 
-  - `end_ts: optional string`
+<details>
 
-    The time that the latest Cache Reserve Clear operation completed.
+<summary>
 
-  - `modified_on: optional string`
+SmartTieredCacheGetResponse object {id, editable, value, modified\_on }
 
-    Last time this setting was modified.
+</summary>
 
-### Example
+id: "tiered\_cache\_smart\_topology\_enable"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve_clear \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+The identifier of the caching setting.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "id": "cache_reserve_clear",
-    "start_ts": "2023-10-02T10:00:00.12345Z",
-    "state": "In-progress"
-  },
-  "success": true
-}
-```
+editable: boolean
 
-## Domain Types
+Whether the setting is editable.
 
-### Cache Reserve
+<a href="#">Link to this property</a>
 
-- `CacheReserve = "cache_reserve"`
+<details>
 
-  The identifier of the caching setting.
+<summary>
 
-  - `"cache_reserve"`
+value: "on"or "off"
 
-### Cache Reserve Clear
+Value of the Smart Tiered Cache zone setting.
 
-- `CacheReserveClear = "cache_reserve_clear"`
+</summary>
 
-  ID of the zone setting.
+One of the following:
 
-  - `"cache_reserve_clear"`
+"on"
 
-### State
+<a href="#">Link to this property</a>
 
-- `State = "In-progress" or "Completed"`
+"off"
 
-  The current state of the Cache Reserve Clear operation.
+<a href="#">Link to this property</a>
 
-  - `"In-progress"`
+</details>
 
-  - `"Completed"`
+<a href="#">Link to this property</a>
 
-### Cache Reserve Get Response
+modified\_on: optional string
 
-- `CacheReserveGetResponse object { id, editable, value, modified_on }`
+Last time this setting was modified.
 
-  - `id: CacheReserve`
+formatdate-time
 
-    The identifier of the caching setting.
+<a href="#">Link to this property</a>
 
-    - `"cache_reserve"`
+</details>
 
-  - `editable: boolean`
+[Link to this property](#)%20cache.smart_tiered_cache%20%3E%20(model)%20smart_tiered_cache_get_response%20%3E%20(schema)>)
 
-    Whether the setting is editable.
+<details>
 
-  - `value: "on" or "off"`
+<summary>
 
-    Value of the Cache Reserve zone setting.
+SmartTieredCacheCreateResponse object {id, editable, value, modified\_on }
 
-    - `"on"`
+</summary>
 
-    - `"off"`
+id: "tiered\_cache\_smart\_topology\_enable"
 
-  - `modified_on: optional string`
+The identifier of the caching setting.
 
-    Last time this setting was modified.
+<a href="#">Link to this property</a>
 
-### Cache Reserve Edit Response
+editable: boolean
 
-- `CacheReserveEditResponse object { id, editable, value, modified_on }`
+Whether the setting is editable.
 
-  - `id: CacheReserve`
+<a href="#">Link to this property</a>
 
-    The identifier of the caching setting.
+<details>
 
-    - `"cache_reserve"`
+<summary>
 
-  - `editable: boolean`
+value: "on"or "off"
 
-    Whether the setting is editable.
+Value of the Smart Tiered Cache zone setting.
 
-  - `value: "on" or "off"`
+</summary>
 
-    Value of the Cache Reserve zone setting.
+One of the following:
 
-    - `"on"`
+"on"
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+"off"
 
-    Last time this setting was modified.
+<a href="#">Link to this property</a>
 
-### Cache Reserve Status Response
+</details>
 
-- `CacheReserveStatusResponse object { id, start_ts, state, 2 more }`
+<a href="#">Link to this property</a>
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+modified\_on: optional string
 
-  - `id: CacheReserveClear`
+Last time this setting was modified.
 
-    ID of the zone setting.
+formatdate-time
 
-    - `"cache_reserve_clear"`
+<a href="#">Link to this property</a>
 
-  - `start_ts: string`
+</details>
 
-    The time that the latest Cache Reserve Clear operation started.
+[Link to this property](#)%20cache.smart_tiered_cache%20%3E%20(model)%20smart_tiered_cache_create_response%20%3E%20(schema)>)
 
-  - `state: State`
+<details>
 
-    The current state of the Cache Reserve Clear operation.
+<summary>
 
-    - `"In-progress"`
+SmartTieredCacheEditResponse object {id, editable, value, modified\_on }
 
-    - `"Completed"`
+</summary>
 
-  - `end_ts: optional string`
+id: "tiered\_cache\_smart\_topology\_enable"
 
-    The time that the latest Cache Reserve Clear operation completed.
+The identifier of the caching setting.
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time this setting was modified.
+editable: boolean
 
-### Cache Reserve Clear Response
+Whether the setting is editable.
 
-- `CacheReserveClearResponse object { id, start_ts, state, 2 more }`
+<a href="#">Link to this property</a>
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+<details>
 
-  - `id: CacheReserveClear`
+<summary>
 
-    ID of the zone setting.
+value: "on"or "off"
 
-    - `"cache_reserve_clear"`
+Value of the Smart Tiered Cache zone setting.
 
-  - `start_ts: string`
+</summary>
 
-    The time that the latest Cache Reserve Clear operation started.
+One of the following:
 
-  - `state: State`
+"on"
 
-    The current state of the Cache Reserve Clear operation.
+<a href="#">Link to this property</a>
 
-    - `"In-progress"`
+"off"
 
-    - `"Completed"`
+<a href="#">Link to this property</a>
 
-  - `end_ts: optional string`
+</details>
 
-    The time that the latest Cache Reserve Clear operation completed.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+modified\_on: optional string
 
-    Last time this setting was modified.
+Last time this setting was modified.
 
-# Smart Tiered Cache
+formatdate-time
 
-## Get Smart Tiered Cache setting
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/cache/tiered_cache_smart_topology_enable`
+</details>
 
-Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin.
+[Link to this property](#)%20cache.smart_tiered_cache%20%3E%20(model)%20smart_tiered_cache_edit_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+SmartTieredCacheDeleteResponse object {id, editable, modified\_on }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+id: "tiered\_cache\_smart\_topology\_enable"
 
-  - `code: number`
+The identifier of the caching setting.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+editable: boolean
 
-  - `source: optional object { pointer }`
+Whether the setting is editable.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+modified\_on: optional string
 
-  - `code: number`
+Last time this setting was modified.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `success: true`
+[Link to this property](#)%20cache.smart_tiered_cache%20%3E%20(model)%20smart_tiered_cache_delete_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+#### CacheVariants
 
-  - `true`
+##### [Get variants setting](https://developers.cloudflare.com/api/resources/cache/subresources/variants/methods/get)
 
-- `result: optional object { id, editable, value, modified_on }`
+GET/zones/{zone\_id}/cache/variants
 
-  - `id: "tiered_cache_smart_topology_enable"`
+##### [Change variants setting](https://developers.cloudflare.com/api/resources/cache/subresources/variants/methods/edit)
 
-    The identifier of the caching setting.
+PATCH/zones/{zone\_id}/cache/variants
 
-    - `"tiered_cache_smart_topology_enable"`
+##### [Delete variants setting](https://developers.cloudflare.com/api/resources/cache/subresources/variants/methods/delete)
 
-  - `editable: boolean`
+DELETE/zones/{zone\_id}/cache/variants
 
-    Whether the setting is editable.
+##### ModelsExpand Collapse
 
-  - `value: "on" or "off"`
+<details>
 
-    Value of the Smart Tiered Cache zone setting.
+<summary>
 
-    - `"on"`
+CacheVariant object {id, modified\_on }
 
-    - `"off"`
+Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the ‘Vary: Accept’ response header. If the origin server sends ‘Vary: Accept’ but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
 
-  - `modified_on: optional string`
+</summary>
 
-    Last time this setting was modified.
+id: "variants"
 
-### Example
+ID of the zone setting.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/tiered_cache_smart_topology_enable \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+modified\_on: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_cache_smart_topology_enable",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Last time this setting was modified.
 
-## Create Smart Tiered Cache setting
+formatdate-time
 
-**post** `/zones/{zone_id}/cache/tiered_cache_smart_topology_enable`
+<a href="#">Link to this property</a>
 
-Smart Tiered Cache dynamically selects the single closest upper tier for each of your website's origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20cache.variants%20%3E%20(model)%20cache_variant%20%3E%20(schema)>)
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+VariantGetResponse object {id, editable, value, modified\_on }
 
-- `value: "on" or "off"`
+</summary>
 
-  Enable or disable the Smart Tiered Cache.
+id: "variants"
 
-  - `"on"`
+The identifier of the caching setting.
 
-  - `"off"`
+<a href="#">Link to this property</a>
 
-### Returns
+editable: boolean
 
-- `errors: array of ResponseInfo`
+Whether the setting is editable.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+value: object {avif, bmp, gif, 8 more }
 
-    - `pointer: optional string`
+Value of the zone setting.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+avif: optional array of string
 
-  - `message: string`
+List of strings with the MIME types of all the variants that should be served for avif.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+bmp: optional array of string
 
-- `success: true`
+List of strings with the MIME types of all the variants that should be served for bmp.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+gif: optional array of string
 
-- `result: optional object { id, editable, value, modified_on }`
+List of strings with the MIME types of all the variants that should be served for gif.
 
-  - `id: "tiered_cache_smart_topology_enable"`
+<a href="#">Link to this property</a>
 
-    The identifier of the caching setting.
+jp2: optional array of string
 
-    - `"tiered_cache_smart_topology_enable"`
+List of strings with the MIME types of all the variants that should be served for jp2.
 
-  - `editable: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the setting is editable.
+jpeg: optional array of string
 
-  - `value: "on" or "off"`
+List of strings with the MIME types of all the variants that should be served for jpeg.
 
-    Value of the Smart Tiered Cache zone setting.
+<a href="#">Link to this property</a>
 
-    - `"on"`
+jpg: optional array of string
 
-    - `"off"`
+List of strings with the MIME types of all the variants that should be served for jpg.
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time this setting was modified.
+jpg2: optional array of string
 
-### Example
+List of strings with the MIME types of all the variants that should be served for jpg2.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/tiered_cache_smart_topology_enable \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+png: optional array of string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_cache_smart_topology_enable",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+List of strings with the MIME types of all the variants that should be served for png.
 
-## Patch Smart Tiered Cache setting
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/cache/tiered_cache_smart_topology_enable`
+tif: optional array of string
 
-Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin.
+List of strings with the MIME types of all the variants that should be served for tif.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+tiff: optional array of string
 
-  Identifier.
+List of strings with the MIME types of all the variants that should be served for tiff.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `value: "on" or "off"`
+webp: optional array of string
 
-  Enable or disable the Smart Tiered Cache.
+List of strings with the MIME types of all the variants that should be served for webp.
 
-  - `"on"`
+<a href="#">Link to this property</a>
 
-  - `"off"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+modified\_on: optional string
 
-  - `code: number`
+Last time this setting was modified.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20cache.variants%20%3E%20(model)%20variant_get_response%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+VariantEditResponse object {id, editable, value, modified\_on }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: "variants"
 
-- `success: true`
+The identifier of the caching setting.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+editable: boolean
 
-- `result: optional object { id, editable, value, modified_on }`
+Whether the setting is editable.
 
-  - `id: "tiered_cache_smart_topology_enable"`
+<a href="#">Link to this property</a>
 
-    The identifier of the caching setting.
+<details>
 
-    - `"tiered_cache_smart_topology_enable"`
+<summary>
 
-  - `editable: boolean`
+value: object {avif, bmp, gif, 8 more }
 
-    Whether the setting is editable.
+Value of the zone setting.
 
-  - `value: "on" or "off"`
+</summary>
 
-    Value of the Smart Tiered Cache zone setting.
+avif: optional array of string
 
-    - `"on"`
+List of strings with the MIME types of all the variants that should be served for avif.
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+bmp: optional array of string
 
-    Last time this setting was modified.
+List of strings with the MIME types of all the variants that should be served for bmp.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/tiered_cache_smart_topology_enable \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
+gif: optional array of string
 
-#### Response
+List of strings with the MIME types of all the variants that should be served for gif.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_cache_smart_topology_enable",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete Smart Tiered Cache setting
+jp2: optional array of string
 
-**delete** `/zones/{zone_id}/cache/tiered_cache_smart_topology_enable`
+List of strings with the MIME types of all the variants that should be served for jp2.
 
-Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+jpeg: optional array of string
 
-- `zone_id: string`
+List of strings with the MIME types of all the variants that should be served for jpeg.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+jpg: optional array of string
 
-- `errors: array of ResponseInfo`
+List of strings with the MIME types of all the variants that should be served for jpg.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+jpg2: optional array of string
 
-  - `documentation_url: optional string`
+List of strings with the MIME types of all the variants that should be served for jpg2.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+png: optional array of string
 
-- `messages: array of ResponseInfo`
+List of strings with the MIME types of all the variants that should be served for png.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+tif: optional array of string
 
-  - `documentation_url: optional string`
+List of strings with the MIME types of all the variants that should be served for tif.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+tiff: optional array of string
 
-  Whether the API call was successful.
+List of strings with the MIME types of all the variants that should be served for tiff.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, editable, modified_on }`
+webp: optional array of string
 
-  - `id: "tiered_cache_smart_topology_enable"`
+List of strings with the MIME types of all the variants that should be served for webp.
 
-    The identifier of the caching setting.
+<a href="#">Link to this property</a>
 
-    - `"tiered_cache_smart_topology_enable"`
+</details>
 
-  - `editable: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the setting is editable.
+modified\_on: optional string
 
-  - `modified_on: optional string`
+Last time this setting was modified.
 
-    Last time this setting was modified.
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/tiered_cache_smart_topology_enable \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20cache.variants%20%3E%20(model)%20variant_edit_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_cache_smart_topology_enable",
-    "editable": true,
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Smart Tiered Cache Get Response
+VariantDeleteResponse object {id, editable, modified\_on }
 
-- `SmartTieredCacheGetResponse object { id, editable, value, modified_on }`
+</summary>
 
-  - `id: "tiered_cache_smart_topology_enable"`
+id: "variants"
 
-    The identifier of the caching setting.
+The identifier of the caching setting.
 
-    - `"tiered_cache_smart_topology_enable"`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+editable: boolean
 
-    Whether the setting is editable.
+Whether the setting is editable.
 
-  - `value: "on" or "off"`
+<a href="#">Link to this property</a>
 
-    Value of the Smart Tiered Cache zone setting.
+modified\_on: optional string
 
-    - `"on"`
+Last time this setting was modified.
 
-    - `"off"`
+formatdate-time
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time this setting was modified.
+</details>
 
-### Smart Tiered Cache Create Response
+[Link to this property](#)%20cache.variants%20%3E%20(model)%20variant_delete_response%20%3E%20(schema)>)
 
-- `SmartTieredCacheCreateResponse object { id, editable, value, modified_on }`
+#### CacheRegional Tiered Cache
 
-  - `id: "tiered_cache_smart_topology_enable"`
+##### [Get Regional Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/regional_tiered_cache/methods/get)
 
-    The identifier of the caching setting.
+GET/zones/{zone\_id}/cache/regional\_tiered\_cache
 
-    - `"tiered_cache_smart_topology_enable"`
+##### [Change Regional Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/regional_tiered_cache/methods/edit)
 
-  - `editable: boolean`
+PATCH/zones/{zone\_id}/cache/regional\_tiered\_cache
 
-    Whether the setting is editable.
+##### ModelsExpand Collapse
 
-  - `value: "on" or "off"`
+RegionalTieredCache = "tc\_regional"
 
-    Value of the Smart Tiered Cache zone setting.
+The identifier of the caching setting.
 
-    - `"on"`
+[Link to this property](#)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache%20%3E%20(schema)>)
 
-    - `"off"`
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-    Last time this setting was modified.
+RegionalTieredCacheGetResponse object {id, editable, value, modified\_on }
 
-### Smart Tiered Cache Edit Response
+</summary>
 
-- `SmartTieredCacheEditResponse object { id, editable, value, modified_on }`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache%20%3E%20(schema)">RegionalTieredCache</a>
 
-  - `id: "tiered_cache_smart_topology_enable"`
+The identifier of the caching setting.
 
-    The identifier of the caching setting.
+<a href="#">Link to this property</a>
 
-    - `"tiered_cache_smart_topology_enable"`
+editable: boolean
 
-  - `editable: boolean`
+Whether the setting is editable.
 
-    Whether the setting is editable.
+<a href="#">Link to this property</a>
 
-  - `value: "on" or "off"`
+<details>
 
-    Value of the Smart Tiered Cache zone setting.
+<summary>
 
-    - `"on"`
+value: "on"or "off"
 
-    - `"off"`
+Value of the Regional Tiered Cache zone setting.
 
-  - `modified_on: optional string`
+</summary>
 
-    Last time this setting was modified.
+One of the following:
 
-### Smart Tiered Cache Delete Response
+"on"
 
-- `SmartTieredCacheDeleteResponse object { id, editable, modified_on }`
+<a href="#">Link to this property</a>
 
-  - `id: "tiered_cache_smart_topology_enable"`
+"off"
 
-    The identifier of the caching setting.
+<a href="#">Link to this property</a>
 
-    - `"tiered_cache_smart_topology_enable"`
+</details>
 
-  - `editable: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the setting is editable.
+modified\_on: optional string
 
-  - `modified_on: optional string`
+Last time this setting was modified.
 
-    Last time this setting was modified.
+formatdate-time
 
-# Variants
+<a href="#">Link to this property</a>
 
-## Get variants setting
+</details>
 
-**get** `/zones/{zone_id}/cache/variants`
+[Link to this property](#)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache_get_response%20%3E%20(schema)>)
 
-Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the 'Vary: Accept' response header. If the origin server sends 'Vary: Accept' but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+RegionalTieredCacheEditResponse object {id, editable, value, modified\_on }
 
-  Identifier.
+</summary>
 
-### Returns
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache%20%3E%20(schema)">RegionalTieredCache</a>
 
-- `errors: array of ResponseInfo`
+The identifier of the caching setting.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+editable: boolean
 
-  - `documentation_url: optional string`
+Whether the setting is editable.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+value: "on"or "off"
 
-  - `message: string`
+Value of the Regional Tiered Cache zone setting.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-- `success: true`
+"on"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"off"
 
-- `result: optional object { id, editable, value, modified_on }`
+<a href="#">Link to this property</a>
 
-  - `id: "variants"`
+</details>
 
-    The identifier of the caching setting.
+<a href="#">Link to this property</a>
 
-    - `"variants"`
+modified\_on: optional string
 
-  - `editable: boolean`
+Last time this setting was modified.
 
-    Whether the setting is editable.
+formatdate-time
 
-  - `value: object { avif, bmp, gif, 8 more }`
+<a href="#">Link to this property</a>
 
-    Value of the zone setting.
+</details>
 
-    - `avif: optional array of string`
+[Link to this property](#)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache_edit_response%20%3E%20(schema)>)
 
-      List of strings with the MIME types of all the variants that should be served for avif.
+#### CacheOrigin Cloud Regions
 
-    - `bmp: optional array of string`
+##### [List origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/list)
 
-      List of strings with the MIME types of all the variants that should be served for bmp.
+GET/zones/{zone\_id}/origin/cloud\_regions
 
-    - `gif: optional array of string`
+##### [Get an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/get)
 
-      List of strings with the MIME types of all the variants that should be served for gif.
+GET/zones/{zone\_id}/origin/cloud\_regions/{origin\_ip}
 
-    - `jp2: optional array of string`
+##### [Create or replace an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/update)
 
-      List of strings with the MIME types of all the variants that should be served for jp2.
+PUT/zones/{zone\_id}/origin/cloud\_regions/{origin\_ip}
 
-    - `jpeg: optional array of string`
+##### [Delete an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/delete)
 
-      List of strings with the MIME types of all the variants that should be served for jpeg.
+DELETE/zones/{zone\_id}/origin/cloud\_regions/{origin\_ip}
 
-    - `jpg: optional array of string`
+##### [Batch create or replace origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/bulk_update)
 
-      List of strings with the MIME types of all the variants that should be served for jpg.
+PUT/zones/{zone\_id}/origin/cloud\_regions/batch
 
-    - `jpg2: optional array of string`
+##### [Batch delete origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/bulk_delete)
 
-      List of strings with the MIME types of all the variants that should be served for jpg2.
+DELETE/zones/{zone\_id}/origin/cloud\_regions/batch
 
-    - `png: optional array of string`
+##### [List supported cloud vendors and regions](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/supported_regions)
 
-      List of strings with the MIME types of all the variants that should be served for png.
+GET/zones/{zone\_id}/origin/cloud\_regions/supported\_regions
 
-    - `tif: optional array of string`
+##### [List origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/list_v1)
 
-      List of strings with the MIME types of all the variants that should be served for tif.
+Deprecated
 
-    - `tiff: optional array of string`
+GET/zones/{zone\_id}/cache/origin\_cloud\_regions
 
-      List of strings with the MIME types of all the variants that should be served for tiff.
+##### [Create an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/create_v1)
 
-    - `webp: optional array of string`
+Deprecated
 
-      List of strings with the MIME types of all the variants that should be served for webp.
+POST/zones/{zone\_id}/cache/origin\_cloud\_regions
 
-  - `modified_on: optional string`
+##### [Create or update an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/edit_v1)
 
-    Last time this setting was modified.
+Deprecated
 
-### Example
+PATCH/zones/{zone\_id}/cache/origin\_cloud\_regions
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/variants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Get an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/get_v1)
 
-#### Response
+Deprecated
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "variants",
-    "editable": true,
-    "value": {
-      "avif": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "bmp": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "gif": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "jp2": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpeg": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpg": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpg2": [
-        "image/webp",
-        "image/avif"
-      ],
-      "png": [
-        "image/webp",
-        "image/avif"
-      ],
-      "tif": [
-        "image/webp",
-        "image/avif"
-      ],
-      "tiff": [
-        "image/webp",
-        "image/avif"
-      ],
-      "webp": [
-        "image/jpeg",
-        "image/avif"
-      ]
-    },
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+GET/zones/{zone\_id}/cache/origin\_cloud\_regions/{origin\_ip}
 
-## Change variants setting
+##### [Delete an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/delete_v1)
 
-**patch** `/zones/{zone_id}/cache/variants`
+Deprecated
 
-Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the 'Vary: Accept' response header. If the origin server sends 'Vary: Accept' but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
+DELETE/zones/{zone\_id}/cache/origin\_cloud\_regions/{origin\_ip}
 
-### Path Parameters
+##### [Batch create or update origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/bulk_edit_v1)
 
-- `zone_id: string`
+Deprecated
 
-  Identifier.
+PATCH/zones/{zone\_id}/cache/origin\_cloud\_regions/batch
 
-### Body Parameters
+##### [Batch delete origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/bulk_delete_v1)
 
-- `value: object { avif, bmp, gif, 8 more }`
+Deprecated
 
-  Value of the zone setting.
+DELETE/zones/{zone\_id}/cache/origin\_cloud\_regions/batch
 
-  - `avif: optional array of string`
+##### [List supported cloud vendors and regions](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/supported_regions_v1)
 
-    List of strings with the MIME types of all the variants that should be served for avif.
+Deprecated
 
-  - `bmp: optional array of string`
+GET/zones/{zone\_id}/cache/origin\_cloud\_regions/supported\_regions
 
-    List of strings with the MIME types of all the variants that should be served for bmp.
+##### ModelsExpand Collapse
 
-  - `gif: optional array of string`
+<details>
 
-    List of strings with the MIME types of all the variants that should be served for gif.
+<summary>
 
-  - `jp2: optional array of string`
+OriginCloudRegion object {origin\_ip, region, vendor, modified\_on }
 
-    List of strings with the MIME types of all the variants that should be served for jp2.
+A single origin IP-to-cloud-region mapping.
 
-  - `jpeg: optional array of string`
+</summary>
 
-    List of strings with the MIME types of all the variants that should be served for jpeg.
+origin\_ip: string
 
-  - `jpg: optional array of string`
+The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
 
-    List of strings with the MIME types of all the variants that should be served for jpg.
+<a href="#">Link to this property</a>
 
-  - `jpg2: optional array of string`
+region: string
 
-    List of strings with the MIME types of all the variants that should be served for jpg2.
+Cloud vendor region identifier.
 
-  - `png: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of strings with the MIME types of all the variants that should be served for png.
+<details>
 
-  - `tif: optional array of string`
+<summary>
 
-    List of strings with the MIME types of all the variants that should be served for tif.
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-  - `tiff: optional array of string`
+Cloud vendor hosting the origin.
 
-    List of strings with the MIME types of all the variants that should be served for tiff.
+</summary>
 
-  - `webp: optional array of string`
+One of the following:
 
-    List of strings with the MIME types of all the variants that should be served for webp.
+"aws"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"azure"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"gcp"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"oci"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: optional string
 
-  - `documentation_url: optional string`
+Time this mapping was last modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region%20%3E%20(schema)>)
 
-- `result: optional object { id, editable, value, modified_on }`
+<details>
 
-  - `id: "variants"`
+<summary>
 
-    The identifier of the caching setting.
+OriginCloudRegionDeleteResponse object {origin\_ip }
 
-    - `"variants"`
+Response result for a delete operation. Identifies the deleted mapping.
 
-  - `editable: boolean`
+</summary>
 
-    Whether the setting is editable.
+origin\_ip: string
 
-  - `value: object { avif, bmp, gif, 8 more }`
+The origin IP address whose mapping was deleted.
 
-    Value of the zone setting.
+<a href="#">Link to this property</a>
 
-    - `avif: optional array of string`
+</details>
 
-      List of strings with the MIME types of all the variants that should be served for avif.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_delete_response%20%3E%20(schema)>)
 
-    - `bmp: optional array of string`
+<details>
 
-      List of strings with the MIME types of all the variants that should be served for bmp.
+<summary>
 
-    - `gif: optional array of string`
+OriginCloudRegionBulkUpdateResponse object {failed, succeeded }
 
-      List of strings with the MIME types of all the variants that should be served for gif.
+Response result for a batch origin cloud region operation.
 
-    - `jp2: optional array of string`
+</summary>
 
-      List of strings with the MIME types of all the variants that should be served for jp2.
+<details>
 
-    - `jpeg: optional array of string`
+<summary>
 
-      List of strings with the MIME types of all the variants that should be served for jpeg.
+failed: array of object {origin\_ip, error, region, vendor }
 
-    - `jpg: optional array of string`
+Items that could not be applied, with error details.
 
-      List of strings with the MIME types of all the variants that should be served for jpg.
+</summary>
 
-    - `jpg2: optional array of string`
+origin\_ip: string
 
-      List of strings with the MIME types of all the variants that should be served for jpg2.
+The origin IP address for this item.
 
-    - `png: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for png.
+error: optional string
 
-    - `tif: optional array of string`
+Error message explaining why the item failed. Present only on failed items.
 
-      List of strings with the MIME types of all the variants that should be served for tif.
+<a href="#">Link to this property</a>
 
-    - `tiff: optional array of string`
+region: optional string
 
-      List of strings with the MIME types of all the variants that should be served for tiff.
+Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-    - `webp: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for webp.
+vendor: optional string
 
-  - `modified_on: optional string`
+Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-    Last time this setting was modified.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/variants \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": {}
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "variants",
-    "editable": true,
-    "value": {
-      "avif": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "bmp": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "gif": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "jp2": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpeg": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpg": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpg2": [
-        "image/webp",
-        "image/avif"
-      ],
-      "png": [
-        "image/webp",
-        "image/avif"
-      ],
-      "tif": [
-        "image/webp",
-        "image/avif"
-      ],
-      "tiff": [
-        "image/webp",
-        "image/avif"
-      ],
-      "webp": [
-        "image/jpeg",
-        "image/avif"
-      ]
-    },
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<summary>
 
-## Delete variants setting
+succeeded: array of object {origin\_ip, error, region, vendor }
 
-**delete** `/zones/{zone_id}/cache/variants`
+Items that were successfully applied.
 
-Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the 'Vary: Accept' response header. If the origin server sends 'Vary: Accept' but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
+</summary>
 
-### Path Parameters
+origin\_ip: string
 
-- `zone_id: string`
+The origin IP address for this item.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+error: optional string
 
-- `errors: array of ResponseInfo`
+Error message explaining why the item failed. Present only on failed items.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+region: optional string
 
-  - `documentation_url: optional string`
+Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+vendor: optional string
 
-- `messages: array of ResponseInfo`
+Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `success: true`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_bulk_update_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id, editable, modified_on }`
+OriginCloudRegionBulkDeleteResponse object {failed, succeeded }
 
-  - `id: "variants"`
+Response result for a batch origin cloud region operation.
 
-    The identifier of the caching setting.
+</summary>
 
-    - `"variants"`
+<details>
 
-  - `editable: boolean`
+<summary>
 
-    Whether the setting is editable.
+failed: array of object {origin\_ip, error, region, vendor }
 
-  - `modified_on: optional string`
+Items that could not be applied, with error details.
 
-    Last time this setting was modified.
+</summary>
 
-### Example
+origin\_ip: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/variants \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The origin IP address for this item.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "variants",
-    "editable": true,
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+error: optional string
 
-## Domain Types
+Error message explaining why the item failed. Present only on failed items.
 
-### Cache Variant
+<a href="#">Link to this property</a>
 
-- `CacheVariant object { id, modified_on }`
+region: optional string
 
-  Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the 'Vary: Accept' response header. If the origin server sends 'Vary: Accept' but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
+Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-  - `id: "variants"`
+<a href="#">Link to this property</a>
 
-    ID of the zone setting.
+vendor: optional string
 
-    - `"variants"`
+Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time this setting was modified.
+</details>
 
-### Variant Get Response
+<a href="#">Link to this property</a>
 
-- `VariantGetResponse object { id, editable, value, modified_on }`
+<details>
 
-  - `id: "variants"`
+<summary>
 
-    The identifier of the caching setting.
+succeeded: array of object {origin\_ip, error, region, vendor }
 
-    - `"variants"`
+Items that were successfully applied.
 
-  - `editable: boolean`
+</summary>
 
-    Whether the setting is editable.
+origin\_ip: string
 
-  - `value: object { avif, bmp, gif, 8 more }`
+The origin IP address for this item.
 
-    Value of the zone setting.
+<a href="#">Link to this property</a>
 
-    - `avif: optional array of string`
+error: optional string
 
-      List of strings with the MIME types of all the variants that should be served for avif.
+Error message explaining why the item failed. Present only on failed items.
 
-    - `bmp: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for bmp.
+region: optional string
 
-    - `gif: optional array of string`
+Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-      List of strings with the MIME types of all the variants that should be served for gif.
+<a href="#">Link to this property</a>
 
-    - `jp2: optional array of string`
+vendor: optional string
 
-      List of strings with the MIME types of all the variants that should be served for jp2.
+Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-    - `jpeg: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for jpeg.
+</details>
 
-    - `jpg: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for jpg.
+</details>
 
-    - `jpg2: optional array of string`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_bulk_delete_response%20%3E%20(schema)>)
 
-      List of strings with the MIME types of all the variants that should be served for jpg2.
+<details>
 
-    - `png: optional array of string`
+<summary>
 
-      List of strings with the MIME types of all the variants that should be served for png.
+OriginCloudRegionSupportedRegionsResponse object {obtained\_codes, vendors }
 
-    - `tif: optional array of string`
+Cloud vendors and their supported regions for origin cloud region mappings.
 
-      List of strings with the MIME types of all the variants that should be served for tif.
+</summary>
 
-    - `tiff: optional array of string`
+obtained\_codes: boolean
 
-      List of strings with the MIME types of all the variants that should be served for tiff.
+Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the <code>upper_tier_colos</code> field on each region. When <code>false</code>, the <code>upper_tier_colos</code> arrays may be empty or incomplete.
 
-    - `webp: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for webp.
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-    Last time this setting was modified.
+vendors: map\[array of object {name, upper\_tier\_colos } ]
 
-### Variant Edit Response
+Map of vendor name to list of supported regions.
 
-- `VariantEditResponse object { id, editable, value, modified_on }`
+</summary>
 
-  - `id: "variants"`
+name: string
 
-    The identifier of the caching setting.
+Cloud vendor region identifier.
 
-    - `"variants"`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+upper\_tier\_colos: array of string
 
-    Whether the setting is editable.
+Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
 
-  - `value: object { avif, bmp, gif, 8 more }`
+<a href="#">Link to this property</a>
 
-    Value of the zone setting.
+</details>
 
-    - `avif: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for avif.
+</details>
 
-    - `bmp: optional array of string`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_supported_regions_response%20%3E%20(schema)>)
 
-      List of strings with the MIME types of all the variants that should be served for bmp.
+<details>
 
-    - `gif: optional array of string`
+<summary>
 
-      List of strings with the MIME types of all the variants that should be served for gif.
+OriginCloudRegionListV1Response object {id, editable, value, modified\_on }
 
-    - `jp2: optional array of string`
+Response result for a list of origin cloud region mappings.
 
-      List of strings with the MIME types of all the variants that should be served for jp2.
+</summary>
 
-    - `jpeg: optional array of string`
+id: "origin\_public\_cloud\_region"
 
-      List of strings with the MIME types of all the variants that should be served for jpeg.
+<a href="#">Link to this property</a>
 
-    - `jpg: optional array of string`
+editable: boolean
 
-      List of strings with the MIME types of all the variants that should be served for jpg.
+Whether the setting can be modified by the current user.
 
-    - `jpg2: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for jpg2.
+<details>
 
-    - `png: optional array of string`
+<summary>
 
-      List of strings with the MIME types of all the variants that should be served for png.
+value: array of object {"origin-ip", region, vendor, modified\_on }
 
-    - `tif: optional array of string`
+</summary>
 
-      List of strings with the MIME types of all the variants that should be served for tif.
+"origin-ip": string
 
-    - `tiff: optional array of string`
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-      List of strings with the MIME types of all the variants that should be served for tiff.
+<a href="#">Link to this property</a>
 
-    - `webp: optional array of string`
+region: string
 
-      List of strings with the MIME types of all the variants that should be served for webp.
+Cloud vendor region identifier.
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time this setting was modified.
+<details>
 
-### Variant Delete Response
+<summary>
 
-- `VariantDeleteResponse object { id, editable, modified_on }`
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-  - `id: "variants"`
+Cloud vendor hosting the origin.
 
-    The identifier of the caching setting.
+</summary>
 
-    - `"variants"`
+One of the following:
 
-  - `editable: boolean`
+"aws"
 
-    Whether the setting is editable.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+"azure"
 
-    Last time this setting was modified.
+<a href="#">Link to this property</a>
 
-# Regional Tiered Cache
+"gcp"
 
-## Get Regional Tiered Cache setting
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/cache/regional_tiered_cache`
+"oci"
 
-Instructs Cloudflare to check a regional hub data center on the way to your upper tier. This can help improve performance for smart and custom tiered cache topologies.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+modified\_on: optional string
 
-### Returns
+Time this mapping was last modified.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_on: optional string
 
-    - `pointer: optional string`
+Time the mapping set was last modified. Null when no mappings exist.
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_list_v1_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+OriginCloudRegionCreateV1Response object {id, editable, value, modified\_on }
 
-  - `true`
+Response result for a single origin cloud region mapping.
 
-- `result: optional object { id, editable, value, modified_on }`
+</summary>
 
-  - `id: RegionalTieredCache`
+id: "origin\_public\_cloud\_region"
 
-    The identifier of the caching setting.
+<a href="#">Link to this property</a>
 
-    - `"tc_regional"`
+editable: boolean
 
-  - `editable: boolean`
+Whether the setting can be modified by the current user.
 
-    Whether the setting is editable.
+<a href="#">Link to this property</a>
 
-  - `value: "on" or "off"`
+<details>
 
-    Value of the Regional Tiered Cache zone setting.
+<summary>
 
-    - `"on"`
+value: object {"origin-ip", region, vendor, modified\_on }
 
-    - `"off"`
+A single origin IP-to-cloud-region mapping.
 
-  - `modified_on: optional string`
+</summary>
 
-    Last time this setting was modified.
+"origin-ip": string
 
-### Example
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/regional_tiered_cache \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+region: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tc_regional",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Cloud vendor region identifier.
 
-## Change Regional Tiered Cache setting
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/cache/regional_tiered_cache`
+<details>
 
-Instructs Cloudflare to check a regional hub data center on the way to your upper tier. This can help improve performance for smart and custom tiered cache topologies.
+<summary>
 
-### Path Parameters
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-- `zone_id: string`
+Cloud vendor hosting the origin.
 
-  Identifier.
+</summary>
 
-### Body Parameters
+One of the following:
 
-- `value: "on" or "off"`
+"aws"
 
-  Value of the Regional Tiered Cache zone setting.
+<a href="#">Link to this property</a>
 
-  - `"on"`
+"azure"
 
-  - `"off"`
+<a href="#">Link to this property</a>
 
-### Returns
+"gcp"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"oci"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+modified\_on: optional string
 
-- `messages: array of ResponseInfo`
+Time this mapping was last modified.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+modified\_on: optional string
 
-  Whether the API call was successful.
+Time the mapping was last modified.
 
-  - `true`
+formatdate-time
 
-- `result: optional object { id, editable, value, modified_on }`
+<a href="#">Link to this property</a>
 
-  - `id: RegionalTieredCache`
+</details>
 
-    The identifier of the caching setting.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_create_v1_response%20%3E%20(schema)>)
 
-    - `"tc_regional"`
+<details>
 
-  - `editable: boolean`
+<summary>
 
-    Whether the setting is editable.
+OriginCloudRegionEditV1Response object {id, editable, value, modified\_on }
 
-  - `value: "on" or "off"`
+Response result for a list of origin cloud region mappings.
 
-    Value of the Regional Tiered Cache zone setting.
+</summary>
 
-    - `"on"`
+id: "origin\_public\_cloud\_region"
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+editable: boolean
 
-    Last time this setting was modified.
+Whether the setting can be modified by the current user.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/regional_tiered_cache \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tc_regional",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+value: array of object {"origin-ip", region, vendor, modified\_on }
 
-## Domain Types
+</summary>
 
-### Regional Tiered Cache
+"origin-ip": string
 
-- `RegionalTieredCache = "tc_regional"`
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-  The identifier of the caching setting.
+<a href="#">Link to this property</a>
 
-  - `"tc_regional"`
+region: string
 
-### Regional Tiered Cache Get Response
+Cloud vendor region identifier.
 
-- `RegionalTieredCacheGetResponse object { id, editable, value, modified_on }`
+<a href="#">Link to this property</a>
 
-  - `id: RegionalTieredCache`
+<details>
 
-    The identifier of the caching setting.
+<summary>
 
-    - `"tc_regional"`
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-  - `editable: boolean`
+Cloud vendor hosting the origin.
 
-    Whether the setting is editable.
+</summary>
 
-  - `value: "on" or "off"`
+One of the following:
 
-    Value of the Regional Tiered Cache zone setting.
+"aws"
 
-    - `"on"`
+<a href="#">Link to this property</a>
 
-    - `"off"`
+"azure"
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time this setting was modified.
+"gcp"
 
-### Regional Tiered Cache Edit Response
+<a href="#">Link to this property</a>
 
-- `RegionalTieredCacheEditResponse object { id, editable, value, modified_on }`
+"oci"
 
-  - `id: RegionalTieredCache`
+<a href="#">Link to this property</a>
 
-    The identifier of the caching setting.
+</details>
 
-    - `"tc_regional"`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+modified\_on: optional string
 
-    Whether the setting is editable.
+Time this mapping was last modified.
 
-  - `value: "on" or "off"`
+formatdate-time
 
-    Value of the Regional Tiered Cache zone setting.
+<a href="#">Link to this property</a>
 
-    - `"on"`
+</details>
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+modified\_on: optional string
 
-    Last time this setting was modified.
+Time the mapping set was last modified. Null when no mappings exist.
 
-# Origin Cloud Regions
+formatdate-time
 
-## List origin cloud region mappings
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/origin/cloud_regions`
+</details>
 
-Returns all IP-to-cloud-region mappings configured for the zone with pagination support. Each mapping tells Cloudflare which cloud vendor and region hosts the origin at that IP, enabling the edge to route via the nearest Tiered Cache upper-tier co-located with that cloud provider. Returns an empty array when no mappings exist.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_edit_v1_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+OriginCloudRegionGetV1Response object {id, editable, value, modified\_on }
 
-### Query Parameters
+Response result for a single origin cloud region mapping.
 
-- `page: optional number`
+</summary>
 
-  Page number of paginated results.
+id: "origin\_public\_cloud\_region"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of items per page.
+editable: boolean
 
-### Returns
+Whether the setting can be modified by the current user.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+value: object {"origin-ip", region, vendor, modified\_on }
 
-  - `source: optional object { pointer }`
+A single origin IP-to-cloud-region mapping.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+"origin-ip": string
 
-  - `code: number`
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+region: string
 
-  - `source: optional object { pointer }`
+Cloud vendor region identifier.
 
-- `result: array of OriginCloudRegion`
+<a href="#">Link to this property</a>
 
-  - `origin_ip: string`
+<details>
 
-    The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
+<summary>
 
-  - `region: string`
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-    Cloud vendor region identifier.
+Cloud vendor hosting the origin.
 
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
+</summary>
 
-    Cloud vendor hosting the origin.
+One of the following:
 
-    - `"aws"`
+"aws"
 
-    - `"azure"`
+<a href="#">Link to this property</a>
 
-    - `"gcp"`
+"azure"
 
-    - `"oci"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+"gcp"
 
-    Time this mapping was last modified.
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, 2 more }`
+"oci"
 
-  Pagination metadata for list responses.
+<a href="#">Link to this property</a>
 
-  - `count: number`
+</details>
 
-    Number of items returned in this response.
+<a href="#">Link to this property</a>
 
-  - `page: number`
+modified\_on: optional string
 
-    Current page number.
+Time this mapping was last modified.
 
-  - `per_page: number`
+formatdate-time
 
-    Number of items per page.
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+</details>
 
-    Total number of mappings configured for the zone.
+<a href="#">Link to this property</a>
 
-  - `total_pages: number`
+modified\_on: optional string
 
-    Total number of pages.
+Time the mapping was last modified.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_get_v1_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": [],
-  "result_info": {
-    "count": 0,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 0,
-    "total_pages": 0
-  },
-  "success": true
-}
-```
+OriginCloudRegionDeleteV1Response object {id, editable, value, modified\_on }
 
-## Get an origin cloud region mapping
+Response result for a single origin cloud region mapping.
 
-**get** `/zones/{zone_id}/origin/cloud_regions/{origin_ip}`
+</summary>
 
-Returns the cloud region mapping for a single origin IP address. The IP path parameter is normalized before lookup (RFC 5952 for IPv6). Returns 404 if the zone has no mappings or if the specified IP has no mapping.
+id: "origin\_public\_cloud\_region"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+editable: boolean
 
-  Identifier.
+Whether the setting can be modified by the current user.
 
-- `origin_ip: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+value: object {"origin-ip", region, vendor, modified\_on }
 
-  - `message: string`
+A single origin IP-to-cloud-region mapping.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+"origin-ip": string
 
-    - `pointer: optional string`
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+region: string
 
-  - `message: string`
+Cloud vendor region identifier.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-  - `true`
+Cloud vendor hosting the origin.
 
-- `result: optional OriginCloudRegion`
+</summary>
 
-  A single origin IP-to-cloud-region mapping.
+One of the following:
 
-  - `origin_ip: string`
+"aws"
 
-    The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
+<a href="#">Link to this property</a>
 
-  - `region: string`
+"azure"
 
-    Cloud vendor region identifier.
+<a href="#">Link to this property</a>
 
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
+"gcp"
 
-    Cloud vendor hosting the origin.
+<a href="#">Link to this property</a>
 
-    - `"aws"`
+"oci"
 
-    - `"azure"`
+<a href="#">Link to this property</a>
 
-    - `"gcp"`
+</details>
 
-    - `"oci"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+modified\_on: optional string
 
-    Time this mapping was last modified.
+Time this mapping was last modified.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/$ORIGIN_IP \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "modified_on": "2026-03-01T12:00:00Z",
-    "origin_ip": "192.0.2.1",
-    "region": "us-east-1",
-    "vendor": "aws"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create or replace an origin cloud region mapping
+modified\_on: optional string
 
-**put** `/zones/{zone_id}/origin/cloud_regions/{origin_ip}`
+Time the mapping was last modified.
 
-Creates a new IP-to-cloud-region mapping or replaces the existing mapping for the specified IP. PUT is idempotent — calling it repeatedly with the same body produces the same result. The IP path parameter is normalized to canonical form (RFC 5952 for IPv6) before storage. The vendor and region are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`. Returns 400 if the `origin_ip` in the body does not match the URL path parameter. Returns 403 (code 1164) when the zone has reached the limit of 3,500 IP mappings.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_delete_v1_response%20%3E%20(schema)>)
 
-- `origin_ip: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `origin_ip: string`
+OriginCloudRegionBulkEditV1Response object {id, editable, value, modified\_on }
 
-  Origin IP address (IPv4 or IPv6). For the single PUT endpoint (`PUT /origin/cloud_regions/{origin_ip}`), this field must match the path parameter or the request will be rejected with a 400 error. For the batch PUT endpoint, this field identifies which mapping to upsert.
+Response result for a batch origin cloud region operation.
 
-- `region: string`
+</summary>
 
-  Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
+id: "origin\_public\_cloud\_region"
 
-- `vendor: "aws" or "azure" or "gcp" or "oci"`
+<a href="#">Link to this property</a>
 
-  Cloud vendor hosting the origin. Must be one of the supported vendors.
+editable: boolean
 
-  - `"aws"`
+Whether the setting can be modified by the current user.
 
-  - `"azure"`
+<a href="#">Link to this property</a>
 
-  - `"gcp"`
+<details>
 
-  - `"oci"`
+<summary>
 
-### Returns
+value: object {failed, succeeded }
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+failed: array of object {"origin-ip", error, region, vendor }
 
-  - `source: optional object { pointer }`
+Items that could not be applied, with error details.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+"origin-ip": string
 
-  - `code: number`
+The origin IP address for this item.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+error: optional string
 
-  - `source: optional object { pointer }`
+Error message explaining why the item failed. Present only on failed items.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+region: optional string
 
-  - `true`
+Cloud vendor region identifier. Present on succeeded items for patch operations.
 
-- `result: optional OriginCloudRegion`
+<a href="#">Link to this property</a>
 
-  A single origin IP-to-cloud-region mapping.
+vendor: optional string
 
-  - `origin_ip: string`
+Cloud vendor identifier. Present on succeeded items for patch operations.
 
-    The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
+<a href="#">Link to this property</a>
 
-  - `region: string`
+</details>
 
-    Cloud vendor region identifier.
+<a href="#">Link to this property</a>
 
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
+<details>
 
-    Cloud vendor hosting the origin.
+<summary>
 
-    - `"aws"`
+succeeded: array of object {"origin-ip", error, region, vendor }
 
-    - `"azure"`
+Items that were successfully applied.
 
-    - `"gcp"`
+</summary>
 
-    - `"oci"`
+"origin-ip": string
 
-  - `modified_on: optional string`
+The origin IP address for this item.
 
-    Time this mapping was last modified.
+<a href="#">Link to this property</a>
 
-### Example
+error: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/$ORIGIN_IP \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "origin_ip": "192.0.2.1",
-          "region": "us-east-1",
-          "vendor": "aws"
-        }'
-```
+Error message explaining why the item failed. Present only on failed items.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "modified_on": "2026-03-01T12:00:00Z",
-    "origin_ip": "192.0.2.1",
-    "region": "us-east-1",
-    "vendor": "aws"
-  },
-  "success": true
-}
-```
+region: optional string
 
-## Delete an origin cloud region mapping
+Cloud vendor region identifier. Present on succeeded items for patch operations.
 
-**delete** `/zones/{zone_id}/origin/cloud_regions/{origin_ip}`
+<a href="#">Link to this property</a>
 
-Removes the cloud region mapping for a single origin IP address. The IP path parameter is normalized before lookup. Returns the deleted IP on success. Returns 404 if no mapping exists for the specified IP. When the last mapping for the zone is removed the underlying rule record is also deleted.
+vendor: optional string
 
-### Path Parameters
+Cloud vendor identifier. Present on succeeded items for patch operations.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `origin_ip: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_on: optional string
 
-  - `message: string`
+Time the mapping set was last modified. Null when no items were successfully applied.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_bulk_edit_v1_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+OriginCloudRegionBulkDeleteV1Response object {id, editable, value, modified\_on }
 
-  - `source: optional object { pointer }`
+Response result for a batch origin cloud region operation.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: "origin\_public\_cloud\_region"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { origin_ip }`
+editable: boolean
 
-  Response result for a delete operation. Identifies the deleted mapping.
+Whether the setting can be modified by the current user.
 
-  - `origin_ip: string`
+<a href="#">Link to this property</a>
 
-    The origin IP address whose mapping was deleted.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/$ORIGIN_IP \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: object {failed, succeeded }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "origin_ip": "192.0.2.1"
-  },
-  "success": true
-}
-```
+<details>
 
-## Batch create or replace origin cloud region mappings
+<summary>
 
-**put** `/zones/{zone_id}/origin/cloud_regions/batch`
+failed: array of object {"origin-ip", error, region, vendor }
 
-Upserts up to 100 IP-to-cloud-region mappings in a single request. Items in the request body are created or replaced; mappings not included in the request body are preserved unchanged (this is a merge operation, not a full collection replacement). Each item is validated independently — valid items are applied and invalid items are returned in the `failed` array. The vendor and region for every item are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`.
+Items that could not be applied, with error details.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+"origin-ip": string
 
-  Identifier.
+The origin IP address for this item.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: array of object { origin_ip, region, vendor }`
+error: optional string
 
-  - `origin_ip: string`
+Error message explaining why the item failed. Present only on failed items.
 
-    Origin IP address (IPv4 or IPv6). For the single PUT endpoint (`PUT /origin/cloud_regions/{origin_ip}`), this field must match the path parameter or the request will be rejected with a 400 error. For the batch PUT endpoint, this field identifies which mapping to upsert.
+<a href="#">Link to this property</a>
 
-  - `region: string`
+region: optional string
 
-    Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
+Cloud vendor region identifier. Present on succeeded items for patch operations.
 
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
+<a href="#">Link to this property</a>
 
-    Cloud vendor hosting the origin. Must be one of the supported vendors.
+vendor: optional string
 
-    - `"aws"`
+Cloud vendor identifier. Present on succeeded items for patch operations.
 
-    - `"azure"`
+<a href="#">Link to this property</a>
 
-    - `"gcp"`
+</details>
 
-    - `"oci"`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+succeeded: array of object {"origin-ip", error, region, vendor }
 
-  - `message: string`
+Items that were successfully applied.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+"origin-ip": string
 
-    - `pointer: optional string`
+The origin IP address for this item.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+error: optional string
 
-  - `message: string`
+Error message explaining why the item failed. Present only on failed items.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+region: optional string
 
-- `success: true`
+Cloud vendor region identifier. Present on succeeded items for patch operations.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+vendor: optional string
 
-- `result: optional object { failed, succeeded }`
+Cloud vendor identifier. Present on succeeded items for patch operations.
 
-  Response result for a batch origin cloud region operation.
+<a href="#">Link to this property</a>
 
-  - `failed: array of object { origin_ip, error, region, vendor }`
+</details>
 
-    Items that could not be applied, with error details.
+<a href="#">Link to this property</a>
 
-    - `origin_ip: string`
+</details>
 
-      The origin IP address for this item.
+<a href="#">Link to this property</a>
 
-    - `error: optional string`
+modified\_on: optional string
 
-      Error message explaining why the item failed. Present only on failed items.
+Time the mapping set was last modified. Null when no items were successfully applied.
 
-    - `region: optional string`
+formatdate-time
 
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+<a href="#">Link to this property</a>
 
-    - `vendor: optional string`
+</details>
 
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_bulk_delete_v1_response%20%3E%20(schema)>)
 
-  - `succeeded: array of object { origin_ip, error, region, vendor }`
+<details>
 
-    Items that were successfully applied.
+<summary>
 
-    - `origin_ip: string`
+OriginCloudRegionSupportedRegionsV1Response object {obtained\_codes, vendors }
 
-      The origin IP address for this item.
+Cloud vendors and their supported regions for origin cloud region mappings.
 
-    - `error: optional string`
+</summary>
 
-      Error message explaining why the item failed. Present only on failed items.
+obtained\_codes: boolean
 
-    - `region: optional string`
+Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the <code>upper_tier_colos</code> field on each region. When <code>false</code>, the <code>upper_tier_colos</code> arrays may be empty or incomplete.
 
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+<a href="#">Link to this property</a>
 
-    - `vendor: optional string`
+<details>
 
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+<summary>
 
-### Example
+vendors: map\[array of object {name, upper\_tier\_colos } ]
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/batch \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "origin_ip": "192.0.2.1",
-            "region": "us-east-1",
-            "vendor": "aws"
-          },
-          {
-            "origin_ip": "2001:db8::1",
-            "region": "us-central1",
-            "vendor": "gcp"
-          }
-        ]'
-```
+Map of vendor name to list of supported regions.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "failed": [],
-    "succeeded": [
-      {
-        "origin_ip": "192.0.2.1",
-        "region": "us-east-1",
-        "vendor": "aws"
-      },
-      {
-        "origin_ip": "2001:db8::1",
-        "region": "us-central1",
-        "vendor": "gcp"
-      }
-    ]
-  },
-  "success": true
-}
-```
+name: string
 
-## Batch delete origin cloud region mappings
+Cloud vendor region identifier.
 
-**delete** `/zones/{zone_id}/origin/cloud_regions/batch`
+<a href="#">Link to this property</a>
 
-Removes up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array.
+upper\_tier\_colos: array of string
 
-### Path Parameters
+Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { failed, succeeded }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `failed: array of object { origin_ip, error, region, vendor }`
-
-    Items that could not be applied, with error details.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-  - `succeeded: array of object { origin_ip, error, region, vendor }`
-
-    Items that were successfully applied.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/batch \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "failed": [],
-    "succeeded": [
-      {
-        "origin_ip": "192.0.2.1",
-        "region": "us-east-1",
-        "vendor": "aws"
-      },
-      {
-        "origin_ip": "2001:db8::1",
-        "region": "us-central1",
-        "vendor": "gcp"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## List supported cloud vendors and regions
-
-**get** `/zones/{zone_id}/origin/cloud_regions/supported_regions`
-
-Returns the cloud vendors and regions that are valid values for origin cloud region mappings. Each region includes the Tiered Cache upper-tier colocation codes that will be used for cache routing when a mapping targeting that region is active. Requires the zone to have Tiered Cache enabled.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { obtained_codes, vendors }`
-
-  Cloud vendors and their supported regions for origin cloud region mappings.
-
-  - `obtained_codes: boolean`
-
-    Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the `upper_tier_colos` field on each region. When `false`, the `upper_tier_colos` arrays may be empty or incomplete.
-
-  - `vendors: map[array of object { name, upper_tier_colos } ]`
-
-    Map of vendor name to list of supported regions.
-
-    - `name: string`
-
-      Cloud vendor region identifier.
-
-    - `upper_tier_colos: array of string`
-
-      Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/supported_regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "obtained_codes": true,
-    "vendors": {
-      "aws": [
-        {
-          "name": "us-east-1",
-          "upper_tier_colos": [
-            "IAD",
-            "EWR"
-          ]
-        },
-        {
-          "name": "us-west-2",
-          "upper_tier_colos": [
-            "SEA"
-          ]
-        }
-      ],
-      "gcp": [
-        {
-          "name": "us-central1",
-          "upper_tier_colos": [
-            "ORD"
-          ]
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## List origin cloud region mappings
-
-**get** `/zones/{zone_id}/cache/origin_cloud_regions`
-
-Returns all IP-to-cloud-region mappings configured for the zone. Each mapping tells Cloudflare which cloud vendor and region hosts the origin at that IP, enabling the edge to route via the nearest Tiered Cache upper-tier co-located with that cloud provider. Returns an empty array when no mappings exist.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a list of origin cloud region mappings.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no mappings exist.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": null,
-    "value": []
-  },
-  "success": true
-}
-```
-
-## Create an origin cloud region mapping
-
-**post** `/zones/{zone_id}/cache/origin_cloud_regions`
-
-Adds a single IP-to-cloud-region mapping for the zone. The IP must be a valid IPv4 or IPv6 address and is normalized to canonical form before storage (RFC 5952 for IPv6). Returns 400 (code 1145) if a mapping for that IP already exists — use PATCH to update an existing entry. The vendor and region are validated against the list from `GET /zones/{zone_id}/cache/origin_cloud_regions/supported_regions`.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `ip: string`
-
-  Origin IP address (IPv4 or IPv6). Normalized to canonical form before storage (RFC 5952 for IPv6).
-
-- `region: string`
-
-  Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
-
-- `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-  Cloud vendor hosting the origin. Must be one of the supported vendors.
-
-  - `"aws"`
-
-  - `"azure"`
-
-  - `"gcp"`
-
-  - `"oci"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ip": "192.0.2.1",
-          "region": "us-east-1",
-          "vendor": "aws"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "modified_on": "2026-03-01T12:00:00Z",
-      "origin-ip": "192.0.2.1",
-      "region": "us-east-1",
-      "vendor": "aws"
-    }
-  },
-  "success": true
-}
-```
-
-## Create or update an origin cloud region mapping
-
-**patch** `/zones/{zone_id}/cache/origin_cloud_regions`
-
-Adds or updates a single IP-to-cloud-region mapping for the zone. Unlike POST, this operation is idempotent — if a mapping for the IP already exists it is overwritten. Returns the complete updated list of all mappings for the zone. Returns 403 (code 1164) when the zone has reached the limit of 3,500 IP mappings.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `ip: string`
-
-  Origin IP address (IPv4 or IPv6). Normalized to canonical form before storage (RFC 5952 for IPv6).
-
-- `region: string`
-
-  Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
-
-- `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-  Cloud vendor hosting the origin. Must be one of the supported vendors.
-
-  - `"aws"`
-
-  - `"azure"`
-
-  - `"gcp"`
-
-  - `"oci"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a list of origin cloud region mappings.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no mappings exist.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ip": "2001:db8::1",
-          "region": "us-central1",
-          "vendor": "gcp"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": [
-      {
-        "modified_on": "2026-03-01T12:00:00Z",
-        "origin-ip": "192.0.2.1",
-        "region": "us-east-1",
-        "vendor": "aws"
-      },
-      {
-        "modified_on": "2026-03-01T12:00:00Z",
-        "origin-ip": "2001:db8::1",
-        "region": "us-central1",
-        "vendor": "gcp"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Get an origin cloud region mapping
-
-**get** `/zones/{zone_id}/cache/origin_cloud_regions/{origin_ip}`
-
-Returns the cloud region mapping for a single origin IP address. The IP path parameter is normalized before lookup (RFC 5952 for IPv6). Returns 404 (code 1142) if the zone has no mappings or if the specified IP has no mapping.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `origin_ip: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/$ORIGIN_IP \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "modified_on": "2026-03-01T12:00:00Z",
-      "origin-ip": "192.0.2.1",
-      "region": "us-east-1",
-      "vendor": "aws"
-    }
-  },
-  "success": true
-}
-```
-
-## Delete an origin cloud region mapping
-
-**delete** `/zones/{zone_id}/cache/origin_cloud_regions/{origin_ip}`
-
-Removes the cloud region mapping for a single origin IP address. The IP path parameter is normalized before lookup. Returns the deleted entry on success. Returns 404 (code 1163) if no mapping exists for the specified IP. When the last mapping for the zone is removed the underlying rule record is also deleted.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `origin_ip: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/$ORIGIN_IP \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "modified_on": "2026-03-01T12:00:00Z",
-      "origin-ip": "192.0.2.1",
-      "region": "us-east-1",
-      "vendor": "aws"
-    }
-  },
-  "success": true
-}
-```
-
-## Batch create or update origin cloud region mappings
-
-**patch** `/zones/{zone_id}/cache/origin_cloud_regions/batch`
-
-Adds or updates up to 100 IP-to-cloud-region mappings in a single request. Each item is validated independently — valid items are applied and invalid items are returned in the `failed` array. The vendor and region for every item are validated against the list from `GET /zones/{zone_id}/cache/origin_cloud_regions/supported_regions`.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `body: array of object { ip, region, vendor }`
-
-  - `ip: string`
-
-    Origin IP address (IPv4 or IPv6). Normalized to canonical form before storage (RFC 5952 for IPv6).
-
-  - `region: string`
-
-    Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
-
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-    Cloud vendor hosting the origin. Must be one of the supported vendors.
-
-    - `"aws"`
-
-    - `"azure"`
-
-    - `"gcp"`
-
-    - `"oci"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { failed, succeeded }`
-
-    - `failed: array of object { "origin-ip", error, region, vendor }`
-
-      Items that could not be applied, with error details.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-    - `succeeded: array of object { "origin-ip", error, region, vendor }`
-
-      Items that were successfully applied.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no items were successfully applied.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/batch \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "ip": "192.0.2.1",
-            "region": "us-east-1",
-            "vendor": "aws"
-          },
-          {
-            "ip": "2001:db8::1",
-            "region": "us-central1",
-            "vendor": "gcp"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "failed": [],
-      "succeeded": [
-        {
-          "origin-ip": "192.0.2.1",
-          "region": "us-east-1",
-          "vendor": "aws"
-        },
-        {
-          "origin-ip": "2001:db8::1",
-          "region": "us-central1",
-          "vendor": "gcp"
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## Batch delete origin cloud region mappings
-
-**delete** `/zones/{zone_id}/cache/origin_cloud_regions/batch`
-
-Removes up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { failed, succeeded }`
-
-    - `failed: array of object { "origin-ip", error, region, vendor }`
-
-      Items that could not be applied, with error details.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-    - `succeeded: array of object { "origin-ip", error, region, vendor }`
-
-      Items that were successfully applied.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no items were successfully applied.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/batch \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "failed": [],
-      "succeeded": [
-        {
-          "origin-ip": "192.0.2.1",
-          "region": "us-east-1",
-          "vendor": "aws"
-        },
-        {
-          "origin-ip": "2001:db8::1",
-          "region": "us-central1",
-          "vendor": "gcp"
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## List supported cloud vendors and regions
-
-**get** `/zones/{zone_id}/cache/origin_cloud_regions/supported_regions`
-
-Returns the cloud vendors and regions that are valid values for origin cloud region mappings. Each region includes the Tiered Cache upper-tier colocation codes that will be used for cache routing when a mapping targeting that region is active. Requires the zone to have Tiered Cache enabled.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { obtained_codes, vendors }`
-
-  Cloud vendors and their supported regions for origin cloud region mappings.
-
-  - `obtained_codes: boolean`
-
-    Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the `upper_tier_colos` field on each region. When `false`, the `upper_tier_colos` arrays may be empty or incomplete.
-
-  - `vendors: map[array of object { name, upper_tier_colos } ]`
-
-    Map of vendor name to list of supported regions.
-
-    - `name: string`
-
-      Cloud vendor region identifier.
-
-    - `upper_tier_colos: array of string`
-
-      Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/supported_regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "obtained_codes": true,
-    "vendors": {
-      "aws": [
-        {
-          "name": "us-east-1",
-          "upper_tier_colos": [
-            "IAD",
-            "EWR"
-          ]
-        },
-        {
-          "name": "us-west-2",
-          "upper_tier_colos": [
-            "SEA"
-          ]
-        }
-      ],
-      "gcp": [
-        {
-          "name": "us-central1",
-          "upper_tier_colos": [
-            "ORD"
-          ]
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Origin Cloud Region
-
-- `OriginCloudRegion object { origin_ip, region, vendor, modified_on }`
-
-  A single origin IP-to-cloud-region mapping.
-
-  - `origin_ip: string`
-
-    The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
-
-  - `region: string`
-
-    Cloud vendor region identifier.
-
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-    Cloud vendor hosting the origin.
-
-    - `"aws"`
-
-    - `"azure"`
-
-    - `"gcp"`
-
-    - `"oci"`
-
-  - `modified_on: optional string`
-
-    Time this mapping was last modified.
-
-### Origin Cloud Region Delete Response
-
-- `OriginCloudRegionDeleteResponse object { origin_ip }`
-
-  Response result for a delete operation. Identifies the deleted mapping.
-
-  - `origin_ip: string`
-
-    The origin IP address whose mapping was deleted.
-
-### Origin Cloud Region Bulk Update Response
-
-- `OriginCloudRegionBulkUpdateResponse object { failed, succeeded }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `failed: array of object { origin_ip, error, region, vendor }`
-
-    Items that could not be applied, with error details.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-  - `succeeded: array of object { origin_ip, error, region, vendor }`
-
-    Items that were successfully applied.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-### Origin Cloud Region Bulk Delete Response
-
-- `OriginCloudRegionBulkDeleteResponse object { failed, succeeded }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `failed: array of object { origin_ip, error, region, vendor }`
-
-    Items that could not be applied, with error details.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-  - `succeeded: array of object { origin_ip, error, region, vendor }`
-
-    Items that were successfully applied.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-### Origin Cloud Region Supported Regions Response
-
-- `OriginCloudRegionSupportedRegionsResponse object { obtained_codes, vendors }`
-
-  Cloud vendors and their supported regions for origin cloud region mappings.
-
-  - `obtained_codes: boolean`
-
-    Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the `upper_tier_colos` field on each region. When `false`, the `upper_tier_colos` arrays may be empty or incomplete.
-
-  - `vendors: map[array of object { name, upper_tier_colos } ]`
-
-    Map of vendor name to list of supported regions.
-
-    - `name: string`
-
-      Cloud vendor region identifier.
-
-    - `upper_tier_colos: array of string`
-
-      Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
-
-### Origin Cloud Region List V1 Response
-
-- `OriginCloudRegionListV1Response object { id, editable, value, modified_on }`
-
-  Response result for a list of origin cloud region mappings.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no mappings exist.
-
-### Origin Cloud Region Create V1 Response
-
-- `OriginCloudRegionCreateV1Response object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Origin Cloud Region Edit V1 Response
-
-- `OriginCloudRegionEditV1Response object { id, editable, value, modified_on }`
-
-  Response result for a list of origin cloud region mappings.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no mappings exist.
-
-### Origin Cloud Region Get V1 Response
-
-- `OriginCloudRegionGetV1Response object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Origin Cloud Region Delete V1 Response
-
-- `OriginCloudRegionDeleteV1Response object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Origin Cloud Region Bulk Edit V1 Response
-
-- `OriginCloudRegionBulkEditV1Response object { id, editable, value, modified_on }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { failed, succeeded }`
-
-    - `failed: array of object { "origin-ip", error, region, vendor }`
-
-      Items that could not be applied, with error details.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-    - `succeeded: array of object { "origin-ip", error, region, vendor }`
-
-      Items that were successfully applied.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no items were successfully applied.
-
-### Origin Cloud Region Bulk Delete V1 Response
-
-- `OriginCloudRegionBulkDeleteV1Response object { id, editable, value, modified_on }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { failed, succeeded }`
-
-    - `failed: array of object { "origin-ip", error, region, vendor }`
-
-      Items that could not be applied, with error details.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-    - `succeeded: array of object { "origin-ip", error, region, vendor }`
-
-      Items that were successfully applied.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no items were successfully applied.
-
-### Origin Cloud Region Supported Regions V1 Response
-
-- `OriginCloudRegionSupportedRegionsV1Response object { obtained_codes, vendors }`
-
-  Cloud vendors and their supported regions for origin cloud region mappings.
-
-  - `obtained_codes: boolean`
-
-    Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the `upper_tier_colos` field on each region. When `false`, the `upper_tier_colos` arrays may be empty or incomplete.
-
-  - `vendors: map[array of object { name, upper_tier_colos } ]`
-
-    Map of vendor name to list of supported regions.
-
-    - `name: string`
-
-      Cloud vendor region identifier.
-
-    - `upper_tier_colos: array of string`
-
-      Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_supported_regions_v1_response%20%3E%20(schema)>)

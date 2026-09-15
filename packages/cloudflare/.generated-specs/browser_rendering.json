@@ -29,6 +29,909 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddScriptTagItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddScriptTagList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddScriptTagItem"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddStyleTagItem": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddStyleTagList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddStyleTagItem"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAllowRequestPatternList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAllowResourceTypesItem": {
+      "type": "enum",
+      "members": {
+        "DOCUMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document"
+          }
+        },
+        "STYLESHEET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stylesheet"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        },
+        "MEDIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media"
+          }
+        },
+        "FONT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "font"
+          }
+        },
+        "SCRIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "script"
+          }
+        },
+        "TEXTTRACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "texttrack"
+          }
+        },
+        "XHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xhr"
+          }
+        },
+        "FETCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fetch"
+          }
+        },
+        "PREFETCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prefetch"
+          }
+        },
+        "EVENTSOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eventsource"
+          }
+        },
+        "WEBSOCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "websocket"
+          }
+        },
+        "MANIFEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manifest"
+          }
+        },
+        "SIGNEDEXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "signedexchange"
+          }
+        },
+        "PING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ping"
+          }
+        },
+        "CSPVIOLATIONREPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cspviolationreport"
+          }
+        },
+        "PREFLIGHT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preflight"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAllowResourceTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAllowResourceTypesItem"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAuthenticate": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesItemPriority": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "High"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesItemSameSite": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Strict"
+          }
+        },
+        "LAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Lax"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "None"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesItemSourceScheme": {
+      "type": "enum",
+      "members": {
+        "UNSET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Unset"
+          }
+        },
+        "NONSECURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NonSecure"
+          }
+        },
+        "SECURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Secure"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cookie name.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "expires": {
+          "target": "smithy.api#Double"
+        },
+        "httpOnly": {
+          "target": "smithy.api#Boolean"
+        },
+        "partitionKey": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "priority": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesItemPriority"
+        },
+        "sameParty": {
+          "target": "smithy.api#Boolean"
+        },
+        "sameSite": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesItemSameSite"
+        },
+        "secure": {
+          "target": "smithy.api#Boolean"
+        },
+        "sourcePort": {
+          "target": "smithy.api#Double"
+        },
+        "sourceScheme": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesItemSourceScheme"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesItem"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptionsWaitUntilCase0": {
+      "type": "enum",
+      "members": {
+        "LOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "load"
+          }
+        },
+        "DOMCONTENTLOADED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domcontentloaded"
+          }
+        },
+        "NETWORKIDLE0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "networkidle0"
+          }
+        },
+        "NETWORKIDLE2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "networkidle2"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptionsWaitUntilCase1Item": {
+      "type": "enum",
+      "members": {
+        "LOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "load"
+          }
+        },
+        "DOMCONTENTLOADED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domcontentloaded"
+          }
+        },
+        "NETWORKIDLE0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "networkidle0"
+          }
+        },
+        "NETWORKIDLE2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "networkidle2"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptionsWaitUntilCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptionsWaitUntilCase1Item"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptionsWaitUntil": {
+      "type": "union",
+      "members": {
+        "AccessibilityTreeCreateRequestGotoOptionsWaitUntilCase0": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptionsWaitUntilCase0"
+        },
+        "AccessibilityTreeCreateRequestGotoOptionsWaitUntilCase1List": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptionsWaitUntilCase1List"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptions": {
+      "type": "structure",
+      "members": {
+        "referer": {
+          "target": "smithy.api#String"
+        },
+        "referrerPolicy": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Double"
+        },
+        "waitUntil": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptionsWaitUntil"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestRejectRequestPatternList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestRejectResourceTypesItem": {
+      "type": "enum",
+      "members": {
+        "DOCUMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document"
+          }
+        },
+        "STYLESHEET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stylesheet"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        },
+        "MEDIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media"
+          }
+        },
+        "FONT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "font"
+          }
+        },
+        "SCRIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "script"
+          }
+        },
+        "TEXTTRACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "texttrack"
+          }
+        },
+        "XHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xhr"
+          }
+        },
+        "FETCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fetch"
+          }
+        },
+        "PREFETCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prefetch"
+          }
+        },
+        "EVENTSOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eventsource"
+          }
+        },
+        "WEBSOCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "websocket"
+          }
+        },
+        "MANIFEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manifest"
+          }
+        },
+        "SIGNEDEXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "signedexchange"
+          }
+        },
+        "PING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ping"
+          }
+        },
+        "CSPVIOLATIONREPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cspviolationreport"
+          }
+        },
+        "PREFLIGHT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preflight"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestRejectResourceTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestRejectResourceTypesItem"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestSetExtraHTTPHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestViewport": {
+      "type": "structure",
+      "members": {
+        "height": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "width": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deviceScaleFactor": {
+          "target": "smithy.api#Double"
+        },
+        "hasTouch": {
+          "target": "smithy.api#Boolean"
+        },
+        "isLandscape": {
+          "target": "smithy.api#Boolean"
+        },
+        "isMobile": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestWaitForSelector": {
+      "type": "structure",
+      "members": {
+        "selector": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hidden": {
+          "target": "smithy.api#Boolean"
+        },
+        "timeout": {
+          "target": "smithy.api#Double"
+        },
+        "visible": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cacheTTL": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
+            "smithy.api#httpQuery": "cacheTTL"
+          }
+        },
+        "actionTimeout": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error."
+          }
+        },
+        "addScriptTag": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddScriptTagList",
+          "traits": {
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+          }
+        },
+        "addStyleTag": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddStyleTagList",
+          "traits": {
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
+          }
+        },
+        "allowRequestPattern": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAllowRequestPatternList",
+          "traits": {
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
+          }
+        },
+        "allowResourceTypes": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAllowResourceTypesList",
+          "traits": {
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
+          }
+        },
+        "authenticate": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAuthenticate",
+          "traits": {
+            "smithy.api#documentation": "Provide credentials for HTTP authentication."
+          }
+        },
+        "bestAttempt": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Attempt to proceed when 'awaited' events fail or timeout."
+          }
+        },
+        "cookies": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestCookiesList",
+          "traits": {
+            "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.page.setcookie)."
+          }
+        },
+        "emulateMediaType": {
+          "target": "smithy.api#String"
+        },
+        "gotoOptions": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestGotoOptions",
+          "traits": {
+            "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
+          }
+        },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
+          }
+        },
+        "interestingOnly": {
+          "target": "smithy.api#Boolean"
+        },
+        "rejectRequestPattern": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestRejectRequestPatternList",
+          "traits": {
+            "smithy.api#documentation": "Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'."
+          }
+        },
+        "rejectResourceTypes": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestRejectResourceTypesList",
+          "traits": {
+            "smithy.api#documentation": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
+          }
+        },
+        "root": {
+          "target": "smithy.api#String"
+        },
+        "setExtraHTTPHeaders": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestSetExtraHTTPHeadersMap"
+        },
+        "setJavaScriptEnabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
+        },
+        "userAgent": {
+          "target": "smithy.api#String"
+        },
+        "viewport": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestViewport",
+          "traits": {
+            "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.page.setviewport)."
+          }
+        },
+        "waitForSelector": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestWaitForSelector",
+          "traits": {
+            "smithy.api#documentation": "Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector)."
+          }
+        },
+        "waitForTimeout": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Waits for a specified timeout before continuing."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreeChecked": {
+      "type": "enum",
+      "members": {
+        "MIXED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mixed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreeChecked2": {
+      "type": "union",
+      "members": {
+        "AccessibilityTreeCreateResponseAccessibilityTreeChecked": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreeChecked"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreeChildrenList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreePressed": {
+      "type": "enum",
+      "members": {
+        "MIXED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mixed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreePressed2": {
+      "type": "union",
+      "members": {
+        "AccessibilityTreeCreateResponseAccessibilityTreePressed": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreePressed"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreeValue": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTree": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "autocomplete": {
+          "target": "smithy.api#String"
+        },
+        "checked": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreeChecked2"
+        },
+        "children": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreeChildrenList"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "expanded": {
+          "target": "smithy.api#Boolean"
+        },
+        "focused": {
+          "target": "smithy.api#Boolean"
+        },
+        "haspopup": {
+          "target": "smithy.api#String"
+        },
+        "invalid": {
+          "target": "smithy.api#String"
+        },
+        "keyshortcuts": {
+          "target": "smithy.api#String"
+        },
+        "level": {
+          "target": "smithy.api#Double"
+        },
+        "modal": {
+          "target": "smithy.api#Boolean"
+        },
+        "multiline": {
+          "target": "smithy.api#Boolean"
+        },
+        "multiselectable": {
+          "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "orientation": {
+          "target": "smithy.api#String"
+        },
+        "pressed": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreePressed2"
+        },
+        "readonly": {
+          "target": "smithy.api#Boolean"
+        },
+        "required": {
+          "target": "smithy.api#Boolean"
+        },
+        "roledescription": {
+          "target": "smithy.api#String"
+        },
+        "selected": {
+          "target": "smithy.api#Boolean"
+        },
+        "value": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTreeValue"
+        },
+        "valuemax": {
+          "target": "smithy.api#Double"
+        },
+        "valuemin": {
+          "target": "smithy.api#Double"
+        },
+        "valuetext": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponse": {
+      "type": "structure",
+      "members": {
+        "accessibilityTree": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponseAccessibilityTree",
+          "traits": {
+            "smithy.api#documentation": "Accessibility tree node",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateAccessibilityTree": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/browser-rendering/accessibilityTree",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns the page's accessibility tree. Use `interestingOnly` to only return semantically meaningful nodes; use `root` to scope the tree to a CSS-selector-anchored subtree. Control page loading with `gotoOptions` and `waitFor*` options."
+      }
+    },
     "com.cloudflare.browser_rendering#ContentCreateRequestAddScriptTagItem": {
       "type": "structure",
       "members": {
@@ -797,6 +1700,23 @@
         }
       }
     },
+    "com.cloudflare.browser_rendering#CrawlCreateRequestContentUse": {
+      "type": "enum",
+      "members": {
+        "REFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reference"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        }
+      }
+    },
     "com.cloudflare.browser_rendering#CrawlCreateRequestCookiesItemPriority": {
       "type": "enum",
       "members": {
@@ -1082,14 +2002,14 @@
         "model": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "AI model to use for the request. Must be formed as `<provider>/<model_name>`, e.g. `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`.",
+            "smithy.api#documentation": "AI model to use for the request. Must be formed as `&lt;provider&gt;/&lt;model_name&gt;`, e.g. `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`.",
             "smithy.api#required": {}
           }
         },
         "authorization": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Authorization token for the AI model: `Bearer <token>`. Not needed for workers-ai models."
+            "smithy.api#documentation": "Authorization token for the AI model: `Bearer &lt;token&gt;`. Not needed for workers-ai models."
           }
         }
       }
@@ -1100,10 +2020,13 @@
         "target": "com.cloudflare.browser_rendering#CrawlCreateRequestJsonOptionsCustomAiItem"
       }
     },
-    "com.cloudflare.browser_rendering#CrawlCreateRequestJsonOptionsResponseFormatJsonSchemaCase4List": {
-      "type": "list",
-      "member": {
+    "com.cloudflare.browser_rendering#CrawlCreateRequestJsonOptionsResponseFormatJsonSchemaMap": {
+      "type": "map",
+      "key": {
         "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.browser_rendering#CrawlCreateRequestJsonOptionsResponseFormat": {
@@ -1116,7 +2039,7 @@
           }
         },
         "json_schema": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.browser_rendering#CrawlCreateRequestJsonOptionsResponseFormatJsonSchemaMap",
           "traits": {
             "smithy.api#documentation": "Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/"
           }
@@ -1428,31 +2351,6 @@
         }
       }
     },
-    "com.cloudflare.browser_rendering#CrawlGetResponseRecordsItemMetadata": {
-      "type": "structure",
-      "members": {
-        "status": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "HTTP status code of the crawled page.",
-            "smithy.api#required": {}
-          }
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Final URL of the crawled page.",
-            "smithy.api#required": {}
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Title of the crawled page."
-          }
-        }
-      }
-    },
     "com.cloudflare.browser_rendering#CrawlGetResponseRecordsItemStatus": {
       "type": "enum",
       "members": {
@@ -1503,13 +2401,34 @@
         "target": "smithy.api#Document"
       }
     },
+    "com.cloudflare.browser_rendering#CrawlGetResponseRecordsItemMetadata": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "HTTP status code of the crawled page.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Final URL of the crawled page.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title of the crawled page."
+          }
+        }
+      }
+    },
     "com.cloudflare.browser_rendering#CrawlGetResponseRecordsItem": {
       "type": "structure",
       "members": {
-        "metadata": {
-          "target": "com.cloudflare.browser_rendering#CrawlGetResponseRecordsItemMetadata",
-          "traits": {}
-        },
         "status": {
           "target": "com.cloudflare.browser_rendering#CrawlGetResponseRecordsItemStatus",
           "traits": {
@@ -1541,6 +2460,12 @@
           "traits": {
             "smithy.api#documentation": "Markdown of the content of the crawled URL."
           }
+        },
+        "metadata": {
+          "target": "com.cloudflare.browser_rendering#CrawlGetResponseRecordsItemMetadata",
+          "traits": {
+            "smithy.api#documentation": "Absent for urls that never reached a fetch."
+          }
         }
       }
     },
@@ -1548,6 +2473,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.browser_rendering#CrawlGetResponseRecordsItem"
+      }
+    },
+    "com.cloudflare.browser_rendering#DevtoolsBrowserCreateRequestGuardrailsAllowedDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.browser_rendering#DevtoolsBrowserCreateRequestGuardrailsAllowedDomainSetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.browser_rendering#DevtoolsBrowserCreateRequestGuardrails": {
+      "type": "structure",
+      "members": {
+        "allowedDomains": {
+          "target": "com.cloudflare.browser_rendering#DevtoolsBrowserCreateRequestGuardrailsAllowedDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Hostname patterns, max 50. Supports exact hosts (example.com) or a single * wildcard anywhere. Prefer *.example.com (subdomain wildcard) over *example.com (prefix wildcard) to avoid matching overbroad lookalikes like evilexample.com."
+          }
+        },
+        "allowedDomainSets": {
+          "target": "com.cloudflare.browser_rendering#DevtoolsBrowserCreateRequestGuardrailsAllowedDomainSetsList",
+          "traits": {
+            "smithy.api#documentation": "Max 4 entries: curated preset names (common-cdns) and/or https URLs of newline-separated hostname lists."
+          }
+        }
       }
     },
     "com.cloudflare.browser_rendering#DevtoolsBrowserDeleteResponseStatus": {
@@ -1683,6 +2637,215 @@
             "smithy.api#required": {}
           }
         }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewRequestGuardrailsMode": {
+      "type": "enum",
+      "members": {
+        "READONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "readonly"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewRequestGuardrails": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewRequestGuardrailsMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewRequestMode": {
+      "type": "enum",
+      "members": {
+        "DEVTOOLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "devtools"
+          }
+        },
+        "TAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tab"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Browser session ID",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expiresInMs": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How long the live view URLs remain valid, in milliseconds. Default: 5 minutes. Max: 60 minutes."
+          }
+        },
+        "guardrails": {
+          "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewRequestGuardrails",
+          "traits": {
+            "smithy.api#documentation": "Connection guardrails. Use `{ mode: 'readonly' }` to generate a view-only link."
+          }
+        },
+        "mode": {
+          "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewRequestMode",
+          "traits": {
+            "smithy.api#documentation": "UI mode: 'devtools' (Chrome DevTools), 'tab' (single tab view), 'full' (multi-tab browser)"
+          }
+        },
+        "targetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target ID (page) to connect to. If omitted, auto-resolves to the first active page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponseOptionsMode": {
+      "type": "enum",
+      "members": {
+        "DEVTOOLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "devtools"
+          }
+        },
+        "TAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tab"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponseOptionsGuardrailsMode": {
+      "type": "enum",
+      "members": {
+        "READONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "readonly"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponseOptionsGuardrails": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponseOptionsGuardrailsMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponseOptions": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponseOptionsMode",
+          "traits": {
+            "smithy.api#documentation": "UI mode for the live view",
+            "smithy.api#required": {}
+          }
+        },
+        "guardrails": {
+          "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponseOptionsGuardrails",
+          "traits": {
+            "smithy.api#documentation": "Connection guardrails applied to this link"
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target ID",
+            "smithy.api#required": {}
+          }
+        },
+        "devtoolsFrontendUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to open the live view in a browser",
+            "smithy.api#required": {}
+          }
+        },
+        "options": {
+          "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponseOptions",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "webSocketDebuggerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WebSocket URL for CDP connection",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Raw response payload (operation does not use the standard v4 result envelope)."
+      }
+    },
+    "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveView": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveViewResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/live_view",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generates time-limited URLs to view a remote browser session. Set `guardrails: { mode: 'readonly' }` to create a view-only link."
       }
     },
     "com.cloudflare.browser_rendering#JsonCreateRequestAddScriptTagItem": {
@@ -2002,14 +3165,14 @@
         "model": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "AI model to use for the request. Must be formed as `<provider>/<model_name>`, e.g. `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`.",
+            "smithy.api#documentation": "AI model to use for the request. Must be formed as `&lt;provider&gt;/&lt;model_name&gt;`, e.g. `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`.",
             "smithy.api#required": {}
           }
         },
         "authorization": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Authorization token for the AI model: `Bearer <token>`. Not needed for workers-ai models."
+            "smithy.api#documentation": "Authorization token for the AI model: `Bearer &lt;token&gt;`. Not needed for workers-ai models."
           }
         }
       }
@@ -2237,10 +3400,13 @@
         "target": "com.cloudflare.browser_rendering#JsonCreateRequestRejectResourceTypesItem"
       }
     },
-    "com.cloudflare.browser_rendering#JsonCreateRequestResponseFormatJsonSchemaCase4List": {
-      "type": "list",
-      "member": {
+    "com.cloudflare.browser_rendering#JsonCreateRequestResponseFormatJsonSchemaMap": {
+      "type": "map",
+      "key": {
         "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.browser_rendering#JsonCreateRequestResponseFormat": {
@@ -2253,7 +3419,7 @@
           }
         },
         "json_schema": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.browser_rendering#JsonCreateRequestResponseFormatJsonSchemaMap",
           "traits": {
             "smithy.api#documentation": "Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/"
           }
@@ -6598,6 +7764,12 @@
       "version": "4.0",
       "operations": [
         {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTree"
+        },
+        {
+          "target": "com.cloudflare.browser_rendering#CreateDevtoolsBrowserLiveView"
+        },
+        {
           "target": "com.cloudflare.browser_rendering#ActivateDevtoolBrowserTarget"
         },
         {
@@ -6867,6 +8039,13 @@
           "traits": {
             "smithy.api#httpQuery": "recording"
           }
+        },
+        "cf_brapi_guardrails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional base64url-encoded JSON connection guardrails (mode)",
+            "smithy.api#httpHeader": "cf-brapi-guardrails"
+          }
         }
       },
       "traits": {
@@ -6908,12 +8087,6 @@
             "smithy.api#httpQuery": "cacheTTL"
           }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
-        },
         "actionTimeout": {
           "target": "smithy.api#Double",
           "traits": {
@@ -6923,25 +8096,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#ContentCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#ContentCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#ContentCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#ContentCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -6971,6 +8144,12 @@
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
           }
         },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
+          }
+        },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#ContentCreateRequestRejectRequestPatternList",
           "traits": {
@@ -6988,6 +8167,12 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -7008,12 +8193,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Waits for a specified timeout before continuing."
-          }
-        },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
           }
         }
       },
@@ -7087,25 +8266,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#CrawlCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#CrawlCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#CrawlCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#CrawlCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -7118,6 +8297,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Attempt to proceed when 'awaited' events fail or timeout."
+          }
+        },
+        "contentUse": {
+          "target": "com.cloudflare.browser_rendering#CrawlCreateRequestContentUse",
+          "traits": {
+            "smithy.api#documentation": "Intended content use level to respect the `use` Content-Signal directive in robots.txt. Levels (least to most permissive): 'reference', 'full'. A URL is disallowed when the publisher's declared `use` level is lower than this intent. Learn more: https://contentsignals.org/. Default: 'full'."
           }
         },
         "cookies": {
@@ -7265,7 +8450,7 @@
           "uri": "/accounts/{account_id}/browser-rendering/devtools/browser",
           "code": 200
         },
-        "smithy.api#documentation": "Acquires a browser and returns its session ID and websocket URL."
+        "smithy.api#documentation": "Acquires a browser and returns its session ID and websocket URL. Optionally accepts a JSON body with session guardrails to restrict outbound HTTP/S traffic."
       }
     },
     "com.cloudflare.browser_rendering#CreateDevtoolBrowserRequest": {
@@ -7312,6 +8497,9 @@
             "smithy.api#documentation": "Include browser targets in response.",
             "smithy.api#httpQuery": "targets"
           }
+        },
+        "guardrails": {
+          "target": "com.cloudflare.browser_rendering#DevtoolsBrowserCreateRequestGuardrails"
         }
       },
       "traits": {
@@ -7484,12 +8672,6 @@
             "smithy.api#httpQuery": "cacheTTL"
           }
         },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
-        },
         "actionTimeout": {
           "target": "smithy.api#Double",
           "traits": {
@@ -7499,25 +8681,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#JsonCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#JsonCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#JsonCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#JsonCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -7553,6 +8735,12 @@
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
           }
         },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
+          }
+        },
         "prompt": {
           "target": "smithy.api#String"
         },
@@ -7577,6 +8765,12 @@
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
         },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
+        },
         "userAgent": {
           "target": "smithy.api#String"
         },
@@ -7596,12 +8790,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Waits for a specified timeout before continuing."
-          }
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
           }
         }
       },
@@ -7659,12 +8847,6 @@
             "smithy.api#httpQuery": "cacheTTL"
           }
         },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
-        },
         "actionTimeout": {
           "target": "smithy.api#Double",
           "traits": {
@@ -7674,25 +8856,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#LinksCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#LinksCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#LinksCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#LinksCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -7725,6 +8907,12 @@
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
           }
         },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
+          }
+        },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#LinksCreateRequestRejectRequestPatternList",
           "traits": {
@@ -7742,6 +8930,12 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -7765,12 +8959,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Waits for a specified timeout before continuing."
-          }
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
           }
         }
       },
@@ -7828,12 +9016,6 @@
             "smithy.api#httpQuery": "cacheTTL"
           }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
-        },
         "actionTimeout": {
           "target": "smithy.api#Double",
           "traits": {
@@ -7843,25 +9025,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#MarkdownCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#MarkdownCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#MarkdownCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#MarkdownCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -7891,6 +9073,12 @@
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
           }
         },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
+          }
+        },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#MarkdownCreateRequestRejectRequestPatternList",
           "traits": {
@@ -7908,6 +9096,12 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -7928,12 +9122,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Waits for a specified timeout before continuing."
-          }
-        },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
           }
         }
       },
@@ -7991,12 +9179,6 @@
             "smithy.api#httpQuery": "cacheTTL"
           }
         },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
-        },
         "actionTimeout": {
           "target": "smithy.api#Double",
           "traits": {
@@ -8006,25 +9188,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#PdfCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#PdfCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#PdfCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#PdfCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -8054,6 +9236,12 @@
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
           }
         },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
+          }
+        },
         "pdfOptions": {
           "target": "com.cloudflare.browser_rendering#PdfCreateRequestPdfOptions",
           "traits": {
@@ -8078,6 +9266,12 @@
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
         },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
+        },
         "userAgent": {
           "target": "smithy.api#String"
         },
@@ -8097,12 +9291,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Waits for a specified timeout before continuing."
-          }
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
           }
         }
       },
@@ -8151,12 +9339,6 @@
             "smithy.api#required": {}
           }
         },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
-        },
         "actionTimeout": {
           "target": "smithy.api#Double",
           "traits": {
@@ -8166,25 +9348,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -8214,6 +9396,12 @@
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
           }
         },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
+          }
+        },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestRejectRequestPatternList",
           "traits": {
@@ -8231,6 +9419,12 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -8251,12 +9445,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Waits for a specified timeout before continuing."
-          }
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
           }
         }
       },
@@ -8314,12 +9502,6 @@
             "smithy.api#httpQuery": "cacheTTL"
           }
         },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
-        },
         "actionTimeout": {
           "target": "smithy.api#Double",
           "traits": {
@@ -8329,25 +9511,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#ScreenshotCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#ScreenshotCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#ScreenshotCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#ScreenshotCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -8375,6 +9557,12 @@
           "target": "com.cloudflare.browser_rendering#ScreenshotCreateRequestGotoOptions",
           "traits": {
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
+          }
+        },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
           }
         },
         "rejectRequestPattern": {
@@ -8407,6 +9595,12 @@
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
         },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
+        },
         "userAgent": {
           "target": "smithy.api#String"
         },
@@ -8426,12 +9620,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Waits for a specified timeout before continuing."
-          }
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
           }
         }
       },
@@ -8474,12 +9662,6 @@
             "smithy.api#httpQuery": "cacheTTL"
           }
         },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
-        },
         "actionTimeout": {
           "target": "smithy.api#Double",
           "traits": {
@@ -8489,25 +9671,25 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#SnapshotCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<script>` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
           "target": "com.cloudflare.browser_rendering#SnapshotCreateRequestAddStyleTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content."
+            "smithy.api#documentation": "Adds a `&lt;link rel=\"stylesheet\"&gt;` tag into the page with the desired URL or a `&lt;style type=\"text/css\"&gt;` tag with the content."
           }
         },
         "allowRequestPattern": {
           "target": "com.cloudflare.browser_rendering#SnapshotCreateRequestAllowRequestPatternList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'."
+            "smithy.api#documentation": "Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first."
           }
         },
         "allowResourceTypes": {
           "target": "com.cloudflare.browser_rendering#SnapshotCreateRequestAllowResourceTypesList",
           "traits": {
-            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'."
+            "smithy.api#documentation": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
           }
         },
         "authenticate": {
@@ -8540,6 +9722,12 @@
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.gotooptions)."
           }
         },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
+          }
+        },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#SnapshotCreateRequestRejectRequestPatternList",
           "traits": {
@@ -8561,6 +9749,12 @@
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
         },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
+          }
+        },
         "userAgent": {
           "target": "smithy.api#String"
         },
@@ -8580,12 +9774,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Waits for a specified timeout before continuing."
-          }
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
           }
         }
       },
@@ -8611,7 +9799,7 @@
         "markdown": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Markdown content."
+            "smithy.api#documentation": "Markdown content. Prefixed with YAML frontmatter (e.g. `title`) when the page provides that metadata."
           }
         },
         "screenshot": {
@@ -8926,6 +10114,13 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
+        },
+        "cf_brapi_guardrails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional base64url-encoded JSON connection guardrails (mode)",
+            "smithy.api#httpHeader": "cf-brapi-guardrails"
+          }
         }
       },
       "traits": {
@@ -9089,9 +10284,9 @@
           }
         },
         "closeReason": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Reason for session closure."
+            "smithy.api#documentation": "Reason code for session closure."
           }
         },
         "closeReasonText": {
@@ -9168,7 +10363,7 @@
           "uri": "/accounts/{account_id}/browser-rendering/devtools/browser",
           "code": 200
         },
-        "smithy.api#documentation": "Acquires and establishes a WebSocket connection to a browser session.",
+        "smithy.api#documentation": "Acquires and establishes a WebSocket connection to a browser session. Session guardrails may be supplied in the `cf-brapi-guardrails` header as base64url-encoded JSON of the same `guardrails` object the POST body accepts (for example `{\"allowedDomains\":[\"*.example.com\"]}`).",
         "smithy.api#readonly": {}
       }
     },
@@ -9201,6 +10396,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "recording"
+          }
+        },
+        "cf_brapi_guardrails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional base64url-encoded JSON session guardrails (allowedDomains and allowedDomainSets)",
+            "smithy.api#httpHeader": "cf-brapi-guardrails"
           }
         }
       },
@@ -9368,9 +10570,9 @@
           }
         },
         "closeReason": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Reason for session closure."
+            "smithy.api#documentation": "Reason code for session closure."
           }
         },
         "closeReasonText": {

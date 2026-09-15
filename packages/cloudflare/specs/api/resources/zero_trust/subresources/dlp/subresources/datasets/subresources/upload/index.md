@@ -1,363 +1,143 @@
+---
+title: Upload
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Upload
 
-## Prepare to upload a new version of a dataset
+##### [Prepare to upload a new version of a dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/upload/methods/create)
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/upload`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/upload
 
-Creates a new version of a DLP dataset, allowing you to stage changes before activation. Used for single-column EDM and custom word lists.
+##### [Upload a new version of a dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/upload/methods/edit)
 
-### Path Parameters
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/upload/{version}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-- `dataset_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+NewVersion object {encoding\_version, max\_cells, version, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+encoding\_version: number
 
-  - `documentation_url: optional string`
+formatint32
 
-  - `source: optional object { pointer }`
+minimum0
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+max\_cells: number
 
-  - `code: number`
+formatint64
 
-  - `message: string`
+minimum0
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+version: number
 
-    - `pointer: optional string`
+formatint64
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+case\_sensitive: optional boolean
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional NewVersion`
+<details>
 
-  - `encoding_version: number`
+<summary>
 
-  - `max_cells: number`
+columns: optional array of object {entry\_id, header\_name, num\_cells, upload\_status }
 
-  - `version: number`
+</summary>
 
-  - `case_sensitive: optional boolean`
+entry\_id: string
 
-  - `columns: optional array of object { entry_id, header_name, num_cells, upload_status }`
+formatuuid
 
-    - `entry_id: string`
+<a href="#">Link to this property</a>
 
-    - `header_name: string`
+header\_name: string
 
-    - `num_cells: number`
+<a href="#">Link to this property</a>
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+num\_cells: number
 
-      - `"empty"`
+formatint64
 
-      - `"uploading"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+<details>
 
-      - `"processing"`
+<summary>
 
-      - `"failed"`
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-      - `"complete"`
+</summary>
 
-  - `secret: optional string`
+One of the following:
 
-### Example
+"empty"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/upload \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"uploading"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "encoding_version": 0,
-    "max_cells": 0,
-    "version": 0,
-    "case_sensitive": true,
-    "columns": [
-      {
-        "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "header_name": "header_name",
-        "num_cells": 0,
-        "upload_status": "empty"
-      }
-    ],
-    "secret": "secret"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Upload a new version of a dataset
+"pending"
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/upload/{version}`
+<a href="#">Link to this property</a>
 
-This is used for single-column EDMv1 and Custom Word Lists. The EDM format
-can only be created in the Cloudflare dashboard. For other clients, this
-operation can only be used for non-secret Custom Word Lists. The body must
-be a UTF-8 encoded, newline (NL or CRNL) separated list of words to be matched.
+"processing"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"failed"
 
-- `dataset_id: string`
+<a href="#">Link to this property</a>
 
-- `version: number`
+"complete"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+secret: optional string
 
-    - `pointer: optional string`
+formatpassword
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Dataset`
-
-  - `id: string`
-
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
-
-    - `entry_id: string`
-
-    - `header_name: string`
-
-    - `num_cells: number`
-
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `created_at: string`
-
-  - `encoding_version: number`
-
-  - `name: string`
-
-  - `num_cells: number`
-
-  - `secret: boolean`
-
-  - `status: "empty" or "uploading" or "pending" or 3 more`
-
-    - `"empty"`
-
-    - `"uploading"`
-
-    - `"pending"`
-
-    - `"processing"`
-
-    - `"failed"`
-
-    - `"complete"`
-
-  - `updated_at: string`
-
-    Stores when the dataset was last updated.
-
-    This includes name or description changes as well as uploads.
-
-  - `uploads: array of object { num_cells, status, version }`
-
-    - `num_cells: number`
-
-    - `status: "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-    - `version: number`
-
-  - `case_sensitive: optional boolean`
-
-  - `description: optional string`
-
-    The description of the dataset.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/upload/$VERSION \
-    -H 'Content-Type: application/octet-stream' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'dataset=@/path/to/dataset'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "columns": [
-      {
-        "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "header_name": "header_name",
-        "num_cells": 0,
-        "upload_status": "empty"
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "encoding_version": 0,
-    "name": "name",
-    "num_cells": 0,
-    "secret": true,
-    "status": "empty",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "uploads": [
-      {
-        "num_cells": 0,
-        "status": "empty",
-        "version": 0
-      }
-    ],
-    "case_sensitive": true,
-    "description": "description"
-  }
-}
-```
-
-## Domain Types
-
-### New Version
-
-- `NewVersion object { encoding_version, max_cells, version, 3 more }`
-
-  - `encoding_version: number`
-
-  - `max_cells: number`
-
-  - `version: number`
-
-  - `case_sensitive: optional boolean`
-
-  - `columns: optional array of object { entry_id, header_name, num_cells, upload_status }`
-
-    - `entry_id: string`
-
-    - `header_name: string`
-
-    - `num_cells: number`
-
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
-
-      - `"empty"`
-
-      - `"uploading"`
-
-      - `"pending"`
-
-      - `"processing"`
-
-      - `"failed"`
-
-      - `"complete"`
-
-  - `secret: optional string`
+[Link to this property](#)%20zero_trust.dlp.datasets.upload%20%3E%20(model)%20new_version%20%3E%20(schema)>)

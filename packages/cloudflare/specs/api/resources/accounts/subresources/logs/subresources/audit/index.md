@@ -1,600 +1,749 @@
+---
+title: Audit
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
+
+[Logs](https://developers.cloudflare.com/api/resources/accounts/subresources/logs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Audit
 
-## Get account audit logs (Version 2)
+##### [Get account audit logs (Version 2)](https://developers.cloudflare.com/api/resources/accounts/subresources/logs/subresources/audit/methods/list)
 
-**get** `/accounts/{account_id}/logs/audit`
+GET/accounts/{account\_id}/logs/audit
 
-Gets a list of audit logs for an account.
+##### [Get resource change history from an account audit log entry (Version 2)](https://developers.cloudflare.com/api/resources/accounts/subresources/logs/subresources/audit/methods/history)
 
-### Path Parameters
+GET/accounts/{account\_id}/logs/audit/{id}/history
 
-- `account_id: string`
+##### [List account audit log product categories (Version 2)](https://developers.cloudflare.com/api/resources/accounts/subresources/logs/subresources/audit/methods/product_categories)
 
-  The unique id that identifies the account.
+GET/accounts/{account\_id}/logs/audit/product\_categories
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `before: string`
+<details>
 
-  Limits the returned results to logs older than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339.
+<summary>
 
-- `since: string`
+AuditListResponse object {id, account, action, 4 more }
 
-  Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339.
+</summary>
 
-- `id: optional object { not }`
+id: optional string
 
-  - `not: optional array of string`
+A unique identifier for the audit log entry.
 
-    Filters out audit logs by their IDs.
+maxLength32
 
-- `account_name: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+<details>
 
-    Filters out audit logs by the account name.
+<summary>
 
-- `action_result: optional object { not }`
+account: optional object {id, name }
 
-  - `not: optional array of "success" or "failure"`
+Contains account related information.
 
-    Filters out audit logs by whether the action was successful or not.
+</summary>
 
-    - `"success"`
+id: optional string
 
-    - `"failure"`
+A unique identifier for the account.
 
-- `action_type: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of "create" or "delete" or "view" or "update"`
+name: optional string
 
-    Filters out audit logs by the action type.
+A string that identifies the account name.
 
-    - `"create"`
+<a href="#">Link to this property</a>
 
-    - `"delete"`
+</details>
 
-    - `"view"`
+<a href="#">Link to this property</a>
 
-    - `"update"`
+<details>
 
-- `actor_context: optional object { not }`
+<summary>
 
-  - `not: optional array of "api_key" or "api_token" or "dash" or 2 more`
+action: optional object {description, result, time, type }
 
-    Filters out audit logs by the actor context.
+Provides information about the action performed.
 
-    - `"api_key"`
+</summary>
 
-    - `"api_token"`
+description: optional string
 
-    - `"dash"`
+A short description of the action performed.
 
-    - `"oauth"`
+<a href="#">Link to this property</a>
 
-    - `"origin_ca_key"`
+result: optional string
 
-- `actor_email: optional object { not }`
+The result of the action, indicating success or failure.
 
-  - `not: optional array of string`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the actor's email address.
+time: optional string
 
-- `actor_id: optional object { not }`
+A timestamp indicating when the action was logged.
 
-  - `not: optional array of string`
+formatdate-time
 
-    Filters out audit logs by the actor ID. This can be either the Account ID or User ID.
+<a href="#">Link to this property</a>
 
-- `actor_ip_address: optional object { not }`
+type: optional string
 
-  - `not: optional array of string`
+A short string that describes the action that was performed.
 
-    Filters out audit logs IP address where the action was initiated.
+<a href="#">Link to this property</a>
 
-- `actor_token_id: optional object { not }`
+</details>
 
-  - `not: optional array of string`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the API token ID when the actor context is an api_token or oauth.
+<details>
 
-- `actor_token_name: optional object { not }`
+<summary>
 
-  - `not: optional array of string`
+actor: optional object {id, context, email, 4 more }
 
-    Filters out audit logs by the API token name when the actor context is an api_token or oauth.
+Provides details about the actor who performed the action.
 
-- `actor_type: optional object { not }`
+</summary>
 
-  - `not: optional array of "account" or "cloudflare_admin" or "system" or "user"`
+id: optional string
 
-    Filters out audit logs by the actor type.
+The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
 
-    - `"account"`
+<a href="#">Link to this property</a>
 
-    - `"cloudflare_admin"`
+<details>
 
-    - `"system"`
+<summary>
 
-    - `"user"`
+context: optional "api"or "api\_key"or "api\_token"or 3 more
 
-- `audit_log_id: optional object { not }`
+The context in which the action was initiated.
 
-  - `not: optional array of string`
+- <code>api</code>: The action was performed through the API. The specific credential type was not recorded.
+- <code>api_key</code>: The action was authenticated with a Cloudflare Global API Key.
+- <code>api_token</code>: The action was authenticated with an API token.
+- <code>dash</code>: The action was performed through the Cloudflare dashboard.
+- <code>oauth</code>: The action was authenticated with an OAuth token.
+- <code>origin_ca_key</code>: The action was authenticated with an Origin CA key.
 
-    Filters out audit logs by their IDs.
+</summary>
 
-- `cursor: optional string`
+One of the following:
 
-  The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response.
+"api"
 
-- `direction: optional "desc" or "asc"`
+<a href="#">Link to this property</a>
 
-  Sets sorting order.
+"api\_key"
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+"api\_token"
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit.
+"dash"
 
-- `product_category: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters audit logs by one or more predefined product categories. Each product category expands into a curated set of resource_product values and is unioned with any explicit resource_product filter. Matched case-insensitively; unknown product categories return 400. Repeatable. Use the audit log product categories endpoint to discover the available values.
+"oauth"
 
-- `raw_cf_ray_id: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+"origin\_ca\_key"
 
-    Filters out audit logs by the response CF Ray ID.
+<a href="#">Link to this property</a>
 
-- `raw_method: optional object { not }`
+</details>
 
-  - `not: optional array of string`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the HTTP method for the API call.
+email: optional string
 
-- `raw_status_code: optional object { not }`
+The email of the actor who performed the action.
 
-  - `not: optional array of number`
+formatemail
 
-    Filters out audit logs by the response status code that was returned.
+<a href="#">Link to this property</a>
 
-- `raw_uri: optional object { not }`
+ip\_address: optional string
 
-  - `not: optional array of string`
+The IP address of the request that performed the action.
 
-    Filters out audit logs by the request URI.
+<a href="#">Link to this property</a>
 
-- `resource_id: optional object { not }`
+token\_id: optional string
 
-  - `not: optional array of string`
+The API token ID when the actor context is an api\_token or oauth.
 
-    Filters out audit logs by the resource ID.
+<a href="#">Link to this property</a>
 
-- `resource_product: optional object { not }`
+token\_name: optional string
 
-  - `not: optional array of string`
+The API token name when the actor context is an api\_token or oauth.
 
-    Filters out audit logs by the Cloudflare product associated with the changed resource.
+<a href="#">Link to this property</a>
 
-- `resource_scope: optional object { not }`
+<details>
 
-  - `not: optional array of "accounts" or "user" or "zones" or "memberships"`
+<summary>
 
-    Filters out audit logs by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership.
+type: optional "account"or "cloudflare\_admin"or "delegated\_service"or 2 more
 
-    - `"accounts"`
+The type of actor.
 
-    - `"user"`
+</summary>
 
-    - `"zones"`
+One of the following:
 
-    - `"memberships"`
+"account"
 
-- `resource_type: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+"cloudflare\_admin"
 
-    Filters out audit logs based on the unique type of resource changed by the action.
+<a href="#">Link to this property</a>
 
-- `zone_id: optional object { not }`
+"delegated\_service"
 
-  - `not: optional array of string`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the zone ID.
+"system"
 
-- `zone_name: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+"user"
 
-    Filters out audit logs by the zone name associated with the change.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: optional array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `result: optional array of object { id, account, action, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    A unique identifier for the audit log entry.
+<summary>
 
-  - `account: optional object { id, name }`
+raw: optional object {cf\_ray\_id, method, status\_code, 2 more }
 
-    Contains account related information.
+Provides raw information about the request and response.
 
-    - `id: optional string`
+</summary>
 
-      A unique identifier for the account.
+cf\_ray\_id: optional string
 
-    - `name: optional string`
+The Cloudflare Ray ID for the request.
 
-      A string that identifies the account name.
+<a href="#">Link to this property</a>
 
-  - `action: optional object { description, result, time, type }`
+method: optional string
 
-    Provides information about the action performed.
+The HTTP method of the request.
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A short description of the action performed.
+status\_code: optional number
 
-    - `result: optional string`
+The HTTP response status code returned by the API.
 
-      The result of the action, indicating success or failure.
+<a href="#">Link to this property</a>
 
-    - `time: optional string`
+uri: optional string
 
-      A timestamp indicating when the action was logged.
+The URI of the request.
 
-    - `type: optional string`
+<a href="#">Link to this property</a>
 
-      A short string that describes the action that was performed.
+user\_agent: optional string
 
-  - `actor: optional object { id, context, email, 4 more }`
+The client’s user agent string sent with the request.
 
-    Provides details about the actor who performed the action.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
+<a href="#">Link to this property</a>
 
-    - `context: optional "api_key" or "api_token" or "dash" or 2 more`
+<details>
 
-      - `"api_key"`
+<summary>
 
-      - `"api_token"`
+resource: optional object {id, product, request, 3 more }
 
-      - `"dash"`
+Provides details about the affected resource.
 
-      - `"oauth"`
+</summary>
 
-      - `"origin_ca_key"`
+id: optional string
 
-    - `email: optional string`
+The unique identifier for the affected resource.
 
-      The email of the actor who performed the action.
+<a href="#">Link to this property</a>
 
-    - `ip_address: optional string`
+product: optional string
 
-      The IP address of the request that performed the action.
+The Cloudflare product associated with the resource.
 
-    - `token_id: optional string`
+<a href="#">Link to this property</a>
 
-      The API token ID when the actor context is an api_token or oauth.
+request: optional unknown
 
-    - `token_name: optional string`
+<a href="#">Link to this property</a>
 
-      The API token name when the actor context is an api_token or oauth.
+response: optional unknown
 
-    - `type: optional "account" or "cloudflare_admin" or "system" or "user"`
+<a href="#">Link to this property</a>
 
-      The type of actor.
+scope: optional unknown
 
-      - `"account"`
+The scope of the resource.
 
-      - `"cloudflare_admin"`
+<a href="#">Link to this property</a>
 
-      - `"system"`
+type: optional string
 
-      - `"user"`
+The type of the resource.
 
-  - `raw: optional object { cf_ray_id, method, status_code, 2 more }`
+<a href="#">Link to this property</a>
 
-    Provides raw information about the request and response.
+</details>
 
-    - `cf_ray_id: optional string`
+<a href="#">Link to this property</a>
 
-      The Cloudflare Ray ID for the request.
+<details>
 
-    - `method: optional string`
+<summary>
 
-      The HTTP method of the request.
+zone: optional object {id, name }
 
-    - `status_code: optional number`
+Provides details about the zone affected by the action.
 
-      The HTTP response status code returned by the API.
+</summary>
 
-    - `uri: optional string`
+id: optional string
 
-      The URI of the request.
+A string that identifies the zone id.
 
-    - `user_agent: optional string`
+<a href="#">Link to this property</a>
 
-      The client's user agent string sent with the request.
+name: optional string
 
-  - `resource: optional object { id, product, request, 3 more }`
+A string that identifies the zone name.
 
-    Provides details about the affected resource.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      The unique identifier for the affected resource.
+<a href="#">Link to this property</a>
 
-    - `product: optional string`
+</details>
 
-      The Cloudflare product associated with the resource.
+[Link to this property](#)%20accounts.logs.audit%20%3E%20(model)%20audit_list_response%20%3E%20(schema)>)
 
-    - `request: optional unknown`
+<details>
 
-    - `response: optional unknown`
+<summary>
 
-    - `scope: optional unknown`
+AuditHistoryResponse = array of object {id, account, action, 4 more }
 
-      The scope of the resource.
+</summary>
 
-    - `type: optional string`
+id: optional string
 
-      The type of the resource.
+A unique identifier for the audit log entry.
 
-  - `zone: optional object { id, name }`
+maxLength32
 
-    Provides details about the zone affected by the action.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+<details>
 
-      A string that identifies the zone id.
+<summary>
 
-    - `name: optional string`
+account: optional object {id, name }
 
-      A string that identifies the zone name.
+Contains account related information.
 
-- `result_info: optional object { count, cursor }`
+</summary>
 
-  Provides information about the result of the request, including count and cursor.
+id: optional string
 
-  - `count: optional string`
+A unique identifier for the account.
 
-    The number of records returned in the response.
+<a href="#">Link to this property</a>
 
-  - `cursor: optional string`
+name: optional string
 
-    The cursor token used for pagination.
+A string that identifies the account name.
 
-- `success: optional true`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/logs/audit \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+action: optional object {description, result, time, type }
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "account": {
-        "id": "4bb334f7c94c4a29a045f03944f072e5",
-        "name": "Example Account"
-      },
-      "action": {
-        "description": "Add Member",
-        "result": "success",
-        "time": "2024-04-26T17:31:07Z",
-        "type": "create"
-      },
-      "actor": {
-        "id": "f6b5de0326bb5182b8a4840ee01ec774",
-        "context": "dash",
-        "email": "alice@example.com",
-        "ip_address": "198.41.129.166",
-        "token_id": "token_id",
-        "token_name": "token_name",
-        "type": "user"
-      },
-      "raw": {
-        "cf_ray_id": "8e9b1c60ef9e1c9a",
-        "method": "POST",
-        "status_code": 200,
-        "uri": "/accounts/4bb334f7c94c4a29a045f03944f072e5/members",
-        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15"
-      },
-      "resource": {
-        "id": "id",
-        "product": "members",
-        "request": {},
-        "response": {},
-        "scope": {},
-        "type": "type"
-      },
-      "zone": {
-        "id": "id",
-        "name": "example.com"
-      }
-    }
-  ],
-  "result_info": {
-    "count": "1",
-    "cursor": "ASqdKd7dKgxh-aZ8bm0mZos1BtW4BdEqifCzNkEeGRzi_5SN_-362Y8sF-C1TRn60_6rd3z2dIajf9EAPyQ_NmIeAMkacmaJPXipqvP7PLU4t72wyqBeJfjmjdE="
-  },
-  "success": true
-}
-```
+Provides information about the action performed.
 
-## Domain Types
+</summary>
 
-### Audit List Response
+description: optional string
 
-- `AuditListResponse object { id, account, action, 4 more }`
+A short description of the action performed.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    A unique identifier for the audit log entry.
+result: optional string
 
-  - `account: optional object { id, name }`
+The result of the action, indicating success or failure.
 
-    Contains account related information.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+time: optional string
 
-      A unique identifier for the account.
+A timestamp indicating when the action was logged.
 
-    - `name: optional string`
+formatdate-time
 
-      A string that identifies the account name.
+<a href="#">Link to this property</a>
 
-  - `action: optional object { description, result, time, type }`
+type: optional string
 
-    Provides information about the action performed.
+A short string that describes the action that was performed.
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A short description of the action performed.
+</details>
 
-    - `result: optional string`
+<a href="#">Link to this property</a>
 
-      The result of the action, indicating success or failure.
+<details>
 
-    - `time: optional string`
+<summary>
 
-      A timestamp indicating when the action was logged.
+actor: optional object {id, context, email, 4 more }
 
-    - `type: optional string`
+Provides details about the actor who performed the action.
 
-      A short string that describes the action that was performed.
+</summary>
 
-  - `actor: optional object { id, context, email, 4 more }`
+id: optional string
 
-    Provides details about the actor who performed the action.
+The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
+<details>
 
-    - `context: optional "api_key" or "api_token" or "dash" or 2 more`
+<summary>
 
-      - `"api_key"`
+context: optional "api"or "api\_key"or "api\_token"or 3 more
 
-      - `"api_token"`
+The context in which the action was initiated.
 
-      - `"dash"`
+- <code>api</code>: The action was performed through the API. The specific credential type was not recorded.
+- <code>api_key</code>: The action was authenticated with a Cloudflare Global API Key.
+- <code>api_token</code>: The action was authenticated with an API token.
+- <code>dash</code>: The action was performed through the Cloudflare dashboard.
+- <code>oauth</code>: The action was authenticated with an OAuth token.
+- <code>origin_ca_key</code>: The action was authenticated with an Origin CA key.
 
-      - `"oauth"`
+</summary>
 
-      - `"origin_ca_key"`
+One of the following:
 
-    - `email: optional string`
+"api"
 
-      The email of the actor who performed the action.
+<a href="#">Link to this property</a>
 
-    - `ip_address: optional string`
+"api\_key"
 
-      The IP address of the request that performed the action.
+<a href="#">Link to this property</a>
 
-    - `token_id: optional string`
+"api\_token"
 
-      The API token ID when the actor context is an api_token or oauth.
+<a href="#">Link to this property</a>
 
-    - `token_name: optional string`
+"dash"
 
-      The API token name when the actor context is an api_token or oauth.
+<a href="#">Link to this property</a>
 
-    - `type: optional "account" or "cloudflare_admin" or "system" or "user"`
+"oauth"
 
-      The type of actor.
+<a href="#">Link to this property</a>
 
-      - `"account"`
+"origin\_ca\_key"
 
-      - `"cloudflare_admin"`
+<a href="#">Link to this property</a>
 
-      - `"system"`
+</details>
 
-      - `"user"`
+<a href="#">Link to this property</a>
 
-  - `raw: optional object { cf_ray_id, method, status_code, 2 more }`
+email: optional string
 
-    Provides raw information about the request and response.
+The email of the actor who performed the action.
 
-    - `cf_ray_id: optional string`
+formatemail
 
-      The Cloudflare Ray ID for the request.
+<a href="#">Link to this property</a>
 
-    - `method: optional string`
+ip\_address: optional string
 
-      The HTTP method of the request.
+The IP address of the request that performed the action.
 
-    - `status_code: optional number`
+<a href="#">Link to this property</a>
 
-      The HTTP response status code returned by the API.
+token\_id: optional string
 
-    - `uri: optional string`
+The API token ID when the actor context is an api\_token or oauth.
 
-      The URI of the request.
+<a href="#">Link to this property</a>
 
-    - `user_agent: optional string`
+token\_name: optional string
 
-      The client's user agent string sent with the request.
+The API token name when the actor context is an api\_token or oauth.
 
-  - `resource: optional object { id, product, request, 3 more }`
+<a href="#">Link to this property</a>
 
-    Provides details about the affected resource.
+<details>
 
-    - `id: optional string`
+<summary>
 
-      The unique identifier for the affected resource.
+type: optional "account"or "cloudflare\_admin"or "delegated\_service"or 2 more
 
-    - `product: optional string`
+The type of actor.
 
-      The Cloudflare product associated with the resource.
+</summary>
 
-    - `request: optional unknown`
+One of the following:
 
-    - `response: optional unknown`
+"account"
 
-    - `scope: optional unknown`
+<a href="#">Link to this property</a>
 
-      The scope of the resource.
+"cloudflare\_admin"
 
-    - `type: optional string`
+<a href="#">Link to this property</a>
 
-      The type of the resource.
+"delegated\_service"
 
-  - `zone: optional object { id, name }`
+<a href="#">Link to this property</a>
 
-    Provides details about the zone affected by the action.
+"system"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      A string that identifies the zone id.
+"user"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      A string that identifies the zone name.
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+raw: optional object {cf\_ray\_id, method, status\_code, 2 more }
+
+Provides raw information about the request and response.
+
+</summary>
+
+cf\_ray\_id: optional string
+
+The Cloudflare Ray ID for the request.
+
+<a href="#">Link to this property</a>
+
+method: optional string
+
+The HTTP method of the request.
+
+<a href="#">Link to this property</a>
+
+status\_code: optional number
+
+The HTTP response status code returned by the API.
+
+<a href="#">Link to this property</a>
+
+uri: optional string
+
+The URI of the request.
+
+<a href="#">Link to this property</a>
+
+user\_agent: optional string
+
+The client’s user agent string sent with the request.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource: optional object {id, product, request, 3 more }
+
+Provides details about the affected resource.
+
+</summary>
+
+id: optional string
+
+The unique identifier for the affected resource.
+
+<a href="#">Link to this property</a>
+
+product: optional string
+
+The Cloudflare product associated with the resource.
+
+<a href="#">Link to this property</a>
+
+request: optional unknown
+
+<a href="#">Link to this property</a>
+
+response: optional unknown
+
+<a href="#">Link to this property</a>
+
+scope: optional unknown
+
+The scope of the resource.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+The type of the resource.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zone: optional object {id, name }
+
+Provides details about the zone affected by the action.
+
+</summary>
+
+id: optional string
+
+A string that identifies the zone id.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+A string that identifies the zone name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts.logs.audit%20%3E%20(model)%20audit_history_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+AuditProductCategoriesResponse object {label, products, value }
+
+A predefined product category and the resource products it expands to.
+
+</summary>
+
+label: optional string
+
+A human-readable label for the product category.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+products: optional array of object {label, value }
+
+The resource products that the product category expands to.
+
+</summary>
+
+label: optional string
+
+A human-readable label for the product.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The resource\_product value that the product category expands to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The product category identifier used with the product\_category filter.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts.logs.audit%20%3E%20(model)%20audit_product_categories_response%20%3E%20(schema)>)

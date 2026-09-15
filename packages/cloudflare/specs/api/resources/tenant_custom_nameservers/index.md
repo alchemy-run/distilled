@@ -1,523 +1,261 @@
+---
+title: Tenant Custom Nameservers
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tenant Custom Nameservers
 
-## List Tenant Custom Nameservers
+##### [List Tenant Custom Nameservers](https://developers.cloudflare.com/api/resources/tenant_custom_nameservers/methods/get)
 
-**get** `/tenants/{tenant_tag}/custom_ns`
+GET/tenants/{tenant\_tag}/custom\_ns
 
-List a tenant's custom nameservers.
+##### [Add Tenant Custom Nameserver](https://developers.cloudflare.com/api/resources/tenant_custom_nameservers/methods/create)
 
-### Path Parameters
+POST/tenants/{tenant\_tag}/custom\_ns
 
-- `tenant_tag: string`
+##### [Delete Tenant Custom Nameserver](https://developers.cloudflare.com/api/resources/tenant_custom_nameservers/methods/delete)
 
-  Tenant identifier tag.
+DELETE/tenants/{tenant\_tag}/custom\_ns/{custom\_ns\_id}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+TenantCustomNameserverGetResponse object {dns\_records, ns\_name, status, 2 more }
 
-  - `documentation_url: optional string`
+A single tenant custom nameserver.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+dns\_records: array of object {type, value }
 
-  - `message: string`
+A and AAAA records associated with the nameserver.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+type: optional "A"or "AAAA"
 
-  Whether the API call was successful.
+DNS record type.
 
-  - `true`
+</summary>
 
-- `result: optional array of object { dns_records, ns_name, status, 2 more }`
+One of the following:
 
-  - `dns_records: array of object { type, value }`
+"A"
 
-    A and AAAA records associated with the nameserver.
+<a href="#">Link to this property</a>
 
-    - `type: optional "A" or "AAAA"`
+"AAAA"
 
-      DNS record type.
+<a href="#">Link to this property</a>
 
-      - `"A"`
+</details>
 
-      - `"AAAA"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+value: optional string
 
-      DNS record contents (an IPv4 or IPv6 address).
+DNS record contents (an IPv4 or IPv6 address).
 
-  - `ns_name: string`
+<a href="#">Link to this property</a>
 
-    The FQDN of the name server.
+</details>
 
-  - `status: "moved" or "pending" or "verified"`
+<a href="#">Link to this property</a>
 
-    Verification status of the nameserver.
+ns\_name: string
 
-    - `"moved"`
+The FQDN of the name server.
 
-    - `"pending"`
+formathostname
 
-    - `"verified"`
+<a href="#">Link to this property</a>
 
-  - `zone_tag: string`
+<details>
 
-    Identifier.
+<summary>
 
-  - `ns_set: optional number`
+Deprecatedstatus: "moved"or "pending"or "verified"
 
-    The number of the set that this name server belongs to.
+Verification status of the nameserver.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: optional number`
+One of the following:
 
-    Total number of results for the requested service.
+"moved"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+"pending"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+"verified"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+zone\_tag: string
 
-### Example
+Identifier.
 
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_TAG/custom_ns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "dns_records": [
-        {
-          "type": "A",
-          "value": "1.1.1.1"
-        }
-      ],
-      "ns_name": "ns1.example.com",
-      "status": "verified",
-      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353",
-      "ns_set": 1
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+ns\_set: optional number
 
-## Add Tenant Custom Nameserver
+The number of the set that this name server belongs to.
 
-**post** `/tenants/{tenant_tag}/custom_ns`
+maximum5
 
-Add Tenant Custom Nameserver
+minimum1
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `tenant_tag: string`
+</details>
 
-  Tenant identifier tag.
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(model)%20tenant_custom_nameserver_get_response%20%3E%20(schema)>)
 
-### Body Parameters
+<details>
 
-- `ns_name: string`
+<summary>
 
-  The FQDN of the name server.
+TenantCustomNameserverCreateResponse object {dns\_records, ns\_name, status, 2 more }
 
-- `ns_set: optional number`
+A single tenant custom nameserver.
 
-  The number of the set that this name server belongs to.
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+dns\_records: array of object {type, value }
 
-  - `message: string`
+A and AAAA records associated with the nameserver.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+type: optional "A"or "AAAA"
 
-  - `code: number`
+DNS record type.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"A"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"AAAA"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { dns_records, ns_name, status, 2 more }`
+<a href="#">Link to this property</a>
 
-  A single tenant custom nameserver.
+value: optional string
 
-  - `dns_records: array of object { type, value }`
+DNS record contents (an IPv4 or IPv6 address).
 
-    A and AAAA records associated with the nameserver.
+<a href="#">Link to this property</a>
 
-    - `type: optional "A" or "AAAA"`
+</details>
 
-      DNS record type.
+<a href="#">Link to this property</a>
 
-      - `"A"`
+ns\_name: string
 
-      - `"AAAA"`
+The FQDN of the name server.
 
-    - `value: optional string`
+formathostname
 
-      DNS record contents (an IPv4 or IPv6 address).
+<a href="#">Link to this property</a>
 
-  - `ns_name: string`
+<details>
 
-    The FQDN of the name server.
+<summary>
 
-  - `status: "moved" or "pending" or "verified"`
+Deprecatedstatus: "moved"or "pending"or "verified"
 
-    Verification status of the nameserver.
+Verification status of the nameserver.
 
-    - `"moved"`
+</summary>
 
-    - `"pending"`
+One of the following:
 
-    - `"verified"`
+"moved"
 
-  - `zone_tag: string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+"pending"
 
-  - `ns_set: optional number`
+<a href="#">Link to this property</a>
 
-    The number of the set that this name server belongs to.
+"verified"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_TAG/custom_ns \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ns_name": "ns1.example.com",
-          "ns_set": 1
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dns_records": [
-      {
-        "type": "A",
-        "value": "1.1.1.1"
-      }
-    ],
-    "ns_name": "ns1.example.com",
-    "status": "verified",
-    "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353",
-    "ns_set": 1
-  }
-}
-```
+zone\_tag: string
 
-## Delete Tenant Custom Nameserver
+Identifier.
 
-**delete** `/tenants/{tenant_tag}/custom_ns/{custom_ns_id}`
+maxLength32
 
-Delete Tenant Custom Nameserver
+<a href="#">Link to this property</a>
 
-### Path Parameters
+ns\_set: optional number
 
-- `tenant_tag: string`
+The number of the set that this name server belongs to.
 
-  Tenant identifier tag.
+maximum5
 
-- `custom_ns_id: string`
+minimum1
 
-  The FQDN of the name server.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(model)%20tenant_custom_nameserver_create_response%20%3E%20(schema)>)
 
-  - `code: number`
+TenantCustomNameserverDeleteResponse = string
 
-  - `message: string`
+Unused.
 
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of string`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_TAG/custom_ns/$CUSTOM_NS_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Tenant Custom Nameserver Get Response
-
-- `TenantCustomNameserverGetResponse object { dns_records, ns_name, status, 2 more }`
-
-  A single tenant custom nameserver.
-
-  - `dns_records: array of object { type, value }`
-
-    A and AAAA records associated with the nameserver.
-
-    - `type: optional "A" or "AAAA"`
-
-      DNS record type.
-
-      - `"A"`
-
-      - `"AAAA"`
-
-    - `value: optional string`
-
-      DNS record contents (an IPv4 or IPv6 address).
-
-  - `ns_name: string`
-
-    The FQDN of the name server.
-
-  - `status: "moved" or "pending" or "verified"`
-
-    Verification status of the nameserver.
-
-    - `"moved"`
-
-    - `"pending"`
-
-    - `"verified"`
-
-  - `zone_tag: string`
-
-    Identifier.
-
-  - `ns_set: optional number`
-
-    The number of the set that this name server belongs to.
-
-### Tenant Custom Nameserver Create Response
-
-- `TenantCustomNameserverCreateResponse object { dns_records, ns_name, status, 2 more }`
-
-  A single tenant custom nameserver.
-
-  - `dns_records: array of object { type, value }`
-
-    A and AAAA records associated with the nameserver.
-
-    - `type: optional "A" or "AAAA"`
-
-      DNS record type.
-
-      - `"A"`
-
-      - `"AAAA"`
-
-    - `value: optional string`
-
-      DNS record contents (an IPv4 or IPv6 address).
-
-  - `ns_name: string`
-
-    The FQDN of the name server.
-
-  - `status: "moved" or "pending" or "verified"`
-
-    Verification status of the nameserver.
-
-    - `"moved"`
-
-    - `"pending"`
-
-    - `"verified"`
-
-  - `zone_tag: string`
-
-    Identifier.
-
-  - `ns_set: optional number`
-
-    The number of the set that this name server belongs to.
-
-### Tenant Custom Nameserver Delete Response
-
-- `TenantCustomNameserverDeleteResponse = string`
-
-  Unused
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(model)%20tenant_custom_nameserver_delete_response%20%3E%20(schema)>)

@@ -1,245 +1,197 @@
+---
+title: Metrics
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Metrics
 
-## Get Account-Level Metrics
+##### [Get Account-Level Metrics](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/metrics/methods/list)
 
-**get** `/accounts/{account_id}/r2/metrics`
+GET/accounts/{account\_id}/r2/metrics
 
-Get Storage/Object Count Metrics across all buckets in your account. Note that Account-Level Metrics may not immediately reflect the latest data.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+MetricListResponse object {infrequentAccess, standard }
 
-### Returns
+Metrics based on the class they belong to.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+infrequentAccess: optional object {published, uploaded }
 
-  - `source: optional object { pointer }`
+Metrics based on what state they are in(uploaded or published).
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of string`
+<details>
 
-- `result: object { infrequentAccess, standard }`
+<summary>
 
-  Metrics based on the class they belong to.
+published: optional object {metadataSize, objects, payloadSize }
 
-  - `infrequentAccess: optional object { published, uploaded }`
+Metrics on number of objects/amount of storage used.
 
-    Metrics based on what state they are in(uploaded or published).
+</summary>
 
-    - `published: optional object { metadataSize, objects, payloadSize }`
+metadataSize: optional number
 
-      Metrics on number of objects/amount of storage used.
+Amount of.
 
-      - `metadataSize: optional number`
+<a href="#">Link to this property</a>
 
-        Amount of.
+objects: optional number
 
-      - `objects: optional number`
+Number of objects stored.
 
-        Number of objects stored.
+<a href="#">Link to this property</a>
 
-      - `payloadSize: optional number`
+payloadSize: optional number
 
-        Amount of storage used by object data.
+Amount of storage used by object data.
 
-    - `uploaded: optional object { metadataSize, objects, payloadSize }`
+<a href="#">Link to this property</a>
 
-      Metrics on number of objects/amount of storage used.
+</details>
 
-      - `metadataSize: optional number`
+<a href="#">Link to this property</a>
 
-        Amount of.
+<details>
 
-      - `objects: optional number`
+<summary>
 
-        Number of objects stored.
+uploaded: optional object {metadataSize, objects, payloadSize }
 
-      - `payloadSize: optional number`
+Metrics on number of objects/amount of storage used.
 
-        Amount of storage used by object data.
+</summary>
 
-  - `standard: optional object { published, uploaded }`
+metadataSize: optional number
 
-    Metrics based on what state they are in(uploaded or published).
+Amount of.
 
-    - `published: optional object { metadataSize, objects, payloadSize }`
+<a href="#">Link to this property</a>
 
-      Metrics on number of objects/amount of storage used.
+objects: optional number
 
-      - `metadataSize: optional number`
+Number of objects stored.
 
-        Amount of.
+<a href="#">Link to this property</a>
 
-      - `objects: optional number`
+payloadSize: optional number
 
-        Number of objects stored.
+Amount of storage used by object data.
 
-      - `payloadSize: optional number`
+<a href="#">Link to this property</a>
 
-        Amount of storage used by object data.
+</details>
 
-    - `uploaded: optional object { metadataSize, objects, payloadSize }`
+<a href="#">Link to this property</a>
 
-      Metrics on number of objects/amount of storage used.
+</details>
 
-      - `metadataSize: optional number`
+<a href="#">Link to this property</a>
 
-        Amount of.
+<details>
 
-      - `objects: optional number`
+<summary>
 
-        Number of objects stored.
+standard: optional object {published, uploaded }
 
-      - `payloadSize: optional number`
+Metrics based on what state they are in(uploaded or published).
 
-        Amount of storage used by object data.
+</summary>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+published: optional object {metadataSize, objects, payloadSize }
 
-### Example
+Metrics on number of objects/amount of storage used.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/metrics \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+metadataSize: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "infrequentAccess": {
-      "published": {
-        "metadataSize": 0,
-        "objects": 0,
-        "payloadSize": 0
-      },
-      "uploaded": {
-        "metadataSize": 0,
-        "objects": 0,
-        "payloadSize": 0
-      }
-    },
-    "standard": {
-      "published": {
-        "metadataSize": 0,
-        "objects": 0,
-        "payloadSize": 0
-      },
-      "uploaded": {
-        "metadataSize": 0,
-        "objects": 0,
-        "payloadSize": 0
-      }
-    }
-  },
-  "success": true
-}
-```
+Amount of.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Metric List Response
+objects: optional number
 
-- `MetricListResponse object { infrequentAccess, standard }`
+Number of objects stored.
 
-  Metrics based on the class they belong to.
+<a href="#">Link to this property</a>
 
-  - `infrequentAccess: optional object { published, uploaded }`
+payloadSize: optional number
 
-    Metrics based on what state they are in(uploaded or published).
+Amount of storage used by object data.
 
-    - `published: optional object { metadataSize, objects, payloadSize }`
+<a href="#">Link to this property</a>
 
-      Metrics on number of objects/amount of storage used.
+</details>
 
-      - `metadataSize: optional number`
+<a href="#">Link to this property</a>
 
-        Amount of.
+<details>
 
-      - `objects: optional number`
+<summary>
 
-        Number of objects stored.
+uploaded: optional object {metadataSize, objects, payloadSize }
 
-      - `payloadSize: optional number`
+Metrics on number of objects/amount of storage used.
 
-        Amount of storage used by object data.
+</summary>
 
-    - `uploaded: optional object { metadataSize, objects, payloadSize }`
+metadataSize: optional number
 
-      Metrics on number of objects/amount of storage used.
+Amount of.
 
-      - `metadataSize: optional number`
+<a href="#">Link to this property</a>
 
-        Amount of.
+objects: optional number
 
-      - `objects: optional number`
+Number of objects stored.
 
-        Number of objects stored.
+<a href="#">Link to this property</a>
 
-      - `payloadSize: optional number`
+payloadSize: optional number
 
-        Amount of storage used by object data.
+Amount of storage used by object data.
 
-  - `standard: optional object { published, uploaded }`
+<a href="#">Link to this property</a>
 
-    Metrics based on what state they are in(uploaded or published).
+</details>
 
-    - `published: optional object { metadataSize, objects, payloadSize }`
+<a href="#">Link to this property</a>
 
-      Metrics on number of objects/amount of storage used.
+</details>
 
-      - `metadataSize: optional number`
+<a href="#">Link to this property</a>
 
-        Amount of.
+</details>
 
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-    - `uploaded: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
+[Link to this property](#)%20r2.buckets.metrics%20%3E%20(model)%20metric_list_response%20%3E%20(schema)>)

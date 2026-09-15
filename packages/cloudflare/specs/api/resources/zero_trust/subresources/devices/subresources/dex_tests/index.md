@@ -1,1395 +1,313 @@
+---
+title: DEX Tests
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # DEX Tests
 
-## List Device DEX tests
+##### [List Device DEX tests](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/list)
 
-**get** `/accounts/{account_id}/dex/devices/dex_tests`
+GET/accounts/{account\_id}/dex/devices/dex\_tests
 
-Fetch all DEX tests.
+##### [Get Device DEX test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dex/devices/dex\_tests/{dex\_test\_id}
 
-- `account_id: string`
+##### [Create Device DEX test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/create)
 
-  Unique identifier linked to an account.
+POST/accounts/{account\_id}/dex/devices/dex\_tests
 
-### Query Parameters
+##### [Update Device DEX test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/update)
 
-- `kind: optional "http" or "traceroute"`
+PUT/accounts/{account\_id}/dex/devices/dex\_tests/{dex\_test\_id}
 
-  Filter by test type.
+##### [Delete Device DEX test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/delete)
 
-  - `"http"`
+DELETE/accounts/{account\_id}/dex/devices/dex\_tests/{dex\_test\_id}
 
-  - `"traceroute"`
+##### ModelsExpand Collapse
 
-- `page: optional number`
+<details>
 
-  Page number of paginated results.
+<summary>
 
-- `per_page: optional number`
+SchemaData object {host, kind, method }
 
-  Number of results per page.
+The configuration object which contains the details for the WARP client to conduct the test.
 
-- `testName: optional string`
+</summary>
 
-  Filter by test name.
+host: string
 
-### Returns
+The desired endpoint to test.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+kind: "http"or "traceroute"
 
-  - `source: optional object { pointer }`
+The type of test.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"http"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"traceroute"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+method: optional "GET"
 
-  - `true`
+The HTTP request method type.
 
-- `result: optional array of object { data, enabled, interval, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `data: object { host, kind, method }`
+</details>
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)>)
 
-    - `host: string`
+<details>
 
-      The desired endpoint to test.
+<summary>
 
-    - `kind: "http" or "traceroute"`
+SchemaHTTP object {data, enabled, interval, 7 more }
 
-      The type of test.
+</summary>
 
-      - `"http"`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-      - `"traceroute"`
+The configuration object which contains the details for the WARP client to conduct the test.
 
-    - `method: optional "GET"`
+<a href="#">Link to this property</a>
 
-      The HTTP request method type.
+enabled: boolean
 
-      - `"GET"`
+Determines whether or not the test is active.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether or not the test is active.
+interval: string
 
-  - `interval: string`
+How often the test will run.
 
-    How often the test will run.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-    The name of the DEX test. Must be unique.
-
-  - `description: optional string`
+The name of the DEX test. Must be unique.
 
-    Additional details about the test.
+<a href="#">Link to this property</a>
 
-  - `target_policies: optional array of object { id, default, name }`
+created: optional string
 
-    DEX rules targeted by this test
+Date the test was created, in RFC 3339 format.
 
-    - `id: string`
+formatdate-time
 
-      The id of the DEX rule.
+<a href="#">Link to this property</a>
 
-    - `default: optional boolean`
+description: optional string
 
-      Whether the DEX rule is the account default.
+Additional details about the test.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      The name of the DEX rule.
+<details>
 
-  - `targeted: optional boolean`
+<summary>
 
-  - `test_id: optional string`
+target\_policies: optional array of object {id, default, name }
 
-    The unique identifier for the test.
+DEX rules targeted by this test
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+id: string
 
-#### Response
+The id of the DEX rule.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "data": {
-        "host": "https://dash.cloudflare.com",
-        "kind": "http",
-        "method": "GET"
-      },
-      "enabled": true,
-      "interval": "30m",
-      "name": "HTTP dash health check",
-      "description": "Checks the dash endpoint every 30 minutes",
-      "target_policies": [
-        {
-          "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-          "default": true,
-          "name": "name"
-        }
-      ],
-      "targeted": true,
-      "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-    }
-  ]
-}
-```
+maxLength36
 
-## Get Device DEX test
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dex/devices/dex_tests/{dex_test_id}`
+default: optional boolean
 
-Fetch a single DEX test.
+Whether the DEX rule is the account default.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: optional string
 
-  Unique identifier linked to an account.
+The name of the DEX rule.
 
-- `dex_test_id: string`
+<a href="#">Link to this property</a>
 
-  The unique identifier for the test.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+targeted: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+test\_id: optional string
 
-  - `documentation_url: optional string`
+The unique identifier for the test.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+updated: optional string
 
-  - `code: number`
+Date the test was last updated, in RFC 3339 format.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_http%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+DEXTestDeleteResponse object {dex\_tests }
 
-- `result: optional object { data, enabled, interval, 5 more }`
+</summary>
 
-  - `data: object { host, kind, method }`
+<details>
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+<summary>
 
-    - `host: string`
+dex\_tests: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_http%20%3E%20(schema)">SchemaHTTP</a> { data, enabled, interval, 7 more }
 
-      The desired endpoint to test.
+</summary>
 
-    - `kind: "http" or "traceroute"`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-      The type of test.
+The configuration object which contains the details for the WARP client to conduct the test.
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"traceroute"`
+enabled: boolean
 
-    - `method: optional "GET"`
+Determines whether or not the test is active.
 
-      The HTTP request method type.
+<a href="#">Link to this property</a>
 
-      - `"GET"`
+interval: string
 
-  - `enabled: boolean`
+How often the test will run.
 
-    Determines whether or not the test is active.
+<a href="#">Link to this property</a>
 
-  - `interval: string`
+name: string
 
-    How often the test will run.
+The name of the DEX test. Must be unique.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the DEX test. Must be unique.
+created: optional string
 
-  - `description: optional string`
+Date the test was created, in RFC 3339 format.
 
-    Additional details about the test.
+formatdate-time
 
-  - `target_policies: optional array of object { id, default, name }`
+<a href="#">Link to this property</a>
 
-    DEX rules targeted by this test
+description: optional string
 
-    - `id: string`
+Additional details about the test.
 
-      The id of the DEX rule.
+<a href="#">Link to this property</a>
 
-    - `default: optional boolean`
+<details>
 
-      Whether the DEX rule is the account default.
+<summary>
 
-    - `name: optional string`
+target\_policies: optional array of object {id, default, name }
 
-      The name of the DEX rule.
+DEX rules targeted by this test
 
-  - `targeted: optional boolean`
+</summary>
 
-  - `test_id: optional string`
+id: string
 
-    The unique identifier for the test.
+The id of the DEX rule.
 
-### Example
+maxLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests/$DEX_TEST_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+default: optional boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": {
-      "host": "https://dash.cloudflare.com",
-      "kind": "http",
-      "method": "GET"
-    },
-    "enabled": true,
-    "interval": "30m",
-    "name": "HTTP dash health check",
-    "description": "Checks the dash endpoint every 30 minutes",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true,
-    "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-  }
-}
-```
+Whether the DEX rule is the account default.
 
-## Create Device DEX test
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dex/devices/dex_tests`
+name: optional string
 
-Create a DEX test.
+The name of the DEX rule.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Unique identifier linked to an account.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+targeted: optional boolean
 
-- `data: object { host, kind, method }`
+<a href="#">Link to this property</a>
 
-  The configuration object which contains the details for the WARP client to conduct the test.
+test\_id: optional string
 
-  - `host: string`
+The unique identifier for the test.
 
-    The desired endpoint to test.
+maxLength32
 
-  - `kind: "http" or "traceroute"`
+<a href="#">Link to this property</a>
 
-    The type of test.
+updated: optional string
 
-    - `"http"`
+Date the test was last updated, in RFC 3339 format.
 
-    - `"traceroute"`
+formatdate-time
 
-  - `method: optional "GET"`
+<a href="#">Link to this property</a>
 
-    The HTTP request method type.
+</details>
 
-    - `"GET"`
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+</details>
 
-  Determines whether or not the test is active.
-
-- `interval: string`
-
-  How often the test will run.
-
-- `name: string`
-
-  The name of the DEX test. Must be unique.
-
-- `description: optional string`
-
-  Additional details about the test.
-
-- `target_policies: optional array of object { id, default, name }`
-
-  DEX rules targeted by this test
-
-  - `id: string`
-
-    The id of the DEX rule.
-
-  - `default: optional boolean`
-
-    Whether the DEX rule is the account default.
-
-  - `name: optional string`
-
-    The name of the DEX rule.
-
-- `targeted: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { data, enabled, interval, 5 more }`
-
-  - `data: object { host, kind, method }`
-
-    The configuration object which contains the details for the WARP client to conduct the test.
-
-    - `host: string`
-
-      The desired endpoint to test.
-
-    - `kind: "http" or "traceroute"`
-
-      The type of test.
-
-      - `"http"`
-
-      - `"traceroute"`
-
-    - `method: optional "GET"`
-
-      The HTTP request method type.
-
-      - `"GET"`
-
-  - `enabled: boolean`
-
-    Determines whether or not the test is active.
-
-  - `interval: string`
-
-    How often the test will run.
-
-  - `name: string`
-
-    The name of the DEX test. Must be unique.
-
-  - `description: optional string`
-
-    Additional details about the test.
-
-  - `target_policies: optional array of object { id, default, name }`
-
-    DEX rules targeted by this test
-
-    - `id: string`
-
-      The id of the DEX rule.
-
-    - `default: optional boolean`
-
-      Whether the DEX rule is the account default.
-
-    - `name: optional string`
-
-      The name of the DEX rule.
-
-  - `targeted: optional boolean`
-
-  - `test_id: optional string`
-
-    The unique identifier for the test.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "data": {
-            "host": "https://dash.cloudflare.com",
-            "kind": "http",
-            "method": "GET"
-          },
-          "enabled": true,
-          "interval": "30m",
-          "name": "HTTP dash health check",
-          "description": "Checks the dash endpoint every 30 minutes"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": {
-      "host": "https://dash.cloudflare.com",
-      "kind": "http",
-      "method": "GET"
-    },
-    "enabled": true,
-    "interval": "30m",
-    "name": "HTTP dash health check",
-    "description": "Checks the dash endpoint every 30 minutes",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true,
-    "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-  }
-}
-```
-
-## Update Device DEX test
-
-**put** `/accounts/{account_id}/dex/devices/dex_tests/{dex_test_id}`
-
-Update a DEX test.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `dex_test_id: string`
-
-  API Resource UUID tag.
-
-### Body Parameters
-
-- `data: object { host, kind, method }`
-
-  The configuration object which contains the details for the WARP client to conduct the test.
-
-  - `host: string`
-
-    The desired endpoint to test.
-
-  - `kind: "http" or "traceroute"`
-
-    The type of test.
-
-    - `"http"`
-
-    - `"traceroute"`
-
-  - `method: optional "GET"`
-
-    The HTTP request method type.
-
-    - `"GET"`
-
-- `enabled: boolean`
-
-  Determines whether or not the test is active.
-
-- `interval: string`
-
-  How often the test will run.
-
-- `name: string`
-
-  The name of the DEX test. Must be unique.
-
-- `description: optional string`
-
-  Additional details about the test.
-
-- `target_policies: optional array of object { id, default, name }`
-
-  DEX rules targeted by this test
-
-  - `id: string`
-
-    The id of the DEX rule.
-
-  - `default: optional boolean`
-
-    Whether the DEX rule is the account default.
-
-  - `name: optional string`
-
-    The name of the DEX rule.
-
-- `targeted: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { data, enabled, interval, 5 more }`
-
-  - `data: object { host, kind, method }`
-
-    The configuration object which contains the details for the WARP client to conduct the test.
-
-    - `host: string`
-
-      The desired endpoint to test.
-
-    - `kind: "http" or "traceroute"`
-
-      The type of test.
-
-      - `"http"`
-
-      - `"traceroute"`
-
-    - `method: optional "GET"`
-
-      The HTTP request method type.
-
-      - `"GET"`
-
-  - `enabled: boolean`
-
-    Determines whether or not the test is active.
-
-  - `interval: string`
-
-    How often the test will run.
-
-  - `name: string`
-
-    The name of the DEX test. Must be unique.
-
-  - `description: optional string`
-
-    Additional details about the test.
-
-  - `target_policies: optional array of object { id, default, name }`
-
-    DEX rules targeted by this test
-
-    - `id: string`
-
-      The id of the DEX rule.
-
-    - `default: optional boolean`
-
-      Whether the DEX rule is the account default.
-
-    - `name: optional string`
-
-      The name of the DEX rule.
-
-  - `targeted: optional boolean`
-
-  - `test_id: optional string`
-
-    The unique identifier for the test.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests/$DEX_TEST_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "data": {
-            "host": "https://dash.cloudflare.com",
-            "kind": "http",
-            "method": "GET"
-          },
-          "enabled": true,
-          "interval": "30m",
-          "name": "HTTP dash health check",
-          "description": "Checks the dash endpoint every 30 minutes"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": {
-      "host": "https://dash.cloudflare.com",
-      "kind": "http",
-      "method": "GET"
-    },
-    "enabled": true,
-    "interval": "30m",
-    "name": "HTTP dash health check",
-    "description": "Checks the dash endpoint every 30 minutes",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true,
-    "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-  }
-}
-```
-
-## Delete Device DEX test
-
-**delete** `/accounts/{account_id}/dex/devices/dex_tests/{dex_test_id}`
-
-Delete a Device DEX test. Returns the remaining device dex tests for the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `dex_test_id: string`
-
-  API Resource UUID tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { dex_tests }`
-
-  - `dex_tests: optional array of object { data, enabled, interval, 5 more }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-      Determines whether or not the test is active.
-
-    - `interval: string`
-
-      How often the test will run.
-
-    - `name: string`
-
-      The name of the DEX test. Must be unique.
-
-    - `description: optional string`
-
-      Additional details about the test.
-
-    - `target_policies: optional array of object { id, default, name }`
-
-      DEX rules targeted by this test
-
-      - `id: string`
-
-        The id of the DEX rule.
-
-      - `default: optional boolean`
-
-        Whether the DEX rule is the account default.
-
-      - `name: optional string`
-
-        The name of the DEX rule.
-
-    - `targeted: optional boolean`
-
-    - `test_id: optional string`
-
-      The unique identifier for the test.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests/$DEX_TEST_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dex_tests": [
-      {
-        "data": {
-          "host": "https://dash.cloudflare.com",
-          "kind": "http",
-          "method": "GET"
-        },
-        "enabled": true,
-        "interval": "30m",
-        "name": "HTTP dash health check",
-        "description": "Checks the dash endpoint every 30 minutes",
-        "target_policies": [
-          {
-            "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-            "default": true,
-            "name": "name"
-          }
-        ],
-        "targeted": true,
-        "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-      }
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Schema Data
-
-- `SchemaData object { host, kind, method }`
-
-  The configuration object which contains the details for the WARP client to conduct the test.
-
-  - `host: optional string`
-
-    The desired endpoint to test.
-
-  - `kind: optional string`
-
-    The type of test.
-
-  - `method: optional string`
-
-    The HTTP request method type.
-
-### Schema HTTP
-
-- `SchemaHTTP object { data, enabled, interval, 5 more }`
-
-  - `data: SchemaData`
-
-    The configuration object which contains the details for the WARP client to conduct the test.
-
-    - `host: optional string`
-
-      The desired endpoint to test.
-
-    - `kind: optional string`
-
-      The type of test.
-
-    - `method: optional string`
-
-      The HTTP request method type.
-
-  - `enabled: boolean`
-
-    Determines whether or not the test is active.
-
-  - `interval: string`
-
-    How often the test will run.
-
-  - `name: string`
-
-    The name of the DEX test. Must be unique.
-
-  - `description: optional string`
-
-    Additional details about the test.
-
-  - `target_policies: optional array of object { id, default, name }`
-
-    Device settings profiles targeted by this test.
-
-    - `id: optional string`
-
-      The id of the device settings profile.
-
-    - `default: optional boolean`
-
-      Whether the profile is the account default.
-
-    - `name: optional string`
-
-      The name of the device settings profile.
-
-  - `targeted: optional boolean`
-
-  - `test_id: optional string`
-
-    The unique identifier for the test.
-
-### DEX Test List Response
-
-- `DEXTestListResponse object { data, enabled, interval, 5 more }`
-
-  - `data: object { host, kind, method }`
-
-    The configuration object which contains the details for the WARP client to conduct the test.
-
-    - `host: string`
-
-      The desired endpoint to test.
-
-    - `kind: "http" or "traceroute"`
-
-      The type of test.
-
-      - `"http"`
-
-      - `"traceroute"`
-
-    - `method: optional "GET"`
-
-      The HTTP request method type.
-
-      - `"GET"`
-
-  - `enabled: boolean`
-
-    Determines whether or not the test is active.
-
-  - `interval: string`
-
-    How often the test will run.
-
-  - `name: string`
-
-    The name of the DEX test. Must be unique.
-
-  - `description: optional string`
-
-    Additional details about the test.
-
-  - `target_policies: optional array of object { id, default, name }`
-
-    DEX rules targeted by this test
-
-    - `id: string`
-
-      The id of the DEX rule.
-
-    - `default: optional boolean`
-
-      Whether the DEX rule is the account default.
-
-    - `name: optional string`
-
-      The name of the DEX rule.
-
-  - `targeted: optional boolean`
-
-  - `test_id: optional string`
-
-    The unique identifier for the test.
-
-### DEX Test Get Response
-
-- `DEXTestGetResponse object { data, enabled, interval, 5 more }`
-
-  - `data: object { host, kind, method }`
-
-    The configuration object which contains the details for the WARP client to conduct the test.
-
-    - `host: string`
-
-      The desired endpoint to test.
-
-    - `kind: "http" or "traceroute"`
-
-      The type of test.
-
-      - `"http"`
-
-      - `"traceroute"`
-
-    - `method: optional "GET"`
-
-      The HTTP request method type.
-
-      - `"GET"`
-
-  - `enabled: boolean`
-
-    Determines whether or not the test is active.
-
-  - `interval: string`
-
-    How often the test will run.
-
-  - `name: string`
-
-    The name of the DEX test. Must be unique.
-
-  - `description: optional string`
-
-    Additional details about the test.
-
-  - `target_policies: optional array of object { id, default, name }`
-
-    DEX rules targeted by this test
-
-    - `id: string`
-
-      The id of the DEX rule.
-
-    - `default: optional boolean`
-
-      Whether the DEX rule is the account default.
-
-    - `name: optional string`
-
-      The name of the DEX rule.
-
-  - `targeted: optional boolean`
-
-  - `test_id: optional string`
-
-    The unique identifier for the test.
-
-### DEX Test Create Response
-
-- `DEXTestCreateResponse object { data, enabled, interval, 5 more }`
-
-  - `data: object { host, kind, method }`
-
-    The configuration object which contains the details for the WARP client to conduct the test.
-
-    - `host: string`
-
-      The desired endpoint to test.
-
-    - `kind: "http" or "traceroute"`
-
-      The type of test.
-
-      - `"http"`
-
-      - `"traceroute"`
-
-    - `method: optional "GET"`
-
-      The HTTP request method type.
-
-      - `"GET"`
-
-  - `enabled: boolean`
-
-    Determines whether or not the test is active.
-
-  - `interval: string`
-
-    How often the test will run.
-
-  - `name: string`
-
-    The name of the DEX test. Must be unique.
-
-  - `description: optional string`
-
-    Additional details about the test.
-
-  - `target_policies: optional array of object { id, default, name }`
-
-    DEX rules targeted by this test
-
-    - `id: string`
-
-      The id of the DEX rule.
-
-    - `default: optional boolean`
-
-      Whether the DEX rule is the account default.
-
-    - `name: optional string`
-
-      The name of the DEX rule.
-
-  - `targeted: optional boolean`
-
-  - `test_id: optional string`
-
-    The unique identifier for the test.
-
-### DEX Test Update Response
-
-- `DEXTestUpdateResponse object { data, enabled, interval, 5 more }`
-
-  - `data: object { host, kind, method }`
-
-    The configuration object which contains the details for the WARP client to conduct the test.
-
-    - `host: string`
-
-      The desired endpoint to test.
-
-    - `kind: "http" or "traceroute"`
-
-      The type of test.
-
-      - `"http"`
-
-      - `"traceroute"`
-
-    - `method: optional "GET"`
-
-      The HTTP request method type.
-
-      - `"GET"`
-
-  - `enabled: boolean`
-
-    Determines whether or not the test is active.
-
-  - `interval: string`
-
-    How often the test will run.
-
-  - `name: string`
-
-    The name of the DEX test. Must be unique.
-
-  - `description: optional string`
-
-    Additional details about the test.
-
-  - `target_policies: optional array of object { id, default, name }`
-
-    DEX rules targeted by this test
-
-    - `id: string`
-
-      The id of the DEX rule.
-
-    - `default: optional boolean`
-
-      Whether the DEX rule is the account default.
-
-    - `name: optional string`
-
-      The name of the DEX rule.
-
-  - `targeted: optional boolean`
-
-  - `test_id: optional string`
-
-    The unique identifier for the test.
-
-### DEX Test Delete Response
-
-- `DEXTestDeleteResponse object { dex_tests }`
-
-  - `dex_tests: optional array of object { data, enabled, interval, 5 more }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-      Determines whether or not the test is active.
-
-    - `interval: string`
-
-      How often the test will run.
-
-    - `name: string`
-
-      The name of the DEX test. Must be unique.
-
-    - `description: optional string`
-
-      Additional details about the test.
-
-    - `target_policies: optional array of object { id, default, name }`
-
-      DEX rules targeted by this test
-
-      - `id: string`
-
-        The id of the DEX rule.
-
-      - `default: optional boolean`
-
-        Whether the DEX rule is the account default.
-
-      - `name: optional string`
-
-        The name of the DEX rule.
-
-    - `targeted: optional boolean`
-
-    - `test_id: optional string`
-
-      The unique identifier for the test.
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(model)%20dex_test_delete_response%20%3E%20(schema)>)

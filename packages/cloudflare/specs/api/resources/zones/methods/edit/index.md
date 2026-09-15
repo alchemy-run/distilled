@@ -1,289 +1,640 @@
-## Edit Zone
+---
+title: Edit Zone
+---
 
-**patch** `/zones/{zone_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zones](https://developers.cloudflare.com/api/resources/zones)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Edit Zone
+
+PATCH/zones/{zone\_id}
 
 Edits a zone. Only one zone property can be changed at a time.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `paused: optional boolean`
 
-  Indicates whether the zone is only using Cloudflare DNS services. A
-  true value means the zone will not receive security or performance
-  benefits.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `type: optional "full" or "partial" or "secondary" or "internal"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  A full zone implies that DNS is hosted with Cloudflare. A partial
-  zone is typically a partner-hosted zone or a CNAME setup. This
-  parameter is only available to Enterprise customers or if it has
-  been explicitly enabled on a zone.
+</details>
 
-  - `"full"`
+<details>
 
-  - `"partial"`
+<summary>API Email + API Key</summary>
 
-  - `"secondary"`
 
-  - `"internal"`
 
-- `vanity_name_servers: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  An array of domains used for custom name servers. This is only
-  available for Business and Enterprise plans.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Zone Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+zone\_id: string
 
-- `messages: array of ResponseInfo`
+Identifier
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20zones%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### Body ParametersJSONExpand Collapse
 
-  - `source: optional object { pointer }`
+paused: optional boolean
 
-- `success: boolean`
+Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits.
 
-  Whether the API call was successful.
+[Link to this property](#)%20zones%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20paused%20%3E%20(schema)>)
 
-- `result: optional Zone`
+<details>
 
-  - `id: string`
+<summary>
 
-    Identifier
+type: optional "full"or "partial"or "secondary"or "internal"
 
-  - `account: object { id, name }`
+A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. This parameter is only available to Enterprise customers or if it has been explicitly enabled on a zone.
 
-    The account the zone belongs to.
+</summary>
 
-    - `id: optional string`
+One of the following:
 
-      Identifier
+"full"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      The name of the account.
+"partial"
 
-  - `activated_on: string`
+<a href="#">Link to this property</a>
 
-    The last time proof of ownership was detected and the zone was made
-    active.
+"secondary"
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    When the zone was created.
+"internal"
 
-  - `development_mode: number`
+<a href="#">Link to this property</a>
 
-    The interval (in seconds) from when development mode expires
-    (positive integer) or last expired (negative integer) for the
-    domain. If development mode has never been enabled, this value is 0.
+</details>
 
-  - `meta: object { cdn_only, custom_certificate_quota, dns_only, 4 more }`
+[Link to this property](#)%20zones%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-    Metadata about the zone.
+vanity\_name\_servers: optional array of string
 
-    - `cdn_only: optional boolean`
+An array of domains used for custom name servers. This is only available for Business and Enterprise plans.
 
-      The zone is only configured for CDN.
+[Link to this property](#)%20zones%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20vanity_name_servers%20%3E%20(schema)>)
 
-    - `custom_certificate_quota: optional number`
+##### ReturnsExpand Collapse
 
-      Number of Custom Certificates the zone can have.
+<details>
 
-    - `dns_only: optional boolean`
+<summary>
 
-      The zone is only configured for DNS.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `foundation_dns: optional boolean`
+</summary>
 
-      The zone is setup with Foundation DNS.
+code: number
 
-    - `page_rule_quota: optional number`
+minimum1000
 
-      Number of Page Rules a zone can have.
+<a href="#">Link to this property</a>
 
-    - `phishing_detected: optional boolean`
+message: string
 
-      The zone has been flagged for phishing.
+<a href="#">Link to this property</a>
 
-    - `step: optional number`
+documentation\_url: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    When the zone was last modified.
+<details>
 
-  - `name: string`
+<summary>
 
-    The domain name. Per [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.4) the overall zone name can be up to 253 characters, with each segment ("label") not exceeding 63 characters.
+source: optional object {pointer }
 
-  - `name_servers: array of string`
+</summary>
 
-    The name servers Cloudflare assigns to a zone.
+pointer: optional string
 
-  - `original_dnshost: string`
+<a href="#">Link to this property</a>
 
-    DNS host at the time of switching to Cloudflare.
+</details>
 
-  - `original_name_servers: array of string`
+<a href="#">Link to this property</a>
 
-    Original name servers before moving to Cloudflare.
+</details>
 
-  - `original_registrar: string`
+[Link to this property](#)%20zones%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    Registrar for the domain at the time of switching to Cloudflare.
+<details>
 
-  - `owner: object { id, name, type }`
+<summary>
 
-    The owner of the zone.
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `id: optional string`
+</summary>
 
-      Identifier
+code: number
 
-    - `name: optional string`
+minimum1000
 
-      Name of the owner.
+<a href="#">Link to this property</a>
 
-    - `type: optional string`
+message: string
 
-      The type of owner.
+<a href="#">Link to this property</a>
 
-  - `plan: object { id, can_subscribe, currency, 7 more }`
+documentation\_url: optional string
 
-    A Zones subscription information.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+<details>
 
-      Identifier
+<summary>
 
-    - `can_subscribe: optional boolean`
+source: optional object {pointer }
 
-      States if the subscription can be activated.
+</summary>
 
-    - `currency: optional string`
+pointer: optional string
 
-      The denomination of the customer.
+<a href="#">Link to this property</a>
 
-    - `externally_managed: optional boolean`
+</details>
 
-      If this Zone is managed by another company.
+<a href="#">Link to this property</a>
 
-    - `frequency: optional string`
+</details>
 
-      How often the customer is billed.
+[Link to this property](#)%20zones%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `is_subscribed: optional boolean`
+success: boolean
 
-      States if the subscription active.
+Whether the API call was successful.
 
-    - `legacy_discount: optional boolean`
+[Link to this property](#)%20zones%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      If the legacy discount applies to this Zone.
+<details>
 
-    - `legacy_id: optional string`
+<summary>
 
-      The legacy name of the plan.
+result: optional <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones%20%3E%20(model)%20zone%20%3E%20(schema)">Zone</a> { id, account, activated\_on, 20 more }
 
-    - `name: optional string`
+</summary>
 
-      Name of the owner.
+id: string
 
-    - `price: optional number`
+Identifier
 
-      How much the customer is paying.
+maxLength32
 
-  - `cname_suffix: optional string`
+<a href="#">Link to this property</a>
 
-    Allows the customer to use a custom apex.
-    *Tenants Only Configuration*.
+<details>
 
-  - `paused: optional boolean`
+<summary>
 
-    Indicates whether the zone is only using Cloudflare DNS services. A
-    true value means the zone will not receive security or performance
-    benefits.
+account: object {id, name }
 
-  - `permissions: optional array of string`
+The account the zone belongs to.
 
-    Legacy permissions based on legacy user membership information.
+</summary>
 
-  - `status: optional "initializing" or "pending" or "active" or "moved"`
+id: optional string
 
-    The zone status on Cloudflare.
+Identifier
 
-    - `"initializing"`
+maxLength32
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+name: optional string
 
-    - `"moved"`
+The name of the account.
 
-  - `tenant: optional object { id, name }`
+<a href="#">Link to this property</a>
 
-    The root organizational unit that this zone belongs to (such as a tenant or organization).
+</details>
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+activated\_on: string
 
-    - `name: optional string`
+The last time proof of ownership was detected and the zone was made active.
 
-      The name of the Tenant account.
+formatdate-time
 
-  - `tenant_unit: optional object { id }`
+<a href="#">Link to this property</a>
 
-    The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization).
+created\_on: string
 
-    - `id: optional string`
+When the zone was created.
 
-      Identifier
+formatdate-time
 
-  - `type: optional Type`
+<a href="#">Link to this property</a>
 
-    A full zone implies that DNS is hosted with Cloudflare. A partial zone is
-    typically a partner-hosted zone or a CNAME setup.
+development\_mode: number
 
-    - `"full"`
+The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is 0.
 
-    - `"partial"`
+<a href="#">Link to this property</a>
 
-    - `"secondary"`
+<details>
 
-    - `"internal"`
+<summary>
 
-  - `vanity_name_servers: optional array of string`
+meta: object {cdn\_only, custom\_certificate\_quota, dns\_only, 4 more }
 
-    An array of domains used for custom name servers. This is only available for Business and Enterprise plans.
+Metadata about the zone.
 
-  - `verification_key: optional string`
+</summary>
 
-    Verification key for partial zone setup.
+cdn\_only: optional boolean
 
-### Example
+The zone is only configured for CDN.
 
-```http
+<a href="#">Link to this property</a>
+
+custom\_certificate\_quota: optional number
+
+Number of Custom Certificates the zone can have.
+
+<a href="#">Link to this property</a>
+
+dns\_only: optional boolean
+
+The zone is only configured for DNS.
+
+<a href="#">Link to this property</a>
+
+foundation\_dns: optional boolean
+
+The zone is setup with Foundation DNS.
+
+<a href="#">Link to this property</a>
+
+page\_rule\_quota: optional number
+
+Number of Page Rules a zone can have.
+
+<a href="#">Link to this property</a>
+
+phishing\_detected: optional boolean
+
+The zone has been flagged for phishing.
+
+<a href="#">Link to this property</a>
+
+step: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+When the zone was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The domain name. Per <a href="https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.4">RFC 1035</a> the overall zone name can be up to 253 characters, with each segment (“label”) not exceeding 63 characters.
+
+maxLength253
+
+<a href="#">Link to this property</a>
+
+name\_servers: array of string
+
+The name servers Cloudflare assigns to a zone.
+
+<a href="#">Link to this property</a>
+
+original\_dnshost: string
+
+DNS host at the time of switching to Cloudflare.
+
+maxLength50
+
+<a href="#">Link to this property</a>
+
+original\_name\_servers: array of string
+
+Original name servers before moving to Cloudflare.
+
+<a href="#">Link to this property</a>
+
+original\_registrar: string
+
+Registrar for the domain at the time of switching to Cloudflare.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+owner: object {id, name, type }
+
+The owner of the zone.
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the owner.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+The type of owner.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedplan: object {id, can\_subscribe, currency, 7 more }
+
+Please use the <code>/zones/{zone_id}/subscription</code> API to update a zone’s plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see <a href="https://developers.cloudflare.com/api/resources/zones/subresources/plans/">Zone Plans</a>.
+
+A Zones subscription information.
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+can\_subscribe: optional boolean
+
+States if the subscription can be activated.
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The denomination of the customer.
+
+<a href="#">Link to this property</a>
+
+externally\_managed: optional boolean
+
+If this Zone is managed by another company.
+
+<a href="#">Link to this property</a>
+
+frequency: optional string
+
+How often the customer is billed.
+
+<a href="#">Link to this property</a>
+
+is\_subscribed: optional boolean
+
+States if the subscription active.
+
+<a href="#">Link to this property</a>
+
+legacy\_discount: optional boolean
+
+If the legacy discount applies to this Zone.
+
+<a href="#">Link to this property</a>
+
+legacy\_id: optional string
+
+The legacy name of the plan.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the owner.
+
+<a href="#">Link to this property</a>
+
+price: optional number
+
+How much the customer is paying.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+cname\_suffix: optional string
+
+Allows the customer to use a custom apex. *Tenants Only Configuration*.
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits.
+
+<a href="#">Link to this property</a>
+
+Deprecatedpermissions: optional array of string
+
+This has been replaced by Account memberships.
+
+Legacy permissions based on legacy user membership information.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "initializing"or "pending"or "active"or "moved"
+
+The zone status on Cloudflare.
+
+</summary>
+
+One of the following:
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"moved"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tenant: optional object {id, name }
+
+The root organizational unit that this zone belongs to (such as a tenant or organization).
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the Tenant account.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tenant\_unit: optional object {id }
+
+The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization).
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones%20%3E%20(model)%20type%20%3E%20(schema)">Type</a>
+
+A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup.
+
+</summary>
+
+One of the following:
+
+"full"
+
+<a href="#">Link to this property</a>
+
+"partial"
+
+<a href="#">Link to this property</a>
+
+"secondary"
+
+<a href="#">Link to this property</a>
+
+"internal"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vanity\_name\_servers: optional array of string
+
+An array of domains used for custom name servers. This is only available for Business and Enterprise plans.
+
+<a href="#">Link to this property</a>
+
+verification\_key: optional string
+
+Verification key for partial zone setup.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Edit Zone
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -297,9 +648,106 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "account": {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "name": "Example Account Name"
+    },
+    "activated_on": "2014-01-02T00:01:00.12345Z",
+    "created_on": "2014-01-01T05:20:00.12345Z",
+    "development_mode": 7200,
+    "meta": {
+      "cdn_only": true,
+      "custom_certificate_quota": 1,
+      "dns_only": true,
+      "foundation_dns": true,
+      "page_rule_quota": 100,
+      "phishing_detected": false,
+      "step": 2
+    },
+    "modified_on": "2014-01-01T05:20:00.12345Z",
+    "name": "example.com",
+    "name_servers": [
+      "bob.ns.cloudflare.com",
+      "lola.ns.cloudflare.com"
+    ],
+    "original_dnshost": "NameCheap",
+    "original_name_servers": [
+      "ns1.originaldnshost.com",
+      "ns2.originaldnshost.com"
+    ],
+    "original_registrar": "GoDaddy",
+    "owner": {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "name": "Example Org",
+      "type": "organization"
+    },
+    "plan": {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "can_subscribe": false,
+      "currency": "USD",
+      "externally_managed": false,
+      "frequency": "monthly",
+      "is_subscribed": false,
+      "legacy_discount": false,
+      "legacy_id": "free",
+      "name": "Example Org",
+      "price": 10.99
+    },
+    "cname_suffix": "cdn.cloudflare.com",
+    "paused": true,
+    "permissions": [
+      "#worker:read"
+    ],
+    "status": "active",
+    "tenant": {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "name": "Example Account Name"
+    },
+    "tenant_unit": {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353"
+    },
+    "type": "full",
+    "vanity_name_servers": [
+      "ns1.example.com",
+      "ns2.example.com"
+    ],
+    "verification_key": "284344499-1084221259"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

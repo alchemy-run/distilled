@@ -1,1060 +1,721 @@
+---
+title: Resources
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Resource Sharing](https://developers.cloudflare.com/api/resources/resource_sharing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Resources
 
-## List share resources by share ID
+##### [List share resources by share ID](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/resources/methods/list)
 
-**get** `/accounts/{account_id}/shares/{share_id}/resources`
+GET/accounts/{account\_id}/shares/{share\_id}/resources
 
-List share resources by share ID.
+##### [Get share resource by ID](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/resources/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/shares/{share\_id}/resources/{share\_resource\_id}
 
-- `account_id: string`
+##### [Create a new share resource](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/resources/methods/create)
 
-  Account identifier.
+POST/accounts/{account\_id}/shares/{share\_id}/resources
 
-- `share_id: string`
+##### [Update a share resource](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/resources/methods/update)
 
-  Share identifier tag.
+PUT/accounts/{account\_id}/shares/{share\_id}/resources/{share\_resource\_id}
 
-### Query Parameters
+##### [Delete a share resource](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/resources/methods/delete)
 
-- `page: optional number`
+DELETE/accounts/{account\_id}/shares/{share\_id}/resources/{share\_resource\_id}
 
-  Page number. Defaults to `1` when `per_page` is supplied without
-  `page`. May be omitted entirely along with `per_page` to receive a
-  non-paginated response.
+##### ModelsExpand Collapse
 
-- `per_page: optional number`
+<details>
 
-  Number of objects to return per page. Defaults to `20` when `page`
-  is supplied without `per_page`. May be omitted entirely along with
-  `page` to receive a non-paginated response.
+<summary>
 
-- `resource_type: optional "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+ResourceListResponse object {id, created, meta, 6 more }
 
-  Filter share resources by resource_type.
+</summary>
 
-  - `"custom-ruleset"`
+id: string
 
-  - `"gateway-policy"`
+Share Resource identifier.
 
-  - `"gateway-destination-ip"`
+maxLength32
 
-  - `"gateway-block-page-settings"`
+<a href="#">Link to this property</a>
 
-  - `"gateway-extended-email-matching"`
+created: string
 
-  - `"idp-federation-grant"`
+When the share was created.
 
-- `status: optional "active" or "deleting" or "deleted"`
+formatdate-time
 
-  Filter share resources by status.
+<a href="#">Link to this property</a>
 
-  - `"active"`
+meta: unknown
 
-  - `"deleting"`
+Resource Metadata.
 
-  - `"deleted"`
+<a href="#">Link to this property</a>
 
-### Returns
+modified: string
 
-- `errors: array of ResponseInfo`
+When the share was modified.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+resource\_account\_id: string
 
-  - `source: optional object { pointer }`
+Account identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+resource\_id: string
 
-- `result: optional array of object { id, created, meta, 6 more }`
+Share Resource identifier.
 
-  - `id: string`
+maxLength32
 
-    Share Resource identifier.
+<a href="#">Link to this property</a>
 
-  - `created: string`
+<details>
 
-    When the share was created.
+<summary>
 
-  - `meta: unknown`
+resource\_type: "custom-ruleset"or "gateway-policy"or "gateway-destination-ip"or 4 more
 
-    Resource Metadata.
+Resource Type.
 
-  - `modified: string`
+</summary>
 
-    When the share was modified.
+One of the following:
 
-  - `resource_account_id: string`
+"custom-ruleset"
 
-    Account identifier.
+<a href="#">Link to this property</a>
 
-  - `resource_id: string`
+"gateway-policy"
 
-    Share Resource identifier.
+<a href="#">Link to this property</a>
 
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+"gateway-destination-ip"
 
-    Resource Type.
+<a href="#">Link to this property</a>
 
-    - `"custom-ruleset"`
+"gateway-block-page-settings"
 
-    - `"gateway-policy"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-destination-ip"`
+"gateway-extended-email-matching"
 
-    - `"gateway-block-page-settings"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-extended-email-matching"`
+"idp-federation-grant"
 
-    - `"idp-federation-grant"`
+<a href="#">Link to this property</a>
 
-  - `resource_version: number`
+"trust-grant"
 
-    Resource Version.
+<a href="#">Link to this property</a>
 
-  - `status: "active" or "deleting" or "deleted"`
+</details>
 
-    Resource Status.
+<a href="#">Link to this property</a>
 
-    - `"active"`
+resource\_version: number
 
-    - `"deleting"`
+Resource Version.
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service.
+status: "active"or "deleting"or "deleted"
 
-  - `page: optional number`
+Resource Status.
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+One of the following:
 
-    Number of results per page of results.
+"active"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+"deleting"
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of pages using the given per page.
+"deleted"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/resources \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created": "2023-09-21T18:56:32.624632Z",
-      "meta": {},
-      "modified": "2023-09-21T18:56:32.624632Z",
-      "resource_account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "resource_type": "custom-ruleset",
-      "resource_version": 0,
-      "status": "active"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 50
-  }
-}
-```
+</details>
 
-## Get share resource by ID
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(model)%20resource_list_response%20%3E%20(schema)>)
 
-**get** `/accounts/{account_id}/shares/{share_id}/resources/{share_resource_id}`
+<details>
 
-Get share resource by ID.
+<summary>
 
-### Path Parameters
+ResourceGetResponse object {id, created, meta, 6 more }
 
-- `account_id: string`
+</summary>
 
-  Account identifier.
+id: string
 
-- `share_id: string`
+Share Resource identifier.
 
-  Share identifier tag.
+maxLength32
 
-- `share_resource_id: string`
+<a href="#">Link to this property</a>
 
-  Share Resource identifier.
+created: string
 
-### Returns
+When the share was created.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+meta: unknown
 
-  - `documentation_url: optional string`
+Resource Metadata.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+modified: string
 
-- `success: boolean`
+When the share was modified.
 
-  Whether the API call was successful.
+formatdate-time
 
-- `result: optional object { id, created, meta, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+resource\_account\_id: string
 
-    Share Resource identifier.
+Account identifier.
 
-  - `created: string`
+maxLength32
 
-    When the share was created.
+<a href="#">Link to this property</a>
 
-  - `meta: unknown`
+resource\_id: string
 
-    Resource Metadata.
+Share Resource identifier.
 
-  - `modified: string`
+maxLength32
 
-    When the share was modified.
+<a href="#">Link to this property</a>
 
-  - `resource_account_id: string`
+<details>
 
-    Account identifier.
+<summary>
 
-  - `resource_id: string`
+resource\_type: "custom-ruleset"or "gateway-policy"or "gateway-destination-ip"or 4 more
 
-    Share Resource identifier.
+Resource Type.
 
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+</summary>
 
-    Resource Type.
+One of the following:
 
-    - `"custom-ruleset"`
+"custom-ruleset"
 
-    - `"gateway-policy"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-destination-ip"`
+"gateway-policy"
 
-    - `"gateway-block-page-settings"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-extended-email-matching"`
+"gateway-destination-ip"
 
-    - `"idp-federation-grant"`
+<a href="#">Link to this property</a>
 
-  - `resource_version: number`
+"gateway-block-page-settings"
 
-    Resource Version.
+<a href="#">Link to this property</a>
 
-  - `status: "active" or "deleting" or "deleted"`
+"gateway-extended-email-matching"
 
-    Resource Status.
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"idp-federation-grant"
 
-    - `"deleting"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+"trust-grant"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/resources/$SHARE_RESOURCE_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created": "2023-09-21T18:56:32.624632Z",
-    "meta": {},
-    "modified": "2023-09-21T18:56:32.624632Z",
-    "resource_account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "resource_type": "custom-ruleset",
-    "resource_version": 0,
-    "status": "active"
-  }
-}
-```
+resource\_version: number
 
-## Create a new share resource
+Resource Version.
 
-**post** `/accounts/{account_id}/shares/{share_id}/resources`
+<a href="#">Link to this property</a>
 
-Adds a resource to an existing share, making it available to share recipients.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+status: "active"or "deleting"or "deleted"
 
-  Account identifier.
+Resource Status.
 
-- `share_id: string`
+</summary>
 
-  Share identifier tag.
+One of the following:
 
-### Body Parameters
+"active"
 
-- `meta: unknown`
+<a href="#">Link to this property</a>
 
-  Resource Metadata.
+"deleting"
 
-- `resource_account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier.
+"deleted"
 
-- `resource_id: string`
+<a href="#">Link to this property</a>
 
-  Share Resource identifier.
+</details>
 
-- `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+<a href="#">Link to this property</a>
 
-  Resource Type.
+</details>
 
-  - `"custom-ruleset"`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(model)%20resource_get_response%20%3E%20(schema)>)
 
-  - `"gateway-policy"`
+<details>
 
-  - `"gateway-destination-ip"`
+<summary>
 
-  - `"gateway-block-page-settings"`
+ResourceCreateResponse object {id, created, meta, 6 more }
 
-  - `"gateway-extended-email-matching"`
+</summary>
 
-  - `"idp-federation-grant"`
+id: string
 
-### Returns
+Share Resource identifier.
 
-- `errors: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created: string
 
-  - `documentation_url: optional string`
+When the share was created.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+meta: unknown
 
-  Whether the API call was successful.
+Resource Metadata.
 
-- `result: optional object { id, created, meta, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+modified: string
 
-    Share Resource identifier.
+When the share was modified.
 
-  - `created: string`
+formatdate-time
 
-    When the share was created.
+<a href="#">Link to this property</a>
 
-  - `meta: unknown`
+resource\_account\_id: string
 
-    Resource Metadata.
+Account identifier.
 
-  - `modified: string`
+maxLength32
 
-    When the share was modified.
+<a href="#">Link to this property</a>
 
-  - `resource_account_id: string`
+resource\_id: string
 
-    Account identifier.
+Share Resource identifier.
 
-  - `resource_id: string`
+maxLength32
 
-    Share Resource identifier.
+<a href="#">Link to this property</a>
 
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+<details>
 
-    Resource Type.
+<summary>
 
-    - `"custom-ruleset"`
+resource\_type: "custom-ruleset"or "gateway-policy"or "gateway-destination-ip"or 4 more
 
-    - `"gateway-policy"`
+Resource Type.
 
-    - `"gateway-destination-ip"`
+</summary>
 
-    - `"gateway-block-page-settings"`
+One of the following:
 
-    - `"gateway-extended-email-matching"`
+"custom-ruleset"
 
-    - `"idp-federation-grant"`
+<a href="#">Link to this property</a>
 
-  - `resource_version: number`
+"gateway-policy"
 
-    Resource Version.
+<a href="#">Link to this property</a>
 
-  - `status: "active" or "deleting" or "deleted"`
+"gateway-destination-ip"
 
-    Resource Status.
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"gateway-block-page-settings"
 
-    - `"deleting"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+"gateway-extended-email-matching"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/resources \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "meta": {},
-          "resource_account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "resource_type": "custom-ruleset"
-        }'
-```
+"idp-federation-grant"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created": "2023-09-21T18:56:32.624632Z",
-    "meta": {},
-    "modified": "2023-09-21T18:56:32.624632Z",
-    "resource_account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "resource_type": "custom-ruleset",
-    "resource_version": 0,
-    "status": "active"
-  }
-}
-```
+"trust-grant"
 
-## Update a share resource
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/shares/{share_id}/resources/{share_resource_id}`
+</details>
 
-Update is not immediate, an updated share resource object with a new status will be returned.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+resource\_version: number
 
-- `account_id: string`
+Resource Version.
 
-  Account identifier.
+<a href="#">Link to this property</a>
 
-- `share_id: string`
+<details>
 
-  Share identifier tag.
+<summary>
 
-- `share_resource_id: string`
+status: "active"or "deleting"or "deleted"
 
-  Share Resource identifier.
+Resource Status.
 
-### Body Parameters
+</summary>
 
-- `meta: unknown`
+One of the following:
 
-  Resource Metadata.
+"active"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"deleting"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"deleted"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(model)%20resource_create_response%20%3E%20(schema)>)
 
-- `result: optional object { id, created, meta, 6 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-    Share Resource identifier.
+ResourceUpdateResponse object {id, created, meta, 6 more }
 
-  - `created: string`
+</summary>
 
-    When the share was created.
+id: string
 
-  - `meta: unknown`
+Share Resource identifier.
 
-    Resource Metadata.
+maxLength32
 
-  - `modified: string`
+<a href="#">Link to this property</a>
 
-    When the share was modified.
+created: string
 
-  - `resource_account_id: string`
+When the share was created.
 
-    Account identifier.
+formatdate-time
 
-  - `resource_id: string`
+<a href="#">Link to this property</a>
 
-    Share Resource identifier.
+meta: unknown
 
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+Resource Metadata.
 
-    Resource Type.
+<a href="#">Link to this property</a>
 
-    - `"custom-ruleset"`
+modified: string
 
-    - `"gateway-policy"`
+When the share was modified.
 
-    - `"gateway-destination-ip"`
+formatdate-time
 
-    - `"gateway-block-page-settings"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-extended-email-matching"`
+resource\_account\_id: string
 
-    - `"idp-federation-grant"`
+Account identifier.
 
-  - `resource_version: number`
+maxLength32
 
-    Resource Version.
+<a href="#">Link to this property</a>
 
-  - `status: "active" or "deleting" or "deleted"`
+resource\_id: string
 
-    Resource Status.
+Share Resource identifier.
 
-    - `"active"`
+maxLength32
 
-    - `"deleting"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/resources/$SHARE_RESOURCE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "meta": {}
-        }'
-```
+resource\_type: "custom-ruleset"or "gateway-policy"or "gateway-destination-ip"or 4 more
 
-#### Response
+Resource Type.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created": "2023-09-21T18:56:32.624632Z",
-    "meta": {},
-    "modified": "2023-09-21T18:56:32.624632Z",
-    "resource_account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "resource_type": "custom-ruleset",
-    "resource_version": 0,
-    "status": "active"
-  }
-}
-```
+</summary>
 
-## Delete a share resource
+One of the following:
 
-**delete** `/accounts/{account_id}/shares/{share_id}/resources/{share_resource_id}`
+"custom-ruleset"
 
-Deletion is not immediate, an updated share resource object with a new status will be returned.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"gateway-policy"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier.
+"gateway-destination-ip"
 
-- `share_id: string`
+<a href="#">Link to this property</a>
 
-  Share identifier tag.
+"gateway-block-page-settings"
 
-- `share_resource_id: string`
+<a href="#">Link to this property</a>
 
-  Share Resource identifier.
+"gateway-extended-email-matching"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"idp-federation-grant"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"trust-grant"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+resource\_version: number
 
-  Whether the API call was successful.
+Resource Version.
 
-- `result: optional object { id, created, meta, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    Share Resource identifier.
+<summary>
 
-  - `created: string`
+status: "active"or "deleting"or "deleted"
 
-    When the share was created.
+Resource Status.
 
-  - `meta: unknown`
+</summary>
 
-    Resource Metadata.
+One of the following:
 
-  - `modified: string`
+"active"
 
-    When the share was modified.
+<a href="#">Link to this property</a>
 
-  - `resource_account_id: string`
+"deleting"
 
-    Account identifier.
+<a href="#">Link to this property</a>
 
-  - `resource_id: string`
+"deleted"
 
-    Share Resource identifier.
+<a href="#">Link to this property</a>
 
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+</details>
 
-    Resource Type.
+<a href="#">Link to this property</a>
 
-    - `"custom-ruleset"`
+</details>
 
-    - `"gateway-policy"`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(model)%20resource_update_response%20%3E%20(schema)>)
 
-    - `"gateway-destination-ip"`
+<details>
 
-    - `"gateway-block-page-settings"`
+<summary>
 
-    - `"gateway-extended-email-matching"`
+ResourceDeleteResponse object {id, created, meta, 6 more }
 
-    - `"idp-federation-grant"`
+</summary>
 
-  - `resource_version: number`
+id: string
 
-    Resource Version.
+Share Resource identifier.
 
-  - `status: "active" or "deleting" or "deleted"`
+maxLength32
 
-    Resource Status.
+<a href="#">Link to this property</a>
 
-    - `"active"`
+created: string
 
-    - `"deleting"`
+When the share was created.
 
-    - `"deleted"`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/resources/$SHARE_RESOURCE_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+meta: unknown
 
-#### Response
+Resource Metadata.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created": "2023-09-21T18:56:32.624632Z",
-    "meta": {},
-    "modified": "2023-09-21T18:56:32.624632Z",
-    "resource_account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "resource_type": "custom-ruleset",
-    "resource_version": 0,
-    "status": "active"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+modified: string
 
-### Resource List Response
+When the share was modified.
 
-- `ResourceListResponse object { id, created, meta, 6 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Share Resource identifier.
+resource\_account\_id: string
 
-  - `created: string`
+Account identifier.
 
-    When the share was created.
+maxLength32
 
-  - `meta: unknown`
+<a href="#">Link to this property</a>
 
-    Resource Metadata.
+resource\_id: string
 
-  - `modified: string`
+Share Resource identifier.
 
-    When the share was modified.
+maxLength32
 
-  - `resource_account_id: string`
+<a href="#">Link to this property</a>
 
-    Account identifier.
+<details>
 
-  - `resource_id: string`
+<summary>
 
-    Share Resource identifier.
+resource\_type: "custom-ruleset"or "gateway-policy"or "gateway-destination-ip"or 4 more
 
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+Resource Type.
 
-    Resource Type.
+</summary>
 
-    - `"custom-ruleset"`
+One of the following:
 
-    - `"gateway-policy"`
+"custom-ruleset"
 
-    - `"gateway-destination-ip"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-block-page-settings"`
+"gateway-policy"
 
-    - `"gateway-extended-email-matching"`
+<a href="#">Link to this property</a>
 
-    - `"idp-federation-grant"`
+"gateway-destination-ip"
 
-  - `resource_version: number`
+<a href="#">Link to this property</a>
 
-    Resource Version.
+"gateway-block-page-settings"
 
-  - `status: "active" or "deleting" or "deleted"`
+<a href="#">Link to this property</a>
 
-    Resource Status.
+"gateway-extended-email-matching"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deleting"`
+"idp-federation-grant"
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-### Resource Get Response
+"trust-grant"
 
-- `ResourceGetResponse object { id, created, meta, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Share Resource identifier.
+<a href="#">Link to this property</a>
 
-  - `created: string`
+resource\_version: number
 
-    When the share was created.
+Resource Version.
 
-  - `meta: unknown`
+<a href="#">Link to this property</a>
 
-    Resource Metadata.
+<details>
 
-  - `modified: string`
+<summary>
 
-    When the share was modified.
+status: "active"or "deleting"or "deleted"
 
-  - `resource_account_id: string`
+Resource Status.
 
-    Account identifier.
+</summary>
 
-  - `resource_id: string`
+One of the following:
 
-    Share Resource identifier.
+"active"
 
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+<a href="#">Link to this property</a>
 
-    Resource Type.
+"deleting"
 
-    - `"custom-ruleset"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-policy"`
+"deleted"
 
-    - `"gateway-destination-ip"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-block-page-settings"`
+</details>
 
-    - `"gateway-extended-email-matching"`
+<a href="#">Link to this property</a>
 
-    - `"idp-federation-grant"`
+</details>
 
-  - `resource_version: number`
-
-    Resource Version.
-
-  - `status: "active" or "deleting" or "deleted"`
-
-    Resource Status.
-
-    - `"active"`
-
-    - `"deleting"`
-
-    - `"deleted"`
-
-### Resource Create Response
-
-- `ResourceCreateResponse object { id, created, meta, 6 more }`
-
-  - `id: string`
-
-    Share Resource identifier.
-
-  - `created: string`
-
-    When the share was created.
-
-  - `meta: unknown`
-
-    Resource Metadata.
-
-  - `modified: string`
-
-    When the share was modified.
-
-  - `resource_account_id: string`
-
-    Account identifier.
-
-  - `resource_id: string`
-
-    Share Resource identifier.
-
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
-
-    Resource Type.
-
-    - `"custom-ruleset"`
-
-    - `"gateway-policy"`
-
-    - `"gateway-destination-ip"`
-
-    - `"gateway-block-page-settings"`
-
-    - `"gateway-extended-email-matching"`
-
-    - `"idp-federation-grant"`
-
-  - `resource_version: number`
-
-    Resource Version.
-
-  - `status: "active" or "deleting" or "deleted"`
-
-    Resource Status.
-
-    - `"active"`
-
-    - `"deleting"`
-
-    - `"deleted"`
-
-### Resource Update Response
-
-- `ResourceUpdateResponse object { id, created, meta, 6 more }`
-
-  - `id: string`
-
-    Share Resource identifier.
-
-  - `created: string`
-
-    When the share was created.
-
-  - `meta: unknown`
-
-    Resource Metadata.
-
-  - `modified: string`
-
-    When the share was modified.
-
-  - `resource_account_id: string`
-
-    Account identifier.
-
-  - `resource_id: string`
-
-    Share Resource identifier.
-
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
-
-    Resource Type.
-
-    - `"custom-ruleset"`
-
-    - `"gateway-policy"`
-
-    - `"gateway-destination-ip"`
-
-    - `"gateway-block-page-settings"`
-
-    - `"gateway-extended-email-matching"`
-
-    - `"idp-federation-grant"`
-
-  - `resource_version: number`
-
-    Resource Version.
-
-  - `status: "active" or "deleting" or "deleted"`
-
-    Resource Status.
-
-    - `"active"`
-
-    - `"deleting"`
-
-    - `"deleted"`
-
-### Resource Delete Response
-
-- `ResourceDeleteResponse object { id, created, meta, 6 more }`
-
-  - `id: string`
-
-    Share Resource identifier.
-
-  - `created: string`
-
-    When the share was created.
-
-  - `meta: unknown`
-
-    Resource Metadata.
-
-  - `modified: string`
-
-    When the share was modified.
-
-  - `resource_account_id: string`
-
-    Account identifier.
-
-  - `resource_id: string`
-
-    Share Resource identifier.
-
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
-
-    Resource Type.
-
-    - `"custom-ruleset"`
-
-    - `"gateway-policy"`
-
-    - `"gateway-destination-ip"`
-
-    - `"gateway-block-page-settings"`
-
-    - `"gateway-extended-email-matching"`
-
-    - `"idp-federation-grant"`
-
-  - `resource_version: number`
-
-    Resource Version.
-
-  - `status: "active" or "deleting" or "deleted"`
-
-    Resource Status.
-
-    - `"active"`
-
-    - `"deleting"`
-
-    - `"deleted"`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(model)%20resource_delete_response%20%3E%20(schema)>)

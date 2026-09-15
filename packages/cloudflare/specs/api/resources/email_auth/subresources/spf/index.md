@@ -1,234 +1,117 @@
+---
+title: SPF
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Auth](https://developers.cloudflare.com/api/resources/email_auth)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # SPF
 
-# Inspect
+#### SPFInspect
 
-## Inspect SPF Record
+##### [Inspect SPF Record](https://developers.cloudflare.com/api/resources/email_auth/subresources/spf/subresources/inspect/methods/get)
 
-**get** `/zones/{zone_id}/email/auth/spf/inspect`
+GET/zones/{zone\_id}/email/auth/spf/inspect
 
-Inspects a specific SPF TXT record and returns a parsed tree structure
-in the spflimit-worker format.
+##### ModelsExpand Collapse
 
-The record ID must be provided via the `id` query parameter.
+<details>
 
-Returns a recursive tree showing:
+<summary>
 
-- Parsed components with their qualifiers and types
-- Nested includes recursively resolved within components
-- Per-component and total lookup counts
-- Detailed error information with context
+InspectGetResponse object {components, domain, record, 2 more }
 
-### Path Parameters
+Recursive SPF inspection tree
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+components: array of unknown
 
-### Query Parameters
+Parsed SPF components (mechanisms)
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  DNS record ID (rec_tag) to inspect
+domain: string
 
-### Returns
+Domain being inspected
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+record: string
 
-  - `message: string`
+Raw SPF record content
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+total\_lookups: number
 
-    - `pointer: optional string`
+Total number of DNS lookups performed across all includes
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+errors: optional array of object {code, domain, message, details }
 
-  - `source: optional object { pointer }`
+All errors encountered during inspection, collected from the entire tree. This includes errors from nested includes at any depth, providing a quick overview of all issues without needing to traverse the nested structure. Each error includes a <code>domain</code> field to identify where it occurred. Empty array if no errors (omitted from JSON when empty).
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+code: string
 
-  Whether the API call was successful.
+Error code. Known values:
 
-  - `true`
+- <code>lookup_failed</code> — DNS TXT lookup failed
+- <code>spf_not_found</code> — no SPF record found
+- <code>invalid_spf</code> — record does not start with <code>v=spf1</code>
+- <code>invalid_domain</code> — PSL validation failed
+- <code>loop_detected</code> — include/redirect cycle detected
+- <code>invalid_mechanism</code> — unrecognised or malformed mechanism
+- <code>resource_limit_exceeded</code> — internal resource protection limits exceeded (recursion depth or query budget)
+- <code>max_lookups</code> — RFC 7208 10-lookup limit exceeded
 
-- `result: optional object { components, domain, record, 2 more }`
+<a href="#">Link to this property</a>
 
-  Recursive SPF inspection tree
+domain: string
 
-  - `components: array of unknown`
+Domain where the error occurred
 
-    Parsed SPF components (mechanisms)
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+message: string
 
-    Domain being inspected
+Human-readable error message
 
-  - `record: string`
+<a href="#">Link to this property</a>
 
-    Raw SPF record content
+details: optional string
 
-  - `total_lookups: number`
+Additional error-specific details (optional).
 
-    Total number of DNS lookups performed across all includes
+- For <code>invalid_domain</code> errors: the invalid domain string
+- For <code>invalid_mechanism</code> errors: the invalid mechanism text (e.g., “invalidmech123”)
+- For <code>loop_detected</code> errors: the domain that caused the loop
+- For other error types: not present
 
-  - `errors: optional array of object { code, domain, message, details }`
+<a href="#">Link to this property</a>
 
-    All errors encountered during inspection, collected from the entire tree.
-    This includes errors from nested includes at any depth, providing a quick
-    overview of all issues without needing to traverse the nested structure.
-    Each error includes a `domain` field to identify where it occurred.
-    Empty array if no errors (omitted from JSON when empty).
+</details>
 
-    - `code: string`
+<a href="#">Link to this property</a>
 
-      Error code. Known values:
+</details>
 
-      - `lookup_failed` — DNS TXT lookup failed
-      - `spf_not_found` — no SPF record found
-      - `invalid_spf` — record does not start with `v=spf1`
-      - `invalid_domain` — PSL validation failed
-      - `loop_detected` — include/redirect cycle detected
-      - `invalid_mechanism` — unrecognised or malformed mechanism
-      - `resource_limit_exceeded` — internal resource protection limits exceeded (recursion depth or query budget)
-      - `max_lookups` — RFC 7208 10-lookup limit exceeded
-
-    - `domain: string`
-
-      Domain where the error occurred
-
-    - `message: string`
-
-      Human-readable error message
-
-    - `details: optional string`
-
-      Additional error-specific details (optional).
-
-      - For `invalid_domain` errors: the invalid domain string
-      - For `invalid_mechanism` errors: the invalid mechanism text (e.g., "invalidmech123")
-      - For `loop_detected` errors: the domain that caused the loop
-      - For other error types: not present
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/spf/inspect \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "components": [
-      {}
-    ],
-    "domain": "example.com",
-    "record": "v=spf1 ip4:203.0.113.1 include:spf.example.com -all",
-    "total_lookups": 2,
-    "errors": [
-      {
-        "code": "max_lookups",
-        "domain": "example.com",
-        "message": "RFC 7208 10-lookup limit exceeded",
-        "details": "invalid"
-      }
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Inspect Get Response
-
-- `InspectGetResponse object { components, domain, record, 2 more }`
-
-  Recursive SPF inspection tree
-
-  - `components: array of unknown`
-
-    Parsed SPF components (mechanisms)
-
-  - `domain: string`
-
-    Domain being inspected
-
-  - `record: string`
-
-    Raw SPF record content
-
-  - `total_lookups: number`
-
-    Total number of DNS lookups performed across all includes
-
-  - `errors: optional array of object { code, domain, message, details }`
-
-    All errors encountered during inspection, collected from the entire tree.
-    This includes errors from nested includes at any depth, providing a quick
-    overview of all issues without needing to traverse the nested structure.
-    Each error includes a `domain` field to identify where it occurred.
-    Empty array if no errors (omitted from JSON when empty).
-
-    - `code: string`
-
-      Error code. Known values:
-
-      - `lookup_failed` — DNS TXT lookup failed
-      - `spf_not_found` — no SPF record found
-      - `invalid_spf` — record does not start with `v=spf1`
-      - `invalid_domain` — PSL validation failed
-      - `loop_detected` — include/redirect cycle detected
-      - `invalid_mechanism` — unrecognised or malformed mechanism
-      - `resource_limit_exceeded` — internal resource protection limits exceeded (recursion depth or query budget)
-      - `max_lookups` — RFC 7208 10-lookup limit exceeded
-
-    - `domain: string`
-
-      Domain where the error occurred
-
-    - `message: string`
-
-      Human-readable error message
-
-    - `details: optional string`
-
-      Additional error-specific details (optional).
-
-      - For `invalid_domain` errors: the invalid domain string
-      - For `invalid_mechanism` errors: the invalid mechanism text (e.g., "invalidmech123")
-      - For `loop_detected` errors: the domain that caused the loop
-      - For other error types: not present
+[Link to this property](#)%20email_auth.spf.inspect%20%3E%20(model)%20inspect_get_response%20%3E%20(schema)>)

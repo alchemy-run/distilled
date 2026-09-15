@@ -30,16 +30,13 @@ export const CacheReserveClearStatusRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CacheReserveClearStatusRequest",
 }) as any as S.Schema<CacheReserveClearStatusRequest>;
 
-export type CacheReserveClearStatusResponseId = "cache_reserve_clear";
-export const CacheReserveClearStatusResponseId = S.String;
-
 export type CacheReserveClearStatusResponseState = "In-progress" | "Completed";
 export const CacheReserveClearStatusResponseState = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CacheReserveClearStatusResponse {
   /** ID of the zone setting. */
-  id: CacheReserveClearStatusResponseId;
+  id: unknown;
   /** The time that the latest Cache Reserve Clear operation started. */
   startTs: string;
   /** The current state of the Cache Reserve Clear operation. */
@@ -51,7 +48,7 @@ export interface CacheReserveClearStatusResponse {
 }
 export const CacheReserveClearStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: CacheReserveClearStatusResponseId,
+    id: S.Unknown,
     startTs: S.String.pipe(T.Body("start_ts")),
     state: CacheReserveClearStatusResponseState,
     endTs: S.optional(S.NullOr(S.String).pipe(T.Body("end_ts"))),
@@ -79,16 +76,13 @@ export const ClearCacheReserveClearRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ClearCacheReserveClearRequest",
 }) as any as S.Schema<ClearCacheReserveClearRequest>;
 
-export type ClearCacheReserveClearResponseId = "cache_reserve_clear";
-export const ClearCacheReserveClearResponseId = S.String;
-
 export type ClearCacheReserveClearResponseState = "In-progress" | "Completed";
 export const ClearCacheReserveClearResponseState = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ClearCacheReserveClearResponse {
   /** ID of the zone setting. */
-  id: ClearCacheReserveClearResponseId;
+  id: unknown;
   /** The time that the latest Cache Reserve Clear operation started. */
   startTs: string;
   /** The current state of the Cache Reserve Clear operation. */
@@ -100,7 +94,7 @@ export interface ClearCacheReserveClearResponse {
 }
 export const ClearCacheReserveClearResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: ClearCacheReserveClearResponseId,
+    id: S.Unknown,
     startTs: S.String.pipe(T.Body("start_ts")),
     state: ClearCacheReserveClearResponseState,
     endTs: S.optional(S.NullOr(S.String).pipe(T.Body("end_ts"))),
@@ -1590,28 +1584,20 @@ export const UpdateHealthCheckRequestErrorsList = /*@__PURE__*/ S.Array(
   UpdateHealthCheckRequestErrorsItem,
 ) as any as S.Schema<UpdateHealthCheckRequestErrorsList>;
 
-export interface UpdateHealthCheckRequestMessagesItem {
-  code: number;
-  message: string;
-  documentationUrl?: string;
-  source?: unknown;
-}
-export const UpdateHealthCheckRequestMessagesItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      code: S.Number,
-      message: S.String,
-      documentationUrl: S.optional(S.String.pipe(T.Body("documentation_url"))),
-      source: S.optional(S.Unknown),
-    }),
-).annotate({
-  identifier: "UpdateHealthCheckRequestMessagesItem",
-}) as any as S.Schema<UpdateHealthCheckRequestMessagesItem>;
+export type UpdateHealthCheckRequestMessagesItemSource =
+  UpdateHealthCheckRequestErrorsItemSource;
+export const UpdateHealthCheckRequestMessagesItemSource =
+  UpdateHealthCheckRequestErrorsItemSource;
+
+export type UpdateHealthCheckRequestMessagesItem =
+  UpdateHealthCheckRequestErrorsItem;
+export const UpdateHealthCheckRequestMessagesItem =
+  UpdateHealthCheckRequestErrorsItem;
 
 export type UpdateHealthCheckRequestMessagesList =
-  Array<UpdateHealthCheckRequestMessagesItem>;
+  Array<UpdateHealthCheckRequestErrorsItem>;
 export const UpdateHealthCheckRequestMessagesList = /*@__PURE__*/ S.Array(
-  UpdateHealthCheckRequestMessagesItem,
+  UpdateHealthCheckRequestErrorsItem,
 ) as any as S.Schema<UpdateHealthCheckRequestMessagesList>;
 
 export type UpdateHealthCheckRequestResultCheckRegionsItem =

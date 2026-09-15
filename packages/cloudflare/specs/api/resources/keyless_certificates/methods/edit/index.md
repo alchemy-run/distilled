@@ -1,138 +1,362 @@
-## Edit Keyless SSL Configuration
+---
+title: Edit Keyless SSL Configuration
+---
 
-**patch** `/zones/{zone_id}/keyless_certificates/{keyless_certificate_id}`
+[Skip to content](#_top)
 
-This will update attributes of a Keyless SSL. Consists of one or more of the following:  host,name,port.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Keyless Certificates](https://developers.cloudflare.com/api/resources/keyless_certificates)
 
-- `zone_id: string`
+Copy Markdown
 
-  Identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `keyless_certificate_id: string`
+---
 
-  Identifier.
+**Copy Markdown****View as Markdown**
 
-### Body Parameters
+# Edit Keyless SSL Configuration
 
-- `enabled: optional boolean`
+PATCH/zones/{zone\_id}/keyless\_certificates/{keyless\_certificate\_id}
 
-  Whether or not the Keyless SSL is on or off.
+This will update attributes of a Keyless SSL. Consists of one or more of the following: host,name,port.
 
-- `host: optional string`
+##### Security
 
-  The keyless SSL name.
+<details>
 
-- `name: optional string`
+<summary>API Token</summary>
 
-  The keyless SSL name.
 
-- `port: optional number`
 
-  The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `tunnel: optional Tunnel`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Configuration for using Keyless SSL through a Cloudflare Tunnel.
+</details>
 
-  - `private_ip: string`
+<details>
 
-    Private IP of the Key Server Host.
+<summary>API Email + API Key</summary>
 
-  - `vnet_id: string`
 
-    Cloudflare Tunnel Virtual Network ID.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`SSL and Certificates Write`
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+zone\_id: string
 
-  - `message: string`
+Identifier.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+keyless\_certificate\_id: string
 
-- `success: true`
+Identifier.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20keyless_certificate_id%20%3E%20(schema)>)
 
-- `result: optional KeylessCertificate`
+##### Body ParametersJSONExpand Collapse
 
-  - `id: string`
+Deprecatedenabled: optional boolean
 
-    Keyless certificate identifier tag.
+Whether or not the Keyless SSL is on or off.
 
-  - `created_on: string`
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-    When the Keyless SSL was created.
+host: optional string
 
-  - `enabled: boolean`
+The keyless SSL name.
 
-    Whether or not the Keyless SSL is on or off.
+formathostname
 
-  - `host: string`
+maxLength253
 
-    The keyless SSL name.
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20host%20%3E%20(schema)>)
 
-  - `modified_on: string`
+name: optional string
 
-    When the Keyless SSL was last modified.
+The keyless SSL name.
 
-  - `name: string`
+maxLength180
 
-    The keyless SSL name.
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `permissions: array of string`
+port: optional number
 
-    Available permissions for the Keyless SSL for the current user requesting the item.
+The keyless SSL port used to communicate between Cloudflare and the client’s Keyless SSL server.
 
-  - `port: number`
+maxLength65535
 
-    The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server.
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20port%20%3E%20(schema)>)
 
-  - `status: "active" or "deleted"`
+<details>
 
-    Status of the Keyless SSL.
+<summary>
 
-    - `"active"`
+tunnel: optional <a href="https://developers.cloudflare.com/api/resources/keyless_certificates#(resource)%20keyless_certificates%20%3E%20(model)%20tunnel%20%3E%20(schema)">Tunnel</a> { private\_ip, vnet\_id }
 
-    - `"deleted"`
+Configuration for using Keyless SSL through a Cloudflare Tunnel.
 
-  - `tunnel: optional Tunnel`
+</summary>
 
-    Configuration for using Keyless SSL through a Cloudflare Tunnel.
+private\_ip: string
 
-    - `private_ip: string`
+Private IP of the Key Server Host.
 
-      Private IP of the Key Server Host.
+<a href="#">Link to this property</a>
 
-    - `vnet_id: string`
+vnet\_id: string
 
-      Cloudflare Tunnel Virtual Network ID.
+Cloudflare Tunnel Virtual Network ID.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20tunnel%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/keyless_certificates#(resource)%20keyless_certificates%20%3E%20(model)%20keyless_certificate%20%3E%20(schema)">KeylessCertificate</a> { id, created\_on, enabled, 7 more }
+
+</summary>
+
+id: string
+
+Keyless certificate identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+When the Keyless SSL was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether or not the Keyless SSL is on or off.
+
+<a href="#">Link to this property</a>
+
+host: string
+
+The keyless SSL name.
+
+formathostname
+
+maxLength253
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+When the Keyless SSL was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The keyless SSL name.
+
+maxLength180
+
+<a href="#">Link to this property</a>
+
+permissions: array of string
+
+Available permissions for the Keyless SSL for the current user requesting the item.
+
+<a href="#">Link to this property</a>
+
+port: number
+
+The keyless SSL port used to communicate between Cloudflare and the client’s Keyless SSL server.
+
+maxLength65535
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "active"or "deleted"
+
+Status of the Keyless SSL.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tunnel: optional <a href="https://developers.cloudflare.com/api/resources/keyless_certificates#(resource)%20keyless_certificates%20%3E%20(model)%20tunnel%20%3E%20(schema)">Tunnel</a> { private\_ip, vnet\_id }
+
+Configuration for using Keyless SSL through a Cloudflare Tunnel.
+
+</summary>
+
+private\_ip: string
+
+Private IP of the Key Server Host.
+
+<a href="#">Link to this property</a>
+
+vnet\_id: string
+
+Cloudflare Tunnel Virtual Network ID.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20keyless_certificates%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Edit Keyless SSL Configuration
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/keyless_certificates/$KEYLESS_CERTIFICATE_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -144,9 +368,57 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/keyless_certificates/$K
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "4d2844d2ce78891c34d0b6c0535a291e",
+    "created_on": "2014-01-01T05:20:00Z",
+    "enabled": false,
+    "host": "example.com",
+    "modified_on": "2014-01-01T05:20:00Z",
+    "name": "example.com Keyless SSL",
+    "permissions": [
+      "#ssl:read",
+      "#ssl:edit"
+    ],
+    "port": 24008,
+    "status": "active",
+    "tunnel": {
+      "private_ip": "10.0.0.1",
+      "vnet_id": "7365377a-85a4-4390-9480-531ef7dc7a3c"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

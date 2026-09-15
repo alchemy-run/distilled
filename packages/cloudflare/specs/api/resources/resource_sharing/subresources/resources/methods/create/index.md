@@ -1,126 +1,320 @@
-## Create a new share resource
+---
+title: Create a new share resource
+---
 
-**post** `/accounts/{account_id}/shares/{share_id}/resources`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Resource Sharing](https://developers.cloudflare.com/api/resources/resource_sharing)
+
+[Resources](https://developers.cloudflare.com/api/resources/resource_sharing/subresources/resources)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a new share resource
+
+POST/accounts/{account\_id}/shares/{share\_id}/resources
 
 Adds a resource to an existing share, making it available to share recipients.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Account identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `share_id: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  Share identifier tag.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Body Parameters
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `meta: unknown`
+##### P ath ParametersExpand Collapse
 
-  Resource Metadata.
+account\_id: string
 
-- `resource_account_id: string`
+Account identifier.
 
-  Account identifier.
+maxLength32
 
-- `resource_id: string`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Share Resource identifier.
+share\_id: string
 
-- `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+Share identifier tag.
 
-  Resource Type.
+maxLength32
 
-  - `"custom-ruleset"`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20share_id%20%3E%20(schema)>)
 
-  - `"gateway-policy"`
+##### Body ParametersJSONExpand Collapse
 
-  - `"gateway-destination-ip"`
+meta: unknown
 
-  - `"gateway-block-page-settings"`
+Resource Metadata.
 
-  - `"gateway-extended-email-matching"`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20meta%20%3E%20(schema)>)
 
-  - `"idp-federation-grant"`
+resource\_account\_id: string
 
-### Returns
+Account identifier.
 
-- `errors: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20resource_account_id%20%3E%20(schema)>)
 
-  - `message: string`
+resource\_id: string
 
-  - `documentation_url: optional string`
+Share Resource identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20resource_id%20%3E%20(schema)>)
 
-- `success: boolean`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-- `result: optional object { id, created, meta, 6 more }`
+resource\_type: "custom-ruleset"or "gateway-policy"or "gateway-destination-ip"or 4 more
 
-  - `id: string`
+Resource Type.
 
-    Share Resource identifier.
+</summary>
 
-  - `created: string`
+One of the following:
 
-    When the share was created.
+"custom-ruleset"
 
-  - `meta: unknown`
+<a href="#">Link to this property</a>
 
-    Resource Metadata.
+"gateway-policy"
 
-  - `modified: string`
+<a href="#">Link to this property</a>
 
-    When the share was modified.
+"gateway-destination-ip"
 
-  - `resource_account_id: string`
+<a href="#">Link to this property</a>
 
-    Account identifier.
+"gateway-block-page-settings"
 
-  - `resource_id: string`
+<a href="#">Link to this property</a>
 
-    Share Resource identifier.
+"gateway-extended-email-matching"
 
-  - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+<a href="#">Link to this property</a>
 
-    Resource Type.
+"idp-federation-grant"
 
-    - `"custom-ruleset"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-policy"`
+"trust-grant"
 
-    - `"gateway-destination-ip"`
+<a href="#">Link to this property</a>
 
-    - `"gateway-block-page-settings"`
+</details>
 
-    - `"gateway-extended-email-matching"`
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20resource_type%20%3E%20(schema)>)
 
-    - `"idp-federation-grant"`
+##### ReturnsExpand Collapse
 
-  - `resource_version: number`
+<details>
 
-    Resource Version.
+<summary>
 
-  - `status: "active" or "deleting" or "deleted"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    Resource Status.
+</summary>
 
-    - `"active"`
+code: number
 
-    - `"deleting"`
+minimum1000
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-### Example
+message: string
 
-```http
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created, meta, 6 more }
+
+</summary>
+
+id: string
+
+Share Resource identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created: string
+
+When the share was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+meta: unknown
+
+Resource Metadata.
+
+<a href="#">Link to this property</a>
+
+modified: string
+
+When the share was modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+resource\_account\_id: string
+
+Account identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+resource\_id: string
+
+Share Resource identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "custom-ruleset"or "gateway-policy"or "gateway-destination-ip"or 4 more
+
+Resource Type.
+
+</summary>
+
+One of the following:
+
+"custom-ruleset"
+
+<a href="#">Link to this property</a>
+
+"gateway-policy"
+
+<a href="#">Link to this property</a>
+
+"gateway-destination-ip"
+
+<a href="#">Link to this property</a>
+
+"gateway-block-page-settings"
+
+<a href="#">Link to this property</a>
+
+"gateway-extended-email-matching"
+
+<a href="#">Link to this property</a>
+
+"idp-federation-grant"
+
+<a href="#">Link to this property</a>
+
+"trust-grant"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+resource\_version: number
+
+Resource Version.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "active"or "deleting"or "deleted"
+
+Resource Status.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deleting"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20resource_sharing.resources%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create a new share resource
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/resources \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -133,9 +327,40 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID/
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "created": "2023-09-21T18:56:32.624632Z",
+    "meta": {},
+    "modified": "2023-09-21T18:56:32.624632Z",
+    "resource_account_id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "resource_type": "custom-ruleset",
+    "resource_version": 0,
+    "status": "active"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

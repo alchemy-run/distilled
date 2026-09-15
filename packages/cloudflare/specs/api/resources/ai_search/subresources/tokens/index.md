@@ -1,449 +1,261 @@
+---
+title: Tokens
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tokens
 
-## List tokens.
+##### [List tokens](https://developers.cloudflare.com/api/resources/ai_search/subresources/tokens/methods/list)
 
-**get** `/accounts/{account_id}/ai-search/tokens`
+GET/accounts/{account\_id}/ai-search/tokens
 
-List tokens.
+##### [Create a token](https://developers.cloudflare.com/api/resources/ai_search/subresources/tokens/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/ai-search/tokens
 
-- `account_id: string`
+##### [Get a token](https://developers.cloudflare.com/api/resources/ai_search/subresources/tokens/methods/read)
 
-### Query Parameters
+GET/accounts/{account\_id}/ai-search/tokens/{id}
 
-- `page: optional number`
+##### [Update a token](https://developers.cloudflare.com/api/resources/ai_search/subresources/tokens/methods/update)
 
-  Page number (1-indexed).
+PUT/accounts/{account\_id}/ai-search/tokens/{id}
 
-- `per_page: optional number`
+##### [Delete a token](https://developers.cloudflare.com/api/resources/ai_search/subresources/tokens/methods/delete)
 
-  Number of results per page.
+DELETE/accounts/{account\_id}/ai-search/tokens/{id}
 
-- `search: optional string`
+##### ModelsExpand Collapse
 
-  Filter tokens whose name contains this string (case-insensitive).
+<details>
 
-### Returns
+<summary>
 
-- `result: array of object { id, cf_api_id, created_at, 6 more }`
+TokenListResponse object {id, cf\_api\_id, created\_at, 6 more }
 
-  - `id: string`
+</summary>
 
-  - `cf_api_id: string`
+id: string
 
-  - `created_at: string`
+formatuuid
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+cf\_api\_id: string
 
-  - `created_by: optional string`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+created\_at: string
 
-  - `legacy: optional boolean`
+formatdate-time
 
-  - `modified_by: optional string`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, total_count }`
+modified\_at: string
 
-  - `count: number`
+formatdate-time
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+name: string
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_by: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+enabled: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/tokens \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+legacy: optional boolean
 
-```json
-{
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "cf_api_id": "cf_api_id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "created_by": "created_by",
-      "enabled": true,
-      "legacy": true,
-      "modified_by": "modified_by"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create token.
+modified\_by: optional string
 
-**post** `/accounts/{account_id}/ai-search/tokens`
+<a href="#">Link to this property</a>
 
-Create a new token.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20ai_search.tokens%20%3E%20(model)%20token_list_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `cf_api_id: string`
+TokenCreateResponse object {id, cf\_api\_id, created\_at, 6 more }
 
-- `cf_api_key: string`
+</summary>
 
-- `name: string`
+id: string
 
-- `legacy: optional boolean`
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, cf_api_id, created_at, 6 more }`
+cf\_api\_id: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `cf_api_id: string`
+created\_at: string
 
-  - `created_at: string`
+formatdate-time
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+modified\_at: string
 
-  - `created_by: optional string`
+formatdate-time
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `legacy: optional boolean`
+name: string
 
-  - `modified_by: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_by: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+enabled: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/tokens \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cf_api_id": "a1b2c3d4e5f6",
-          "cf_api_key": "abc123",
-          "name": "my-token"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+legacy: optional boolean
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "cf_api_id": "cf_api_id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "created_by": "created_by",
-    "enabled": true,
-    "legacy": true,
-    "modified_by": "modified_by"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Read token.
+modified\_by: optional string
 
-**get** `/accounts/{account_id}/ai-search/tokens/{id}`
+<a href="#">Link to this property</a>
 
-Read token.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20ai_search.tokens%20%3E%20(model)%20token_create_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-- `id: string`
+<summary>
 
-### Returns
+TokenReadResponse object {id, cf\_api\_id, created\_at, 6 more }
 
-- `result: object { id, cf_api_id, created_at, 6 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-  - `cf_api_id: string`
+formatuuid
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+cf\_api\_id: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `created_by: optional string`
+created\_at: string
 
-  - `enabled: optional boolean`
+formatdate-time
 
-  - `legacy: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `modified_by: optional string`
+modified\_at: string
 
-- `success: true`
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+name: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/tokens/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_by: optional string
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "cf_api_id": "cf_api_id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "created_by": "created_by",
-    "enabled": true,
-    "legacy": true,
-    "modified_by": "modified_by"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update token.
+enabled: optional boolean
 
-**put** `/accounts/{account_id}/ai-search/tokens/{id}`
+<a href="#">Link to this property</a>
 
-Update token.
+legacy: optional boolean
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+modified\_by: optional string
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `cf_api_id: string`
+[Link to this property](#)%20ai_search.tokens%20%3E%20(model)%20token_read_response%20%3E%20(schema)>)
 
-- `cf_api_key: string`
+<details>
 
-- `name: string`
+<summary>
 
-- `legacy: optional boolean`
+TokenUpdateResponse object {id, cf\_api\_id, created\_at, 6 more }
 
-### Returns
+</summary>
 
-- `result: object { id, cf_api_id, created_at, 6 more }`
+id: string
 
-  - `id: string`
+formatuuid
 
-  - `cf_api_id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+cf\_api\_id: string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+created\_at: string
 
-  - `created_by: optional string`
+formatdate-time
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `legacy: optional boolean`
+modified\_at: string
 
-  - `modified_by: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+name: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/tokens/$ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cf_api_id": "a1b2c3d4e5f6",
-          "cf_api_key": "abc123",
-          "name": "my-token"
-        }'
-```
+created\_by: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "cf_api_id": "cf_api_id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "created_by": "created_by",
-    "enabled": true,
-    "legacy": true,
-    "modified_by": "modified_by"
-  },
-  "success": true
-}
-```
+enabled: optional boolean
 
-## Delete token.
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/ai-search/tokens/{id}`
+legacy: optional boolean
 
-Delete token.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+modified\_by: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+</details>
 
-### Returns
+[Link to this property](#)%20ai_search.tokens%20%3E%20(model)%20token_update_response%20%3E%20(schema)>)
 
-- `result: unknown`
+TokenDeleteResponse = unknown
 
-- `success: true`
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/tokens/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Token List Response
-
-- `TokenListResponse object { id, cf_api_id, created_at, 6 more }`
-
-  - `id: string`
-
-  - `cf_api_id: string`
-
-  - `created_at: string`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `created_by: optional string`
-
-  - `enabled: optional boolean`
-
-  - `legacy: optional boolean`
-
-  - `modified_by: optional string`
-
-### Token Create Response
-
-- `TokenCreateResponse object { id, cf_api_id, created_at, 6 more }`
-
-  - `id: string`
-
-  - `cf_api_id: string`
-
-  - `created_at: string`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `created_by: optional string`
-
-  - `enabled: optional boolean`
-
-  - `legacy: optional boolean`
-
-  - `modified_by: optional string`
-
-### Token Read Response
-
-- `TokenReadResponse object { id, cf_api_id, created_at, 6 more }`
-
-  - `id: string`
-
-  - `cf_api_id: string`
-
-  - `created_at: string`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `created_by: optional string`
-
-  - `enabled: optional boolean`
-
-  - `legacy: optional boolean`
-
-  - `modified_by: optional string`
-
-### Token Update Response
-
-- `TokenUpdateResponse object { id, cf_api_id, created_at, 6 more }`
-
-  - `id: string`
-
-  - `cf_api_id: string`
-
-  - `created_at: string`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `created_by: optional string`
-
-  - `enabled: optional boolean`
-
-  - `legacy: optional boolean`
-
-  - `modified_by: optional string`
-
-### Token Delete Response
-
-- `TokenDeleteResponse = unknown`
+[Link to this property](#)%20ai_search.tokens%20%3E%20(model)%20token_delete_response%20%3E%20(schema)>)

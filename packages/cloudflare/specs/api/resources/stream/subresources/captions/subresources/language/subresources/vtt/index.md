@@ -1,34 +1,33 @@
+---
+title: Vtt
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+[Captions](https://developers.cloudflare.com/api/resources/stream/subresources/captions)
+
+[Language](https://developers.cloudflare.com/api/resources/stream/subresources/captions/subresources/language)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Vtt
 
-## Return WebVTT captions for a provided language
+##### [Return WebVTT captions for a provided language](https://developers.cloudflare.com/api/resources/stream/subresources/captions/subresources/language/subresources/vtt/methods/get)
 
-**get** `/accounts/{account_id}/stream/{identifier}/captions/{language}/vtt`
+GET/accounts/{account\_id}/stream/{identifier}/captions/{language}/vtt
 
-Return WebVTT captions for a provided language.
+##### ModelsExpand Collapse
 
-### Path Parameters
+VttGetResponse = string
 
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-- `language: string`
-
-  The language tag in BCP 47 format.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/captions/$LANGUAGE/vtt \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### Vtt Get Response
-
-- `VttGetResponse = string`
+[Link to this property](#)%20stream.captions.language.vtt%20%3E%20(model)%20vtt_get_response%20%3E%20(schema)>)

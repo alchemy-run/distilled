@@ -1,286 +1,169 @@
+---
+title: Account Mapping
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Email](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Account Mapping
 
-## Get mapping
+##### [Get mapping](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/account_mapping/methods/get)
 
-**get** `/accounts/{account_id}/dlp/email/account_mapping`
+GET/accounts/{account\_id}/dlp/email/account\_mapping
 
-Retrieves the email provider mapping configuration for DLP email scanning.
+##### [Create mapping](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/account_mapping/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/dlp/email/account\_mapping
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+AccountMappingGetResponse object {addin\_identifier\_token, auth\_requirements }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+addin\_identifier\_token: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+auth\_requirements: object {allowed\_microsoft\_organizations, type } or object {type }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+object {allowed\_microsoft\_organizations, type }
 
-  - `true`
+</summary>
 
-- `result: optional object { addin_identifier_token, auth_requirements }`
+allowed\_microsoft\_organizations: array of string
 
-  - `addin_identifier_token: string`
+<a href="#">Link to this property</a>
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+type: "Org"
 
-    - `object { allowed_microsoft_organizations, type }`
+<a href="#">Link to this property</a>
 
-      - `allowed_microsoft_organizations: array of string`
+</details>
 
-      - `type: "Org"`
+<a href="#">Link to this property</a>
 
-        - `"Org"`
+<details>
 
-    - `Type object { type }`
+<summary>
 
-      - `type: "NoAuth"`
+Type object {type }
 
-        - `"NoAuth"`
+</summary>
 
-### Example
+type: "NoAuth"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/account_mapping \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "addin_identifier_token": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "auth_requirements": {
-      "allowed_microsoft_organizations": [
-        "string"
-      ],
-      "type": "Org"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create mapping
+</details>
 
-**post** `/accounts/{account_id}/dlp/email/account_mapping`
+<a href="#">Link to this property</a>
 
-Creates a mapping between a Cloudflare account and an email provider for DLP email scanning integration.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.dlp.email.account_mapping%20%3E%20(model)%20account_mapping_get_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+AccountMappingCreateResponse object {addin\_identifier\_token, auth\_requirements }
 
-  - `object { allowed_microsoft_organizations, type }`
+</summary>
 
-    - `allowed_microsoft_organizations: array of string`
+addin\_identifier\_token: string
 
-    - `type: "Org"`
+formatuuid
 
-      - `"Org"`
+<a href="#">Link to this property</a>
 
-  - `Type object { type }`
+<details>
 
-    - `type: "NoAuth"`
+<summary>
 
-      - `"NoAuth"`
+auth\_requirements: object {allowed\_microsoft\_organizations, type } or object {type }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+object {allowed\_microsoft\_organizations, type }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+allowed\_microsoft\_organizations: array of string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+type: "Org"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+Type object {type }
 
-  - `true`
+</summary>
 
-- `result: optional object { addin_identifier_token, auth_requirements }`
+type: "NoAuth"
 
-  - `addin_identifier_token: string`
+<a href="#">Link to this property</a>
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+</details>
 
-    - `object { allowed_microsoft_organizations, type }`
+<a href="#">Link to this property</a>
 
-      - `allowed_microsoft_organizations: array of string`
+</details>
 
-      - `type: "Org"`
+<a href="#">Link to this property</a>
 
-        - `"Org"`
+</details>
 
-    - `Type object { type }`
-
-      - `type: "NoAuth"`
-
-        - `"NoAuth"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/account_mapping \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auth_requirements": {
-            "allowed_microsoft_organizations": [
-              "string"
-            ],
-            "type": "Org"
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "addin_identifier_token": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "auth_requirements": {
-      "allowed_microsoft_organizations": [
-        "string"
-      ],
-      "type": "Org"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Account Mapping Get Response
-
-- `AccountMappingGetResponse object { addin_identifier_token, auth_requirements }`
-
-  - `addin_identifier_token: string`
-
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
-
-    - `object { allowed_microsoft_organizations, type }`
-
-      - `allowed_microsoft_organizations: array of string`
-
-      - `type: "Org"`
-
-        - `"Org"`
-
-    - `Type object { type }`
-
-      - `type: "NoAuth"`
-
-        - `"NoAuth"`
-
-### Account Mapping Create Response
-
-- `AccountMappingCreateResponse object { addin_identifier_token, auth_requirements }`
-
-  - `addin_identifier_token: string`
-
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
-
-    - `object { allowed_microsoft_organizations, type }`
-
-      - `allowed_microsoft_organizations: array of string`
-
-      - `type: "Org"`
-
-        - `"Org"`
-
-    - `Type object { type }`
-
-      - `type: "NoAuth"`
-
-        - `"NoAuth"`
+[Link to this property](#)%20zero_trust.dlp.email.account_mapping%20%3E%20(model)%20account_mapping_create_response%20%3E%20(schema)>)

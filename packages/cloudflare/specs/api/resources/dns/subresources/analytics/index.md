@@ -1,649 +1,361 @@
+---
+title: Analytics
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Analytics
 
-# Reports
+#### AnalyticsReports
 
-## Table
+##### [Table](https://developers.cloudflare.com/api/resources/dns/subresources/analytics/subresources/reports/methods/get)
 
-**get** `/zones/{zone_id}/dns_analytics/report`
+Deprecated
 
-Retrieves a list of summarised aggregate metrics over a given time period.
+GET/zones/{zone\_id}/dns\_analytics/report
 
-See [Analytics API properties](https://developers.cloudflare.com/dns/reference/analytics-api-properties/) for detailed information about the available query parameters.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+Report object {data, data\_lag, max, 4 more }
 
-### Query Parameters
+</summary>
 
-- `dimensions: optional string`
+<details>
 
-  A comma-separated list of dimensions to group results by.
+<summary>
 
-- `filters: optional string`
+data: array of object {dimensions, metrics }
 
-  Segmentation filter in 'attribute operator value' format.
+Array with one row per combination of dimension values.
 
-- `limit: optional number`
+</summary>
 
-  Limit number of returned metrics.
+dimensions: array of string
 
-- `metrics: optional string`
+Array of dimension values, representing the combination of dimension values corresponding to this row.
 
-  A comma-separated list of metrics to query.
+<a href="#">Link to this property</a>
 
-- `since: optional string`
+metrics: array of number
 
-  Start date and time of requesting data period in ISO 8601 format.
+Array with one item per requested metric. Each item is a single value.
 
-- `sort: optional string`
+<a href="#">Link to this property</a>
 
-  A comma-separated list of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending).
+</details>
 
-- `until: optional string`
+<a href="#">Link to this property</a>
 
-  End date and time of requesting data period in ISO 8601 format.
+data\_lag: number
 
-### Returns
+Number of seconds between current time and last processed event, in another words how many seconds of data could be missing.
 
-- `errors: array of object { code, message, documentation_url, source }`
+minimum0
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+max: unknown
 
-  - `documentation_url: optional string`
+Maximum results for each metric (object mapping metric names to values). Currently always an empty object.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+min: unknown
 
-- `messages: array of object { code, message, documentation_url, source }`
+Minimum results for each metric (object mapping metric names to values). Currently always an empty object.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+query: object {dimensions, limit, metrics, 4 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+dimensions: array of string
 
-  Whether the API call was successful.
+Array of dimension names.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Report`
+limit: number
 
-  - `data: array of object { dimensions, metrics }`
+Limit number of returned metrics.
 
-    Array with one row per combination of dimension values.
+<a href="#">Link to this property</a>
 
-    - `dimensions: array of string`
+metrics: array of string
 
-      Array of dimension values, representing the combination of dimension values corresponding to this row.
+Array of metric names.
 
-    - `metrics: array of number`
+<a href="#">Link to this property</a>
 
-      Array with one item per requested metric. Each item is a single value.
+since: string
 
-  - `data_lag: number`
+Start date and time of requesting data period in ISO 8601 format.
 
-    Number of seconds between current time and last processed event, in another words how many seconds of data could be missing.
+formatdate-time
 
-  - `max: unknown`
+<a href="#">Link to this property</a>
 
-    Maximum results for each metric (object mapping metric names to values). Currently always an empty object.
+until: string
 
-  - `min: unknown`
-
-    Minimum results for each metric (object mapping metric names to values). Currently always an empty object.
-
-  - `query: object { dimensions, limit, metrics, 4 more }`
-
-    - `dimensions: array of string`
-
-      Array of dimension names.
-
-    - `limit: number`
-
-      Limit number of returned metrics.
-
-    - `metrics: array of string`
-
-      Array of metric names.
-
-    - `since: string`
-
-      Start date and time of requesting data period in ISO 8601 format.
-
-    - `until: string`
-
-      End date and time of requesting data period in ISO 8601 format.
-
-    - `filters: optional string`
+End date and time of requesting data period in ISO 8601 format.
 
-      Segmentation filter in 'attribute operator value' format.
+formatdate-time
 
-    - `sort: optional array of string`
+<a href="#">Link to this property</a>
 
-      Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending).
+filters: optional string
 
-  - `rows: number`
+Segmentation filter in ‘attribute operator value’ format.
 
-    Total number of rows in the result.
+<a href="#">Link to this property</a>
 
-  - `totals: unknown`
+sort: optional array of string
 
-    Total results for metrics across all data (object mapping metric names to values).
+Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending).
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_analytics/report \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": [
-      {
-        "dimensions": [
-          "NODATA"
-        ],
-        "metrics": [
-          0
-        ]
-      }
-    ],
-    "data_lag": 60,
-    "max": {},
-    "min": {},
-    "query": {
-      "dimensions": [
-        "responseCode",
-        "queryName"
-      ],
-      "limit": 100,
-      "metrics": [
-        "queryCount",
-        "responseTimeAvg"
-      ],
-      "since": "2023-11-11T12:00:00Z",
-      "until": "2023-11-11T13:00:00Z",
-      "filters": "responseCode==NOERROR,queryType==A",
-      "sort": [
-        "+responseCode",
-        "-queryName"
-      ]
-    },
-    "rows": 100,
-    "totals": {}
-  }
-}
-```
+rows: number
 
-## Domain Types
+Total number of rows in the result.
 
-### Report
+minimum0
 
-- `Report object { data, data_lag, max, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `data: array of object { dimensions, metrics }`
+totals: unknown
 
-    Array with one row per combination of dimension values.
+Total results for metrics across all data (object mapping metric names to values).
 
-    - `dimensions: array of string`
+<a href="#">Link to this property</a>
 
-      Array of dimension values, representing the combination of dimension values corresponding to this row.
+</details>
 
-    - `metrics: array of number`
+[Link to this property](#)%20dns.analytics.reports%20%3E%20(model)%20report%20%3E%20(schema)>)
 
-      Array with one item per requested metric. Each item is a single value.
+#### AnalyticsReportsBytimes
 
-  - `data_lag: number`
+##### [By Time](https://developers.cloudflare.com/api/resources/dns/subresources/analytics/subresources/reports/subresources/bytimes/methods/get)
 
-    Number of seconds between current time and last processed event, in another words how many seconds of data could be missing.
+Deprecated
 
-  - `max: unknown`
+GET/zones/{zone\_id}/dns\_analytics/report/bytime
 
-    Maximum results for each metric (object mapping metric names to values). Currently always an empty object.
+##### ModelsExpand Collapse
 
-  - `min: unknown`
+<details>
 
-    Minimum results for each metric (object mapping metric names to values). Currently always an empty object.
+<summary>
 
-  - `query: object { dimensions, limit, metrics, 4 more }`
+ByTime object {data, data\_lag, max, 5 more }
 
-    - `dimensions: array of string`
+</summary>
 
-      Array of dimension names.
+<details>
 
-    - `limit: number`
+<summary>
 
-      Limit number of returned metrics.
+data: array of object {dimensions, metrics }
 
-    - `metrics: array of string`
+Array with one row per combination of dimension values.
 
-      Array of metric names.
+</summary>
 
-    - `since: string`
+dimensions: array of string
 
-      Start date and time of requesting data period in ISO 8601 format.
+Array of dimension values, representing the combination of dimension values corresponding to this row.
 
-    - `until: string`
+<a href="#">Link to this property</a>
 
-      End date and time of requesting data period in ISO 8601 format.
+metrics: array of array of number
 
-    - `filters: optional string`
+Array with one item per requested metric. Each item is an array of values, broken down by time interval.
 
-      Segmentation filter in 'attribute operator value' format.
+<a href="#">Link to this property</a>
 
-    - `sort: optional array of string`
+</details>
 
-      Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending).
+<a href="#">Link to this property</a>
 
-  - `rows: number`
+data\_lag: number
 
-    Total number of rows in the result.
+Number of seconds between current time and last processed event, in another words how many seconds of data could be missing.
 
-  - `totals: unknown`
+minimum0
 
-    Total results for metrics across all data (object mapping metric names to values).
+<a href="#">Link to this property</a>
 
-# Bytimes
+max: unknown
 
-## By Time
+Maximum results for each metric (object mapping metric names to values). Currently always an empty object.
 
-**get** `/zones/{zone_id}/dns_analytics/report/bytime`
+<a href="#">Link to this property</a>
 
-Retrieves a list of aggregate metrics grouped by time interval.
+min: unknown
 
-See [Analytics API properties](https://developers.cloudflare.com/dns/reference/analytics-api-properties/) for detailed information about the available query parameters.
+Minimum results for each metric (object mapping metric names to values). Currently always an empty object.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Query Parameters
+query: object {dimensions, limit, metrics, 5 more }
 
-- `dimensions: optional string`
+</summary>
 
-  A comma-separated list of dimensions to group results by.
+dimensions: array of string
 
-- `filters: optional string`
+Array of dimension names.
 
-  Segmentation filter in 'attribute operator value' format.
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+limit: number
 
-  Limit number of returned metrics.
+Limit number of returned metrics.
 
-- `metrics: optional string`
+<a href="#">Link to this property</a>
 
-  A comma-separated list of metrics to query.
+metrics: array of string
 
-- `since: optional string`
+Array of metric names.
 
-  Start date and time of requesting data period in ISO 8601 format.
+<a href="#">Link to this property</a>
 
-- `sort: optional string`
+since: string
 
-  A comma-separated list of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending).
+Start date and time of requesting data period in ISO 8601 format.
 
-- `time_delta: optional "all" or "auto" or "year" or 7 more`
+formatdate-time
 
-  Unit of time to group data by.
+<a href="#">Link to this property</a>
 
-  - `"all"`
+<details>
 
-  - `"auto"`
+<summary>
 
-  - `"year"`
+time\_delta: "all"or "auto"or "year"or 7 more
 
-  - `"quarter"`
+Unit of time to group data by.
 
-  - `"month"`
+</summary>
 
-  - `"week"`
+One of the following:
 
-  - `"day"`
+"all"
 
-  - `"hour"`
+<a href="#">Link to this property</a>
 
-  - `"dekaminute"`
+"auto"
 
-  - `"minute"`
+<a href="#">Link to this property</a>
 
-- `until: optional string`
+"year"
 
-  End date and time of requesting data period in ISO 8601 format.
+<a href="#">Link to this property</a>
 
-### Returns
+"quarter"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"month"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"week"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"day"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"hour"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"dekaminute"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"minute"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional ByTime`
+until: string
 
-  - `data: array of object { dimensions, metrics }`
+End date and time of requesting data period in ISO 8601 format.
 
-    Array with one row per combination of dimension values.
+formatdate-time
 
-    - `dimensions: array of string`
+<a href="#">Link to this property</a>
 
-      Array of dimension values, representing the combination of dimension values corresponding to this row.
+filters: optional string
 
-    - `metrics: array of array of number`
+Segmentation filter in ‘attribute operator value’ format.
 
-      Array with one item per requested metric. Each item is an array of values, broken down by time interval.
+<a href="#">Link to this property</a>
 
-  - `data_lag: number`
+sort: optional array of string
 
-    Number of seconds between current time and last processed event, in another words how many seconds of data could be missing.
+Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending).
 
-  - `max: unknown`
+<a href="#">Link to this property</a>
 
-    Maximum results for each metric (object mapping metric names to values). Currently always an empty object.
+</details>
 
-  - `min: unknown`
+<a href="#">Link to this property</a>
 
-    Minimum results for each metric (object mapping metric names to values). Currently always an empty object.
+rows: number
 
-  - `query: object { dimensions, limit, metrics, 5 more }`
+Total number of rows in the result.
 
-    - `dimensions: array of string`
+minimum0
 
-      Array of dimension names.
+<a href="#">Link to this property</a>
 
-    - `limit: number`
+time\_intervals: array of array of string
 
-      Limit number of returned metrics.
+Array of time intervals in the response data. Each interval is represented as an array containing two values: the start time, and the end time.
 
-    - `metrics: array of string`
+<a href="#">Link to this property</a>
 
-      Array of metric names.
+totals: unknown
 
-    - `since: string`
+Total results for metrics across all data (object mapping metric names to values).
 
-      Start date and time of requesting data period in ISO 8601 format.
+<a href="#">Link to this property</a>
 
-    - `time_delta: "all" or "auto" or "year" or 7 more`
+</details>
 
-      Unit of time to group data by.
-
-      - `"all"`
-
-      - `"auto"`
-
-      - `"year"`
-
-      - `"quarter"`
-
-      - `"month"`
-
-      - `"week"`
-
-      - `"day"`
-
-      - `"hour"`
-
-      - `"dekaminute"`
-
-      - `"minute"`
-
-    - `until: string`
-
-      End date and time of requesting data period in ISO 8601 format.
-
-    - `filters: optional string`
-
-      Segmentation filter in 'attribute operator value' format.
-
-    - `sort: optional array of string`
-
-      Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending).
-
-  - `rows: number`
-
-    Total number of rows in the result.
-
-  - `time_intervals: array of array of string`
-
-    Array of time intervals in the response data. Each interval is represented as an array containing two values: the start time, and the end time.
-
-  - `totals: unknown`
-
-    Total results for metrics across all data (object mapping metric names to values).
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_analytics/report/bytime \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": [
-      {
-        "dimensions": [
-          "NODATA"
-        ],
-        "metrics": [
-          [
-            0
-          ]
-        ]
-      }
-    ],
-    "data_lag": 60,
-    "max": {},
-    "min": {},
-    "query": {
-      "dimensions": [
-        "responseCode",
-        "queryName"
-      ],
-      "limit": 100,
-      "metrics": [
-        "queryCount",
-        "responseTimeAvg"
-      ],
-      "since": "2023-11-11T12:00:00Z",
-      "time_delta": "hour",
-      "until": "2023-11-11T13:00:00Z",
-      "filters": "responseCode==NOERROR,queryType==A",
-      "sort": [
-        "+responseCode",
-        "-queryName"
-      ]
-    },
-    "rows": 100,
-    "time_intervals": [
-      [
-        "2023-11-11T12:00:00Z"
-      ]
-    ],
-    "totals": {}
-  }
-}
-```
-
-## Domain Types
-
-### By Time
-
-- `ByTime object { data, data_lag, max, 5 more }`
-
-  - `data: array of object { dimensions, metrics }`
-
-    Array with one row per combination of dimension values.
-
-    - `dimensions: array of string`
-
-      Array of dimension values, representing the combination of dimension values corresponding to this row.
-
-    - `metrics: array of array of number`
-
-      Array with one item per requested metric. Each item is an array of values, broken down by time interval.
-
-  - `data_lag: number`
-
-    Number of seconds between current time and last processed event, in another words how many seconds of data could be missing.
-
-  - `max: unknown`
-
-    Maximum results for each metric (object mapping metric names to values). Currently always an empty object.
-
-  - `min: unknown`
-
-    Minimum results for each metric (object mapping metric names to values). Currently always an empty object.
-
-  - `query: object { dimensions, limit, metrics, 5 more }`
-
-    - `dimensions: array of string`
-
-      Array of dimension names.
-
-    - `limit: number`
-
-      Limit number of returned metrics.
-
-    - `metrics: array of string`
-
-      Array of metric names.
-
-    - `since: string`
-
-      Start date and time of requesting data period in ISO 8601 format.
-
-    - `time_delta: "all" or "auto" or "year" or 7 more`
-
-      Unit of time to group data by.
-
-      - `"all"`
-
-      - `"auto"`
-
-      - `"year"`
-
-      - `"quarter"`
-
-      - `"month"`
-
-      - `"week"`
-
-      - `"day"`
-
-      - `"hour"`
-
-      - `"dekaminute"`
-
-      - `"minute"`
-
-    - `until: string`
-
-      End date and time of requesting data period in ISO 8601 format.
-
-    - `filters: optional string`
-
-      Segmentation filter in 'attribute operator value' format.
-
-    - `sort: optional array of string`
-
-      Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending).
-
-  - `rows: number`
-
-    Total number of rows in the result.
-
-  - `time_intervals: array of array of string`
-
-    Array of time intervals in the response data. Each interval is represented as an array containing two values: the start time, and the end time.
-
-  - `totals: unknown`
-
-    Total results for metrics across all data (object mapping metric names to values).
+[Link to this property](#)%20dns.analytics.reports.bytimes%20%3E%20(model)%20by_time%20%3E%20(schema)>)

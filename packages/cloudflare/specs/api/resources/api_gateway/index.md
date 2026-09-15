@@ -1,8907 +1,5773 @@
+---
+title: API Gateway
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # API Gateway
 
-# Configurations
+#### API GatewayConfigurations
 
-## Retrieve information about specific configuration properties
+##### [Get session identifier settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/configurations/methods/get)
 
-**get** `/zones/{zone_id}/api_gateway/configuration`
+GET/zones/{zone\_id}/api\_gateway/configuration
 
-Gets the current API Shield configuration settings for a zone, including validation behavior and enforcement mode.
+##### [Update session identifier settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/configurations/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/api\_gateway/configuration
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Query Parameters
+<summary>
 
-- `normalize: optional boolean`
+Configuration object {auth\_id\_characteristics }
 
-  Ensures that the configuration is written or retrieved in normalized fashion
+</summary>
 
-### Returns
+<details>
 
-- `errors: Message`
+<summary>
 
-  - `code: number`
+auth\_id\_characteristics: array of object {name, type } or object {name, type }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: Message`
+APIShieldAuthIDCharacteristic object {name, type }
 
-- `result: Configuration`
+Auth ID Characteristic
 
-  - `auth_id_characteristics: array of object { name, type }  or object { name, type }`
+</summary>
 
-    - `APIShieldAuthIDCharacteristic object { name, type }`
+name: string
 
-      Auth ID Characteristic
+The name of the characteristic field, i.e., the header or cookie name.
 
-      - `name: string`
+maxLength128
 
-        The name of the characteristic field, i.e., the header or cookie name.
+<a href="#">Link to this property</a>
 
-      - `type: "header" or "cookie"`
+<details>
 
-        The type of characteristic.
+<summary>
 
-        - `"header"`
+type: "header"or "cookie"
 
-        - `"cookie"`
+The type of characteristic.
 
-    - `APIShieldAuthIDCharacteristicJWTClaim object { name, type }`
+</summary>
 
-      Auth ID Characteristic extracted from JWT Token Claims
+One of the following:
 
-      - `name: string`
+"header"
 
-        Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`
-        is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535
-        JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html).
-        The JSONPath expression may be in dot or bracket notation, may only specify literal keys
-        or array indexes, and must return a singleton value, which will be interpreted as a string.
+<a href="#">Link to this property</a>
 
-      - `type: "jwt"`
+"cookie"
 
-        The type of characteristic.
+<a href="#">Link to this property</a>
 
-        - `"jwt"`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/configuration \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+APIShieldAuthIDCharacteristicJWTClaim object {name, type }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "auth_id_characteristics": [
-      {
-        "name": "authorization",
-        "type": "header"
-      }
-    ]
-  },
-  "success": true
-}
-```
+Auth ID Characteristic extracted from JWT Token Claims
 
-## Update configuration properties
+</summary>
 
-**put** `/zones/{zone_id}/api_gateway/configuration`
+name: string
 
-Updates API Shield configuration settings for a zone. Can modify validation strictness, enforcement mode, and other global settings.
+Claim location expressed as <code>$(token_config_id):$(json_path)</code>, where <code>token_config_id</code> is the ID of the token configuration used in validating the JWT, and <code>json_path</code> is a RFC 9535 JSONPath (<a href="https://goessner.net/articles/JsonPath/">https://goessner.net/articles/JsonPath/</a>, <a href="https://www.rfc-editor.org/rfc/rfc9535.html">https://www.rfc-editor.org/rfc/rfc9535.html</a>). The JSONPath expression may be in dot or bracket notation, may only specify literal keys or array indexes, and must return a singleton value, which will be interpreted as a string.
 
-### Path Parameters
+maxLength128
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+type: "jwt"
 
-### Query Parameters
+The type of characteristic.
 
-- `normalize: optional boolean`
+<a href="#">Link to this property</a>
 
-  Ensures that the configuration is written or retrieved in normalized fashion
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `auth_id_characteristics: array of object { name, type }  or object { name, type }`
+</details>
 
-  - `APIShieldAuthIDCharacteristic object { name, type }`
+<a href="#">Link to this property</a>
 
-    Auth ID Characteristic
+</details>
 
-    - `name: string`
+[Link to this property](#)%20api_gateway.configurations%20%3E%20(model)%20configuration%20%3E%20(schema)>)
 
-      The name of the characteristic field, i.e., the header or cookie name.
+#### API GatewayDiscovery
 
-    - `type: "header" or "cookie"`
+##### [Export discovered API operations as OpenAPI schemas](https://developers.cloudflare.com/api/resources/api_gateway/subresources/discovery/methods/get)
 
-      The type of characteristic.
+GET/zones/{zone\_id}/api\_gateway/discovery
 
-      - `"header"`
+##### ModelsExpand Collapse
 
-      - `"cookie"`
+<details>
 
-  - `APIShieldAuthIDCharacteristicJWTClaim object { name, type }`
+<summary>
 
-    Auth ID Characteristic extracted from JWT Token Claims
+DiscoveryOperation object {id, endpoint, host, 5 more }
 
-    - `name: string`
+</summary>
 
-      Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`
-      is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535
-      JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html).
-      The JSONPath expression may be in dot or bracket notation, may only specify literal keys
-      or array indexes, and must return a singleton value, which will be interpreted as a string.
+id: string
 
-    - `type: "jwt"`
+UUID.
 
-      The type of characteristic.
+maxLength36
 
-      - `"jwt"`
+minLength36
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+endpoint: string
 
-  - `code: number`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-  - `message: string`
+formaturi-template
 
-  - `documentation_url: optional string`
+maxLength4096
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+host: string
 
-- `messages: Message`
+RFC3986-compliant host.
 
-- `result: Configuration`
+formathostname
 
-  - `auth_id_characteristics: array of object { name, type }  or object { name, type }`
+maxLength255
 
-    - `APIShieldAuthIDCharacteristic object { name, type }`
+<a href="#">Link to this property</a>
 
-      Auth ID Characteristic
+last\_updated: string
 
-      - `name: string`
+formatdate-time
 
-        The name of the characteristic field, i.e., the header or cookie name.
+<a href="#">Link to this property</a>
 
-      - `type: "header" or "cookie"`
+<details>
 
-        The type of characteristic.
+<summary>
 
-        - `"header"`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-        - `"cookie"`
+The HTTP method used to access the endpoint.
 
-    - `APIShieldAuthIDCharacteristicJWTClaim object { name, type }`
+</summary>
 
-      Auth ID Characteristic extracted from JWT Token Claims
+One of the following:
 
-      - `name: string`
+"GET"
 
-        Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`
-        is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535
-        JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html).
-        The JSONPath expression may be in dot or bracket notation, may only specify literal keys
-        or array indexes, and must return a singleton value, which will be interpreted as a string.
+<a href="#">Link to this property</a>
 
-      - `type: "jwt"`
+"POST"
 
-        The type of characteristic.
+<a href="#">Link to this property</a>
 
-        - `"jwt"`
+"HEAD"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"OPTIONS"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"PUT"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/configuration \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auth_id_characteristics": [
-            {
-              "name": "authorization",
-              "type": "header"
-            }
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"DELETE"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "auth_id_characteristics": [
-      {
-        "name": "authorization",
-        "type": "header"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"CONNECT"
 
-### Configuration
+<a href="#">Link to this property</a>
 
-- `Configuration object { auth_id_characteristics }`
+"PATCH"
 
-  - `auth_id_characteristics: array of object { name, type }  or object { name, type }`
+<a href="#">Link to this property</a>
 
-    - `APIShieldAuthIDCharacteristic object { name, type }`
+"TRACE"
 
-      Auth ID Characteristic
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        The name of the characteristic field, i.e., the header or cookie name.
+<a href="#">Link to this property</a>
 
-      - `type: "header" or "cookie"`
+<details>
 
-        The type of characteristic.
+<summary>
 
-        - `"header"`
+origin: array of "ML"or "SessionIdentifier"or "LabelDiscovery"
 
-        - `"cookie"`
+API discovery engine(s) that discovered this operation
 
-    - `APIShieldAuthIDCharacteristicJWTClaim object { name, type }`
+</summary>
 
-      Auth ID Characteristic extracted from JWT Token Claims
+One of the following:
 
-      - `name: string`
+"ML"
 
-        Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`
-        is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535
-        JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html).
-        The JSONPath expression may be in dot or bracket notation, may only specify literal keys
-        or array indexes, and must return a singleton value, which will be interpreted as a string.
+<a href="#">Link to this property</a>
 
-      - `type: "jwt"`
+"SessionIdentifier"
 
-        The type of characteristic.
+<a href="#">Link to this property</a>
 
-        - `"jwt"`
+"LabelDiscovery"
 
-# Discovery
+<a href="#">Link to this property</a>
 
-## Retrieve discovered operations on a zone rendered as OpenAPI schemas
+</details>
 
-**get** `/zones/{zone_id}/api_gateway/discovery`
+<a href="#">Link to this property</a>
 
-Retrieve the most up to date view of discovered operations, rendered as OpenAPI schemas
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+state: "review"or "saved"or "ignored"
 
-  Identifier.
+State of operation in API Discovery
 
-### Returns
+- <code>review</code> - Operation is not saved into API Shield Endpoint Management
+- <code>saved</code> - Operation is saved into API Shield Endpoint Management
+- <code>ignored</code> - Operation is marked as ignored
 
-- `errors: Message`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"review"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"saved"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+"ignored"
 
-- `result: object { schemas, timestamp }`
+<a href="#">Link to this property</a>
 
-  - `schemas: array of unknown`
+</details>
 
-  - `timestamp: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+features: optional object {traffic\_stats }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/discovery \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "schemas": [
-      {
-        "info": {
-          "title": "OpenAPI JSON schema for www.example.com",
-          "version": "1.0"
-        },
-        "openapi": "3.0.0",
-        "paths": {
-          "... Further paths ...": {},
-          "/api/v1/users/{var1}": {
-            "get": {
-              "parameters": [
-                {
-                  "in": "path",
-                  "name": "var1",
-                  "required": true,
-                  "schema": {
-                    "type": "string"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        "servers": [
-          {
-            "url": "www.example.com"
-          }
-        ]
-      }
-    ],
-    "timestamp": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
+traffic\_stats: optional object {last\_updated, period\_seconds, requests }
 
-## Domain Types
+</summary>
 
-### Discovery Operation
+last\_updated: string
 
-- `DiscoveryOperation object { id, endpoint, host, 5 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+period\_seconds: number
 
-  - `endpoint: string`
+The period in seconds these statistics were computed over
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+requests: number
 
-    RFC3986-compliant host.
+The average number of requests seen during this period
 
-  - `last_updated: string`
+formatfloat
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<a href="#">Link to this property</a>
 
-    The HTTP method used to access the endpoint.
+</details>
 
-    - `"GET"`
+<a href="#">Link to this property</a>
 
-    - `"POST"`
+</details>
 
-    - `"HEAD"`
+<a href="#">Link to this property</a>
 
-    - `"OPTIONS"`
+</details>
 
-    - `"PUT"`
+[Link to this property](#)%20api_gateway.discovery%20%3E%20(model)%20discovery_operation%20%3E%20(schema)>)
 
-    - `"DELETE"`
+<details>
 
-    - `"CONNECT"`
+<summary>
 
-    - `"PATCH"`
+DiscoveryGetResponse object {schemas, timestamp }
 
-    - `"TRACE"`
+</summary>
 
-  - `origin: array of "ML" or "SessionIdentifier" or "LabelDiscovery"`
+schemas: array of unknown
 
-    API discovery engine(s) that discovered this operation
+<a href="#">Link to this property</a>
 
-    - `"ML"`
+timestamp: string
 
-    - `"SessionIdentifier"`
+formatdate-time
 
-    - `"LabelDiscovery"`
+<a href="#">Link to this property</a>
 
-  - `state: "review" or "saved" or "ignored"`
+</details>
 
-    State of operation in API Discovery
+[Link to this property](#)%20api_gateway.discovery%20%3E%20(model)%20discovery_get_response%20%3E%20(schema)>)
 
-    * `review` - Operation is not saved into API Shield Endpoint Management
-    * `saved` - Operation is saved into API Shield Endpoint Management
-    * `ignored` - Operation is marked as ignored
+#### API GatewayDiscoveryOperations
 
-    - `"review"`
+##### [List discovered web and API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/discovery/subresources/operations/methods/list)
 
-    - `"saved"`
+GET/zones/{zone\_id}/api\_gateway/discovery/operations
 
-    - `"ignored"`
+##### [Edit discovered web and API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/discovery/subresources/operations/methods/bulk_edit)
 
-  - `features: optional object { traffic_stats }`
+PATCH/zones/{zone\_id}/api\_gateway/discovery/operations
 
-    - `traffic_stats: optional object { last_updated, period_seconds, requests }`
+##### ModelsExpand Collapse
 
-      - `last_updated: string`
+<details>
 
-      - `period_seconds: number`
+<summary>
 
-        The period in seconds these statistics were computed over
+OperationBulkEditResponse = map\[object {state } ]
 
-      - `requests: number`
+</summary>
 
-        The average number of requests seen during this period
+<details>
 
-### Discovery Get Response
+<summary>
 
-- `DiscoveryGetResponse object { schemas, timestamp }`
+state: optional "review"or "ignored"
 
-  - `schemas: array of unknown`
+Mark state of operation in API Discovery
 
-  - `timestamp: string`
+- <code>review</code> - Mark operation as for review
+- <code>ignored</code> - Mark operation as ignored
 
-# Operations
+</summary>
 
-## Retrieve discovered operations on a zone
+One of the following:
 
-**get** `/zones/{zone_id}/api_gateway/discovery/operations`
+"review"
 
-Retrieve the most up to date view of discovered operations
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"ignored"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `diff: optional boolean`
+</details>
 
-  When `true`, only return API Discovery results that are not saved into API Shield Endpoint Management
+[Link to this property](#)%20api_gateway.discovery.operations%20%3E%20(model)%20operation_bulk_edit_response%20%3E%20(schema)>)
 
-- `direction: optional "asc" or "desc"`
+#### API GatewayLabels
 
-  Direction to order results.
+##### [List operation labels](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/methods/list)
 
-  - `"asc"`
+GET/zones/{zone\_id}/api\_gateway/labels
 
-  - `"desc"`
+##### ModelsExpand Collapse
 
-- `endpoint: optional string`
+<details>
 
-  Filter results to only include endpoints containing this pattern.
+<summary>
 
-- `host: optional array of string`
+LabelListResponse object {created\_at, description, last\_updated, 4 more }
 
-  Filter results to only include the specified hosts.
+</summary>
 
-- `method: optional array of string`
+created\_at: string
 
-  Filter results to only include the specified HTTP methods.
+formatdate-time
 
-- `order: optional "host" or "method" or "endpoint" or 2 more`
+<a href="#">Link to this property</a>
 
-  Field to order by
+description: string
 
-  - `"host"`
+The description of the label
 
-  - `"method"`
+<a href="#">Link to this property</a>
 
-  - `"endpoint"`
+last\_updated: string
 
-  - `"traffic_stats.requests"`
+formatdate-time
 
-  - `"traffic_stats.last_updated"`
+<a href="#">Link to this property</a>
 
-- `origin: optional "ML" or "SessionIdentifier" or "LabelDiscovery"`
+metadata: unknown
 
-  Filter results to only include discovery results sourced from a particular discovery engine
+Metadata for the label
 
-  * `ML` - Discovered operations that were sourced using ML API Discovery
-  * `SessionIdentifier` - Discovered operations that were sourced using Session Identifier API Discovery
+<a href="#">Link to this property</a>
 
-  - `"ML"`
+name: string
 
-  - `"SessionIdentifier"`
+The name of the label
 
-  - `"LabelDiscovery"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+<details>
 
-  Page number of paginated results.
+<summary>
 
-- `per_page: optional number`
+source: "user"or "managed"
 
-  Maximum number of results per page.
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-- `state: optional "review" or "saved" or "ignored"`
+</summary>
 
-  Filter results to only include discovery results in a particular state. States are as follows
+One of the following:
 
-  * `review` - Discovered operations that are not saved into API Shield Endpoint Management
-  * `saved` - Discovered operations that are already saved into API Shield Endpoint Management
-  * `ignored` - Discovered operations that have been marked as ignored
+"user"
 
-  - `"review"`
+<a href="#">Link to this property</a>
 
-  - `"saved"`
+"managed"
 
-  - `"ignored"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+mapped\_resources: optional unknown
 
-  - `message: string`
+Provides counts of what resources are linked to this label
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20api_gateway.labels%20%3E%20(model)%20label_list_response%20%3E%20(schema)>)
 
-- `messages: Message`
+#### API GatewayLabelsUser
 
-- `result: array of DiscoveryOperation`
+##### [Create user-defined operation labels](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/user/methods/bulk_create)
 
-  - `id: string`
+POST/zones/{zone\_id}/api\_gateway/labels/user
 
-    UUID.
+##### [Delete user-defined operation labels](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/user/methods/bulk_delete)
 
-  - `endpoint: string`
+DELETE/zones/{zone\_id}/api\_gateway/labels/user
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+##### [Get a user-defined operation label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/user/methods/get)
 
-  - `host: string`
+GET/zones/{zone\_id}/api\_gateway/labels/user/{name}
 
-    RFC3986-compliant host.
+##### [Update a user-defined operation label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/user/methods/update)
 
-  - `last_updated: string`
+PUT/zones/{zone\_id}/api\_gateway/labels/user/{name}
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+##### [Edit a user-defined operation label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/user/methods/edit)
 
-    The HTTP method used to access the endpoint.
+PATCH/zones/{zone\_id}/api\_gateway/labels/user/{name}
 
-    - `"GET"`
+##### [Delete a user-defined operation label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/user/methods/delete)
 
-    - `"POST"`
+DELETE/zones/{zone\_id}/api\_gateway/labels/user/{name}
 
-    - `"HEAD"`
+##### ModelsExpand Collapse
 
-    - `"OPTIONS"`
+<details>
 
-    - `"PUT"`
+<summary>
 
-    - `"DELETE"`
+UserBulkCreateResponse object {created\_at, description, last\_updated, 3 more }
 
-    - `"CONNECT"`
+</summary>
 
-    - `"PATCH"`
+created\_at: string
 
-    - `"TRACE"`
+formatdate-time
 
-  - `origin: array of "ML" or "SessionIdentifier" or "LabelDiscovery"`
+<a href="#">Link to this property</a>
 
-    API discovery engine(s) that discovered this operation
+description: string
 
-    - `"ML"`
+The description of the label
 
-    - `"SessionIdentifier"`
+<a href="#">Link to this property</a>
 
-    - `"LabelDiscovery"`
+last\_updated: string
 
-  - `state: "review" or "saved" or "ignored"`
+formatdate-time
 
-    State of operation in API Discovery
+<a href="#">Link to this property</a>
 
-    * `review` - Operation is not saved into API Shield Endpoint Management
-    * `saved` - Operation is saved into API Shield Endpoint Management
-    * `ignored` - Operation is marked as ignored
+metadata: unknown
 
-    - `"review"`
+Metadata for the label
 
-    - `"saved"`
+<a href="#">Link to this property</a>
 
-    - `"ignored"`
+name: string
 
-  - `features: optional object { traffic_stats }`
+The name of the label
 
-    - `traffic_stats: optional object { last_updated, period_seconds, requests }`
+<a href="#">Link to this property</a>
 
-      - `last_updated: string`
+<details>
 
-      - `period_seconds: number`
+<summary>
 
-        The period in seconds these statistics were computed over
+source: "user"or "managed"
 
-      - `requests: number`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-        The average number of requests seen during this period
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"user"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+"managed"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+</details>
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(model)%20user_bulk_create_response%20%3E%20(schema)>)
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+UserBulkDeleteResponse object {created\_at, description, last\_updated, 3 more }
 
-  - `total_pages: optional number`
+</summary>
 
-    The number of total pages in the entire result set.
+created\_at: string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/discovery/operations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+description: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "origin": [
-        "ML"
-      ],
-      "state": "review",
-      "features": {
-        "traffic_stats": {
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "period_seconds": 3600,
-          "requests": 1987.06
-        }
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+The description of the label
 
-## Patch discovered operations
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/api_gateway/discovery/operations`
+last\_updated: string
 
-Update the `state` on one or more discovered operations
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+metadata: unknown
 
-  Identifier.
+Metadata for the label
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: map[object { state } ]`
+name: string
 
-  - `state: optional "review" or "ignored"`
+The name of the label
 
-    Mark state of operation in API Discovery
+<a href="#">Link to this property</a>
 
-    * `review` - Mark operation as for review
-    * `ignored` - Mark operation as ignored
+<details>
 
-    - `"review"`
+<summary>
 
-    - `"ignored"`
+source: "user"or "managed"
 
-### Returns
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-- `errors: Message`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"user"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"managed"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+</details>
 
-- `result: map[object { state } ]`
+<a href="#">Link to this property</a>
 
-  - `state: optional "review" or "ignored"`
+</details>
 
-    Mark state of operation in API Discovery
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(model)%20user_bulk_delete_response%20%3E%20(schema)>)
 
-    * `review` - Mark operation as for review
-    * `ignored` - Mark operation as ignored
+<details>
 
-    - `"review"`
+<summary>
 
-    - `"ignored"`
+UserGetResponse object {created\_at, description, last\_updated, 4 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+created\_at: string
 
-  - `true`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/discovery/operations \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "3818d821-5901-4147-a474-f5f5aec1d54e": {
-            "state": "ignored"
-          },
-          "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-            "state": "review"
-          }
-        }'
-```
+description: string
 
-#### Response
+The description of the label
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "3818d821-5901-4147-a474-f5f5aec1d54e": {
-      "state": "ignored"
-    },
-    "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-      "state": "review"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+last\_updated: string
 
-### Operation Bulk Edit Response
+formatdate-time
 
-- `OperationBulkEditResponse = map[object { state } ]`
+<a href="#">Link to this property</a>
 
-  - `state: optional "review" or "ignored"`
+metadata: unknown
 
-    Mark state of operation in API Discovery
+Metadata for the label
 
-    * `review` - Mark operation as for review
-    * `ignored` - Mark operation as ignored
+<a href="#">Link to this property</a>
 
-    - `"review"`
+name: string
 
-    - `"ignored"`
+The name of the label
 
-# Labels
+<a href="#">Link to this property</a>
 
-## Retrieve all labels
+<details>
 
-**get** `/zones/{zone_id}/api_gateway/labels`
+<summary>
 
-Retrieve all labels
+source: "user"or "managed"
 
-### Path Parameters
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+One of the following:
 
-### Query Parameters
+"user"
 
-- `direction: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  Direction to order results.
+"managed"
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+</details>
 
-- `filter: optional string`
+<a href="#">Link to this property</a>
 
-  Filter for labels where the name or description matches using substring match
+mapped\_resources: optional unknown
 
-- `order: optional "name" or "description" or "created_at" or 2 more`
+Provides counts of what resources are linked to this label
 
-  Field to order by
+<a href="#">Link to this property</a>
 
-  - `"name"`
+</details>
 
-  - `"description"`
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(model)%20user_get_response%20%3E%20(schema)>)
 
-  - `"created_at"`
+<details>
 
-  - `"last_updated"`
+<summary>
 
-  - `"mapped_resources.operations"`
+UserUpdateResponse object {created\_at, description, last\_updated, 3 more }
 
-- `page: optional number`
+</summary>
 
-  Page number of paginated results.
+created\_at: string
 
-- `per_page: optional number`
+formatdate-time
 
-  Maximum number of results per page.
+<a href="#">Link to this property</a>
 
-- `source: optional "user" or "managed"`
+description: string
 
-  Filter for labels with source
+The description of the label
 
-  - `"user"`
+<a href="#">Link to this property</a>
 
-  - `"managed"`
+last\_updated: string
 
-- `with_mapped_resource_counts: optional boolean`
+formatdate-time
 
-  Include `mapped_resources` for each label
+<a href="#">Link to this property</a>
 
-### Returns
+metadata: unknown
 
-- `errors: Message`
+Metadata for the label
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+The name of the label
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: Message`
+<summary>
 
-- `result: array of object { created_at, description, last_updated, 4 more }`
+source: "user"or "managed"
 
-  - `created_at: string`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-  - `description: string`
+</summary>
 
-    The description of the label
+One of the following:
 
-  - `last_updated: string`
+"user"
 
-  - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-    Metadata for the label
+"managed"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the label
+</details>
 
-  - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+</details>
 
-    - `"user"`
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(model)%20user_update_response%20%3E%20(schema)>)
 
-    - `"managed"`
+<details>
 
-  - `mapped_resources: optional unknown`
+<summary>
 
-    Provides counts of what resources are linked to this label
+UserEditResponse object {created\_at, description, last\_updated, 3 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+created\_at: string
 
-  - `true`
+formatdate-time
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+description: string
 
-    Total number of results for the requested service.
+The description of the label
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+last\_updated: string
 
-  - `per_page: optional number`
+formatdate-time
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+metadata: unknown
 
-    Total results available without any search parameters.
+Metadata for the label
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+name: string
 
-### Example
+The name of the label
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "All endpoints that deal with logins",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "metadata": {
-        "foo": "bar"
-      },
-      "name": "login",
-      "source": "user",
-      "mapped_resources": {
-        "operations": 29
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<summary>
 
-## Domain Types
+source: "user"or "managed"
 
-### Label List Response
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-- `LabelListResponse object { created_at, description, last_updated, 4 more }`
+</summary>
 
-  - `created_at: string`
+One of the following:
 
-  - `description: string`
+"user"
 
-    The description of the label
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+"managed"
 
-  - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-    Metadata for the label
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the label
+</details>
 
-  - `source: "user" or "managed"`
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(model)%20user_edit_response%20%3E%20(schema)>)
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+<details>
 
-    - `"user"`
+<summary>
 
-    - `"managed"`
+UserDeleteResponse object {created\_at, description, last\_updated, 3 more }
 
-  - `mapped_resources: optional unknown`
+</summary>
 
-    Provides counts of what resources are linked to this label
+created\_at: string
 
-# User
+formatdate-time
 
-## Create user labels
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/api_gateway/labels/user`
+description: string
 
-Create user labels
+The description of the label
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+last\_updated: string
 
-  Identifier.
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: array of object { name, description, metadata }`
+metadata: unknown
 
-  - `name: string`
+Metadata for the label
 
-    The name of the label
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+name: string
 
-    The description of the label
+The name of the label
 
-  - `metadata: optional unknown`
+<a href="#">Link to this property</a>
 
-    Metadata for the label
+<details>
 
-### Returns
+<summary>
 
-- `errors: Message`
+source: "user"or "managed"
 
-  - `code: number`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"user"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+"managed"
 
-- `result: array of object { created_at, description, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    The description of the label
+</details>
 
-  - `last_updated: string`
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(model)%20user_delete_response%20%3E%20(schema)>)
 
-  - `metadata: unknown`
+#### API GatewayLabelsUserResources
 
-    Metadata for the label
+#### API GatewayLabelsUserResourcesOperation
 
-  - `name: string`
+##### [Replace operations attached to a user-defined label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/user/subresources/resources/subresources/operation/methods/update)
 
-    The name of the label
+PUT/zones/{zone\_id}/api\_gateway/labels/user/{name}/resources/operation
 
-  - `source: "user" or "managed"`
+##### ModelsExpand Collapse
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+<details>
 
-    - `"user"`
+<summary>
 
-    - `"managed"`
+OperationUpdateResponse object {created\_at, description, last\_updated, 4 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+created\_at: string
 
-  - `true`
+formatdate-time
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+description: string
 
-    Total number of results for the requested service.
+The description of the label
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+last\_updated: string
 
-  - `per_page: optional number`
+formatdate-time
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+metadata: unknown
 
-    Total results available without any search parameters.
+Metadata for the label
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+name: string
 
-### Example
+The name of the label
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "name": "login",
-            "description": "All endpoints that deal with logins",
-            "metadata": {
-              "foo": "bar"
-            }
-          }
-        ]'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "All endpoints that deal with logins",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "metadata": {
-        "foo": "bar"
-      },
-      "name": "login",
-      "source": "user"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<summary>
 
-## Delete user labels
+source: "user"or "managed"
 
-**delete** `/zones/{zone_id}/api_gateway/labels/user`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-Delete user labels
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `zone_id: string`
+"user"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+"managed"
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+mapped\_resources: optional unknown
 
-  - `source: optional object { pointer }`
+Provides counts of what resources are linked to this label
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+</details>
 
-- `result: array of object { created_at, description, last_updated, 3 more }`
+[Link to this property](#)%20api_gateway.labels.user.resources.operation%20%3E%20(model)%20operation_update_response%20%3E%20(schema)>)
 
-  - `created_at: string`
+#### API GatewayLabelsManaged
 
-  - `description: string`
+##### [Get a managed operation label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/managed/methods/get)
 
-    The description of the label
+GET/zones/{zone\_id}/api\_gateway/labels/managed/{name}
 
-  - `last_updated: string`
+##### ModelsExpand Collapse
 
-  - `metadata: unknown`
+<details>
 
-    Metadata for the label
+<summary>
 
-  - `name: string`
+ManagedGetResponse object {created\_at, description, last\_updated, 4 more }
 
-    The name of the label
+</summary>
 
-  - `source: "user" or "managed"`
+created\_at: string
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+formatdate-time
 
-    - `"user"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+description: string
 
-- `success: true`
+The description of the label
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+last\_updated: string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+formatdate-time
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+metadata: unknown
 
-  - `page: optional number`
+Metadata for the label
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+name: string
 
-    Number of results per page of results.
+The name of the label
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+source: "user"or "managed"
 
-### Example
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "All endpoints that deal with logins",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "metadata": {
-        "foo": "bar"
-      },
-      "name": "login",
-      "source": "user"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+"user"
 
-## Retrieve user label
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/api_gateway/labels/user/{name}`
+"managed"
 
-Retrieve user label
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+mapped\_resources: optional unknown
 
-- `name: string`
+Provides counts of what resources are linked to this label
 
-  The name of the label
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `with_mapped_resource_counts: optional boolean`
+[Link to this property](#)%20api_gateway.labels.managed%20%3E%20(model)%20managed_get_response%20%3E%20(schema)>)
 
-  Include `mapped_resources` for each label
+#### API GatewayLabelsManagedResources
 
-### Returns
+#### API GatewayLabelsManagedResourcesOperation
 
-- `errors: Message`
+##### [Replace operations attached to a managed label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/managed/subresources/resources/subresources/operation/methods/update)
 
-  - `code: number`
+PUT/zones/{zone\_id}/api\_gateway/labels/managed/{name}/resources/operation
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+OperationUpdateResponse object {created\_at, description, last\_updated, 4 more }
 
-- `messages: Message`
+</summary>
 
-- `result: object { created_at, description, last_updated, 4 more }`
+created\_at: string
 
-  - `created_at: string`
+formatdate-time
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    The description of the label
+description: string
 
-  - `last_updated: string`
+The description of the label
 
-  - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-    Metadata for the label
+last\_updated: string
 
-  - `name: string`
+formatdate-time
 
-    The name of the label
+<a href="#">Link to this property</a>
 
-  - `source: "user" or "managed"`
+metadata: unknown
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+Metadata for the label
 
-    - `"user"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+name: string
 
-  - `mapped_resources: optional unknown`
+The name of the label
 
-    Provides counts of what resources are linked to this label
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+source: "user"or "managed"
 
-### Example
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user/$NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "user",
-    "mapped_resources": {
-      "operations": 29
-    }
-  },
-  "success": true
-}
-```
+"user"
 
-## Update user label
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/api_gateway/labels/user/{name}`
+"managed"
 
-Update all fields on a label
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+mapped\_resources: optional unknown
 
-- `name: string`
+Provides counts of what resources are linked to this label
 
-  The name of the label
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `description: optional string`
+[Link to this property](#)%20api_gateway.labels.managed.resources.operation%20%3E%20(model)%20operation_update_response%20%3E%20(schema)>)
 
-  The description of the label
+#### API GatewayOperations
 
-- `metadata: optional unknown`
+##### [List web and API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/methods/list)
 
-  Metadata for the label
+GET/zones/{zone\_id}/api\_gateway/operations
 
-### Returns
+##### [Get a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/methods/get)
 
-- `errors: Message`
+GET/zones/{zone\_id}/api\_gateway/operations/{operation\_id}
 
-  - `code: number`
+##### [Create a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/methods/create)
 
-  - `message: string`
+POST/zones/{zone\_id}/api\_gateway/operations/item
 
-  - `documentation_url: optional string`
+##### [Delete a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/methods/delete)
 
-  - `source: optional object { pointer }`
+DELETE/zones/{zone\_id}/api\_gateway/operations/{operation\_id}
 
-    - `pointer: optional string`
+##### [Create web or API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/methods/bulk_create)
 
-- `messages: Message`
+POST/zones/{zone\_id}/api\_gateway/operations
 
-- `result: object { created_at, description, last_updated, 3 more }`
+##### [Delete web or API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/methods/bulk_delete)
 
-  - `created_at: string`
+DELETE/zones/{zone\_id}/api\_gateway/operations
 
-  - `description: string`
+##### ModelsExpand Collapse
 
-    The description of the label
+<details>
 
-  - `last_updated: string`
+<summary>
 
-  - `metadata: unknown`
+APIShield object {endpoint, host, last\_updated, 2 more }
 
-    Metadata for the label
+</summary>
 
-  - `name: string`
+endpoint: string
 
-    The name of the label
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-  - `source: "user" or "managed"`
+formaturi-template
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+maxLength4096
 
-    - `"user"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+host: string
 
-- `success: true`
+RFC3986-compliant host.
 
-  Whether the API call was successful.
+formathostname
 
-  - `true`
+maxLength255
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user/$NAME \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "All endpoints that deal with logins",
-          "metadata": {
-            "foo": "bar"
-          }
-        }'
-```
+last\_updated: string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "user"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Patch user label
+<details>
 
-**patch** `/zones/{zone_id}/api_gateway/labels/user/{name}`
+<summary>
 
-Update certain fields on a label
+method: "GET"or "POST"or "HEAD"or 6 more
 
-### Path Parameters
+The HTTP method used to access the endpoint.
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+One of the following:
 
-- `name: string`
+"GET"
 
-  The name of the label
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"POST"
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-  The description of the label
+"HEAD"
 
-- `metadata: optional unknown`
+<a href="#">Link to this property</a>
 
-  Metadata for the label
+"OPTIONS"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+"PUT"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"DELETE"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"CONNECT"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+"PATCH"
 
-- `result: object { created_at, description, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"TRACE"
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    The description of the label
+</details>
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `metadata: unknown`
+operation\_id: string
 
-    Metadata for the label
+UUID.
 
-  - `name: string`
+maxLength36
 
-    The name of the label
+minLength36
 
-  - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+</details>
 
-    - `"user"`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(model)%20api-shield%20%3E%20(schema)>)
 
-    - `"managed"`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+OperationListResponse object {endpoint, host, last\_updated, 3 more }
 
-  - `true`
+</summary>
 
-### Example
+endpoint: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user/$NAME \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "All endpoints that deal with logins",
-          "metadata": {
-            "foo": "bar"
-          }
-        }'
-```
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-#### Response
+formaturi-template
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "user"
-  },
-  "success": true
-}
-```
+maxLength4096
 
-## Delete user label
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/api_gateway/labels/user/{name}`
+host: string
 
-Delete user label
+RFC3986-compliant host.
 
-### Path Parameters
+formathostname
 
-- `zone_id: string`
+maxLength255
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `name: string`
+last\_updated: string
 
-  The name of the label
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-  - `documentation_url: optional string`
+The HTTP method used to access the endpoint.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: Message`
+"GET"
 
-- `result: object { created_at, description, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"POST"
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    The description of the label
+"HEAD"
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `metadata: unknown`
+"OPTIONS"
 
-    Metadata for the label
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"PUT"
 
-    The name of the label
+<a href="#">Link to this property</a>
 
-  - `source: "user" or "managed"`
+"DELETE"
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+<a href="#">Link to this property</a>
 
-    - `"user"`
+"CONNECT"
 
-    - `"managed"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"PATCH"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"TRACE"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user/$NAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "user"
-  },
-  "success": true
-}
-```
+operation\_id: string
 
-## Domain Types
+UUID.
 
-### User Bulk Create Response
+maxLength36
 
-- `UserBulkCreateResponse object { created_at, description, last_updated, 3 more }`
+minLength36
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+<details>
 
-    The description of the label
+<summary>
 
-  - `last_updated: string`
+features: optional object {thresholds } or object {parameter\_schemas } or object {api\_routing } or 2 more
 
-  - `metadata: unknown`
+</summary>
 
-    Metadata for the label
+One of the following:
 
-  - `name: string`
+<details>
 
-    The name of the label
+<summary>
 
-  - `source: "user" or "managed"`
+APIShieldOperationFeatureThresholds object {thresholds }
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+</summary>
 
-    - `"user"`
+<details>
 
-    - `"managed"`
+<summary>
 
-### User Bulk Delete Response
+thresholds: optional object {auth\_id\_tokens, data\_points, last\_updated, 6 more }
 
-- `UserBulkDeleteResponse object { created_at, description, last_updated, 3 more }`
+</summary>
 
-  - `created_at: string`
+auth\_id\_tokens: optional number
 
-  - `description: string`
+The total number of auth-ids seen across this calculation.
 
-    The description of the label
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+data\_points: optional number
 
-  - `metadata: unknown`
+The number of data points used for the threshold suggestion calculation.
 
-    Metadata for the label
+<a href="#">Link to this property</a>
 
-  - `name: string`
+last\_updated: optional string
 
-    The name of the label
+formatdate-time
 
-  - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+p50: optional number
 
-    - `"user"`
+The p50 quantile of requests (in period\_seconds).
 
-    - `"managed"`
+<a href="#">Link to this property</a>
 
-### User Get Response
+p90: optional number
 
-- `UserGetResponse object { created_at, description, last_updated, 4 more }`
+The p90 quantile of requests (in period\_seconds).
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+p99: optional number
 
-    The description of the label
+The p99 quantile of requests (in period\_seconds).
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `metadata: unknown`
+period\_seconds: optional number
 
-    Metadata for the label
+The period over which this threshold is suggested.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the label
+requests: optional number
 
-  - `source: "user" or "managed"`
+The estimated number of requests covered by these calculations.
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+<a href="#">Link to this property</a>
 
-    - `"user"`
+suggested\_threshold: optional number
 
-    - `"managed"`
+The suggested threshold in requests done by the same auth\_id or period\_seconds.
 
-  - `mapped_resources: optional unknown`
+<a href="#">Link to this property</a>
 
-    Provides counts of what resources are linked to this label
+</details>
 
-### User Update Response
+<a href="#">Link to this property</a>
 
-- `UserUpdateResponse object { created_at, description, last_updated, 3 more }`
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+<details>
 
-    The description of the label
+<summary>
 
-  - `last_updated: string`
+APIShieldOperationFeatureParameterSchemas object {parameter\_schemas }
 
-  - `metadata: unknown`
+</summary>
 
-    Metadata for the label
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the label
+parameter\_schemas: object {last\_updated, parameter\_schemas }
 
-  - `source: "user" or "managed"`
+</summary>
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+last\_updated: optional string
 
-    - `"user"`
+formatdate-time
 
-    - `"managed"`
+<a href="#">Link to this property</a>
 
-### User Edit Response
+<details>
 
-- `UserEditResponse object { created_at, description, last_updated, 3 more }`
+<summary>
 
-  - `created_at: string`
+parameter\_schemas: optional object {parameters, responses }
 
-  - `description: string`
+An operation schema object containing a response.
 
-    The description of the label
+</summary>
 
-  - `last_updated: string`
+parameters: optional array of unknown
 
-  - `metadata: unknown`
+An array containing the learned parameter schemas.
 
-    Metadata for the label
+<a href="#">Link to this property</a>
 
-  - `name: string`
+responses: optional unknown
 
-    The name of the label
+An empty response object. This field is required to yield a valid operation schema.
 
-  - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+</details>
 
-    - `"user"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+</details>
 
-### User Delete Response
+<a href="#">Link to this property</a>
 
-- `UserDeleteResponse object { created_at, description, last_updated, 3 more }`
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+<details>
 
-    The description of the label
+<summary>
 
-  - `last_updated: string`
+APIShieldOperationFeatureAPIRouting object {api\_routing }
 
-  - `metadata: unknown`
+</summary>
 
-    Metadata for the label
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the label
+api\_routing: optional object {last\_updated, route }
 
-  - `source: "user" or "managed"`
+API Routing settings on endpoint.
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+</summary>
 
-    - `"user"`
+last\_updated: optional string
 
-    - `"managed"`
+formatdate-time
 
-# Resources
+<a href="#">Link to this property</a>
 
-# Operation
+route: optional string
 
-## Replace operation(s) attached to a user label
+Target route.
 
-**put** `/zones/{zone_id}/api_gateway/labels/user/{name}/resources/operation`
+<a href="#">Link to this property</a>
 
-Replace all operations(s) attached to a user label
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `name: string`
+<details>
 
-  The name of the label
+<summary>
 
-### Body Parameters
+APIShieldOperationFeatureConfidenceIntervals object {confidence\_intervals }
 
-- `selector: object { include }`
+</summary>
 
-  Operation IDs selector
+<details>
 
-  - `include: object { operation_ids }`
+<summary>
 
-    - `operation_ids: array of string`
+confidence\_intervals: optional object {last\_updated, suggested\_threshold }
 
-### Returns
+</summary>
 
-- `errors: Message`
+last\_updated: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+suggested\_threshold: optional object {confidence\_intervals, mean }
 
-- `messages: Message`
+</summary>
 
-- `result: object { created_at, description, last_updated, 4 more }`
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `description: string`
+confidence\_intervals: optional object {p90, p95, p99 }
 
-    The description of the label
+</summary>
 
-  - `last_updated: string`
+<details>
 
-  - `metadata: unknown`
+<summary>
 
-    Metadata for the label
+p90: optional object {lower, upper }
 
-  - `name: string`
+Upper and lower bound for percentile estimate
 
-    The name of the label
+</summary>
 
-  - `source: "user" or "managed"`
+lower: optional number
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+Lower bound for percentile estimate
 
-    - `"user"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+upper: optional number
 
-  - `mapped_resources: optional unknown`
+Upper bound for percentile estimate
 
-    Provides counts of what resources are linked to this label
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user/$NAME/resources/operation \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "selector": {
-            "include": {
-              "operation_ids": [
-                "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-              ]
-            }
-          }
-        }'
-```
+p95: optional object {lower, upper }
 
-#### Response
+Upper and lower bound for percentile estimate
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "user",
-    "mapped_resources": {
-      "operations": 29
-    }
-  },
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+lower: optional number
 
-### Operation Update Response
+Lower bound for percentile estimate
 
-- `OperationUpdateResponse object { created_at, description, last_updated, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+upper: optional number
 
-  - `description: string`
+Upper bound for percentile estimate
 
-    The description of the label
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+</details>
 
-  - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-    Metadata for the label
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the label
+p99: optional object {lower, upper }
 
-  - `source: "user" or "managed"`
+Upper and lower bound for percentile estimate
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+</summary>
 
-    - `"user"`
+lower: optional number
 
-    - `"managed"`
+Lower bound for percentile estimate
 
-  - `mapped_resources: optional unknown`
+<a href="#">Link to this property</a>
 
-    Provides counts of what resources are linked to this label
+upper: optional number
 
-# Managed
+Upper bound for percentile estimate
 
-## Retrieve managed label
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/api_gateway/labels/managed/{name}`
+</details>
 
-Retrieve managed label
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+mean: optional number
 
-- `name: string`
+Suggested threshold.
 
-  The name of the label
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `with_mapped_resource_counts: optional boolean`
+<a href="#">Link to this property</a>
 
-  Include `mapped_resources` for each label
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+APIShieldOperationFeatureSchemaInfo object {schema\_info }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: Message`
+<details>
 
-- `result: object { created_at, description, last_updated, 4 more }`
+<summary>
 
-  - `created_at: string`
+schema\_info: optional object {active\_schema, mitigation\_action }
 
-  - `description: string`
+</summary>
 
-    The description of the label
+<details>
 
-  - `last_updated: string`
+<summary>
 
-  - `metadata: unknown`
+active\_schema: optional object {id, created\_at, name }
 
-    Metadata for the label
+Schema active on endpoint.
 
-  - `name: string`
+</summary>
 
-    The name of the label
+id: optional string
 
-  - `source: "user" or "managed"`
+UUID.
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+maxLength36
 
-    - `"user"`
+minLength36
 
-    - `"managed"`
+<a href="#">Link to this property</a>
 
-  - `mapped_resources: optional unknown`
+created\_at: optional string
 
-    Provides counts of what resources are linked to this label
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+name: optional string
 
-  - `true`
+Schema file name.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/managed/$NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "managed",
-    "mapped_resources": {
-      "operations": 29
-    }
-  },
-  "success": true
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Managed Get Response
+mitigation\_action: optional "none"or "log"or "block"
 
-- `ManagedGetResponse object { created_at, description, last_updated, 4 more }`
+Action taken on requests failing validation.
 
-  - `created_at: string`
+</summary>
 
-  - `description: string`
+One of the following:
 
-    The description of the label
+"none"
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `metadata: unknown`
+"log"
 
-    Metadata for the label
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"block"
 
-    The name of the label
+<a href="#">Link to this property</a>
 
-  - `source: "user" or "managed"`
+</details>
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+<a href="#">Link to this property</a>
 
-    - `"user"`
+</details>
 
-    - `"managed"`
+<a href="#">Link to this property</a>
 
-  - `mapped_resources: optional unknown`
+</details>
 
-    Provides counts of what resources are linked to this label
+<a href="#">Link to this property</a>
 
-# Resources
+</details>
 
-# Operation
+<a href="#">Link to this property</a>
 
-## Replace operation(s) attached to a managed label
+</details>
 
-**put** `/zones/{zone_id}/api_gateway/labels/managed/{name}/resources/operation`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(model)%20operation_list_response%20%3E%20(schema)>)
 
-Replace all operations(s) attached to a managed label
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+OperationGetResponse object {endpoint, host, last\_updated, 4 more }
 
-  Identifier.
+</summary>
 
-- `name: string`
+endpoint: string
 
-  The name of the label
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-### Body Parameters
+formaturi-template
 
-- `selector: object { include }`
+maxLength4096
 
-  Operation IDs selector
+<a href="#">Link to this property</a>
 
-  - `include: object { operation_ids }`
+host: string
 
-    - `operation_ids: array of string`
+RFC3986-compliant host.
 
-### Returns
+formathostname
 
-- `errors: Message`
+maxLength255
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+last\_updated: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: Message`
+<summary>
 
-- `result: object { created_at, description, last_updated, 4 more }`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-  - `created_at: string`
+The HTTP method used to access the endpoint.
 
-  - `description: string`
+</summary>
 
-    The description of the label
+One of the following:
 
-  - `last_updated: string`
+"GET"
 
-  - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-    Metadata for the label
+"POST"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the label
+"HEAD"
 
-  - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+"OPTIONS"
 
-    - `"user"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+"PUT"
 
-  - `mapped_resources: optional unknown`
+<a href="#">Link to this property</a>
 
-    Provides counts of what resources are linked to this label
+"DELETE"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"CONNECT"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"PATCH"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/managed/$NAME/resources/operation \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "selector": {
-            "include": {
-              "operation_ids": [
-                "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-              ]
-            }
-          }
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"TRACE"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "managed",
-    "mapped_resources": {
-      "operations": 29
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Operation Update Response
+<a href="#">Link to this property</a>
 
-- `OperationUpdateResponse object { created_at, description, last_updated, 4 more }`
+operation\_id: string
 
-  - `created_at: string`
+UUID.
 
-  - `description: string`
+maxLength36
 
-    The description of the label
+minLength36
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `metadata: unknown`
+<details>
 
-    Metadata for the label
+<summary>
 
-  - `name: string`
+features: optional object {thresholds } or object {parameter\_schemas } or object {api\_routing } or 2 more
 
-    The name of the label
+</summary>
 
-  - `source: "user" or "managed"`
+One of the following:
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+<details>
 
-    - `"user"`
+<summary>
 
-    - `"managed"`
+APIShieldOperationFeatureThresholds object {thresholds }
 
-  - `mapped_resources: optional unknown`
+</summary>
 
-    Provides counts of what resources are linked to this label
+<details>
 
-# Operations
+<summary>
 
-## Retrieve information about all operations on a zone
+thresholds: optional object {auth\_id\_tokens, data\_points, last\_updated, 6 more }
 
-**get** `/zones/{zone_id}/api_gateway/operations`
+</summary>
 
-Lists all API operations tracked by API Shield for a zone with pagination. Returns operation details including method, path, and feature configurations.
+auth\_id\_tokens: optional number
 
-### Path Parameters
+The total number of auth-ids seen across this calculation.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+data\_points: optional number
 
-### Query Parameters
+The number of data points used for the threshold suggestion calculation.
 
-- `direction: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  Direction to order results.
+last\_updated: optional string
 
-  - `"asc"`
+formatdate-time
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-- `endpoint: optional string`
+p50: optional number
 
-  Filter results to only include endpoints containing this pattern.
+The p50 quantile of requests (in period\_seconds).
 
-- `feature: optional array of "thresholds" or "parameter_schemas" or "schema_info"`
+<a href="#">Link to this property</a>
 
-  Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.
+p90: optional number
 
-  - `"thresholds"`
+The p90 quantile of requests (in period\_seconds).
 
-  - `"parameter_schemas"`
+<a href="#">Link to this property</a>
 
-  - `"schema_info"`
+p99: optional number
 
-- `host: optional array of string`
+The p99 quantile of requests (in period\_seconds).
 
-  Filter results to only include the specified hosts.
+<a href="#">Link to this property</a>
 
-- `method: optional array of string`
+period\_seconds: optional number
 
-  Filter results to only include the specified HTTP methods.
+The period over which this threshold is suggested.
 
-- `order: optional "method" or "host" or "endpoint" or "thresholds.$key"`
+<a href="#">Link to this property</a>
 
-  Field to order by. When requesting a feature, the feature keys are available for ordering as well, e.g., `thresholds.suggested_threshold`.
+requests: optional number
 
-  - `"method"`
+The estimated number of requests covered by these calculations.
 
-  - `"host"`
+<a href="#">Link to this property</a>
 
-  - `"endpoint"`
+suggested\_threshold: optional number
 
-  - `"thresholds.$key"`
+The suggested threshold in requests done by the same auth\_id or period\_seconds.
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Page number of paginated results.
+</details>
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Maximum number of results per page.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+APIShieldOperationFeatureParameterSchemas object {parameter\_schemas }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: Message`
+parameter\_schemas: object {last\_updated, parameter\_schemas }
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+</summary>
 
-  - `endpoint: string`
+last\_updated: optional string
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+formatdate-time
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+<details>
 
-  - `last_updated: string`
+<summary>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+parameter\_schemas: optional object {parameters, responses }
 
-    The HTTP method used to access the endpoint.
+An operation schema object containing a response.
 
-    - `"GET"`
+</summary>
 
-    - `"POST"`
+parameters: optional array of unknown
 
-    - `"HEAD"`
+An array containing the learned parameter schemas.
 
-    - `"OPTIONS"`
+<a href="#">Link to this property</a>
 
-    - `"PUT"`
+responses: optional unknown
 
-    - `"DELETE"`
+An empty response object. This field is required to yield a valid operation schema.
 
-    - `"CONNECT"`
+<a href="#">Link to this property</a>
 
-    - `"PATCH"`
+</details>
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+</details>
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+</details>
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+<a href="#">Link to this property</a>
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+<details>
 
-        - `auth_id_tokens: optional number`
+<summary>
 
-          The total number of auth-ids seen across this calculation.
+APIShieldOperationFeatureAPIRouting object {api\_routing }
 
-        - `data_points: optional number`
+</summary>
 
-          The number of data points used for the threshold suggestion calculation.
+<details>
 
-        - `last_updated: optional string`
+<summary>
 
-        - `p50: optional number`
+api\_routing: optional object {last\_updated, route }
 
-          The p50 quantile of requests (in period_seconds).
+API Routing settings on endpoint.
 
-        - `p90: optional number`
+</summary>
 
-          The p90 quantile of requests (in period_seconds).
+last\_updated: optional string
 
-        - `p99: optional number`
+formatdate-time
 
-          The p99 quantile of requests (in period_seconds).
+<a href="#">Link to this property</a>
 
-        - `period_seconds: optional number`
+route: optional string
 
-          The period over which this threshold is suggested.
+Target route.
 
-        - `requests: optional number`
+<a href="#">Link to this property</a>
 
-          The estimated number of requests covered by these calculations.
+</details>
 
-        - `suggested_threshold: optional number`
+<a href="#">Link to this property</a>
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+</details>
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+<a href="#">Link to this property</a>
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+<details>
 
-        - `last_updated: optional string`
+<summary>
 
-        - `parameter_schemas: optional object { parameters, responses }`
+APIShieldOperationFeatureConfidenceIntervals object {confidence\_intervals }
 
-          An operation schema object containing a response.
+</summary>
 
-          - `parameters: optional array of unknown`
+<details>
 
-            An array containing the learned parameter schemas.
+<summary>
 
-          - `responses: optional unknown`
+confidence\_intervals: optional object {last\_updated, suggested\_threshold }
 
-            An empty response object. This field is required to yield a valid operation schema.
+</summary>
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+last\_updated: optional string
 
-      - `api_routing: optional object { last_updated, route }`
+formatdate-time
 
-        API Routing settings on endpoint.
+<a href="#">Link to this property</a>
 
-        - `last_updated: optional string`
+<details>
 
-        - `route: optional string`
+<summary>
 
-          Target route.
+suggested\_threshold: optional object {confidence\_intervals, mean }
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+</summary>
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+<details>
 
-        - `last_updated: optional string`
+<summary>
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+confidence\_intervals: optional object {p90, p95, p99 }
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+</summary>
 
-            - `p90: optional object { lower, upper }`
+<details>
 
-              Upper and lower bound for percentile estimate
+<summary>
 
-              - `lower: optional number`
+p90: optional object {lower, upper }
 
-                Lower bound for percentile estimate
+Upper and lower bound for percentile estimate
 
-              - `upper: optional number`
+</summary>
 
-                Upper bound for percentile estimate
+lower: optional number
 
-            - `p95: optional object { lower, upper }`
+Lower bound for percentile estimate
 
-              Upper and lower bound for percentile estimate
+<a href="#">Link to this property</a>
 
-              - `lower: optional number`
+upper: optional number
 
-                Lower bound for percentile estimate
+Upper bound for percentile estimate
 
-              - `upper: optional number`
+<a href="#">Link to this property</a>
 
-                Upper bound for percentile estimate
+</details>
 
-            - `p99: optional object { lower, upper }`
+<a href="#">Link to this property</a>
 
-              Upper and lower bound for percentile estimate
+<details>
 
-              - `lower: optional number`
+<summary>
 
-                Lower bound for percentile estimate
+p95: optional object {lower, upper }
 
-              - `upper: optional number`
+Upper and lower bound for percentile estimate
 
-                Upper bound for percentile estimate
+</summary>
 
-          - `mean: optional number`
+lower: optional number
 
-            Suggested threshold.
+Lower bound for percentile estimate
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+<a href="#">Link to this property</a>
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+upper: optional number
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+Upper bound for percentile estimate
 
-          Schema active on endpoint.
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+</details>
 
-            UUID.
+<a href="#">Link to this property</a>
 
-          - `created_at: optional string`
+<details>
 
-          - `is_learned: optional boolean`
+<summary>
 
-            True if schema is Cloudflare-provided.
+p99: optional object {lower, upper }
 
-          - `name: optional string`
+Upper and lower bound for percentile estimate
 
-            Schema file name.
+</summary>
 
-        - `learned_available: optional boolean`
+lower: optional number
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+Lower bound for percentile estimate
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+<a href="#">Link to this property</a>
 
-          Action taken on requests failing validation.
+upper: optional number
 
-          - `"none"`
+Upper bound for percentile estimate
 
-          - `"log"`
+<a href="#">Link to this property</a>
 
-          - `"block"`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+mean: optional number
 
-  - `count: optional number`
+Suggested threshold.
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+<details>
 
-    The number of total pages in the entire result set.
+<summary>
 
-### Example
+APIShieldOperationFeatureSchemaInfo object {schema\_info }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "features": {
-        "api_routing": {
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "route": "https://api.example.com/api/service"
-        }
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<summary>
 
-## Retrieve information about an operation
+schema\_info: optional object {active\_schema, mitigation\_action }
 
-**get** `/zones/{zone_id}/api_gateway/operations/{operation_id}`
+</summary>
 
-Gets detailed information about a specific API operation in API Shield, including its schema validation settings and traffic statistics.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+active\_schema: optional object {id, created\_at, name }
 
-  Identifier.
+Schema active on endpoint.
 
-- `operation_id: string`
+</summary>
 
-  UUID.
+id: optional string
 
-### Query Parameters
+UUID.
 
-- `feature: optional array of "thresholds" or "parameter_schemas" or "schema_info"`
+maxLength36
 
-  Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.
+minLength36
 
-  - `"thresholds"`
+<a href="#">Link to this property</a>
 
-  - `"parameter_schemas"`
+created\_at: optional string
 
-  - `"schema_info"`
+formatdate-time
 
-- `with_schemas: optional boolean`
+<a href="#">Link to this property</a>
 
-  When true, includes OpenAPI schemas (both uploaded and learned) for the operation in the response. Due to the conversion overhead, this parameter is only supported on single-operation retrieval.
+name: optional string
 
-### Returns
+Schema file name.
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+mitigation\_action: optional "none"or "log"or "block"
 
-- `messages: Message`
+Action taken on requests failing validation.
 
-- `result: object { endpoint, host, last_updated, 4 more }`
+</summary>
 
-  - `endpoint: string`
+One of the following:
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+"none"
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+"log"
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+"block"
 
-    The HTTP method used to access the endpoint.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+</details>
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+</details>
 
-    - `"OPTIONS"`
+<a href="#">Link to this property</a>
 
-    - `"PUT"`
+</details>
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+</details>
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+<details>
 
-  - `operation_id: string`
+<summary>
 
-    UUID.
+schemas: optional object {learned, uploaded }
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+OpenAPI JSON schemas for an operation, including both user-uploaded and Cloudflare-learned schemas.
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+</summary>
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+<details>
 
-        - `auth_id_tokens: optional number`
+<summary>
 
-          The total number of auth-ids seen across this calculation.
+learned: optional object {parameters, requestBody }
 
-        - `data_points: optional number`
+An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
 
-          The number of data points used for the threshold suggestion calculation.
+</summary>
 
-        - `last_updated: optional string`
+parameters: optional array of map\[unknown]
 
-        - `p50: optional number`
+OpenAPI parameter objects describing path, query, header, or cookie parameters.
 
-          The p50 quantile of requests (in period_seconds).
+<a href="#">Link to this property</a>
 
-        - `p90: optional number`
+requestBody: optional map\[unknown]
 
-          The p90 quantile of requests (in period_seconds).
+OpenAPI request body object describing the expected request payload.
 
-        - `p99: optional number`
+<a href="#">Link to this property</a>
 
-          The p99 quantile of requests (in period_seconds).
+</details>
 
-        - `period_seconds: optional number`
+<a href="#">Link to this property</a>
 
-          The period over which this threshold is suggested.
+<details>
 
-        - `requests: optional number`
+<summary>
 
-          The estimated number of requests covered by these calculations.
+uploaded: optional object {parameters, requestBody }
 
-        - `suggested_threshold: optional number`
+An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+</summary>
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+parameters: optional array of map\[unknown]
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+OpenAPI parameter objects describing path, query, header, or cookie parameters.
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `parameter_schemas: optional object { parameters, responses }`
+requestBody: optional map\[unknown]
 
-          An operation schema object containing a response.
+OpenAPI request body object describing the expected request payload.
 
-          - `parameters: optional array of unknown`
+<a href="#">Link to this property</a>
 
-            An array containing the learned parameter schemas.
+</details>
 
-          - `responses: optional unknown`
+<a href="#">Link to this property</a>
 
-            An empty response object. This field is required to yield a valid operation schema.
+</details>
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+<a href="#">Link to this property</a>
 
-      - `api_routing: optional object { last_updated, route }`
+</details>
 
-        API Routing settings on endpoint.
+[Link to this property](#)%20api_gateway.operations%20%3E%20(model)%20operation_get_response%20%3E%20(schema)>)
 
-        - `last_updated: optional string`
+<details>
 
-        - `route: optional string`
+<summary>
 
-          Target route.
+OperationCreateResponse object {endpoint, host, last\_updated, 4 more }
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+</summary>
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+endpoint: string
 
-        - `last_updated: optional string`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+formaturi-template
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+maxLength4096
 
-            - `p90: optional object { lower, upper }`
+<a href="#">Link to this property</a>
 
-              Upper and lower bound for percentile estimate
+host: string
 
-              - `lower: optional number`
+RFC3986-compliant host.
 
-                Lower bound for percentile estimate
+formathostname
 
-              - `upper: optional number`
+maxLength255
 
-                Upper bound for percentile estimate
+<a href="#">Link to this property</a>
 
-            - `p95: optional object { lower, upper }`
+last\_updated: string
 
-              Upper and lower bound for percentile estimate
+formatdate-time
 
-              - `lower: optional number`
+<a href="#">Link to this property</a>
 
-                Lower bound for percentile estimate
+<details>
 
-              - `upper: optional number`
+<summary>
 
-                Upper bound for percentile estimate
+method: "GET"or "POST"or "HEAD"or 6 more
 
-            - `p99: optional object { lower, upper }`
+The HTTP method used to access the endpoint.
 
-              Upper and lower bound for percentile estimate
+</summary>
 
-              - `lower: optional number`
+One of the following:
 
-                Lower bound for percentile estimate
+"GET"
 
-              - `upper: optional number`
+<a href="#">Link to this property</a>
 
-                Upper bound for percentile estimate
+"POST"
 
-          - `mean: optional number`
+<a href="#">Link to this property</a>
 
-            Suggested threshold.
+"HEAD"
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+<a href="#">Link to this property</a>
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+"OPTIONS"
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+<a href="#">Link to this property</a>
 
-          Schema active on endpoint.
+"PUT"
 
-          - `id: optional string`
+<a href="#">Link to this property</a>
 
-            UUID.
+"DELETE"
 
-          - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-          - `is_learned: optional boolean`
+"CONNECT"
 
-            True if schema is Cloudflare-provided.
+<a href="#">Link to this property</a>
 
-          - `name: optional string`
+"PATCH"
 
-            Schema file name.
+<a href="#">Link to this property</a>
 
-        - `learned_available: optional boolean`
+"TRACE"
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+<a href="#">Link to this property</a>
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+</details>
 
-          Action taken on requests failing validation.
+<a href="#">Link to this property</a>
 
-          - `"none"`
+operation\_id: string
 
-          - `"log"`
+UUID.
 
-          - `"block"`
+maxLength36
 
-  - `schemas: optional object { learned, uploaded }`
+minLength36
 
-    OpenAPI JSON schemas for an operation, including both user-uploaded and Cloudflare-learned schemas.
+<a href="#">Link to this property</a>
 
-    - `learned: optional object { parameters, requestBody }`
+<details>
 
-      An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
+<summary>
 
-      - `parameters: optional array of map[unknown]`
+features: optional object {thresholds } or object {parameter\_schemas } or object {api\_routing } or 2 more
 
-        OpenAPI parameter objects describing path, query, header, or cookie parameters.
+</summary>
 
-      - `requestBody: optional map[unknown]`
+One of the following:
 
-        OpenAPI request body object describing the expected request payload.
+<details>
 
-    - `uploaded: optional object { parameters, requestBody }`
+<summary>
 
-      An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
+APIShieldOperationFeatureThresholds object {thresholds }
 
-      - `parameters: optional array of map[unknown]`
+</summary>
 
-        OpenAPI parameter objects describing path, query, header, or cookie parameters.
+<details>
 
-      - `requestBody: optional map[unknown]`
+<summary>
 
-        OpenAPI request body object describing the expected request payload.
+thresholds: optional object {auth\_id\_tokens, data\_points, last\_updated, 6 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+auth\_id\_tokens: optional number
 
-  - `true`
+The total number of auth-ids seen across this calculation.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+data\_points: optional number
 
-#### Response
+The number of data points used for the threshold suggestion calculation.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "endpoint": "/api/v1/users/{var1}",
-    "host": "www.example.com",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "method": "GET",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "features": {
-      "api_routing": {
-        "last_updated": "2014-01-01T05:20:00.12345Z",
-        "route": "https://api.example.com/api/service"
-      }
-    },
-    "schemas": {
-      "learned": {
-        "parameters": [
-          {
-            "foo": "bar"
-          }
-        ],
-        "requestBody": {
-          "foo": "bar"
-        }
-      },
-      "uploaded": {
-        "parameters": [
-          {
-            "foo": "bar"
-          }
-        ],
-        "requestBody": {
-          "foo": "bar"
-        }
-      }
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Add one operation to a zone
+last\_updated: optional string
 
-**post** `/zones/{zone_id}/api_gateway/operations/item`
+formatdate-time
 
-Add one operation to a zone. Endpoints can contain path variables. Host, method, endpoint will be normalized to a canoncial form when creating an operation and must be unique on the zone. Inserting an operation that matches an existing one will return the record of the already existing operation and update its last_updated date.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+p50: optional number
 
-- `zone_id: string`
+The p50 quantile of requests (in period\_seconds).
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+p90: optional number
 
-- `endpoint: string`
+The p90 quantile of requests (in period\_seconds).
 
-  The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-- `host: string`
+p99: optional number
 
-  RFC3986-compliant host.
+The p99 quantile of requests (in period\_seconds).
 
-- `method: "GET" or "POST" or "HEAD" or 6 more`
+<a href="#">Link to this property</a>
 
-  The HTTP method used to access the endpoint.
+period\_seconds: optional number
 
-  - `"GET"`
+The period over which this threshold is suggested.
 
-  - `"POST"`
+<a href="#">Link to this property</a>
 
-  - `"HEAD"`
+requests: optional number
 
-  - `"OPTIONS"`
+The estimated number of requests covered by these calculations.
 
-  - `"PUT"`
+<a href="#">Link to this property</a>
 
-  - `"DELETE"`
+suggested\_threshold: optional number
 
-  - `"CONNECT"`
+The suggested threshold in requests done by the same auth\_id or period\_seconds.
 
-  - `"PATCH"`
+<a href="#">Link to this property</a>
 
-  - `"TRACE"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+APIShieldOperationFeatureParameterSchemas object {parameter\_schemas }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: Message`
+<details>
 
-- `result: object { endpoint, host, last_updated, 4 more }`
+<summary>
 
-  - `endpoint: string`
+parameter\_schemas: object {last\_updated, parameter\_schemas }
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+</summary>
 
-  - `host: string`
+last\_updated: optional string
 
-    RFC3986-compliant host.
+formatdate-time
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<details>
 
-    The HTTP method used to access the endpoint.
+<summary>
 
-    - `"GET"`
+parameter\_schemas: optional object {parameters, responses }
 
-    - `"POST"`
+An operation schema object containing a response.
 
-    - `"HEAD"`
+</summary>
 
-    - `"OPTIONS"`
+parameters: optional array of unknown
 
-    - `"PUT"`
+An array containing the learned parameter schemas.
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+responses: optional unknown
 
-    - `"PATCH"`
+An empty response object. This field is required to yield a valid operation schema.
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+</details>
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+</details>
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+<a href="#">Link to this property</a>
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+</details>
 
-        - `auth_id_tokens: optional number`
+<a href="#">Link to this property</a>
 
-          The total number of auth-ids seen across this calculation.
+<details>
 
-        - `data_points: optional number`
+<summary>
 
-          The number of data points used for the threshold suggestion calculation.
+APIShieldOperationFeatureAPIRouting object {api\_routing }
 
-        - `last_updated: optional string`
+</summary>
 
-        - `p50: optional number`
+<details>
 
-          The p50 quantile of requests (in period_seconds).
+<summary>
 
-        - `p90: optional number`
+api\_routing: optional object {last\_updated, route }
 
-          The p90 quantile of requests (in period_seconds).
+API Routing settings on endpoint.
 
-        - `p99: optional number`
+</summary>
 
-          The p99 quantile of requests (in period_seconds).
+last\_updated: optional string
 
-        - `period_seconds: optional number`
+formatdate-time
 
-          The period over which this threshold is suggested.
+<a href="#">Link to this property</a>
 
-        - `requests: optional number`
+route: optional string
 
-          The estimated number of requests covered by these calculations.
+Target route.
 
-        - `suggested_threshold: optional number`
+<a href="#">Link to this property</a>
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+</details>
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+<a href="#">Link to this property</a>
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+</details>
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `parameter_schemas: optional object { parameters, responses }`
+<details>
 
-          An operation schema object containing a response.
+<summary>
 
-          - `parameters: optional array of unknown`
+APIShieldOperationFeatureConfidenceIntervals object {confidence\_intervals }
 
-            An array containing the learned parameter schemas.
+</summary>
 
-          - `responses: optional unknown`
+<details>
 
-            An empty response object. This field is required to yield a valid operation schema.
+<summary>
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+confidence\_intervals: optional object {last\_updated, suggested\_threshold }
 
-      - `api_routing: optional object { last_updated, route }`
+</summary>
 
-        API Routing settings on endpoint.
+last\_updated: optional string
 
-        - `last_updated: optional string`
+formatdate-time
 
-        - `route: optional string`
+<a href="#">Link to this property</a>
 
-          Target route.
+<details>
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+<summary>
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+suggested\_threshold: optional object {confidence\_intervals, mean }
 
-        - `last_updated: optional string`
+</summary>
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+<details>
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+<summary>
 
-            - `p90: optional object { lower, upper }`
+confidence\_intervals: optional object {p90, p95, p99 }
 
-              Upper and lower bound for percentile estimate
+</summary>
 
-              - `lower: optional number`
+<details>
 
-                Lower bound for percentile estimate
+<summary>
 
-              - `upper: optional number`
+p90: optional object {lower, upper }
 
-                Upper bound for percentile estimate
+Upper and lower bound for percentile estimate
 
-            - `p95: optional object { lower, upper }`
+</summary>
 
-              Upper and lower bound for percentile estimate
+lower: optional number
 
-              - `lower: optional number`
+Lower bound for percentile estimate
 
-                Lower bound for percentile estimate
+<a href="#">Link to this property</a>
 
-              - `upper: optional number`
+upper: optional number
 
-                Upper bound for percentile estimate
+Upper bound for percentile estimate
 
-            - `p99: optional object { lower, upper }`
+<a href="#">Link to this property</a>
 
-              Upper and lower bound for percentile estimate
+</details>
 
-              - `lower: optional number`
+<a href="#">Link to this property</a>
 
-                Lower bound for percentile estimate
+<details>
 
-              - `upper: optional number`
+<summary>
 
-                Upper bound for percentile estimate
+p95: optional object {lower, upper }
 
-          - `mean: optional number`
+Upper and lower bound for percentile estimate
 
-            Suggested threshold.
+</summary>
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+lower: optional number
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+Lower bound for percentile estimate
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+<a href="#">Link to this property</a>
 
-          Schema active on endpoint.
+upper: optional number
 
-          - `id: optional string`
+Upper bound for percentile estimate
 
-            UUID.
+<a href="#">Link to this property</a>
 
-          - `created_at: optional string`
+</details>
 
-          - `is_learned: optional boolean`
+<a href="#">Link to this property</a>
 
-            True if schema is Cloudflare-provided.
+<details>
 
-          - `name: optional string`
+<summary>
 
-            Schema file name.
+p99: optional object {lower, upper }
 
-        - `learned_available: optional boolean`
+Upper and lower bound for percentile estimate
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+</summary>
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+lower: optional number
 
-          Action taken on requests failing validation.
+Lower bound for percentile estimate
 
-          - `"none"`
+<a href="#">Link to this property</a>
 
-          - `"log"`
+upper: optional number
 
-          - `"block"`
+Upper bound for percentile estimate
 
-  - `schemas: optional object { learned, uploaded }`
+<a href="#">Link to this property</a>
 
-    OpenAPI JSON schemas for an operation, including both user-uploaded and Cloudflare-learned schemas.
+</details>
 
-    - `learned: optional object { parameters, requestBody }`
+<a href="#">Link to this property</a>
 
-      An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
+</details>
 
-      - `parameters: optional array of map[unknown]`
+<a href="#">Link to this property</a>
 
-        OpenAPI parameter objects describing path, query, header, or cookie parameters.
+mean: optional number
 
-      - `requestBody: optional map[unknown]`
+Suggested threshold.
 
-        OpenAPI request body object describing the expected request payload.
+<a href="#">Link to this property</a>
 
-    - `uploaded: optional object { parameters, requestBody }`
+</details>
 
-      An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
+<a href="#">Link to this property</a>
 
-      - `parameters: optional array of map[unknown]`
+</details>
 
-        OpenAPI parameter objects describing path, query, header, or cookie parameters.
+<a href="#">Link to this property</a>
 
-      - `requestBody: optional map[unknown]`
+</details>
 
-        OpenAPI request body object describing the expected request payload.
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+APIShieldOperationFeatureSchemaInfo object {schema\_info }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/item \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "endpoint": "/api/v1/users/{var1}",
-          "host": "www.example.com",
-          "method": "GET"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "endpoint": "/api/v1/users/{var1}",
-    "host": "www.example.com",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "method": "GET",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "features": {
-      "api_routing": {
-        "last_updated": "2014-01-01T05:20:00.12345Z",
-        "route": "https://api.example.com/api/service"
-      }
-    },
-    "schemas": {
-      "learned": {
-        "parameters": [
-          {
-            "foo": "bar"
-          }
-        ],
-        "requestBody": {
-          "foo": "bar"
-        }
-      },
-      "uploaded": {
-        "parameters": [
-          {
-            "foo": "bar"
-          }
-        ],
-        "requestBody": {
-          "foo": "bar"
-        }
-      }
-    }
-  },
-  "success": true
-}
-```
+schema\_info: optional object {active\_schema, mitigation\_action }
 
-## Delete an operation
+</summary>
 
-**delete** `/zones/{zone_id}/api_gateway/operations/{operation_id}`
+<details>
 
-Removes a single API operation from API Shield endpoint management. The operation will no longer be tracked or protected by API Shield rules.
+<summary>
 
-### Path Parameters
+active\_schema: optional object {id, created\_at, name }
 
-- `zone_id: string`
+Schema active on endpoint.
 
-  Identifier.
+</summary>
 
-- `operation_id: string`
+id: optional string
 
-  UUID.
+UUID.
 
-### Returns
+maxLength36
 
-- `errors: Message`
+minLength36
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_at: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: optional string
 
-- `messages: Message`
+Schema file name.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+mitigation\_action: optional "none"or "log"or "block"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+Action taken on requests failing validation.
 
-## Add operations to a zone
+</summary>
 
-**post** `/zones/{zone_id}/api_gateway/operations`
+One of the following:
 
-Add one or more operations to a zone. Endpoints can contain path variables. Host, method, endpoint will be normalized to a canoncial form when creating an operation and must be unique on the zone. Inserting an operation that matches an existing one will return the record of the already existing operation and update its last_updated date.
+"none"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"log"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"block"
 
-- `body: array of object { endpoint, host, method }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+</details>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+</details>
 
-    RFC3986-compliant host.
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+</details>
 
-    The HTTP method used to access the endpoint.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+</details>
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+<details>
 
-    - `"OPTIONS"`
+<summary>
 
-    - `"PUT"`
+schemas: optional object {learned, uploaded }
 
-    - `"DELETE"`
+OpenAPI JSON schemas for an operation, including both user-uploaded and Cloudflare-learned schemas.
 
-    - `"CONNECT"`
+</summary>
 
-    - `"PATCH"`
+<details>
 
-    - `"TRACE"`
+<summary>
 
-### Returns
+learned: optional object {parameters, requestBody }
 
-- `errors: Message`
+An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+parameters: optional array of map\[unknown]
 
-  - `documentation_url: optional string`
+OpenAPI parameter objects describing path, query, header, or cookie parameters.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+requestBody: optional map\[unknown]
 
-- `messages: Message`
+OpenAPI request body object describing the expected request payload.
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+</details>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+<details>
 
-    RFC3986-compliant host.
+<summary>
 
-  - `last_updated: string`
+uploaded: optional object {parameters, requestBody }
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
 
-    The HTTP method used to access the endpoint.
+</summary>
 
-    - `"GET"`
+parameters: optional array of map\[unknown]
 
-    - `"POST"`
+OpenAPI parameter objects describing path, query, header, or cookie parameters.
 
-    - `"HEAD"`
+<a href="#">Link to this property</a>
 
-    - `"OPTIONS"`
+requestBody: optional map\[unknown]
 
-    - `"PUT"`
+OpenAPI request body object describing the expected request payload.
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+</details>
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+</details>
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+</details>
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(model)%20operation_create_response%20%3E%20(schema)>)
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+<details>
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+<summary>
 
-        - `auth_id_tokens: optional number`
+OperationDeleteResponse object {errors, messages, success }
 
-          The total number of auth-ids seen across this calculation.
+</summary>
 
-        - `data_points: optional number`
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
 
-          The number of data points used for the threshold suggestion calculation.
+<a href="#">Link to this property</a>
 
-        - `last_updated: optional string`
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
 
-        - `p50: optional number`
+<a href="#">Link to this property</a>
 
-          The p50 quantile of requests (in period_seconds).
+success: true
 
-        - `p90: optional number`
+Whether the API call was successful.
 
-          The p90 quantile of requests (in period_seconds).
+<a href="#">Link to this property</a>
 
-        - `p99: optional number`
+</details>
 
-          The p99 quantile of requests (in period_seconds).
+[Link to this property](#)%20api_gateway.operations%20%3E%20(model)%20operation_delete_response%20%3E%20(schema)>)
 
-        - `period_seconds: optional number`
+<details>
 
-          The period over which this threshold is suggested.
+<summary>
 
-        - `requests: optional number`
+OperationBulkCreateResponse object {endpoint, host, last\_updated, 3 more }
 
-          The estimated number of requests covered by these calculations.
+</summary>
 
-        - `suggested_threshold: optional number`
+endpoint: string
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+formaturi-template
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+maxLength4096
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `parameter_schemas: optional object { parameters, responses }`
+host: string
 
-          An operation schema object containing a response.
+RFC3986-compliant host.
 
-          - `parameters: optional array of unknown`
+formathostname
 
-            An array containing the learned parameter schemas.
+maxLength255
 
-          - `responses: optional unknown`
+<a href="#">Link to this property</a>
 
-            An empty response object. This field is required to yield a valid operation schema.
+last\_updated: string
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+formatdate-time
 
-      - `api_routing: optional object { last_updated, route }`
+<a href="#">Link to this property</a>
 
-        API Routing settings on endpoint.
+<details>
 
-        - `last_updated: optional string`
+<summary>
 
-        - `route: optional string`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-          Target route.
+The HTTP method used to access the endpoint.
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+</summary>
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+One of the following:
 
-        - `last_updated: optional string`
+"GET"
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+<a href="#">Link to this property</a>
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+"POST"
 
-            - `p90: optional object { lower, upper }`
+<a href="#">Link to this property</a>
 
-              Upper and lower bound for percentile estimate
+"HEAD"
 
-              - `lower: optional number`
+<a href="#">Link to this property</a>
 
-                Lower bound for percentile estimate
+"OPTIONS"
 
-              - `upper: optional number`
+<a href="#">Link to this property</a>
 
-                Upper bound for percentile estimate
+"PUT"
 
-            - `p95: optional object { lower, upper }`
+<a href="#">Link to this property</a>
 
-              Upper and lower bound for percentile estimate
+"DELETE"
 
-              - `lower: optional number`
+<a href="#">Link to this property</a>
 
-                Lower bound for percentile estimate
+"CONNECT"
 
-              - `upper: optional number`
+<a href="#">Link to this property</a>
 
-                Upper bound for percentile estimate
+"PATCH"
 
-            - `p99: optional object { lower, upper }`
+<a href="#">Link to this property</a>
 
-              Upper and lower bound for percentile estimate
+"TRACE"
 
-              - `lower: optional number`
+<a href="#">Link to this property</a>
 
-                Lower bound for percentile estimate
+</details>
 
-              - `upper: optional number`
+<a href="#">Link to this property</a>
 
-                Upper bound for percentile estimate
+operation\_id: string
 
-          - `mean: optional number`
+UUID.
 
-            Suggested threshold.
+maxLength36
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+minLength36
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+<a href="#">Link to this property</a>
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+<details>
 
-          Schema active on endpoint.
+<summary>
 
-          - `id: optional string`
+features: optional object {thresholds } or object {parameter\_schemas } or object {api\_routing } or 2 more
 
-            UUID.
+</summary>
 
-          - `created_at: optional string`
+One of the following:
 
-          - `is_learned: optional boolean`
+<details>
 
-            True if schema is Cloudflare-provided.
+<summary>
 
-          - `name: optional string`
+APIShieldOperationFeatureThresholds object {thresholds }
 
-            Schema file name.
+</summary>
 
-        - `learned_available: optional boolean`
+<details>
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+<summary>
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+thresholds: optional object {auth\_id\_tokens, data\_points, last\_updated, 6 more }
 
-          Action taken on requests failing validation.
+</summary>
 
-          - `"none"`
+auth\_id\_tokens: optional number
 
-          - `"log"`
+The total number of auth-ids seen across this calculation.
 
-          - `"block"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+data\_points: optional number
 
-  Whether the API call was successful.
+The number of data points used for the threshold suggestion calculation.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+last\_updated: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "endpoint": "/api/v1/users/{var1}",
-            "host": "www.example.com",
-            "method": "GET"
-          }
-        ]'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "features": {
-        "api_routing": {
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "route": "https://api.example.com/api/service"
-        }
-      }
-    }
-  ],
-  "success": true
-}
-```
+p50: optional number
 
-## Delete multiple operations
+The p50 quantile of requests (in period\_seconds).
 
-**delete** `/zones/{zone_id}/api_gateway/operations`
+<a href="#">Link to this property</a>
 
-Bulk removes multiple API operations from API Shield endpoint management in a single request. Efficient for cleaning up unused endpoints.
+p90: optional number
 
-### Path Parameters
+The p90 quantile of requests (in period\_seconds).
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+p99: optional number
 
-### Returns
+The p99 quantile of requests (in period\_seconds).
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+period\_seconds: optional number
 
-  - `message: string`
+The period over which this threshold is suggested.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+requests: optional number
 
-    - `pointer: optional string`
+The estimated number of requests covered by these calculations.
 
-- `messages: Message`
+<a href="#">Link to this property</a>
 
-- `success: true`
+suggested\_threshold: optional number
 
-  Whether the API call was successful.
+The suggested threshold in requests done by the same auth\_id or period\_seconds.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### API Shield
+<summary>
 
-- `APIShield object { endpoint, host, last_updated, 2 more }`
+APIShieldOperationFeatureParameterSchemas object {parameter\_schemas }
 
-  - `endpoint: string`
+</summary>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<details>
 
-  - `host: string`
+<summary>
 
-    RFC3986-compliant host.
+parameter\_schemas: object {last\_updated, parameter\_schemas }
 
-  - `last_updated: string`
+</summary>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+last\_updated: optional string
 
-    The HTTP method used to access the endpoint.
+formatdate-time
 
-    - `"GET"`
+<a href="#">Link to this property</a>
 
-    - `"POST"`
+<details>
 
-    - `"HEAD"`
+<summary>
 
-    - `"OPTIONS"`
+parameter\_schemas: optional object {parameters, responses }
 
-    - `"PUT"`
+An operation schema object containing a response.
 
-    - `"DELETE"`
+</summary>
 
-    - `"CONNECT"`
+parameters: optional array of unknown
 
-    - `"PATCH"`
+An array containing the learned parameter schemas.
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+responses: optional unknown
 
-    UUID.
+An empty response object. This field is required to yield a valid operation schema.
 
-### Operation List Response
+<a href="#">Link to this property</a>
 
-- `OperationListResponse object { endpoint, host, last_updated, 3 more }`
+</details>
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+</details>
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+</details>
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<details>
 
-    The HTTP method used to access the endpoint.
+<summary>
 
-    - `"GET"`
+APIShieldOperationFeatureAPIRouting object {api\_routing }
 
-    - `"POST"`
+</summary>
 
-    - `"HEAD"`
+<details>
 
-    - `"OPTIONS"`
+<summary>
 
-    - `"PUT"`
+api\_routing: optional object {last\_updated, route }
 
-    - `"DELETE"`
+API Routing settings on endpoint.
 
-    - `"CONNECT"`
+</summary>
 
-    - `"PATCH"`
+last\_updated: optional string
 
-    - `"TRACE"`
+formatdate-time
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+route: optional string
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+Target route.
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+<a href="#">Link to this property</a>
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+</details>
 
-        - `auth_id_tokens: optional number`
+<a href="#">Link to this property</a>
 
-          The total number of auth-ids seen across this calculation.
+</details>
 
-        - `data_points: optional number`
+<a href="#">Link to this property</a>
 
-          The number of data points used for the threshold suggestion calculation.
+<details>
 
-        - `last_updated: optional string`
+<summary>
 
-        - `p50: optional number`
+APIShieldOperationFeatureConfidenceIntervals object {confidence\_intervals }
 
-          The p50 quantile of requests (in period_seconds).
+</summary>
 
-        - `p90: optional number`
+<details>
 
-          The p90 quantile of requests (in period_seconds).
+<summary>
 
-        - `p99: optional number`
+confidence\_intervals: optional object {last\_updated, suggested\_threshold }
 
-          The p99 quantile of requests (in period_seconds).
+</summary>
 
-        - `period_seconds: optional number`
+last\_updated: optional string
 
-          The period over which this threshold is suggested.
+formatdate-time
 
-        - `requests: optional number`
+<a href="#">Link to this property</a>
 
-          The estimated number of requests covered by these calculations.
+<details>
 
-        - `suggested_threshold: optional number`
+<summary>
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+suggested\_threshold: optional object {confidence\_intervals, mean }
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+</summary>
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+<details>
 
-        - `last_updated: optional string`
+<summary>
 
-        - `parameter_schemas: optional object { parameters, responses }`
+confidence\_intervals: optional object {p90, p95, p99 }
 
-          An operation schema object containing a response.
+</summary>
 
-          - `parameters: optional array of unknown`
+<details>
 
-            An array containing the learned parameter schemas.
+<summary>
 
-          - `responses: optional unknown`
+p90: optional object {lower, upper }
 
-            An empty response object. This field is required to yield a valid operation schema.
+Upper and lower bound for percentile estimate
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+</summary>
 
-      - `api_routing: optional object { last_updated, route }`
+lower: optional number
 
-        API Routing settings on endpoint.
+Lower bound for percentile estimate
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `route: optional string`
+upper: optional number
 
-          Target route.
+Upper bound for percentile estimate
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+<a href="#">Link to this property</a>
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+</details>
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+<details>
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+<summary>
 
-            - `p90: optional object { lower, upper }`
+p95: optional object {lower, upper }
 
-              Upper and lower bound for percentile estimate
+Upper and lower bound for percentile estimate
 
-              - `lower: optional number`
+</summary>
 
-                Lower bound for percentile estimate
+lower: optional number
 
-              - `upper: optional number`
+Lower bound for percentile estimate
 
-                Upper bound for percentile estimate
+<a href="#">Link to this property</a>
 
-            - `p95: optional object { lower, upper }`
+upper: optional number
 
-              Upper and lower bound for percentile estimate
+Upper bound for percentile estimate
 
-              - `lower: optional number`
+<a href="#">Link to this property</a>
 
-                Lower bound for percentile estimate
+</details>
 
-              - `upper: optional number`
+<a href="#">Link to this property</a>
 
-                Upper bound for percentile estimate
+<details>
 
-            - `p99: optional object { lower, upper }`
+<summary>
 
-              Upper and lower bound for percentile estimate
+p99: optional object {lower, upper }
 
-              - `lower: optional number`
+Upper and lower bound for percentile estimate
 
-                Lower bound for percentile estimate
+</summary>
 
-              - `upper: optional number`
+lower: optional number
 
-                Upper bound for percentile estimate
+Lower bound for percentile estimate
 
-          - `mean: optional number`
+<a href="#">Link to this property</a>
 
-            Suggested threshold.
+upper: optional number
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+Upper bound for percentile estimate
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+<a href="#">Link to this property</a>
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+</details>
 
-          Schema active on endpoint.
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+</details>
 
-            UUID.
+<a href="#">Link to this property</a>
 
-          - `created_at: optional string`
+mean: optional number
 
-          - `is_learned: optional boolean`
+Suggested threshold.
 
-            True if schema is Cloudflare-provided.
+<a href="#">Link to this property</a>
 
-          - `name: optional string`
+</details>
 
-            Schema file name.
+<a href="#">Link to this property</a>
 
-        - `learned_available: optional boolean`
+</details>
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+<a href="#">Link to this property</a>
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+</details>
 
-          Action taken on requests failing validation.
+<a href="#">Link to this property</a>
 
-          - `"none"`
+<details>
 
-          - `"log"`
+<summary>
 
-          - `"block"`
+APIShieldOperationFeatureSchemaInfo object {schema\_info }
 
-### Operation Get Response
+</summary>
 
-- `OperationGetResponse object { endpoint, host, last_updated, 4 more }`
+<details>
 
-  - `endpoint: string`
+<summary>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+schema\_info: optional object {active\_schema, mitigation\_action }
 
-  - `host: string`
+</summary>
 
-    RFC3986-compliant host.
+<details>
 
-  - `last_updated: string`
+<summary>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+active\_schema: optional object {id, created\_at, name }
 
-    The HTTP method used to access the endpoint.
+Schema active on endpoint.
 
-    - `"GET"`
+</summary>
 
-    - `"POST"`
+id: optional string
 
-    - `"HEAD"`
+UUID.
 
-    - `"OPTIONS"`
+maxLength36
 
-    - `"PUT"`
+minLength36
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+created\_at: optional string
 
-    - `"PATCH"`
+formatdate-time
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+name: optional string
 
-    UUID.
+Schema file name.
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+<a href="#">Link to this property</a>
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+</details>
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+<a href="#">Link to this property</a>
 
-        - `auth_id_tokens: optional number`
+<details>
 
-          The total number of auth-ids seen across this calculation.
+<summary>
 
-        - `data_points: optional number`
+mitigation\_action: optional "none"or "log"or "block"
 
-          The number of data points used for the threshold suggestion calculation.
+Action taken on requests failing validation.
 
-        - `last_updated: optional string`
+</summary>
 
-        - `p50: optional number`
+One of the following:
 
-          The p50 quantile of requests (in period_seconds).
+"none"
 
-        - `p90: optional number`
+<a href="#">Link to this property</a>
 
-          The p90 quantile of requests (in period_seconds).
+"log"
 
-        - `p99: optional number`
+<a href="#">Link to this property</a>
 
-          The p99 quantile of requests (in period_seconds).
+"block"
 
-        - `period_seconds: optional number`
+<a href="#">Link to this property</a>
 
-          The period over which this threshold is suggested.
+</details>
 
-        - `requests: optional number`
+<a href="#">Link to this property</a>
 
-          The estimated number of requests covered by these calculations.
+</details>
 
-        - `suggested_threshold: optional number`
+<a href="#">Link to this property</a>
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+</details>
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+<a href="#">Link to this property</a>
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+</details>
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `parameter_schemas: optional object { parameters, responses }`
+</details>
 
-          An operation schema object containing a response.
+[Link to this property](#)%20api_gateway.operations%20%3E%20(model)%20operation_bulk_create_response%20%3E%20(schema)>)
 
-          - `parameters: optional array of unknown`
+<details>
 
-            An array containing the learned parameter schemas.
+<summary>
 
-          - `responses: optional unknown`
+OperationBulkDeleteResponse object {errors, messages, success }
 
-            An empty response object. This field is required to yield a valid operation schema.
+</summary>
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
 
-      - `api_routing: optional object { last_updated, route }`
+<a href="#">Link to this property</a>
 
-        API Routing settings on endpoint.
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `route: optional string`
+success: true
 
-          Target route.
+Whether the API call was successful.
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+<a href="#">Link to this property</a>
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+</details>
 
-        - `last_updated: optional string`
+[Link to this property](#)%20api_gateway.operations%20%3E%20(model)%20operation_bulk_delete_response%20%3E%20(schema)>)
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+#### API GatewayOperationsLabels
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+##### [Replace labels on a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/update)
 
-            - `p90: optional object { lower, upper }`
+PUT/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/labels
 
-              Upper and lower bound for percentile estimate
+##### [Attach labels to a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/create)
 
-              - `lower: optional number`
+POST/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/labels
 
-                Lower bound for percentile estimate
+##### [Remove labels from a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/delete)
 
-              - `upper: optional number`
+DELETE/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/labels
 
-                Upper bound for percentile estimate
+##### [Replace labels on web or API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/bulk_update)
 
-            - `p95: optional object { lower, upper }`
+PUT/zones/{zone\_id}/api\_gateway/operations/labels
 
-              Upper and lower bound for percentile estimate
+##### [Attach labels to web or API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/bulk_create)
 
-              - `lower: optional number`
+POST/zones/{zone\_id}/api\_gateway/operations/labels
 
-                Lower bound for percentile estimate
+##### [Remove labels from web or API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/bulk_delete)
 
-              - `upper: optional number`
+DELETE/zones/{zone\_id}/api\_gateway/operations/labels
 
-                Upper bound for percentile estimate
+##### ModelsExpand Collapse
 
-            - `p99: optional object { lower, upper }`
+<details>
 
-              Upper and lower bound for percentile estimate
+<summary>
 
-              - `lower: optional number`
+LabelUpdateResponse object {endpoint, host, last\_updated, 3 more }
 
-                Lower bound for percentile estimate
+</summary>
 
-              - `upper: optional number`
+endpoint: string
 
-                Upper bound for percentile estimate
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-          - `mean: optional number`
+formaturi-template
 
-            Suggested threshold.
+maxLength4096
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+<a href="#">Link to this property</a>
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+host: string
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+RFC3986-compliant host.
 
-          Schema active on endpoint.
+formathostname
 
-          - `id: optional string`
+maxLength255
 
-            UUID.
+<a href="#">Link to this property</a>
 
-          - `created_at: optional string`
+last\_updated: string
 
-          - `is_learned: optional boolean`
+formatdate-time
 
-            True if schema is Cloudflare-provided.
+<a href="#">Link to this property</a>
 
-          - `name: optional string`
+<details>
 
-            Schema file name.
+<summary>
 
-        - `learned_available: optional boolean`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+The HTTP method used to access the endpoint.
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+</summary>
 
-          Action taken on requests failing validation.
+One of the following:
 
-          - `"none"`
+"GET"
 
-          - `"log"`
+<a href="#">Link to this property</a>
 
-          - `"block"`
+"POST"
 
-  - `schemas: optional object { learned, uploaded }`
+<a href="#">Link to this property</a>
 
-    OpenAPI JSON schemas for an operation, including both user-uploaded and Cloudflare-learned schemas.
+"HEAD"
 
-    - `learned: optional object { parameters, requestBody }`
+<a href="#">Link to this property</a>
 
-      An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
+"OPTIONS"
 
-      - `parameters: optional array of map[unknown]`
+<a href="#">Link to this property</a>
 
-        OpenAPI parameter objects describing path, query, header, or cookie parameters.
+"PUT"
 
-      - `requestBody: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-        OpenAPI request body object describing the expected request payload.
+"DELETE"
 
-    - `uploaded: optional object { parameters, requestBody }`
+<a href="#">Link to this property</a>
 
-      An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
+"CONNECT"
 
-      - `parameters: optional array of map[unknown]`
+<a href="#">Link to this property</a>
 
-        OpenAPI parameter objects describing path, query, header, or cookie parameters.
+"PATCH"
 
-      - `requestBody: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-        OpenAPI request body object describing the expected request payload.
+"TRACE"
 
-### Operation Create Response
+<a href="#">Link to this property</a>
 
-- `OperationCreateResponse object { endpoint, host, last_updated, 4 more }`
+</details>
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+operation\_id: string
 
-  - `host: string`
+UUID.
 
-    RFC3986-compliant host.
+maxLength36
 
-  - `last_updated: string`
+minLength36
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<a href="#">Link to this property</a>
 
-    The HTTP method used to access the endpoint.
+<details>
 
-    - `"GET"`
+<summary>
 
-    - `"POST"`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-    - `"HEAD"`
+</summary>
 
-    - `"OPTIONS"`
+created\_at: string
 
-    - `"PUT"`
+formatdate-time
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+description: string
 
-    - `"PATCH"`
+The description of the label
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+last\_updated: string
 
-    UUID.
+formatdate-time
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+<a href="#">Link to this property</a>
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+metadata: unknown
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+Metadata for the label
 
-        - `auth_id_tokens: optional number`
+<a href="#">Link to this property</a>
 
-          The total number of auth-ids seen across this calculation.
+name: string
 
-        - `data_points: optional number`
+The name of the label
 
-          The number of data points used for the threshold suggestion calculation.
+<a href="#">Link to this property</a>
 
-        - `last_updated: optional string`
+<details>
 
-        - `p50: optional number`
+<summary>
 
-          The p50 quantile of requests (in period_seconds).
+source: "user"or "managed"
 
-        - `p90: optional number`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-          The p90 quantile of requests (in period_seconds).
+</summary>
 
-        - `p99: optional number`
+One of the following:
 
-          The p99 quantile of requests (in period_seconds).
+"user"
 
-        - `period_seconds: optional number`
+<a href="#">Link to this property</a>
 
-          The period over which this threshold is suggested.
+"managed"
 
-        - `requests: optional number`
+<a href="#">Link to this property</a>
 
-          The estimated number of requests covered by these calculations.
+</details>
 
-        - `suggested_threshold: optional number`
+<a href="#">Link to this property</a>
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+</details>
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+<a href="#">Link to this property</a>
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+</details>
 
-        - `last_updated: optional string`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_update_response%20%3E%20(schema)>)
 
-        - `parameter_schemas: optional object { parameters, responses }`
+<details>
 
-          An operation schema object containing a response.
+<summary>
 
-          - `parameters: optional array of unknown`
+LabelCreateResponse object {endpoint, host, last\_updated, 3 more }
 
-            An array containing the learned parameter schemas.
+</summary>
 
-          - `responses: optional unknown`
+endpoint: string
 
-            An empty response object. This field is required to yield a valid operation schema.
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+formaturi-template
 
-      - `api_routing: optional object { last_updated, route }`
+maxLength4096
 
-        API Routing settings on endpoint.
+<a href="#">Link to this property</a>
 
-        - `last_updated: optional string`
+host: string
 
-        - `route: optional string`
+RFC3986-compliant host.
 
-          Target route.
+formathostname
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+maxLength255
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+<a href="#">Link to this property</a>
 
-        - `last_updated: optional string`
+last\_updated: string
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+formatdate-time
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+<a href="#">Link to this property</a>
 
-            - `p90: optional object { lower, upper }`
+<details>
 
-              Upper and lower bound for percentile estimate
+<summary>
 
-              - `lower: optional number`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-                Lower bound for percentile estimate
+The HTTP method used to access the endpoint.
 
-              - `upper: optional number`
+</summary>
 
-                Upper bound for percentile estimate
+One of the following:
 
-            - `p95: optional object { lower, upper }`
+"GET"
 
-              Upper and lower bound for percentile estimate
+<a href="#">Link to this property</a>
 
-              - `lower: optional number`
+"POST"
 
-                Lower bound for percentile estimate
+<a href="#">Link to this property</a>
 
-              - `upper: optional number`
+"HEAD"
 
-                Upper bound for percentile estimate
+<a href="#">Link to this property</a>
 
-            - `p99: optional object { lower, upper }`
+"OPTIONS"
 
-              Upper and lower bound for percentile estimate
+<a href="#">Link to this property</a>
 
-              - `lower: optional number`
+"PUT"
 
-                Lower bound for percentile estimate
+<a href="#">Link to this property</a>
 
-              - `upper: optional number`
+"DELETE"
 
-                Upper bound for percentile estimate
+<a href="#">Link to this property</a>
 
-          - `mean: optional number`
+"CONNECT"
 
-            Suggested threshold.
+<a href="#">Link to this property</a>
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+"PATCH"
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+<a href="#">Link to this property</a>
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+"TRACE"
 
-          Schema active on endpoint.
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+</details>
 
-            UUID.
+<a href="#">Link to this property</a>
 
-          - `created_at: optional string`
+operation\_id: string
 
-          - `is_learned: optional boolean`
+UUID.
 
-            True if schema is Cloudflare-provided.
+maxLength36
 
-          - `name: optional string`
+minLength36
 
-            Schema file name.
+<a href="#">Link to this property</a>
 
-        - `learned_available: optional boolean`
+<details>
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+<summary>
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-          Action taken on requests failing validation.
+</summary>
 
-          - `"none"`
+created\_at: string
 
-          - `"log"`
+formatdate-time
 
-          - `"block"`
+<a href="#">Link to this property</a>
 
-  - `schemas: optional object { learned, uploaded }`
+description: string
 
-    OpenAPI JSON schemas for an operation, including both user-uploaded and Cloudflare-learned schemas.
+The description of the label
 
-    - `learned: optional object { parameters, requestBody }`
+<a href="#">Link to this property</a>
 
-      An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
+last\_updated: string
 
-      - `parameters: optional array of map[unknown]`
+formatdate-time
 
-        OpenAPI parameter objects describing path, query, header, or cookie parameters.
+<a href="#">Link to this property</a>
 
-      - `requestBody: optional map[unknown]`
+metadata: unknown
 
-        OpenAPI request body object describing the expected request payload.
+Metadata for the label
 
-    - `uploaded: optional object { parameters, requestBody }`
+<a href="#">Link to this property</a>
 
-      An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension.
+name: string
 
-      - `parameters: optional array of map[unknown]`
+The name of the label
 
-        OpenAPI parameter objects describing path, query, header, or cookie parameters.
+<a href="#">Link to this property</a>
 
-      - `requestBody: optional map[unknown]`
+<details>
 
-        OpenAPI request body object describing the expected request payload.
+<summary>
 
-### Operation Delete Response
+source: "user"or "managed"
 
-- `OperationDeleteResponse object { errors, messages, success }`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-  - `errors: Message`
+</summary>
 
-    - `code: number`
+One of the following:
 
-    - `message: string`
+"user"
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+"managed"
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: Message`
+</details>
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+</details>
 
-    - `true`
+<a href="#">Link to this property</a>
 
-### Operation Bulk Create Response
+</details>
 
-- `OperationBulkCreateResponse object { endpoint, host, last_updated, 3 more }`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_create_response%20%3E%20(schema)>)
 
-  - `endpoint: string`
+<details>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<summary>
 
-  - `host: string`
+LabelDeleteResponse object {endpoint, host, last\_updated, 3 more }
 
-    RFC3986-compliant host.
+</summary>
 
-  - `last_updated: string`
+endpoint: string
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    The HTTP method used to access the endpoint.
+formaturi-template
 
-    - `"GET"`
+maxLength4096
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+host: string
 
-    - `"OPTIONS"`
+RFC3986-compliant host.
 
-    - `"PUT"`
+formathostname
 
-    - `"DELETE"`
+maxLength255
 
-    - `"CONNECT"`
+<a href="#">Link to this property</a>
 
-    - `"PATCH"`
+last\_updated: string
 
-    - `"TRACE"`
+formatdate-time
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+<details>
 
-  - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
+<summary>
 
-    - `APIShieldOperationFeatureThresholds object { thresholds }`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-      - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
+The HTTP method used to access the endpoint.
 
-        - `auth_id_tokens: optional number`
+</summary>
 
-          The total number of auth-ids seen across this calculation.
+One of the following:
 
-        - `data_points: optional number`
+"GET"
 
-          The number of data points used for the threshold suggestion calculation.
+<a href="#">Link to this property</a>
 
-        - `last_updated: optional string`
+"POST"
 
-        - `p50: optional number`
+<a href="#">Link to this property</a>
 
-          The p50 quantile of requests (in period_seconds).
+"HEAD"
 
-        - `p90: optional number`
+<a href="#">Link to this property</a>
 
-          The p90 quantile of requests (in period_seconds).
+"OPTIONS"
 
-        - `p99: optional number`
+<a href="#">Link to this property</a>
 
-          The p99 quantile of requests (in period_seconds).
+"PUT"
 
-        - `period_seconds: optional number`
+<a href="#">Link to this property</a>
 
-          The period over which this threshold is suggested.
+"DELETE"
 
-        - `requests: optional number`
+<a href="#">Link to this property</a>
 
-          The estimated number of requests covered by these calculations.
+"CONNECT"
 
-        - `suggested_threshold: optional number`
+<a href="#">Link to this property</a>
 
-          The suggested threshold in requests done by the same auth_id or period_seconds.
+"PATCH"
 
-    - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
+<a href="#">Link to this property</a>
 
-      - `parameter_schemas: object { last_updated, parameter_schemas }`
+"TRACE"
 
-        - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-        - `parameter_schemas: optional object { parameters, responses }`
+</details>
 
-          An operation schema object containing a response.
+<a href="#">Link to this property</a>
 
-          - `parameters: optional array of unknown`
+operation\_id: string
 
-            An array containing the learned parameter schemas.
+UUID.
 
-          - `responses: optional unknown`
+maxLength36
 
-            An empty response object. This field is required to yield a valid operation schema.
+minLength36
 
-    - `APIShieldOperationFeatureAPIRouting object { api_routing }`
+<a href="#">Link to this property</a>
 
-      - `api_routing: optional object { last_updated, route }`
+<details>
 
-        API Routing settings on endpoint.
+<summary>
 
-        - `last_updated: optional string`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-        - `route: optional string`
+</summary>
 
-          Target route.
+created\_at: string
 
-    - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
+formatdate-time
 
-      - `confidence_intervals: optional object { last_updated, suggested_threshold }`
+<a href="#">Link to this property</a>
 
-        - `last_updated: optional string`
+description: string
 
-        - `suggested_threshold: optional object { confidence_intervals, mean }`
+The description of the label
 
-          - `confidence_intervals: optional object { p90, p95, p99 }`
+<a href="#">Link to this property</a>
 
-            - `p90: optional object { lower, upper }`
+last\_updated: string
 
-              Upper and lower bound for percentile estimate
+formatdate-time
 
-              - `lower: optional number`
+<a href="#">Link to this property</a>
 
-                Lower bound for percentile estimate
+metadata: unknown
 
-              - `upper: optional number`
+Metadata for the label
 
-                Upper bound for percentile estimate
+<a href="#">Link to this property</a>
 
-            - `p95: optional object { lower, upper }`
+name: string
 
-              Upper and lower bound for percentile estimate
+The name of the label
 
-              - `lower: optional number`
+<a href="#">Link to this property</a>
 
-                Lower bound for percentile estimate
+<details>
 
-              - `upper: optional number`
+<summary>
 
-                Upper bound for percentile estimate
+source: "user"or "managed"
 
-            - `p99: optional object { lower, upper }`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-              Upper and lower bound for percentile estimate
+</summary>
 
-              - `lower: optional number`
+One of the following:
 
-                Lower bound for percentile estimate
+"user"
 
-              - `upper: optional number`
+<a href="#">Link to this property</a>
 
-                Upper bound for percentile estimate
+"managed"
 
-          - `mean: optional number`
+<a href="#">Link to this property</a>
 
-            Suggested threshold.
+</details>
 
-    - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
+<a href="#">Link to this property</a>
 
-      - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
+</details>
 
-        - `active_schema: optional object { id, created_at, is_learned, name }`
+<a href="#">Link to this property</a>
 
-          Schema active on endpoint.
+</details>
 
-          - `id: optional string`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_delete_response%20%3E%20(schema)>)
 
-            UUID.
+<details>
 
-          - `created_at: optional string`
+<summary>
 
-          - `is_learned: optional boolean`
+LabelBulkUpdateResponse object {endpoint, host, last\_updated, 3 more }
 
-            True if schema is Cloudflare-provided.
+</summary>
 
-          - `name: optional string`
+endpoint: string
 
-            Schema file name.
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-        - `learned_available: optional boolean`
+formaturi-template
 
-          True if a Cloudflare-provided learned schema is available for this endpoint.
+maxLength4096
 
-        - `mitigation_action: optional "none" or "log" or "block"`
+<a href="#">Link to this property</a>
 
-          Action taken on requests failing validation.
+host: string
 
-          - `"none"`
+RFC3986-compliant host.
 
-          - `"log"`
+formathostname
 
-          - `"block"`
+maxLength255
 
-### Operation Bulk Delete Response
+<a href="#">Link to this property</a>
 
-- `OperationBulkDeleteResponse object { errors, messages, success }`
+last\_updated: string
 
-  - `errors: Message`
+formatdate-time
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+<details>
 
-    - `documentation_url: optional string`
+<summary>
 
-    - `source: optional object { pointer }`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-      - `pointer: optional string`
+The HTTP method used to access the endpoint.
 
-  - `messages: Message`
+</summary>
 
-  - `success: true`
+One of the following:
 
-    Whether the API call was successful.
+"GET"
 
-    - `true`
+<a href="#">Link to this property</a>
 
-# Labels
+"POST"
 
-## Replace label(s) on an operation in endpoint management
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/api_gateway/operations/{operation_id}/labels`
+"HEAD"
 
-Replace label(s) on an operation in endpoint management
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"OPTIONS"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"PUT"
 
-- `operation_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+"DELETE"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `managed: optional array of string`
+"CONNECT"
 
-  List of managed label names. Omitting this property or passing an empty array will result in all managed labels being removed from the operation
+<a href="#">Link to this property</a>
 
-- `user: optional array of string`
+"PATCH"
 
-  List of user label names. Omitting this property or passing an empty array will result in all user labels being removed from the operation
+<a href="#">Link to this property</a>
 
-### Returns
+"TRACE"
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+operation\_id: string
 
-  - `source: optional object { pointer }`
+UUID.
 
-    - `pointer: optional string`
+maxLength36
 
-- `messages: Message`
+minLength36
 
-- `result: object { endpoint, host, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+<details>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<summary>
 
-  - `host: string`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-    RFC3986-compliant host.
+</summary>
 
-  - `last_updated: string`
+created\_at: string
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+formatdate-time
 
-    The HTTP method used to access the endpoint.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+description: string
 
-    - `"POST"`
+The description of the label
 
-    - `"HEAD"`
+<a href="#">Link to this property</a>
 
-    - `"OPTIONS"`
+last\_updated: string
 
-    - `"PUT"`
+formatdate-time
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+metadata: unknown
 
-    - `"PATCH"`
+Metadata for the label
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+name: string
 
-    UUID.
+The name of the label
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+<details>
 
-    - `description: string`
+<summary>
 
-      The description of the label
+source: "user"or "managed"
 
-    - `last_updated: string`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-    - `metadata: unknown`
+</summary>
 
-      Metadata for the label
+One of the following:
 
-    - `name: string`
+"user"
 
-      The name of the label
+<a href="#">Link to this property</a>
 
-    - `source: "user" or "managed"`
+"managed"
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+<a href="#">Link to this property</a>
 
-      - `"user"`
+</details>
 
-      - `"managed"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_bulk_update_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/labels \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "endpoint": "/api/v1/users/{var1}",
-    "host": "www.example.com",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "method": "GET",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "labels": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "All endpoints that deal with logins",
-        "last_updated": "2014-01-01T05:20:00.12345Z",
-        "metadata": {
-          "foo": "bar"
-        },
-        "name": "login",
-        "source": "user"
-      }
-    ]
-  },
-  "success": true
-}
-```
+LabelBulkCreateResponse object {endpoint, host, last\_updated, 3 more }
 
-## Attach label(s) on an operation in endpoint management
+</summary>
 
-**post** `/zones/{zone_id}/api_gateway/operations/{operation_id}/labels`
+endpoint: string
 
-Attach label(s) on an operation in endpoint management
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-### Path Parameters
+formaturi-template
 
-- `zone_id: string`
+maxLength4096
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `operation_id: string`
+host: string
 
-  UUID.
+RFC3986-compliant host.
 
-### Body Parameters
+formathostname
 
-- `managed: optional array of string`
+maxLength255
 
-  List of managed label names.
+<a href="#">Link to this property</a>
 
-- `user: optional array of string`
+last\_updated: string
 
-  List of user label names.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-  - `documentation_url: optional string`
+The HTTP method used to access the endpoint.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: Message`
+"GET"
 
-- `result: object { endpoint, host, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+"POST"
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+"HEAD"
 
-    RFC3986-compliant host.
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+"OPTIONS"
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<a href="#">Link to this property</a>
 
-    The HTTP method used to access the endpoint.
+"PUT"
 
-    - `"GET"`
+<a href="#">Link to this property</a>
 
-    - `"POST"`
+"DELETE"
 
-    - `"HEAD"`
+<a href="#">Link to this property</a>
 
-    - `"OPTIONS"`
+"CONNECT"
 
-    - `"PUT"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+"PATCH"
 
-    - `"CONNECT"`
+<a href="#">Link to this property</a>
 
-    - `"PATCH"`
+"TRACE"
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+</details>
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+operation\_id: string
 
-    - `created_at: string`
+UUID.
 
-    - `description: string`
+maxLength36
 
-      The description of the label
+minLength36
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+<details>
 
-      Metadata for the label
+<summary>
 
-    - `name: string`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-      The name of the label
+</summary>
 
-    - `source: "user" or "managed"`
+created\_at: string
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+formatdate-time
 
-      - `"user"`
+<a href="#">Link to this property</a>
 
-      - `"managed"`
+description: string
 
-- `success: true`
+The description of the label
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+last\_updated: string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/labels \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+metadata: unknown
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "endpoint": "/api/v1/users/{var1}",
-    "host": "www.example.com",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "method": "GET",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "labels": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "All endpoints that deal with logins",
-        "last_updated": "2014-01-01T05:20:00.12345Z",
-        "metadata": {
-          "foo": "bar"
-        },
-        "name": "login",
-        "source": "user"
-      }
-    ]
-  },
-  "success": true
-}
-```
+Metadata for the label
 
-## Remove label(s) on an operation in endpoint management
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/api_gateway/operations/{operation_id}/labels`
+name: string
 
-Remove label(s) on an operation in endpoint management
+The name of the label
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `operation_id: string`
+source: "user"or "managed"
 
-  UUID.
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-### Returns
+</summary>
 
-- `errors: Message`
+One of the following:
 
-  - `code: number`
+"user"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"managed"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: Message`
+<a href="#">Link to this property</a>
 
-- `result: object { endpoint, host, last_updated, 3 more }`
+</details>
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+</details>
 
-  - `host: string`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_bulk_create_response%20%3E%20(schema)>)
 
-    RFC3986-compliant host.
+<details>
 
-  - `last_updated: string`
+<summary>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+LabelBulkDeleteResponse object {endpoint, host, last\_updated, 3 more }
 
-    The HTTP method used to access the endpoint.
+</summary>
 
-    - `"GET"`
+endpoint: string
 
-    - `"POST"`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    - `"HEAD"`
+formaturi-template
 
-    - `"OPTIONS"`
+maxLength4096
 
-    - `"PUT"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+host: string
 
-    - `"CONNECT"`
+RFC3986-compliant host.
 
-    - `"PATCH"`
+formathostname
 
-    - `"TRACE"`
+maxLength255
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+last\_updated: string
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+formatdate-time
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+<details>
 
-      The description of the label
+<summary>
 
-    - `last_updated: string`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-    - `metadata: unknown`
+The HTTP method used to access the endpoint.
 
-      Metadata for the label
+</summary>
 
-    - `name: string`
+One of the following:
 
-      The name of the label
+"GET"
 
-    - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+"POST"
 
-      - `"user"`
+<a href="#">Link to this property</a>
 
-      - `"managed"`
+"HEAD"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"OPTIONS"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"PUT"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/labels \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"DELETE"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "endpoint": "/api/v1/users/{var1}",
-    "host": "www.example.com",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "method": "GET",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "labels": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "All endpoints that deal with logins",
-        "last_updated": "2014-01-01T05:20:00.12345Z",
-        "metadata": {
-          "foo": "bar"
-        },
-        "name": "login",
-        "source": "user"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Bulk replace label(s) on operation(s) in endpoint management
+"CONNECT"
 
-**put** `/zones/{zone_id}/api_gateway/operations/labels`
+<a href="#">Link to this property</a>
 
-Bulk replace label(s) on operation(s) in endpoint management
+"PATCH"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"TRACE"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `managed: object { labels }`
+<a href="#">Link to this property</a>
 
-  Managed labels to replace for all affected operations
+operation\_id: string
 
-  - `labels: array of string`
+UUID.
 
-    List of managed label names. Providing an empty array will result in all managed labels being removed from all affected operations
+maxLength36
 
-- `selector: object { include }`
+minLength36
 
-  Operation IDs selector
+<a href="#">Link to this property</a>
 
-  - `include: object { operation_ids }`
+<details>
 
-    - `operation_ids: array of string`
+<summary>
 
-- `user: object { labels }`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-  User labels to replace for all affected operations
+</summary>
 
-  - `labels: array of string`
+created\_at: string
 
-    List of user label names. Providing an empty array will result in all user labels being removed from all affected operations
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+description: string
 
-  - `code: number`
+The description of the label
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+last\_updated: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+metadata: unknown
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+Metadata for the label
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+name: string
 
-  - `host: string`
+The name of the label
 
-    RFC3986-compliant host.
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+<details>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<summary>
 
-    The HTTP method used to access the endpoint.
+source: "user"or "managed"
 
-    - `"GET"`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-    - `"POST"`
+</summary>
 
-    - `"HEAD"`
+One of the following:
 
-    - `"OPTIONS"`
+"user"
 
-    - `"PUT"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+"managed"
 
-    - `"CONNECT"`
+<a href="#">Link to this property</a>
 
-    - `"PATCH"`
+</details>
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+</details>
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+</details>
 
-    - `created_at: string`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_bulk_delete_response%20%3E%20(schema)>)
 
-    - `description: string`
+#### API GatewayOperationsSchema Validation
 
-      The description of the label
+##### [Retrieve operation-level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/schema_validation/methods/get)
 
-    - `last_updated: string`
+Deprecated
 
-    - `metadata: unknown`
+GET/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/schema\_validation
 
-      Metadata for the label
+##### [Update operation-level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/schema_validation/methods/update)
 
-    - `name: string`
+Deprecated
 
-      The name of the label
+PUT/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/schema\_validation
 
-    - `source: "user" or "managed"`
+##### [Update multiple operation-level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/schema_validation/methods/edit)
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+Deprecated
 
-      - `"user"`
+PATCH/zones/{zone\_id}/api\_gateway/operations/schema\_validation
 
-      - `"managed"`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+SettingsMultipleRequest = map\[object {mitigation\_action } ]
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/labels \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "managed": {
-            "labels": [
-              "login"
-            ]
-          },
-          "selector": {
-            "include": {
-              "operation_ids": [
-                "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-              ]
-            }
-          },
-          "user": {
-            "labels": [
-              "login"
-            ]
-          }
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "labels": [
-        {
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "description": "All endpoints that deal with logins",
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "metadata": {
-            "foo": "bar"
-          },
-          "name": "login",
-          "source": "user"
-        }
-      ]
-    }
-  ],
-  "success": true
-}
-```
+mitigation\_action: optional "log"or "block"or "none"
 
-## Bulk attach label(s) on operation(s) in endpoint management
+When set, this applies a mitigation action to this operation
 
-**post** `/zones/{zone_id}/api_gateway/operations/labels`
+- <code>log</code> log request when request does not conform to schema for this operation
+- <code>block</code> deny access to the site when request does not conform to schema for this operation
+- <code>none</code> will skip mitigation for this operation
+- <code>null</code> indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
 
-Bulk attach label(s) on operation(s) in endpoint management
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `zone_id: string`
+"log"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"block"
 
-- `selector: object { include }`
+<a href="#">Link to this property</a>
 
-  Operation IDs selector
+"none"
 
-  - `include: object { operation_ids }`
+<a href="#">Link to this property</a>
 
-    - `operation_ids: array of string`
+</details>
 
-- `managed: optional object { labels }`
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of string`
+</details>
 
-    List of managed label names.
+[Link to this property](#)%20api_gateway.operations.schema_validation%20%3E%20(model)%20settings_multiple_request%20%3E%20(schema)>)
 
-- `user: optional object { labels }`
+<details>
 
-  - `labels: optional array of string`
+<summary>
 
-    List of user label names.
+SchemaValidationGetResponse object {mitigation\_action, operation\_id }
 
-### Returns
+</summary>
 
-- `errors: Message`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+mitigation\_action: optional "log"or "block"or "none"
 
-  - `documentation_url: optional string`
+When set, this applies a mitigation action to this operation
 
-  - `source: optional object { pointer }`
+- <code>log</code> log request when request does not conform to schema for this operation
+- <code>block</code> deny access to the site when request does not conform to schema for this operation
+- <code>none</code> will skip mitigation for this operation
+- <code>null</code> indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: Message`
+One of the following:
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+"log"
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+"block"
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+"none"
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+</details>
 
-    The HTTP method used to access the endpoint.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+operation\_id: optional string
 
-    - `"POST"`
+UUID.
 
-    - `"HEAD"`
+maxLength36
 
-    - `"OPTIONS"`
+minLength36
 
-    - `"PUT"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+</details>
 
-    - `"CONNECT"`
+[Link to this property](#)%20api_gateway.operations.schema_validation%20%3E%20(model)%20schema_validation_get_response%20%3E%20(schema)>)
 
-    - `"PATCH"`
+<details>
 
-    - `"TRACE"`
+<summary>
 
-  - `operation_id: string`
+SchemaValidationUpdateResponse object {mitigation\_action, operation\_id }
 
-    UUID.
+</summary>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<details>
 
-    - `created_at: string`
+<summary>
 
-    - `description: string`
+mitigation\_action: optional "log"or "block"or "none"
 
-      The description of the label
+When set, this applies a mitigation action to this operation
 
-    - `last_updated: string`
+- <code>log</code> log request when request does not conform to schema for this operation
+- <code>block</code> deny access to the site when request does not conform to schema for this operation
+- <code>none</code> will skip mitigation for this operation
+- <code>null</code> indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
 
-    - `metadata: unknown`
+</summary>
 
-      Metadata for the label
+One of the following:
 
-    - `name: string`
+"log"
 
-      The name of the label
+<a href="#">Link to this property</a>
 
-    - `source: "user" or "managed"`
+"block"
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+<a href="#">Link to this property</a>
 
-      - `"user"`
+"none"
 
-      - `"managed"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+operation\_id: optional string
 
-### Example
+UUID.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/labels \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "selector": {
-            "include": {
-              "operation_ids": [
-                "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-              ]
-            }
-          }
-        }'
-```
+maxLength36
 
-#### Response
+minLength36
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "labels": [
-        {
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "description": "All endpoints that deal with logins",
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "metadata": {
-            "foo": "bar"
-          },
-          "name": "login",
-          "source": "user"
-        }
-      ]
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Bulk remove label(s) on operation(s) in endpoint management
+</details>
 
-**delete** `/zones/{zone_id}/api_gateway/operations/labels`
+[Link to this property](#)%20api_gateway.operations.schema_validation%20%3E%20(model)%20schema_validation_update_response%20%3E%20(schema)>)
 
-Bulk remove label(s) on operation(s) in endpoint management
+#### API GatewaySchemas
 
-### Path Parameters
+##### [Export web and API operations as OpenAPI schemas](https://developers.cloudflare.com/api/resources/api_gateway/subresources/schemas/methods/list)
 
-- `zone_id: string`
+GET/zones/{zone\_id}/api\_gateway/schemas
 
-  Identifier.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: Message`
+<summary>
 
-  - `code: number`
+SchemaListResponse object {schemas, timestamp }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+schemas: optional array of unknown
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+timestamp: optional string
 
-- `messages: Message`
+<a href="#">Link to this property</a>
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+</details>
 
-  - `endpoint: string`
+[Link to this property](#)%20api_gateway.schemas%20%3E%20(model)%20schema_list_response%20%3E%20(schema)>)
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+#### API GatewaySettings
 
-  - `host: string`
+##### ModelsExpand Collapse
 
-    RFC3986-compliant host.
+<details>
 
-  - `last_updated: string`
+<summary>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+Settings object {validation\_default\_mitigation\_action, validation\_override\_mitigation\_action }
 
-    The HTTP method used to access the endpoint.
+</summary>
 
-    - `"GET"`
+<details>
 
-    - `"POST"`
+<summary>
 
-    - `"HEAD"`
+validation\_default\_mitigation\_action: optional "none"or "log"or "block"
 
-    - `"OPTIONS"`
+The default mitigation action used when there is no mitigation action defined on the operation
 
-    - `"PUT"`
+Mitigation actions are as follows:
 
-    - `"DELETE"`
+- <code>log</code> - log request when request does not conform to schema
+- <code>block</code> - deny access to the site when request does not conform to schema
 
-    - `"CONNECT"`
+A special value of of <code>none</code> will skip running schema validation entirely for the request when there is no mitigation action defined on the operation
 
-    - `"PATCH"`
+</summary>
 
-    - `"TRACE"`
+One of the following:
 
-  - `operation_id: string`
+"none"
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+"log"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+"block"
 
-      The description of the label
+<a href="#">Link to this property</a>
 
-    - `last_updated: string`
+</details>
 
-    - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-      Metadata for the label
+validation\_override\_mitigation\_action: optional "none"
 
-    - `name: string`
+When set, this overrides both zone level and operation level mitigation actions.
 
-      The name of the label
+- <code>none</code> will skip running schema validation entirely for the request
+- <code>null</code> indicates that no override is in place
 
-    - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+</details>
 
-      - `"user"`
+[Link to this property](#)%20api_gateway.settings%20%3E%20(model)%20settings%20%3E%20(schema)>)
 
-      - `"managed"`
+#### API GatewaySettingsSchema Validation
 
-- `success: true`
+##### [Retrieve zone level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/settings/subresources/schema_validation/methods/get)
 
-  Whether the API call was successful.
+Deprecated
 
-  - `true`
+GET/zones/{zone\_id}/api\_gateway/settings/schema\_validation
 
-### Example
+##### [Update zone level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/settings/subresources/schema_validation/methods/update)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/labels \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Deprecated
 
-#### Response
+PUT/zones/{zone\_id}/api\_gateway/settings/schema\_validation
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "labels": [
-        {
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "description": "All endpoints that deal with logins",
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "metadata": {
-            "foo": "bar"
-          },
-          "name": "login",
-          "source": "user"
-        }
-      ]
-    }
-  ],
-  "success": true
-}
-```
+##### [Update zone level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/settings/subresources/schema_validation/methods/edit)
 
-## Domain Types
+Deprecated
 
-### Label Update Response
+PATCH/zones/{zone\_id}/api\_gateway/settings/schema\_validation
 
-- `LabelUpdateResponse object { endpoint, host, last_updated, 3 more }`
+#### API GatewayUser Schemas
 
-  - `endpoint: string`
+##### [Retrieve information about all schemas on a zone](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas/methods/list)
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+Deprecated
 
-  - `host: string`
+GET/zones/{zone\_id}/api\_gateway/user\_schemas
 
-    RFC3986-compliant host.
+##### [Retrieve information about a specific schema on a zone](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas/methods/get)
 
-  - `last_updated: string`
+Deprecated
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+GET/zones/{zone\_id}/api\_gateway/user\_schemas/{schema\_id}
 
-    The HTTP method used to access the endpoint.
+##### [Upload a legacy schema](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas/methods/create)
 
-    - `"GET"`
+Deprecated
 
-    - `"POST"`
+POST/zones/{zone\_id}/api\_gateway/user\_schemas
 
-    - `"HEAD"`
+##### [Enable validation for a schema](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas/methods/edit)
 
-    - `"OPTIONS"`
+Deprecated
 
-    - `"PUT"`
+PATCH/zones/{zone\_id}/api\_gateway/user\_schemas/{schema\_id}
 
-    - `"DELETE"`
+##### [Delete a schema](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas/methods/delete)
 
-    - `"CONNECT"`
+Deprecated
 
-    - `"PATCH"`
+DELETE/zones/{zone\_id}/api\_gateway/user\_schemas/{schema\_id}
 
-    - `"TRACE"`
+##### ModelsExpand Collapse
 
-  - `operation_id: string`
+<details>
 
-    UUID.
+<summary>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+Message = array of object {code, message, documentation\_url, source }
 
-    - `created_at: string`
+</summary>
 
-    - `description: string`
+code: number
 
-      The description of the label
+minimum1000
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+message: string
 
-      Metadata for the label
+<a href="#">Link to this property</a>
 
-    - `name: string`
+documentation\_url: optional string
 
-      The name of the label
+<a href="#">Link to this property</a>
 
-    - `source: "user" or "managed"`
+<details>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+<summary>
 
-      - `"user"`
+source: optional object {pointer }
 
-      - `"managed"`
+</summary>
 
-### Label Create Response
+pointer: optional string
 
-- `LabelCreateResponse object { endpoint, host, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+</details>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+</details>
 
-    RFC3986-compliant host.
+[Link to this property](#)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)>)
 
-  - `last_updated: string`
+<details>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<summary>
 
-    The HTTP method used to access the endpoint.
+OldPublicSchema object {created\_at, kind, name, 3 more }
 
-    - `"GET"`
+</summary>
 
-    - `"POST"`
+created\_at: string
 
-    - `"HEAD"`
+formatdate-time
 
-    - `"OPTIONS"`
+<a href="#">Link to this property</a>
 
-    - `"PUT"`
+kind: "openapi\_v3"
 
-    - `"DELETE"`
+Kind of schema
 
-    - `"CONNECT"`
+<a href="#">Link to this property</a>
 
-    - `"PATCH"`
+name: string
 
-    - `"TRACE"`
+Name of the schema
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+schema\_id: string
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+UUID.
 
-    - `created_at: string`
+maxLength36
 
-    - `description: string`
+minLength36
 
-      The description of the label
+<a href="#">Link to this property</a>
 
-    - `last_updated: string`
+source: optional string
 
-    - `metadata: unknown`
+Source of the schema
 
-      Metadata for the label
+<a href="#">Link to this property</a>
 
-    - `name: string`
+validation\_enabled: optional boolean
 
-      The name of the label
+Flag whether schema is enabled for validation.
 
-    - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+</details>
 
-      - `"user"`
+[Link to this property](#)%20api_gateway.user_schemas%20%3E%20(model)%20old_public_schema%20%3E%20(schema)>)
 
-      - `"managed"`
+<details>
 
-### Label Delete Response
+<summary>
 
-- `LabelDeleteResponse object { endpoint, host, last_updated, 3 more }`
+UserSchemaCreateResponse object {schema, upload\_details }
 
-  - `endpoint: string`
+</summary>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+schema: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20old_public_schema%20%3E%20(schema)">OldPublicSchema</a> { created\_at, kind, name, 3 more }
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+<details>
 
-  - `last_updated: string`
+<summary>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+upload\_details: optional object {warnings }
 
-    The HTTP method used to access the endpoint.
+</summary>
 
-    - `"GET"`
+<details>
 
-    - `"POST"`
+<summary>
 
-    - `"HEAD"`
+warnings: optional array of object {code, locations, message }
 
-    - `"OPTIONS"`
+Diagnostic warning events that occurred during processing. These events are non-critical errors found within the schema.
 
-    - `"PUT"`
+</summary>
 
-    - `"DELETE"`
+code: number
 
-    - `"CONNECT"`
+Code that identifies the event that occurred.
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+locations: optional array of string
 
-  - `operation_id: string`
+JSONPath location(s) in the schema where these events were encountered. See <a href="https://goessner.net/articles/JsonPath/">https://goessner.net/articles/JsonPath/</a> for JSONPath specification.
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+message: optional string
 
-    - `created_at: string`
+Diagnostic message that describes the event.
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      The description of the label
+</details>
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+</details>
 
-      Metadata for the label
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      The name of the label
+[Link to this property](#)%20api_gateway.user_schemas%20%3E%20(model)%20user_schema_create_response%20%3E%20(schema)>)
 
-    - `source: "user" or "managed"`
+<details>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+<summary>
 
-      - `"user"`
+UserSchemaDeleteResponse object {errors, messages, success }
 
-      - `"managed"`
+</summary>
 
-### Label Bulk Update Response
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
 
-- `LabelBulkUpdateResponse object { endpoint, host, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+success: true
 
-    RFC3986-compliant host.
+Whether the API call was successful.
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+</details>
 
-    The HTTP method used to access the endpoint.
+[Link to this property](#)%20api_gateway.user_schemas%20%3E%20(model)%20user_schema_delete_response%20%3E%20(schema)>)
 
-    - `"GET"`
+#### API GatewayUser SchemasOperations
 
-    - `"POST"`
+##### [Retrieve all operations from a schema](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas/subresources/operations/methods/list)
 
-    - `"HEAD"`
+Deprecated
 
-    - `"OPTIONS"`
+GET/zones/{zone\_id}/api\_gateway/user\_schemas/{schema\_id}/operations
 
-    - `"PUT"`
+##### ModelsExpand Collapse
 
-    - `"DELETE"`
+<details>
 
-    - `"CONNECT"`
+<summary>
 
-    - `"PATCH"`
+OperationListResponse = object {endpoint, host, last\_updated, 3 more } or object {endpoint, host, method }
 
-    - `"TRACE"`
+</summary>
 
-  - `operation_id: string`
+One of the following:
 
-    UUID.
+<details>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<summary>
 
-    - `created_at: string`
+APIShieldOperation object {endpoint, host, last\_updated, 3 more }
 
-    - `description: string`
+</summary>
 
-      The description of the label
+endpoint: string
 
-    - `last_updated: string`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    - `metadata: unknown`
+formaturi-template
 
-      Metadata for the label
+maxLength4096
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the label
+host: string
 
-    - `source: "user" or "managed"`
+RFC3986-compliant host.
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+formathostname
 
-      - `"user"`
+maxLength255
 
-      - `"managed"`
+<a href="#">Link to this property</a>
 
-### Label Bulk Create Response
+last\_updated: string
 
-- `LabelBulkCreateResponse object { endpoint, host, last_updated, 3 more }`
+formatdate-time
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<details>
 
-  - `host: string`
+<summary>
 
-    RFC3986-compliant host.
+method: "GET"or "POST"or "HEAD"or 6 more
 
-  - `last_updated: string`
+The HTTP method used to access the endpoint.
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+</summary>
 
-    The HTTP method used to access the endpoint.
+One of the following:
 
-    - `"GET"`
+"GET"
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+"POST"
 
-    - `"OPTIONS"`
+<a href="#">Link to this property</a>
 
-    - `"PUT"`
+"HEAD"
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+"OPTIONS"
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+"PUT"
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+"DELETE"
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"CONNECT"
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      The description of the label
+"PATCH"
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+"TRACE"
 
-      Metadata for the label
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      The name of the label
+<a href="#">Link to this property</a>
 
-    - `source: "user" or "managed"`
+operation\_id: string
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+UUID.
 
-      - `"user"`
+maxLength36
 
-      - `"managed"`
+minLength36
 
-### Label Bulk Delete Response
+<a href="#">Link to this property</a>
 
-- `LabelBulkDeleteResponse object { endpoint, host, last_updated, 3 more }`
+<details>
 
-  - `endpoint: string`
+<summary>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+features: optional object {thresholds } or object {parameter\_schemas } or object {api\_routing } or 2 more
 
-  - `host: string`
+</summary>
 
-    RFC3986-compliant host.
+One of the following:
 
-  - `last_updated: string`
+<details>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<summary>
 
-    The HTTP method used to access the endpoint.
+APIShieldOperationFeatureThresholds object {thresholds }
 
-    - `"GET"`
+</summary>
 
-    - `"POST"`
+<details>
 
-    - `"HEAD"`
+<summary>
 
-    - `"OPTIONS"`
+thresholds: optional object {auth\_id\_tokens, data\_points, last\_updated, 6 more }
 
-    - `"PUT"`
+</summary>
 
-    - `"DELETE"`
+auth\_id\_tokens: optional number
 
-    - `"CONNECT"`
+The total number of auth-ids seen across this calculation.
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+data\_points: optional number
 
-  - `operation_id: string`
+The number of data points used for the threshold suggestion calculation.
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+last\_updated: optional string
 
-    - `created_at: string`
+formatdate-time
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      The description of the label
+p50: optional number
 
-    - `last_updated: string`
+The p50 quantile of requests (in period\_seconds).
 
-    - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-      Metadata for the label
+p90: optional number
 
-    - `name: string`
+The p90 quantile of requests (in period\_seconds).
 
-      The name of the label
+<a href="#">Link to this property</a>
 
-    - `source: "user" or "managed"`
+p99: optional number
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+The p99 quantile of requests (in period\_seconds).
 
-      - `"user"`
+<a href="#">Link to this property</a>
 
-      - `"managed"`
+period\_seconds: optional number
 
-# Schema Validation
+The period over which this threshold is suggested.
 
-## Retrieve operation-level schema validation settings
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/api_gateway/operations/{operation_id}/schema_validation`
+requests: optional number
 
-Retrieves operation-level schema validation settings on the zone
+The estimated number of requests covered by these calculations.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+suggested\_threshold: optional number
 
-  Identifier.
+The suggested threshold in requests done by the same auth\_id or period\_seconds.
 
-- `operation_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `mitigation_action: optional "log" or "block" or "none"`
+</details>
 
-  When set, this applies a mitigation action to this operation
+<a href="#">Link to this property</a>
 
-  - `log` log request when request does not conform to schema for this operation
-  - `block` deny access to the site when request does not conform to schema for this operation
-  - `none` will skip mitigation for this operation
-  - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+<details>
 
-  - `"log"`
+<summary>
 
-  - `"block"`
+APIShieldOperationFeatureParameterSchemas object {parameter\_schemas }
 
-  - `"none"`
+</summary>
 
-- `operation_id: optional string`
+<details>
 
-  UUID.
+<summary>
 
-### Example
+parameter\_schemas: object {last\_updated, parameter\_schemas }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/schema_validation \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+last\_updated: optional string
 
-```json
-{
-  "mitigation_action": "block",
-  "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-}
-```
+formatdate-time
 
-## Update operation-level schema validation settings
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/api_gateway/operations/{operation_id}/schema_validation`
+<details>
 
-Updates operation-level schema validation settings on the zone
+<summary>
 
-### Path Parameters
+parameter\_schemas: optional object {parameters, responses }
 
-- `zone_id: string`
+An operation schema object containing a response.
 
-  Identifier.
+</summary>
 
-- `operation_id: string`
+parameters: optional array of unknown
 
-  UUID.
+An array containing the learned parameter schemas.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `mitigation_action: optional "log" or "block" or "none"`
+responses: optional unknown
 
-  When set, this applies a mitigation action to this operation
+An empty response object. This field is required to yield a valid operation schema.
 
-  - `log` log request when request does not conform to schema for this operation
-  - `block` deny access to the site when request does not conform to schema for this operation
-  - `none` will skip mitigation for this operation
-  - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+<a href="#">Link to this property</a>
 
-  - `"log"`
+</details>
 
-  - `"block"`
+<a href="#">Link to this property</a>
 
-  - `"none"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `mitigation_action: optional "log" or "block" or "none"`
+</details>
 
-  When set, this applies a mitigation action to this operation
+<a href="#">Link to this property</a>
 
-  - `log` log request when request does not conform to schema for this operation
-  - `block` deny access to the site when request does not conform to schema for this operation
-  - `none` will skip mitigation for this operation
-  - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+<details>
 
-  - `"log"`
+<summary>
 
-  - `"block"`
+APIShieldOperationFeatureAPIRouting object {api\_routing }
 
-  - `"none"`
+</summary>
 
-- `operation_id: optional string`
+<details>
 
-  UUID.
+<summary>
 
-### Example
+api\_routing: optional object {last\_updated, route }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/schema_validation \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "mitigation_action": "block"
-        }'
-```
+API Routing settings on endpoint.
 
-#### Response
+</summary>
 
-```json
-{
-  "mitigation_action": "block",
-  "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-}
-```
+last\_updated: optional string
 
-## Update multiple operation-level schema validation settings
+formatdate-time
 
-**patch** `/zones/{zone_id}/api_gateway/operations/schema_validation`
+<a href="#">Link to this property</a>
 
-Updates multiple operation-level schema validation settings on the zone
+route: optional string
 
-### Path Parameters
+Target route.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `settings_multiple_request: SettingsMultipleRequest`
+</details>
 
-  - `mitigation_action: optional "log" or "block" or "none"`
+<a href="#">Link to this property</a>
 
-    When set, this applies a mitigation action to this operation
+<details>
 
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+<summary>
 
-    - `"log"`
+APIShieldOperationFeatureConfidenceIntervals object {confidence\_intervals }
 
-    - `"block"`
+</summary>
 
-    - `"none"`
+<details>
 
-### Returns
+<summary>
 
-- `errors: Message`
+confidence\_intervals: optional object {last\_updated, suggested\_threshold }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+last\_updated: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: Message`
+<summary>
 
-- `result: SettingsMultipleRequest`
+suggested\_threshold: optional object {confidence\_intervals, mean }
 
-  - `mitigation_action: optional "log" or "block" or "none"`
+</summary>
 
-    When set, this applies a mitigation action to this operation
+<details>
 
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+<summary>
 
-    - `"log"`
+confidence\_intervals: optional object {p90, p95, p99 }
 
-    - `"block"`
+</summary>
 
-    - `"none"`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+p90: optional object {lower, upper }
 
-  - `true`
+Upper and lower bound for percentile estimate
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/schema_validation \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "3818d821-5901-4147-a474-f5f5aec1d54e": {
-            "mitigation_action": "log"
-          },
-          "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-            "mitigation_action": "block"
-          }
-        }'
-```
+lower: optional number
 
-#### Response
+Lower bound for percentile estimate
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "3818d821-5901-4147-a474-f5f5aec1d54e": {
-      "mitigation_action": "log"
-    },
-    "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-      "mitigation_action": "block"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+upper: optional number
 
-### Settings Multiple Request
+Upper bound for percentile estimate
 
-- `SettingsMultipleRequest = map[object { mitigation_action } ]`
+<a href="#">Link to this property</a>
 
-  - `mitigation_action: optional "log" or "block" or "none"`
+</details>
 
-    When set, this applies a mitigation action to this operation
+<a href="#">Link to this property</a>
 
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+<details>
 
-    - `"log"`
+<summary>
 
-    - `"block"`
+p95: optional object {lower, upper }
 
-    - `"none"`
+Upper and lower bound for percentile estimate
 
-### Schema Validation Get Response
+</summary>
 
-- `SchemaValidationGetResponse object { mitigation_action, operation_id }`
+lower: optional number
 
-  - `mitigation_action: optional "log" or "block" or "none"`
+Lower bound for percentile estimate
 
-    When set, this applies a mitigation action to this operation
+<a href="#">Link to this property</a>
 
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+upper: optional number
 
-    - `"log"`
+Upper bound for percentile estimate
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+</details>
 
-  - `operation_id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID.
+<details>
 
-### Schema Validation Update Response
+<summary>
 
-- `SchemaValidationUpdateResponse object { mitigation_action, operation_id }`
+p99: optional object {lower, upper }
 
-  - `mitigation_action: optional "log" or "block" or "none"`
+Upper and lower bound for percentile estimate
 
-    When set, this applies a mitigation action to this operation
+</summary>
 
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+lower: optional number
 
-    - `"log"`
+Lower bound for percentile estimate
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+upper: optional number
 
-  - `operation_id: optional string`
+Upper bound for percentile estimate
 
-    UUID.
+<a href="#">Link to this property</a>
 
-# Schemas
+</details>
 
-## Retrieve operations and features as OpenAPI schemas
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/api_gateway/schemas`
+</details>
 
-Retrieves API operations and their features exported as OpenAPI schemas.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+mean: optional number
 
-- `zone_id: string`
+Suggested threshold.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `feature: optional array of "thresholds" or "parameter_schemas" or "schema_info"`
+<a href="#">Link to this property</a>
 
-  Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.
+</details>
 
-  - `"thresholds"`
+<a href="#">Link to this property</a>
 
-  - `"parameter_schemas"`
+</details>
 
-  - `"schema_info"`
+<a href="#">Link to this property</a>
 
-- `host: optional array of string`
+<details>
 
-  Receive schema only for the given host(s).
+<summary>
 
-### Returns
+APIShieldOperationFeatureSchemaInfo object {schema\_info }
 
-- `errors: Message`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+schema\_info: optional object {active\_schema, mitigation\_action }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: Message`
+<summary>
 
-- `result: object { schemas, timestamp }`
+active\_schema: optional object {id, created\_at, name }
 
-  - `schemas: optional array of unknown`
+Schema active on endpoint.
 
-  - `timestamp: optional string`
+</summary>
 
-- `success: true`
+id: optional string
 
-  Whether the API call was successful.
+UUID.
 
-  - `true`
+maxLength36
 
-### Example
+minLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/schemas \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_at: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "schemas": [
-      {
-        "info": {
-          "title": "OpenAPI JSON schema for www.example.com",
-          "version": "1.0"
-        },
-        "openapi": "3.0.0",
-        "paths": {
-          "... Further paths ...": {},
-          "/api/v1/users/{var1}": {
-            "get": {
-              "parameters": [
-                {
-                  "in": "path",
-                  "name": "var1",
-                  "required": true,
-                  "schema": {
-                    "type": "string"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        "servers": [
-          {
-            "url": "www.example.com"
-          }
-        ]
-      }
-    ],
-    "timestamp": "timestamp"
-  },
-  "success": true
-}
-```
+formatdate-time
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Schema List Response
+name: optional string
 
-- `SchemaListResponse object { schemas, timestamp }`
+Schema file name.
 
-  - `schemas: optional array of unknown`
+<a href="#">Link to this property</a>
 
-  - `timestamp: optional string`
+</details>
 
-# Settings
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Settings
+<summary>
 
-- `Settings object { validation_default_mitigation_action, validation_override_mitigation_action }`
+mitigation\_action: optional "none"or "log"or "block"
 
-  - `validation_default_mitigation_action: optional "none" or "log" or "block"`
+Action taken on requests failing validation.
 
-    The default mitigation action used when there is no mitigation action defined on the operation
+</summary>
 
-    Mitigation actions are as follows:
+One of the following:
 
-    * `log` - log request when request does not conform to schema
-    * `block` - deny access to the site when request does not conform to schema
+"none"
 
-    A special value of of `none` will skip running schema validation entirely for the request when there is no mitigation action defined on the operation
+<a href="#">Link to this property</a>
 
-    - `"none"`
+"log"
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+"block"
 
-  - `validation_override_mitigation_action: optional "none"`
+<a href="#">Link to this property</a>
 
-    When set, this overrides both zone level and operation level mitigation actions.
+</details>
 
-    - `none` will skip running schema validation entirely for the request
-    - `null` indicates that no override is in place
+<a href="#">Link to this property</a>
 
-    - `"none"`
+</details>
 
-# Schema Validation
+<a href="#">Link to this property</a>
 
-## Retrieve zone level schema validation settings
+</details>
 
-**get** `/zones/{zone_id}/api_gateway/settings/schema_validation`
+<a href="#">Link to this property</a>
 
-Retrieves zone level schema validation settings currently set on the zone
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `Settings object { validation_default_mitigation_action, validation_override_mitigation_action }`
+<summary>
 
-  - `validation_default_mitigation_action: optional "none" or "log" or "block"`
+APIShieldBasicOperation object {endpoint, host, method }
 
-    The default mitigation action used when there is no mitigation action defined on the operation
+</summary>
 
-    Mitigation actions are as follows:
+endpoint: string
 
-    * `log` - log request when request does not conform to schema
-    * `block` - deny access to the site when request does not conform to schema
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    A special value of of `none` will skip running schema validation entirely for the request when there is no mitigation action defined on the operation
+formaturi-template
 
-    - `"none"`
+maxLength4096
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+host: string
 
-  - `validation_override_mitigation_action: optional "none"`
+RFC3986-compliant host.
 
-    When set, this overrides both zone level and operation level mitigation actions.
+formathostname
 
-    - `none` will skip running schema validation entirely for the request
-    - `null` indicates that no override is in place
+maxLength255
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/settings/schema_validation \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+method: "GET"or "POST"or "HEAD"or 6 more
 
-```json
-{
-  "validation_default_mitigation_action": "block",
-  "validation_override_mitigation_action": "none"
-}
-```
+The HTTP method used to access the endpoint.
 
-## Update zone level schema validation settings
+</summary>
 
-**put** `/zones/{zone_id}/api_gateway/settings/schema_validation`
+One of the following:
 
-Updates zone level schema validation settings on the zone
+"GET"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"POST"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"HEAD"
 
-- `validation_default_mitigation_action: "none" or "log" or "block"`
+<a href="#">Link to this property</a>
 
-  The default mitigation action used when there is no mitigation action defined on the operation
+"OPTIONS"
 
-  Mitigation actions are as follows:
+<a href="#">Link to this property</a>
 
-  * `log` - log request when request does not conform to schema
-  * `block` - deny access to the site when request does not conform to schema
+"PUT"
 
-  A special value of of `none` will skip running schema validation entirely for the request when there is no mitigation action defined on the operation
+<a href="#">Link to this property</a>
 
-  - `"none"`
+"DELETE"
 
-  - `"log"`
+<a href="#">Link to this property</a>
 
-  - `"block"`
+"CONNECT"
 
-- `validation_override_mitigation_action: optional "none" or "disable_override"`
+<a href="#">Link to this property</a>
 
-  When set, this overrides both zone level and operation level mitigation actions.
+"PATCH"
 
-  - `none` will skip running schema validation entirely for the request
-  - `null` indicates that no override is in place
+<a href="#">Link to this property</a>
 
-  To clear any override, use the special value `disable_override` or `null`
+"TRACE"
 
-  - `"none"`
+<a href="#">Link to this property</a>
 
-  - `"disable_override"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `Settings object { validation_default_mitigation_action, validation_override_mitigation_action }`
+</details>
 
-  - `validation_default_mitigation_action: optional "none" or "log" or "block"`
+<a href="#">Link to this property</a>
 
-    The default mitigation action used when there is no mitigation action defined on the operation
+</details>
 
-    Mitigation actions are as follows:
+[Link to this property](#)%20api_gateway.user_schemas.operations%20%3E%20(model)%20operation_list_response%20%3E%20(schema)>)
 
-    * `log` - log request when request does not conform to schema
-    * `block` - deny access to the site when request does not conform to schema
+#### API GatewayUser SchemasHosts
 
-    A special value of of `none` will skip running schema validation entirely for the request when there is no mitigation action defined on the operation
+##### [Retrieve schema hosts in a zone](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas/subresources/hosts/methods/list)
 
-    - `"none"`
+Deprecated
 
-    - `"log"`
+GET/zones/{zone\_id}/api\_gateway/user\_schemas/hosts
 
-    - `"block"`
+##### ModelsExpand Collapse
 
-  - `validation_override_mitigation_action: optional "none"`
+<details>
 
-    When set, this overrides both zone level and operation level mitigation actions.
+<summary>
 
-    - `none` will skip running schema validation entirely for the request
-    - `null` indicates that no override is in place
+HostListResponse object {created\_at, hosts, name, schema\_id }
 
-    - `"none"`
+</summary>
 
-### Example
+created\_at: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/settings/schema_validation \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "validation_default_mitigation_action": "block",
-          "validation_override_mitigation_action": "none"
-        }'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "validation_default_mitigation_action": "block",
-  "validation_override_mitigation_action": "none"
-}
-```
+hosts: array of string
 
-## Update zone level schema validation settings
+Hosts serving the schema, e.g zone.host.com
 
-**patch** `/zones/{zone_id}/api_gateway/settings/schema_validation`
+<a href="#">Link to this property</a>
 
-Updates zone level schema validation settings on the zone
+name: string
 
-### Path Parameters
+Name of the schema
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+schema\_id: string
 
-### Body Parameters
+UUID.
 
-- `validation_default_mitigation_action: optional "none" or "log" or "block"`
+maxLength36
 
-  The default mitigation action used when there is no mitigation action defined on the operation
-  Mitigation actions are as follows:
+minLength36
 
-  * `log` - log request when request does not conform to schema
-  * `block` - deny access to the site when request does not conform to schema
+<a href="#">Link to this property</a>
 
-  A special value of of `none` will skip running schema validation entirely for the request when there is no mitigation action defined on the operation
+</details>
 
-  `null` will have no effect.
+[Link to this property](#)%20api_gateway.user_schemas.hosts%20%3E%20(model)%20host_list_response%20%3E%20(schema)>)
 
-  - `"none"`
+#### API GatewayExpression Template
 
-  - `"log"`
+#### API GatewayExpression TemplateFallthrough
 
-  - `"block"`
+##### [Generate a fallthrough WAF expression template](https://developers.cloudflare.com/api/resources/api_gateway/subresources/expression_template/subresources/fallthrough/methods/create)
 
-- `validation_override_mitigation_action: optional "none" or "disable_override"`
+Deprecated
 
-  When set, this overrides both zone level and operation level mitigation actions.
+POST/zones/{zone\_id}/api\_gateway/expression-template/fallthrough
 
-  - `none` will skip running schema validation entirely for the request
+##### ModelsExpand Collapse
 
-  To clear any override, use the special value `disable_override`
+<details>
 
-  `null` will have no effect.
+<summary>
 
-  - `"none"`
+FallthroughCreateResponse object {expression, title }
 
-  - `"disable_override"`
+</summary>
 
-### Returns
+expression: string
 
-- `Settings object { validation_default_mitigation_action, validation_override_mitigation_action }`
+WAF Expression for fallthrough
 
-  - `validation_default_mitigation_action: optional "none" or "log" or "block"`
+<a href="#">Link to this property</a>
 
-    The default mitigation action used when there is no mitigation action defined on the operation
+title: string
 
-    Mitigation actions are as follows:
+Title for the expression
 
-    * `log` - log request when request does not conform to schema
-    * `block` - deny access to the site when request does not conform to schema
+<a href="#">Link to this property</a>
 
-    A special value of of `none` will skip running schema validation entirely for the request when there is no mitigation action defined on the operation
+</details>
 
-    - `"none"`
-
-    - `"log"`
-
-    - `"block"`
-
-  - `validation_override_mitigation_action: optional "none"`
-
-    When set, this overrides both zone level and operation level mitigation actions.
-
-    - `none` will skip running schema validation entirely for the request
-    - `null` indicates that no override is in place
-
-    - `"none"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/settings/schema_validation \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "validation_default_mitigation_action": "block",
-          "validation_override_mitigation_action": "none"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "validation_default_mitigation_action": "block",
-  "validation_override_mitigation_action": "none"
-}
-```
-
-# User Schemas
-
-## Retrieve information about all schemas on a zone
-
-**get** `/zones/{zone_id}/api_gateway/user_schemas`
-
-Lists all OpenAPI schemas uploaded to API Shield for the zone, including their validation status and associated operations.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `omit_source: optional boolean`
-
-  Omit the source-files of schemas and only retrieve their meta-data.
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Maximum number of results per page.
-
-- `validation_enabled: optional boolean`
-
-  Flag whether schema is enabled for validation.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: array of OldPublicSchema`
-
-  - `created_at: string`
-
-  - `kind: "openapi_v3"`
-
-    Kind of schema
-
-    - `"openapi_v3"`
-
-  - `name: string`
-
-    Name of the schema
-
-  - `schema_id: string`
-
-    UUID.
-
-  - `source: optional string`
-
-    Source of the schema
-
-  - `validation_enabled: optional boolean`
-
-    Flag whether schema is enabled for validation.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/user_schemas \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "kind": "openapi_v3",
-      "name": "petstore schema",
-      "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "source": "<schema file bytes>",
-      "validation_enabled": true
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Retrieve information about a specific schema on a zone
-
-**get** `/zones/{zone_id}/api_gateway/user_schemas/{schema_id}`
-
-Gets detailed information about a specific uploaded OpenAPI schema, including its contents and validation configuration.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `schema_id: string`
-
-### Query Parameters
-
-- `omit_source: optional boolean`
-
-  Omit the source-files of schemas and only retrieve their meta-data.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: OldPublicSchema`
-
-  - `created_at: string`
-
-  - `kind: "openapi_v3"`
-
-    Kind of schema
-
-    - `"openapi_v3"`
-
-  - `name: string`
-
-    Name of the schema
-
-  - `schema_id: string`
-
-    UUID.
-
-  - `source: optional string`
-
-    Source of the schema
-
-  - `validation_enabled: optional boolean`
-
-    Flag whether schema is enabled for validation.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/user_schemas/$SCHEMA_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "openapi_v3",
-    "name": "petstore schema",
-    "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "source": "<schema file bytes>",
-    "validation_enabled": true
-  },
-  "success": true
-}
-```
-
-## Upload a schema to a zone
-
-**post** `/zones/{zone_id}/api_gateway/user_schemas`
-
-Uploads a new OpenAPI schema for API Shield schema validation. The schema defines expected request/response formats for API endpoints.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { schema, upload_details }`
-
-  - `schema: OldPublicSchema`
-
-    - `created_at: string`
-
-    - `kind: "openapi_v3"`
-
-      Kind of schema
-
-      - `"openapi_v3"`
-
-    - `name: string`
-
-      Name of the schema
-
-    - `schema_id: string`
-
-      UUID.
-
-    - `source: optional string`
-
-      Source of the schema
-
-    - `validation_enabled: optional boolean`
-
-      Flag whether schema is enabled for validation.
-
-  - `upload_details: optional object { warnings }`
-
-    - `warnings: optional array of object { code, locations, message }`
-
-      Diagnostic warning events that occurred during processing. These events are non-critical errors found within the schema.
-
-      - `code: number`
-
-        Code that identifies the event that occurred.
-
-      - `locations: optional array of string`
-
-        JSONPath location(s) in the schema where these events were encountered.  See <https://goessner.net/articles/JsonPath/> for JSONPath specification.
-
-      - `message: optional string`
-
-        Diagnostic message that describes the event.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/user_schemas \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'file=@/path/to/file' \
-    -F kind=openapi_v3 \
-    -F name='petstore schema'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "schema": {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "kind": "openapi_v3",
-      "name": "petstore schema",
-      "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "source": "<schema file bytes>",
-      "validation_enabled": true
-    },
-    "upload_details": {
-      "warnings": [
-        {
-          "code": 28,
-          "locations": [
-            ".paths[\"/user/{username}\"].put"
-          ],
-          "message": "unsupported media type: application/octet-stream"
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## Enable validation for a schema
-
-**patch** `/zones/{zone_id}/api_gateway/user_schemas/{schema_id}`
-
-Activates schema validation for an uploaded OpenAPI schema. Requests to matching endpoints will be validated against the schema definitions.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `schema_id: string`
-
-### Body Parameters
-
-- `validation_enabled: optional true`
-
-  Flag whether schema is enabled for validation.
-
-  - `true`
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: OldPublicSchema`
-
-  - `created_at: string`
-
-  - `kind: "openapi_v3"`
-
-    Kind of schema
-
-    - `"openapi_v3"`
-
-  - `name: string`
-
-    Name of the schema
-
-  - `schema_id: string`
-
-    UUID.
-
-  - `source: optional string`
-
-    Source of the schema
-
-  - `validation_enabled: optional boolean`
-
-    Flag whether schema is enabled for validation.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/user_schemas/$SCHEMA_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "openapi_v3",
-    "name": "petstore schema",
-    "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "source": "<schema file bytes>",
-    "validation_enabled": true
-  },
-  "success": true
-}
-```
-
-## Delete a schema
-
-**delete** `/zones/{zone_id}/api_gateway/user_schemas/{schema_id}`
-
-Permanently removes an uploaded OpenAPI schema from API Shield schema validation. Operations using this schema will lose their validation rules.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `schema_id: string`
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/user_schemas/$SCHEMA_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Message
-
-- `Message = array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-### Old Public Schema
-
-- `OldPublicSchema object { created_at, kind, name, 3 more }`
-
-  - `created_at: string`
-
-  - `kind: "openapi_v3"`
-
-    Kind of schema
-
-    - `"openapi_v3"`
-
-  - `name: string`
-
-    Name of the schema
-
-  - `schema_id: string`
-
-    UUID.
-
-  - `source: optional string`
-
-    Source of the schema
-
-  - `validation_enabled: optional boolean`
-
-    Flag whether schema is enabled for validation.
-
-### User Schema Create Response
-
-- `UserSchemaCreateResponse object { schema, upload_details }`
-
-  - `schema: OldPublicSchema`
-
-    - `created_at: string`
-
-    - `kind: "openapi_v3"`
-
-      Kind of schema
-
-      - `"openapi_v3"`
-
-    - `name: string`
-
-      Name of the schema
-
-    - `schema_id: string`
-
-      UUID.
-
-    - `source: optional string`
-
-      Source of the schema
-
-    - `validation_enabled: optional boolean`
-
-      Flag whether schema is enabled for validation.
-
-  - `upload_details: optional object { warnings }`
-
-    - `warnings: optional array of object { code, locations, message }`
-
-      Diagnostic warning events that occurred during processing. These events are non-critical errors found within the schema.
-
-      - `code: number`
-
-        Code that identifies the event that occurred.
-
-      - `locations: optional array of string`
-
-        JSONPath location(s) in the schema where these events were encountered.  See <https://goessner.net/articles/JsonPath/> for JSONPath specification.
-
-      - `message: optional string`
-
-        Diagnostic message that describes the event.
-
-### User Schema Delete Response
-
-- `UserSchemaDeleteResponse object { errors, messages, success }`
-
-  - `errors: Message`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: Message`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# Operations
-
-## Retrieve all operations from a schema.
-
-**get** `/zones/{zone_id}/api_gateway/user_schemas/{schema_id}/operations`
-
-Retrieves all operations from the schema. Operations that already exist in API Shield Endpoint Management will be returned as full operations.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `schema_id: string`
-
-### Query Parameters
-
-- `endpoint: optional string`
-
-  Filter results to only include endpoints containing this pattern.
-
-- `feature: optional array of "thresholds" or "parameter_schemas" or "schema_info"`
-
-  Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.
-
-  - `"thresholds"`
-
-  - `"parameter_schemas"`
-
-  - `"schema_info"`
-
-- `host: optional array of string`
-
-  Filter results to only include the specified hosts.
-
-- `method: optional array of string`
-
-  Filter results to only include the specified HTTP methods.
-
-- `operation_status: optional "new" or "existing"`
-
-  Filter results by whether operations exist in API Shield Endpoint Management or not. `new` will just return operations from the schema that do not exist in API Shield Endpoint Management. `existing` will just return operations from the schema that already exist in API Shield Endpoint Management.
-
-  - `"new"`
-
-  - `"existing"`
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Maximum number of results per page.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: array of object { endpoint, host, last_updated, 3 more }  or object { endpoint, host, method }`
-
-  - `APIShieldOperation object { endpoint, host, last_updated, 3 more }`
-
-    - `endpoint: string`
-
-      The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
-
-    - `host: string`
-
-      RFC3986-compliant host.
-
-    - `last_updated: string`
-
-    - `method: "GET" or "POST" or "HEAD" or 6 more`
-
-      The HTTP method used to access the endpoint.
-
-      - `"GET"`
-
-      - `"POST"`
-
-      - `"HEAD"`
-
-      - `"OPTIONS"`
-
-      - `"PUT"`
-
-      - `"DELETE"`
-
-      - `"CONNECT"`
-
-      - `"PATCH"`
-
-      - `"TRACE"`
-
-    - `operation_id: string`
-
-      UUID.
-
-    - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
-
-      - `APIShieldOperationFeatureThresholds object { thresholds }`
-
-        - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
-
-          - `auth_id_tokens: optional number`
-
-            The total number of auth-ids seen across this calculation.
-
-          - `data_points: optional number`
-
-            The number of data points used for the threshold suggestion calculation.
-
-          - `last_updated: optional string`
-
-          - `p50: optional number`
-
-            The p50 quantile of requests (in period_seconds).
-
-          - `p90: optional number`
-
-            The p90 quantile of requests (in period_seconds).
-
-          - `p99: optional number`
-
-            The p99 quantile of requests (in period_seconds).
-
-          - `period_seconds: optional number`
-
-            The period over which this threshold is suggested.
-
-          - `requests: optional number`
-
-            The estimated number of requests covered by these calculations.
-
-          - `suggested_threshold: optional number`
-
-            The suggested threshold in requests done by the same auth_id or period_seconds.
-
-      - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
-
-        - `parameter_schemas: object { last_updated, parameter_schemas }`
-
-          - `last_updated: optional string`
-
-          - `parameter_schemas: optional object { parameters, responses }`
-
-            An operation schema object containing a response.
-
-            - `parameters: optional array of unknown`
-
-              An array containing the learned parameter schemas.
-
-            - `responses: optional unknown`
-
-              An empty response object. This field is required to yield a valid operation schema.
-
-      - `APIShieldOperationFeatureAPIRouting object { api_routing }`
-
-        - `api_routing: optional object { last_updated, route }`
-
-          API Routing settings on endpoint.
-
-          - `last_updated: optional string`
-
-          - `route: optional string`
-
-            Target route.
-
-      - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
-
-        - `confidence_intervals: optional object { last_updated, suggested_threshold }`
-
-          - `last_updated: optional string`
-
-          - `suggested_threshold: optional object { confidence_intervals, mean }`
-
-            - `confidence_intervals: optional object { p90, p95, p99 }`
-
-              - `p90: optional object { lower, upper }`
-
-                Upper and lower bound for percentile estimate
-
-                - `lower: optional number`
-
-                  Lower bound for percentile estimate
-
-                - `upper: optional number`
-
-                  Upper bound for percentile estimate
-
-              - `p95: optional object { lower, upper }`
-
-                Upper and lower bound for percentile estimate
-
-                - `lower: optional number`
-
-                  Lower bound for percentile estimate
-
-                - `upper: optional number`
-
-                  Upper bound for percentile estimate
-
-              - `p99: optional object { lower, upper }`
-
-                Upper and lower bound for percentile estimate
-
-                - `lower: optional number`
-
-                  Lower bound for percentile estimate
-
-                - `upper: optional number`
-
-                  Upper bound for percentile estimate
-
-            - `mean: optional number`
-
-              Suggested threshold.
-
-      - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
-
-        - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
-
-          - `active_schema: optional object { id, created_at, is_learned, name }`
-
-            Schema active on endpoint.
-
-            - `id: optional string`
-
-              UUID.
-
-            - `created_at: optional string`
-
-            - `is_learned: optional boolean`
-
-              True if schema is Cloudflare-provided.
-
-            - `name: optional string`
-
-              Schema file name.
-
-          - `learned_available: optional boolean`
-
-            True if a Cloudflare-provided learned schema is available for this endpoint.
-
-          - `mitigation_action: optional "none" or "log" or "block"`
-
-            Action taken on requests failing validation.
-
-            - `"none"`
-
-            - `"log"`
-
-            - `"block"`
-
-  - `APIShieldBasicOperation object { endpoint, host, method }`
-
-    - `endpoint: string`
-
-      The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
-
-    - `host: string`
-
-      RFC3986-compliant host.
-
-    - `method: "GET" or "POST" or "HEAD" or 6 more`
-
-      The HTTP method used to access the endpoint.
-
-      - `"GET"`
-
-      - `"POST"`
-
-      - `"HEAD"`
-
-      - `"OPTIONS"`
-
-      - `"PUT"`
-
-      - `"DELETE"`
-
-      - `"CONNECT"`
-
-      - `"PATCH"`
-
-      - `"TRACE"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/user_schemas/$SCHEMA_ID/operations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "features": {
-        "api_routing": {
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "route": "https://api.example.com/api/service"
-        }
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Operation List Response
-
-- `OperationListResponse = object { endpoint, host, last_updated, 3 more }  or object { endpoint, host, method }`
-
-  - `APIShieldOperation object { endpoint, host, last_updated, 3 more }`
-
-    - `endpoint: string`
-
-      The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
-
-    - `host: string`
-
-      RFC3986-compliant host.
-
-    - `last_updated: string`
-
-    - `method: "GET" or "POST" or "HEAD" or 6 more`
-
-      The HTTP method used to access the endpoint.
-
-      - `"GET"`
-
-      - `"POST"`
-
-      - `"HEAD"`
-
-      - `"OPTIONS"`
-
-      - `"PUT"`
-
-      - `"DELETE"`
-
-      - `"CONNECT"`
-
-      - `"PATCH"`
-
-      - `"TRACE"`
-
-    - `operation_id: string`
-
-      UUID.
-
-    - `features: optional object { thresholds }  or object { parameter_schemas }  or object { api_routing }  or 2 more`
-
-      - `APIShieldOperationFeatureThresholds object { thresholds }`
-
-        - `thresholds: optional object { auth_id_tokens, data_points, last_updated, 6 more }`
-
-          - `auth_id_tokens: optional number`
-
-            The total number of auth-ids seen across this calculation.
-
-          - `data_points: optional number`
-
-            The number of data points used for the threshold suggestion calculation.
-
-          - `last_updated: optional string`
-
-          - `p50: optional number`
-
-            The p50 quantile of requests (in period_seconds).
-
-          - `p90: optional number`
-
-            The p90 quantile of requests (in period_seconds).
-
-          - `p99: optional number`
-
-            The p99 quantile of requests (in period_seconds).
-
-          - `period_seconds: optional number`
-
-            The period over which this threshold is suggested.
-
-          - `requests: optional number`
-
-            The estimated number of requests covered by these calculations.
-
-          - `suggested_threshold: optional number`
-
-            The suggested threshold in requests done by the same auth_id or period_seconds.
-
-      - `APIShieldOperationFeatureParameterSchemas object { parameter_schemas }`
-
-        - `parameter_schemas: object { last_updated, parameter_schemas }`
-
-          - `last_updated: optional string`
-
-          - `parameter_schemas: optional object { parameters, responses }`
-
-            An operation schema object containing a response.
-
-            - `parameters: optional array of unknown`
-
-              An array containing the learned parameter schemas.
-
-            - `responses: optional unknown`
-
-              An empty response object. This field is required to yield a valid operation schema.
-
-      - `APIShieldOperationFeatureAPIRouting object { api_routing }`
-
-        - `api_routing: optional object { last_updated, route }`
-
-          API Routing settings on endpoint.
-
-          - `last_updated: optional string`
-
-          - `route: optional string`
-
-            Target route.
-
-      - `APIShieldOperationFeatureConfidenceIntervals object { confidence_intervals }`
-
-        - `confidence_intervals: optional object { last_updated, suggested_threshold }`
-
-          - `last_updated: optional string`
-
-          - `suggested_threshold: optional object { confidence_intervals, mean }`
-
-            - `confidence_intervals: optional object { p90, p95, p99 }`
-
-              - `p90: optional object { lower, upper }`
-
-                Upper and lower bound for percentile estimate
-
-                - `lower: optional number`
-
-                  Lower bound for percentile estimate
-
-                - `upper: optional number`
-
-                  Upper bound for percentile estimate
-
-              - `p95: optional object { lower, upper }`
-
-                Upper and lower bound for percentile estimate
-
-                - `lower: optional number`
-
-                  Lower bound for percentile estimate
-
-                - `upper: optional number`
-
-                  Upper bound for percentile estimate
-
-              - `p99: optional object { lower, upper }`
-
-                Upper and lower bound for percentile estimate
-
-                - `lower: optional number`
-
-                  Lower bound for percentile estimate
-
-                - `upper: optional number`
-
-                  Upper bound for percentile estimate
-
-            - `mean: optional number`
-
-              Suggested threshold.
-
-      - `APIShieldOperationFeatureSchemaInfo object { schema_info }`
-
-        - `schema_info: optional object { active_schema, learned_available, mitigation_action }`
-
-          - `active_schema: optional object { id, created_at, is_learned, name }`
-
-            Schema active on endpoint.
-
-            - `id: optional string`
-
-              UUID.
-
-            - `created_at: optional string`
-
-            - `is_learned: optional boolean`
-
-              True if schema is Cloudflare-provided.
-
-            - `name: optional string`
-
-              Schema file name.
-
-          - `learned_available: optional boolean`
-
-            True if a Cloudflare-provided learned schema is available for this endpoint.
-
-          - `mitigation_action: optional "none" or "log" or "block"`
-
-            Action taken on requests failing validation.
-
-            - `"none"`
-
-            - `"log"`
-
-            - `"block"`
-
-  - `APIShieldBasicOperation object { endpoint, host, method }`
-
-    - `endpoint: string`
-
-      The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
-
-    - `host: string`
-
-      RFC3986-compliant host.
-
-    - `method: "GET" or "POST" or "HEAD" or 6 more`
-
-      The HTTP method used to access the endpoint.
-
-      - `"GET"`
-
-      - `"POST"`
-
-      - `"HEAD"`
-
-      - `"OPTIONS"`
-
-      - `"PUT"`
-
-      - `"DELETE"`
-
-      - `"CONNECT"`
-
-      - `"PATCH"`
-
-      - `"TRACE"`
-
-# Hosts
-
-## Retrieve schema hosts in a zone
-
-**get** `/zones/{zone_id}/api_gateway/user_schemas/hosts`
-
-Lists all unique hosts found in uploaded OpenAPI schemas for the zone. Useful for understanding which domains have schema coverage.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Maximum number of results per page.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { created_at, hosts, name, schema_id }`
-
-  - `created_at: string`
-
-  - `hosts: array of string`
-
-    Hosts serving the schema, e.g zone.host.com
-
-  - `name: string`
-
-    Name of the schema
-
-  - `schema_id: string`
-
-    UUID.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/user_schemas/hosts \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "hosts": [
-        "string"
-      ],
-      "name": "petstore schema",
-      "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Host List Response
-
-- `HostListResponse object { created_at, hosts, name, schema_id }`
-
-  - `created_at: string`
-
-  - `hosts: array of string`
-
-    Hosts serving the schema, e.g zone.host.com
-
-  - `name: string`
-
-    Name of the schema
-
-  - `schema_id: string`
-
-    UUID.
-
-# Expression Template
-
-# Fallthrough
-
-## Generate fallthrough WAF expression template from a set of API hosts
-
-**post** `/zones/{zone_id}/api_gateway/expression-template/fallthrough`
-
-Creates an expression template fallthrough rule for API Shield. Used for configuring default behavior when no other expression templates match.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `hosts: array of string`
-
-  List of hosts to be targeted in the expression
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { expression, title }`
-
-  - `expression: string`
-
-    WAF Expression for fallthrough
-
-  - `title: string`
-
-    Title for the expression
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/expression-template/fallthrough \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "hosts": [
-            "{zone}.domain1.tld",
-            "domain2.tld"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "expression": "(cf.api_gateway.fallthrough_detected)",
-    "title": "Fallthrough Expression for [zone.domain.tld]"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Fallthrough Create Response
-
-- `FallthroughCreateResponse object { expression, title }`
-
-  - `expression: string`
-
-    WAF Expression for fallthrough
-
-  - `title: string`
-
-    Title for the expression
+[Link to this property](#)%20api_gateway.expression_template.fallthrough%20%3E%20(model)%20fallthrough_create_response%20%3E%20(schema)>)

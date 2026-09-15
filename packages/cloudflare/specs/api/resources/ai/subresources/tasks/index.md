@@ -1,51 +1,29 @@
+---
+title: Tasks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tasks
 
-## Task Search
+##### [Task Search](https://developers.cloudflare.com/api/resources/ai/subresources/tasks/methods/list)
 
-**get** `/accounts/{account_id}/ai/tasks/search`
+GET/accounts/{account\_id}/ai/tasks/search
 
-Searches Workers AI models by task type (e.g., text-generation, embeddings).
+##### ModelsExpand Collapse
 
-### Path Parameters
+TaskListResponse = unknown
 
-- `account_id: string`
-
-### Returns
-
-- `errors: array of unknown`
-
-- `messages: array of string`
-
-- `result: array of unknown`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/tasks/search \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {}
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {}
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Task List Response
-
-- `TaskListResponse = unknown`
+[Link to this property](#)%20ai.tasks%20%3E%20(model)%20task_list_response%20%3E%20(schema)>)

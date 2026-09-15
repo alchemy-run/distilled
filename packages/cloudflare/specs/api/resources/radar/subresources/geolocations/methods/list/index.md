@@ -1,141 +1,402 @@
-## List Geolocations
+---
+title: List Geolocations
+---
 
-**get** `/radar/geolocations`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Geolocations](https://developers.cloudflare.com/api/resources/radar/subresources/geolocations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Geolocations
+
+GET/radar/geolocations
 
 Retrieves a list of geolocations. Geolocation names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`).
 
-### Query Parameters
+##### Security
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>API Token</summary>
 
-  - `"JSON"`
 
-  - `"CSV"`
 
-- `geoId: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Filters results by geolocation. Specify a comma-separated list of GeoNames IDs.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `limit: optional number`
+</details>
 
-  Limits the number of objects returned in the response.
+<details>
 
-- `location: optional string`
+<summary>API Email + API Key</summary>
 
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
 
-- `offset: optional number`
 
-  Skips the specified number of objects before fetching the results.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Returns
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `result: object { geolocations }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `geolocations: array of object { geoId, latitude, longitude, 5 more }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `geoId: string`
+</details>
 
-    - `latitude: string`
+##### Accepted Permissions (at least one required)
 
-      A numeric string.
+`User Details Write``User Details Read`
 
-    - `longitude: string`
+##### Q uery ParametersExpand Collapse
 
-      A numeric string.
+<details>
 
-    - `name: string`
+<summary>
 
-    - `parent: object { geoId, latitude, longitude, 5 more }`
+format: optional "JSON"or "CSV"
 
-      - `geoId: string`
+Format in which results will be returned.
 
-      - `latitude: string`
+</summary>
 
-        A numeric string.
+One of the following:
 
-      - `longitude: string`
+"JSON"
 
-        A numeric string.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"CSV"
 
-      - `parent: object { geoId, latitude, longitude, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `geoId: string`
+</details>
 
-        - `latitude: string`
+[Link to this property](#)%20radar.geolocations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-          A numeric string.
+geoId: optional string
 
-        - `longitude: string`
+Filters results by geolocation. Specify a comma-separated list of GeoNames IDs.
 
-          A numeric string.
+[Link to this property](#)%20radar.geolocations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20geoId%20%3E%20(schema)>)
 
-        - `name: string`
+limit: optional number
 
-        - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+Limits the number of objects returned in the response.
 
-          The type of the geolocation.
+exclusiveMinimum
 
-          - `"CONTINENT"`
+minimum0
 
-          - `"COUNTRY"`
+[Link to this property](#)%20radar.geolocations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-          - `"ADM1"`
+location: optional string
 
-        - `code: optional string`
+Filters results by location. Specify a comma-separated list of alpha-2 location codes.
 
-        - `locale: optional string`
+[Link to this property](#)%20radar.geolocations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20location%20%3E%20(schema)>)
 
-          BCP 47 locale code used for the geolocation name translation
+offset: optional number
 
-      - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+Skips the specified number of objects before fetching the results.
 
-        The type of the geolocation.
+minimum0
 
-        - `"CONTINENT"`
+[Link to this property](#)%20radar.geolocations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-        - `"COUNTRY"`
+##### ReturnsExpand Collapse
 
-        - `"ADM1"`
+<details>
 
-      - `code: optional string`
+<summary>
 
-      - `locale: optional string`
+result: object {geolocations }
 
-        BCP 47 locale code used for the geolocation name translation
+</summary>
 
-    - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+<details>
 
-      The type of the geolocation.
+<summary>
 
-      - `"CONTINENT"`
+geolocations: array of object {geoId, latitude, longitude, 5 more }
 
-      - `"COUNTRY"`
+</summary>
 
-      - `"ADM1"`
+geoId: string
 
-    - `code: optional string`
+<a href="#">Link to this property</a>
 
-    - `locale: optional string`
+latitude: string
 
-      BCP 47 locale code used for the geolocation name translation
+A numeric string.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+longitude: string
 
-```http
+A numeric string.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parent: object {geoId, latitude, longitude, 5 more }
+
+</summary>
+
+geoId: string
+
+<a href="#">Link to this property</a>
+
+latitude: string
+
+A numeric string.
+
+<a href="#">Link to this property</a>
+
+longitude: string
+
+A numeric string.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parent: object {geoId, latitude, longitude, 4 more }
+
+</summary>
+
+geoId: string
+
+<a href="#">Link to this property</a>
+
+latitude: string
+
+A numeric string.
+
+<a href="#">Link to this property</a>
+
+longitude: string
+
+A numeric string.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "CONTINENT"or "COUNTRY"or "ADM1"
+
+The type of the geolocation.
+
+</summary>
+
+One of the following:
+
+"CONTINENT"
+
+<a href="#">Link to this property</a>
+
+"COUNTRY"
+
+<a href="#">Link to this property</a>
+
+"ADM1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+code: optional string
+
+<a href="#">Link to this property</a>
+
+locale: optional string
+
+BCP 47 locale code used for the geolocation name translation
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "CONTINENT"or "COUNTRY"or "ADM1"
+
+The type of the geolocation.
+
+</summary>
+
+One of the following:
+
+"CONTINENT"
+
+<a href="#">Link to this property</a>
+
+"COUNTRY"
+
+<a href="#">Link to this property</a>
+
+"ADM1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+code: optional string
+
+<a href="#">Link to this property</a>
+
+locale: optional string
+
+BCP 47 locale code used for the geolocation name translation
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "CONTINENT"or "COUNTRY"or "ADM1"
+
+The type of the geolocation.
+
+</summary>
+
+One of the following:
+
+"CONTINENT"
+
+<a href="#">Link to this property</a>
+
+"COUNTRY"
+
+<a href="#">Link to this property</a>
+
+"ADM1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+code: optional string
+
+<a href="#">Link to this property</a>
+
+locale: optional string
+
+BCP 47 locale code used for the geolocation name translation
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.geolocations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.geolocations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Geolocations
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/geolocations \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "geolocations": [
+      {
+        "geoId": "2267056",
+        "latitude": "10",
+        "longitude": "10",
+        "name": "Lisbon",
+        "parent": {
+          "geoId": "2267056",
+          "latitude": "10",
+          "longitude": "10",
+          "name": "Lisbon",
+          "parent": {
+            "geoId": "2267056",
+            "latitude": "10",
+            "longitude": "10",
+            "name": "Lisbon",
+            "type": "CONTINENT",
+            "code": "PT-11",
+            "locale": "pt-PT"
+          },
+          "type": "CONTINENT",
+          "code": "PT-11",
+          "locale": "pt-PT"
+        },
+        "type": "CONTINENT",
+        "code": "PT-11",
+        "locale": "pt-PT"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "geolocations": [

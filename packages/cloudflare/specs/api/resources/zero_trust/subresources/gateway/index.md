@@ -1,16652 +1,4521 @@
+---
+title: Gateway
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Gateway
 
-## Get Zero Trust account information
+##### [Get Zero Trust account information](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/methods/list)
 
-**get** `/accounts/{account_id}/gateway`
+GET/accounts/{account\_id}/gateway
 
-Retrieve information about the current Zero Trust account.
+##### [Create Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/gateway
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+GatewayListResponse object {id, gateway\_tag, provider\_name }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+Specify the Cloudflare account ID.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+gateway\_tag: optional string
 
-  - `message: string`
+Specify the gateway internal ID.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+provider\_name: optional string
 
-  Indicate whether the API call was successful.
+Specify the provider name (usually Cloudflare).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, gateway_tag, provider_name }`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20zero_trust.gateway%20%3E%20(model)%20gateway_list_response%20%3E%20(schema)>)
 
-    Specify the Cloudflare account ID.
+<details>
 
-  - `gateway_tag: optional string`
+<summary>
 
-    Specify the gateway internal ID.
+GatewayCreateResponse object {id, gateway\_tag, provider\_name }
 
-  - `provider_name: optional string`
+</summary>
 
-    Specify the provider name (usually Cloudflare).
+id: optional string
 
-### Example
+Specify the Cloudflare account ID.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "699d98642c564d2e855e9661899b7252",
-    "gateway_tag": "f174e90afafe4643bbbc4a0ed4fc8415",
-    "provider_name": "Cloudflare"
-  }
-}
-```
+gateway\_tag: optional string
 
-## Create Zero Trust account
+Specify the gateway internal ID.
 
-**post** `/accounts/{account_id}/gateway`
+maxLength32
 
-Create a Zero Trust account for an existing Cloudflare account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+provider\_name: optional string
 
-- `account_id: string`
+Specify the provider name (usually Cloudflare).
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.gateway%20%3E%20(model)%20gateway_create_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### GatewayAudit SSH Settings
 
-  - `documentation_url: optional string`
+##### [Get Zero Trust SSH settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/audit_ssh_settings/methods/get)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/gateway/audit\_ssh\_settings
 
-    - `pointer: optional string`
+##### [Update Zero Trust SSH settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/audit_ssh_settings/methods/update)
 
-- `messages: array of ResponseInfo`
+PUT/accounts/{account\_id}/gateway/audit\_ssh\_settings
 
-  - `code: number`
+##### [Rotate Zero Trust SSH account seed](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/audit_ssh_settings/methods/rotate_seed)
 
-  - `message: string`
+POST/accounts/{account\_id}/gateway/audit\_ssh\_settings/rotate\_seed
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-- `success: true`
+<summary>
 
-  Indicate whether the API call was successful.
+GatewaySettings object {created\_at, public\_key, seed\_id, updated\_at }
 
-  - `true`
+</summary>
 
-- `result: optional object { id, gateway_tag, provider_name }`
+created\_at: optional string
 
-  - `id: optional string`
+formatdate-time
 
-    Specify the Cloudflare account ID.
+<a href="#">Link to this property</a>
 
-  - `gateway_tag: optional string`
+public\_key: optional string
 
-    Specify the gateway internal ID.
+Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging">https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging</a>.
 
-  - `provider_name: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the provider name (usually Cloudflare).
+seed\_id: optional string
 
-### Example
+Identify the seed ID.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength36
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "699d98642c564d2e855e9661899b7252",
-    "gateway_tag": "f174e90afafe4643bbbc4a0ed4fc8415",
-    "provider_name": "Cloudflare"
-  }
-}
-```
+updated\_at: optional string
 
-## Domain Types
+formatdate-time
 
-### Gateway List Response
+<a href="#">Link to this property</a>
 
-- `GatewayListResponse object { id, gateway_tag, provider_name }`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20zero_trust.gateway.audit_ssh_settings%20%3E%20(model)%20gateway_settings%20%3E%20(schema)>)
 
-    Specify the Cloudflare account ID.
+#### GatewayCategories
 
-  - `gateway_tag: optional string`
+##### [List categories](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/categories/methods/list)
 
-    Specify the gateway internal ID.
+GET/accounts/{account\_id}/gateway/categories
 
-  - `provider_name: optional string`
+##### ModelsExpand Collapse
 
-    Specify the provider name (usually Cloudflare).
+<details>
 
-### Gateway Create Response
+<summary>
 
-- `GatewayCreateResponse object { id, gateway_tag, provider_name }`
+Category object {id, beta, class, 3 more }
 
-  - `id: optional string`
+</summary>
 
-    Specify the Cloudflare account ID.
+id: optional number
 
-  - `gateway_tag: optional string`
+Identify this category. Only one category per ID.
 
-    Specify the gateway internal ID.
+<a href="#">Link to this property</a>
 
-  - `provider_name: optional string`
+beta: optional boolean
 
-    Specify the provider name (usually Cloudflare).
+Indicate whether the category is in beta and subject to change.
 
-# Audit SSH Settings
+<a href="#">Link to this property</a>
 
-## Get Zero Trust SSH settings
+<details>
 
-**get** `/accounts/{account_id}/gateway/audit_ssh_settings`
+<summary>
 
-Retrieve all Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account.
+class: optional "free"or "premium"or "blocked"or 2 more
 
-### Path Parameters
+Specify which account types can create policies for this category. <code>blocked</code> Blocks unconditionally for all accounts. <code>removalPending</code> Allows removal from policies but disables addition. <code>noBlock</code> Prevents blocking.
 
-- `account_id: string`
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of ResponseInfo`
+"free"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"premium"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"blocked"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"removalPending"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"noBlock"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Indicate whether the API call was successful.
+description: optional string
 
-  - `true`
+Provide a short summary of domains in the category.
 
-- `result: optional GatewaySettings`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+name: optional string
 
-  - `public_key: optional string`
+Specify the category name.
 
-    Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
+<a href="#">Link to this property</a>
 
-  - `seed_id: optional string`
+<details>
 
-    Identify the seed ID.
+<summary>
 
-  - `updated_at: optional string`
+subcategories: optional array of object {id, beta, class, 2 more }
 
-### Example
+Provide all subcategories for this category.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/audit_ssh_settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "public_key": "1pyl6I1tL7xfJuFYVzXlUW8uXXlpxegHXBzGCBKaSFA=",
-    "seed_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Identify this category. Only one category per ID.
 
-## Update Zero Trust SSH settings
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/gateway/audit_ssh_settings`
+beta: optional boolean
 
-Update Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account.
+Indicate whether the category is in beta and subject to change.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `public_key: string`
+class: optional "free"or "premium"or "blocked"or 2 more
 
-  Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
+Specify which account types can create policies for this category. <code>blocked</code> Blocks unconditionally for all accounts. <code>removalPending</code> Allows removal from policies but disables addition. <code>noBlock</code> Prevents blocking.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"free"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"premium"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"blocked"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"removalPending"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"noBlock"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+description: optional string
 
-- `result: optional GatewaySettings`
+Provide a short summary of domains in the category.
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `public_key: optional string`
+name: optional string
 
-    Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
+Specify the category name.
 
-  - `seed_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identify the seed ID.
+</details>
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/audit_ssh_settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "public_key": "1pyl6I1tL7xfJuFYVzXlUW8uXXlpxegHXBzGCBKaSFA="
-        }'
-```
+[Link to this property](#)%20zero_trust.gateway.categories%20%3E%20(model)%20category%20%3E%20(schema)>)
 
-#### Response
+#### GatewayApp Types
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "public_key": "1pyl6I1tL7xfJuFYVzXlUW8uXXlpxegHXBzGCBKaSFA=",
-    "seed_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+##### [List application and application type mappings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/app_types/methods/list)
 
-## Rotate Zero Trust SSH account seed
+GET/accounts/{account\_id}/gateway/app\_types
 
-**post** `/accounts/{account_id}/gateway/audit_ssh_settings/rotate_seed`
+##### ModelsExpand Collapse
 
-Rotate the SSH account seed that generates the host key identity when connecting through the Cloudflare SSH Proxy.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+AppType = object {id, application\_type\_id, created\_at, name } or object {id, created\_at, description, name }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ZeroTrustGatewayApplication object {id, application\_type\_id, created\_at, name }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: optional number
 
-- `messages: array of ResponseInfo`
+Identify this application. Only one application per ID.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+application\_type\_id: optional number
 
-  - `documentation_url: optional string`
+Identify the type of this application. Multiple applications can share the same type. Refers to the <code>id</code> of a returned application type.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: optional string
 
-  Indicate whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional GatewaySettings`
+name: optional string
 
-  - `created_at: optional string`
+Specify the name of the application or application type.
 
-  - `public_key: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
+</details>
 
-  - `seed_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identify the seed ID.
+<details>
 
-  - `updated_at: optional string`
+<summary>
 
-### Example
+ZeroTrustGatewayApplicationType object {id, created\_at, description, name }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/audit_ssh_settings/rotate_seed \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "public_key": "1pyl6I1tL7xfJuFYVzXlUW8uXXlpxegHXBzGCBKaSFA=",
-    "seed_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Identify the type of this application. Multiple applications can share the same type. Refers to the <code>id</code> of a returned application type.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Gateway Settings
+created\_at: optional string
 
-- `GatewaySettings object { created_at, public_key, seed_id, updated_at }`
+formatdate-time
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `public_key: optional string`
+description: optional string
 
-    Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
+Provide a short summary of applications with this type.
 
-  - `seed_id: optional string`
+<a href="#">Link to this property</a>
 
-    Identify the seed ID.
+name: optional string
 
-  - `updated_at: optional string`
+Specify the name of the application or application type.
 
-# Categories
+<a href="#">Link to this property</a>
 
-## List categories
+</details>
 
-**get** `/accounts/{account_id}/gateway/categories`
+<a href="#">Link to this property</a>
 
-List all categories.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.gateway.app_types%20%3E%20(model)%20app_type%20%3E%20(schema)>)
 
-- `account_id: string`
+#### GatewayConfigurations
 
-  Provide the identifier string.
+##### [Get Zero Trust account configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations/methods/get)
 
-### Returns
+GET/accounts/{account\_id}/gateway/configuration
 
-- `errors: array of ResponseInfo`
+##### [Update Zero Trust account configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/gateway/configuration
 
-  - `message: string`
+##### [Patch Zero Trust account configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations/methods/edit)
 
-  - `documentation_url: optional string`
+PATCH/accounts/{account\_id}/gateway/configuration
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+ActivityLogSettings object {enabled }
 
-  - `message: string`
+Specify activity log settings.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+enabled: optional boolean
 
-- `success: true`
+Specify whether to log activity.
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional array of Category`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20activity_log_settings%20%3E%20(schema)>)
 
-  - `id: optional number`
+<details>
 
-    Identify this category. Only one category per ID.
+<summary>
 
-  - `beta: optional boolean`
+AntiVirusSettings object {enabled\_download\_phase, enabled\_upload\_phase, fail\_closed, notification\_settings }
 
-    Indicate whether the category is in beta and subject to change.
+Specify anti-virus settings.
 
-  - `class: optional "free" or "premium" or "blocked" or 2 more`
+</summary>
 
-    Specify which account types can create policies for this category. `blocked` Blocks unconditionally for all accounts. `removalPending` Allows removal from policies but disables addition. `noBlock` Prevents blocking.
+enabled\_download\_phase: optional boolean
 
-    - `"free"`
+Specify whether to enable anti-virus scanning on downloads.
 
-    - `"premium"`
+<a href="#">Link to this property</a>
 
-    - `"blocked"`
+enabled\_upload\_phase: optional boolean
 
-    - `"removalPending"`
+Specify whether to enable anti-virus scanning on uploads.
 
-    - `"noBlock"`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+fail\_closed: optional boolean
 
-    Provide a short summary of domains in the category.
+Specify whether to block requests for unscannable files.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the category name.
+notification\_settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20notification_settings%20%3E%20(schema)">NotificationSettings</a> { enabled, include\_context, msg, support\_url }
 
-  - `subcategories: optional array of object { id, beta, class, 2 more }`
+Configure the message the user’s device shows during an antivirus scan.
 
-    Provide all subcategories for this category.
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+</details>
 
-      Identify this category. Only one category per ID.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20anti_virus_settings%20%3E%20(schema)>)
 
-    - `beta: optional boolean`
+<details>
 
-      Indicate whether the category is in beta and subject to change.
+<summary>
 
-    - `class: optional "free" or "premium" or "blocked" or 2 more`
+BlockPageSettings object {background\_color, enabled, footer\_text, 12 more }
 
-      Specify which account types can create policies for this category. `blocked` Blocks unconditionally for all accounts. `removalPending` Allows removal from policies but disables addition. `noBlock` Prevents blocking.
+Specify block page layout settings.
 
-      - `"free"`
+</summary>
 
-      - `"premium"`
+background\_color: optional string
 
-      - `"blocked"`
+Specify the block page background color in <code>#rrggbb</code> format when the mode is customized\_block\_page.
 
-      - `"removalPending"`
+<a href="#">Link to this property</a>
 
-      - `"noBlock"`
+enabled: optional boolean
 
-    - `description: optional string`
+Specify whether to enable the custom block page.
 
-      Provide a short summary of domains in the category.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+footer\_text: optional string
 
-      Specify the category name.
+Specify the block page footer text when the mode is customized\_block\_page.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+header\_text: optional string
 
-    Indicate the total number of results for the requested service.
+Specify the block page header text when the mode is customized\_block\_page.
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Indicate the current page within a paginated list of results.
+include\_context: optional boolean
 
-  - `per_page: optional number`
+Specify whether to append context to target\_uri as query parameters. This applies only when the mode is redirect\_uri.
 
-    Indicate the number of results per page.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+logo\_path: optional string
 
-    Indicate the total results available without any search parameters.
+Specify the full URL to the logo file when the mode is customized\_block\_page.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/categories \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+mailto\_address: optional string
 
-#### Response
+Specify the admin email for users to contact when the mode is customized\_block\_page.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 0,
-      "beta": false,
-      "class": "premium",
-      "description": "Sites related to educational content that are not included in other categories such as Science, Technology or Educational institutions.",
-      "name": "Education",
-      "subcategories": [
-        {
-          "id": 0,
-          "beta": false,
-          "class": "premium",
-          "description": "Sites related to educational content that are not included in other categories such as Science, Technology or Educational institutions.",
-          "name": "Education"
-        }
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+mailto\_subject: optional string
 
-### Category
+Specify the subject line for emails created from the block page when the mode is customized\_block\_page.
 
-- `Category object { id, beta, class, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional number`
+<details>
 
-    Identify this category. Only one category per ID.
+<summary>
 
-  - `beta: optional boolean`
+mode: optional ""or "customized\_block\_page"or "redirect\_uri"
 
-    Indicate whether the category is in beta and subject to change.
+Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
 
-  - `class: optional "free" or "premium" or "blocked" or 2 more`
+</summary>
 
-    Specify which account types can create policies for this category. `blocked` Blocks unconditionally for all accounts. `removalPending` Allows removal from policies but disables addition. `noBlock` Prevents blocking.
+One of the following:
 
-    - `"free"`
+""
 
-    - `"premium"`
+<a href="#">Link to this property</a>
 
-    - `"blocked"`
+"customized\_block\_page"
 
-    - `"removalPending"`
+<a href="#">Link to this property</a>
 
-    - `"noBlock"`
+"redirect\_uri"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Provide a short summary of domains in the category.
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the category name.
+name: optional string
 
-  - `subcategories: optional array of object { id, beta, class, 2 more }`
+Specify the block page title when the mode is customized\_block\_page.
 
-    Provide all subcategories for this category.
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+read\_only: optional boolean
 
-      Identify this category. Only one category per ID.
+Indicate that this setting was shared via the Orgs API and read only for the current account.
 
-    - `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicate whether the category is in beta and subject to change.
+source\_account: optional string
 
-    - `class: optional "free" or "premium" or "blocked" or 2 more`
+Indicate the account tag of the account that shared this setting.
 
-      Specify which account types can create policies for this category. `blocked` Blocks unconditionally for all accounts. `removalPending` Allows removal from policies but disables addition. `noBlock` Prevents blocking.
+<a href="#">Link to this property</a>
 
-      - `"free"`
+suppress\_footer: optional boolean
 
-      - `"premium"`
+Specify whether to suppress detailed information at the bottom of the block page when the mode is customized\_block\_page.
 
-      - `"blocked"`
+<a href="#">Link to this property</a>
 
-      - `"removalPending"`
+target\_uri: optional string
 
-      - `"noBlock"`
+Specify the URI to redirect users to when the mode is redirect\_uri.
 
-    - `description: optional string`
+formaturi
 
-      Provide a short summary of domains in the category.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+version: optional number
 
-      Specify the category name.
+Indicate the version number of the setting.
 
-# App Types
+<a href="#">Link to this property</a>
 
-## List application and application type mappings
+</details>
 
-**get** `/accounts/{account_id}/gateway/app_types`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20block_page_settings%20%3E%20(schema)>)
 
-List all application and application type mappings.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+BodyScanningSettings object {inspection\_mode }
 
-  Provide the identifier string.
+Specify the DLP inspection mode.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+inspection\_mode: optional "deep"or "shallow"
 
-  - `documentation_url: optional string`
+Specify the inspection mode as either <code>deep</code> or <code>shallow</code>.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of ResponseInfo`
+"deep"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"shallow"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Indicate whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20body_scanning_settings%20%3E%20(schema)>)
 
-- `result: optional array of AppType`
+<details>
 
-  - `ZeroTrustGatewayApplication object { id, application_type_id, created_at, name }`
+<summary>
 
-    - `id: optional number`
+BrowserIsolationSettings object {non\_identity\_enabled, url\_browser\_isolation\_enabled }
 
-      Identify this application. Only one application per ID.
+Specify Clientless Browser Isolation settings.
 
-    - `application_type_id: optional number`
+</summary>
 
-      Identify the type of this application. Multiple applications can share the same type. Refers to the `id` of a returned application type.
+non\_identity\_enabled: optional boolean
 
-    - `created_at: optional string`
+Specify whether to enable non-identity onramp support for Browser Isolation.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the name of the application or application type.
+url\_browser\_isolation\_enabled: optional boolean
 
-  - `ZeroTrustGatewayApplicationType object { id, created_at, description, name }`
+Specify whether to enable Clientless Browser Isolation.
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-      Identify the type of this application. Multiple applications can share the same type. Refers to the `id` of a returned application type.
+</details>
 
-    - `created_at: optional string`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20browser_isolation_settings%20%3E%20(schema)>)
 
-    - `description: optional string`
+<details>
 
-      Provide a short summary of applications with this type.
+<summary>
 
-    - `name: optional string`
+CustomCertificateSettings object {enabled, id, binding\_status, updated\_at }
 
-      Specify the name of the application or application type.
+Specify custom certificate settings for BYO-PKI. This field is deprecated; use <code>certificate</code> instead.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</summary>
 
-  - `count: optional number`
+enabled: boolean
 
-    Indicate the total number of results for the requested service.
+Specify whether to enable a custom certificate authority for signing Gateway traffic.
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Indicate the current page within a paginated list of results.
+id: optional string
 
-  - `per_page: optional number`
+Specify the UUID of the certificate (ID from MTLS certificate store).
 
-    Indicate the number of results per page.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+binding\_status: optional string
 
-    Indicate the total results available without any search parameters.
+Indicate the internal certificate status.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/app_types \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+updated\_at: optional string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 0,
-      "application_type_id": 0,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "name": "Facebook"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### App Type
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20custom_certificate_settings%20%3E%20(schema)>)
 
-- `AppType = object { id, application_type_id, created_at, name }  or object { id, created_at, description, name }`
+<details>
 
-  - `ZeroTrustGatewayApplication object { id, application_type_id, created_at, name }`
+<summary>
 
-    - `id: optional number`
+ExtendedEmailMatching object {enabled, read\_only, source\_account, version }
 
-      Identify this application. Only one application per ID.
+Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses <code>.</code> or <code>+</code> modifiers.
 
-    - `application_type_id: optional number`
+</summary>
 
-      Identify the type of this application. Multiple applications can share the same type. Refers to the `id` of a returned application type.
+enabled: optional boolean
 
-    - `created_at: optional string`
+Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the name of the application or application type.
+read\_only: optional boolean
 
-  - `ZeroTrustGatewayApplicationType object { id, created_at, description, name }`
+Indicate that this setting was shared via the Orgs API and read only for the current account.
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-      Identify the type of this application. Multiple applications can share the same type. Refers to the `id` of a returned application type.
+source\_account: optional string
 
-    - `created_at: optional string`
+Indicate the account tag of the account that shared this setting.
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      Provide a short summary of applications with this type.
+version: optional number
 
-    - `name: optional string`
+Indicate the version number of the setting.
 
-      Specify the name of the application or application type.
+<a href="#">Link to this property</a>
 
-# Configurations
+</details>
 
-## Get Zero Trust account configuration
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20extended_email_matching%20%3E%20(schema)>)
 
-**get** `/accounts/{account_id}/gateway/configuration`
+<details>
 
-Retrieve the current Zero Trust account configuration.
+<summary>
 
-### Path Parameters
+FipsSettings object {tls }
 
-- `account_id: string`
+Specify FIPS settings.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+tls: optional boolean
 
-  - `code: number`
+Enforce cipher suites and TLS versions compliant with FIPS 140-2.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20fips_settings%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+GatewayConfigurationSettings object {activity\_log, antivirus, block\_page, 12 more }
 
-  - `message: string`
+Specify account settings.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+activity\_log: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20activity_log_settings%20%3E%20(schema)">ActivityLogSettings</a> { enabled }
 
-- `success: true`
+Specify activity log settings.
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+antivirus: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20anti_virus_settings%20%3E%20(schema)">AntiVirusSettings</a> { enabled\_download\_phase, enabled\_upload\_phase, fail\_closed, notification\_settings }
 
-- `result: optional object { created_at, settings, updated_at }`
+Specify anti-virus settings.
 
-  Specify account settings.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+block\_page: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20block_page_settings%20%3E%20(schema)">BlockPageSettings</a> { background\_color, enabled, footer\_text, 12 more }
 
-  - `settings: optional GatewayConfigurationSettings`
+Specify block page layout settings.
 
-    Specify account settings.
+<a href="#">Link to this property</a>
 
-    - `activity_log: optional ActivityLogSettings`
+body\_scanning: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20body_scanning_settings%20%3E%20(schema)">BodyScanningSettings</a> { inspection\_mode }
 
-      Specify activity log settings.
+Specify the DLP inspection mode.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to log activity.
+browser\_isolation: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20browser_isolation_settings%20%3E%20(schema)">BrowserIsolationSettings</a> { non\_identity\_enabled, url\_browser\_isolation\_enabled }
 
-    - `antivirus: optional AntiVirusSettings`
+Specify Clientless Browser Isolation settings.
 
-      Specify anti-virus settings.
+<a href="#">Link to this property</a>
 
-      - `enabled_download_phase: optional boolean`
+<details>
 
-        Specify whether to enable anti-virus scanning on downloads.
+<summary>
 
-      - `enabled_upload_phase: optional boolean`
+certificate: optional object {id }
 
-        Specify whether to enable anti-virus scanning on uploads.
+Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
 
-      - `fail_closed: optional boolean`
+</summary>
 
-        Specify whether to block requests for unscannable files.
+id: string
 
-      - `notification_settings: optional NotificationSettings`
+Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called ‘active’). A nil UUID directs Cloudflare to use the Root CA.
 
-        Configure the message the user's device shows during an antivirus scan.
+<a href="#">Link to this property</a>
 
-        - `enabled: optional boolean`
+</details>
 
-          Specify whether to enable notifications.
+<a href="#">Link to this property</a>
 
-        - `include_context: optional boolean`
+Deprecatedcustom\_certificate: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20custom_certificate_settings%20%3E%20(schema)">CustomCertificateSettings</a> { enabled, id, binding\_status, updated\_at }
 
-          Specify whether to include context information as query parameters.
+Specify custom certificate settings for BYO-PKI. This field is deprecated; use <code>certificate</code> instead.
 
-        - `msg: optional string`
+<a href="#">Link to this property</a>
 
-          Specify the message to show in the notification.
+extended\_email\_matching: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20extended_email_matching%20%3E%20(schema)">ExtendedEmailMatching</a> { enabled, read\_only, source\_account, version }
 
-        - `support_url: optional string`
+Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses <code>.</code> or <code>+</code> modifiers.
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+<a href="#">Link to this property</a>
 
-    - `block_page: optional BlockPageSettings`
+fips: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20fips_settings%20%3E%20(schema)">FipsSettings</a> { tls }
 
-      Specify block page layout settings.
+Specify FIPS settings.
 
-      - `background_color: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+<details>
 
-      - `enabled: optional boolean`
+<summary>
 
-        Specify whether to enable the custom block page.
+host\_selector: optional object {enabled }
 
-      - `footer_text: optional string`
+Enable host selection in egress policies.
 
-        Specify the block page footer text when the mode is customized_block_page.
+</summary>
 
-      - `header_text: optional string`
+enabled: optional boolean
 
-        Specify the block page header text when the mode is customized_block_page.
+Specify whether to enable filtering via hosts for egress policies.
 
-      - `include_context: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+</details>
 
-      - `logo_path: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+<details>
 
-      - `mailto_address: optional string`
+<summary>
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+inspection: optional object {mode }
 
-      - `mailto_subject: optional string`
+Define the proxy inspection mode.
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+</summary>
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+<details>
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+<summary>
 
-        - `""`
+mode: optional "static"or "dynamic"
 
-        - `"customized_block_page"`
+Define the proxy inspection mode. 1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443). 2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
 
-        - `"redirect_uri"`
+</summary>
 
-      - `name: optional string`
+One of the following:
 
-        Specify the block page title when the mode is customized_block_page.
+"static"
 
-      - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+"dynamic"
 
-      - `source_account: optional string`
+<a href="#">Link to this property</a>
 
-        Indicate the account tag of the account that shared this setting.
+</details>
 
-      - `suppress_footer: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+</details>
 
-      - `target_uri: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+max\_ttl\_secs: optional number
 
-      - `version: optional number`
+Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location <code>max_ttl</code> setting.
 
-        Indicate the version number of the setting.
+maximum36000
 
-    - `body_scanning: optional BodyScanningSettings`
+minimum60
 
-      Specify the DLP inspection mode.
+<a href="#">Link to this property</a>
 
-      - `inspection_mode: optional "deep" or "shallow"`
+protocol\_detection: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20protocol_detection%20%3E%20(schema)">ProtocolDetection</a> { enabled }
 
-        Specify the inspection mode as either `deep` or `shallow`.
+Specify whether to detect protocols from the initial bytes of client traffic.
 
-        - `"deep"`
+<a href="#">Link to this property</a>
 
-        - `"shallow"`
+<details>
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+<summary>
 
-      Specify Clientless Browser Isolation settings.
+sandbox: optional object {enabled, fallback\_action }
 
-      - `non_identity_enabled: optional boolean`
+Specify whether to enable the sandbox.
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+</summary>
 
-      - `url_browser_isolation_enabled: optional boolean`
+enabled: optional boolean
 
-        Specify whether to enable Clientless Browser Isolation.
+Specify whether to enable the sandbox.
 
-    - `certificate: optional object { id }`
+<a href="#">Link to this property</a>
 
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+<details>
 
-      - `id: string`
+<summary>
 
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+fallback\_action: optional "allow"or "block"
 
-    - `custom_certificate: optional CustomCertificateSettings`
+Specify the action to take when the system cannot scan the file.
 
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+</summary>
 
-      - `enabled: boolean`
+One of the following:
 
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
+"allow"
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the UUID of the certificate (ID from MTLS certificate store).
+"block"
 
-      - `binding_status: optional string`
+<a href="#">Link to this property</a>
 
-        Indicate the internal certificate status.
+</details>
 
-      - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `extended_email_matching: optional ExtendedEmailMatching`
+</details>
 
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+tls\_decrypt: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20tls_settings%20%3E%20(schema)">TLSSettings</a> { enabled }
 
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+Specify whether to inspect encrypted HTTP traffic.
 
-      - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+</details>
 
-      - `source_account: optional string`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)>)
 
-        Indicate the account tag of the account that shared this setting.
+<details>
 
-      - `version: optional number`
+<summary>
 
-        Indicate the version number of the setting.
+NotificationSettings object {enabled, include\_context, msg, support\_url }
 
-    - `fips: optional FipsSettings`
+Configure the message the user’s device shows during an antivirus scan.
 
-      Specify FIPS settings.
+</summary>
 
-      - `tls: optional boolean`
+enabled: optional boolean
 
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+Specify whether to enable notifications.
 
-    - `host_selector: optional object { enabled }`
+<a href="#">Link to this property</a>
 
-      Enable host selection in egress policies.
+include\_context: optional boolean
 
-      - `enabled: optional boolean`
+Specify whether to include context information as query parameters.
 
-        Specify whether to enable filtering via hosts for egress policies.
+<a href="#">Link to this property</a>
 
-    - `inspection: optional object { mode }`
+msg: optional string
 
-      Define the proxy inspection mode.
+Specify the message to show in the notification.
 
-      - `mode: optional "static" or "dynamic"`
+<a href="#">Link to this property</a>
 
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+support\_url: optional string
 
-        - `"static"`
+Specify a URL that directs users to more information. If unset, the notification opens a block page.
 
-        - `"dynamic"`
+<a href="#">Link to this property</a>
 
-    - `max_ttl_secs: optional number`
+</details>
 
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20notification_settings%20%3E%20(schema)>)
 
-    - `protocol_detection: optional ProtocolDetection`
+<details>
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<summary>
 
-      - `enabled: optional boolean`
+ProtocolDetection object {enabled }
 
-        Specify whether to detect protocols from the initial bytes of client traffic.
+Specify whether to detect protocols from the initial bytes of client traffic.
 
-    - `sandbox: optional object { enabled, fallback_action }`
+</summary>
 
-      Specify whether to enable the sandbox.
+enabled: optional boolean
 
-      - `enabled: optional boolean`
+Specify whether to detect protocols from the initial bytes of client traffic.
 
-        Specify whether to enable the sandbox.
+<a href="#">Link to this property</a>
 
-      - `fallback_action: optional "allow" or "block"`
+</details>
 
-        Specify the action to take when the system cannot scan the file.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20protocol_detection%20%3E%20(schema)>)
 
-        - `"allow"`
+<details>
 
-        - `"block"`
+<summary>
 
-    - `tls_decrypt: optional TLSSettings`
+TLSSettings object {enabled }
 
-      Specify whether to inspect encrypted HTTP traffic.
+Specify whether to inspect encrypted HTTP traffic.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Specify whether to inspect encrypted HTTP traffic.
+enabled: optional boolean
 
-  - `updated_at: optional string`
+Specify whether to inspect encrypted HTTP traffic.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20tls_settings%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "settings": {
-      "activity_log": {
-        "enabled": true
-      },
-      "antivirus": {
-        "enabled_download_phase": false,
-        "enabled_upload_phase": false,
-        "fail_closed": false,
-        "notification_settings": {
-          "enabled": true,
-          "include_context": true,
-          "msg": "msg",
-          "support_url": "support_url"
-        }
-      },
-      "block_page": {
-        "background_color": "background_color",
-        "enabled": true,
-        "footer_text": "--footer--",
-        "header_text": "--header--",
-        "include_context": true,
-        "logo_path": "https://logos.com/a.png",
-        "mailto_address": "admin@example.com",
-        "mailto_subject": "Blocked User Inquiry",
-        "mode": "",
-        "name": "Cloudflare",
-        "read_only": true,
-        "source_account": "source_account",
-        "suppress_footer": false,
-        "target_uri": "https://example.com",
-        "version": 1
-      },
-      "body_scanning": {
-        "inspection_mode": "deep"
-      },
-      "browser_isolation": {
-        "non_identity_enabled": true,
-        "url_browser_isolation_enabled": true
-      },
-      "certificate": {
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f"
-      },
-      "custom_certificate": {
-        "enabled": true,
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
-        "binding_status": "pending_deployment",
-        "updated_at": "2019-12-27T18:11:19.117Z"
-      },
-      "extended_email_matching": {
-        "enabled": true,
-        "read_only": true,
-        "source_account": "source_account",
-        "version": 1
-      },
-      "fips": {
-        "tls": true
-      },
-      "host_selector": {
-        "enabled": false
-      },
-      "inspection": {
-        "mode": "static"
-      },
-      "max_ttl_secs": 3600,
-      "protocol_detection": {
-        "enabled": true
-      },
-      "sandbox": {
-        "enabled": true,
-        "fallback_action": "allow"
-      },
-      "tls_decrypt": {
-        "enabled": true
-      }
-    },
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<details>
 
-## Update Zero Trust account configuration
+<summary>
 
-**put** `/accounts/{account_id}/gateway/configuration`
+ConfigurationGetResponse object {created\_at, settings, updated\_at }
 
-Update the current Zero Trust account configuration.
+Specify account settings.
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+created\_at: optional string
 
-### Body Parameters
+formatdate-time
 
-- `settings: optional GatewayConfigurationSettings`
+<a href="#">Link to this property</a>
 
-  Specify account settings.
+settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)">GatewayConfigurationSettings</a> { activity\_log, antivirus, block\_page, 12 more }
 
-  - `activity_log: optional ActivityLogSettings`
+Specify account settings.
 
-    Specify activity log settings.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+updated\_at: optional string
 
-      Specify whether to log activity.
+formatdate-time
 
-  - `antivirus: optional AntiVirusSettings`
+<a href="#">Link to this property</a>
 
-    Specify anti-virus settings.
+</details>
 
-    - `enabled_download_phase: optional boolean`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20configuration_get_response%20%3E%20(schema)>)
 
-      Specify whether to enable anti-virus scanning on downloads.
+<details>
 
-    - `enabled_upload_phase: optional boolean`
+<summary>
 
-      Specify whether to enable anti-virus scanning on uploads.
+ConfigurationUpdateResponse object {created\_at, settings, updated\_at }
 
-    - `fail_closed: optional boolean`
+Specify account settings.
 
-      Specify whether to block requests for unscannable files.
+</summary>
 
-    - `notification_settings: optional NotificationSettings`
+created\_at: optional string
 
-      Configure the message the user's device shows during an antivirus scan.
+formatdate-time
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable notifications.
+settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)">GatewayConfigurationSettings</a> { activity\_log, antivirus, block\_page, 12 more }
 
-      - `include_context: optional boolean`
+Specify account settings.
 
-        Specify whether to include context information as query parameters.
+<a href="#">Link to this property</a>
 
-      - `msg: optional string`
+updated\_at: optional string
 
-        Specify the message to show in the notification.
+formatdate-time
 
-      - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-        Specify a URL that directs users to more information. If unset, the notification opens a block page.
+</details>
 
-  - `block_page: optional BlockPageSettings`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20configuration_update_response%20%3E%20(schema)>)
 
-    Specify block page layout settings.
+<details>
 
-    - `background_color: optional string`
+<summary>
 
-      Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+ConfigurationEditResponse object {created\_at, settings, updated\_at }
 
-    - `enabled: optional boolean`
+Specify account settings.
 
-      Specify whether to enable the custom block page.
+</summary>
 
-    - `footer_text: optional string`
+created\_at: optional string
 
-      Specify the block page footer text when the mode is customized_block_page.
+formatdate-time
 
-    - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the block page header text when the mode is customized_block_page.
+settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)">GatewayConfigurationSettings</a> { activity\_log, antivirus, block\_page, 12 more }
 
-    - `include_context: optional boolean`
+Specify account settings.
 
-      Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+<a href="#">Link to this property</a>
 
-    - `logo_path: optional string`
+updated\_at: optional string
 
-      Specify the full URL to the logo file when the mode is customized_block_page.
+formatdate-time
 
-    - `mailto_address: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the admin email for users to contact when the mode is customized_block_page.
+</details>
 
-    - `mailto_subject: optional string`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20configuration_edit_response%20%3E%20(schema)>)
 
-      Specify the subject line for emails created from the block page when the mode is customized_block_page.
+#### GatewayConfigurationsCustom Certificate
 
-    - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+##### [Get Zero Trust certificate configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations/subresources/custom_certificate/methods/get)
 
-      Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+Deprecated
 
-      - `""`
+GET/accounts/{account\_id}/gateway/configuration/custom\_certificate
 
-      - `"customized_block_page"`
+#### GatewayLists
 
-      - `"redirect_uri"`
+##### [List Zero Trust lists](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/list)
 
-    - `name: optional string`
+GET/accounts/{account\_id}/gateway/lists
 
-      Specify the block page title when the mode is customized_block_page.
+##### [Get Zero Trust list details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/get)
 
-    - `read_only: optional boolean`
+GET/accounts/{account\_id}/gateway/lists/{list\_id}
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+##### [Create Zero Trust list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/create)
 
-    - `source_account: optional string`
+POST/accounts/{account\_id}/gateway/lists
 
-      Indicate the account tag of the account that shared this setting.
+##### [Update Zero Trust list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/update)
 
-    - `suppress_footer: optional boolean`
+PUT/accounts/{account\_id}/gateway/lists/{list\_id}
 
-      Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+##### [Patch Zero Trust list.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/edit)
 
-    - `target_uri: optional string`
+PATCH/accounts/{account\_id}/gateway/lists/{list\_id}
 
-      Specify the URI to redirect users to when the mode is redirect_uri.
+##### [Delete Zero Trust list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/delete)
 
-    - `version: optional number`
+DELETE/accounts/{account\_id}/gateway/lists/{list\_id}
 
-      Indicate the version number of the setting.
+##### ModelsExpand Collapse
 
-  - `body_scanning: optional BodyScanningSettings`
+<details>
 
-    Specify the DLP inspection mode.
+<summary>
 
-    - `inspection_mode: optional "deep" or "shallow"`
+GatewayItem object {created\_at, description, value }
 
-      Specify the inspection mode as either `deep` or `shallow`.
+</summary>
 
-      - `"deep"`
+created\_at: optional string
 
-      - `"shallow"`
+formatdate-time
 
-  - `browser_isolation: optional BrowserIsolationSettings`
+<a href="#">Link to this property</a>
 
-    Specify Clientless Browser Isolation settings.
+description: optional string
 
-    - `non_identity_enabled: optional boolean`
+Provide the list item description (optional).
 
-      Specify whether to enable non-identity onramp support for Browser Isolation.
+minimum0
 
-    - `url_browser_isolation_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable Clientless Browser Isolation.
+value: optional string
 
-  - `certificate: optional object { id }`
+Specify the item value.
 
-    Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_item%20%3E%20(schema)>)
 
-  - `custom_certificate: optional CustomCertificateSettings`
+<details>
 
-    Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+<summary>
 
-    - `enabled: boolean`
+GatewayList object {id, count, created\_at, 5 more }
 
-      Specify whether to enable a custom certificate authority for signing Gateway traffic.
+</summary>
 
-    - `id: optional string`
+id: optional string
 
-      Specify the UUID of the certificate (ID from MTLS certificate store).
+Identify the API resource with a UUID.
 
-    - `binding_status: optional string`
+maxLength36
 
-      Indicate the internal certificate status.
+<a href="#">Link to this property</a>
 
-    - `updated_at: optional string`
+count: optional number
 
-  - `extended_email_matching: optional ExtendedEmailMatching`
+Indicate the number of items in the list.
 
-    Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+created\_at: optional string
 
-      Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+formatdate-time
 
-    - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+description: optional string
 
-    - `source_account: optional string`
+Provide the list description.
 
-      Indicate the account tag of the account that shared this setting.
+<a href="#">Link to this property</a>
 
-    - `version: optional number`
+<details>
 
-      Indicate the version number of the setting.
+<summary>
 
-  - `fips: optional FipsSettings`
+items: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_item%20%3E%20(schema)">GatewayItem</a> { created\_at, description, value }
 
-    Specify FIPS settings.
+Provide the list items.
 
-    - `tls: optional boolean`
+</summary>
 
-      Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+created\_at: optional string
 
-  - `host_selector: optional object { enabled }`
+formatdate-time
 
-    Enable host selection in egress policies.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+description: optional string
 
-      Specify whether to enable filtering via hosts for egress policies.
+Provide the list item description (optional).
 
-  - `inspection: optional object { mode }`
+minimum0
 
-    Define the proxy inspection mode.
+<a href="#">Link to this property</a>
 
-    - `mode: optional "static" or "dynamic"`
+value: optional string
 
-      Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+Specify the item value.
 
-      - `"static"`
+<a href="#">Link to this property</a>
 
-      - `"dynamic"`
+</details>
 
-  - `max_ttl_secs: optional number`
+<a href="#">Link to this property</a>
 
-    Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+name: optional string
 
-  - `protocol_detection: optional ProtocolDetection`
+Specify the list name.
 
-    Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+<details>
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<summary>
 
-  - `sandbox: optional object { enabled, fallback_action }`
+type: optional "SERIAL"or "URL"or "DOMAIN"or 6 more
 
-    Specify whether to enable the sandbox.
+Specify the list type.
 
-    - `enabled: optional boolean`
+</summary>
 
-      Specify whether to enable the sandbox.
+One of the following:
 
-    - `fallback_action: optional "allow" or "block"`
+"SERIAL"
 
-      Specify the action to take when the system cannot scan the file.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+"URL"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-  - `tls_decrypt: optional TLSSettings`
+"DOMAIN"
 
-    Specify whether to inspect encrypted HTTP traffic.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+"EMAIL"
 
-      Specify whether to inspect encrypted HTTP traffic.
+<a href="#">Link to this property</a>
 
-### Returns
+"IP"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"CATEGORY"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"LOCATION"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"DEVICE"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"AAGUID"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+updated\_at: optional string
 
-  Indicate whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created_at, settings, updated_at }`
+</details>
 
-  Specify account settings.
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_list%20%3E%20(schema)>)
 
-  - `created_at: optional string`
+<details>
 
-  - `settings: optional GatewayConfigurationSettings`
+<summary>
 
-    Specify account settings.
+ListCreateResponse object {id, created\_at, description, 4 more }
 
-    - `activity_log: optional ActivityLogSettings`
+</summary>
 
-      Specify activity log settings.
+id: optional string
 
-      - `enabled: optional boolean`
+Identify the API resource with a UUID.
 
-        Specify whether to log activity.
+maxLength36
 
-    - `antivirus: optional AntiVirusSettings`
+<a href="#">Link to this property</a>
 
-      Specify anti-virus settings.
+created\_at: optional string
 
-      - `enabled_download_phase: optional boolean`
+formatdate-time
 
-        Specify whether to enable anti-virus scanning on downloads.
+<a href="#">Link to this property</a>
 
-      - `enabled_upload_phase: optional boolean`
+description: optional string
 
-        Specify whether to enable anti-virus scanning on uploads.
+Provide the list description.
 
-      - `fail_closed: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to block requests for unscannable files.
+<details>
 
-      - `notification_settings: optional NotificationSettings`
+<summary>
 
-        Configure the message the user's device shows during an antivirus scan.
+items: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_item%20%3E%20(schema)">GatewayItem</a> { created\_at, description, value }
 
-        - `enabled: optional boolean`
+Provide the list items.
 
-          Specify whether to enable notifications.
+</summary>
 
-        - `include_context: optional boolean`
+created\_at: optional string
 
-          Specify whether to include context information as query parameters.
+formatdate-time
 
-        - `msg: optional string`
+<a href="#">Link to this property</a>
 
-          Specify the message to show in the notification.
+description: optional string
 
-        - `support_url: optional string`
+Provide the list item description (optional).
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+minimum0
 
-    - `block_page: optional BlockPageSettings`
+<a href="#">Link to this property</a>
 
-      Specify block page layout settings.
+value: optional string
 
-      - `background_color: optional string`
+Specify the item value.
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Specify whether to enable the custom block page.
+<a href="#">Link to this property</a>
 
-      - `footer_text: optional string`
+name: optional string
 
-        Specify the block page footer text when the mode is customized_block_page.
+Specify the list name.
 
-      - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the block page header text when the mode is customized_block_page.
+<details>
 
-      - `include_context: optional boolean`
+<summary>
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+type: optional "SERIAL"or "URL"or "DOMAIN"or 6 more
 
-      - `logo_path: optional string`
+Specify the list type.
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+</summary>
 
-      - `mailto_address: optional string`
+One of the following:
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+"SERIAL"
 
-      - `mailto_subject: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+"URL"
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+<a href="#">Link to this property</a>
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+"DOMAIN"
 
-        - `""`
+<a href="#">Link to this property</a>
 
-        - `"customized_block_page"`
+"EMAIL"
 
-        - `"redirect_uri"`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+"IP"
 
-        Specify the block page title when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `read_only: optional boolean`
+"CATEGORY"
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<a href="#">Link to this property</a>
 
-      - `source_account: optional string`
+"LOCATION"
 
-        Indicate the account tag of the account that shared this setting.
+<a href="#">Link to this property</a>
 
-      - `suppress_footer: optional boolean`
+"DEVICE"
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `target_uri: optional string`
+"AAGUID"
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+<a href="#">Link to this property</a>
 
-      - `version: optional number`
+</details>
 
-        Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-    - `body_scanning: optional BodyScanningSettings`
+updated\_at: optional string
 
-      Specify the DLP inspection mode.
+formatdate-time
 
-      - `inspection_mode: optional "deep" or "shallow"`
+<a href="#">Link to this property</a>
 
-        Specify the inspection mode as either `deep` or `shallow`.
+</details>
 
-        - `"deep"`
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(model)%20list_create_response%20%3E%20(schema)>)
 
-        - `"shallow"`
+ListDeleteResponse = unknown
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(model)%20list_delete_response%20%3E%20(schema)>)
 
-      Specify Clientless Browser Isolation settings.
+#### GatewayListsItems
 
-      - `non_identity_enabled: optional boolean`
+##### [Get Zero Trust list items](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/subresources/items/methods/list)
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+GET/accounts/{account\_id}/gateway/lists/{list\_id}/items
 
-      - `url_browser_isolation_enabled: optional boolean`
+#### GatewayLocations
 
-        Specify whether to enable Clientless Browser Isolation.
+##### [List Zero Trust Gateway locations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/locations/methods/list)
 
-    - `certificate: optional object { id }`
+GET/accounts/{account\_id}/gateway/locations
 
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+##### [Get Zero Trust Gateway location details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/locations/methods/get)
 
-      - `id: string`
+GET/accounts/{account\_id}/gateway/locations/{location\_id}
 
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+##### [Create a Zero Trust Gateway location](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/locations/methods/create)
 
-    - `custom_certificate: optional CustomCertificateSettings`
+POST/accounts/{account\_id}/gateway/locations
 
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+##### [Update a Zero Trust Gateway location](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/locations/methods/update)
 
-      - `enabled: boolean`
+PUT/accounts/{account\_id}/gateway/locations/{location\_id}
 
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
+##### [Delete a Zero Trust Gateway location](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/locations/methods/delete)
 
-      - `id: optional string`
+DELETE/accounts/{account\_id}/gateway/locations/{location\_id}
 
-        Specify the UUID of the certificate (ID from MTLS certificate store).
+##### ModelsExpand Collapse
 
-      - `binding_status: optional string`
+<details>
 
-        Indicate the internal certificate status.
+<summary>
 
-      - `updated_at: optional string`
+DOHEndpoint object {enabled, networks, require\_token }
 
-    - `extended_email_matching: optional ExtendedEmailMatching`
+</summary>
 
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+enabled: optional boolean
 
-      - `enabled: optional boolean`
+Indicate whether the DOH endpoint is enabled for this location.
 
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+<a href="#">Link to this property</a>
 
-      - `read_only: optional boolean`
+<details>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<summary>
 
-      - `source_account: optional string`
+networks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ip_network%20%3E%20(schema)">IPNetwork</a> { network }
 
-        Indicate the account tag of the account that shared this setting.
+Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
 
-      - `version: optional number`
+</summary>
 
-        Indicate the version number of the setting.
+network: string
 
-    - `fips: optional FipsSettings`
+Specify the IP address or IP CIDR.
 
-      Specify FIPS settings.
+<a href="#">Link to this property</a>
 
-      - `tls: optional boolean`
+</details>
 
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+<a href="#">Link to this property</a>
 
-    - `host_selector: optional object { enabled }`
+require\_token: optional boolean
 
-      Enable host selection in egress policies.
+Specify whether the DOH endpoint requires user identity authentication.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable filtering via hosts for egress policies.
+</details>
 
-    - `inspection: optional object { mode }`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20doh_endpoint%20%3E%20(schema)>)
 
-      Define the proxy inspection mode.
+<details>
 
-      - `mode: optional "static" or "dynamic"`
+<summary>
 
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+DOTEndpoint object {enabled, networks }
 
-        - `"static"`
+</summary>
 
-        - `"dynamic"`
+enabled: optional boolean
 
-    - `max_ttl_secs: optional number`
+Indicate whether the DOT endpoint is enabled for this location.
 
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+<a href="#">Link to this property</a>
 
-    - `protocol_detection: optional ProtocolDetection`
+<details>
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<summary>
 
-      - `enabled: optional boolean`
+networks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ip_network%20%3E%20(schema)">IPNetwork</a> { network }
 
-        Specify whether to detect protocols from the initial bytes of client traffic.
+Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
 
-    - `sandbox: optional object { enabled, fallback_action }`
+</summary>
 
-      Specify whether to enable the sandbox.
+network: string
 
-      - `enabled: optional boolean`
+Specify the IP address or IP CIDR.
 
-        Specify whether to enable the sandbox.
+<a href="#">Link to this property</a>
 
-      - `fallback_action: optional "allow" or "block"`
+</details>
 
-        Specify the action to take when the system cannot scan the file.
+<a href="#">Link to this property</a>
 
-        - `"allow"`
+</details>
 
-        - `"block"`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20dot_endpoint%20%3E%20(schema)>)
 
-    - `tls_decrypt: optional TLSSettings`
+<details>
 
-      Specify whether to inspect encrypted HTTP traffic.
+<summary>
 
-      - `enabled: optional boolean`
+Endpoint object {doh, dot, ipv4, ipv6 }
 
-        Specify whether to inspect encrypted HTTP traffic.
+Configure the destination endpoints for this location.
 
-  - `updated_at: optional string`
+</summary>
 
-### Example
+doh: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20doh_endpoint%20%3E%20(schema)">DOHEndpoint</a> { enabled, networks, require\_token }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+dot: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20dot_endpoint%20%3E%20(schema)">DOTEndpoint</a> { enabled, networks }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "settings": {
-      "activity_log": {
-        "enabled": true
-      },
-      "antivirus": {
-        "enabled_download_phase": false,
-        "enabled_upload_phase": false,
-        "fail_closed": false,
-        "notification_settings": {
-          "enabled": true,
-          "include_context": true,
-          "msg": "msg",
-          "support_url": "support_url"
-        }
-      },
-      "block_page": {
-        "background_color": "background_color",
-        "enabled": true,
-        "footer_text": "--footer--",
-        "header_text": "--header--",
-        "include_context": true,
-        "logo_path": "https://logos.com/a.png",
-        "mailto_address": "admin@example.com",
-        "mailto_subject": "Blocked User Inquiry",
-        "mode": "",
-        "name": "Cloudflare",
-        "read_only": true,
-        "source_account": "source_account",
-        "suppress_footer": false,
-        "target_uri": "https://example.com",
-        "version": 1
-      },
-      "body_scanning": {
-        "inspection_mode": "deep"
-      },
-      "browser_isolation": {
-        "non_identity_enabled": true,
-        "url_browser_isolation_enabled": true
-      },
-      "certificate": {
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f"
-      },
-      "custom_certificate": {
-        "enabled": true,
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
-        "binding_status": "pending_deployment",
-        "updated_at": "2019-12-27T18:11:19.117Z"
-      },
-      "extended_email_matching": {
-        "enabled": true,
-        "read_only": true,
-        "source_account": "source_account",
-        "version": 1
-      },
-      "fips": {
-        "tls": true
-      },
-      "host_selector": {
-        "enabled": false
-      },
-      "inspection": {
-        "mode": "static"
-      },
-      "max_ttl_secs": 3600,
-      "protocol_detection": {
-        "enabled": true
-      },
-      "sandbox": {
-        "enabled": true,
-        "fallback_action": "allow"
-      },
-      "tls_decrypt": {
-        "enabled": true
-      }
-    },
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Patch Zero Trust account configuration
+ipv4: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv4_endpoint%20%3E%20(schema)">IPV4Endpoint</a> { enabled }
 
-**patch** `/accounts/{account_id}/gateway/configuration`
+<a href="#">Link to this property</a>
 
-Update (PATCH) a single subcollection of settings such as `antivirus`, `tls_decrypt`, `activity_log`, `block_page`, `browser_isolation`, `fips`, `body_scanning`, `certificate`, or `max_ttl_secs` without updating the entire configuration object. This endpoint returns an error if any settings collection lacks proper configuration.
+ipv6: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv6_endpoint%20%3E%20(schema)">IPV6Endpoint</a> { enabled, networks }
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-### Body Parameters
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20endpoint%20%3E%20(schema)>)
 
-- `settings: optional GatewayConfigurationSettings`
+<details>
 
-  Specify account settings.
+<summary>
 
-  - `activity_log: optional ActivityLogSettings`
+IPNetwork object {network }
 
-    Specify activity log settings.
+</summary>
 
-    - `enabled: optional boolean`
+network: string
 
-      Specify whether to log activity.
+Specify the IP address or IP CIDR.
 
-  - `antivirus: optional AntiVirusSettings`
+<a href="#">Link to this property</a>
 
-    Specify anti-virus settings.
+</details>
 
-    - `enabled_download_phase: optional boolean`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20ip_network%20%3E%20(schema)>)
 
-      Specify whether to enable anti-virus scanning on downloads.
+<details>
 
-    - `enabled_upload_phase: optional boolean`
+<summary>
 
-      Specify whether to enable anti-virus scanning on uploads.
+IPV4Endpoint object {enabled }
 
-    - `fail_closed: optional boolean`
+</summary>
 
-      Specify whether to block requests for unscannable files.
+enabled: optional boolean
 
-    - `notification_settings: optional NotificationSettings`
+Indicate whether the IPv4 endpoint is enabled for this location.
 
-      Configure the message the user's device shows during an antivirus scan.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Specify whether to enable notifications.
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv4_endpoint%20%3E%20(schema)>)
 
-      - `include_context: optional boolean`
+<details>
 
-        Specify whether to include context information as query parameters.
+<summary>
 
-      - `msg: optional string`
+IPV6Endpoint object {enabled, networks }
 
-        Specify the message to show in the notification.
+</summary>
 
-      - `support_url: optional string`
+enabled: optional boolean
 
-        Specify a URL that directs users to more information. If unset, the notification opens a block page.
+Indicate whether the IPV6 endpoint is enabled for this location.
 
-  - `block_page: optional BlockPageSettings`
+<a href="#">Link to this property</a>
 
-    Specify block page layout settings.
+<details>
 
-    - `background_color: optional string`
+<summary>
 
-      Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+networks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv6_network%20%3E%20(schema)">IPV6Network</a> { network }
 
-    - `enabled: optional boolean`
+Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
 
-      Specify whether to enable the custom block page.
+</summary>
 
-    - `footer_text: optional string`
+network: string
 
-      Specify the block page footer text when the mode is customized_block_page.
+Specify the IPv6 address or IPv6 CIDR.
 
-    - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the block page header text when the mode is customized_block_page.
+</details>
 
-    - `include_context: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+</details>
 
-    - `logo_path: optional string`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv6_endpoint%20%3E%20(schema)>)
 
-      Specify the full URL to the logo file when the mode is customized_block_page.
+<details>
 
-    - `mailto_address: optional string`
+<summary>
 
-      Specify the admin email for users to contact when the mode is customized_block_page.
+IPV6Network object {network }
 
-    - `mailto_subject: optional string`
+</summary>
 
-      Specify the subject line for emails created from the block page when the mode is customized_block_page.
+network: string
 
-    - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+Specify the IPv6 address or IPv6 CIDR.
 
-      Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+<a href="#">Link to this property</a>
 
-      - `""`
+</details>
 
-      - `"customized_block_page"`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv6_network%20%3E%20(schema)>)
 
-      - `"redirect_uri"`
+<details>
 
-    - `name: optional string`
+<summary>
 
-      Specify the block page title when the mode is customized_block_page.
+Location object {id, client\_default, created\_at, 12 more }
 
-    - `read_only: optional boolean`
+</summary>
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+id: optional string
 
-    - `source_account: optional string`
+<a href="#">Link to this property</a>
 
-      Indicate the account tag of the account that shared this setting.
+client\_default: optional boolean
 
-    - `suppress_footer: optional boolean`
+Indicate whether this location is the default location.
 
-      Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-    - `target_uri: optional string`
+created\_at: optional string
 
-      Specify the URI to redirect users to when the mode is redirect_uri.
+formatdate-time
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      Indicate the version number of the setting.
+dns\_destination\_ips\_id: optional string
 
-  - `body_scanning: optional BodyScanningSettings`
+Indicate the identifier of the pair of IPv4 addresses assigned to this location.
 
-    Specify the DLP inspection mode.
+<a href="#">Link to this property</a>
 
-    - `inspection_mode: optional "deep" or "shallow"`
+dns\_destination\_ipv6\_block\_id: optional string
 
-      Specify the inspection mode as either `deep` or `shallow`.
+Specify the UUID of the IPv6 block brought to the gateway so that this location’s IPv6 address is allocated from the Bring Your Own IPv6 (BYOIPv6) block rather than the standard Cloudflare IPv6 block.
 
-      - `"deep"`
+<a href="#">Link to this property</a>
 
-      - `"shallow"`
+doh\_subdomain: optional string
 
-  - `browser_isolation: optional BrowserIsolationSettings`
+Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
 
-    Specify Clientless Browser Isolation settings.
+<a href="#">Link to this property</a>
 
-    - `non_identity_enabled: optional boolean`
+ecs\_support: optional boolean
 
-      Specify whether to enable non-identity onramp support for Browser Isolation.
+Indicate whether the location must resolve EDNS queries.
 
-    - `url_browser_isolation_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable Clientless Browser Isolation.
+endpoints: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20endpoint%20%3E%20(schema)">Endpoint</a> { doh, dot, ipv4, ipv6 }
 
-  - `certificate: optional object { id }`
+Configure the destination endpoints for this location.
 
-    Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+ip: optional string
 
-      Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+Defines the automatically generated IPv6 destination IP assigned to this location. Gateway counts all DNS requests sent to this IP as requests under this location.
 
-  - `custom_certificate: optional CustomCertificateSettings`
+<a href="#">Link to this property</a>
 
-    Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+ipv4\_destination: optional string
 
-    - `enabled: boolean`
+Show the primary destination IPv4 address from the pair identified dns\_destination\_ips\_id. This field read-only.
 
-      Specify whether to enable a custom certificate authority for signing Gateway traffic.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+ipv4\_destination\_backup: optional string
 
-      Specify the UUID of the certificate (ID from MTLS certificate store).
+Show the backup destination IPv4 address from the pair identified dns\_destination\_ips\_id. This field read-only.
 
-    - `binding_status: optional string`
+<a href="#">Link to this property</a>
 
-      Indicate the internal certificate status.
+<details>
 
-    - `updated_at: optional string`
+<summary>
 
-  - `extended_email_matching: optional ExtendedEmailMatching`
+max\_ttl: optional object {mode, ttl\_secs }
 
-    Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+Controls how DNS response TTLs are capped for this location relative to the account <code>max_ttl_secs</code> setting. Omitting <code>max_ttl</code> on update resets it to <code>inherit</code>.
 
-    - `enabled: optional boolean`
+</summary>
 
-      Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+<details>
 
-    - `read_only: optional boolean`
+<summary>
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+mode: "inherit"or "override"or "disabled"
 
-    - `source_account: optional string`
+<code>inherit</code> uses the account <code>max_ttl_secs</code>. <code>override</code> uses this location’s <code>ttl_secs</code>. <code>disabled</code> leaves returned TTLs unchanged.
 
-      Indicate the account tag of the account that shared this setting.
+</summary>
 
-    - `version: optional number`
+One of the following:
 
-      Indicate the version number of the setting.
+"inherit"
 
-  - `fips: optional FipsSettings`
+<a href="#">Link to this property</a>
 
-    Specify FIPS settings.
+"override"
 
-    - `tls: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+"disabled"
 
-  - `host_selector: optional object { enabled }`
+<a href="#">Link to this property</a>
 
-    Enable host selection in egress policies.
+</details>
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable filtering via hosts for egress policies.
+ttl\_secs: optional number
 
-  - `inspection: optional object { mode }`
+Location-specific cap on DNS response TTLs, in seconds. Required when <code>mode</code> is <code>override</code>. Must be omitted when <code>mode</code> is <code>inherit</code> or <code>disabled</code>.
 
-    Define the proxy inspection mode.
+maximum36000
 
-    - `mode: optional "static" or "dynamic"`
+minimum60
 
-      Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+<a href="#">Link to this property</a>
 
-      - `"static"`
+</details>
 
-      - `"dynamic"`
+<a href="#">Link to this property</a>
 
-  - `max_ttl_secs: optional number`
+name: optional string
 
-    Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+Specify the location name.
 
-  - `protocol_detection: optional ProtocolDetection`
+<a href="#">Link to this property</a>
 
-    Specify whether to detect protocols from the initial bytes of client traffic.
+<details>
 
-    - `enabled: optional boolean`
+<summary>
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+networks: optional array of object {network }
 
-  - `sandbox: optional object { enabled, fallback_action }`
+Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
 
-    Specify whether to enable the sandbox.
+</summary>
 
-    - `enabled: optional boolean`
+network: string
 
-      Specify whether to enable the sandbox.
+Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
 
-    - `fallback_action: optional "allow" or "block"`
+<a href="#">Link to this property</a>
 
-      Specify the action to take when the system cannot scan the file.
+</details>
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+updated\_at: optional string
 
-  - `tls_decrypt: optional TLSSettings`
+formatdate-time
 
-    Specify whether to inspect encrypted HTTP traffic.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+</details>
 
-      Specify whether to inspect encrypted HTTP traffic.
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20location%20%3E%20(schema)>)
 
-### Returns
+LocationDeleteResponse = unknown
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(model)%20location_delete_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### GatewayLogging
 
-  - `message: string`
+##### [Get logging settings for the Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/logging/methods/get)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/gateway/logging
 
-  - `source: optional object { pointer }`
+##### [Update Zero Trust account logging settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/logging/methods/update)
 
-    - `pointer: optional string`
+PUT/accounts/{account\_id}/gateway/logging
 
-- `messages: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+LoggingSetting object {redact\_pii, settings\_by\_rule\_type }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `success: true`
+redact\_pii: optional boolean
 
-  Indicate whether the API call was successful.
+Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created_at, settings, updated_at }`
+<details>
 
-  Specify account settings.
+<summary>
 
-  - `created_at: optional string`
+settings\_by\_rule\_type: optional object {dns, http, l4 }
 
-  - `settings: optional GatewayConfigurationSettings`
+Configure logging settings for each rule type.
 
-    Specify account settings.
+</summary>
 
-    - `activity_log: optional ActivityLogSettings`
+<details>
 
-      Specify activity log settings.
+<summary>
 
-      - `enabled: optional boolean`
+dns: optional object {log\_all, log\_blocks }
 
-        Specify whether to log activity.
+Configure logging settings for DNS firewall.
 
-    - `antivirus: optional AntiVirusSettings`
+</summary>
 
-      Specify anti-virus settings.
+log\_all: optional boolean
 
-      - `enabled_download_phase: optional boolean`
+Specify whether to log all requests to this service.
 
-        Specify whether to enable anti-virus scanning on downloads.
+<a href="#">Link to this property</a>
 
-      - `enabled_upload_phase: optional boolean`
+log\_blocks: optional boolean
 
-        Specify whether to enable anti-virus scanning on uploads.
+Specify whether to log only blocking requests to this service.
 
-      - `fail_closed: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to block requests for unscannable files.
+</details>
 
-      - `notification_settings: optional NotificationSettings`
+<a href="#">Link to this property</a>
 
-        Configure the message the user's device shows during an antivirus scan.
+<details>
 
-        - `enabled: optional boolean`
+<summary>
 
-          Specify whether to enable notifications.
+http: optional object {log\_all, log\_blocks }
 
-        - `include_context: optional boolean`
+Configure logging settings for HTTP/HTTPS firewall.
 
-          Specify whether to include context information as query parameters.
+</summary>
 
-        - `msg: optional string`
+log\_all: optional boolean
 
-          Specify the message to show in the notification.
+Specify whether to log all requests to this service.
 
-        - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+log\_blocks: optional boolean
 
-    - `block_page: optional BlockPageSettings`
+Specify whether to log only blocking requests to this service.
 
-      Specify block page layout settings.
+<a href="#">Link to this property</a>
 
-      - `background_color: optional string`
+</details>
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+<details>
 
-        Specify whether to enable the custom block page.
+<summary>
 
-      - `footer_text: optional string`
+l4: optional object {log\_all, log\_blocks }
 
-        Specify the block page footer text when the mode is customized_block_page.
+Configure logging settings for Network firewall.
 
-      - `header_text: optional string`
+</summary>
 
-        Specify the block page header text when the mode is customized_block_page.
+log\_all: optional boolean
 
-      - `include_context: optional boolean`
+Specify whether to log all requests to this service.
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+<a href="#">Link to this property</a>
 
-      - `logo_path: optional string`
+log\_blocks: optional boolean
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+Specify whether to log only blocking requests to this service.
 
-      - `mailto_address: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+</details>
 
-      - `mailto_subject: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+</details>
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+<a href="#">Link to this property</a>
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+</details>
 
-        - `""`
+[Link to this property](#)%20zero_trust.gateway.logging%20%3E%20(model)%20logging_setting%20%3E%20(schema)>)
 
-        - `"customized_block_page"`
+#### GatewayProxy Endpoints
 
-        - `"redirect_uri"`
+##### [List proxy endpoints](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/list)
 
-      - `name: optional string`
+GET/accounts/{account\_id}/gateway/proxy\_endpoints
 
-        Specify the block page title when the mode is customized_block_page.
+##### [Get a proxy endpoint](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/get)
 
-      - `read_only: optional boolean`
+GET/accounts/{account\_id}/gateway/proxy\_endpoints/{proxy\_endpoint\_id}
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+##### [Create a proxy endpoint](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/create)
 
-      - `source_account: optional string`
+POST/accounts/{account\_id}/gateway/proxy\_endpoints
 
-        Indicate the account tag of the account that shared this setting.
+##### [Update a proxy endpoint](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/edit)
 
-      - `suppress_footer: optional boolean`
+PATCH/accounts/{account\_id}/gateway/proxy\_endpoints/{proxy\_endpoint\_id}
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+##### [Delete a proxy endpoint](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/delete)
 
-      - `target_uri: optional string`
+DELETE/accounts/{account\_id}/gateway/proxy\_endpoints/{proxy\_endpoint\_id}
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+##### ModelsExpand Collapse
 
-      - `version: optional number`
+GatewayIPs = string
 
-        Indicate the version number of the setting.
+Specify an IPv4 or IPv6 CIDR. Limit IPv6 to a maximum of /109 and IPv4 to a maximum of /25.
 
-    - `body_scanning: optional BodyScanningSettings`
+[Link to this property](#)%20zero_trust.gateway.proxy_endpoints%20%3E%20(model)%20gateway_ips%20%3E%20(schema)>)
 
-      Specify the DLP inspection mode.
+<details>
 
-      - `inspection_mode: optional "deep" or "shallow"`
+<summary>
 
-        Specify the inspection mode as either `deep` or `shallow`.
+ProxyEndpoint = object {ips, name, id, 4 more } or object {kind, name, id, 3 more }
 
-        - `"deep"`
+</summary>
 
-        - `"shallow"`
+One of the following:
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+<details>
 
-      Specify Clientless Browser Isolation settings.
+<summary>
 
-      - `non_identity_enabled: optional boolean`
+IP object {ips, name, id, 4 more }
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+</summary>
 
-      - `url_browser_isolation_enabled: optional boolean`
+ips: array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.proxy_endpoints%20%3E%20(model)%20gateway_ips%20%3E%20(schema)">GatewayIPs</a>
 
-        Specify whether to enable Clientless Browser Isolation.
+Specify the list of CIDRs to restrict ingress connections.
 
-    - `certificate: optional object { id }`
+<a href="#">Link to this property</a>
 
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+name: string
 
-      - `id: string`
+Specify the name of the proxy endpoint.
 
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+<a href="#">Link to this property</a>
 
-    - `custom_certificate: optional CustomCertificateSettings`
+id: optional string
 
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+created\_at: optional string
 
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
+formatdate-time
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the UUID of the certificate (ID from MTLS certificate store).
+kind: optional "ip"
 
-      - `binding_status: optional string`
+The proxy endpoint kind
 
-        Indicate the internal certificate status.
+<a href="#">Link to this property</a>
 
-      - `updated_at: optional string`
+subdomain: optional string
 
-    - `extended_email_matching: optional ExtendedEmailMatching`
+Specify the subdomain to use as the destination in the proxy client.
 
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+updated\_at: optional string
 
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+formatdate-time
 
-      - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+</details>
 
-      - `source_account: optional string`
+<a href="#">Link to this property</a>
 
-        Indicate the account tag of the account that shared this setting.
+<details>
 
-      - `version: optional number`
+<summary>
 
-        Indicate the version number of the setting.
+Identity object {kind, name, id, 3 more }
 
-    - `fips: optional FipsSettings`
+</summary>
 
-      Specify FIPS settings.
+kind: "identity"
 
-      - `tls: optional boolean`
+The proxy endpoint kind
 
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+<a href="#">Link to this property</a>
 
-    - `host_selector: optional object { enabled }`
+name: string
 
-      Enable host selection in egress policies.
+Specify the name of the proxy endpoint.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable filtering via hosts for egress policies.
+id: optional string
 
-    - `inspection: optional object { mode }`
+<a href="#">Link to this property</a>
 
-      Define the proxy inspection mode.
+created\_at: optional string
 
-      - `mode: optional "static" or "dynamic"`
+formatdate-time
 
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+<a href="#">Link to this property</a>
 
-        - `"static"`
+subdomain: optional string
 
-        - `"dynamic"`
+Specify the subdomain to use as the destination in the proxy client.
 
-    - `max_ttl_secs: optional number`
+<a href="#">Link to this property</a>
 
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+updated\_at: optional string
 
-    - `protocol_detection: optional ProtocolDetection`
+formatdate-time
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-    - `sandbox: optional object { enabled, fallback_action }`
+</details>
 
-      Specify whether to enable the sandbox.
+[Link to this property](#)%20zero_trust.gateway.proxy_endpoints%20%3E%20(model)%20proxy_endpoint%20%3E%20(schema)>)
 
-      - `enabled: optional boolean`
+ProxyEndpointDeleteResponse = unknown
 
-        Specify whether to enable the sandbox.
+[Link to this property](#)%20zero_trust.gateway.proxy_endpoints%20%3E%20(model)%20proxy_endpoint_delete_response%20%3E%20(schema)>)
 
-      - `fallback_action: optional "allow" or "block"`
+#### GatewayRules
 
-        Specify the action to take when the system cannot scan the file.
+##### [List Zero Trust Gateway rules](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/rules/methods/list)
 
-        - `"allow"`
+GET/accounts/{account\_id}/gateway/rules
 
-        - `"block"`
+##### [Get Zero Trust Gateway rule details.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/rules/methods/get)
 
-    - `tls_decrypt: optional TLSSettings`
+GET/accounts/{account\_id}/gateway/rules/{rule\_id}
 
-      Specify whether to inspect encrypted HTTP traffic.
+##### [Create a Zero Trust Gateway rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/rules/methods/create)
 
-      - `enabled: optional boolean`
+POST/accounts/{account\_id}/gateway/rules
 
-        Specify whether to inspect encrypted HTTP traffic.
+##### [Update a Zero Trust Gateway rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/rules/methods/update)
 
-  - `updated_at: optional string`
+PUT/accounts/{account\_id}/gateway/rules/{rule\_id}
 
-### Example
+##### [Delete a Zero Trust Gateway rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/rules/methods/delete)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+DELETE/accounts/{account\_id}/gateway/rules/{rule\_id}
 
-#### Response
+##### [List Zero Trust Gateway rules inherited from the parent account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/rules/methods/list_tenant)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "settings": {
-      "activity_log": {
-        "enabled": true
-      },
-      "antivirus": {
-        "enabled_download_phase": false,
-        "enabled_upload_phase": false,
-        "fail_closed": false,
-        "notification_settings": {
-          "enabled": true,
-          "include_context": true,
-          "msg": "msg",
-          "support_url": "support_url"
-        }
-      },
-      "block_page": {
-        "background_color": "background_color",
-        "enabled": true,
-        "footer_text": "--footer--",
-        "header_text": "--header--",
-        "include_context": true,
-        "logo_path": "https://logos.com/a.png",
-        "mailto_address": "admin@example.com",
-        "mailto_subject": "Blocked User Inquiry",
-        "mode": "",
-        "name": "Cloudflare",
-        "read_only": true,
-        "source_account": "source_account",
-        "suppress_footer": false,
-        "target_uri": "https://example.com",
-        "version": 1
-      },
-      "body_scanning": {
-        "inspection_mode": "deep"
-      },
-      "browser_isolation": {
-        "non_identity_enabled": true,
-        "url_browser_isolation_enabled": true
-      },
-      "certificate": {
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f"
-      },
-      "custom_certificate": {
-        "enabled": true,
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
-        "binding_status": "pending_deployment",
-        "updated_at": "2019-12-27T18:11:19.117Z"
-      },
-      "extended_email_matching": {
-        "enabled": true,
-        "read_only": true,
-        "source_account": "source_account",
-        "version": 1
-      },
-      "fips": {
-        "tls": true
-      },
-      "host_selector": {
-        "enabled": false
-      },
-      "inspection": {
-        "mode": "static"
-      },
-      "max_ttl_secs": 3600,
-      "protocol_detection": {
-        "enabled": true
-      },
-      "sandbox": {
-        "enabled": true,
-        "fallback_action": "allow"
-      },
-      "tls_decrypt": {
-        "enabled": true
-      }
-    },
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+GET/accounts/{account\_id}/gateway/rules/tenant
 
-## Domain Types
+##### [Reset the expiration of a Zero Trust Gateway Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/rules/methods/reset_expiration)
 
-### Activity Log Settings
+POST/accounts/{account\_id}/gateway/rules/{rule\_id}/reset\_expiration
 
-- `ActivityLogSettings object { enabled }`
+##### ModelsExpand Collapse
 
-  Specify activity log settings.
+<details>
 
-  - `enabled: optional boolean`
+<summary>
 
-    Specify whether to log activity.
+DNSResolverSettingsV4 object {ip, port, route\_through\_private\_network, vnet\_id }
 
-### Anti Virus Settings
+</summary>
 
-- `AntiVirusSettings object { enabled_download_phase, enabled_upload_phase, fail_closed, notification_settings }`
+ip: string
 
-  Specify anti-virus settings.
+Specify the IPv4 address of the upstream resolver.
 
-  - `enabled_download_phase: optional boolean`
+<a href="#">Link to this property</a>
 
-    Specify whether to enable anti-virus scanning on downloads.
+port: optional number
 
-  - `enabled_upload_phase: optional boolean`
+Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
 
-    Specify whether to enable anti-virus scanning on uploads.
+<a href="#">Link to this property</a>
 
-  - `fail_closed: optional boolean`
+route\_through\_private\_network: optional boolean
 
-    Specify whether to block requests for unscannable files.
+Indicate whether to connect to this resolver over a private network. Must set when vnet\_id set.
 
-  - `notification_settings: optional NotificationSettings`
+<a href="#">Link to this property</a>
 
-    Configure the message the user's device shows during an antivirus scan.
+vnet\_id: optional string
 
-    - `enabled: optional boolean`
+Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
 
-      Specify whether to enable notifications.
+<a href="#">Link to this property</a>
 
-    - `include_context: optional boolean`
+</details>
 
-      Specify whether to include context information as query parameters.
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(model)%20dns_resolver_settings_v4%20%3E%20(schema)>)
 
-    - `msg: optional string`
+<details>
 
-      Specify the message to show in the notification.
+<summary>
 
-    - `support_url: optional string`
+DNSResolverSettingsV6 object {ip, port, route\_through\_private\_network, vnet\_id }
 
-      Specify a URL that directs users to more information. If unset, the notification opens a block page.
+</summary>
 
-### Block Page Settings
+ip: string
 
-- `BlockPageSettings object { background_color, enabled, footer_text, 12 more }`
+Specify the IPv6 address of the upstream resolver.
 
-  Specify block page layout settings.
+<a href="#">Link to this property</a>
 
-  - `background_color: optional string`
+port: optional number
 
-    Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Specify whether to enable the custom block page.
+route\_through\_private\_network: optional boolean
 
-  - `footer_text: optional string`
+Indicate whether to connect to this resolver over a private network. Must set when vnet\_id set.
 
-    Specify the block page footer text when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-  - `header_text: optional string`
+vnet\_id: optional string
 
-    Specify the block page header text when the mode is customized_block_page.
+Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
 
-  - `include_context: optional boolean`
+<a href="#">Link to this property</a>
 
-    Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+</details>
 
-  - `logo_path: optional string`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(model)%20dns_resolver_settings_v6%20%3E%20(schema)>)
 
-    Specify the full URL to the logo file when the mode is customized_block_page.
+<details>
 
-  - `mailto_address: optional string`
+<summary>
 
-    Specify the admin email for users to contact when the mode is customized_block_page.
+GatewayFilter = "http"or "dns"or "l4"or 2 more
 
-  - `mailto_subject: optional string`
+Specify the protocol or layer to use.
 
-    Specify the subject line for emails created from the block page when the mode is customized_block_page.
+</summary>
 
-  - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+One of the following:
 
-    Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+"http"
 
-    - `""`
+<a href="#">Link to this property</a>
 
-    - `"customized_block_page"`
+"dns"
 
-    - `"redirect_uri"`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+"l4"
 
-    Specify the block page title when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-  - `read_only: optional boolean`
+"egress"
 
-    Indicate that this setting was shared via the Orgs API and read only for the current account.
+<a href="#">Link to this property</a>
 
-  - `source_account: optional string`
+"dns\_resolver"
 
-    Indicate the account tag of the account that shared this setting.
+<a href="#">Link to this property</a>
 
-  - `suppress_footer: optional boolean`
+</details>
 
-    Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(model)%20gateway_filter%20%3E%20(schema)>)
 
-  - `target_uri: optional string`
+<details>
 
-    Specify the URI to redirect users to when the mode is redirect_uri.
+<summary>
 
-  - `version: optional number`
+GatewayRule object {action, enabled, filters, 18 more }
 
-    Indicate the version number of the setting.
+</summary>
 
-### Body Scanning Settings
+<details>
 
-- `BodyScanningSettings object { inspection_mode }`
+<summary>
 
-  Specify the DLP inspection mode.
+action: "on"or "off"or "allow"or 13 more
 
-  - `inspection_mode: optional "deep" or "shallow"`
+Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to <code>true</code>.
 
-    Specify the inspection mode as either `deep` or `shallow`.
+</summary>
 
-    - `"deep"`
+One of the following:
 
-    - `"shallow"`
+"on"
 
-### Browser Isolation Settings
+<a href="#">Link to this property</a>
 
-- `BrowserIsolationSettings object { non_identity_enabled, url_browser_isolation_enabled }`
+"off"
 
-  Specify Clientless Browser Isolation settings.
+<a href="#">Link to this property</a>
 
-  - `non_identity_enabled: optional boolean`
+"allow"
 
-    Specify whether to enable non-identity onramp support for Browser Isolation.
+<a href="#">Link to this property</a>
 
-  - `url_browser_isolation_enabled: optional boolean`
+"block"
 
-    Specify whether to enable Clientless Browser Isolation.
+<a href="#">Link to this property</a>
 
-### Custom Certificate Settings
+"scan"
 
-- `CustomCertificateSettings object { enabled, id, binding_status, updated_at }`
+<a href="#">Link to this property</a>
 
-  Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+"noscan"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Specify whether to enable a custom certificate authority for signing Gateway traffic.
+"safesearch"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the UUID of the certificate (ID from MTLS certificate store).
+"ytrestricted"
 
-  - `binding_status: optional string`
+<a href="#">Link to this property</a>
 
-    Indicate the internal certificate status.
+"isolate"
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-### Extended Email Matching
+"noisolate"
 
-- `ExtendedEmailMatching object { enabled, read_only, source_account, version }`
+<a href="#">Link to this property</a>
 
-  Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+"override"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+"l4\_override"
 
-  - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicate that this setting was shared via the Orgs API and read only for the current account.
+"egress"
 
-  - `source_account: optional string`
+<a href="#">Link to this property</a>
 
-    Indicate the account tag of the account that shared this setting.
+"resolve"
 
-  - `version: optional number`
+<a href="#">Link to this property</a>
 
-    Indicate the version number of the setting.
+"quarantine"
 
-### Fips Settings
+<a href="#">Link to this property</a>
 
-- `FipsSettings object { tls }`
+"redirect"
 
-  Specify FIPS settings.
+<a href="#">Link to this property</a>
 
-  - `tls: optional boolean`
+</details>
 
-    Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+<a href="#">Link to this property</a>
 
-### Gateway Configuration Settings
+enabled: boolean
 
-- `GatewayConfigurationSettings object { activity_log, antivirus, block_page, 12 more }`
+Specify whether the rule is enabled.
 
-  Specify account settings.
+<a href="#">Link to this property</a>
 
-  - `activity_log: optional ActivityLogSettings`
+<details>
 
-    Specify activity log settings.
+<summary>
 
-    - `enabled: optional boolean`
+filters: array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20gateway_filter%20%3E%20(schema)">GatewayFilter</a>
 
-      Specify whether to log activity.
+Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
 
-  - `antivirus: optional AntiVirusSettings`
+</summary>
 
-    Specify anti-virus settings.
+One of the following:
 
-    - `enabled_download_phase: optional boolean`
+"http"
 
-      Specify whether to enable anti-virus scanning on downloads.
+<a href="#">Link to this property</a>
 
-    - `enabled_upload_phase: optional boolean`
+"dns"
 
-      Specify whether to enable anti-virus scanning on uploads.
+<a href="#">Link to this property</a>
 
-    - `fail_closed: optional boolean`
+"l4"
 
-      Specify whether to block requests for unscannable files.
+<a href="#">Link to this property</a>
 
-    - `notification_settings: optional NotificationSettings`
+"egress"
 
-      Configure the message the user's device shows during an antivirus scan.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+"dns\_resolver"
 
-        Specify whether to enable notifications.
+<a href="#">Link to this property</a>
 
-      - `include_context: optional boolean`
+</details>
 
-        Specify whether to include context information as query parameters.
+<a href="#">Link to this property</a>
 
-      - `msg: optional string`
+name: string
 
-        Specify the message to show in the notification.
+Specify the rule name.
 
-      - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-        Specify a URL that directs users to more information. If unset, the notification opens a block page.
+precedence: number
 
-  - `block_page: optional BlockPageSettings`
+Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to <a href="http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform">Order of enforcement</a> to manage precedence via Terraform.
 
-    Specify block page layout settings.
+<a href="#">Link to this property</a>
 
-    - `background_color: optional string`
+traffic: string
 
-      Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable the custom block page.
+id: optional string
 
-    - `footer_text: optional string`
+Identify the API resource with a UUID.
 
-      Specify the block page footer text when the mode is customized_block_page.
+maxLength36
 
-    - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the block page header text when the mode is customized_block_page.
+created\_at: optional string
 
-    - `include_context: optional boolean`
+formatdate-time
 
-      Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+<a href="#">Link to this property</a>
 
-    - `logo_path: optional string`
+deleted\_at: optional string
 
-      Specify the full URL to the logo file when the mode is customized_block_page.
+Indicate the date of deletion, if any.
 
-    - `mailto_address: optional string`
+formatdate-time
 
-      Specify the admin email for users to contact when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-    - `mailto_subject: optional string`
+description: optional string
 
-      Specify the subject line for emails created from the block page when the mode is customized_block_page.
+Specify the rule description.
 
-    - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+<a href="#">Link to this property</a>
 
-      Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+device\_posture: optional string
 
-      - `""`
+Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
 
-      - `"customized_block_page"`
+<a href="#">Link to this property</a>
 
-      - `"redirect_uri"`
+<details>
 
-    - `name: optional string`
+<summary>
 
-      Specify the block page title when the mode is customized_block_page.
+expiration: optional object {expires\_at, duration, expired }
 
-    - `read_only: optional boolean`
+Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy’s <code>schedule</code> configuration, if any. This does not apply to HTTP or network policies. Settable only for <code>dns</code> rules.
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+</summary>
 
-    - `source_account: optional string`
+expires\_at: string
 
-      Indicate the account tag of the account that shared this setting.
+Show the timestamp when the policy expires and stops applying. The value must follow RFC 3339 and include a UTC offset. The system accepts non-zero offsets but converts them to the equivalent UTC+00:00 value and returns timestamps with a trailing Z. Expiration policies ignore client timezones and expire globally at the specified expires\_at time.
 
-    - `suppress_footer: optional boolean`
+formatdate-time
 
-      Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-    - `target_uri: optional string`
+duration: optional number
 
-      Specify the URI to redirect users to when the mode is redirect_uri.
+Defines the default duration a policy active in minutes. Must set in order to use the <code>reset_expiration</code> endpoint on this rule.
 
-    - `version: optional number`
+minimum5
 
-      Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-  - `body_scanning: optional BodyScanningSettings`
+expired: optional boolean
 
-    Specify the DLP inspection mode.
+Indicates whether the policy is expired.
 
-    - `inspection_mode: optional "deep" or "shallow"`
+<a href="#">Link to this property</a>
 
-      Specify the inspection mode as either `deep` or `shallow`.
+</details>
 
-      - `"deep"`
+<a href="#">Link to this property</a>
 
-      - `"shallow"`
+identity: optional string
 
-  - `browser_isolation: optional BrowserIsolationSettings`
+Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
 
-    Specify Clientless Browser Isolation settings.
+<a href="#">Link to this property</a>
 
-    - `non_identity_enabled: optional boolean`
+read\_only: optional boolean
 
-      Specify whether to enable non-identity onramp support for Browser Isolation.
+Indicate that this rule is shared via the Orgs API and read only.
 
-    - `url_browser_isolation_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable Clientless Browser Isolation.
+rule\_settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20rule_setting%20%3E%20(schema)">RuleSetting</a> { add\_headers, allow\_child\_bypass, audit\_ssh, 25 more }
 
-  - `certificate: optional object { id }`
+Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
 
-    Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+schedule: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20schedule%20%3E%20(schema)">Schedule</a> { fri, mon, sat, 5 more }
 
-      Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+Defines the schedule for activating DNS policies. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
 
-  - `custom_certificate: optional CustomCertificateSettings`
+<a href="#">Link to this property</a>
 
-    Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+sharable: optional boolean
 
-    - `enabled: boolean`
+Indicate that this rule is sharable via the Orgs API.
 
-      Specify whether to enable a custom certificate authority for signing Gateway traffic.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+source\_account: optional string
 
-      Specify the UUID of the certificate (ID from MTLS certificate store).
+Provide the account tag of the account that created the rule.
 
-    - `binding_status: optional string`
+<a href="#">Link to this property</a>
 
-      Indicate the internal certificate status.
+updated\_at: optional string
 
-    - `updated_at: optional string`
+formatdate-time
 
-  - `extended_email_matching: optional ExtendedEmailMatching`
+<a href="#">Link to this property</a>
 
-    Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+version: optional number
 
-    - `enabled: optional boolean`
+Indicate the version number of the rule(read-only).
 
-      Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+warning\_status: optional string
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+Indicate a warning for a misconfigured rule, if any.
 
-    - `source_account: optional string`
+<a href="#">Link to this property</a>
 
-      Indicate the account tag of the account that shared this setting.
+</details>
 
-    - `version: optional number`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(model)%20gateway_rule%20%3E%20(schema)>)
 
-      Indicate the version number of the setting.
+<details>
 
-  - `fips: optional FipsSettings`
+<summary>
 
-    Specify FIPS settings.
+RuleSetting object {add\_headers, allow\_child\_bypass, audit\_ssh, 25 more }
 
-    - `tls: optional boolean`
+Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
 
-      Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+</summary>
 
-  - `host_selector: optional object { enabled }`
+add\_headers: optional map\[array of string]
 
-    Enable host selection in egress policies.
+Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain <code>@{selector.name}</code> variable references that are interpolated at the edge. Use <code>@@{</code> to escape a literal <code>@{</code>. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable filtering via hosts for egress policies.
+allow\_child\_bypass: optional boolean
 
-  - `inspection: optional object { mode }`
+Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
 
-    Define the proxy inspection mode.
+<a href="#">Link to this property</a>
 
-    - `mode: optional "static" or "dynamic"`
+<details>
 
-      Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+<summary>
 
-      - `"static"`
+audit\_ssh: optional object {command\_logging }
 
-      - `"dynamic"`
+Define the settings for the Audit SSH action. Settable only for <code>l4</code> rules with <code>audit_ssh</code> action.
 
-  - `max_ttl_secs: optional number`
+</summary>
 
-    Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+command\_logging: optional boolean
 
-  - `protocol_detection: optional ProtocolDetection`
+Enable SSH command logging.
 
-    Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+</details>
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-  - `sandbox: optional object { enabled, fallback_action }`
+<details>
 
-    Specify whether to enable the sandbox.
+<summary>
 
-    - `enabled: optional boolean`
+biso\_admin\_controls: optional object {copy, dcp, dd, 10 more }
 
-      Specify whether to enable the sandbox.
+Configure browser isolation behavior. Settable only for <code>http</code> rules with the action set to <code>isolate</code>.
 
-    - `fallback_action: optional "allow" or "block"`
+</summary>
 
-      Specify the action to take when the system cannot scan the file.
+<details>
 
-      - `"allow"`
+<summary>
 
-      - `"block"`
+copy: optional "enabled"or "disabled"or "remote\_only"
 
-  - `tls_decrypt: optional TLSSettings`
+Configure copy behavior. If set to remote\_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == “v2”.
 
-    Specify whether to inspect encrypted HTTP traffic.
+</summary>
 
-    - `enabled: optional boolean`
+One of the following:
 
-      Specify whether to inspect encrypted HTTP traffic.
+"enabled"
 
-### Notification Settings
+<a href="#">Link to this property</a>
 
-- `NotificationSettings object { enabled, include_context, msg, support_url }`
+"disabled"
 
-  Configure the message the user's device shows during an antivirus scan.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+"remote\_only"
 
-    Specify whether to enable notifications.
+<a href="#">Link to this property</a>
 
-  - `include_context: optional boolean`
+</details>
 
-    Specify whether to include context information as query parameters.
+<a href="#">Link to this property</a>
 
-  - `msg: optional string`
+dcp: optional boolean
 
-    Specify the message to show in the notification.
+Set to false to enable copy-pasting. Only applies when <code>version == "v1"</code>.
 
-  - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-    Specify a URL that directs users to more information. If unset, the notification opens a block page.
+dd: optional boolean
 
-### Protocol Detection
+Set to false to enable downloading. Only applies when <code>version == "v1"</code>.
 
-- `ProtocolDetection object { enabled }`
+<a href="#">Link to this property</a>
 
-  Specify whether to detect protocols from the initial bytes of client traffic.
+dk: optional boolean
 
-  - `enabled: optional boolean`
+Set to false to enable keyboard usage. Only applies when <code>version == "v1"</code>.
 
-    Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-### TLS Settings
+<details>
 
-- `TLSSettings object { enabled }`
+<summary>
 
-  Specify whether to inspect encrypted HTTP traffic.
+download: optional "enabled"or "disabled"or "remote\_only"
 
-  - `enabled: optional boolean`
+Configure download behavior. When set to remote\_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == “v2”.
 
-    Specify whether to inspect encrypted HTTP traffic.
+</summary>
 
-### Configuration Get Response
+One of the following:
 
-- `ConfigurationGetResponse object { created_at, settings, updated_at }`
+"enabled"
 
-  Specify account settings.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"disabled"
 
-  - `settings: optional GatewayConfigurationSettings`
+<a href="#">Link to this property</a>
 
-    Specify account settings.
+"remote\_only"
 
-    - `activity_log: optional ActivityLogSettings`
+<a href="#">Link to this property</a>
 
-      Specify activity log settings.
+</details>
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to log activity.
+dp: optional boolean
 
-    - `antivirus: optional AntiVirusSettings`
+Set to false to enable printing. Only applies when <code>version == "v1"</code>.
 
-      Specify anti-virus settings.
+<a href="#">Link to this property</a>
 
-      - `enabled_download_phase: optional boolean`
+du: optional boolean
 
-        Specify whether to enable anti-virus scanning on downloads.
+Set to false to enable uploading. Only applies when <code>version == "v1"</code>.
 
-      - `enabled_upload_phase: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable anti-virus scanning on uploads.
+<details>
 
-      - `fail_closed: optional boolean`
+<summary>
 
-        Specify whether to block requests for unscannable files.
+keyboard: optional "enabled"or "disabled"
 
-      - `notification_settings: optional NotificationSettings`
+Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == “v2”.
 
-        Configure the message the user's device shows during an antivirus scan.
+</summary>
 
-        - `enabled: optional boolean`
+One of the following:
 
-          Specify whether to enable notifications.
+"enabled"
 
-        - `include_context: optional boolean`
+<a href="#">Link to this property</a>
 
-          Specify whether to include context information as query parameters.
+"disabled"
 
-        - `msg: optional string`
+<a href="#">Link to this property</a>
 
-          Specify the message to show in the notification.
+</details>
 
-        - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+<details>
 
-    - `block_page: optional BlockPageSettings`
+<summary>
 
-      Specify block page layout settings.
+paste: optional "enabled"or "disabled"or "remote\_only"
 
-      - `background_color: optional string`
+Configure paste behavior. If set to remote\_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == “v2”.
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+</summary>
 
-      - `enabled: optional boolean`
+One of the following:
 
-        Specify whether to enable the custom block page.
+"enabled"
 
-      - `footer_text: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the block page footer text when the mode is customized_block_page.
+"disabled"
 
-      - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the block page header text when the mode is customized_block_page.
+"remote\_only"
 
-      - `include_context: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+</details>
 
-      - `logo_path: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+<details>
 
-      - `mailto_address: optional string`
+<summary>
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+printing: optional "enabled"or "disabled"
 
-      - `mailto_subject: optional string`
+Configure print behavior. Default, Printing is enabled. Applies only when version == “v2”.
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+</summary>
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+One of the following:
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+"enabled"
 
-        - `""`
+<a href="#">Link to this property</a>
 
-        - `"customized_block_page"`
+"disabled"
 
-        - `"redirect_uri"`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        Specify the block page title when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `read_only: optional boolean`
+<details>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<summary>
 
-      - `source_account: optional string`
+upload: optional "enabled"or "disabled"
 
-        Indicate the account tag of the account that shared this setting.
+Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == “v2”.
 
-      - `suppress_footer: optional boolean`
+</summary>
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+One of the following:
 
-      - `target_uri: optional string`
+"enabled"
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+<a href="#">Link to this property</a>
 
-      - `version: optional number`
+"disabled"
 
-        Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-    - `body_scanning: optional BodyScanningSettings`
+</details>
 
-      Specify the DLP inspection mode.
+<a href="#">Link to this property</a>
 
-      - `inspection_mode: optional "deep" or "shallow"`
+<details>
 
-        Specify the inspection mode as either `deep` or `shallow`.
+<summary>
 
-        - `"deep"`
+version: optional "v1"or "v2"
 
-        - `"shallow"`
+Indicate which version of the browser isolation controls should apply.
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+</summary>
 
-      Specify Clientless Browser Isolation settings.
+One of the following:
 
-      - `non_identity_enabled: optional boolean`
+"v1"
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+<a href="#">Link to this property</a>
 
-      - `url_browser_isolation_enabled: optional boolean`
+"v2"
 
-        Specify whether to enable Clientless Browser Isolation.
+<a href="#">Link to this property</a>
 
-    - `certificate: optional object { id }`
+</details>
 
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+wm\_id: optional string
 
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
 
-    - `custom_certificate: optional CustomCertificateSettings`
+formatuuid
 
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+maxLength36
 
-      - `enabled: boolean`
+minLength1
 
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+</details>
 
-        Specify the UUID of the certificate (ID from MTLS certificate store).
+<a href="#">Link to this property</a>
 
-      - `binding_status: optional string`
+<details>
 
-        Indicate the internal certificate status.
+<summary>
 
-      - `updated_at: optional string`
+block\_page: optional object {target\_uri, include\_context }
 
-    - `extended_email_matching: optional ExtendedEmailMatching`
+Configure custom block page settings. If missing or null, use the account settings. Settable only for <code>http</code> rules with the action set to <code>block</code>.
 
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+</summary>
 
-      - `enabled: optional boolean`
+target\_uri: string
 
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+Specify the URI to which the user is redirected.
 
-      - `read_only: optional boolean`
+formaturi
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<a href="#">Link to this property</a>
 
-      - `source_account: optional string`
+include\_context: optional boolean
 
-        Indicate the account tag of the account that shared this setting.
+Specify whether to pass the context information as query parameters.
 
-      - `version: optional number`
+<a href="#">Link to this property</a>
 
-        Indicate the version number of the setting.
+</details>
 
-    - `fips: optional FipsSettings`
+<a href="#">Link to this property</a>
 
-      Specify FIPS settings.
+block\_page\_enabled: optional boolean
 
-      - `tls: optional boolean`
+Enable the custom block page. Settable only for <code>dns</code> rules with action <code>block</code>.
 
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+<a href="#">Link to this property</a>
 
-    - `host_selector: optional object { enabled }`
+block\_reason: optional string
 
-      Enable host selection in egress policies.
+Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for <code>dns</code>, <code>l4</code>, and <code>http</code> rules when the action set to <code>block</code>.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable filtering via hosts for egress policies.
+bypass\_parent\_rule: optional boolean
 
-    - `inspection: optional object { mode }`
+Set to enable MSP accounts to bypass their parent’s rules. Only MSP child accounts can set this. Settable for all types of rules.
 
-      Define the proxy inspection mode.
+<a href="#">Link to this property</a>
 
-      - `mode: optional "static" or "dynamic"`
+<details>
 
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+<summary>
 
-        - `"static"`
+check\_session: optional object {duration, enforce }
 
-        - `"dynamic"`
+Configure session check behavior. Settable only for <code>l4</code> and <code>http</code> rules with the action set to <code>allow</code>.
 
-    - `max_ttl_secs: optional number`
+</summary>
 
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+duration: optional string
 
-    - `protocol_detection: optional ProtocolDetection`
+Sets the required session freshness threshold. The API returns a normalized version of this value.
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+enforce: optional boolean
 
-        Specify whether to detect protocols from the initial bytes of client traffic.
+Enable session enforcement.
 
-    - `sandbox: optional object { enabled, fallback_action }`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable the sandbox.
+</details>
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable the sandbox.
+delete\_headers: optional array of string
 
-      - `fallback_action: optional "allow" or "block"`
+Remove headers from allowed requests by name. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
 
-        Specify the action to take when the system cannot scan the file.
+<a href="#">Link to this property</a>
 
-        - `"allow"`
+<details>
 
-        - `"block"`
+<summary>
 
-    - `tls_decrypt: optional TLSSettings`
+dns\_resolvers: optional object {ipv4, ipv6 }
 
-      Specify whether to inspect encrypted HTTP traffic.
+Configure custom resolvers to route queries that match the resolver policy. Unused with ‘resolve\_dns\_through\_cloudflare’ or ‘resolve\_dns\_internally’ settings. DNS queries get routed to the address closest to their origin. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Specify whether to inspect encrypted HTTP traffic.
+<details>
 
-  - `updated_at: optional string`
+<summary>
 
-### Configuration Update Response
+ipv4: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20dns_resolver_settings_v4%20%3E%20(schema)">DNSResolverSettingsV4</a> { ip, port, route\_through\_private\_network, vnet\_id }
 
-- `ConfigurationUpdateResponse object { created_at, settings, updated_at }`
+</summary>
 
-  Specify account settings.
+ip: string
 
-  - `created_at: optional string`
+Specify the IPv4 address of the upstream resolver.
 
-  - `settings: optional GatewayConfigurationSettings`
+<a href="#">Link to this property</a>
 
-    Specify account settings.
+port: optional number
 
-    - `activity_log: optional ActivityLogSettings`
+Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
 
-      Specify activity log settings.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+route\_through\_private\_network: optional boolean
 
-        Specify whether to log activity.
+Indicate whether to connect to this resolver over a private network. Must set when vnet\_id set.
 
-    - `antivirus: optional AntiVirusSettings`
+<a href="#">Link to this property</a>
 
-      Specify anti-virus settings.
+vnet\_id: optional string
 
-      - `enabled_download_phase: optional boolean`
+Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
 
-        Specify whether to enable anti-virus scanning on downloads.
+<a href="#">Link to this property</a>
 
-      - `enabled_upload_phase: optional boolean`
+</details>
 
-        Specify whether to enable anti-virus scanning on uploads.
+<a href="#">Link to this property</a>
 
-      - `fail_closed: optional boolean`
+<details>
 
-        Specify whether to block requests for unscannable files.
+<summary>
 
-      - `notification_settings: optional NotificationSettings`
+ipv6: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.rules%20%3E%20(model)%20dns_resolver_settings_v6%20%3E%20(schema)">DNSResolverSettingsV6</a> { ip, port, route\_through\_private\_network, vnet\_id }
 
-        Configure the message the user's device shows during an antivirus scan.
+</summary>
 
-        - `enabled: optional boolean`
+ip: string
 
-          Specify whether to enable notifications.
+Specify the IPv6 address of the upstream resolver.
 
-        - `include_context: optional boolean`
+<a href="#">Link to this property</a>
 
-          Specify whether to include context information as query parameters.
+port: optional number
 
-        - `msg: optional string`
+Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
 
-          Specify the message to show in the notification.
+<a href="#">Link to this property</a>
 
-        - `support_url: optional string`
+route\_through\_private\_network: optional boolean
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+Indicate whether to connect to this resolver over a private network. Must set when vnet\_id set.
 
-    - `block_page: optional BlockPageSettings`
+<a href="#">Link to this property</a>
 
-      Specify block page layout settings.
+vnet\_id: optional string
 
-      - `background_color: optional string`
+Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Specify whether to enable the custom block page.
+<a href="#">Link to this property</a>
 
-      - `footer_text: optional string`
+</details>
 
-        Specify the block page footer text when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `header_text: optional string`
+<details>
 
-        Specify the block page header text when the mode is customized_block_page.
+<summary>
 
-      - `include_context: optional boolean`
+egress: optional object {ipv4, ipv4\_fallback, ipv6 }
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for <code>egress</code> rules.
 
-      - `logo_path: optional string`
+</summary>
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+ipv4: optional string
 
-      - `mailto_address: optional string`
+Specify the IPv4 address to use for egress.
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `mailto_subject: optional string`
+ipv4\_fallback: optional string
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set ‘0.0.0.0’ to indicate local egress via WARP IPs.
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+<a href="#">Link to this property</a>
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+ipv6: optional string
 
-        - `""`
+Specify the IPv6 range to use for egress.
 
-        - `"customized_block_page"`
+<a href="#">Link to this property</a>
 
-        - `"redirect_uri"`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the block page title when the mode is customized_block_page.
+<details>
 
-      - `read_only: optional boolean`
+<summary>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+forensic\_copy: optional object {enabled }
 
-      - `source_account: optional string`
+Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
 
-        Indicate the account tag of the account that shared this setting.
+</summary>
 
-      - `suppress_footer: optional boolean`
+enabled: optional boolean
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+Enable sending the copy to storage.
 
-      - `target_uri: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+</details>
 
-      - `version: optional number`
+<a href="#">Link to this property</a>
 
-        Indicate the version number of the setting.
+ignore\_cname\_category\_matches: optional boolean
 
-    - `body_scanning: optional BodyScanningSettings`
+Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
 
-      Specify the DLP inspection mode.
+<a href="#">Link to this property</a>
 
-      - `inspection_mode: optional "deep" or "shallow"`
+insecure\_disable\_dnssec\_validation: optional boolean
 
-        Specify the inspection mode as either `deep` or `shallow`.
+Specify whether to disable DNSSEC validation (for Allow actions) \[INSECURE]. Settable only for <code>dns</code> rules.
 
-        - `"deep"`
+<a href="#">Link to this property</a>
 
-        - `"shallow"`
+ip\_categories: optional boolean
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
 
-      Specify Clientless Browser Isolation settings.
+<a href="#">Link to this property</a>
 
-      - `non_identity_enabled: optional boolean`
+ip\_indicator\_feeds: optional boolean
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
 
-      - `url_browser_isolation_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable Clientless Browser Isolation.
+<details>
 
-    - `certificate: optional object { id }`
+<summary>
 
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+l4override: optional object {ip, port }
 
-      - `id: string`
+Send matching traffic to the supplied destination IP address and port. Settable only for <code>l4</code> rules with the action set to <code>l4_override</code>.
 
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+</summary>
 
-    - `custom_certificate: optional CustomCertificateSettings`
+ip: optional string
 
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+Defines the IPv4 or IPv6 address.
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
+port: optional number
 
-      - `id: optional string`
+Defines a port number to use for TCP/UDP overrides.
 
-        Specify the UUID of the certificate (ID from MTLS certificate store).
+<a href="#">Link to this property</a>
 
-      - `binding_status: optional string`
+</details>
 
-        Indicate the internal certificate status.
+<a href="#">Link to this property</a>
 
-      - `updated_at: optional string`
+<details>
 
-    - `extended_email_matching: optional ExtendedEmailMatching`
+<summary>
 
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+notification\_settings: optional object {enabled, include\_context, msg, support\_url }
 
-      - `enabled: optional boolean`
+Configure a notification to display on the user’s device when this rule matched. Settable for all types of rules with the action set to <code>block</code>.
 
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+</summary>
 
-      - `read_only: optional boolean`
+enabled: optional boolean
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+Enable notification.
 
-      - `source_account: optional string`
+<a href="#">Link to this property</a>
 
-        Indicate the account tag of the account that shared this setting.
+include\_context: optional boolean
 
-      - `version: optional number`
+Indicates whether to pass the context information as query parameters.
 
-        Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-    - `fips: optional FipsSettings`
+msg: optional string
 
-      Specify FIPS settings.
+Customize the message shown in the notification.
 
-      - `tls: optional boolean`
+<a href="#">Link to this property</a>
 
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+support\_url: optional string
 
-    - `host_selector: optional object { enabled }`
+Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
 
-      Enable host selection in egress policies.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Specify whether to enable filtering via hosts for egress policies.
+<a href="#">Link to this property</a>
 
-    - `inspection: optional object { mode }`
+override\_host: optional string
 
-      Define the proxy inspection mode.
+Defines a hostname for override, for the matching DNS queries. Settable only for <code>dns</code> rules with the action set to <code>override</code>.
 
-      - `mode: optional "static" or "dynamic"`
+<a href="#">Link to this property</a>
 
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+override\_ips: optional array of string
 
-        - `"static"`
+Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for <code>dns</code> rules with the action set to <code>override</code>.
 
-        - `"dynamic"`
+<a href="#">Link to this property</a>
 
-    - `max_ttl_secs: optional number`
+<details>
 
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+<summary>
 
-    - `protocol_detection: optional ProtocolDetection`
+payload\_log: optional object {enabled }
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+Configure DLP payload logging. Settable only for <code>http</code> rules.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Specify whether to detect protocols from the initial bytes of client traffic.
+enabled: optional boolean
 
-    - `sandbox: optional object { enabled, fallback_action }`
+Enable DLP payload logging for this rule.
 
-      Specify whether to enable the sandbox.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Specify whether to enable the sandbox.
+<a href="#">Link to this property</a>
 
-      - `fallback_action: optional "allow" or "block"`
+<details>
 
-        Specify the action to take when the system cannot scan the file.
+<summary>
 
-        - `"allow"`
+quarantine: optional object {file\_types }
 
-        - `"block"`
+Configure settings that apply to quarantine rules. Settable only for <code>http</code> rules.
 
-    - `tls_decrypt: optional TLSSettings`
+</summary>
 
-      Specify whether to inspect encrypted HTTP traffic.
+<details>
 
-      - `enabled: optional boolean`
+<summary>
 
-        Specify whether to inspect encrypted HTTP traffic.
+file\_types: optional array of "exe"or "pdf"or "doc"or 10 more
 
-  - `updated_at: optional string`
+Specify the types of files to sandbox.
 
-### Configuration Edit Response
+</summary>
 
-- `ConfigurationEditResponse object { created_at, settings, updated_at }`
+One of the following:
 
-  Specify account settings.
+"exe"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `settings: optional GatewayConfigurationSettings`
+"pdf"
 
-    Specify account settings.
+<a href="#">Link to this property</a>
 
-    - `activity_log: optional ActivityLogSettings`
+"doc"
 
-      Specify activity log settings.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+"docm"
 
-        Specify whether to log activity.
+<a href="#">Link to this property</a>
 
-    - `antivirus: optional AntiVirusSettings`
+"docx"
 
-      Specify anti-virus settings.
+<a href="#">Link to this property</a>
 
-      - `enabled_download_phase: optional boolean`
+"rtf"
 
-        Specify whether to enable anti-virus scanning on downloads.
+<a href="#">Link to this property</a>
 
-      - `enabled_upload_phase: optional boolean`
+"ppt"
 
-        Specify whether to enable anti-virus scanning on uploads.
+<a href="#">Link to this property</a>
 
-      - `fail_closed: optional boolean`
+"pptx"
 
-        Specify whether to block requests for unscannable files.
+<a href="#">Link to this property</a>
 
-      - `notification_settings: optional NotificationSettings`
+"xls"
 
-        Configure the message the user's device shows during an antivirus scan.
+<a href="#">Link to this property</a>
 
-        - `enabled: optional boolean`
+"xlsm"
 
-          Specify whether to enable notifications.
+<a href="#">Link to this property</a>
 
-        - `include_context: optional boolean`
+"xlsx"
 
-          Specify whether to include context information as query parameters.
+<a href="#">Link to this property</a>
 
-        - `msg: optional string`
+"zip"
 
-          Specify the message to show in the notification.
+<a href="#">Link to this property</a>
 
-        - `support_url: optional string`
+"rar"
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+<a href="#">Link to this property</a>
 
-    - `block_page: optional BlockPageSettings`
+</details>
 
-      Specify block page layout settings.
+<a href="#">Link to this property</a>
 
-      - `background_color: optional string`
+</details>
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+<details>
 
-        Specify whether to enable the custom block page.
+<summary>
 
-      - `footer_text: optional string`
+redirect: optional object {target\_uri, include\_context, preserve\_path\_and\_query }
 
-        Specify the block page footer text when the mode is customized_block_page.
+Apply settings to redirect rules. Settable only for <code>http</code> rules with the action set to <code>redirect</code>.
 
-      - `header_text: optional string`
+</summary>
 
-        Specify the block page header text when the mode is customized_block_page.
+target\_uri: string
 
-      - `include_context: optional boolean`
+Specify the URI to which the user is redirected.
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+formaturi
 
-      - `logo_path: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+include\_context: optional boolean
 
-      - `mailto_address: optional string`
+Specify whether to pass the context information as query parameters.
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `mailto_subject: optional string`
+preserve\_path\_and\_query: optional boolean
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+Specify whether to append the path and query parameters from the original request to target\_uri.
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+<a href="#">Link to this property</a>
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+</details>
 
-        - `""`
+<a href="#">Link to this property</a>
 
-        - `"customized_block_page"`
+<details>
 
-        - `"redirect_uri"`
+<summary>
 
-      - `name: optional string`
+resolve\_dns\_internally: optional object {fallback, view\_id }
 
-        Specify the block page title when the mode is customized_block_page.
+Configure to forward the query to the internal DNS service, passing the specified ‘view\_id’ as input. Not used when ‘dns\_resolvers’ is specified or ‘resolve\_dns\_through\_cloudflare’ is set. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
 
-      - `read_only: optional boolean`
+</summary>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<details>
 
-      - `source_account: optional string`
+<summary>
 
-        Indicate the account tag of the account that shared this setting.
+fallback: optional "none"or "public\_dns"
 
-      - `suppress_footer: optional boolean`
+Specify the fallback behavior to apply when the internal DNS response code differs from ‘NOERROR’ or when the response data contains only CNAME records for ‘A’ or ‘AAAA’ queries.
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+</summary>
 
-      - `target_uri: optional string`
+One of the following:
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+"none"
 
-      - `version: optional number`
+<a href="#">Link to this property</a>
 
-        Indicate the version number of the setting.
+"public\_dns"
 
-    - `body_scanning: optional BodyScanningSettings`
+<a href="#">Link to this property</a>
 
-      Specify the DLP inspection mode.
+</details>
 
-      - `inspection_mode: optional "deep" or "shallow"`
+<a href="#">Link to this property</a>
 
-        Specify the inspection mode as either `deep` or `shallow`.
+view\_id: optional string
 
-        - `"deep"`
+Specify the internal DNS view identifier to pass to the internal DNS service.
 
-        - `"shallow"`
+<a href="#">Link to this property</a>
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+</details>
 
-      Specify Clientless Browser Isolation settings.
+<a href="#">Link to this property</a>
 
-      - `non_identity_enabled: optional boolean`
+resolve\_dns\_through\_cloudflare: optional boolean
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+Enable to send queries that match the policy to Cloudflare’s default 1.1.1.1 DNS resolver. Cannot set when ‘dns\_resolvers’ specified or ‘resolve\_dns\_internally’ is set. Only valid when a rule’s action set to ‘resolve’. Settable only for <code>dns_resolver</code> rules.
 
-      - `url_browser_isolation_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable Clientless Browser Isolation.
+set\_headers: optional map\[array of string]
 
-    - `certificate: optional object { id }`
+Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain <code>@{selector.name}</code> variable references that are interpolated at the edge. Use <code>@@{</code> to escape a literal <code>@{</code>. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
 
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+<summary>
 
-    - `custom_certificate: optional CustomCertificateSettings`
+untrusted\_cert: optional object {action }
 
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for <code>http</code> rules with the action set to <code>allow</code>.
 
-      - `enabled: boolean`
+</summary>
 
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        Specify the UUID of the certificate (ID from MTLS certificate store).
+action: optional "pass\_through"or "block"or "error"
 
-      - `binding_status: optional string`
+Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
 
-        Indicate the internal certificate status.
+</summary>
 
-      - `updated_at: optional string`
+One of the following:
 
-    - `extended_email_matching: optional ExtendedEmailMatching`
+"pass\_through"
 
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+"block"
 
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+<a href="#">Link to this property</a>
 
-      - `read_only: optional boolean`
+"error"
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<a href="#">Link to this property</a>
 
-      - `source_account: optional string`
+</details>
 
-        Indicate the account tag of the account that shared this setting.
+<a href="#">Link to this property</a>
 
-      - `version: optional number`
+</details>
 
-        Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-    - `fips: optional FipsSettings`
+</details>
 
-      Specify FIPS settings.
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(model)%20rule_setting%20%3E%20(schema)>)
 
-      - `tls: optional boolean`
+<details>
 
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+<summary>
 
-    - `host_selector: optional object { enabled }`
+Schedule object {fri, mon, sat, 5 more }
 
-      Enable host selection in egress policies.
+Defines the schedule for activating DNS policies. Settable only for <code>dns</code> and <code>dns_resolver</code> rules.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Specify whether to enable filtering via hosts for egress policies.
+fri: optional string
 
-    - `inspection: optional object { mode }`
+Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
 
-      Define the proxy inspection mode.
+<a href="#">Link to this property</a>
 
-      - `mode: optional "static" or "dynamic"`
+mon: optional string
 
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
 
-        - `"static"`
+<a href="#">Link to this property</a>
 
-        - `"dynamic"`
+sat: optional string
 
-    - `max_ttl_secs: optional number`
+Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
 
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+<a href="#">Link to this property</a>
 
-    - `protocol_detection: optional ProtocolDetection`
+sun: optional string
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to detect protocols from the initial bytes of client traffic.
+thu: optional string
 
-    - `sandbox: optional object { enabled, fallback_action }`
+Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
 
-      Specify whether to enable the sandbox.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+time\_zone: optional string
 
-        Specify whether to enable the sandbox.
+Specify the time zone for rule evaluation. When a <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List">valid time zone city name</a> is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user’s IP address. Colo time zone is used when the user’s IP address does not resolve to a location.
 
-      - `fallback_action: optional "allow" or "block"`
+<a href="#">Link to this property</a>
 
-        Specify the action to take when the system cannot scan the file.
+tue: optional string
 
-        - `"allow"`
+Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
 
-        - `"block"`
+<a href="#">Link to this property</a>
 
-    - `tls_decrypt: optional TLSSettings`
+wed: optional string
 
-      Specify whether to inspect encrypted HTTP traffic.
+Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to inspect encrypted HTTP traffic.
+</details>
 
-  - `updated_at: optional string`
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(model)%20schedule%20%3E%20(schema)>)
 
-# Custom Certificate
+RuleDeleteResponse = unknown
 
-## Get Zero Trust certificate configuration
+[Link to this property](#)%20zero_trust.gateway.rules%20%3E%20(model)%20rule_delete_response%20%3E%20(schema)>)
 
-**get** `/accounts/{account_id}/gateway/configuration/custom_certificate`
+#### GatewayCertificates
 
-Retrieve the current Zero Trust certificate configuration.
+##### [List Zero Trust certificates](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/list)
 
-### Path Parameters
+GET/accounts/{account\_id}/gateway/certificates
 
-- `account_id: string`
+##### [Get Zero Trust certificate details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/get)
 
-### Returns
+GET/accounts/{account\_id}/gateway/certificates/{certificate\_id}
 
-- `CustomCertificateSettings object { enabled, id, binding_status, updated_at }`
+##### [Create Zero Trust certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/create)
 
-  Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+POST/accounts/{account\_id}/gateway/certificates
 
-  - `enabled: boolean`
+##### [Delete Zero Trust certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/delete)
 
-    Specify whether to enable a custom certificate authority for signing Gateway traffic.
+DELETE/accounts/{account\_id}/gateway/certificates/{certificate\_id}
 
-  - `id: optional string`
+##### [Activate a Zero Trust certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/activate)
 
-    Specify the UUID of the certificate (ID from MTLS certificate store).
+POST/accounts/{account\_id}/gateway/certificates/{certificate\_id}/activate
 
-  - `binding_status: optional string`
+##### [Deactivate a Zero Trust certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/deactivate)
 
-    Indicate the internal certificate status.
+POST/accounts/{account\_id}/gateway/certificates/{certificate\_id}/deactivate
 
-  - `updated_at: optional string`
+##### ModelsExpand Collapse
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration/custom_certificate \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+CertificateListResponse object {id, binding\_status, certificate, 9 more }
 
-```json
-{
-  "enabled": true,
-  "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
-  "binding_status": "pending_deployment",
-  "updated_at": "2019-12-27T18:11:19.117Z"
-}
-```
+</summary>
 
-# Lists
+id: optional string
 
-## List Zero Trust lists
+Identify the certificate with a UUID.
 
-**get** `/accounts/{account_id}/gateway/lists`
+maxLength36
 
-Fetch all Zero Trust lists for an account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-- `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-  Specify the list type.
+</summary>
 
-  - `"SERIAL"`
+One of the following:
 
-  - `"URL"`
+"pending\_deployment"
 
-  - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-  - `"EMAIL"`
+"available"
 
-  - `"IP"`
+<a href="#">Link to this property</a>
 
-  - `"CATEGORY"`
+"pending\_deletion"
 
-  - `"LOCATION"`
+<a href="#">Link to this property</a>
 
-  - `"DEVICE"`
+"inactive"
 
-  - `"AAGUID"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+certificate: optional string
 
-  - `message: string`
+Provide the CA certificate (read-only).
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: optional string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+expires\_on: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+fingerprint: optional string
 
-- `success: true`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+in\_use: optional boolean
 
-- `result: optional array of GatewayList`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identify the API resource with a UUID.
+issuer\_org: optional string
 
-  - `count: optional number`
+Indicate the organization that issued the certificate (read-only).
 
-    Indicate the number of items in the list.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+issuer\_raw: optional string
 
-  - `description: optional string`
+Provide the entire issuer field of the certificate (read-only).
 
-    Provide the list description.
+<a href="#">Link to this property</a>
 
-  - `items: optional array of GatewayItem`
+<details>
 
-    Provide the list items.
+<summary>
 
-    - `created_at: optional string`
+type: optional "custom"or "gateway\_managed"
 
-    - `description: optional string`
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-      Provide the list item description (optional).
+</summary>
 
-    - `value: optional string`
+One of the following:
 
-      Specify the item value.
+"custom"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the list name.
+"gateway\_managed"
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+<a href="#">Link to this property</a>
 
-    Specify the list type.
+</details>
 
-    - `"SERIAL"`
+<a href="#">Link to this property</a>
 
-    - `"URL"`
+updated\_at: optional string
 
-    - `"DOMAIN"`
+formatdate-time
 
-    - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+uploaded\_on: optional string
 
-    - `"CATEGORY"`
+formatdate-time
 
-    - `"LOCATION"`
+<a href="#">Link to this property</a>
 
-    - `"DEVICE"`
+</details>
 
-    - `"AAGUID"`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_list_response%20%3E%20(schema)>)
 
-  - `updated_at: optional string`
+<details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<summary>
 
-  - `count: optional number`
+CertificateGetResponse object {id, binding\_status, certificate, 9 more }
 
-    Indicate the total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+id: optional string
 
-    Indicate the current page within a paginated list of results.
+Identify the certificate with a UUID.
 
-  - `per_page: optional number`
+maxLength36
 
-    Indicate the number of results per page.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+<details>
 
-    Indicate the total results available without any search parameters.
+<summary>
 
-### Example
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "count": 20,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "The serial numbers for administrators",
-      "items": [
-        {
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "description": "Austin office IP",
-          "value": "8GE8721REF"
-        }
-      ],
-      "name": "Admin Serial Numbers",
-      "type": "SERIAL",
-      "updated_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+One of the following:
 
-## Get Zero Trust list details
+"pending\_deployment"
 
-**get** `/accounts/{account_id}/gateway/lists/{list_id}`
+<a href="#">Link to this property</a>
 
-Fetch a single Zero Trust list.
+"available"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"pending\_deletion"
 
-- `list_id: string`
+<a href="#">Link to this property</a>
 
-  Identify the API resource with a UUID.
+"inactive"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+certificate: optional string
 
-  - `documentation_url: optional string`
+Provide the CA certificate (read-only).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_at: optional string
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+expires\_on: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+fingerprint: optional string
 
-  Indicate whether the API call was successful.
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional GatewayList`
+in\_use: optional boolean
 
-  - `id: optional string`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-    Identify the API resource with a UUID.
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+issuer\_org: optional string
 
-    Indicate the number of items in the list.
+Indicate the organization that issued the certificate (read-only).
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+issuer\_raw: optional string
 
-    Provide the list description.
+Provide the entire issuer field of the certificate (read-only).
 
-  - `items: optional array of GatewayItem`
+<a href="#">Link to this property</a>
 
-    Provide the list items.
+<details>
 
-    - `created_at: optional string`
+<summary>
 
-    - `description: optional string`
+type: optional "custom"or "gateway\_managed"
 
-      Provide the list item description (optional).
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-    - `value: optional string`
+</summary>
 
-      Specify the item value.
+One of the following:
 
-  - `name: optional string`
+"custom"
 
-    Specify the list name.
+<a href="#">Link to this property</a>
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+"gateway\_managed"
 
-    Specify the list type.
+<a href="#">Link to this property</a>
 
-    - `"SERIAL"`
+</details>
 
-    - `"URL"`
+<a href="#">Link to this property</a>
 
-    - `"DOMAIN"`
+updated\_at: optional string
 
-    - `"EMAIL"`
+formatdate-time
 
-    - `"IP"`
+<a href="#">Link to this property</a>
 
-    - `"CATEGORY"`
+uploaded\_on: optional string
 
-    - `"LOCATION"`
+formatdate-time
 
-    - `"DEVICE"`
+<a href="#">Link to this property</a>
 
-    - `"AAGUID"`
+</details>
 
-  - `updated_at: optional string`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_get_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+CertificateCreateResponse object {id, binding\_status, certificate, 9 more }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "count": 20,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "The serial numbers for administrators",
-    "items": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "Austin office IP",
-        "value": "8GE8721REF"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "type": "SERIAL",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+</summary>
 
-## Create Zero Trust list
+id: optional string
 
-**post** `/accounts/{account_id}/gateway/lists`
+Identify the certificate with a UUID.
 
-Creates a new Zero Trust list.
+maxLength36
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `name: string`
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-  Specify the list name.
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-- `type: "SERIAL" or "URL" or "DOMAIN" or 6 more`
+</summary>
 
-  Specify the list type.
+One of the following:
 
-  - `"SERIAL"`
+"pending\_deployment"
 
-  - `"URL"`
+<a href="#">Link to this property</a>
 
-  - `"DOMAIN"`
+"available"
 
-  - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-  - `"IP"`
+"pending\_deletion"
 
-  - `"CATEGORY"`
+<a href="#">Link to this property</a>
 
-  - `"LOCATION"`
+"inactive"
 
-  - `"DEVICE"`
+<a href="#">Link to this property</a>
 
-  - `"AAGUID"`
+</details>
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-  Provide the list description.
+certificate: optional string
 
-- `items: optional array of object { description, value }`
+Provide the CA certificate (read-only).
 
-  Add items to the list.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+created\_at: optional string
 
-    Provide the list item description (optional).
+formatdate-time
 
-  - `value: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the item value.
+expires\_on: optional string
 
-### Returns
+formatdate-time
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+fingerprint: optional string
 
-  - `message: string`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+in\_use: optional boolean
 
-    - `pointer: optional string`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+issuer\_org: optional string
 
-  - `message: string`
+Indicate the organization that issued the certificate (read-only).
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+issuer\_raw: optional string
 
-- `success: true`
+Provide the entire issuer field of the certificate (read-only).
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { id, created_at, description, 4 more }`
+<summary>
 
-  - `id: optional string`
+type: optional "custom"or "gateway\_managed"
 
-    Identify the API resource with a UUID.
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-  - `created_at: optional string`
+</summary>
 
-  - `description: optional string`
+One of the following:
 
-    Provide the list description.
+"custom"
 
-  - `items: optional array of GatewayItem`
+<a href="#">Link to this property</a>
 
-    Provide the list items.
+"gateway\_managed"
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      Provide the list item description (optional).
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+updated\_at: optional string
 
-      Specify the item value.
+formatdate-time
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the list name.
+uploaded\_on: optional string
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+formatdate-time
 
-    Specify the list type.
+<a href="#">Link to this property</a>
 
-    - `"SERIAL"`
+</details>
 
-    - `"URL"`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_create_response%20%3E%20(schema)>)
 
-    - `"DOMAIN"`
+<details>
 
-    - `"EMAIL"`
+<summary>
 
-    - `"IP"`
+CertificateDeleteResponse object {id, binding\_status, certificate, 9 more }
 
-    - `"CATEGORY"`
+</summary>
 
-    - `"LOCATION"`
+id: optional string
 
-    - `"DEVICE"`
+Identify the certificate with a UUID.
 
-    - `"AAGUID"`
+maxLength36
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Admin Serial Numbers",
-          "type": "SERIAL",
-          "description": "The serial numbers for administrators"
-        }'
-```
+<summary>
 
-#### Response
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "The serial numbers for administrators",
-    "items": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "Austin office IP",
-        "value": "8GE8721REF"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "type": "SERIAL",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-## Update Zero Trust list
+</summary>
 
-**put** `/accounts/{account_id}/gateway/lists/{list_id}`
+One of the following:
 
-Updates a configured Zero Trust list. Skips updating list items if not included in the payload. A non empty list items will overwrite the existing list.
+"pending\_deployment"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"available"
 
-- `list_id: string`
+<a href="#">Link to this property</a>
 
-  Identify the API resource with a UUID.
+"pending\_deletion"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: string`
+"inactive"
 
-  Specify the list name.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+</details>
 
-  Provide the list description.
+<a href="#">Link to this property</a>
 
-- `items: optional array of object { description, value }`
+certificate: optional string
 
-  Add items to the list.
+Provide the CA certificate (read-only).
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the list item description (optional).
+created\_at: optional string
 
-  - `value: optional string`
+formatdate-time
 
-    Specify the item value.
+<a href="#">Link to this property</a>
 
-### Returns
+expires\_on: optional string
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+fingerprint: optional string
 
-  - `documentation_url: optional string`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+in\_use: optional boolean
 
-- `messages: array of ResponseInfo`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+issuer\_org: optional string
 
-  - `documentation_url: optional string`
+Indicate the organization that issued the certificate (read-only).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+issuer\_raw: optional string
 
-  Indicate whether the API call was successful.
+Provide the entire issuer field of the certificate (read-only).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional GatewayList`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Identify the API resource with a UUID.
+type: optional "custom"or "gateway\_managed"
 
-  - `count: optional number`
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-    Indicate the number of items in the list.
+</summary>
 
-  - `created_at: optional string`
+One of the following:
 
-  - `description: optional string`
+"custom"
 
-    Provide the list description.
+<a href="#">Link to this property</a>
 
-  - `items: optional array of GatewayItem`
+"gateway\_managed"
 
-    Provide the list items.
+<a href="#">Link to this property</a>
 
-    - `created_at: optional string`
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      Provide the list item description (optional).
+updated\_at: optional string
 
-    - `value: optional string`
+formatdate-time
 
-      Specify the item value.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+uploaded\_on: optional string
 
-    Specify the list name.
+formatdate-time
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+<a href="#">Link to this property</a>
 
-    Specify the list type.
+</details>
 
-    - `"SERIAL"`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_delete_response%20%3E%20(schema)>)
 
-    - `"URL"`
+<details>
 
-    - `"DOMAIN"`
+<summary>
 
-    - `"EMAIL"`
+CertificateActivateResponse object {id, binding\_status, certificate, 9 more }
 
-    - `"IP"`
+</summary>
 
-    - `"CATEGORY"`
+id: optional string
 
-    - `"LOCATION"`
+Identify the certificate with a UUID.
 
-    - `"DEVICE"`
+maxLength36
 
-    - `"AAGUID"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Admin Serial Numbers",
-          "description": "The serial numbers for administrators"
-        }'
-```
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-#### Response
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "count": 20,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "The serial numbers for administrators",
-    "items": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "Austin office IP",
-        "value": "8GE8721REF"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "type": "SERIAL",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+</summary>
 
-## Patch Zero Trust list.
+One of the following:
 
-**patch** `/accounts/{account_id}/gateway/lists/{list_id}`
+"pending\_deployment"
 
-Appends or removes an item from a configured Zero Trust list.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"available"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `list_id: string`
+"pending\_deletion"
 
-  Identify the API resource with a UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"inactive"
 
-- `append: optional array of object { description, value }`
+<a href="#">Link to this property</a>
 
-  Add items to the list.
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the list item description (optional).
+certificate: optional string
 
-  - `value: optional string`
+Provide the CA certificate (read-only).
 
-    Specify the item value.
+<a href="#">Link to this property</a>
 
-- `remove: optional array of string`
+created\_at: optional string
 
-  Lists of item values you want to remove.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+expires\_on: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+fingerprint: optional string
 
-  - `source: optional object { pointer }`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+in\_use: optional boolean
 
-  - `code: number`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+issuer\_org: optional string
 
-  - `source: optional object { pointer }`
+Indicate the organization that issued the certificate (read-only).
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Indicate whether the API call was successful.
+issuer\_raw: optional string
 
-  - `true`
+Provide the entire issuer field of the certificate (read-only).
 
-- `result: optional GatewayList`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Identify the API resource with a UUID.
+<summary>
 
-  - `count: optional number`
+type: optional "custom"or "gateway\_managed"
 
-    Indicate the number of items in the list.
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-  - `created_at: optional string`
+</summary>
 
-  - `description: optional string`
+One of the following:
 
-    Provide the list description.
+"custom"
 
-  - `items: optional array of GatewayItem`
+<a href="#">Link to this property</a>
 
-    Provide the list items.
+"gateway\_managed"
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      Provide the list item description (optional).
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+updated\_at: optional string
 
-      Specify the item value.
+formatdate-time
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the list name.
+uploaded\_on: optional string
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+formatdate-time
 
-    Specify the list type.
+<a href="#">Link to this property</a>
 
-    - `"SERIAL"`
+</details>
 
-    - `"URL"`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_activate_response%20%3E%20(schema)>)
 
-    - `"DOMAIN"`
+<details>
 
-    - `"EMAIL"`
+<summary>
 
-    - `"IP"`
+CertificateDeactivateResponse object {id, binding\_status, certificate, 9 more }
 
-    - `"CATEGORY"`
+</summary>
 
-    - `"LOCATION"`
+id: optional string
 
-    - `"DEVICE"`
+Identify the certificate with a UUID.
 
-    - `"AAGUID"`
+maxLength36
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<summary>
 
-#### Response
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "count": 20,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "The serial numbers for administrators",
-    "items": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "Austin office IP",
-        "value": "8GE8721REF"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "type": "SERIAL",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-## Delete Zero Trust list
+</summary>
 
-**delete** `/accounts/{account_id}/gateway/lists/{list_id}`
+One of the following:
 
-Deletes a Zero Trust list.
+"pending\_deployment"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"available"
 
-- `list_id: string`
+<a href="#">Link to this property</a>
 
-  Identify the API resource with a UUID.
+"pending\_deletion"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"inactive"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+certificate: optional string
 
-    - `pointer: optional string`
+Provide the CA certificate (read-only).
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+expires\_on: optional string
 
-- `success: true`
+formatdate-time
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+fingerprint: optional string
 
-- `result: optional unknown`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+in\_use: optional boolean
 
-#### Response
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+issuer\_org: optional string
 
-### Gateway Item
+Indicate the organization that issued the certificate (read-only).
 
-- `GatewayItem object { created_at, description, value }`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+issuer\_raw: optional string
 
-  - `description: optional string`
+Provide the entire issuer field of the certificate (read-only).
 
-    Provide the list item description (optional).
+<a href="#">Link to this property</a>
 
-  - `value: optional string`
+<details>
 
-    Specify the item value.
+<summary>
 
-### Gateway List
+type: optional "custom"or "gateway\_managed"
 
-- `GatewayList object { id, count, created_at, 5 more }`
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-  - `id: optional string`
+</summary>
 
-    Identify the API resource with a UUID.
+One of the following:
 
-  - `count: optional number`
+"custom"
 
-    Indicate the number of items in the list.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"gateway\_managed"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the list description.
+</details>
 
-  - `items: optional array of GatewayItem`
+<a href="#">Link to this property</a>
 
-    Provide the list items.
+updated\_at: optional string
 
-    - `created_at: optional string`
+formatdate-time
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      Provide the list item description (optional).
+uploaded\_on: optional string
 
-    - `value: optional string`
+formatdate-time
 
-      Specify the item value.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    Specify the list name.
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_deactivate_response%20%3E%20(schema)>)
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+#### GatewayPacfiles
 
-    Specify the list type.
+##### [List PAC files](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/list)
 
-    - `"SERIAL"`
+GET/accounts/{account\_id}/gateway/pacfiles
 
-    - `"URL"`
+##### [Get a PAC file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/get)
 
-    - `"DOMAIN"`
+GET/accounts/{account\_id}/gateway/pacfiles/{pacfile\_id}
 
-    - `"EMAIL"`
+##### [Create a PAC file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/create)
 
-    - `"IP"`
+POST/accounts/{account\_id}/gateway/pacfiles
 
-    - `"CATEGORY"`
+##### [Update a Zero Trust Gateway PAC file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/update)
 
-    - `"LOCATION"`
+PUT/accounts/{account\_id}/gateway/pacfiles/{pacfile\_id}
 
-    - `"DEVICE"`
+##### [Delete a PAC file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles/methods/delete)
 
-    - `"AAGUID"`
+DELETE/accounts/{account\_id}/gateway/pacfiles/{pacfile\_id}
 
-  - `updated_at: optional string`
+##### ModelsExpand Collapse
 
-### List Create Response
+<details>
 
-- `ListCreateResponse object { id, created_at, description, 4 more }`
+<summary>
 
-  - `id: optional string`
+PacfileListResponse object {id, created\_at, description, 4 more }
 
-    Identify the API resource with a UUID.
+</summary>
 
-  - `created_at: optional string`
+id: optional string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the list description.
+created\_at: optional string
 
-  - `items: optional array of GatewayItem`
+formatdate-time
 
-    Provide the list items.
+<a href="#">Link to this property</a>
 
-    - `created_at: optional string`
+description: optional string
 
-    - `description: optional string`
+Detailed description of the PAC file.
 
-      Provide the list item description (optional).
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+name: optional string
 
-      Specify the item value.
+Name of the PAC file.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the list name.
+slug: optional string
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+URL-friendly version of the PAC file name.
 
-    Specify the list type.
+<a href="#">Link to this property</a>
 
-    - `"SERIAL"`
+updated\_at: optional string
 
-    - `"URL"`
+formatdate-time
 
-    - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+url: optional string
 
-    - `"IP"`
+Unique URL to download the PAC file.
 
-    - `"CATEGORY"`
+<a href="#">Link to this property</a>
 
-    - `"LOCATION"`
+</details>
 
-    - `"DEVICE"`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_list_response%20%3E%20(schema)>)
 
-    - `"AAGUID"`
+<details>
 
-  - `updated_at: optional string`
+<summary>
 
-### List Delete Response
+PacfileGetResponse object {id, contents, created\_at, 5 more }
 
-- `ListDeleteResponse = unknown`
+</summary>
 
-# Items
+id: optional string
 
-## Get Zero Trust list items
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/gateway/lists/{list_id}/items`
+contents: optional string
 
-Fetch all items in a single Zero Trust list.
+Actual contents of the PAC file
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created\_at: optional string
 
-- `list_id: string`
+formatdate-time
 
-  Identify the API resource with a UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+description: optional string
 
-- `errors: array of ResponseInfo`
+Detailed description of the PAC file.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+Name of the PAC file.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+slug: optional string
 
-- `messages: array of ResponseInfo`
+URL-friendly version of the PAC file name.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+updated\_at: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+url: optional string
 
-  Indicate whether the API call was successful.
+Unique URL to download the PAC file.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of GatewayItem`
+</details>
 
-  Provide the list items.
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_get_response%20%3E%20(schema)>)
 
-  - `created_at: optional string`
+<details>
 
-  - `description: optional string`
+<summary>
 
-    Provide the list item description (optional).
+PacfileCreateResponse object {id, contents, created\_at, 5 more }
 
-  - `value: optional string`
+</summary>
 
-    Specify the item value.
+id: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+contents: optional string
 
-    Shows the total results returned based on your search parameters.
+Actual contents of the PAC file
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Show the current page within paginated list of results.
+created\_at: optional string
 
-  - `per_page: optional number`
+formatdate-time
 
-    Show the number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+description: optional string
 
-    Show the total results available without any search parameters.
+Detailed description of the PAC file.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID/items \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: optional string
 
-#### Response
+Name of the PAC file.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "Austin office IP",
-      "value": "8GE8721REF"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-# Locations
+slug: optional string
 
-## List Zero Trust Gateway locations
+URL-friendly version of the PAC file name.
 
-**get** `/accounts/{account_id}/gateway/locations`
+<a href="#">Link to this property</a>
 
-List Zero Trust Gateway locations for an account.
+updated\_at: optional string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+url: optional string
 
-- `errors: array of ResponseInfo`
+Unique URL to download the PAC file.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_create_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+PacfileUpdateResponse object {id, contents, created\_at, 5 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+contents: optional string
 
-- `success: true`
+Actual contents of the PAC file
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+created\_at: optional string
 
-- `result: optional array of Location`
+formatdate-time
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `client_default: optional boolean`
+description: optional string
 
-    Indicate whether this location is the default location.
+Detailed description of the PAC file.
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `dns_destination_ips_id: optional string`
+name: optional string
 
-    Indicate the identifier of the pair of IPv4 addresses assigned to this location.
+Name of the PAC file.
 
-  - `dns_destination_ipv6_block_id: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BYOIPv6) block rather than the standard Cloudflare IPv6 block.
+slug: optional string
 
-  - `doh_subdomain: optional string`
+URL-friendly version of the PAC file name.
 
-    Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
+<a href="#">Link to this property</a>
 
-  - `ecs_support: optional boolean`
+updated\_at: optional string
 
-    Indicate whether the location must resolve EDNS queries.
+formatdate-time
 
-  - `endpoints: optional Endpoint`
+<a href="#">Link to this property</a>
 
-    Configure the destination endpoints for this location.
+url: optional string
 
-    - `doh: DOHEndpoint`
+Unique URL to download the PAC file.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicate whether the DOH endpoint is enabled for this location.
+</details>
 
-      - `networks: optional array of IPNetwork`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_update_response%20%3E%20(schema)>)
 
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
+PacfileDeleteResponse = unknown
 
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-      - `require_token: optional boolean`
-
-        Specify whether the DOH endpoint requires user identity authentication.
-
-    - `dot: DOTEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOT endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-    - `ipv4: IPV4Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPv4 endpoint is enabled for this location.
-
-    - `ipv6: IPV6Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPV6 endpoint is enabled for this location.
-
-      - `networks: optional array of IPV6Network`
-
-        Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IPv6 address or IPv6 CIDR.
-
-  - `ip: optional string`
-
-    Defines the automatically generated IPv6 destination IP assigned to this location. Gateway counts all DNS requests sent to this IP as requests under this location.
-
-  - `ipv4_destination: optional string`
-
-    Show the primary destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `ipv4_destination_backup: optional string`
-
-    Show the backup destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `max_ttl: optional object { mode, ttl_secs }`
-
-    Controls how DNS response TTLs are capped for this location relative to the account `max_ttl_secs` setting. Omitting `max_ttl` on update resets it to `inherit`.
-
-    - `mode: "inherit" or "override" or "disabled"`
-
-      `inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.
-
-      - `"inherit"`
-
-      - `"override"`
-
-      - `"disabled"`
-
-    - `ttl_secs: optional number`
-
-      Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.
-
-  - `name: optional string`
-
-    Specify the location name.
-
-  - `networks: optional array of object { network }`
-
-    Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
-
-    - `network: string`
-
-      Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
-
-  - `updated_at: optional string`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Indicate the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Indicate the current page within a paginated list of results.
-
-  - `per_page: optional number`
-
-    Indicate the number of results per page.
-
-  - `total_count: optional number`
-
-    Indicate the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/locations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "ed35569b41ce4d1facfe683550f54086",
-      "client_default": false,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "dns_destination_ips_id": "0e4a32c6-6fb8-4858-9296-98f51631e8e6",
-      "dns_destination_ipv6_block_id": "b08f7231-d458-495c-98ef-190604c9ee83",
-      "doh_subdomain": "oli3n9zkz5",
-      "ecs_support": false,
-      "endpoints": {
-        "doh": {
-          "enabled": true,
-          "networks": [
-            {
-              "network": "2001:85a3::/64"
-            }
-          ],
-          "require_token": true
-        },
-        "dot": {
-          "enabled": true,
-          "networks": [
-            {
-              "network": "2001:85a3::/64"
-            }
-          ]
-        },
-        "ipv4": {
-          "enabled": true
-        },
-        "ipv6": {
-          "enabled": true,
-          "networks": [
-            {
-              "network": "2001:85a3::/64"
-            }
-          ]
-        }
-      },
-      "ip": "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
-      "ipv4_destination": "172.64.36.1",
-      "ipv4_destination_backup": "172.64.36.2",
-      "max_ttl": {
-        "mode": "override",
-        "ttl_secs": 3600
-      },
-      "name": "Austin Office Location",
-      "networks": [
-        {
-          "network": "192.0.2.1/32"
-        }
-      ],
-      "updated_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get Zero Trust Gateway location details
-
-**get** `/accounts/{account_id}/gateway/locations/{location_id}`
-
-Get a single Zero Trust Gateway location.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `location_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional Location`
-
-  - `id: optional string`
-
-  - `client_default: optional boolean`
-
-    Indicate whether this location is the default location.
-
-  - `created_at: optional string`
-
-  - `dns_destination_ips_id: optional string`
-
-    Indicate the identifier of the pair of IPv4 addresses assigned to this location.
-
-  - `dns_destination_ipv6_block_id: optional string`
-
-    Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BYOIPv6) block rather than the standard Cloudflare IPv6 block.
-
-  - `doh_subdomain: optional string`
-
-    Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
-
-  - `ecs_support: optional boolean`
-
-    Indicate whether the location must resolve EDNS queries.
-
-  - `endpoints: optional Endpoint`
-
-    Configure the destination endpoints for this location.
-
-    - `doh: DOHEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOH endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-      - `require_token: optional boolean`
-
-        Specify whether the DOH endpoint requires user identity authentication.
-
-    - `dot: DOTEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOT endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-    - `ipv4: IPV4Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPv4 endpoint is enabled for this location.
-
-    - `ipv6: IPV6Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPV6 endpoint is enabled for this location.
-
-      - `networks: optional array of IPV6Network`
-
-        Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IPv6 address or IPv6 CIDR.
-
-  - `ip: optional string`
-
-    Defines the automatically generated IPv6 destination IP assigned to this location. Gateway counts all DNS requests sent to this IP as requests under this location.
-
-  - `ipv4_destination: optional string`
-
-    Show the primary destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `ipv4_destination_backup: optional string`
-
-    Show the backup destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `max_ttl: optional object { mode, ttl_secs }`
-
-    Controls how DNS response TTLs are capped for this location relative to the account `max_ttl_secs` setting. Omitting `max_ttl` on update resets it to `inherit`.
-
-    - `mode: "inherit" or "override" or "disabled"`
-
-      `inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.
-
-      - `"inherit"`
-
-      - `"override"`
-
-      - `"disabled"`
-
-    - `ttl_secs: optional number`
-
-      Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.
-
-  - `name: optional string`
-
-    Specify the location name.
-
-  - `networks: optional array of object { network }`
-
-    Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
-
-    - `network: string`
-
-      Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/locations/$LOCATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "client_default": false,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "dns_destination_ips_id": "0e4a32c6-6fb8-4858-9296-98f51631e8e6",
-    "dns_destination_ipv6_block_id": "b08f7231-d458-495c-98ef-190604c9ee83",
-    "doh_subdomain": "oli3n9zkz5",
-    "ecs_support": false,
-    "endpoints": {
-      "doh": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ],
-        "require_token": true
-      },
-      "dot": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ]
-      },
-      "ipv4": {
-        "enabled": true
-      },
-      "ipv6": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ]
-      }
-    },
-    "ip": "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
-    "ipv4_destination": "172.64.36.1",
-    "ipv4_destination_backup": "172.64.36.2",
-    "max_ttl": {
-      "mode": "override",
-      "ttl_secs": 3600
-    },
-    "name": "Austin Office Location",
-    "networks": [
-      {
-        "network": "192.0.2.1/32"
-      }
-    ],
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Create a Zero Trust Gateway location
-
-**post** `/accounts/{account_id}/gateway/locations`
-
-Create a new Zero Trust Gateway location.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-  Specify the location name.
-
-- `client_default: optional boolean`
-
-  Indicate whether this location is the default location.
-
-- `dns_destination_ips_id: optional string`
-
-  Specify the identifier of the pair of IPv4 addresses assigned to this location. When creating a location, if this field is absent or set to null, the pair of shared IPv4 addresses (0e4a32c6-6fb8-4858-9296-98f51631e8e6) is auto-assigned. When updating a location, if this field is absent or set to null, the pre-assigned pair remains unchanged.
-
-- `ecs_support: optional boolean`
-
-  Indicate whether the location must resolve EDNS queries.
-
-- `endpoints: optional Endpoint`
-
-  Configure the destination endpoints for this location.
-
-  - `doh: DOHEndpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the DOH endpoint is enabled for this location.
-
-    - `networks: optional array of IPNetwork`
-
-      Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IP address or IP CIDR.
-
-    - `require_token: optional boolean`
-
-      Specify whether the DOH endpoint requires user identity authentication.
-
-  - `dot: DOTEndpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the DOT endpoint is enabled for this location.
-
-    - `networks: optional array of IPNetwork`
-
-      Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IP address or IP CIDR.
-
-  - `ipv4: IPV4Endpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the IPv4 endpoint is enabled for this location.
-
-  - `ipv6: IPV6Endpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the IPV6 endpoint is enabled for this location.
-
-    - `networks: optional array of IPV6Network`
-
-      Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IPv6 address or IPv6 CIDR.
-
-- `max_ttl: optional object { mode, ttl_secs }`
-
-  Controls how DNS response TTLs are capped for this location relative to the account `max_ttl_secs` setting. Omitting `max_ttl` on update resets it to `inherit`.
-
-  - `mode: "inherit" or "override" or "disabled"`
-
-    `inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.
-
-    - `"inherit"`
-
-    - `"override"`
-
-    - `"disabled"`
-
-  - `ttl_secs: optional number`
-
-    Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.
-
-- `networks: optional array of object { network }`
-
-  Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
-
-  - `network: string`
-
-    Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional Location`
-
-  - `id: optional string`
-
-  - `client_default: optional boolean`
-
-    Indicate whether this location is the default location.
-
-  - `created_at: optional string`
-
-  - `dns_destination_ips_id: optional string`
-
-    Indicate the identifier of the pair of IPv4 addresses assigned to this location.
-
-  - `dns_destination_ipv6_block_id: optional string`
-
-    Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BYOIPv6) block rather than the standard Cloudflare IPv6 block.
-
-  - `doh_subdomain: optional string`
-
-    Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
-
-  - `ecs_support: optional boolean`
-
-    Indicate whether the location must resolve EDNS queries.
-
-  - `endpoints: optional Endpoint`
-
-    Configure the destination endpoints for this location.
-
-    - `doh: DOHEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOH endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-      - `require_token: optional boolean`
-
-        Specify whether the DOH endpoint requires user identity authentication.
-
-    - `dot: DOTEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOT endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-    - `ipv4: IPV4Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPv4 endpoint is enabled for this location.
-
-    - `ipv6: IPV6Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPV6 endpoint is enabled for this location.
-
-      - `networks: optional array of IPV6Network`
-
-        Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IPv6 address or IPv6 CIDR.
-
-  - `ip: optional string`
-
-    Defines the automatically generated IPv6 destination IP assigned to this location. Gateway counts all DNS requests sent to this IP as requests under this location.
-
-  - `ipv4_destination: optional string`
-
-    Show the primary destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `ipv4_destination_backup: optional string`
-
-    Show the backup destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `max_ttl: optional object { mode, ttl_secs }`
-
-    Controls how DNS response TTLs are capped for this location relative to the account `max_ttl_secs` setting. Omitting `max_ttl` on update resets it to `inherit`.
-
-    - `mode: "inherit" or "override" or "disabled"`
-
-      `inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.
-
-      - `"inherit"`
-
-      - `"override"`
-
-      - `"disabled"`
-
-    - `ttl_secs: optional number`
-
-      Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.
-
-  - `name: optional string`
-
-    Specify the location name.
-
-  - `networks: optional array of object { network }`
-
-    Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
-
-    - `network: string`
-
-      Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/locations \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Austin Office Location",
-          "dns_destination_ips_id": "0e4a32c6-6fb8-4858-9296-98f51631e8e6"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "client_default": false,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "dns_destination_ips_id": "0e4a32c6-6fb8-4858-9296-98f51631e8e6",
-    "dns_destination_ipv6_block_id": "b08f7231-d458-495c-98ef-190604c9ee83",
-    "doh_subdomain": "oli3n9zkz5",
-    "ecs_support": false,
-    "endpoints": {
-      "doh": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ],
-        "require_token": true
-      },
-      "dot": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ]
-      },
-      "ipv4": {
-        "enabled": true
-      },
-      "ipv6": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ]
-      }
-    },
-    "ip": "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
-    "ipv4_destination": "172.64.36.1",
-    "ipv4_destination_backup": "172.64.36.2",
-    "max_ttl": {
-      "mode": "override",
-      "ttl_secs": 3600
-    },
-    "name": "Austin Office Location",
-    "networks": [
-      {
-        "network": "192.0.2.1/32"
-      }
-    ],
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update a Zero Trust Gateway location
-
-**put** `/accounts/{account_id}/gateway/locations/{location_id}`
-
-Update a configured Zero Trust Gateway location.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `location_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-  Specify the location name.
-
-- `client_default: optional boolean`
-
-  Indicate whether this location is the default location.
-
-- `dns_destination_ips_id: optional string`
-
-  Specify the identifier of the pair of IPv4 addresses assigned to this location. When creating a location, if this field is absent or set to null, the pair of shared IPv4 addresses (0e4a32c6-6fb8-4858-9296-98f51631e8e6) is auto-assigned. When updating a location, if this field is absent or set to null, the pre-assigned pair remains unchanged.
-
-- `ecs_support: optional boolean`
-
-  Indicate whether the location must resolve EDNS queries.
-
-- `endpoints: optional Endpoint`
-
-  Configure the destination endpoints for this location.
-
-  - `doh: DOHEndpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the DOH endpoint is enabled for this location.
-
-    - `networks: optional array of IPNetwork`
-
-      Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IP address or IP CIDR.
-
-    - `require_token: optional boolean`
-
-      Specify whether the DOH endpoint requires user identity authentication.
-
-  - `dot: DOTEndpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the DOT endpoint is enabled for this location.
-
-    - `networks: optional array of IPNetwork`
-
-      Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IP address or IP CIDR.
-
-  - `ipv4: IPV4Endpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the IPv4 endpoint is enabled for this location.
-
-  - `ipv6: IPV6Endpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the IPV6 endpoint is enabled for this location.
-
-    - `networks: optional array of IPV6Network`
-
-      Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IPv6 address or IPv6 CIDR.
-
-- `max_ttl: optional object { mode, ttl_secs }`
-
-  Controls how DNS response TTLs are capped for this location relative to the account `max_ttl_secs` setting. Omitting `max_ttl` on update resets it to `inherit`.
-
-  - `mode: "inherit" or "override" or "disabled"`
-
-    `inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.
-
-    - `"inherit"`
-
-    - `"override"`
-
-    - `"disabled"`
-
-  - `ttl_secs: optional number`
-
-    Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.
-
-- `networks: optional array of object { network }`
-
-  Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
-
-  - `network: string`
-
-    Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional Location`
-
-  - `id: optional string`
-
-  - `client_default: optional boolean`
-
-    Indicate whether this location is the default location.
-
-  - `created_at: optional string`
-
-  - `dns_destination_ips_id: optional string`
-
-    Indicate the identifier of the pair of IPv4 addresses assigned to this location.
-
-  - `dns_destination_ipv6_block_id: optional string`
-
-    Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BYOIPv6) block rather than the standard Cloudflare IPv6 block.
-
-  - `doh_subdomain: optional string`
-
-    Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
-
-  - `ecs_support: optional boolean`
-
-    Indicate whether the location must resolve EDNS queries.
-
-  - `endpoints: optional Endpoint`
-
-    Configure the destination endpoints for this location.
-
-    - `doh: DOHEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOH endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-      - `require_token: optional boolean`
-
-        Specify whether the DOH endpoint requires user identity authentication.
-
-    - `dot: DOTEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOT endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-    - `ipv4: IPV4Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPv4 endpoint is enabled for this location.
-
-    - `ipv6: IPV6Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPV6 endpoint is enabled for this location.
-
-      - `networks: optional array of IPV6Network`
-
-        Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IPv6 address or IPv6 CIDR.
-
-  - `ip: optional string`
-
-    Defines the automatically generated IPv6 destination IP assigned to this location. Gateway counts all DNS requests sent to this IP as requests under this location.
-
-  - `ipv4_destination: optional string`
-
-    Show the primary destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `ipv4_destination_backup: optional string`
-
-    Show the backup destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `max_ttl: optional object { mode, ttl_secs }`
-
-    Controls how DNS response TTLs are capped for this location relative to the account `max_ttl_secs` setting. Omitting `max_ttl` on update resets it to `inherit`.
-
-    - `mode: "inherit" or "override" or "disabled"`
-
-      `inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.
-
-      - `"inherit"`
-
-      - `"override"`
-
-      - `"disabled"`
-
-    - `ttl_secs: optional number`
-
-      Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.
-
-  - `name: optional string`
-
-    Specify the location name.
-
-  - `networks: optional array of object { network }`
-
-    Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
-
-    - `network: string`
-
-      Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/locations/$LOCATION_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Austin Office Location",
-          "dns_destination_ips_id": "0e4a32c6-6fb8-4858-9296-98f51631e8e6"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "client_default": false,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "dns_destination_ips_id": "0e4a32c6-6fb8-4858-9296-98f51631e8e6",
-    "dns_destination_ipv6_block_id": "b08f7231-d458-495c-98ef-190604c9ee83",
-    "doh_subdomain": "oli3n9zkz5",
-    "ecs_support": false,
-    "endpoints": {
-      "doh": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ],
-        "require_token": true
-      },
-      "dot": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ]
-      },
-      "ipv4": {
-        "enabled": true
-      },
-      "ipv6": {
-        "enabled": true,
-        "networks": [
-          {
-            "network": "2001:85a3::/64"
-          }
-        ]
-      }
-    },
-    "ip": "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
-    "ipv4_destination": "172.64.36.1",
-    "ipv4_destination_backup": "172.64.36.2",
-    "max_ttl": {
-      "mode": "override",
-      "ttl_secs": 3600
-    },
-    "name": "Austin Office Location",
-    "networks": [
-      {
-        "network": "192.0.2.1/32"
-      }
-    ],
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete a Zero Trust Gateway location
-
-**delete** `/accounts/{account_id}/gateway/locations/{location_id}`
-
-Delete a configured Zero Trust Gateway location.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `location_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/locations/$LOCATION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### DOH Endpoint
-
-- `DOHEndpoint object { enabled, networks, require_token }`
-
-  - `enabled: optional boolean`
-
-    Indicate whether the DOH endpoint is enabled for this location.
-
-  - `networks: optional array of IPNetwork`
-
-    Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-    - `network: string`
-
-      Specify the IP address or IP CIDR.
-
-  - `require_token: optional boolean`
-
-    Specify whether the DOH endpoint requires user identity authentication.
-
-### DOT Endpoint
-
-- `DOTEndpoint object { enabled, networks }`
-
-  - `enabled: optional boolean`
-
-    Indicate whether the DOT endpoint is enabled for this location.
-
-  - `networks: optional array of IPNetwork`
-
-    Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-    - `network: string`
-
-      Specify the IP address or IP CIDR.
-
-### Endpoint
-
-- `Endpoint object { doh, dot, ipv4, ipv6 }`
-
-  Configure the destination endpoints for this location.
-
-  - `doh: DOHEndpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the DOH endpoint is enabled for this location.
-
-    - `networks: optional array of IPNetwork`
-
-      Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IP address or IP CIDR.
-
-    - `require_token: optional boolean`
-
-      Specify whether the DOH endpoint requires user identity authentication.
-
-  - `dot: DOTEndpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the DOT endpoint is enabled for this location.
-
-    - `networks: optional array of IPNetwork`
-
-      Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IP address or IP CIDR.
-
-  - `ipv4: IPV4Endpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the IPv4 endpoint is enabled for this location.
-
-  - `ipv6: IPV6Endpoint`
-
-    - `enabled: optional boolean`
-
-      Indicate whether the IPV6 endpoint is enabled for this location.
-
-    - `networks: optional array of IPV6Network`
-
-      Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-      - `network: string`
-
-        Specify the IPv6 address or IPv6 CIDR.
-
-### IP Network
-
-- `IPNetwork object { network }`
-
-  - `network: string`
-
-    Specify the IP address or IP CIDR.
-
-### IPV4 Endpoint
-
-- `IPV4Endpoint object { enabled }`
-
-  - `enabled: optional boolean`
-
-    Indicate whether the IPv4 endpoint is enabled for this location.
-
-### IPV6 Endpoint
-
-- `IPV6Endpoint object { enabled, networks }`
-
-  - `enabled: optional boolean`
-
-    Indicate whether the IPV6 endpoint is enabled for this location.
-
-  - `networks: optional array of IPV6Network`
-
-    Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-    - `network: string`
-
-      Specify the IPv6 address or IPv6 CIDR.
-
-### IPV6 Network
-
-- `IPV6Network object { network }`
-
-  - `network: string`
-
-    Specify the IPv6 address or IPv6 CIDR.
-
-### Location
-
-- `Location object { id, client_default, created_at, 12 more }`
-
-  - `id: optional string`
-
-  - `client_default: optional boolean`
-
-    Indicate whether this location is the default location.
-
-  - `created_at: optional string`
-
-  - `dns_destination_ips_id: optional string`
-
-    Indicate the identifier of the pair of IPv4 addresses assigned to this location.
-
-  - `dns_destination_ipv6_block_id: optional string`
-
-    Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BYOIPv6) block rather than the standard Cloudflare IPv6 block.
-
-  - `doh_subdomain: optional string`
-
-    Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
-
-  - `ecs_support: optional boolean`
-
-    Indicate whether the location must resolve EDNS queries.
-
-  - `endpoints: optional Endpoint`
-
-    Configure the destination endpoints for this location.
-
-    - `doh: DOHEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOH endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-      - `require_token: optional boolean`
-
-        Specify whether the DOH endpoint requires user identity authentication.
-
-    - `dot: DOTEndpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the DOT endpoint is enabled for this location.
-
-      - `networks: optional array of IPNetwork`
-
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IP address or IP CIDR.
-
-    - `ipv4: IPV4Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPv4 endpoint is enabled for this location.
-
-    - `ipv6: IPV6Endpoint`
-
-      - `enabled: optional boolean`
-
-        Indicate whether the IPV6 endpoint is enabled for this location.
-
-      - `networks: optional array of IPV6Network`
-
-        Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
-
-        - `network: string`
-
-          Specify the IPv6 address or IPv6 CIDR.
-
-  - `ip: optional string`
-
-    Defines the automatically generated IPv6 destination IP assigned to this location. Gateway counts all DNS requests sent to this IP as requests under this location.
-
-  - `ipv4_destination: optional string`
-
-    Show the primary destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `ipv4_destination_backup: optional string`
-
-    Show the backup destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
-
-  - `max_ttl: optional object { mode, ttl_secs }`
-
-    Controls how DNS response TTLs are capped for this location relative to the account `max_ttl_secs` setting. Omitting `max_ttl` on update resets it to `inherit`.
-
-    - `mode: "inherit" or "override" or "disabled"`
-
-      `inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.
-
-      - `"inherit"`
-
-      - `"override"`
-
-      - `"disabled"`
-
-    - `ttl_secs: optional number`
-
-      Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.
-
-  - `name: optional string`
-
-    Specify the location name.
-
-  - `networks: optional array of object { network }`
-
-    Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
-
-    - `network: string`
-
-      Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
-
-  - `updated_at: optional string`
-
-### Location Delete Response
-
-- `LocationDeleteResponse = unknown`
-
-# Logging
-
-## Get logging settings for the Zero Trust account
-
-**get** `/accounts/{account_id}/gateway/logging`
-
-Retrieve the current logging settings for the Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional LoggingSetting`
-
-  - `redact_pii: optional boolean`
-
-    Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
-
-  - `settings_by_rule_type: optional object { dns, http, l4 }`
-
-    Configure logging settings for each rule type.
-
-    - `dns: optional object { log_all, log_blocks }`
-
-      Configure logging settings for DNS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `http: optional object { log_all, log_blocks }`
-
-      Configure logging settings for HTTP/HTTPS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `l4: optional object { log_all, log_blocks }`
-
-      Configure logging settings for Network firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/logging \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "redact_pii": true,
-    "settings_by_rule_type": {
-      "dns": {
-        "log_all": false,
-        "log_blocks": true
-      },
-      "http": {
-        "log_all": false,
-        "log_blocks": true
-      },
-      "l4": {
-        "log_all": false,
-        "log_blocks": true
-      }
-    }
-  }
-}
-```
-
-## Update Zero Trust account logging settings
-
-**put** `/accounts/{account_id}/gateway/logging`
-
-Update logging settings for the current Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `redact_pii: optional boolean`
-
-  Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
-
-- `settings_by_rule_type: optional object { dns, http, l4 }`
-
-  Configure logging settings for each rule type.
-
-  - `dns: optional object { log_all, log_blocks }`
-
-    Configure logging settings for DNS firewall.
-
-    - `log_all: optional boolean`
-
-      Specify whether to log all requests to this service.
-
-    - `log_blocks: optional boolean`
-
-      Specify whether to log only blocking requests to this service.
-
-  - `http: optional object { log_all, log_blocks }`
-
-    Configure logging settings for HTTP/HTTPS firewall.
-
-    - `log_all: optional boolean`
-
-      Specify whether to log all requests to this service.
-
-    - `log_blocks: optional boolean`
-
-      Specify whether to log only blocking requests to this service.
-
-  - `l4: optional object { log_all, log_blocks }`
-
-    Configure logging settings for Network firewall.
-
-    - `log_all: optional boolean`
-
-      Specify whether to log all requests to this service.
-
-    - `log_blocks: optional boolean`
-
-      Specify whether to log only blocking requests to this service.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional LoggingSetting`
-
-  - `redact_pii: optional boolean`
-
-    Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
-
-  - `settings_by_rule_type: optional object { dns, http, l4 }`
-
-    Configure logging settings for each rule type.
-
-    - `dns: optional object { log_all, log_blocks }`
-
-      Configure logging settings for DNS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `http: optional object { log_all, log_blocks }`
-
-      Configure logging settings for HTTP/HTTPS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `l4: optional object { log_all, log_blocks }`
-
-      Configure logging settings for Network firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/logging \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "redact_pii": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "redact_pii": true,
-    "settings_by_rule_type": {
-      "dns": {
-        "log_all": false,
-        "log_blocks": true
-      },
-      "http": {
-        "log_all": false,
-        "log_blocks": true
-      },
-      "l4": {
-        "log_all": false,
-        "log_blocks": true
-      }
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Logging Setting
-
-- `LoggingSetting object { redact_pii, settings_by_rule_type }`
-
-  - `redact_pii: optional boolean`
-
-    Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
-
-  - `settings_by_rule_type: optional object { dns, http, l4 }`
-
-    Configure logging settings for each rule type.
-
-    - `dns: optional object { log_all, log_blocks }`
-
-      Configure logging settings for DNS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `http: optional object { log_all, log_blocks }`
-
-      Configure logging settings for HTTP/HTTPS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `l4: optional object { log_all, log_blocks }`
-
-      Configure logging settings for Network firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-# Proxy Endpoints
-
-## List proxy endpoints
-
-**get** `/accounts/{account_id}/gateway/proxy_endpoints`
-
-List all Zero Trust Gateway proxy endpoints for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of ProxyEndpoint`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Indicate the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Indicate the current page within a paginated list of results.
-
-  - `per_page: optional number`
-
-    Indicate the number of results per page.
-
-  - `total_count: optional number`
-
-    Indicate the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "ips": [
-        "192.0.2.1/32"
-      ],
-      "name": "Devops team",
-      "id": "ed35569b41ce4d1facfe683550f54086",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "kind": "ip",
-      "subdomain": "oli3n9zkz5.proxy.cloudflare-gateway.com",
-      "updated_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a proxy endpoint
-
-**get** `/accounts/{account_id}/gateway/proxy_endpoints/{proxy_endpoint_id}`
-
-Get a single Zero Trust Gateway proxy endpoint.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `proxy_endpoint_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional ProxyEndpoint`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints/$PROXY_ENDPOINT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ips": [
-      "192.0.2.1/32"
-    ],
-    "name": "Devops team",
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "ip",
-    "subdomain": "oli3n9zkz5.proxy.cloudflare-gateway.com",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Create a proxy endpoint
-
-**post** `/accounts/{account_id}/gateway/proxy_endpoints`
-
-Create a new Zero Trust Gateway proxy endpoint.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `body: object { name, kind }  or object { kind, name }`
-
-  - `IP object { name, kind }`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-  - `Identity object { kind, name }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional ProxyEndpoint`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Devops team",
-          "kind": "ip"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ips": [
-      "192.0.2.1/32"
-    ],
-    "name": "Devops team",
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "ip",
-    "subdomain": "oli3n9zkz5.proxy.cloudflare-gateway.com",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update a proxy endpoint
-
-**patch** `/accounts/{account_id}/gateway/proxy_endpoints/{proxy_endpoint_id}`
-
-Update a configured Zero Trust Gateway proxy endpoint.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `proxy_endpoint_id: string`
-
-### Body Parameters
-
-- `ips: optional array of GatewayIPs`
-
-  Specify the list of CIDRs to restrict ingress connections.
-
-- `name: optional string`
-
-  Specify the name of the proxy endpoint.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional ProxyEndpoint`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints/$PROXY_ENDPOINT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Devops team"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ips": [
-      "192.0.2.1/32"
-    ],
-    "name": "Devops team",
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "ip",
-    "subdomain": "oli3n9zkz5.proxy.cloudflare-gateway.com",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete a proxy endpoint
-
-**delete** `/accounts/{account_id}/gateway/proxy_endpoints/{proxy_endpoint_id}`
-
-Delete a configured Zero Trust Gateway proxy endpoint.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `proxy_endpoint_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints/$PROXY_ENDPOINT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Gateway IPs
-
-- `GatewayIPs = string`
-
-  Specify an IPv4 or IPv6 CIDR. Limit IPv6 to a maximum of /109 and IPv4 to a maximum of /25.
-
-### Proxy Endpoint
-
-- `ProxyEndpoint = object { ips, name, id, 4 more }  or object { kind, name, id, 3 more }`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-### Proxy Endpoint Delete Response
-
-- `ProxyEndpointDeleteResponse = unknown`
-
-# Rules
-
-## List Zero Trust Gateway rules
-
-**get** `/accounts/{account_id}/gateway/rules`
-
-List Zero Trust Gateway rules for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of GatewayRule`
-
-  - `action: "on" or "off" or "allow" or 13 more`
-
-    Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-    - `"on"`
-
-    - `"off"`
-
-    - `"allow"`
-
-    - `"block"`
-
-    - `"scan"`
-
-    - `"noscan"`
-
-    - `"safesearch"`
-
-    - `"ytrestricted"`
-
-    - `"isolate"`
-
-    - `"noisolate"`
-
-    - `"override"`
-
-    - `"l4_override"`
-
-    - `"egress"`
-
-    - `"resolve"`
-
-    - `"quarantine"`
-
-    - `"redirect"`
-
-  - `enabled: boolean`
-
-    Specify whether the rule is enabled.
-
-  - `filters: array of GatewayFilter`
-
-    Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-    - `"http"`
-
-    - `"dns"`
-
-    - `"l4"`
-
-    - `"egress"`
-
-    - `"dns_resolver"`
-
-  - `name: string`
-
-    Specify the rule name.
-
-  - `precedence: number`
-
-    Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-  - `traffic: string`
-
-    Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `deleted_at: optional string`
-
-    Indicate the date of deletion, if any.
-
-  - `description: optional string`
-
-    Specify the rule description.
-
-  - `device_posture: optional string`
-
-    Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `expiration: optional object { expires_at, duration, expired }`
-
-    Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-    - `expires_at: string`
-
-      Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-    - `duration: optional number`
-
-      Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-    - `expired: optional boolean`
-
-      Indicates whether the policy is expired.
-
-  - `identity: optional string`
-
-    Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `read_only: optional boolean`
-
-    Indicate that this rule is shared via the Orgs API and read only.
-
-  - `rule_settings: optional RuleSetting`
-
-    Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-    - `add_headers: optional map[array of string]`
-
-      Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-    - `allow_child_bypass: optional boolean`
-
-      Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-    - `audit_ssh: optional object { command_logging }`
-
-      Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-      - `command_logging: optional boolean`
-
-        Enable SSH command logging.
-
-    - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-      Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-      - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dcp: optional boolean`
-
-        Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-      - `dd: optional boolean`
-
-        Set to false to enable downloading. Only applies when `version == "v1"`.
-
-      - `dk: optional boolean`
-
-        Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-      - `download: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dp: optional boolean`
-
-        Set to false to enable printing. Only applies when `version == "v1"`.
-
-      - `du: optional boolean`
-
-        Set to false to enable uploading. Only applies when `version == "v1"`.
-
-      - `keyboard: optional "enabled" or "disabled"`
-
-        Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `printing: optional "enabled" or "disabled"`
-
-        Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `upload: optional "enabled" or "disabled"`
-
-        Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `version: optional "v1" or "v2"`
-
-        Indicate which version of the browser isolation controls should apply.
-
-        - `"v1"`
-
-        - `"v2"`
-
-      - `wm_id: optional string`
-
-        Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-    - `block_page: optional object { target_uri, include_context }`
-
-      Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-    - `block_page_enabled: optional boolean`
-
-      Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-    - `block_reason: optional string`
-
-      Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-    - `bypass_parent_rule: optional boolean`
-
-      Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-    - `check_session: optional object { duration, enforce }`
-
-      Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-      - `duration: optional string`
-
-        Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-      - `enforce: optional boolean`
-
-        Enable session enforcement.
-
-    - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-      Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `ipv4: optional array of DNSResolverSettingsV4`
-
-        - `ip: string`
-
-          Specify the IPv4 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-      - `ipv6: optional array of DNSResolverSettingsV6`
-
-        - `ip: string`
-
-          Specify the IPv6 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-      Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-      - `ipv4: optional string`
-
-        Specify the IPv4 address to use for egress.
-
-      - `ipv4_fallback: optional string`
-
-        Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-      - `ipv6: optional string`
-
-        Specify the IPv6 range to use for egress.
-
-    - `forensic_copy: optional object { enabled }`
-
-      Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-      - `enabled: optional boolean`
-
-        Enable sending the copy to storage.
-
-    - `ignore_cname_category_matches: optional boolean`
-
-      Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-    - `insecure_disable_dnssec_validation: optional boolean`
-
-      Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-    - `ip_categories: optional boolean`
-
-      Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-    - `ip_indicator_feeds: optional boolean`
-
-      Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-    - `l4override: optional object { ip, port }`
-
-      Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-      - `ip: optional string`
-
-        Defines the IPv4 or IPv6 address.
-
-      - `port: optional number`
-
-        Defines a port number to use for TCP/UDP overrides.
-
-    - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-      Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-      - `enabled: optional boolean`
-
-        Enable notification.
-
-      - `include_context: optional boolean`
-
-        Indicates whether to pass the context information as query parameters.
-
-      - `msg: optional string`
-
-        Customize the message shown in the notification.
-
-      - `support_url: optional string`
-
-        Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-    - `override_host: optional string`
-
-      Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `override_ips: optional array of string`
-
-      Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `payload_log: optional object { enabled }`
-
-      Configure DLP payload logging. Settable only for `http` rules.
-
-      - `enabled: optional boolean`
-
-        Enable DLP payload logging for this rule.
-
-    - `quarantine: optional object { file_types }`
-
-      Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-      - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-        Specify the types of files to sandbox.
-
-        - `"exe"`
-
-        - `"pdf"`
-
-        - `"doc"`
-
-        - `"docm"`
-
-        - `"docx"`
-
-        - `"rtf"`
-
-        - `"ppt"`
-
-        - `"pptx"`
-
-        - `"xls"`
-
-        - `"xlsm"`
-
-        - `"xlsx"`
-
-        - `"zip"`
-
-        - `"rar"`
-
-    - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-      Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-      - `preserve_path_and_query: optional boolean`
-
-        Specify whether to append the path and query parameters from the original request to target_uri.
-
-    - `resolve_dns_internally: optional object { fallback, view_id }`
-
-      Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `fallback: optional "none" or "public_dns"`
-
-        Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-        - `"none"`
-
-        - `"public_dns"`
-
-      - `view_id: optional string`
-
-        Specify the internal DNS view identifier to pass to the internal DNS service.
-
-    - `resolve_dns_through_cloudflare: optional boolean`
-
-      Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `untrusted_cert: optional object { action }`
-
-      Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-      - `action: optional "pass_through" or "block" or "error"`
-
-        Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-        - `"pass_through"`
-
-        - `"block"`
-
-        - `"error"`
-
-  - `schedule: optional Schedule`
-
-    Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-    - `fri: optional string`
-
-      Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `mon: optional string`
-
-      Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sat: optional string`
-
-      Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sun: optional string`
-
-      Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `thu: optional string`
-
-      Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `time_zone: optional string`
-
-      Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-    - `tue: optional string`
-
-      Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `wed: optional string`
-
-      Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sharable: optional boolean`
-
-    Indicate that this rule is sharable via the Orgs API.
-
-  - `source_account: optional string`
-
-    Provide the account tag of the account that created the rule.
-
-  - `updated_at: optional string`
-
-  - `version: optional number`
-
-    Indicate the version number of the rule(read-only).
-
-  - `warning_status: optional string`
-
-    Indicate a warning for a misconfigured rule, if any.
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Indicate the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Indicate the current page within a paginated list of results.
-
-  - `per_page: optional number`
-
-    Indicate the number of results per page.
-
-  - `total_count: optional number`
-
-    Indicate the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "action": "allow",
-      "enabled": true,
-      "filters": [
-        "http"
-      ],
-      "name": "block bad websites",
-      "precedence": 0,
-      "traffic": "http.request.uri matches \".*a/partial/uri.*\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10",
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "deleted_at": "2019-12-27T18:11:19.117Z",
-      "description": "Block bad websites based on their host name.",
-      "device_posture": "any(device_posture.checks.passed[*] in {\"1308749e-fcfb-4ebc-b051-fe022b632644\"})",
-      "expiration": {
-        "expires_at": "2014-01-01T05:20:20Z",
-        "duration": 10,
-        "expired": false
-      },
-      "identity": "any(identity.groups.name[*] in {\"finance\"})",
-      "read_only": true,
-      "rule_settings": {
-        "add_headers": {
-          "My-Next-Header": [
-            "foo",
-            "bar"
-          ],
-          "X-Custom-Header-Name": [
-            "somecustomvalue"
-          ]
-        },
-        "allow_child_bypass": false,
-        "audit_ssh": {
-          "command_logging": false
-        },
-        "biso_admin_controls": {
-          "copy": "remote_only",
-          "dcp": true,
-          "dd": true,
-          "dk": true,
-          "download": "enabled",
-          "dp": false,
-          "du": true,
-          "keyboard": "enabled",
-          "paste": "enabled",
-          "printing": "enabled",
-          "upload": "enabled",
-          "version": "v1",
-          "wm_id": "475345dc-5299-4b6e-8f6a-3d3e4c8e9f1a"
-        },
-        "block_page": {
-          "target_uri": "https://example.com",
-          "include_context": true
-        },
-        "block_page_enabled": true,
-        "block_reason": "This website is a security risk",
-        "bypass_parent_rule": false,
-        "check_session": {
-          "duration": "300s",
-          "enforce": true
-        },
-        "dns_resolvers": {
-          "ipv4": [
-            {
-              "ip": "2.2.2.2",
-              "port": 5053,
-              "route_through_private_network": true,
-              "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-            }
-          ],
-          "ipv6": [
-            {
-              "ip": "2001:DB8::",
-              "port": 5053,
-              "route_through_private_network": true,
-              "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-            }
-          ]
-        },
-        "egress": {
-          "ipv4": "192.0.2.2",
-          "ipv4_fallback": "192.0.2.3",
-          "ipv6": "2001:DB8::/64"
-        },
-        "forensic_copy": {
-          "enabled": true
-        },
-        "ignore_cname_category_matches": true,
-        "insecure_disable_dnssec_validation": false,
-        "ip_categories": true,
-        "ip_indicator_feeds": true,
-        "l4override": {
-          "ip": "1.1.1.1",
-          "port": 0
-        },
-        "notification_settings": {
-          "enabled": true,
-          "include_context": true,
-          "msg": "msg",
-          "support_url": "support_url"
-        },
-        "override_host": "example.com",
-        "override_ips": [
-          "1.1.1.1",
-          "2.2.2.2"
-        ],
-        "payload_log": {
-          "enabled": true
-        },
-        "quarantine": {
-          "file_types": [
-            "exe"
-          ]
-        },
-        "redirect": {
-          "target_uri": "https://example.com",
-          "include_context": true,
-          "preserve_path_and_query": true
-        },
-        "resolve_dns_internally": {
-          "fallback": "none",
-          "view_id": "view_id"
-        },
-        "resolve_dns_through_cloudflare": true,
-        "untrusted_cert": {
-          "action": "error"
-        }
-      },
-      "schedule": {
-        "fri": "08:00-12:30,13:30-17:00",
-        "mon": "08:00-12:30,13:30-17:00",
-        "sat": "08:00-12:30,13:30-17:00",
-        "sun": "08:00-12:30,13:30-17:00",
-        "thu": "08:00-12:30,13:30-17:00",
-        "time_zone": "America/New York",
-        "tue": "08:00-12:30,13:30-17:00",
-        "wed": "08:00-12:30,13:30-17:00"
-      },
-      "sharable": true,
-      "source_account": "source_account",
-      "updated_at": "2014-01-01T05:20:00.12345Z",
-      "version": 1,
-      "warning_status": "warning_status"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get Zero Trust Gateway rule details.
-
-**get** `/accounts/{account_id}/gateway/rules/{rule_id}`
-
-Get a single Zero Trust Gateway rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  Identify the API resource with a UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional GatewayRule`
-
-  - `action: "on" or "off" or "allow" or 13 more`
-
-    Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-    - `"on"`
-
-    - `"off"`
-
-    - `"allow"`
-
-    - `"block"`
-
-    - `"scan"`
-
-    - `"noscan"`
-
-    - `"safesearch"`
-
-    - `"ytrestricted"`
-
-    - `"isolate"`
-
-    - `"noisolate"`
-
-    - `"override"`
-
-    - `"l4_override"`
-
-    - `"egress"`
-
-    - `"resolve"`
-
-    - `"quarantine"`
-
-    - `"redirect"`
-
-  - `enabled: boolean`
-
-    Specify whether the rule is enabled.
-
-  - `filters: array of GatewayFilter`
-
-    Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-    - `"http"`
-
-    - `"dns"`
-
-    - `"l4"`
-
-    - `"egress"`
-
-    - `"dns_resolver"`
-
-  - `name: string`
-
-    Specify the rule name.
-
-  - `precedence: number`
-
-    Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-  - `traffic: string`
-
-    Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `deleted_at: optional string`
-
-    Indicate the date of deletion, if any.
-
-  - `description: optional string`
-
-    Specify the rule description.
-
-  - `device_posture: optional string`
-
-    Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `expiration: optional object { expires_at, duration, expired }`
-
-    Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-    - `expires_at: string`
-
-      Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-    - `duration: optional number`
-
-      Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-    - `expired: optional boolean`
-
-      Indicates whether the policy is expired.
-
-  - `identity: optional string`
-
-    Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `read_only: optional boolean`
-
-    Indicate that this rule is shared via the Orgs API and read only.
-
-  - `rule_settings: optional RuleSetting`
-
-    Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-    - `add_headers: optional map[array of string]`
-
-      Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-    - `allow_child_bypass: optional boolean`
-
-      Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-    - `audit_ssh: optional object { command_logging }`
-
-      Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-      - `command_logging: optional boolean`
-
-        Enable SSH command logging.
-
-    - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-      Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-      - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dcp: optional boolean`
-
-        Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-      - `dd: optional boolean`
-
-        Set to false to enable downloading. Only applies when `version == "v1"`.
-
-      - `dk: optional boolean`
-
-        Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-      - `download: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dp: optional boolean`
-
-        Set to false to enable printing. Only applies when `version == "v1"`.
-
-      - `du: optional boolean`
-
-        Set to false to enable uploading. Only applies when `version == "v1"`.
-
-      - `keyboard: optional "enabled" or "disabled"`
-
-        Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `printing: optional "enabled" or "disabled"`
-
-        Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `upload: optional "enabled" or "disabled"`
-
-        Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `version: optional "v1" or "v2"`
-
-        Indicate which version of the browser isolation controls should apply.
-
-        - `"v1"`
-
-        - `"v2"`
-
-      - `wm_id: optional string`
-
-        Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-    - `block_page: optional object { target_uri, include_context }`
-
-      Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-    - `block_page_enabled: optional boolean`
-
-      Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-    - `block_reason: optional string`
-
-      Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-    - `bypass_parent_rule: optional boolean`
-
-      Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-    - `check_session: optional object { duration, enforce }`
-
-      Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-      - `duration: optional string`
-
-        Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-      - `enforce: optional boolean`
-
-        Enable session enforcement.
-
-    - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-      Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `ipv4: optional array of DNSResolverSettingsV4`
-
-        - `ip: string`
-
-          Specify the IPv4 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-      - `ipv6: optional array of DNSResolverSettingsV6`
-
-        - `ip: string`
-
-          Specify the IPv6 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-      Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-      - `ipv4: optional string`
-
-        Specify the IPv4 address to use for egress.
-
-      - `ipv4_fallback: optional string`
-
-        Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-      - `ipv6: optional string`
-
-        Specify the IPv6 range to use for egress.
-
-    - `forensic_copy: optional object { enabled }`
-
-      Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-      - `enabled: optional boolean`
-
-        Enable sending the copy to storage.
-
-    - `ignore_cname_category_matches: optional boolean`
-
-      Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-    - `insecure_disable_dnssec_validation: optional boolean`
-
-      Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-    - `ip_categories: optional boolean`
-
-      Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-    - `ip_indicator_feeds: optional boolean`
-
-      Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-    - `l4override: optional object { ip, port }`
-
-      Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-      - `ip: optional string`
-
-        Defines the IPv4 or IPv6 address.
-
-      - `port: optional number`
-
-        Defines a port number to use for TCP/UDP overrides.
-
-    - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-      Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-      - `enabled: optional boolean`
-
-        Enable notification.
-
-      - `include_context: optional boolean`
-
-        Indicates whether to pass the context information as query parameters.
-
-      - `msg: optional string`
-
-        Customize the message shown in the notification.
-
-      - `support_url: optional string`
-
-        Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-    - `override_host: optional string`
-
-      Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `override_ips: optional array of string`
-
-      Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `payload_log: optional object { enabled }`
-
-      Configure DLP payload logging. Settable only for `http` rules.
-
-      - `enabled: optional boolean`
-
-        Enable DLP payload logging for this rule.
-
-    - `quarantine: optional object { file_types }`
-
-      Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-      - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-        Specify the types of files to sandbox.
-
-        - `"exe"`
-
-        - `"pdf"`
-
-        - `"doc"`
-
-        - `"docm"`
-
-        - `"docx"`
-
-        - `"rtf"`
-
-        - `"ppt"`
-
-        - `"pptx"`
-
-        - `"xls"`
-
-        - `"xlsm"`
-
-        - `"xlsx"`
-
-        - `"zip"`
-
-        - `"rar"`
-
-    - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-      Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-      - `preserve_path_and_query: optional boolean`
-
-        Specify whether to append the path and query parameters from the original request to target_uri.
-
-    - `resolve_dns_internally: optional object { fallback, view_id }`
-
-      Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `fallback: optional "none" or "public_dns"`
-
-        Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-        - `"none"`
-
-        - `"public_dns"`
-
-      - `view_id: optional string`
-
-        Specify the internal DNS view identifier to pass to the internal DNS service.
-
-    - `resolve_dns_through_cloudflare: optional boolean`
-
-      Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `untrusted_cert: optional object { action }`
-
-      Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-      - `action: optional "pass_through" or "block" or "error"`
-
-        Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-        - `"pass_through"`
-
-        - `"block"`
-
-        - `"error"`
-
-  - `schedule: optional Schedule`
-
-    Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-    - `fri: optional string`
-
-      Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `mon: optional string`
-
-      Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sat: optional string`
-
-      Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sun: optional string`
-
-      Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `thu: optional string`
-
-      Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `time_zone: optional string`
-
-      Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-    - `tue: optional string`
-
-      Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `wed: optional string`
-
-      Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sharable: optional boolean`
-
-    Indicate that this rule is sharable via the Orgs API.
-
-  - `source_account: optional string`
-
-    Provide the account tag of the account that created the rule.
-
-  - `updated_at: optional string`
-
-  - `version: optional number`
-
-    Indicate the version number of the rule(read-only).
-
-  - `warning_status: optional string`
-
-    Indicate a warning for a misconfigured rule, if any.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": "allow",
-    "enabled": true,
-    "filters": [
-      "http"
-    ],
-    "name": "block bad websites",
-    "precedence": 0,
-    "traffic": "http.request.uri matches \".*a/partial/uri.*\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "deleted_at": "2019-12-27T18:11:19.117Z",
-    "description": "Block bad websites based on their host name.",
-    "device_posture": "any(device_posture.checks.passed[*] in {\"1308749e-fcfb-4ebc-b051-fe022b632644\"})",
-    "expiration": {
-      "expires_at": "2014-01-01T05:20:20Z",
-      "duration": 10,
-      "expired": false
-    },
-    "identity": "any(identity.groups.name[*] in {\"finance\"})",
-    "read_only": true,
-    "rule_settings": {
-      "add_headers": {
-        "My-Next-Header": [
-          "foo",
-          "bar"
-        ],
-        "X-Custom-Header-Name": [
-          "somecustomvalue"
-        ]
-      },
-      "allow_child_bypass": false,
-      "audit_ssh": {
-        "command_logging": false
-      },
-      "biso_admin_controls": {
-        "copy": "remote_only",
-        "dcp": true,
-        "dd": true,
-        "dk": true,
-        "download": "enabled",
-        "dp": false,
-        "du": true,
-        "keyboard": "enabled",
-        "paste": "enabled",
-        "printing": "enabled",
-        "upload": "enabled",
-        "version": "v1",
-        "wm_id": "475345dc-5299-4b6e-8f6a-3d3e4c8e9f1a"
-      },
-      "block_page": {
-        "target_uri": "https://example.com",
-        "include_context": true
-      },
-      "block_page_enabled": true,
-      "block_reason": "This website is a security risk",
-      "bypass_parent_rule": false,
-      "check_session": {
-        "duration": "300s",
-        "enforce": true
-      },
-      "dns_resolvers": {
-        "ipv4": [
-          {
-            "ip": "2.2.2.2",
-            "port": 5053,
-            "route_through_private_network": true,
-            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ],
-        "ipv6": [
-          {
-            "ip": "2001:DB8::",
-            "port": 5053,
-            "route_through_private_network": true,
-            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ]
-      },
-      "egress": {
-        "ipv4": "192.0.2.2",
-        "ipv4_fallback": "192.0.2.3",
-        "ipv6": "2001:DB8::/64"
-      },
-      "forensic_copy": {
-        "enabled": true
-      },
-      "ignore_cname_category_matches": true,
-      "insecure_disable_dnssec_validation": false,
-      "ip_categories": true,
-      "ip_indicator_feeds": true,
-      "l4override": {
-        "ip": "1.1.1.1",
-        "port": 0
-      },
-      "notification_settings": {
-        "enabled": true,
-        "include_context": true,
-        "msg": "msg",
-        "support_url": "support_url"
-      },
-      "override_host": "example.com",
-      "override_ips": [
-        "1.1.1.1",
-        "2.2.2.2"
-      ],
-      "payload_log": {
-        "enabled": true
-      },
-      "quarantine": {
-        "file_types": [
-          "exe"
-        ]
-      },
-      "redirect": {
-        "target_uri": "https://example.com",
-        "include_context": true,
-        "preserve_path_and_query": true
-      },
-      "resolve_dns_internally": {
-        "fallback": "none",
-        "view_id": "view_id"
-      },
-      "resolve_dns_through_cloudflare": true,
-      "untrusted_cert": {
-        "action": "error"
-      }
-    },
-    "schedule": {
-      "fri": "08:00-12:30,13:30-17:00",
-      "mon": "08:00-12:30,13:30-17:00",
-      "sat": "08:00-12:30,13:30-17:00",
-      "sun": "08:00-12:30,13:30-17:00",
-      "thu": "08:00-12:30,13:30-17:00",
-      "time_zone": "America/New York",
-      "tue": "08:00-12:30,13:30-17:00",
-      "wed": "08:00-12:30,13:30-17:00"
-    },
-    "sharable": true,
-    "source_account": "source_account",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "version": 1,
-    "warning_status": "warning_status"
-  }
-}
-```
-
-## Create a Zero Trust Gateway rule
-
-**post** `/accounts/{account_id}/gateway/rules`
-
-Create a new Zero Trust Gateway rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `action: "on" or "off" or "allow" or 13 more`
-
-  Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-  - `"on"`
-
-  - `"off"`
-
-  - `"allow"`
-
-  - `"block"`
-
-  - `"scan"`
-
-  - `"noscan"`
-
-  - `"safesearch"`
-
-  - `"ytrestricted"`
-
-  - `"isolate"`
-
-  - `"noisolate"`
-
-  - `"override"`
-
-  - `"l4_override"`
-
-  - `"egress"`
-
-  - `"resolve"`
-
-  - `"quarantine"`
-
-  - `"redirect"`
-
-- `name: string`
-
-  Specify the rule name.
-
-- `description: optional string`
-
-  Specify the rule description.
-
-- `device_posture: optional string`
-
-  Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-- `enabled: optional boolean`
-
-  Specify whether the rule is enabled.
-
-- `expiration: optional object { expires_at, duration, expired }`
-
-  Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-  - `expires_at: string`
-
-    Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-  - `duration: optional number`
-
-    Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-  - `expired: optional boolean`
-
-    Indicates whether the policy is expired.
-
-- `filters: optional array of GatewayFilter`
-
-  Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-  - `"http"`
-
-  - `"dns"`
-
-  - `"l4"`
-
-  - `"egress"`
-
-  - `"dns_resolver"`
-
-- `identity: optional string`
-
-  Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-- `precedence: optional number`
-
-  Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-- `rule_settings: optional RuleSetting`
-
-  Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-  - `add_headers: optional map[array of string]`
-
-    Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-  - `allow_child_bypass: optional boolean`
-
-    Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-  - `audit_ssh: optional object { command_logging }`
-
-    Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-    - `command_logging: optional boolean`
-
-      Enable SSH command logging.
-
-  - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-    Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-    - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `dcp: optional boolean`
-
-      Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-    - `dd: optional boolean`
-
-      Set to false to enable downloading. Only applies when `version == "v1"`.
-
-    - `dk: optional boolean`
-
-      Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-    - `download: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `dp: optional boolean`
-
-      Set to false to enable printing. Only applies when `version == "v1"`.
-
-    - `du: optional boolean`
-
-      Set to false to enable uploading. Only applies when `version == "v1"`.
-
-    - `keyboard: optional "enabled" or "disabled"`
-
-      Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `printing: optional "enabled" or "disabled"`
-
-      Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `upload: optional "enabled" or "disabled"`
-
-      Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `version: optional "v1" or "v2"`
-
-      Indicate which version of the browser isolation controls should apply.
-
-      - `"v1"`
-
-      - `"v2"`
-
-    - `wm_id: optional string`
-
-      Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-  - `block_page: optional object { target_uri, include_context }`
-
-    Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-    - `target_uri: string`
-
-      Specify the URI to which the user is redirected.
-
-    - `include_context: optional boolean`
-
-      Specify whether to pass the context information as query parameters.
-
-  - `block_page_enabled: optional boolean`
-
-    Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-  - `block_reason: optional string`
-
-    Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-  - `bypass_parent_rule: optional boolean`
-
-    Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-  - `check_session: optional object { duration, enforce }`
-
-    Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-    - `duration: optional string`
-
-      Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-    - `enforce: optional boolean`
-
-      Enable session enforcement.
-
-  - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-    Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `ipv4: optional array of DNSResolverSettingsV4`
-
-      - `ip: string`
-
-        Specify the IPv4 address of the upstream resolver.
-
-      - `port: optional number`
-
-        Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-      - `route_through_private_network: optional boolean`
-
-        Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-      - `vnet_id: optional string`
-
-        Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `ipv6: optional array of DNSResolverSettingsV6`
-
-      - `ip: string`
-
-        Specify the IPv6 address of the upstream resolver.
-
-      - `port: optional number`
-
-        Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-      - `route_through_private_network: optional boolean`
-
-        Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-      - `vnet_id: optional string`
-
-        Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-  - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-    Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-    - `ipv4: optional string`
-
-      Specify the IPv4 address to use for egress.
-
-    - `ipv4_fallback: optional string`
-
-      Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-    - `ipv6: optional string`
-
-      Specify the IPv6 range to use for egress.
-
-  - `forensic_copy: optional object { enabled }`
-
-    Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-    - `enabled: optional boolean`
-
-      Enable sending the copy to storage.
-
-  - `ignore_cname_category_matches: optional boolean`
-
-    Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-  - `insecure_disable_dnssec_validation: optional boolean`
-
-    Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-  - `ip_categories: optional boolean`
-
-    Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-  - `ip_indicator_feeds: optional boolean`
-
-    Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-  - `l4override: optional object { ip, port }`
-
-    Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-    - `ip: optional string`
-
-      Defines the IPv4 or IPv6 address.
-
-    - `port: optional number`
-
-      Defines a port number to use for TCP/UDP overrides.
-
-  - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-    Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-    - `enabled: optional boolean`
-
-      Enable notification.
-
-    - `include_context: optional boolean`
-
-      Indicates whether to pass the context information as query parameters.
-
-    - `msg: optional string`
-
-      Customize the message shown in the notification.
-
-    - `support_url: optional string`
-
-      Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-  - `override_host: optional string`
-
-    Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-  - `override_ips: optional array of string`
-
-    Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-  - `payload_log: optional object { enabled }`
-
-    Configure DLP payload logging. Settable only for `http` rules.
-
-    - `enabled: optional boolean`
-
-      Enable DLP payload logging for this rule.
-
-  - `quarantine: optional object { file_types }`
-
-    Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-    - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-      Specify the types of files to sandbox.
-
-      - `"exe"`
-
-      - `"pdf"`
-
-      - `"doc"`
-
-      - `"docm"`
-
-      - `"docx"`
-
-      - `"rtf"`
-
-      - `"ppt"`
-
-      - `"pptx"`
-
-      - `"xls"`
-
-      - `"xlsm"`
-
-      - `"xlsx"`
-
-      - `"zip"`
-
-      - `"rar"`
-
-  - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-    Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-    - `target_uri: string`
-
-      Specify the URI to which the user is redirected.
-
-    - `include_context: optional boolean`
-
-      Specify whether to pass the context information as query parameters.
-
-    - `preserve_path_and_query: optional boolean`
-
-      Specify whether to append the path and query parameters from the original request to target_uri.
-
-  - `resolve_dns_internally: optional object { fallback, view_id }`
-
-    Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `fallback: optional "none" or "public_dns"`
-
-      Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-      - `"none"`
-
-      - `"public_dns"`
-
-    - `view_id: optional string`
-
-      Specify the internal DNS view identifier to pass to the internal DNS service.
-
-  - `resolve_dns_through_cloudflare: optional boolean`
-
-    Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-  - `untrusted_cert: optional object { action }`
-
-    Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-    - `action: optional "pass_through" or "block" or "error"`
-
-      Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-      - `"pass_through"`
-
-      - `"block"`
-
-      - `"error"`
-
-- `schedule: optional Schedule`
-
-  Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-  - `fri: optional string`
-
-    Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `mon: optional string`
-
-    Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sat: optional string`
-
-    Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sun: optional string`
-
-    Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `thu: optional string`
-
-    Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `time_zone: optional string`
-
-    Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-  - `tue: optional string`
-
-    Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `wed: optional string`
-
-    Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-- `traffic: optional string`
-
-  Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional GatewayRule`
-
-  - `action: "on" or "off" or "allow" or 13 more`
-
-    Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-    - `"on"`
-
-    - `"off"`
-
-    - `"allow"`
-
-    - `"block"`
-
-    - `"scan"`
-
-    - `"noscan"`
-
-    - `"safesearch"`
-
-    - `"ytrestricted"`
-
-    - `"isolate"`
-
-    - `"noisolate"`
-
-    - `"override"`
-
-    - `"l4_override"`
-
-    - `"egress"`
-
-    - `"resolve"`
-
-    - `"quarantine"`
-
-    - `"redirect"`
-
-  - `enabled: boolean`
-
-    Specify whether the rule is enabled.
-
-  - `filters: array of GatewayFilter`
-
-    Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-    - `"http"`
-
-    - `"dns"`
-
-    - `"l4"`
-
-    - `"egress"`
-
-    - `"dns_resolver"`
-
-  - `name: string`
-
-    Specify the rule name.
-
-  - `precedence: number`
-
-    Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-  - `traffic: string`
-
-    Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `deleted_at: optional string`
-
-    Indicate the date of deletion, if any.
-
-  - `description: optional string`
-
-    Specify the rule description.
-
-  - `device_posture: optional string`
-
-    Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `expiration: optional object { expires_at, duration, expired }`
-
-    Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-    - `expires_at: string`
-
-      Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-    - `duration: optional number`
-
-      Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-    - `expired: optional boolean`
-
-      Indicates whether the policy is expired.
-
-  - `identity: optional string`
-
-    Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `read_only: optional boolean`
-
-    Indicate that this rule is shared via the Orgs API and read only.
-
-  - `rule_settings: optional RuleSetting`
-
-    Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-    - `add_headers: optional map[array of string]`
-
-      Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-    - `allow_child_bypass: optional boolean`
-
-      Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-    - `audit_ssh: optional object { command_logging }`
-
-      Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-      - `command_logging: optional boolean`
-
-        Enable SSH command logging.
-
-    - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-      Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-      - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dcp: optional boolean`
-
-        Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-      - `dd: optional boolean`
-
-        Set to false to enable downloading. Only applies when `version == "v1"`.
-
-      - `dk: optional boolean`
-
-        Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-      - `download: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dp: optional boolean`
-
-        Set to false to enable printing. Only applies when `version == "v1"`.
-
-      - `du: optional boolean`
-
-        Set to false to enable uploading. Only applies when `version == "v1"`.
-
-      - `keyboard: optional "enabled" or "disabled"`
-
-        Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `printing: optional "enabled" or "disabled"`
-
-        Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `upload: optional "enabled" or "disabled"`
-
-        Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `version: optional "v1" or "v2"`
-
-        Indicate which version of the browser isolation controls should apply.
-
-        - `"v1"`
-
-        - `"v2"`
-
-      - `wm_id: optional string`
-
-        Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-    - `block_page: optional object { target_uri, include_context }`
-
-      Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-    - `block_page_enabled: optional boolean`
-
-      Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-    - `block_reason: optional string`
-
-      Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-    - `bypass_parent_rule: optional boolean`
-
-      Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-    - `check_session: optional object { duration, enforce }`
-
-      Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-      - `duration: optional string`
-
-        Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-      - `enforce: optional boolean`
-
-        Enable session enforcement.
-
-    - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-      Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `ipv4: optional array of DNSResolverSettingsV4`
-
-        - `ip: string`
-
-          Specify the IPv4 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-      - `ipv6: optional array of DNSResolverSettingsV6`
-
-        - `ip: string`
-
-          Specify the IPv6 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-      Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-      - `ipv4: optional string`
-
-        Specify the IPv4 address to use for egress.
-
-      - `ipv4_fallback: optional string`
-
-        Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-      - `ipv6: optional string`
-
-        Specify the IPv6 range to use for egress.
-
-    - `forensic_copy: optional object { enabled }`
-
-      Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-      - `enabled: optional boolean`
-
-        Enable sending the copy to storage.
-
-    - `ignore_cname_category_matches: optional boolean`
-
-      Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-    - `insecure_disable_dnssec_validation: optional boolean`
-
-      Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-    - `ip_categories: optional boolean`
-
-      Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-    - `ip_indicator_feeds: optional boolean`
-
-      Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-    - `l4override: optional object { ip, port }`
-
-      Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-      - `ip: optional string`
-
-        Defines the IPv4 or IPv6 address.
-
-      - `port: optional number`
-
-        Defines a port number to use for TCP/UDP overrides.
-
-    - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-      Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-      - `enabled: optional boolean`
-
-        Enable notification.
-
-      - `include_context: optional boolean`
-
-        Indicates whether to pass the context information as query parameters.
-
-      - `msg: optional string`
-
-        Customize the message shown in the notification.
-
-      - `support_url: optional string`
-
-        Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-    - `override_host: optional string`
-
-      Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `override_ips: optional array of string`
-
-      Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `payload_log: optional object { enabled }`
-
-      Configure DLP payload logging. Settable only for `http` rules.
-
-      - `enabled: optional boolean`
-
-        Enable DLP payload logging for this rule.
-
-    - `quarantine: optional object { file_types }`
-
-      Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-      - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-        Specify the types of files to sandbox.
-
-        - `"exe"`
-
-        - `"pdf"`
-
-        - `"doc"`
-
-        - `"docm"`
-
-        - `"docx"`
-
-        - `"rtf"`
-
-        - `"ppt"`
-
-        - `"pptx"`
-
-        - `"xls"`
-
-        - `"xlsm"`
-
-        - `"xlsx"`
-
-        - `"zip"`
-
-        - `"rar"`
-
-    - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-      Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-      - `preserve_path_and_query: optional boolean`
-
-        Specify whether to append the path and query parameters from the original request to target_uri.
-
-    - `resolve_dns_internally: optional object { fallback, view_id }`
-
-      Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `fallback: optional "none" or "public_dns"`
-
-        Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-        - `"none"`
-
-        - `"public_dns"`
-
-      - `view_id: optional string`
-
-        Specify the internal DNS view identifier to pass to the internal DNS service.
-
-    - `resolve_dns_through_cloudflare: optional boolean`
-
-      Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `untrusted_cert: optional object { action }`
-
-      Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-      - `action: optional "pass_through" or "block" or "error"`
-
-        Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-        - `"pass_through"`
-
-        - `"block"`
-
-        - `"error"`
-
-  - `schedule: optional Schedule`
-
-    Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-    - `fri: optional string`
-
-      Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `mon: optional string`
-
-      Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sat: optional string`
-
-      Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sun: optional string`
-
-      Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `thu: optional string`
-
-      Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `time_zone: optional string`
-
-      Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-    - `tue: optional string`
-
-      Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `wed: optional string`
-
-      Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sharable: optional boolean`
-
-    Indicate that this rule is sharable via the Orgs API.
-
-  - `source_account: optional string`
-
-    Provide the account tag of the account that created the rule.
-
-  - `updated_at: optional string`
-
-  - `version: optional number`
-
-    Indicate the version number of the rule(read-only).
-
-  - `warning_status: optional string`
-
-    Indicate a warning for a misconfigured rule, if any.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": "allow",
-          "name": "block bad websites",
-          "description": "Block bad websites based on their host name.",
-          "device_posture": "any(device_posture.checks.passed[*] in {\\"1308749e-fcfb-4ebc-b051-fe022b632644\\"})",
-          "enabled": true,
-          "filters": [
-            "http"
-          ],
-          "identity": "any(identity.groups.name[*] in {\\"finance\\"})",
-          "traffic": "http.request.uri matches \\".*a/partial/uri.*\\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": "allow",
-    "enabled": true,
-    "filters": [
-      "http"
-    ],
-    "name": "block bad websites",
-    "precedence": 0,
-    "traffic": "http.request.uri matches \".*a/partial/uri.*\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "deleted_at": "2019-12-27T18:11:19.117Z",
-    "description": "Block bad websites based on their host name.",
-    "device_posture": "any(device_posture.checks.passed[*] in {\"1308749e-fcfb-4ebc-b051-fe022b632644\"})",
-    "expiration": {
-      "expires_at": "2014-01-01T05:20:20Z",
-      "duration": 10,
-      "expired": false
-    },
-    "identity": "any(identity.groups.name[*] in {\"finance\"})",
-    "read_only": true,
-    "rule_settings": {
-      "add_headers": {
-        "My-Next-Header": [
-          "foo",
-          "bar"
-        ],
-        "X-Custom-Header-Name": [
-          "somecustomvalue"
-        ]
-      },
-      "allow_child_bypass": false,
-      "audit_ssh": {
-        "command_logging": false
-      },
-      "biso_admin_controls": {
-        "copy": "remote_only",
-        "dcp": true,
-        "dd": true,
-        "dk": true,
-        "download": "enabled",
-        "dp": false,
-        "du": true,
-        "keyboard": "enabled",
-        "paste": "enabled",
-        "printing": "enabled",
-        "upload": "enabled",
-        "version": "v1",
-        "wm_id": "475345dc-5299-4b6e-8f6a-3d3e4c8e9f1a"
-      },
-      "block_page": {
-        "target_uri": "https://example.com",
-        "include_context": true
-      },
-      "block_page_enabled": true,
-      "block_reason": "This website is a security risk",
-      "bypass_parent_rule": false,
-      "check_session": {
-        "duration": "300s",
-        "enforce": true
-      },
-      "dns_resolvers": {
-        "ipv4": [
-          {
-            "ip": "2.2.2.2",
-            "port": 5053,
-            "route_through_private_network": true,
-            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ],
-        "ipv6": [
-          {
-            "ip": "2001:DB8::",
-            "port": 5053,
-            "route_through_private_network": true,
-            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ]
-      },
-      "egress": {
-        "ipv4": "192.0.2.2",
-        "ipv4_fallback": "192.0.2.3",
-        "ipv6": "2001:DB8::/64"
-      },
-      "forensic_copy": {
-        "enabled": true
-      },
-      "ignore_cname_category_matches": true,
-      "insecure_disable_dnssec_validation": false,
-      "ip_categories": true,
-      "ip_indicator_feeds": true,
-      "l4override": {
-        "ip": "1.1.1.1",
-        "port": 0
-      },
-      "notification_settings": {
-        "enabled": true,
-        "include_context": true,
-        "msg": "msg",
-        "support_url": "support_url"
-      },
-      "override_host": "example.com",
-      "override_ips": [
-        "1.1.1.1",
-        "2.2.2.2"
-      ],
-      "payload_log": {
-        "enabled": true
-      },
-      "quarantine": {
-        "file_types": [
-          "exe"
-        ]
-      },
-      "redirect": {
-        "target_uri": "https://example.com",
-        "include_context": true,
-        "preserve_path_and_query": true
-      },
-      "resolve_dns_internally": {
-        "fallback": "none",
-        "view_id": "view_id"
-      },
-      "resolve_dns_through_cloudflare": true,
-      "untrusted_cert": {
-        "action": "error"
-      }
-    },
-    "schedule": {
-      "fri": "08:00-12:30,13:30-17:00",
-      "mon": "08:00-12:30,13:30-17:00",
-      "sat": "08:00-12:30,13:30-17:00",
-      "sun": "08:00-12:30,13:30-17:00",
-      "thu": "08:00-12:30,13:30-17:00",
-      "time_zone": "America/New York",
-      "tue": "08:00-12:30,13:30-17:00",
-      "wed": "08:00-12:30,13:30-17:00"
-    },
-    "sharable": true,
-    "source_account": "source_account",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "version": 1,
-    "warning_status": "warning_status"
-  }
-}
-```
-
-## Update a Zero Trust Gateway rule
-
-**put** `/accounts/{account_id}/gateway/rules/{rule_id}`
-
-Update a configured Zero Trust Gateway rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  Identify the API resource with a UUID.
-
-### Body Parameters
-
-- `action: "on" or "off" or "allow" or 13 more`
-
-  Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-  - `"on"`
-
-  - `"off"`
-
-  - `"allow"`
-
-  - `"block"`
-
-  - `"scan"`
-
-  - `"noscan"`
-
-  - `"safesearch"`
-
-  - `"ytrestricted"`
-
-  - `"isolate"`
-
-  - `"noisolate"`
-
-  - `"override"`
-
-  - `"l4_override"`
-
-  - `"egress"`
-
-  - `"resolve"`
-
-  - `"quarantine"`
-
-  - `"redirect"`
-
-- `name: string`
-
-  Specify the rule name.
-
-- `description: optional string`
-
-  Specify the rule description.
-
-- `device_posture: optional string`
-
-  Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-- `enabled: optional boolean`
-
-  Specify whether the rule is enabled.
-
-- `expiration: optional object { expires_at, duration, expired }`
-
-  Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-  - `expires_at: string`
-
-    Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-  - `duration: optional number`
-
-    Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-  - `expired: optional boolean`
-
-    Indicates whether the policy is expired.
-
-- `filters: optional array of GatewayFilter`
-
-  Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-  - `"http"`
-
-  - `"dns"`
-
-  - `"l4"`
-
-  - `"egress"`
-
-  - `"dns_resolver"`
-
-- `identity: optional string`
-
-  Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-- `precedence: optional number`
-
-  Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-- `rule_settings: optional RuleSetting`
-
-  Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-  - `add_headers: optional map[array of string]`
-
-    Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-  - `allow_child_bypass: optional boolean`
-
-    Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-  - `audit_ssh: optional object { command_logging }`
-
-    Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-    - `command_logging: optional boolean`
-
-      Enable SSH command logging.
-
-  - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-    Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-    - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `dcp: optional boolean`
-
-      Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-    - `dd: optional boolean`
-
-      Set to false to enable downloading. Only applies when `version == "v1"`.
-
-    - `dk: optional boolean`
-
-      Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-    - `download: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `dp: optional boolean`
-
-      Set to false to enable printing. Only applies when `version == "v1"`.
-
-    - `du: optional boolean`
-
-      Set to false to enable uploading. Only applies when `version == "v1"`.
-
-    - `keyboard: optional "enabled" or "disabled"`
-
-      Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `printing: optional "enabled" or "disabled"`
-
-      Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `upload: optional "enabled" or "disabled"`
-
-      Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `version: optional "v1" or "v2"`
-
-      Indicate which version of the browser isolation controls should apply.
-
-      - `"v1"`
-
-      - `"v2"`
-
-    - `wm_id: optional string`
-
-      Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-  - `block_page: optional object { target_uri, include_context }`
-
-    Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-    - `target_uri: string`
-
-      Specify the URI to which the user is redirected.
-
-    - `include_context: optional boolean`
-
-      Specify whether to pass the context information as query parameters.
-
-  - `block_page_enabled: optional boolean`
-
-    Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-  - `block_reason: optional string`
-
-    Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-  - `bypass_parent_rule: optional boolean`
-
-    Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-  - `check_session: optional object { duration, enforce }`
-
-    Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-    - `duration: optional string`
-
-      Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-    - `enforce: optional boolean`
-
-      Enable session enforcement.
-
-  - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-    Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `ipv4: optional array of DNSResolverSettingsV4`
-
-      - `ip: string`
-
-        Specify the IPv4 address of the upstream resolver.
-
-      - `port: optional number`
-
-        Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-      - `route_through_private_network: optional boolean`
-
-        Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-      - `vnet_id: optional string`
-
-        Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `ipv6: optional array of DNSResolverSettingsV6`
-
-      - `ip: string`
-
-        Specify the IPv6 address of the upstream resolver.
-
-      - `port: optional number`
-
-        Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-      - `route_through_private_network: optional boolean`
-
-        Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-      - `vnet_id: optional string`
-
-        Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-  - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-    Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-    - `ipv4: optional string`
-
-      Specify the IPv4 address to use for egress.
-
-    - `ipv4_fallback: optional string`
-
-      Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-    - `ipv6: optional string`
-
-      Specify the IPv6 range to use for egress.
-
-  - `forensic_copy: optional object { enabled }`
-
-    Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-    - `enabled: optional boolean`
-
-      Enable sending the copy to storage.
-
-  - `ignore_cname_category_matches: optional boolean`
-
-    Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-  - `insecure_disable_dnssec_validation: optional boolean`
-
-    Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-  - `ip_categories: optional boolean`
-
-    Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-  - `ip_indicator_feeds: optional boolean`
-
-    Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-  - `l4override: optional object { ip, port }`
-
-    Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-    - `ip: optional string`
-
-      Defines the IPv4 or IPv6 address.
-
-    - `port: optional number`
-
-      Defines a port number to use for TCP/UDP overrides.
-
-  - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-    Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-    - `enabled: optional boolean`
-
-      Enable notification.
-
-    - `include_context: optional boolean`
-
-      Indicates whether to pass the context information as query parameters.
-
-    - `msg: optional string`
-
-      Customize the message shown in the notification.
-
-    - `support_url: optional string`
-
-      Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-  - `override_host: optional string`
-
-    Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-  - `override_ips: optional array of string`
-
-    Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-  - `payload_log: optional object { enabled }`
-
-    Configure DLP payload logging. Settable only for `http` rules.
-
-    - `enabled: optional boolean`
-
-      Enable DLP payload logging for this rule.
-
-  - `quarantine: optional object { file_types }`
-
-    Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-    - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-      Specify the types of files to sandbox.
-
-      - `"exe"`
-
-      - `"pdf"`
-
-      - `"doc"`
-
-      - `"docm"`
-
-      - `"docx"`
-
-      - `"rtf"`
-
-      - `"ppt"`
-
-      - `"pptx"`
-
-      - `"xls"`
-
-      - `"xlsm"`
-
-      - `"xlsx"`
-
-      - `"zip"`
-
-      - `"rar"`
-
-  - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-    Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-    - `target_uri: string`
-
-      Specify the URI to which the user is redirected.
-
-    - `include_context: optional boolean`
-
-      Specify whether to pass the context information as query parameters.
-
-    - `preserve_path_and_query: optional boolean`
-
-      Specify whether to append the path and query parameters from the original request to target_uri.
-
-  - `resolve_dns_internally: optional object { fallback, view_id }`
-
-    Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `fallback: optional "none" or "public_dns"`
-
-      Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-      - `"none"`
-
-      - `"public_dns"`
-
-    - `view_id: optional string`
-
-      Specify the internal DNS view identifier to pass to the internal DNS service.
-
-  - `resolve_dns_through_cloudflare: optional boolean`
-
-    Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-  - `untrusted_cert: optional object { action }`
-
-    Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-    - `action: optional "pass_through" or "block" or "error"`
-
-      Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-      - `"pass_through"`
-
-      - `"block"`
-
-      - `"error"`
-
-- `schedule: optional Schedule`
-
-  Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-  - `fri: optional string`
-
-    Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `mon: optional string`
-
-    Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sat: optional string`
-
-    Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sun: optional string`
-
-    Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `thu: optional string`
-
-    Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `time_zone: optional string`
-
-    Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-  - `tue: optional string`
-
-    Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `wed: optional string`
-
-    Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-- `traffic: optional string`
-
-  Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional GatewayRule`
-
-  - `action: "on" or "off" or "allow" or 13 more`
-
-    Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-    - `"on"`
-
-    - `"off"`
-
-    - `"allow"`
-
-    - `"block"`
-
-    - `"scan"`
-
-    - `"noscan"`
-
-    - `"safesearch"`
-
-    - `"ytrestricted"`
-
-    - `"isolate"`
-
-    - `"noisolate"`
-
-    - `"override"`
-
-    - `"l4_override"`
-
-    - `"egress"`
-
-    - `"resolve"`
-
-    - `"quarantine"`
-
-    - `"redirect"`
-
-  - `enabled: boolean`
-
-    Specify whether the rule is enabled.
-
-  - `filters: array of GatewayFilter`
-
-    Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-    - `"http"`
-
-    - `"dns"`
-
-    - `"l4"`
-
-    - `"egress"`
-
-    - `"dns_resolver"`
-
-  - `name: string`
-
-    Specify the rule name.
-
-  - `precedence: number`
-
-    Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-  - `traffic: string`
-
-    Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `deleted_at: optional string`
-
-    Indicate the date of deletion, if any.
-
-  - `description: optional string`
-
-    Specify the rule description.
-
-  - `device_posture: optional string`
-
-    Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `expiration: optional object { expires_at, duration, expired }`
-
-    Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-    - `expires_at: string`
-
-      Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-    - `duration: optional number`
-
-      Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-    - `expired: optional boolean`
-
-      Indicates whether the policy is expired.
-
-  - `identity: optional string`
-
-    Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `read_only: optional boolean`
-
-    Indicate that this rule is shared via the Orgs API and read only.
-
-  - `rule_settings: optional RuleSetting`
-
-    Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-    - `add_headers: optional map[array of string]`
-
-      Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-    - `allow_child_bypass: optional boolean`
-
-      Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-    - `audit_ssh: optional object { command_logging }`
-
-      Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-      - `command_logging: optional boolean`
-
-        Enable SSH command logging.
-
-    - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-      Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-      - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dcp: optional boolean`
-
-        Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-      - `dd: optional boolean`
-
-        Set to false to enable downloading. Only applies when `version == "v1"`.
-
-      - `dk: optional boolean`
-
-        Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-      - `download: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dp: optional boolean`
-
-        Set to false to enable printing. Only applies when `version == "v1"`.
-
-      - `du: optional boolean`
-
-        Set to false to enable uploading. Only applies when `version == "v1"`.
-
-      - `keyboard: optional "enabled" or "disabled"`
-
-        Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `printing: optional "enabled" or "disabled"`
-
-        Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `upload: optional "enabled" or "disabled"`
-
-        Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `version: optional "v1" or "v2"`
-
-        Indicate which version of the browser isolation controls should apply.
-
-        - `"v1"`
-
-        - `"v2"`
-
-      - `wm_id: optional string`
-
-        Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-    - `block_page: optional object { target_uri, include_context }`
-
-      Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-    - `block_page_enabled: optional boolean`
-
-      Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-    - `block_reason: optional string`
-
-      Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-    - `bypass_parent_rule: optional boolean`
-
-      Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-    - `check_session: optional object { duration, enforce }`
-
-      Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-      - `duration: optional string`
-
-        Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-      - `enforce: optional boolean`
-
-        Enable session enforcement.
-
-    - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-      Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `ipv4: optional array of DNSResolverSettingsV4`
-
-        - `ip: string`
-
-          Specify the IPv4 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-      - `ipv6: optional array of DNSResolverSettingsV6`
-
-        - `ip: string`
-
-          Specify the IPv6 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-      Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-      - `ipv4: optional string`
-
-        Specify the IPv4 address to use for egress.
-
-      - `ipv4_fallback: optional string`
-
-        Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-      - `ipv6: optional string`
-
-        Specify the IPv6 range to use for egress.
-
-    - `forensic_copy: optional object { enabled }`
-
-      Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-      - `enabled: optional boolean`
-
-        Enable sending the copy to storage.
-
-    - `ignore_cname_category_matches: optional boolean`
-
-      Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-    - `insecure_disable_dnssec_validation: optional boolean`
-
-      Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-    - `ip_categories: optional boolean`
-
-      Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-    - `ip_indicator_feeds: optional boolean`
-
-      Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-    - `l4override: optional object { ip, port }`
-
-      Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-      - `ip: optional string`
-
-        Defines the IPv4 or IPv6 address.
-
-      - `port: optional number`
-
-        Defines a port number to use for TCP/UDP overrides.
-
-    - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-      Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-      - `enabled: optional boolean`
-
-        Enable notification.
-
-      - `include_context: optional boolean`
-
-        Indicates whether to pass the context information as query parameters.
-
-      - `msg: optional string`
-
-        Customize the message shown in the notification.
-
-      - `support_url: optional string`
-
-        Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-    - `override_host: optional string`
-
-      Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `override_ips: optional array of string`
-
-      Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `payload_log: optional object { enabled }`
-
-      Configure DLP payload logging. Settable only for `http` rules.
-
-      - `enabled: optional boolean`
-
-        Enable DLP payload logging for this rule.
-
-    - `quarantine: optional object { file_types }`
-
-      Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-      - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-        Specify the types of files to sandbox.
-
-        - `"exe"`
-
-        - `"pdf"`
-
-        - `"doc"`
-
-        - `"docm"`
-
-        - `"docx"`
-
-        - `"rtf"`
-
-        - `"ppt"`
-
-        - `"pptx"`
-
-        - `"xls"`
-
-        - `"xlsm"`
-
-        - `"xlsx"`
-
-        - `"zip"`
-
-        - `"rar"`
-
-    - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-      Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-      - `preserve_path_and_query: optional boolean`
-
-        Specify whether to append the path and query parameters from the original request to target_uri.
-
-    - `resolve_dns_internally: optional object { fallback, view_id }`
-
-      Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `fallback: optional "none" or "public_dns"`
-
-        Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-        - `"none"`
-
-        - `"public_dns"`
-
-      - `view_id: optional string`
-
-        Specify the internal DNS view identifier to pass to the internal DNS service.
-
-    - `resolve_dns_through_cloudflare: optional boolean`
-
-      Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `untrusted_cert: optional object { action }`
-
-      Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-      - `action: optional "pass_through" or "block" or "error"`
-
-        Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-        - `"pass_through"`
-
-        - `"block"`
-
-        - `"error"`
-
-  - `schedule: optional Schedule`
-
-    Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-    - `fri: optional string`
-
-      Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `mon: optional string`
-
-      Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sat: optional string`
-
-      Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sun: optional string`
-
-      Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `thu: optional string`
-
-      Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `time_zone: optional string`
-
-      Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-    - `tue: optional string`
-
-      Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `wed: optional string`
-
-      Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sharable: optional boolean`
-
-    Indicate that this rule is sharable via the Orgs API.
-
-  - `source_account: optional string`
-
-    Provide the account tag of the account that created the rule.
-
-  - `updated_at: optional string`
-
-  - `version: optional number`
-
-    Indicate the version number of the rule(read-only).
-
-  - `warning_status: optional string`
-
-    Indicate a warning for a misconfigured rule, if any.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/$RULE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": "allow",
-          "name": "block bad websites",
-          "description": "Block bad websites based on their host name.",
-          "device_posture": "any(device_posture.checks.passed[*] in {\\"1308749e-fcfb-4ebc-b051-fe022b632644\\"})",
-          "enabled": true,
-          "filters": [
-            "http"
-          ],
-          "identity": "any(identity.groups.name[*] in {\\"finance\\"})",
-          "traffic": "http.request.uri matches \\".*a/partial/uri.*\\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": "allow",
-    "enabled": true,
-    "filters": [
-      "http"
-    ],
-    "name": "block bad websites",
-    "precedence": 0,
-    "traffic": "http.request.uri matches \".*a/partial/uri.*\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "deleted_at": "2019-12-27T18:11:19.117Z",
-    "description": "Block bad websites based on their host name.",
-    "device_posture": "any(device_posture.checks.passed[*] in {\"1308749e-fcfb-4ebc-b051-fe022b632644\"})",
-    "expiration": {
-      "expires_at": "2014-01-01T05:20:20Z",
-      "duration": 10,
-      "expired": false
-    },
-    "identity": "any(identity.groups.name[*] in {\"finance\"})",
-    "read_only": true,
-    "rule_settings": {
-      "add_headers": {
-        "My-Next-Header": [
-          "foo",
-          "bar"
-        ],
-        "X-Custom-Header-Name": [
-          "somecustomvalue"
-        ]
-      },
-      "allow_child_bypass": false,
-      "audit_ssh": {
-        "command_logging": false
-      },
-      "biso_admin_controls": {
-        "copy": "remote_only",
-        "dcp": true,
-        "dd": true,
-        "dk": true,
-        "download": "enabled",
-        "dp": false,
-        "du": true,
-        "keyboard": "enabled",
-        "paste": "enabled",
-        "printing": "enabled",
-        "upload": "enabled",
-        "version": "v1",
-        "wm_id": "475345dc-5299-4b6e-8f6a-3d3e4c8e9f1a"
-      },
-      "block_page": {
-        "target_uri": "https://example.com",
-        "include_context": true
-      },
-      "block_page_enabled": true,
-      "block_reason": "This website is a security risk",
-      "bypass_parent_rule": false,
-      "check_session": {
-        "duration": "300s",
-        "enforce": true
-      },
-      "dns_resolvers": {
-        "ipv4": [
-          {
-            "ip": "2.2.2.2",
-            "port": 5053,
-            "route_through_private_network": true,
-            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ],
-        "ipv6": [
-          {
-            "ip": "2001:DB8::",
-            "port": 5053,
-            "route_through_private_network": true,
-            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ]
-      },
-      "egress": {
-        "ipv4": "192.0.2.2",
-        "ipv4_fallback": "192.0.2.3",
-        "ipv6": "2001:DB8::/64"
-      },
-      "forensic_copy": {
-        "enabled": true
-      },
-      "ignore_cname_category_matches": true,
-      "insecure_disable_dnssec_validation": false,
-      "ip_categories": true,
-      "ip_indicator_feeds": true,
-      "l4override": {
-        "ip": "1.1.1.1",
-        "port": 0
-      },
-      "notification_settings": {
-        "enabled": true,
-        "include_context": true,
-        "msg": "msg",
-        "support_url": "support_url"
-      },
-      "override_host": "example.com",
-      "override_ips": [
-        "1.1.1.1",
-        "2.2.2.2"
-      ],
-      "payload_log": {
-        "enabled": true
-      },
-      "quarantine": {
-        "file_types": [
-          "exe"
-        ]
-      },
-      "redirect": {
-        "target_uri": "https://example.com",
-        "include_context": true,
-        "preserve_path_and_query": true
-      },
-      "resolve_dns_internally": {
-        "fallback": "none",
-        "view_id": "view_id"
-      },
-      "resolve_dns_through_cloudflare": true,
-      "untrusted_cert": {
-        "action": "error"
-      }
-    },
-    "schedule": {
-      "fri": "08:00-12:30,13:30-17:00",
-      "mon": "08:00-12:30,13:30-17:00",
-      "sat": "08:00-12:30,13:30-17:00",
-      "sun": "08:00-12:30,13:30-17:00",
-      "thu": "08:00-12:30,13:30-17:00",
-      "time_zone": "America/New York",
-      "tue": "08:00-12:30,13:30-17:00",
-      "wed": "08:00-12:30,13:30-17:00"
-    },
-    "sharable": true,
-    "source_account": "source_account",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "version": 1,
-    "warning_status": "warning_status"
-  }
-}
-```
-
-## Delete a Zero Trust Gateway rule
-
-**delete** `/accounts/{account_id}/gateway/rules/{rule_id}`
-
-Delete a Zero Trust Gateway rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  Identify the API resource with a UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## List Zero Trust Gateway rules inherited from the parent account
-
-**get** `/accounts/{account_id}/gateway/rules/tenant`
-
-List Zero Trust Gateway rules for the parent account of an account in the MSP configuration.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of GatewayRule`
-
-  - `action: "on" or "off" or "allow" or 13 more`
-
-    Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-    - `"on"`
-
-    - `"off"`
-
-    - `"allow"`
-
-    - `"block"`
-
-    - `"scan"`
-
-    - `"noscan"`
-
-    - `"safesearch"`
-
-    - `"ytrestricted"`
-
-    - `"isolate"`
-
-    - `"noisolate"`
-
-    - `"override"`
-
-    - `"l4_override"`
-
-    - `"egress"`
-
-    - `"resolve"`
-
-    - `"quarantine"`
-
-    - `"redirect"`
-
-  - `enabled: boolean`
-
-    Specify whether the rule is enabled.
-
-  - `filters: array of GatewayFilter`
-
-    Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-    - `"http"`
-
-    - `"dns"`
-
-    - `"l4"`
-
-    - `"egress"`
-
-    - `"dns_resolver"`
-
-  - `name: string`
-
-    Specify the rule name.
-
-  - `precedence: number`
-
-    Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-  - `traffic: string`
-
-    Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `deleted_at: optional string`
-
-    Indicate the date of deletion, if any.
-
-  - `description: optional string`
-
-    Specify the rule description.
-
-  - `device_posture: optional string`
-
-    Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `expiration: optional object { expires_at, duration, expired }`
-
-    Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-    - `expires_at: string`
-
-      Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-    - `duration: optional number`
-
-      Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-    - `expired: optional boolean`
-
-      Indicates whether the policy is expired.
-
-  - `identity: optional string`
-
-    Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `read_only: optional boolean`
-
-    Indicate that this rule is shared via the Orgs API and read only.
-
-  - `rule_settings: optional RuleSetting`
-
-    Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-    - `add_headers: optional map[array of string]`
-
-      Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-    - `allow_child_bypass: optional boolean`
-
-      Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-    - `audit_ssh: optional object { command_logging }`
-
-      Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-      - `command_logging: optional boolean`
-
-        Enable SSH command logging.
-
-    - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-      Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-      - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dcp: optional boolean`
-
-        Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-      - `dd: optional boolean`
-
-        Set to false to enable downloading. Only applies when `version == "v1"`.
-
-      - `dk: optional boolean`
-
-        Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-      - `download: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dp: optional boolean`
-
-        Set to false to enable printing. Only applies when `version == "v1"`.
-
-      - `du: optional boolean`
-
-        Set to false to enable uploading. Only applies when `version == "v1"`.
-
-      - `keyboard: optional "enabled" or "disabled"`
-
-        Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `printing: optional "enabled" or "disabled"`
-
-        Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `upload: optional "enabled" or "disabled"`
-
-        Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `version: optional "v1" or "v2"`
-
-        Indicate which version of the browser isolation controls should apply.
-
-        - `"v1"`
-
-        - `"v2"`
-
-      - `wm_id: optional string`
-
-        Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-    - `block_page: optional object { target_uri, include_context }`
-
-      Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-    - `block_page_enabled: optional boolean`
-
-      Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-    - `block_reason: optional string`
-
-      Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-    - `bypass_parent_rule: optional boolean`
-
-      Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-    - `check_session: optional object { duration, enforce }`
-
-      Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-      - `duration: optional string`
-
-        Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-      - `enforce: optional boolean`
-
-        Enable session enforcement.
-
-    - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-      Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `ipv4: optional array of DNSResolverSettingsV4`
-
-        - `ip: string`
-
-          Specify the IPv4 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-      - `ipv6: optional array of DNSResolverSettingsV6`
-
-        - `ip: string`
-
-          Specify the IPv6 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-      Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-      - `ipv4: optional string`
-
-        Specify the IPv4 address to use for egress.
-
-      - `ipv4_fallback: optional string`
-
-        Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-      - `ipv6: optional string`
-
-        Specify the IPv6 range to use for egress.
-
-    - `forensic_copy: optional object { enabled }`
-
-      Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-      - `enabled: optional boolean`
-
-        Enable sending the copy to storage.
-
-    - `ignore_cname_category_matches: optional boolean`
-
-      Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-    - `insecure_disable_dnssec_validation: optional boolean`
-
-      Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-    - `ip_categories: optional boolean`
-
-      Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-    - `ip_indicator_feeds: optional boolean`
-
-      Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-    - `l4override: optional object { ip, port }`
-
-      Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-      - `ip: optional string`
-
-        Defines the IPv4 or IPv6 address.
-
-      - `port: optional number`
-
-        Defines a port number to use for TCP/UDP overrides.
-
-    - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-      Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-      - `enabled: optional boolean`
-
-        Enable notification.
-
-      - `include_context: optional boolean`
-
-        Indicates whether to pass the context information as query parameters.
-
-      - `msg: optional string`
-
-        Customize the message shown in the notification.
-
-      - `support_url: optional string`
-
-        Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-    - `override_host: optional string`
-
-      Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `override_ips: optional array of string`
-
-      Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `payload_log: optional object { enabled }`
-
-      Configure DLP payload logging. Settable only for `http` rules.
-
-      - `enabled: optional boolean`
-
-        Enable DLP payload logging for this rule.
-
-    - `quarantine: optional object { file_types }`
-
-      Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-      - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-        Specify the types of files to sandbox.
-
-        - `"exe"`
-
-        - `"pdf"`
-
-        - `"doc"`
-
-        - `"docm"`
-
-        - `"docx"`
-
-        - `"rtf"`
-
-        - `"ppt"`
-
-        - `"pptx"`
-
-        - `"xls"`
-
-        - `"xlsm"`
-
-        - `"xlsx"`
-
-        - `"zip"`
-
-        - `"rar"`
-
-    - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-      Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-      - `preserve_path_and_query: optional boolean`
-
-        Specify whether to append the path and query parameters from the original request to target_uri.
-
-    - `resolve_dns_internally: optional object { fallback, view_id }`
-
-      Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `fallback: optional "none" or "public_dns"`
-
-        Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-        - `"none"`
-
-        - `"public_dns"`
-
-      - `view_id: optional string`
-
-        Specify the internal DNS view identifier to pass to the internal DNS service.
-
-    - `resolve_dns_through_cloudflare: optional boolean`
-
-      Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `untrusted_cert: optional object { action }`
-
-      Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-      - `action: optional "pass_through" or "block" or "error"`
-
-        Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-        - `"pass_through"`
-
-        - `"block"`
-
-        - `"error"`
-
-  - `schedule: optional Schedule`
-
-    Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-    - `fri: optional string`
-
-      Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `mon: optional string`
-
-      Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sat: optional string`
-
-      Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sun: optional string`
-
-      Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `thu: optional string`
-
-      Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `time_zone: optional string`
-
-      Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-    - `tue: optional string`
-
-      Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `wed: optional string`
-
-      Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sharable: optional boolean`
-
-    Indicate that this rule is sharable via the Orgs API.
-
-  - `source_account: optional string`
-
-    Provide the account tag of the account that created the rule.
-
-  - `updated_at: optional string`
-
-  - `version: optional number`
-
-    Indicate the version number of the rule(read-only).
-
-  - `warning_status: optional string`
-
-    Indicate a warning for a misconfigured rule, if any.
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Indicate the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Indicate the current page within a paginated list of results.
-
-  - `per_page: optional number`
-
-    Indicate the number of results per page.
-
-  - `total_count: optional number`
-
-    Indicate the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/tenant \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "action": "allow",
-      "enabled": true,
-      "filters": [
-        "http"
-      ],
-      "name": "block bad websites",
-      "precedence": 0,
-      "traffic": "http.request.uri matches \".*a/partial/uri.*\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10",
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "deleted_at": "2019-12-27T18:11:19.117Z",
-      "description": "Block bad websites based on their host name.",
-      "device_posture": "any(device_posture.checks.passed[*] in {\"1308749e-fcfb-4ebc-b051-fe022b632644\"})",
-      "expiration": {
-        "expires_at": "2014-01-01T05:20:20Z",
-        "duration": 10,
-        "expired": false
-      },
-      "identity": "any(identity.groups.name[*] in {\"finance\"})",
-      "read_only": true,
-      "rule_settings": {
-        "add_headers": {
-          "My-Next-Header": [
-            "foo",
-            "bar"
-          ],
-          "X-Custom-Header-Name": [
-            "somecustomvalue"
-          ]
-        },
-        "allow_child_bypass": false,
-        "audit_ssh": {
-          "command_logging": false
-        },
-        "biso_admin_controls": {
-          "copy": "remote_only",
-          "dcp": true,
-          "dd": true,
-          "dk": true,
-          "download": "enabled",
-          "dp": false,
-          "du": true,
-          "keyboard": "enabled",
-          "paste": "enabled",
-          "printing": "enabled",
-          "upload": "enabled",
-          "version": "v1",
-          "wm_id": "475345dc-5299-4b6e-8f6a-3d3e4c8e9f1a"
-        },
-        "block_page": {
-          "target_uri": "https://example.com",
-          "include_context": true
-        },
-        "block_page_enabled": true,
-        "block_reason": "This website is a security risk",
-        "bypass_parent_rule": false,
-        "check_session": {
-          "duration": "300s",
-          "enforce": true
-        },
-        "dns_resolvers": {
-          "ipv4": [
-            {
-              "ip": "2.2.2.2",
-              "port": 5053,
-              "route_through_private_network": true,
-              "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-            }
-          ],
-          "ipv6": [
-            {
-              "ip": "2001:DB8::",
-              "port": 5053,
-              "route_through_private_network": true,
-              "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-            }
-          ]
-        },
-        "egress": {
-          "ipv4": "192.0.2.2",
-          "ipv4_fallback": "192.0.2.3",
-          "ipv6": "2001:DB8::/64"
-        },
-        "forensic_copy": {
-          "enabled": true
-        },
-        "ignore_cname_category_matches": true,
-        "insecure_disable_dnssec_validation": false,
-        "ip_categories": true,
-        "ip_indicator_feeds": true,
-        "l4override": {
-          "ip": "1.1.1.1",
-          "port": 0
-        },
-        "notification_settings": {
-          "enabled": true,
-          "include_context": true,
-          "msg": "msg",
-          "support_url": "support_url"
-        },
-        "override_host": "example.com",
-        "override_ips": [
-          "1.1.1.1",
-          "2.2.2.2"
-        ],
-        "payload_log": {
-          "enabled": true
-        },
-        "quarantine": {
-          "file_types": [
-            "exe"
-          ]
-        },
-        "redirect": {
-          "target_uri": "https://example.com",
-          "include_context": true,
-          "preserve_path_and_query": true
-        },
-        "resolve_dns_internally": {
-          "fallback": "none",
-          "view_id": "view_id"
-        },
-        "resolve_dns_through_cloudflare": true,
-        "untrusted_cert": {
-          "action": "error"
-        }
-      },
-      "schedule": {
-        "fri": "08:00-12:30,13:30-17:00",
-        "mon": "08:00-12:30,13:30-17:00",
-        "sat": "08:00-12:30,13:30-17:00",
-        "sun": "08:00-12:30,13:30-17:00",
-        "thu": "08:00-12:30,13:30-17:00",
-        "time_zone": "America/New York",
-        "tue": "08:00-12:30,13:30-17:00",
-        "wed": "08:00-12:30,13:30-17:00"
-      },
-      "sharable": true,
-      "source_account": "source_account",
-      "updated_at": "2014-01-01T05:20:00.12345Z",
-      "version": 1,
-      "warning_status": "warning_status"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Reset the expiration of a Zero Trust Gateway Rule
-
-**post** `/accounts/{account_id}/gateway/rules/{rule_id}/reset_expiration`
-
-Resets the expiration of a Zero Trust Gateway Rule if its duration elapsed and it has a default duration. The Zero Trust Gateway Rule must have values  for both `expiration.expires_at` and `expiration.duration`.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  Identify the API resource with a UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional GatewayRule`
-
-  - `action: "on" or "off" or "allow" or 13 more`
-
-    Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-    - `"on"`
-
-    - `"off"`
-
-    - `"allow"`
-
-    - `"block"`
-
-    - `"scan"`
-
-    - `"noscan"`
-
-    - `"safesearch"`
-
-    - `"ytrestricted"`
-
-    - `"isolate"`
-
-    - `"noisolate"`
-
-    - `"override"`
-
-    - `"l4_override"`
-
-    - `"egress"`
-
-    - `"resolve"`
-
-    - `"quarantine"`
-
-    - `"redirect"`
-
-  - `enabled: boolean`
-
-    Specify whether the rule is enabled.
-
-  - `filters: array of GatewayFilter`
-
-    Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-    - `"http"`
-
-    - `"dns"`
-
-    - `"l4"`
-
-    - `"egress"`
-
-    - `"dns_resolver"`
-
-  - `name: string`
-
-    Specify the rule name.
-
-  - `precedence: number`
-
-    Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-  - `traffic: string`
-
-    Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `deleted_at: optional string`
-
-    Indicate the date of deletion, if any.
-
-  - `description: optional string`
-
-    Specify the rule description.
-
-  - `device_posture: optional string`
-
-    Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `expiration: optional object { expires_at, duration, expired }`
-
-    Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-    - `expires_at: string`
-
-      Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-    - `duration: optional number`
-
-      Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-    - `expired: optional boolean`
-
-      Indicates whether the policy is expired.
-
-  - `identity: optional string`
-
-    Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `read_only: optional boolean`
-
-    Indicate that this rule is shared via the Orgs API and read only.
-
-  - `rule_settings: optional RuleSetting`
-
-    Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-    - `add_headers: optional map[array of string]`
-
-      Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-    - `allow_child_bypass: optional boolean`
-
-      Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-    - `audit_ssh: optional object { command_logging }`
-
-      Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-      - `command_logging: optional boolean`
-
-        Enable SSH command logging.
-
-    - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-      Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-      - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dcp: optional boolean`
-
-        Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-      - `dd: optional boolean`
-
-        Set to false to enable downloading. Only applies when `version == "v1"`.
-
-      - `dk: optional boolean`
-
-        Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-      - `download: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dp: optional boolean`
-
-        Set to false to enable printing. Only applies when `version == "v1"`.
-
-      - `du: optional boolean`
-
-        Set to false to enable uploading. Only applies when `version == "v1"`.
-
-      - `keyboard: optional "enabled" or "disabled"`
-
-        Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `printing: optional "enabled" or "disabled"`
-
-        Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `upload: optional "enabled" or "disabled"`
-
-        Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `version: optional "v1" or "v2"`
-
-        Indicate which version of the browser isolation controls should apply.
-
-        - `"v1"`
-
-        - `"v2"`
-
-      - `wm_id: optional string`
-
-        Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-    - `block_page: optional object { target_uri, include_context }`
-
-      Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-    - `block_page_enabled: optional boolean`
-
-      Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-    - `block_reason: optional string`
-
-      Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-    - `bypass_parent_rule: optional boolean`
-
-      Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-    - `check_session: optional object { duration, enforce }`
-
-      Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-      - `duration: optional string`
-
-        Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-      - `enforce: optional boolean`
-
-        Enable session enforcement.
-
-    - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-      Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `ipv4: optional array of DNSResolverSettingsV4`
-
-        - `ip: string`
-
-          Specify the IPv4 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-      - `ipv6: optional array of DNSResolverSettingsV6`
-
-        - `ip: string`
-
-          Specify the IPv6 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-      Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-      - `ipv4: optional string`
-
-        Specify the IPv4 address to use for egress.
-
-      - `ipv4_fallback: optional string`
-
-        Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-      - `ipv6: optional string`
-
-        Specify the IPv6 range to use for egress.
-
-    - `forensic_copy: optional object { enabled }`
-
-      Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-      - `enabled: optional boolean`
-
-        Enable sending the copy to storage.
-
-    - `ignore_cname_category_matches: optional boolean`
-
-      Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-    - `insecure_disable_dnssec_validation: optional boolean`
-
-      Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-    - `ip_categories: optional boolean`
-
-      Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-    - `ip_indicator_feeds: optional boolean`
-
-      Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-    - `l4override: optional object { ip, port }`
-
-      Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-      - `ip: optional string`
-
-        Defines the IPv4 or IPv6 address.
-
-      - `port: optional number`
-
-        Defines a port number to use for TCP/UDP overrides.
-
-    - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-      Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-      - `enabled: optional boolean`
-
-        Enable notification.
-
-      - `include_context: optional boolean`
-
-        Indicates whether to pass the context information as query parameters.
-
-      - `msg: optional string`
-
-        Customize the message shown in the notification.
-
-      - `support_url: optional string`
-
-        Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-    - `override_host: optional string`
-
-      Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `override_ips: optional array of string`
-
-      Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `payload_log: optional object { enabled }`
-
-      Configure DLP payload logging. Settable only for `http` rules.
-
-      - `enabled: optional boolean`
-
-        Enable DLP payload logging for this rule.
-
-    - `quarantine: optional object { file_types }`
-
-      Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-      - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-        Specify the types of files to sandbox.
-
-        - `"exe"`
-
-        - `"pdf"`
-
-        - `"doc"`
-
-        - `"docm"`
-
-        - `"docx"`
-
-        - `"rtf"`
-
-        - `"ppt"`
-
-        - `"pptx"`
-
-        - `"xls"`
-
-        - `"xlsm"`
-
-        - `"xlsx"`
-
-        - `"zip"`
-
-        - `"rar"`
-
-    - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-      Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-      - `preserve_path_and_query: optional boolean`
-
-        Specify whether to append the path and query parameters from the original request to target_uri.
-
-    - `resolve_dns_internally: optional object { fallback, view_id }`
-
-      Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `fallback: optional "none" or "public_dns"`
-
-        Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-        - `"none"`
-
-        - `"public_dns"`
-
-      - `view_id: optional string`
-
-        Specify the internal DNS view identifier to pass to the internal DNS service.
-
-    - `resolve_dns_through_cloudflare: optional boolean`
-
-      Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `untrusted_cert: optional object { action }`
-
-      Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-      - `action: optional "pass_through" or "block" or "error"`
-
-        Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-        - `"pass_through"`
-
-        - `"block"`
-
-        - `"error"`
-
-  - `schedule: optional Schedule`
-
-    Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-    - `fri: optional string`
-
-      Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `mon: optional string`
-
-      Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sat: optional string`
-
-      Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sun: optional string`
-
-      Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `thu: optional string`
-
-      Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `time_zone: optional string`
-
-      Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-    - `tue: optional string`
-
-      Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `wed: optional string`
-
-      Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sharable: optional boolean`
-
-    Indicate that this rule is sharable via the Orgs API.
-
-  - `source_account: optional string`
-
-    Provide the account tag of the account that created the rule.
-
-  - `updated_at: optional string`
-
-  - `version: optional number`
-
-    Indicate the version number of the rule(read-only).
-
-  - `warning_status: optional string`
-
-    Indicate a warning for a misconfigured rule, if any.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules/$RULE_ID/reset_expiration \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": "allow",
-    "enabled": true,
-    "filters": [
-      "http"
-    ],
-    "name": "block bad websites",
-    "precedence": 0,
-    "traffic": "http.request.uri matches \".*a/partial/uri.*\" and http.request.host in $01302951-49f9-47c9-a400-0297e60b6a10",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "deleted_at": "2019-12-27T18:11:19.117Z",
-    "description": "Block bad websites based on their host name.",
-    "device_posture": "any(device_posture.checks.passed[*] in {\"1308749e-fcfb-4ebc-b051-fe022b632644\"})",
-    "expiration": {
-      "expires_at": "2014-01-01T05:20:20Z",
-      "duration": 10,
-      "expired": false
-    },
-    "identity": "any(identity.groups.name[*] in {\"finance\"})",
-    "read_only": true,
-    "rule_settings": {
-      "add_headers": {
-        "My-Next-Header": [
-          "foo",
-          "bar"
-        ],
-        "X-Custom-Header-Name": [
-          "somecustomvalue"
-        ]
-      },
-      "allow_child_bypass": false,
-      "audit_ssh": {
-        "command_logging": false
-      },
-      "biso_admin_controls": {
-        "copy": "remote_only",
-        "dcp": true,
-        "dd": true,
-        "dk": true,
-        "download": "enabled",
-        "dp": false,
-        "du": true,
-        "keyboard": "enabled",
-        "paste": "enabled",
-        "printing": "enabled",
-        "upload": "enabled",
-        "version": "v1",
-        "wm_id": "475345dc-5299-4b6e-8f6a-3d3e4c8e9f1a"
-      },
-      "block_page": {
-        "target_uri": "https://example.com",
-        "include_context": true
-      },
-      "block_page_enabled": true,
-      "block_reason": "This website is a security risk",
-      "bypass_parent_rule": false,
-      "check_session": {
-        "duration": "300s",
-        "enforce": true
-      },
-      "dns_resolvers": {
-        "ipv4": [
-          {
-            "ip": "2.2.2.2",
-            "port": 5053,
-            "route_through_private_network": true,
-            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ],
-        "ipv6": [
-          {
-            "ip": "2001:DB8::",
-            "port": 5053,
-            "route_through_private_network": true,
-            "vnet_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ]
-      },
-      "egress": {
-        "ipv4": "192.0.2.2",
-        "ipv4_fallback": "192.0.2.3",
-        "ipv6": "2001:DB8::/64"
-      },
-      "forensic_copy": {
-        "enabled": true
-      },
-      "ignore_cname_category_matches": true,
-      "insecure_disable_dnssec_validation": false,
-      "ip_categories": true,
-      "ip_indicator_feeds": true,
-      "l4override": {
-        "ip": "1.1.1.1",
-        "port": 0
-      },
-      "notification_settings": {
-        "enabled": true,
-        "include_context": true,
-        "msg": "msg",
-        "support_url": "support_url"
-      },
-      "override_host": "example.com",
-      "override_ips": [
-        "1.1.1.1",
-        "2.2.2.2"
-      ],
-      "payload_log": {
-        "enabled": true
-      },
-      "quarantine": {
-        "file_types": [
-          "exe"
-        ]
-      },
-      "redirect": {
-        "target_uri": "https://example.com",
-        "include_context": true,
-        "preserve_path_and_query": true
-      },
-      "resolve_dns_internally": {
-        "fallback": "none",
-        "view_id": "view_id"
-      },
-      "resolve_dns_through_cloudflare": true,
-      "untrusted_cert": {
-        "action": "error"
-      }
-    },
-    "schedule": {
-      "fri": "08:00-12:30,13:30-17:00",
-      "mon": "08:00-12:30,13:30-17:00",
-      "sat": "08:00-12:30,13:30-17:00",
-      "sun": "08:00-12:30,13:30-17:00",
-      "thu": "08:00-12:30,13:30-17:00",
-      "time_zone": "America/New York",
-      "tue": "08:00-12:30,13:30-17:00",
-      "wed": "08:00-12:30,13:30-17:00"
-    },
-    "sharable": true,
-    "source_account": "source_account",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "version": 1,
-    "warning_status": "warning_status"
-  }
-}
-```
-
-## Domain Types
-
-### DNS Resolver Settings V4
-
-- `DNSResolverSettingsV4 object { ip, port, route_through_private_network, vnet_id }`
-
-  - `ip: string`
-
-    Specify the IPv4 address of the upstream resolver.
-
-  - `port: optional number`
-
-    Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-  - `route_through_private_network: optional boolean`
-
-    Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-  - `vnet_id: optional string`
-
-    Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-### DNS Resolver Settings V6
-
-- `DNSResolverSettingsV6 object { ip, port, route_through_private_network, vnet_id }`
-
-  - `ip: string`
-
-    Specify the IPv6 address of the upstream resolver.
-
-  - `port: optional number`
-
-    Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-  - `route_through_private_network: optional boolean`
-
-    Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-  - `vnet_id: optional string`
-
-    Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-### Gateway Filter
-
-- `GatewayFilter = "http" or "dns" or "l4" or 2 more`
-
-  Specify the protocol or layer to use.
-
-  - `"http"`
-
-  - `"dns"`
-
-  - `"l4"`
-
-  - `"egress"`
-
-  - `"dns_resolver"`
-
-### Gateway Rule
-
-- `GatewayRule object { action, enabled, filters, 18 more }`
-
-  - `action: "on" or "off" or "allow" or 13 more`
-
-    Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.
-
-    - `"on"`
-
-    - `"off"`
-
-    - `"allow"`
-
-    - `"block"`
-
-    - `"scan"`
-
-    - `"noscan"`
-
-    - `"safesearch"`
-
-    - `"ytrestricted"`
-
-    - `"isolate"`
-
-    - `"noisolate"`
-
-    - `"override"`
-
-    - `"l4_override"`
-
-    - `"egress"`
-
-    - `"resolve"`
-
-    - `"quarantine"`
-
-    - `"redirect"`
-
-  - `enabled: boolean`
-
-    Specify whether the rule is enabled.
-
-  - `filters: array of GatewayFilter`
-
-    Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.
-
-    - `"http"`
-
-    - `"dns"`
-
-    - `"l4"`
-
-    - `"egress"`
-
-    - `"dns_resolver"`
-
-  - `name: string`
-
-    Specify the rule name.
-
-  - `precedence: number`
-
-    Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.
-
-  - `traffic: string`
-
-    Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `deleted_at: optional string`
-
-    Indicate the date of deletion, if any.
-
-  - `description: optional string`
-
-    Specify the rule description.
-
-  - `device_posture: optional string`
-
-    Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `expiration: optional object { expires_at, duration, expired }`
-
-    Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This  does not apply to HTTP or network policies. Settable only for `dns` rules.
-
-    - `expires_at: string`
-
-      Show the timestamp when the policy expires and stops applying.  The value must follow RFC 3339 and include a UTC offset.  The system accepts non-zero offsets but converts them to the equivalent UTC+00:00  value and returns timestamps with a trailing Z. Expiration policies ignore client  timezones and expire globally at the specified expires_at time.
-
-    - `duration: optional number`
-
-      Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.
-
-    - `expired: optional boolean`
-
-      Indicates whether the policy is expired.
-
-  - `identity: optional string`
-
-    Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.
-
-  - `read_only: optional boolean`
-
-    Indicate that this rule is shared via the Orgs API and read only.
-
-  - `rule_settings: optional RuleSetting`
-
-    Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-    - `add_headers: optional map[array of string]`
-
-      Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-    - `allow_child_bypass: optional boolean`
-
-      Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-    - `audit_ssh: optional object { command_logging }`
-
-      Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-      - `command_logging: optional boolean`
-
-        Enable SSH command logging.
-
-    - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-      Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-      - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dcp: optional boolean`
-
-        Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-      - `dd: optional boolean`
-
-        Set to false to enable downloading. Only applies when `version == "v1"`.
-
-      - `dk: optional boolean`
-
-        Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-      - `download: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `dp: optional boolean`
-
-        Set to false to enable printing. Only applies when `version == "v1"`.
-
-      - `du: optional boolean`
-
-        Set to false to enable uploading. Only applies when `version == "v1"`.
-
-      - `keyboard: optional "enabled" or "disabled"`
-
-        Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-        Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-        - `"remote_only"`
-
-      - `printing: optional "enabled" or "disabled"`
-
-        Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `upload: optional "enabled" or "disabled"`
-
-        Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-      - `version: optional "v1" or "v2"`
-
-        Indicate which version of the browser isolation controls should apply.
-
-        - `"v1"`
-
-        - `"v2"`
-
-      - `wm_id: optional string`
-
-        Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-    - `block_page: optional object { target_uri, include_context }`
-
-      Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-    - `block_page_enabled: optional boolean`
-
-      Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-    - `block_reason: optional string`
-
-      Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-    - `bypass_parent_rule: optional boolean`
-
-      Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-    - `check_session: optional object { duration, enforce }`
-
-      Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-      - `duration: optional string`
-
-        Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-      - `enforce: optional boolean`
-
-        Enable session enforcement.
-
-    - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-      Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `ipv4: optional array of DNSResolverSettingsV4`
-
-        - `ip: string`
-
-          Specify the IPv4 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-      - `ipv6: optional array of DNSResolverSettingsV6`
-
-        - `ip: string`
-
-          Specify the IPv6 address of the upstream resolver.
-
-        - `port: optional number`
-
-          Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-        - `route_through_private_network: optional boolean`
-
-          Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-        - `vnet_id: optional string`
-
-          Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-      Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-      - `ipv4: optional string`
-
-        Specify the IPv4 address to use for egress.
-
-      - `ipv4_fallback: optional string`
-
-        Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-      - `ipv6: optional string`
-
-        Specify the IPv6 range to use for egress.
-
-    - `forensic_copy: optional object { enabled }`
-
-      Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-      - `enabled: optional boolean`
-
-        Enable sending the copy to storage.
-
-    - `ignore_cname_category_matches: optional boolean`
-
-      Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-    - `insecure_disable_dnssec_validation: optional boolean`
-
-      Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-    - `ip_categories: optional boolean`
-
-      Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-    - `ip_indicator_feeds: optional boolean`
-
-      Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-    - `l4override: optional object { ip, port }`
-
-      Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-      - `ip: optional string`
-
-        Defines the IPv4 or IPv6 address.
-
-      - `port: optional number`
-
-        Defines a port number to use for TCP/UDP overrides.
-
-    - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-      Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-      - `enabled: optional boolean`
-
-        Enable notification.
-
-      - `include_context: optional boolean`
-
-        Indicates whether to pass the context information as query parameters.
-
-      - `msg: optional string`
-
-        Customize the message shown in the notification.
-
-      - `support_url: optional string`
-
-        Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-    - `override_host: optional string`
-
-      Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `override_ips: optional array of string`
-
-      Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-    - `payload_log: optional object { enabled }`
-
-      Configure DLP payload logging. Settable only for `http` rules.
-
-      - `enabled: optional boolean`
-
-        Enable DLP payload logging for this rule.
-
-    - `quarantine: optional object { file_types }`
-
-      Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-      - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-        Specify the types of files to sandbox.
-
-        - `"exe"`
-
-        - `"pdf"`
-
-        - `"doc"`
-
-        - `"docm"`
-
-        - `"docx"`
-
-        - `"rtf"`
-
-        - `"ppt"`
-
-        - `"pptx"`
-
-        - `"xls"`
-
-        - `"xlsm"`
-
-        - `"xlsx"`
-
-        - `"zip"`
-
-        - `"rar"`
-
-    - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-      Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-      - `target_uri: string`
-
-        Specify the URI to which the user is redirected.
-
-      - `include_context: optional boolean`
-
-        Specify whether to pass the context information as query parameters.
-
-      - `preserve_path_and_query: optional boolean`
-
-        Specify whether to append the path and query parameters from the original request to target_uri.
-
-    - `resolve_dns_internally: optional object { fallback, view_id }`
-
-      Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-      - `fallback: optional "none" or "public_dns"`
-
-        Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-        - `"none"`
-
-        - `"public_dns"`
-
-      - `view_id: optional string`
-
-        Specify the internal DNS view identifier to pass to the internal DNS service.
-
-    - `resolve_dns_through_cloudflare: optional boolean`
-
-      Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `untrusted_cert: optional object { action }`
-
-      Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-      - `action: optional "pass_through" or "block" or "error"`
-
-        Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-        - `"pass_through"`
-
-        - `"block"`
-
-        - `"error"`
-
-  - `schedule: optional Schedule`
-
-    Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-    - `fri: optional string`
-
-      Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `mon: optional string`
-
-      Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sat: optional string`
-
-      Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `sun: optional string`
-
-      Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `thu: optional string`
-
-      Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `time_zone: optional string`
-
-      Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-    - `tue: optional string`
-
-      Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-    - `wed: optional string`
-
-      Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sharable: optional boolean`
-
-    Indicate that this rule is sharable via the Orgs API.
-
-  - `source_account: optional string`
-
-    Provide the account tag of the account that created the rule.
-
-  - `updated_at: optional string`
-
-  - `version: optional number`
-
-    Indicate the version number of the rule(read-only).
-
-  - `warning_status: optional string`
-
-    Indicate a warning for a misconfigured rule, if any.
-
-### Rule Setting
-
-- `RuleSetting object { add_headers, allow_child_bypass, audit_ssh, 23 more }`
-
-  Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether the API modifies the value. Use API-returned values in your configuration to prevent drift.
-
-  - `add_headers: optional map[array of string]`
-
-    Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Settable only for `http` rules with the action set to `allow`.
-
-  - `allow_child_bypass: optional boolean`
-
-    Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-
-  - `audit_ssh: optional object { command_logging }`
-
-    Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-
-    - `command_logging: optional boolean`
-
-      Enable SSH command logging.
-
-  - `biso_admin_controls: optional object { copy, dcp, dd, 10 more }`
-
-    Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
-
-    - `copy: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `dcp: optional boolean`
-
-      Set to false to enable copy-pasting. Only applies when `version == "v1"`.
-
-    - `dd: optional boolean`
-
-      Set to false to enable downloading. Only applies when `version == "v1"`.
-
-    - `dk: optional boolean`
-
-      Set to false to enable keyboard usage. Only applies when `version == "v1"`.
-
-    - `download: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `dp: optional boolean`
-
-      Set to false to enable printing. Only applies when `version == "v1"`.
-
-    - `du: optional boolean`
-
-      Set to false to enable uploading. Only applies when `version == "v1"`.
-
-    - `keyboard: optional "enabled" or "disabled"`
-
-      Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `paste: optional "enabled" or "disabled" or "remote_only"`
-
-      Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-      - `"remote_only"`
-
-    - `printing: optional "enabled" or "disabled"`
-
-      Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `upload: optional "enabled" or "disabled"`
-
-      Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `version: optional "v1" or "v2"`
-
-      Indicate which version of the browser isolation controls should apply.
-
-      - `"v1"`
-
-      - `"v2"`
-
-    - `wm_id: optional string`
-
-      Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.
-
-  - `block_page: optional object { target_uri, include_context }`
-
-    Configure custom block page settings. If missing or null, use the account settings. Settable only for `http` rules with the action set to `block`.
-
-    - `target_uri: string`
-
-      Specify the URI to which the user is redirected.
-
-    - `include_context: optional boolean`
-
-      Specify whether to pass the context information as query parameters.
-
-  - `block_page_enabled: optional boolean`
-
-    Enable the custom block page. Settable only for `dns` rules with action `block`.
-
-  - `block_reason: optional string`
-
-    Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.
-
-  - `bypass_parent_rule: optional boolean`
-
-    Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.
-
-  - `check_session: optional object { duration, enforce }`
-
-    Configure session check behavior. Settable only for `l4` and `http` rules with the action set to `allow`.
-
-    - `duration: optional string`
-
-      Sets the required session freshness threshold. The API returns a normalized version of this value.
-
-    - `enforce: optional boolean`
-
-      Enable session enforcement.
-
-  - `dns_resolvers: optional object { ipv4, ipv6 }`
-
-    Configure custom resolvers to route queries that match the resolver policy. Unused with 'resolve_dns_through_cloudflare' or 'resolve_dns_internally' settings. DNS queries get routed to the address closest to their origin. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `ipv4: optional array of DNSResolverSettingsV4`
-
-      - `ip: string`
-
-        Specify the IPv4 address of the upstream resolver.
-
-      - `port: optional number`
-
-        Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-      - `route_through_private_network: optional boolean`
-
-        Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-      - `vnet_id: optional string`
-
-        Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-    - `ipv6: optional array of DNSResolverSettingsV6`
-
-      - `ip: string`
-
-        Specify the IPv6 address of the upstream resolver.
-
-      - `port: optional number`
-
-        Specify a port number to use for the upstream resolver. Defaults to 53 if unspecified.
-
-      - `route_through_private_network: optional boolean`
-
-        Indicate whether to connect to this resolver over a private network. Must set when vnet_id set.
-
-      - `vnet_id: optional string`
-
-        Specify an optional virtual network for this resolver. Uses default virtual network id if omitted.
-
-  - `egress: optional object { ipv4, ipv4_fallback, ipv6 }`
-
-    Configure how Gateway Proxy traffic egresses. You can enable this setting for rules with Egress actions and filters, or omit it to indicate local egress via WARP IPs. Settable only for `egress` rules.
-
-    - `ipv4: optional string`
-
-      Specify the IPv4 address to use for egress.
-
-    - `ipv4_fallback: optional string`
-
-      Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.
-
-    - `ipv6: optional string`
-
-      Specify the IPv6 range to use for egress.
-
-  - `forensic_copy: optional object { enabled }`
-
-    Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
-
-    - `enabled: optional boolean`
-
-      Enable sending the copy to storage.
-
-  - `ignore_cname_category_matches: optional boolean`
-
-    Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.
-
-  - `insecure_disable_dnssec_validation: optional boolean`
-
-    Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
-
-  - `ip_categories: optional boolean`
-
-    Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.
-
-  - `ip_indicator_feeds: optional boolean`
-
-    Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.
-
-  - `l4override: optional object { ip, port }`
-
-    Send matching traffic to the supplied destination IP address and port. Settable only for `l4` rules with the action set to `l4_override`.
-
-    - `ip: optional string`
-
-      Defines the IPv4 or IPv6 address.
-
-    - `port: optional number`
-
-      Defines a port number to use for TCP/UDP overrides.
-
-  - `notification_settings: optional object { enabled, include_context, msg, support_url }`
-
-    Configure a notification to display on the user's device when this rule matched. Settable for all types of rules with the action set to `block`.
-
-    - `enabled: optional boolean`
-
-      Enable notification.
-
-    - `include_context: optional boolean`
-
-      Indicates whether to pass the context information as query parameters.
-
-    - `msg: optional string`
-
-      Customize the message shown in the notification.
-
-    - `support_url: optional string`
-
-      Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.
-
-  - `override_host: optional string`
-
-    Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-  - `override_ips: optional array of string`
-
-    Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.
-
-  - `payload_log: optional object { enabled }`
-
-    Configure DLP payload logging. Settable only for `http` rules.
-
-    - `enabled: optional boolean`
-
-      Enable DLP payload logging for this rule.
-
-  - `quarantine: optional object { file_types }`
-
-    Configure settings that apply to quarantine rules. Settable only for `http` rules.
-
-    - `file_types: optional array of "exe" or "pdf" or "doc" or 10 more`
-
-      Specify the types of files to sandbox.
-
-      - `"exe"`
-
-      - `"pdf"`
-
-      - `"doc"`
-
-      - `"docm"`
-
-      - `"docx"`
-
-      - `"rtf"`
-
-      - `"ppt"`
-
-      - `"pptx"`
-
-      - `"xls"`
-
-      - `"xlsm"`
-
-      - `"xlsx"`
-
-      - `"zip"`
-
-      - `"rar"`
-
-  - `redirect: optional object { target_uri, include_context, preserve_path_and_query }`
-
-    Apply settings to redirect rules. Settable only for `http` rules with the action set to `redirect`.
-
-    - `target_uri: string`
-
-      Specify the URI to which the user is redirected.
-
-    - `include_context: optional boolean`
-
-      Specify whether to pass the context information as query parameters.
-
-    - `preserve_path_and_query: optional boolean`
-
-      Specify whether to append the path and query parameters from the original request to target_uri.
-
-  - `resolve_dns_internally: optional object { fallback, view_id }`
-
-    Configure to forward the query to the internal DNS service, passing the specified 'view_id' as input. Not used when 'dns_resolvers' is specified or 'resolve_dns_through_cloudflare' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-    - `fallback: optional "none" or "public_dns"`
-
-      Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.
-
-      - `"none"`
-
-      - `"public_dns"`
-
-    - `view_id: optional string`
-
-      Specify the internal DNS view identifier to pass to the internal DNS service.
-
-  - `resolve_dns_through_cloudflare: optional boolean`
-
-    Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.
-
-  - `untrusted_cert: optional object { action }`
-
-    Configure behavior when an upstream certificate is invalid or an SSL error occurs. Settable only for `http` rules with the action set to `allow`.
-
-    - `action: optional "pass_through" or "block" or "error"`
-
-      Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.
-
-      - `"pass_through"`
-
-      - `"block"`
-
-      - `"error"`
-
-### Schedule
-
-- `Schedule object { fri, mon, sat, 5 more }`
-
-  Defines the schedule for activating DNS policies. Settable only for `dns` and `dns_resolver` rules.
-
-  - `fri: optional string`
-
-    Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `mon: optional string`
-
-    Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sat: optional string`
-
-    Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `sun: optional string`
-
-    Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `thu: optional string`
-
-    Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `time_zone: optional string`
-
-    Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.
-
-  - `tue: optional string`
-
-    Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-  - `wed: optional string`
-
-    Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.
-
-### Rule Delete Response
-
-- `RuleDeleteResponse = unknown`
-
-# Certificates
-
-## List Zero Trust certificates
-
-**get** `/accounts/{account_id}/gateway/certificates`
-
-List all Zero Trust certificates for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Indicate the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Indicate the current page within a paginated list of results.
-
-  - `per_page: optional number`
-
-    Indicate the number of results per page.
-
-  - `total_count: optional number`
-
-    Indicate the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "binding_status": "pending_deployment",
-      "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "expires_on": "2014-01-01T05:20:00.12345Z",
-      "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-      "in_use": true,
-      "issuer_org": "Example Inc.",
-      "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-      "type": "gateway_managed",
-      "updated_at": "2014-01-01T05:20:00.12345Z",
-      "uploaded_on": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get Zero Trust certificate details
-
-**get** `/accounts/{account_id}/gateway/certificates/{certificate_id}`
-
-Get a single Zero Trust certificate.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `certificate_id: string`
-
-  Identify the certificate with a UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates/$CERTIFICATE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Create Zero Trust certificate
-
-**post** `/accounts/{account_id}/gateway/certificates`
-
-Create a new Zero Trust certificate.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `validity_period_days: optional number`
-
-  Sets the certificate validity period in days (range: 1-10,950 days / ~30 years). Defaults to 1,825 days (5 years). **Important**: This field is only settable during the certificate creation.  Certificates becomes immutable after creation - use the `/activate` and `/deactivate` endpoints to manage certificate lifecycle.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete Zero Trust certificate
-
-**delete** `/accounts/{account_id}/gateway/certificates/{certificate_id}`
-
-Delete a gateway-managed Zero Trust certificate. You must deactivate the certificate from the edge (inactive) before deleting it.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `certificate_id: string`
-
-  Identify the certificate with a UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates/$CERTIFICATE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Activate a Zero Trust certificate
-
-**post** `/accounts/{account_id}/gateway/certificates/{certificate_id}/activate`
-
-Bind a single Zero Trust certificate to the edge.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `certificate_id: string`
-
-  Identify the certificate with a UUID.
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates/$CERTIFICATE_ID/activate \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Deactivate a Zero Trust certificate
-
-**post** `/accounts/{account_id}/gateway/certificates/{certificate_id}/deactivate`
-
-Unbind a single Zero Trust certificate from the edge.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `certificate_id: string`
-
-  Identify the certificate with a UUID.
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates/$CERTIFICATE_ID/deactivate \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Certificate List Response
-
-- `CertificateListResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Certificate Get Response
-
-- `CertificateGetResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Certificate Create Response
-
-- `CertificateCreateResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Certificate Delete Response
-
-- `CertificateDeleteResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Certificate Activate Response
-
-- `CertificateActivateResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Certificate Deactivate Response
-
-- `CertificateDeactivateResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-# Pacfiles
-
-## List PAC files
-
-**get** `/accounts/{account_id}/gateway/pacfiles`
-
-List all Zero Trust Gateway PAC files for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, description, 4 more }`
-
-  - `id: optional string`
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Indicate the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Indicate the current page within a paginated list of results.
-
-  - `per_page: optional number`
-
-    Indicate the number of results per page.
-
-  - `total_count: optional number`
-
-    Indicate the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "ed35569b41ce4d1facfe683550f54086",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "PAC file for Devops team",
-      "name": "Devops team",
-      "slug": "pac_devops",
-      "updated_at": "2014-01-01T05:20:00.12345Z",
-      "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a PAC file
-
-**get** `/accounts/{account_id}/gateway/pacfiles/{pacfile_id}`
-
-Get a single Zero Trust Gateway PAC file.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `pacfile_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles/$PACFILE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "contents": "function FindProxyForURL(url, host) { return \"DIRECT\"; }",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "PAC file for Devops team",
-    "name": "Devops team",
-    "slug": "pac_devops",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
-  }
-}
-```
-
-## Create a PAC file
-
-**post** `/accounts/{account_id}/gateway/pacfiles`
-
-Create a new Zero Trust Gateway PAC file.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `contents: string`
-
-  Actual contents of the PAC file
-
-- `name: string`
-
-  Name of the PAC file.
-
-- `description: optional string`
-
-  Detailed description of the PAC file.
-
-- `slug: optional string`
-
-  URL-friendly version of the PAC file name. If not provided, it will be auto-generated
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "contents": "function FindProxyForURL(url, host) { return \\"DIRECT\\"; }",
-          "name": "Devops team",
-          "description": "PAC file for Devops team",
-          "slug": "pac_devops"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "contents": "function FindProxyForURL(url, host) { return \"DIRECT\"; }",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "PAC file for Devops team",
-    "name": "Devops team",
-    "slug": "pac_devops",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
-  }
-}
-```
-
-## Update a Zero Trust Gateway PAC file
-
-**put** `/accounts/{account_id}/gateway/pacfiles/{pacfile_id}`
-
-Update a configured Zero Trust Gateway PAC file.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `pacfile_id: string`
-
-### Body Parameters
-
-- `contents: string`
-
-  Actual contents of the PAC file
-
-- `description: string`
-
-  Detailed description of the PAC file.
-
-- `name: string`
-
-  Name of the PAC file.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles/$PACFILE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "contents": "function FindProxyForURL(url, host) { return \\"DIRECT\\"; }",
-          "description": "PAC file for Devops team",
-          "name": "Devops team"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "contents": "function FindProxyForURL(url, host) { return \"DIRECT\"; }",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "PAC file for Devops team",
-    "name": "Devops team",
-    "slug": "pac_devops",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
-  }
-}
-```
-
-## Delete a PAC file
-
-**delete** `/accounts/{account_id}/gateway/pacfiles/{pacfile_id}`
-
-Delete a configured Zero Trust Gateway PAC file.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `pacfile_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles/$PACFILE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Pacfile List Response
-
-- `PacfileListResponse object { id, created_at, description, 4 more }`
-
-  - `id: optional string`
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Pacfile Get Response
-
-- `PacfileGetResponse object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Pacfile Create Response
-
-- `PacfileCreateResponse object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Pacfile Update Response
-
-- `PacfileUpdateResponse object { id, contents, created_at, 5 more }`
-
-  - `id: optional string`
-
-  - `contents: optional string`
-
-    Actual contents of the PAC file
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Detailed description of the PAC file.
-
-  - `name: optional string`
-
-    Name of the PAC file.
-
-  - `slug: optional string`
-
-    URL-friendly version of the PAC file name.
-
-  - `updated_at: optional string`
-
-  - `url: optional string`
-
-    Unique URL to download the PAC file.
-
-### Pacfile Delete Response
-
-- `PacfileDeleteResponse = unknown`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(model)%20pacfile_delete_response%20%3E%20(schema)>)

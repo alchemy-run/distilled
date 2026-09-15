@@ -1,122 +1,342 @@
-## Create a User Agent Blocking rule
+---
+title: Create a User Agent Blocking rule
+---
 
-**post** `/zones/{zone_id}/firewall/ua_rules`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[UA Rules](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a User Agent Blocking rule
+
+POST/zones/{zone\_id}/firewall/ua\_rules
 
 Creates a new User Agent Blocking rule in a zone.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `configuration: object { target, value }`
 
-  - `target: optional "ua"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    The configuration target. You must set the target to `ua` when specifying a user agent in the rule.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `"ua"`
+</details>
 
-  - `value: optional string`
+<details>
 
-    the user agent to exactly match
+<summary>API Email + API Key</summary>
 
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
 
-  The action to apply to a matched request.
 
-  - `"block"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"challenge"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"whitelist"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"js_challenge"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"managed_challenge"`
+</details>
 
-- `description: optional string`
+##### Accepted Permissions (at least one required)
 
-  An informative summary of the rule. This value is sanitized and any tags will be removed.
+`Firewall Services Write`
 
-- `paused: optional boolean`
+##### P ath ParametersExpand Collapse
 
-  When true, indicates that the rule is currently paused.
+zone\_id: string
 
-### Returns
+Defines an identifier.
 
-- `errors: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### Body ParametersJSONExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+configuration: object {target, value }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+target: optional "ua"
 
-  - `message: string`
+The configuration target. You must set the target to <code>ua</code> when specifying a user agent in the rule.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+value: optional string
 
-- `result: object { id, configuration, description, 2 more }`
+the user agent to exactly match
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the User Agent Blocking rule.
+</details>
 
-  - `configuration: optional object { target, value }`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20configuration%20%3E%20(schema)>)
 
-    The configuration object for the current rule.
+<details>
 
-    - `target: optional string`
+<summary>
 
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
+mode: "block"or "challenge"or "whitelist"or 2 more
 
-    - `value: optional string`
+The action to apply to a matched request.
 
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
+</summary>
 
-  - `description: optional string`
+One of the following:
 
-    An informative summary of the rule.
+"block"
 
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request.
+"challenge"
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+"whitelist"
 
-    - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"managed_challenge"`
+"js\_challenge"
 
-  - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the rule is currently paused.
+"managed\_challenge"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20mode%20%3E%20(schema)>)
 
-### Example
+description: optional string
 
-```http
+An informative summary of the rule. This value is sanitized and any tags will be removed.
+
+maxLength1024
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+paused: optional boolean
+
+When true, indicates that the rule is currently paused.
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20paused%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, configuration, description, 2 more }
+
+</summary>
+
+id: optional string
+
+The unique identifier of the User Agent Blocking rule.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+configuration: optional object {target, value }
+
+The configuration object for the current rule.
+
+</summary>
+
+target: optional string
+
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An informative summary of the rule.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
+
+The action to apply to a matched request.
+
+maxLength12
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"js\_challenge"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+When true, indicates that the rule is currently paused.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a User Agent Blocking rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -127,9 +347,49 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "372e67954025e0ba6aaa6d586b9e0b59",
+    "configuration": {
+      "target": "ua",
+      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
+    },
+    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
+    "mode": "js_challenge",
+    "paused": false
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

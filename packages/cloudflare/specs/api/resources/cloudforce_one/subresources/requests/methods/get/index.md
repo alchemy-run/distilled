@@ -1,130 +1,371 @@
-## Get a Request
+---
+title: Get a Request
+---
 
-**get** `/accounts/{account_id}/cloudforce-one/requests/{request_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Requests](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get a Request
+
+GET/accounts/{account\_id}/cloudforce-one/requests/{request\_id}
 
 Retrieves details for a specific Cloudforce One intelligence request.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `request_id: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  UUID.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Returns
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Cloudforce One Write``Cloudforce One Read`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+request\_id: string
 
-  - `message: string`
+UUID.
 
-  - `documentation_url: optional string`
+maxLength36
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20request_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### ReturnsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+errors: array of object {code, message, documentation\_url, source }
 
-- `result: optional Item`
+</summary>
 
-  - `id: string`
+code: number
 
-    UUID.
+minimum1000
 
-  - `content: string`
+<a href="#">Link to this property</a>
 
-    Request content.
+message: string
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-  - `priority: string`
+documentation\_url: optional string
 
-  - `request: string`
+<a href="#">Link to this property</a>
 
-    Requested information from request.
+<details>
 
-  - `summary: string`
+<summary>
 
-    Brief description of the request.
+source: optional object {pointer }
 
-  - `tlp: "clear" or "amber" or "amber-strict" or 2 more`
+</summary>
 
-    The CISA defined Traffic Light Protocol (TLP).
+pointer: optional string
 
-    - `"clear"`
+<a href="#">Link to this property</a>
 
-    - `"amber"`
+</details>
 
-    - `"amber-strict"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+</details>
 
-    - `"red"`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `updated: string`
+<details>
 
-  - `completed: optional string`
+<summary>
 
-  - `message_tokens: optional number`
+messages: array of object {code, message, documentation\_url, source }
 
-    Tokens for the request messages.
+</summary>
 
-  - `readable_id: optional string`
+code: number
 
-    Readable Request ID.
+minimum1000
 
-  - `status: optional "open" or "accepted" or "reported" or 3 more`
+<a href="#">Link to this property</a>
 
-    Request Status.
+message: string
 
-    - `"open"`
+<a href="#">Link to this property</a>
 
-    - `"accepted"`
+documentation\_url: optional string
 
-    - `"reported"`
+<a href="#">Link to this property</a>
 
-    - `"approved"`
+<details>
 
-    - `"completed"`
+<summary>
 
-    - `"declined"`
+source: optional object {pointer }
 
-  - `tokens: optional number`
+</summary>
 
-    Tokens for the request.
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/cloudforce_one#(resource)%20cloudforce_one.requests%20%3E%20(model)%20item%20%3E%20(schema)">Item</a> { id, content, created, 10 more }
+
+</summary>
+
+id: string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+content: string
+
+Request content.
+
+<a href="#">Link to this property</a>
+
+created: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+priority: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+request: string
+
+Requested information from request.
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+Brief description of the request.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: "clear"or "amber"or "amber-strict"or 2 more
+
+The CISA defined Traffic Light Protocol (TLP).
+
+</summary>
+
+One of the following:
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"red"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+completed: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+message\_tokens: optional number
+
+Tokens for the request messages.
+
+<a href="#">Link to this property</a>
+
+readable\_id: optional string
+
+Readable Request ID.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "open"or "accepted"or "reported"or 3 more
+
+Request Status.
+
+</summary>
+
+One of the following:
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"accepted"
+
+<a href="#">Link to this property</a>
+
+"reported"
+
+<a href="#">Link to this property</a>
+
+"approved"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"declined"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tokens: optional number
+
+Tokens for the request.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get a Request
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "content": "What regions were most effected by the recent DoS?",
+    "created": "2022-04-01T05:20:00Z",
+    "priority": "2022-04-01T05:20:00Z",
+    "request": "Victomology",
+    "summary": "DoS attack",
+    "tlp": "clear",
+    "updated": "2022-04-01T05:20:00Z",
+    "completed": "2022-04-01T05:20:00Z",
+    "message_tokens": 1,
+    "readable_id": "RFI-2022-000001",
+    "status": "open",
+    "tokens": 16
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

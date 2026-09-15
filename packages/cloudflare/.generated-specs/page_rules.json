@@ -43,7 +43,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemAlwaysUseHTTPSId",
           "traits": {
-            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to`https://` through a"
+            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to` https://` through a 301 redirect."
           }
         }
       }
@@ -116,7 +116,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of seconds to cache resources for."
+            "smithy.api#documentation": "The number of seconds to cache resources for. Setting this to 0 enables \"Respect Existing Headers\"."
           }
         }
       }
@@ -155,7 +155,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemBrowserCheckId",
           "traits": {
-            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with"
+            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with spammers and certain bots."
           }
         },
         "value": {
@@ -183,13 +183,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemBypassCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular"
+            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support."
           }
         }
       }
@@ -239,7 +239,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmorId": {
+    "com.cloudflare.page_rules#CreateRequestActionsItemCase6Id": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -250,7 +250,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmorValue": {
+    "com.cloudflare.page_rules#CreateRequestActionsItemCase6Value": {
       "type": "enum",
       "members": {
         "ON": {
@@ -267,17 +267,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmor": {
+    "com.cloudflare.page_rules#CreateRequestActionsItemCase6": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmorId",
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCase6Id",
           "traits": {
-            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static"
+            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmorValue",
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCase6Value",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -313,7 +313,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheKeyFieldsValueCookieCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of cookies to check for the presence of, without"
+            "smithy.api#documentation": "A list of cookies to check for the presence of, without including their actual values."
           }
         },
         "include": {
@@ -348,7 +348,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheKeyFieldsValueHeaderCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of headers to check for the presence of, without"
+            "smithy.api#documentation": "A list of headers to check for the presence of, without including their actual values."
           }
         },
         "exclude": {
@@ -371,7 +371,7 @@
         "resolved": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent"
+            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent to the origin."
           }
         }
       }
@@ -455,7 +455,7 @@
         "device_type": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet`"
+            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent."
           }
         },
         "geo": {
@@ -467,7 +467,7 @@
         "lang": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Includes the first language code contained in the"
+            "smithy.api#documentation": "Includes the first language code contained in the `Accept-Language` header sent by the client."
           }
         }
       }
@@ -484,7 +484,7 @@
         "header": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheKeyFieldsValueHeader",
           "traits": {
-            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of"
+            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "host": {
@@ -496,13 +496,13 @@
         "query_string": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheKeyFieldsValueQueryString",
           "traits": {
-            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache"
+            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "user": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheKeyFieldsValueUser",
           "traits": {
-            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into"
+            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into the Cache Key."
           }
         }
       }
@@ -513,7 +513,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheKeyFieldsId",
           "traits": {
-            "smithy.api#documentation": "Control specifically what variables to include when deciding which"
+            "smithy.api#documentation": "Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL."
           }
         },
         "value": {
@@ -579,7 +579,7 @@
         "value": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheLevelValue",
           "traits": {
-            "smithy.api#documentation": "* `bypass`: Cloudflare does not cache."
+            "smithy.api#documentation": "- `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions)."
           }
         }
       }
@@ -601,13 +601,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a"
+            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request."
           }
         }
       }
@@ -657,13 +657,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusId",
           "traits": {
-            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the"
+            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance."
           }
         },
         "value": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValue",
           "traits": {
-            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs."
+            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
         }
       }
@@ -685,7 +685,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisableAppsId",
           "traits": {
-            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)"
+            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated)."
           }
         }
       }
@@ -707,7 +707,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisablePerformanceId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/)."
           }
         }
       }
@@ -729,7 +729,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisableSecurityId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
           }
         }
       }
@@ -773,7 +773,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemEdgeCacheTTLId",
           "traits": {
-            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global"
+            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers."
           }
         },
         "value": {
@@ -860,7 +860,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemExplicitCacheControlId",
           "traits": {
-            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and"
+            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains."
           }
         },
         "value": {
@@ -905,13 +905,13 @@
         "status_code": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemForwardingURLValueStatusCode",
           "traits": {
-            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent"
+            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect."
           }
         },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL to redirect the request to."
+            "smithy.api#documentation": "The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value."
           }
         }
       }
@@ -922,7 +922,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemForwardingURLId",
           "traits": {
-            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer"
+            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/)."
           }
         },
         "value": {
@@ -1037,7 +1037,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemMirageId",
           "traits": {
-            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers."
+            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1."
           }
         },
         "value": {
@@ -1082,7 +1082,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemOpportunisticEncryptionId",
           "traits": {
-            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel."
+            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests."
           }
         },
         "value": {
@@ -1251,7 +1251,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemRespectStrongEtagId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the"
+            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server."
           }
         },
         "value": {
@@ -1296,7 +1296,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemResponseBufferingId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file"
+            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server."
           }
         },
         "value": {
@@ -1605,7 +1605,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsItemWAFId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
+            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules."
           }
         },
         "value": {
@@ -1616,117 +1616,10 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItem": {
-      "type": "union",
-      "members": {
-        "AlwaysUseHTTPS": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemAlwaysUseHTTPS"
-        },
-        "AutomaticHTTPSRewrites": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemAutomaticHTTPSRewrites"
-        },
-        "BrowserCacheTTL": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemBrowserCacheTTL"
-        },
-        "BrowserCheck": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemBrowserCheck"
-        },
-        "BypassCacheOnCookie": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemBypassCacheOnCookie"
-        },
-        "CacheByDeviceType": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheByDeviceType"
-        },
-        "CacheDeceptionArmor": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmor"
-        },
-        "CacheKeyFields": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheKeyFields"
-        },
-        "CacheLevel": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheLevel"
-        },
-        "CacheOnCookie": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheOnCookie"
-        },
-        "CacheTTLByStatus": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatus"
-        },
-        "DisableApps": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisableApps"
-        },
-        "DisablePerformance": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisablePerformance"
-        },
-        "DisableSecurity": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisableSecurity"
-        },
-        "DisableZaraz": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisableZaraz"
-        },
-        "EdgeCacheTTL": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemEdgeCacheTTL"
-        },
-        "EmailObfuscation": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemEmailObfuscation"
-        },
-        "ExplicitCacheControl": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemExplicitCacheControl"
-        },
-        "ForwardingURL": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemForwardingURL"
-        },
-        "HostHeaderOverride": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemHostHeaderOverride"
-        },
-        "IPGeolocation": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemIPGeolocation"
-        },
-        "Mirage": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemMirage"
-        },
-        "OpportunisticEncryption": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemOpportunisticEncryption"
-        },
-        "OriginErrorPagePassThru": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemOriginErrorPagePassThru"
-        },
-        "Polish": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemPolish"
-        },
-        "ResolveOverride": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemResolveOverride"
-        },
-        "RespectStrongEtag": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemRespectStrongEtag"
-        },
-        "ResponseBuffering": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemResponseBuffering"
-        },
-        "RocketLoader": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemRocketLoader"
-        },
-        "SecurityLevel": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemSecurityLevel"
-        },
-        "SortQueryStringForCache": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemSortQueryStringForCache"
-        },
-        "SSL": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemSSL"
-        },
-        "TrueClientIPHeader": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemTrueClientIPHeader"
-        },
-        "WAF": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemWAF"
-        }
-      }
-    },
     "com.cloudflare.page_rules#CreateRequestActionsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.page_rules#CreateRequestActionsItem"
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.page_rules#CreateRequestTargetsItemConstraintOperator": {
@@ -1851,7 +1744,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemAlwaysUseHTTPSId",
           "traits": {
-            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to`https://` through a"
+            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to` https://` through a 301 redirect."
           }
         }
       }
@@ -1924,7 +1817,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of seconds to cache resources for."
+            "smithy.api#documentation": "The number of seconds to cache resources for. Setting this to 0 enables \"Respect Existing Headers\"."
           }
         }
       }
@@ -1963,7 +1856,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemBrowserCheckId",
           "traits": {
-            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with"
+            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with spammers and certain bots."
           }
         },
         "value": {
@@ -1991,13 +1884,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemBypassCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular"
+            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support."
           }
         }
       }
@@ -2047,7 +1940,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmorId": {
+    "com.cloudflare.page_rules#CreateResponseActionsItemCase6Id": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -2058,7 +1951,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmorValue": {
+    "com.cloudflare.page_rules#CreateResponseActionsItemCase6Value": {
       "type": "enum",
       "members": {
         "ON": {
@@ -2075,17 +1968,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmor": {
+    "com.cloudflare.page_rules#CreateResponseActionsItemCase6": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmorId",
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCase6Id",
           "traits": {
-            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static"
+            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmorValue",
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCase6Value",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -2121,7 +2014,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheKeyFieldsValueCookieCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of cookies to check for the presence of, without"
+            "smithy.api#documentation": "A list of cookies to check for the presence of, without including their actual values."
           }
         },
         "include": {
@@ -2156,7 +2049,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheKeyFieldsValueHeaderCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of headers to check for the presence of, without"
+            "smithy.api#documentation": "A list of headers to check for the presence of, without including their actual values."
           }
         },
         "exclude": {
@@ -2179,7 +2072,7 @@
         "resolved": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent"
+            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent to the origin."
           }
         }
       }
@@ -2263,7 +2156,7 @@
         "device_type": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet`"
+            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent."
           }
         },
         "geo": {
@@ -2275,7 +2168,7 @@
         "lang": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Includes the first language code contained in the"
+            "smithy.api#documentation": "Includes the first language code contained in the `Accept-Language` header sent by the client."
           }
         }
       }
@@ -2292,7 +2185,7 @@
         "header": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheKeyFieldsValueHeader",
           "traits": {
-            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of"
+            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "host": {
@@ -2304,13 +2197,13 @@
         "query_string": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheKeyFieldsValueQueryString",
           "traits": {
-            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache"
+            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "user": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheKeyFieldsValueUser",
           "traits": {
-            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into"
+            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into the Cache Key."
           }
         }
       }
@@ -2321,7 +2214,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheKeyFieldsId",
           "traits": {
-            "smithy.api#documentation": "Control specifically what variables to include when deciding which"
+            "smithy.api#documentation": "Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL."
           }
         },
         "value": {
@@ -2387,7 +2280,7 @@
         "value": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheLevelValue",
           "traits": {
-            "smithy.api#documentation": "* `bypass`: Cloudflare does not cache."
+            "smithy.api#documentation": "- `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions)."
           }
         }
       }
@@ -2409,13 +2302,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a"
+            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request."
           }
         }
       }
@@ -2465,13 +2358,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusId",
           "traits": {
-            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the"
+            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance."
           }
         },
         "value": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValue",
           "traits": {
-            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs."
+            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
         }
       }
@@ -2493,7 +2386,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisableAppsId",
           "traits": {
-            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)"
+            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated)."
           }
         }
       }
@@ -2515,7 +2408,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisablePerformanceId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/)."
           }
         }
       }
@@ -2537,7 +2430,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisableSecurityId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
           }
         }
       }
@@ -2581,7 +2474,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemEdgeCacheTTLId",
           "traits": {
-            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global"
+            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers."
           }
         },
         "value": {
@@ -2668,7 +2561,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemExplicitCacheControlId",
           "traits": {
-            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and"
+            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains."
           }
         },
         "value": {
@@ -2713,13 +2606,13 @@
         "status_code": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemForwardingURLValueStatusCode",
           "traits": {
-            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent"
+            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect."
           }
         },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL to redirect the request to."
+            "smithy.api#documentation": "The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value."
           }
         }
       }
@@ -2730,7 +2623,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemForwardingURLId",
           "traits": {
-            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer"
+            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/)."
           }
         },
         "value": {
@@ -2845,7 +2738,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemMirageId",
           "traits": {
-            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers."
+            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1."
           }
         },
         "value": {
@@ -2890,7 +2783,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemOpportunisticEncryptionId",
           "traits": {
-            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel."
+            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests."
           }
         },
         "value": {
@@ -3059,7 +2952,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemRespectStrongEtagId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the"
+            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server."
           }
         },
         "value": {
@@ -3104,7 +2997,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemResponseBufferingId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file"
+            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server."
           }
         },
         "value": {
@@ -3413,7 +3306,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsItemWAFId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
+            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules."
           }
         },
         "value": {
@@ -3424,117 +3317,10 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItem": {
-      "type": "union",
-      "members": {
-        "AlwaysUseHTTPS": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemAlwaysUseHTTPS"
-        },
-        "AutomaticHTTPSRewrites": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemAutomaticHTTPSRewrites"
-        },
-        "BrowserCacheTTL": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemBrowserCacheTTL"
-        },
-        "BrowserCheck": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemBrowserCheck"
-        },
-        "BypassCacheOnCookie": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemBypassCacheOnCookie"
-        },
-        "CacheByDeviceType": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheByDeviceType"
-        },
-        "CacheDeceptionArmor": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmor"
-        },
-        "CacheKeyFields": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheKeyFields"
-        },
-        "CacheLevel": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheLevel"
-        },
-        "CacheOnCookie": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheOnCookie"
-        },
-        "CacheTTLByStatus": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatus"
-        },
-        "DisableApps": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisableApps"
-        },
-        "DisablePerformance": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisablePerformance"
-        },
-        "DisableSecurity": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisableSecurity"
-        },
-        "DisableZaraz": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisableZaraz"
-        },
-        "EdgeCacheTTL": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemEdgeCacheTTL"
-        },
-        "EmailObfuscation": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemEmailObfuscation"
-        },
-        "ExplicitCacheControl": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemExplicitCacheControl"
-        },
-        "ForwardingURL": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemForwardingURL"
-        },
-        "HostHeaderOverride": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemHostHeaderOverride"
-        },
-        "IPGeolocation": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemIPGeolocation"
-        },
-        "Mirage": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemMirage"
-        },
-        "OpportunisticEncryption": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemOpportunisticEncryption"
-        },
-        "OriginErrorPagePassThru": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemOriginErrorPagePassThru"
-        },
-        "Polish": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemPolish"
-        },
-        "ResolveOverride": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemResolveOverride"
-        },
-        "RespectStrongEtag": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemRespectStrongEtag"
-        },
-        "ResponseBuffering": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemResponseBuffering"
-        },
-        "RocketLoader": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemRocketLoader"
-        },
-        "SecurityLevel": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemSecurityLevel"
-        },
-        "SortQueryStringForCache": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemSortQueryStringForCache"
-        },
-        "SSL": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemSSL"
-        },
-        "TrueClientIPHeader": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemTrueClientIPHeader"
-        },
-        "WAF": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemWAF"
-        }
-      }
-    },
     "com.cloudflare.page_rules#CreateResponseActionsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.page_rules#CreateResponseActionsItem"
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.page_rules#CreateResponseStatus": {
@@ -3659,7 +3445,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemAlwaysUseHTTPSId",
           "traits": {
-            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to`https://` through a"
+            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to` https://` through a 301 redirect."
           }
         }
       }
@@ -3732,7 +3518,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of seconds to cache resources for."
+            "smithy.api#documentation": "The number of seconds to cache resources for. Setting this to 0 enables \"Respect Existing Headers\"."
           }
         }
       }
@@ -3771,7 +3557,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemBrowserCheckId",
           "traits": {
-            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with"
+            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with spammers and certain bots."
           }
         },
         "value": {
@@ -3799,13 +3585,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemBypassCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular"
+            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support."
           }
         }
       }
@@ -3855,7 +3641,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmorId": {
+    "com.cloudflare.page_rules#EditRequestActionsItemCase6Id": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -3866,7 +3652,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmorValue": {
+    "com.cloudflare.page_rules#EditRequestActionsItemCase6Value": {
       "type": "enum",
       "members": {
         "ON": {
@@ -3883,17 +3669,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmor": {
+    "com.cloudflare.page_rules#EditRequestActionsItemCase6": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmorId",
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCase6Id",
           "traits": {
-            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static"
+            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmorValue",
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCase6Value",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -3929,7 +3715,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheKeyFieldsValueCookieCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of cookies to check for the presence of, without"
+            "smithy.api#documentation": "A list of cookies to check for the presence of, without including their actual values."
           }
         },
         "include": {
@@ -3964,7 +3750,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheKeyFieldsValueHeaderCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of headers to check for the presence of, without"
+            "smithy.api#documentation": "A list of headers to check for the presence of, without including their actual values."
           }
         },
         "exclude": {
@@ -3987,7 +3773,7 @@
         "resolved": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent"
+            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent to the origin."
           }
         }
       }
@@ -4071,7 +3857,7 @@
         "device_type": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet`"
+            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent."
           }
         },
         "geo": {
@@ -4083,7 +3869,7 @@
         "lang": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Includes the first language code contained in the"
+            "smithy.api#documentation": "Includes the first language code contained in the `Accept-Language` header sent by the client."
           }
         }
       }
@@ -4100,7 +3886,7 @@
         "header": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheKeyFieldsValueHeader",
           "traits": {
-            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of"
+            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "host": {
@@ -4112,13 +3898,13 @@
         "query_string": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheKeyFieldsValueQueryString",
           "traits": {
-            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache"
+            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "user": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheKeyFieldsValueUser",
           "traits": {
-            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into"
+            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into the Cache Key."
           }
         }
       }
@@ -4129,7 +3915,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheKeyFieldsId",
           "traits": {
-            "smithy.api#documentation": "Control specifically what variables to include when deciding which"
+            "smithy.api#documentation": "Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL."
           }
         },
         "value": {
@@ -4195,7 +3981,7 @@
         "value": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheLevelValue",
           "traits": {
-            "smithy.api#documentation": "* `bypass`: Cloudflare does not cache."
+            "smithy.api#documentation": "- `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions)."
           }
         }
       }
@@ -4217,13 +4003,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a"
+            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request."
           }
         }
       }
@@ -4273,13 +4059,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusId",
           "traits": {
-            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the"
+            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance."
           }
         },
         "value": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValue",
           "traits": {
-            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs."
+            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
         }
       }
@@ -4301,7 +4087,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemDisableAppsId",
           "traits": {
-            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)"
+            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated)."
           }
         }
       }
@@ -4323,7 +4109,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemDisablePerformanceId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/)."
           }
         }
       }
@@ -4345,7 +4131,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemDisableSecurityId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
           }
         }
       }
@@ -4389,7 +4175,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemEdgeCacheTTLId",
           "traits": {
-            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global"
+            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers."
           }
         },
         "value": {
@@ -4476,7 +4262,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemExplicitCacheControlId",
           "traits": {
-            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and"
+            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains."
           }
         },
         "value": {
@@ -4521,13 +4307,13 @@
         "status_code": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemForwardingURLValueStatusCode",
           "traits": {
-            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent"
+            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect."
           }
         },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL to redirect the request to."
+            "smithy.api#documentation": "The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value."
           }
         }
       }
@@ -4538,7 +4324,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemForwardingURLId",
           "traits": {
-            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer"
+            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/)."
           }
         },
         "value": {
@@ -4653,7 +4439,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemMirageId",
           "traits": {
-            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers."
+            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1."
           }
         },
         "value": {
@@ -4698,7 +4484,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemOpportunisticEncryptionId",
           "traits": {
-            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel."
+            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests."
           }
         },
         "value": {
@@ -4867,7 +4653,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemRespectStrongEtagId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the"
+            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server."
           }
         },
         "value": {
@@ -4912,7 +4698,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemResponseBufferingId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file"
+            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server."
           }
         },
         "value": {
@@ -5221,7 +5007,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditRequestActionsItemWAFId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
+            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules."
           }
         },
         "value": {
@@ -5232,117 +5018,10 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItem": {
-      "type": "union",
-      "members": {
-        "AlwaysUseHTTPS": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemAlwaysUseHTTPS"
-        },
-        "AutomaticHTTPSRewrites": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemAutomaticHTTPSRewrites"
-        },
-        "BrowserCacheTTL": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemBrowserCacheTTL"
-        },
-        "BrowserCheck": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemBrowserCheck"
-        },
-        "BypassCacheOnCookie": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemBypassCacheOnCookie"
-        },
-        "CacheByDeviceType": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheByDeviceType"
-        },
-        "CacheDeceptionArmor": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmor"
-        },
-        "CacheKeyFields": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheKeyFields"
-        },
-        "CacheLevel": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheLevel"
-        },
-        "CacheOnCookie": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheOnCookie"
-        },
-        "CacheTTLByStatus": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatus"
-        },
-        "DisableApps": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemDisableApps"
-        },
-        "DisablePerformance": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemDisablePerformance"
-        },
-        "DisableSecurity": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemDisableSecurity"
-        },
-        "DisableZaraz": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemDisableZaraz"
-        },
-        "EdgeCacheTTL": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemEdgeCacheTTL"
-        },
-        "EmailObfuscation": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemEmailObfuscation"
-        },
-        "ExplicitCacheControl": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemExplicitCacheControl"
-        },
-        "ForwardingURL": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemForwardingURL"
-        },
-        "HostHeaderOverride": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemHostHeaderOverride"
-        },
-        "IPGeolocation": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemIPGeolocation"
-        },
-        "Mirage": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemMirage"
-        },
-        "OpportunisticEncryption": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemOpportunisticEncryption"
-        },
-        "OriginErrorPagePassThru": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemOriginErrorPagePassThru"
-        },
-        "Polish": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemPolish"
-        },
-        "ResolveOverride": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemResolveOverride"
-        },
-        "RespectStrongEtag": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemRespectStrongEtag"
-        },
-        "ResponseBuffering": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemResponseBuffering"
-        },
-        "RocketLoader": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemRocketLoader"
-        },
-        "SecurityLevel": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemSecurityLevel"
-        },
-        "SortQueryStringForCache": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemSortQueryStringForCache"
-        },
-        "SSL": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemSSL"
-        },
-        "TrueClientIPHeader": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemTrueClientIPHeader"
-        },
-        "WAF": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemWAF"
-        }
-      }
-    },
     "com.cloudflare.page_rules#EditRequestActionsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.page_rules#EditRequestActionsItem"
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.page_rules#EditRequestStatus": {
@@ -5467,7 +5146,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemAlwaysUseHTTPSId",
           "traits": {
-            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to`https://` through a"
+            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to` https://` through a 301 redirect."
           }
         }
       }
@@ -5540,7 +5219,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of seconds to cache resources for."
+            "smithy.api#documentation": "The number of seconds to cache resources for. Setting this to 0 enables \"Respect Existing Headers\"."
           }
         }
       }
@@ -5579,7 +5258,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemBrowserCheckId",
           "traits": {
-            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with"
+            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with spammers and certain bots."
           }
         },
         "value": {
@@ -5607,13 +5286,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemBypassCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular"
+            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support."
           }
         }
       }
@@ -5663,7 +5342,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmorId": {
+    "com.cloudflare.page_rules#EditResponseActionsItemCase6Id": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -5674,7 +5353,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmorValue": {
+    "com.cloudflare.page_rules#EditResponseActionsItemCase6Value": {
       "type": "enum",
       "members": {
         "ON": {
@@ -5691,17 +5370,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmor": {
+    "com.cloudflare.page_rules#EditResponseActionsItemCase6": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmorId",
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCase6Id",
           "traits": {
-            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static"
+            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmorValue",
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCase6Value",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -5737,7 +5416,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheKeyFieldsValueCookieCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of cookies to check for the presence of, without"
+            "smithy.api#documentation": "A list of cookies to check for the presence of, without including their actual values."
           }
         },
         "include": {
@@ -5772,7 +5451,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheKeyFieldsValueHeaderCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of headers to check for the presence of, without"
+            "smithy.api#documentation": "A list of headers to check for the presence of, without including their actual values."
           }
         },
         "exclude": {
@@ -5795,7 +5474,7 @@
         "resolved": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent"
+            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent to the origin."
           }
         }
       }
@@ -5879,7 +5558,7 @@
         "device_type": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet`"
+            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent."
           }
         },
         "geo": {
@@ -5891,7 +5570,7 @@
         "lang": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Includes the first language code contained in the"
+            "smithy.api#documentation": "Includes the first language code contained in the `Accept-Language` header sent by the client."
           }
         }
       }
@@ -5908,7 +5587,7 @@
         "header": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheKeyFieldsValueHeader",
           "traits": {
-            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of"
+            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "host": {
@@ -5920,13 +5599,13 @@
         "query_string": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheKeyFieldsValueQueryString",
           "traits": {
-            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache"
+            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "user": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheKeyFieldsValueUser",
           "traits": {
-            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into"
+            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into the Cache Key."
           }
         }
       }
@@ -5937,7 +5616,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheKeyFieldsId",
           "traits": {
-            "smithy.api#documentation": "Control specifically what variables to include when deciding which"
+            "smithy.api#documentation": "Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL."
           }
         },
         "value": {
@@ -6003,7 +5682,7 @@
         "value": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheLevelValue",
           "traits": {
-            "smithy.api#documentation": "* `bypass`: Cloudflare does not cache."
+            "smithy.api#documentation": "- `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions)."
           }
         }
       }
@@ -6025,13 +5704,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a"
+            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request."
           }
         }
       }
@@ -6081,13 +5760,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusId",
           "traits": {
-            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the"
+            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance."
           }
         },
         "value": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValue",
           "traits": {
-            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs."
+            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
         }
       }
@@ -6109,7 +5788,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemDisableAppsId",
           "traits": {
-            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)"
+            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated)."
           }
         }
       }
@@ -6131,7 +5810,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemDisablePerformanceId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/)."
           }
         }
       }
@@ -6153,7 +5832,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemDisableSecurityId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
           }
         }
       }
@@ -6197,7 +5876,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemEdgeCacheTTLId",
           "traits": {
-            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global"
+            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers."
           }
         },
         "value": {
@@ -6284,7 +5963,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemExplicitCacheControlId",
           "traits": {
-            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and"
+            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains."
           }
         },
         "value": {
@@ -6329,13 +6008,13 @@
         "status_code": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemForwardingURLValueStatusCode",
           "traits": {
-            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent"
+            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect."
           }
         },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL to redirect the request to."
+            "smithy.api#documentation": "The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value."
           }
         }
       }
@@ -6346,7 +6025,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemForwardingURLId",
           "traits": {
-            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer"
+            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/)."
           }
         },
         "value": {
@@ -6461,7 +6140,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemMirageId",
           "traits": {
-            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers."
+            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1."
           }
         },
         "value": {
@@ -6506,7 +6185,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemOpportunisticEncryptionId",
           "traits": {
-            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel."
+            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests."
           }
         },
         "value": {
@@ -6675,7 +6354,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemRespectStrongEtagId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the"
+            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server."
           }
         },
         "value": {
@@ -6720,7 +6399,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemResponseBufferingId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file"
+            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server."
           }
         },
         "value": {
@@ -7029,7 +6708,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#EditResponseActionsItemWAFId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
+            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules."
           }
         },
         "value": {
@@ -7040,117 +6719,10 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItem": {
-      "type": "union",
-      "members": {
-        "AlwaysUseHTTPS": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemAlwaysUseHTTPS"
-        },
-        "AutomaticHTTPSRewrites": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemAutomaticHTTPSRewrites"
-        },
-        "BrowserCacheTTL": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemBrowserCacheTTL"
-        },
-        "BrowserCheck": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemBrowserCheck"
-        },
-        "BypassCacheOnCookie": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemBypassCacheOnCookie"
-        },
-        "CacheByDeviceType": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheByDeviceType"
-        },
-        "CacheDeceptionArmor": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmor"
-        },
-        "CacheKeyFields": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheKeyFields"
-        },
-        "CacheLevel": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheLevel"
-        },
-        "CacheOnCookie": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheOnCookie"
-        },
-        "CacheTTLByStatus": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatus"
-        },
-        "DisableApps": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemDisableApps"
-        },
-        "DisablePerformance": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemDisablePerformance"
-        },
-        "DisableSecurity": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemDisableSecurity"
-        },
-        "DisableZaraz": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemDisableZaraz"
-        },
-        "EdgeCacheTTL": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemEdgeCacheTTL"
-        },
-        "EmailObfuscation": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemEmailObfuscation"
-        },
-        "ExplicitCacheControl": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemExplicitCacheControl"
-        },
-        "ForwardingURL": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemForwardingURL"
-        },
-        "HostHeaderOverride": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemHostHeaderOverride"
-        },
-        "IPGeolocation": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemIPGeolocation"
-        },
-        "Mirage": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemMirage"
-        },
-        "OpportunisticEncryption": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemOpportunisticEncryption"
-        },
-        "OriginErrorPagePassThru": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemOriginErrorPagePassThru"
-        },
-        "Polish": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemPolish"
-        },
-        "ResolveOverride": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemResolveOverride"
-        },
-        "RespectStrongEtag": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemRespectStrongEtag"
-        },
-        "ResponseBuffering": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemResponseBuffering"
-        },
-        "RocketLoader": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemRocketLoader"
-        },
-        "SecurityLevel": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemSecurityLevel"
-        },
-        "SortQueryStringForCache": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemSortQueryStringForCache"
-        },
-        "SSL": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemSSL"
-        },
-        "TrueClientIPHeader": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemTrueClientIPHeader"
-        },
-        "WAF": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemWAF"
-        }
-      }
-    },
     "com.cloudflare.page_rules#EditResponseActionsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.page_rules#EditResponseActionsItem"
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.page_rules#EditResponseStatus": {
@@ -7275,7 +6847,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemAlwaysUseHTTPSId",
           "traits": {
-            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to`https://` through a"
+            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to` https://` through a 301 redirect."
           }
         }
       }
@@ -7348,7 +6920,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of seconds to cache resources for."
+            "smithy.api#documentation": "The number of seconds to cache resources for. Setting this to 0 enables \"Respect Existing Headers\"."
           }
         }
       }
@@ -7387,7 +6959,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemBrowserCheckId",
           "traits": {
-            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with"
+            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with spammers and certain bots."
           }
         },
         "value": {
@@ -7415,13 +6987,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemBypassCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular"
+            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support."
           }
         }
       }
@@ -7471,7 +7043,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmorId": {
+    "com.cloudflare.page_rules#GetResponseActionsItemCase6Id": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -7482,7 +7054,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmorValue": {
+    "com.cloudflare.page_rules#GetResponseActionsItemCase6Value": {
       "type": "enum",
       "members": {
         "ON": {
@@ -7499,17 +7071,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmor": {
+    "com.cloudflare.page_rules#GetResponseActionsItemCase6": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmorId",
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCase6Id",
           "traits": {
-            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static"
+            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmorValue",
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCase6Value",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -7545,7 +7117,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheKeyFieldsValueCookieCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of cookies to check for the presence of, without"
+            "smithy.api#documentation": "A list of cookies to check for the presence of, without including their actual values."
           }
         },
         "include": {
@@ -7580,7 +7152,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheKeyFieldsValueHeaderCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of headers to check for the presence of, without"
+            "smithy.api#documentation": "A list of headers to check for the presence of, without including their actual values."
           }
         },
         "exclude": {
@@ -7603,7 +7175,7 @@
         "resolved": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent"
+            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent to the origin."
           }
         }
       }
@@ -7687,7 +7259,7 @@
         "device_type": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet`"
+            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent."
           }
         },
         "geo": {
@@ -7699,7 +7271,7 @@
         "lang": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Includes the first language code contained in the"
+            "smithy.api#documentation": "Includes the first language code contained in the `Accept-Language` header sent by the client."
           }
         }
       }
@@ -7716,7 +7288,7 @@
         "header": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheKeyFieldsValueHeader",
           "traits": {
-            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of"
+            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "host": {
@@ -7728,13 +7300,13 @@
         "query_string": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheKeyFieldsValueQueryString",
           "traits": {
-            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache"
+            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "user": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheKeyFieldsValueUser",
           "traits": {
-            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into"
+            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into the Cache Key."
           }
         }
       }
@@ -7745,7 +7317,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheKeyFieldsId",
           "traits": {
-            "smithy.api#documentation": "Control specifically what variables to include when deciding which"
+            "smithy.api#documentation": "Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL."
           }
         },
         "value": {
@@ -7811,7 +7383,7 @@
         "value": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheLevelValue",
           "traits": {
-            "smithy.api#documentation": "* `bypass`: Cloudflare does not cache."
+            "smithy.api#documentation": "- `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions)."
           }
         }
       }
@@ -7833,13 +7405,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a"
+            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request."
           }
         }
       }
@@ -7889,13 +7461,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusId",
           "traits": {
-            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the"
+            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance."
           }
         },
         "value": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValue",
           "traits": {
-            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs."
+            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
         }
       }
@@ -7917,7 +7489,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemDisableAppsId",
           "traits": {
-            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)"
+            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated)."
           }
         }
       }
@@ -7939,7 +7511,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemDisablePerformanceId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/)."
           }
         }
       }
@@ -7961,7 +7533,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemDisableSecurityId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
           }
         }
       }
@@ -8005,7 +7577,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemEdgeCacheTTLId",
           "traits": {
-            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global"
+            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers."
           }
         },
         "value": {
@@ -8092,7 +7664,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemExplicitCacheControlId",
           "traits": {
-            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and"
+            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains."
           }
         },
         "value": {
@@ -8137,13 +7709,13 @@
         "status_code": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemForwardingURLValueStatusCode",
           "traits": {
-            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent"
+            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect."
           }
         },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL to redirect the request to."
+            "smithy.api#documentation": "The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value."
           }
         }
       }
@@ -8154,7 +7726,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemForwardingURLId",
           "traits": {
-            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer"
+            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/)."
           }
         },
         "value": {
@@ -8269,7 +7841,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemMirageId",
           "traits": {
-            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers."
+            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1."
           }
         },
         "value": {
@@ -8314,7 +7886,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemOpportunisticEncryptionId",
           "traits": {
-            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel."
+            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests."
           }
         },
         "value": {
@@ -8483,7 +8055,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemRespectStrongEtagId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the"
+            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server."
           }
         },
         "value": {
@@ -8528,7 +8100,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemResponseBufferingId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file"
+            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server."
           }
         },
         "value": {
@@ -8837,7 +8409,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#GetResponseActionsItemWAFId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
+            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules."
           }
         },
         "value": {
@@ -8848,117 +8420,10 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItem": {
-      "type": "union",
-      "members": {
-        "AlwaysUseHTTPS": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemAlwaysUseHTTPS"
-        },
-        "AutomaticHTTPSRewrites": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemAutomaticHTTPSRewrites"
-        },
-        "BrowserCacheTTL": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemBrowserCacheTTL"
-        },
-        "BrowserCheck": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemBrowserCheck"
-        },
-        "BypassCacheOnCookie": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemBypassCacheOnCookie"
-        },
-        "CacheByDeviceType": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheByDeviceType"
-        },
-        "CacheDeceptionArmor": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmor"
-        },
-        "CacheKeyFields": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheKeyFields"
-        },
-        "CacheLevel": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheLevel"
-        },
-        "CacheOnCookie": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheOnCookie"
-        },
-        "CacheTTLByStatus": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatus"
-        },
-        "DisableApps": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemDisableApps"
-        },
-        "DisablePerformance": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemDisablePerformance"
-        },
-        "DisableSecurity": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemDisableSecurity"
-        },
-        "DisableZaraz": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemDisableZaraz"
-        },
-        "EdgeCacheTTL": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemEdgeCacheTTL"
-        },
-        "EmailObfuscation": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemEmailObfuscation"
-        },
-        "ExplicitCacheControl": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemExplicitCacheControl"
-        },
-        "ForwardingURL": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemForwardingURL"
-        },
-        "HostHeaderOverride": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemHostHeaderOverride"
-        },
-        "IPGeolocation": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemIPGeolocation"
-        },
-        "Mirage": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemMirage"
-        },
-        "OpportunisticEncryption": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemOpportunisticEncryption"
-        },
-        "OriginErrorPagePassThru": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemOriginErrorPagePassThru"
-        },
-        "Polish": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemPolish"
-        },
-        "ResolveOverride": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemResolveOverride"
-        },
-        "RespectStrongEtag": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemRespectStrongEtag"
-        },
-        "ResponseBuffering": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemResponseBuffering"
-        },
-        "RocketLoader": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemRocketLoader"
-        },
-        "SecurityLevel": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemSecurityLevel"
-        },
-        "SortQueryStringForCache": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemSortQueryStringForCache"
-        },
-        "SSL": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemSSL"
-        },
-        "TrueClientIPHeader": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemTrueClientIPHeader"
-        },
-        "WAF": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemWAF"
-        }
-      }
-    },
     "com.cloudflare.page_rules#GetResponseActionsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.page_rules#GetResponseActionsItem"
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.page_rules#GetResponseStatus": {
@@ -9151,7 +8616,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemAlwaysUseHTTPSId",
           "traits": {
-            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to`https://` through a"
+            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to` https://` through a 301 redirect."
           }
         }
       }
@@ -9224,7 +8689,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of seconds to cache resources for."
+            "smithy.api#documentation": "The number of seconds to cache resources for. Setting this to 0 enables \"Respect Existing Headers\"."
           }
         }
       }
@@ -9263,7 +8728,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemBrowserCheckId",
           "traits": {
-            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with"
+            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with spammers and certain bots."
           }
         },
         "value": {
@@ -9291,13 +8756,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemBypassCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular"
+            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support."
           }
         }
       }
@@ -9347,7 +8812,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmorId": {
+    "com.cloudflare.page_rules#ListResultItemActionsItemCase6Id": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -9358,7 +8823,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmorValue": {
+    "com.cloudflare.page_rules#ListResultItemActionsItemCase6Value": {
       "type": "enum",
       "members": {
         "ON": {
@@ -9375,17 +8840,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmor": {
+    "com.cloudflare.page_rules#ListResultItemActionsItemCase6": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmorId",
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCase6Id",
           "traits": {
-            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static"
+            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmorValue",
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCase6Value",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -9421,7 +8886,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheKeyFieldsValueCookieCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of cookies to check for the presence of, without"
+            "smithy.api#documentation": "A list of cookies to check for the presence of, without including their actual values."
           }
         },
         "include": {
@@ -9456,7 +8921,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheKeyFieldsValueHeaderCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of headers to check for the presence of, without"
+            "smithy.api#documentation": "A list of headers to check for the presence of, without including their actual values."
           }
         },
         "exclude": {
@@ -9479,7 +8944,7 @@
         "resolved": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent"
+            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent to the origin."
           }
         }
       }
@@ -9563,7 +9028,7 @@
         "device_type": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet`"
+            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent."
           }
         },
         "geo": {
@@ -9575,7 +9040,7 @@
         "lang": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Includes the first language code contained in the"
+            "smithy.api#documentation": "Includes the first language code contained in the `Accept-Language` header sent by the client."
           }
         }
       }
@@ -9592,7 +9057,7 @@
         "header": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheKeyFieldsValueHeader",
           "traits": {
-            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of"
+            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "host": {
@@ -9604,13 +9069,13 @@
         "query_string": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheKeyFieldsValueQueryString",
           "traits": {
-            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache"
+            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "user": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheKeyFieldsValueUser",
           "traits": {
-            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into"
+            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into the Cache Key."
           }
         }
       }
@@ -9621,7 +9086,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheKeyFieldsId",
           "traits": {
-            "smithy.api#documentation": "Control specifically what variables to include when deciding which"
+            "smithy.api#documentation": "Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL."
           }
         },
         "value": {
@@ -9687,7 +9152,7 @@
         "value": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheLevelValue",
           "traits": {
-            "smithy.api#documentation": "* `bypass`: Cloudflare does not cache."
+            "smithy.api#documentation": "- `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions)."
           }
         }
       }
@@ -9709,13 +9174,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a"
+            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request."
           }
         }
       }
@@ -9765,13 +9230,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusId",
           "traits": {
-            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the"
+            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance."
           }
         },
         "value": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValue",
           "traits": {
-            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs."
+            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
         }
       }
@@ -9793,7 +9258,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisableAppsId",
           "traits": {
-            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)"
+            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated)."
           }
         }
       }
@@ -9815,7 +9280,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisablePerformanceId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/)."
           }
         }
       }
@@ -9837,7 +9302,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisableSecurityId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
           }
         }
       }
@@ -9881,7 +9346,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemEdgeCacheTTLId",
           "traits": {
-            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global"
+            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers."
           }
         },
         "value": {
@@ -9968,7 +9433,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemExplicitCacheControlId",
           "traits": {
-            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and"
+            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains."
           }
         },
         "value": {
@@ -10013,13 +9478,13 @@
         "status_code": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemForwardingURLValueStatusCode",
           "traits": {
-            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent"
+            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect."
           }
         },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL to redirect the request to."
+            "smithy.api#documentation": "The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value."
           }
         }
       }
@@ -10030,7 +9495,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemForwardingURLId",
           "traits": {
-            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer"
+            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/)."
           }
         },
         "value": {
@@ -10145,7 +9610,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemMirageId",
           "traits": {
-            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers."
+            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1."
           }
         },
         "value": {
@@ -10190,7 +9655,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemOpportunisticEncryptionId",
           "traits": {
-            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel."
+            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests."
           }
         },
         "value": {
@@ -10359,7 +9824,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemRespectStrongEtagId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the"
+            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server."
           }
         },
         "value": {
@@ -10404,7 +9869,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemResponseBufferingId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file"
+            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server."
           }
         },
         "value": {
@@ -10713,7 +10178,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsItemWAFId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
+            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules."
           }
         },
         "value": {
@@ -10724,117 +10189,10 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItem": {
-      "type": "union",
-      "members": {
-        "AlwaysUseHTTPS": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemAlwaysUseHTTPS"
-        },
-        "AutomaticHTTPSRewrites": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemAutomaticHTTPSRewrites"
-        },
-        "BrowserCacheTTL": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemBrowserCacheTTL"
-        },
-        "BrowserCheck": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemBrowserCheck"
-        },
-        "BypassCacheOnCookie": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemBypassCacheOnCookie"
-        },
-        "CacheByDeviceType": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheByDeviceType"
-        },
-        "CacheDeceptionArmor": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmor"
-        },
-        "CacheKeyFields": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheKeyFields"
-        },
-        "CacheLevel": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheLevel"
-        },
-        "CacheOnCookie": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheOnCookie"
-        },
-        "CacheTTLByStatus": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatus"
-        },
-        "DisableApps": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisableApps"
-        },
-        "DisablePerformance": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisablePerformance"
-        },
-        "DisableSecurity": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisableSecurity"
-        },
-        "DisableZaraz": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisableZaraz"
-        },
-        "EdgeCacheTTL": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemEdgeCacheTTL"
-        },
-        "EmailObfuscation": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemEmailObfuscation"
-        },
-        "ExplicitCacheControl": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemExplicitCacheControl"
-        },
-        "ForwardingURL": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemForwardingURL"
-        },
-        "HostHeaderOverride": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemHostHeaderOverride"
-        },
-        "IPGeolocation": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemIPGeolocation"
-        },
-        "Mirage": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemMirage"
-        },
-        "OpportunisticEncryption": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemOpportunisticEncryption"
-        },
-        "OriginErrorPagePassThru": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemOriginErrorPagePassThru"
-        },
-        "Polish": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemPolish"
-        },
-        "ResolveOverride": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemResolveOverride"
-        },
-        "RespectStrongEtag": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemRespectStrongEtag"
-        },
-        "ResponseBuffering": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemResponseBuffering"
-        },
-        "RocketLoader": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemRocketLoader"
-        },
-        "SecurityLevel": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemSecurityLevel"
-        },
-        "SortQueryStringForCache": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemSortQueryStringForCache"
-        },
-        "SSL": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemSSL"
-        },
-        "TrueClientIPHeader": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemTrueClientIPHeader"
-        },
-        "WAF": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemWAF"
-        }
-      }
-    },
     "com.cloudflare.page_rules#ListResultItemActionsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.page_rules#ListResultItemActionsItem"
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.page_rules#ListResultItemStatus": {
@@ -10955,7 +10313,7 @@
         "actions": {
           "target": "com.cloudflare.page_rules#ListResultItemActionsList",
           "traits": {
-            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the",
+            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.",
             "smithy.api#required": {}
           }
         },
@@ -10976,7 +10334,7 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed",
+            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A.",
             "smithy.api#required": {}
           }
         },
@@ -11019,7 +10377,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemAlwaysUseHTTPSId",
           "traits": {
-            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to`https://` through a"
+            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to` https://` through a 301 redirect."
           }
         }
       }
@@ -11092,7 +10450,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of seconds to cache resources for."
+            "smithy.api#documentation": "The number of seconds to cache resources for. Setting this to 0 enables \"Respect Existing Headers\"."
           }
         }
       }
@@ -11131,7 +10489,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemBrowserCheckId",
           "traits": {
-            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with"
+            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with spammers and certain bots."
           }
         },
         "value": {
@@ -11159,13 +10517,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemBypassCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular"
+            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support."
           }
         }
       }
@@ -11215,7 +10573,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmorId": {
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCase6Id": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -11226,7 +10584,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmorValue": {
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCase6Value": {
       "type": "enum",
       "members": {
         "ON": {
@@ -11243,17 +10601,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmor": {
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCase6": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmorId",
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCase6Id",
           "traits": {
-            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static"
+            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmorValue",
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCase6Value",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -11289,7 +10647,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheKeyFieldsValueCookieCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of cookies to check for the presence of, without"
+            "smithy.api#documentation": "A list of cookies to check for the presence of, without including their actual values."
           }
         },
         "include": {
@@ -11324,7 +10682,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheKeyFieldsValueHeaderCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of headers to check for the presence of, without"
+            "smithy.api#documentation": "A list of headers to check for the presence of, without including their actual values."
           }
         },
         "exclude": {
@@ -11347,7 +10705,7 @@
         "resolved": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent"
+            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent to the origin."
           }
         }
       }
@@ -11431,7 +10789,7 @@
         "device_type": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet`"
+            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent."
           }
         },
         "geo": {
@@ -11443,7 +10801,7 @@
         "lang": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Includes the first language code contained in the"
+            "smithy.api#documentation": "Includes the first language code contained in the `Accept-Language` header sent by the client."
           }
         }
       }
@@ -11460,7 +10818,7 @@
         "header": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheKeyFieldsValueHeader",
           "traits": {
-            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of"
+            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "host": {
@@ -11472,13 +10830,13 @@
         "query_string": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheKeyFieldsValueQueryString",
           "traits": {
-            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache"
+            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "user": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheKeyFieldsValueUser",
           "traits": {
-            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into"
+            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into the Cache Key."
           }
         }
       }
@@ -11489,7 +10847,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheKeyFieldsId",
           "traits": {
-            "smithy.api#documentation": "Control specifically what variables to include when deciding which"
+            "smithy.api#documentation": "Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL."
           }
         },
         "value": {
@@ -11555,7 +10913,7 @@
         "value": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheLevelValue",
           "traits": {
-            "smithy.api#documentation": "* `bypass`: Cloudflare does not cache."
+            "smithy.api#documentation": "- `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions)."
           }
         }
       }
@@ -11577,13 +10935,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a"
+            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request."
           }
         }
       }
@@ -11633,13 +10991,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusId",
           "traits": {
-            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the"
+            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance."
           }
         },
         "value": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValue",
           "traits": {
-            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs."
+            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
         }
       }
@@ -11661,7 +11019,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisableAppsId",
           "traits": {
-            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)"
+            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated)."
           }
         }
       }
@@ -11683,7 +11041,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisablePerformanceId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/)."
           }
         }
       }
@@ -11705,7 +11063,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisableSecurityId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
           }
         }
       }
@@ -11749,7 +11107,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemEdgeCacheTTLId",
           "traits": {
-            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global"
+            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers."
           }
         },
         "value": {
@@ -11836,7 +11194,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemExplicitCacheControlId",
           "traits": {
-            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and"
+            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains."
           }
         },
         "value": {
@@ -11881,13 +11239,13 @@
         "status_code": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemForwardingURLValueStatusCode",
           "traits": {
-            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent"
+            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect."
           }
         },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL to redirect the request to."
+            "smithy.api#documentation": "The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value."
           }
         }
       }
@@ -11898,7 +11256,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemForwardingURLId",
           "traits": {
-            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer"
+            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/)."
           }
         },
         "value": {
@@ -12013,7 +11371,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemMirageId",
           "traits": {
-            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers."
+            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1."
           }
         },
         "value": {
@@ -12058,7 +11416,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemOpportunisticEncryptionId",
           "traits": {
-            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel."
+            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests."
           }
         },
         "value": {
@@ -12227,7 +11585,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemRespectStrongEtagId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the"
+            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server."
           }
         },
         "value": {
@@ -12272,7 +11630,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemResponseBufferingId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file"
+            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server."
           }
         },
         "value": {
@@ -12581,7 +11939,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsItemWAFId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
+            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules."
           }
         },
         "value": {
@@ -12592,117 +11950,10 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItem": {
-      "type": "union",
-      "members": {
-        "AlwaysUseHTTPS": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemAlwaysUseHTTPS"
-        },
-        "AutomaticHTTPSRewrites": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemAutomaticHTTPSRewrites"
-        },
-        "BrowserCacheTTL": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemBrowserCacheTTL"
-        },
-        "BrowserCheck": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemBrowserCheck"
-        },
-        "BypassCacheOnCookie": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemBypassCacheOnCookie"
-        },
-        "CacheByDeviceType": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheByDeviceType"
-        },
-        "CacheDeceptionArmor": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmor"
-        },
-        "CacheKeyFields": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheKeyFields"
-        },
-        "CacheLevel": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheLevel"
-        },
-        "CacheOnCookie": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheOnCookie"
-        },
-        "CacheTTLByStatus": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatus"
-        },
-        "DisableApps": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisableApps"
-        },
-        "DisablePerformance": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisablePerformance"
-        },
-        "DisableSecurity": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisableSecurity"
-        },
-        "DisableZaraz": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisableZaraz"
-        },
-        "EdgeCacheTTL": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemEdgeCacheTTL"
-        },
-        "EmailObfuscation": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemEmailObfuscation"
-        },
-        "ExplicitCacheControl": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemExplicitCacheControl"
-        },
-        "ForwardingURL": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemForwardingURL"
-        },
-        "HostHeaderOverride": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemHostHeaderOverride"
-        },
-        "IPGeolocation": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemIPGeolocation"
-        },
-        "Mirage": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemMirage"
-        },
-        "OpportunisticEncryption": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemOpportunisticEncryption"
-        },
-        "OriginErrorPagePassThru": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemOriginErrorPagePassThru"
-        },
-        "Polish": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemPolish"
-        },
-        "ResolveOverride": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemResolveOverride"
-        },
-        "RespectStrongEtag": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemRespectStrongEtag"
-        },
-        "ResponseBuffering": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemResponseBuffering"
-        },
-        "RocketLoader": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemRocketLoader"
-        },
-        "SecurityLevel": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemSecurityLevel"
-        },
-        "SortQueryStringForCache": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemSortQueryStringForCache"
-        },
-        "SSL": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemSSL"
-        },
-        "TrueClientIPHeader": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemTrueClientIPHeader"
-        },
-        "WAF": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemWAF"
-        }
-      }
-    },
     "com.cloudflare.page_rules#UpdateRequestActionsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.page_rules#UpdateRequestActionsItem"
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.page_rules#UpdateRequestTargetsItemConstraintOperator": {
@@ -12827,7 +12078,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemAlwaysUseHTTPSId",
           "traits": {
-            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to`https://` through a"
+            "smithy.api#documentation": "If enabled, any `http://`` URL is converted to` https://` through a 301 redirect."
           }
         }
       }
@@ -12900,7 +12151,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of seconds to cache resources for."
+            "smithy.api#documentation": "The number of seconds to cache resources for. Setting this to 0 enables \"Respect Existing Headers\"."
           }
         }
       }
@@ -12939,7 +12190,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemBrowserCheckId",
           "traits": {
-            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with"
+            "smithy.api#documentation": "Inspect the visitor's browser for headers commonly associated with spammers and certain bots."
           }
         },
         "value": {
@@ -12967,13 +12218,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemBypassCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular"
+            "smithy.api#documentation": "Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support."
           }
         }
       }
@@ -13023,7 +12274,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmorId": {
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCase6Id": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -13034,7 +12285,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmorValue": {
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCase6Value": {
       "type": "enum",
       "members": {
         "ON": {
@@ -13051,17 +12302,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmor": {
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCase6": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmorId",
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCase6Id",
           "traits": {
-            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static"
+            "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmorValue",
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCase6Value",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -13097,7 +12348,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheKeyFieldsValueCookieCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of cookies to check for the presence of, without"
+            "smithy.api#documentation": "A list of cookies to check for the presence of, without including their actual values."
           }
         },
         "include": {
@@ -13132,7 +12383,7 @@
         "check_presence": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheKeyFieldsValueHeaderCheckPresenceList",
           "traits": {
-            "smithy.api#documentation": "A list of headers to check for the presence of, without"
+            "smithy.api#documentation": "A list of headers to check for the presence of, without including their actual values."
           }
         },
         "exclude": {
@@ -13155,7 +12406,7 @@
         "resolved": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent"
+            "smithy.api#documentation": "Whether to include the Host header in the HTTP request sent to the origin."
           }
         }
       }
@@ -13239,7 +12490,7 @@
         "device_type": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet`"
+            "smithy.api#documentation": "Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent."
           }
         },
         "geo": {
@@ -13251,7 +12502,7 @@
         "lang": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Includes the first language code contained in the"
+            "smithy.api#documentation": "Includes the first language code contained in the `Accept-Language` header sent by the client."
           }
         }
       }
@@ -13268,7 +12519,7 @@
         "header": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheKeyFieldsValueHeader",
           "traits": {
-            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of"
+            "smithy.api#documentation": "Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "host": {
@@ -13280,13 +12531,13 @@
         "query_string": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheKeyFieldsValueQueryString",
           "traits": {
-            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache"
+            "smithy.api#documentation": "Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected."
           }
         },
         "user": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheKeyFieldsValueUser",
           "traits": {
-            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into"
+            "smithy.api#documentation": "Feature fields to add features about the end-user (client) into the Cache Key."
           }
         }
       }
@@ -13297,7 +12548,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheKeyFieldsId",
           "traits": {
-            "smithy.api#documentation": "Control specifically what variables to include when deciding which"
+            "smithy.api#documentation": "Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL."
           }
         },
         "value": {
@@ -13363,7 +12614,7 @@
         "value": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheLevelValue",
           "traits": {
-            "smithy.api#documentation": "* `bypass`: Cloudflare does not cache."
+            "smithy.api#documentation": "- `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions)."
           }
         }
       }
@@ -13385,13 +12636,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheOnCookieId",
           "traits": {
-            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a"
+            "smithy.api#documentation": "Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The regular expression to use for matching cookie names in the"
+            "smithy.api#documentation": "The regular expression to use for matching cookie names in the request."
           }
         }
       }
@@ -13441,13 +12692,13 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusId",
           "traits": {
-            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the"
+            "smithy.api#documentation": "Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance."
           }
         },
         "value": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValue",
           "traits": {
-            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs."
+            "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
         }
       }
@@ -13469,7 +12720,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisableAppsId",
           "traits": {
-            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)"
+            "smithy.api#documentation": "Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated)."
           }
         }
       }
@@ -13491,7 +12742,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisablePerformanceId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/)."
           }
         }
       }
@@ -13513,7 +12764,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisableSecurityId",
           "traits": {
-            "smithy.api#documentation": "Turn off"
+            "smithy.api#documentation": "Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
           }
         }
       }
@@ -13557,7 +12808,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemEdgeCacheTTLId",
           "traits": {
-            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global"
+            "smithy.api#documentation": "Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers."
           }
         },
         "value": {
@@ -13644,7 +12895,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemExplicitCacheControlId",
           "traits": {
-            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and"
+            "smithy.api#documentation": "Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains."
           }
         },
         "value": {
@@ -13689,13 +12940,13 @@
         "status_code": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemForwardingURLValueStatusCode",
           "traits": {
-            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent"
+            "smithy.api#documentation": "The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect."
           }
         },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL to redirect the request to."
+            "smithy.api#documentation": "The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value."
           }
         }
       }
@@ -13706,7 +12957,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemForwardingURLId",
           "traits": {
-            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer"
+            "smithy.api#documentation": "Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/)."
           }
         },
         "value": {
@@ -13821,7 +13072,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemMirageId",
           "traits": {
-            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers."
+            "smithy.api#documentation": "Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1."
           }
         },
         "value": {
@@ -13866,7 +13117,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemOpportunisticEncryptionId",
           "traits": {
-            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel."
+            "smithy.api#documentation": "Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests."
           }
         },
         "value": {
@@ -14035,7 +13286,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemRespectStrongEtagId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the"
+            "smithy.api#documentation": "Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server."
           }
         },
         "value": {
@@ -14080,7 +13331,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemResponseBufferingId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file"
+            "smithy.api#documentation": "Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server."
           }
         },
         "value": {
@@ -14389,7 +13640,7 @@
         "id": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsItemWAFId",
           "traits": {
-            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/)."
+            "smithy.api#documentation": "Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules."
           }
         },
         "value": {
@@ -14400,117 +13651,10 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItem": {
-      "type": "union",
-      "members": {
-        "AlwaysUseHTTPS": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemAlwaysUseHTTPS"
-        },
-        "AutomaticHTTPSRewrites": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemAutomaticHTTPSRewrites"
-        },
-        "BrowserCacheTTL": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemBrowserCacheTTL"
-        },
-        "BrowserCheck": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemBrowserCheck"
-        },
-        "BypassCacheOnCookie": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemBypassCacheOnCookie"
-        },
-        "CacheByDeviceType": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheByDeviceType"
-        },
-        "CacheDeceptionArmor": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmor"
-        },
-        "CacheKeyFields": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheKeyFields"
-        },
-        "CacheLevel": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheLevel"
-        },
-        "CacheOnCookie": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheOnCookie"
-        },
-        "CacheTTLByStatus": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatus"
-        },
-        "DisableApps": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisableApps"
-        },
-        "DisablePerformance": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisablePerformance"
-        },
-        "DisableSecurity": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisableSecurity"
-        },
-        "DisableZaraz": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisableZaraz"
-        },
-        "EdgeCacheTTL": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemEdgeCacheTTL"
-        },
-        "EmailObfuscation": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemEmailObfuscation"
-        },
-        "ExplicitCacheControl": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemExplicitCacheControl"
-        },
-        "ForwardingURL": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemForwardingURL"
-        },
-        "HostHeaderOverride": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemHostHeaderOverride"
-        },
-        "IPGeolocation": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemIPGeolocation"
-        },
-        "Mirage": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemMirage"
-        },
-        "OpportunisticEncryption": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemOpportunisticEncryption"
-        },
-        "OriginErrorPagePassThru": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemOriginErrorPagePassThru"
-        },
-        "Polish": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemPolish"
-        },
-        "ResolveOverride": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemResolveOverride"
-        },
-        "RespectStrongEtag": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemRespectStrongEtag"
-        },
-        "ResponseBuffering": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemResponseBuffering"
-        },
-        "RocketLoader": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemRocketLoader"
-        },
-        "SecurityLevel": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemSecurityLevel"
-        },
-        "SortQueryStringForCache": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemSortQueryStringForCache"
-        },
-        "SSL": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemSSL"
-        },
-        "TrueClientIPHeader": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemTrueClientIPHeader"
-        },
-        "WAF": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemWAF"
-        }
-      }
-    },
     "com.cloudflare.page_rules#UpdateResponseActionsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.page_rules#UpdateResponseActionsItem"
+        "target": "smithy.api#Document"
       }
     },
     "com.cloudflare.page_rules#UpdateResponseStatus": {
@@ -14743,7 +13887,7 @@
         "actions": {
           "target": "com.cloudflare.page_rules#CreateRequestActionsList",
           "traits": {
-            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the",
+            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.",
             "smithy.api#required": {}
           }
         },
@@ -14757,7 +13901,7 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed"
+            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A."
           }
         },
         "status": {
@@ -14784,7 +13928,7 @@
         "actions": {
           "target": "com.cloudflare.page_rules#CreateResponseActionsList",
           "traits": {
-            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the",
+            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.",
             "smithy.api#required": {}
           }
         },
@@ -14805,7 +13949,7 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed",
+            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A.",
             "smithy.api#required": {}
           }
         },
@@ -14958,7 +14102,7 @@
         "actions": {
           "target": "com.cloudflare.page_rules#GetResponseActionsList",
           "traits": {
-            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the",
+            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.",
             "smithy.api#required": {}
           }
         },
@@ -14979,7 +14123,7 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed",
+            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A.",
             "smithy.api#required": {}
           }
         },
@@ -15135,13 +14279,13 @@
         "actions": {
           "target": "com.cloudflare.page_rules#EditRequestActionsList",
           "traits": {
-            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the"
+            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both."
           }
         },
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed"
+            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A."
           }
         },
         "status": {
@@ -15174,7 +14318,7 @@
         "actions": {
           "target": "com.cloudflare.page_rules#EditResponseActionsList",
           "traits": {
-            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the",
+            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.",
             "smithy.api#required": {}
           }
         },
@@ -15195,7 +14339,7 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed",
+            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A.",
             "smithy.api#required": {}
           }
         },
@@ -15267,7 +14411,7 @@
         "actions": {
           "target": "com.cloudflare.page_rules#UpdateRequestActionsList",
           "traits": {
-            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the",
+            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.",
             "smithy.api#required": {}
           }
         },
@@ -15281,7 +14425,7 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed"
+            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A."
           }
         },
         "status": {
@@ -15308,7 +14452,7 @@
         "actions": {
           "target": "com.cloudflare.page_rules#UpdateResponseActionsList",
           "traits": {
-            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the",
+            "smithy.api#documentation": "The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.",
             "smithy.api#required": {}
           }
         },
@@ -15329,7 +14473,7 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed",
+            "smithy.api#documentation": "The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A.",
             "smithy.api#required": {}
           }
         },

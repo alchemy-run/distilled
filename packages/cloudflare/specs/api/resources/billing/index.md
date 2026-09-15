@@ -1,947 +1,2401 @@
+---
+title: Billing
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Billing
 
-# Profiles
+##### [Validate Billing Address](https://developers.cloudflare.com/api/resources/billing/methods/address_validation)
 
-## Billing Profile Details
+POST/billing/address-validation
 
-**get** `/accounts/{account_id}/billing/profile`
+##### ModelsExpand Collapse
 
-Gets the current billing profile for the account.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+BillingAddressValidationResponse object {validated\_addresses }
 
-  Identifier
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+validated\_addresses: optional array of object {address, address2, city, 4 more }
 
-  - `message: string`
+List of validated address suggestions.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+address: optional string
 
-    - `pointer: optional string`
+Validated address line 1.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+address2: optional string
 
-  - `message: string`
+Validated address line 2.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+city: optional string
 
-- `result: object { id, account_type, address, 36 more }`
+Validated city.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Billing item identifier tag.
+country: optional string
 
-  - `account_type: optional string`
+Validated country code.
 
-  - `address: optional string`
+<a href="#">Link to this property</a>
 
-  - `address2: optional string`
+state: optional string
 
-  - `balance: optional string`
+Validated state or province.
 
-  - `card_expiry_month: optional number`
+<a href="#">Link to this property</a>
 
-  - `card_expiry_year: optional number`
+validation\_code: optional string
 
-  - `card_number: optional string`
+The validation result code.
 
-  - `city: optional string`
+<a href="#">Link to this property</a>
 
-  - `company: optional string`
+zipcode: optional string
 
-  - `country: optional string`
+Validated postal or zip code.
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_data: optional string`
+</details>
 
-  - `edited_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `enterprise_billing_email: optional string`
+</details>
 
-  - `enterprise_primary_email: optional string`
+[Link to this property](#)%20billing%20%3E%20(model)%20billing_address_validation_response%20%3E%20(schema)>)
 
-  - `first_name: optional string`
+#### BillingProfiles
 
-  - `is_partner: optional boolean`
+##### [Get Billing Profile](https://developers.cloudflare.com/api/resources/billing/subresources/profiles/methods/get)
 
-  - `last_name: optional string`
+GET/accounts/{account\_id}/billing/profile
 
-  - `next_bill_date: optional string`
+##### [Create Billing Profile](https://developers.cloudflare.com/api/resources/billing/subresources/profiles/methods/create)
 
-  - `payment_address: optional string`
+POST/accounts/{account\_id}/billing/profile
 
-  - `payment_address2: optional string`
+##### [Update Billing Profile](https://developers.cloudflare.com/api/resources/billing/subresources/profiles/methods/update)
 
-  - `payment_city: optional string`
+PUT/accounts/{account\_id}/billing/profile
 
-  - `payment_country: optional string`
+##### [Delete Billing Profile](https://developers.cloudflare.com/api/resources/billing/subresources/profiles/methods/delete)
 
-  - `payment_email: optional string`
+DELETE/accounts/{account\_id}/billing/profile
 
-  - `payment_first_name: optional string`
+##### [Update Billing Email](https://developers.cloudflare.com/api/resources/billing/subresources/profiles/methods/update_billing_email)
 
-  - `payment_gateway: optional string`
+PATCH/accounts/{account\_id}/billing/profile
 
-  - `payment_last_name: optional string`
+##### ModelsExpand Collapse
 
-  - `payment_nonce: optional string`
+<details>
 
-  - `payment_state: optional string`
-
-  - `payment_zipcode: optional string`
-
-  - `primary_email: optional string`
-
-  - `state: optional string`
-
-  - `tax_id_type: optional string`
-
-  - `telephone: optional string`
-
-  - `use_legacy: optional boolean`
-
-  - `validation_code: optional string`
-
-  - `vat: optional string`
-
-  - `zipcode: optional string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/billing/profile \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "b69a9f3492637782896352daae219e7d",
-    "account_type": "type",
-    "address": "123 Main Street",
-    "address2": "Apt 1",
-    "balance": "0",
-    "card_expiry_month": 12,
-    "card_expiry_year": 2099,
-    "card_number": "4242424242424242",
-    "city": "Anytown",
-    "company": "Company",
-    "country": "Anycountry",
-    "created_on": "2014-03-01T12:21:59.3456Z",
-    "device_data": "sample_data",
-    "edited_on": "2014-03-01T12:21:59.3456Z",
-    "enterprise_billing_email": "johndoe@gmail.com",
-    "enterprise_primary_email": "johndoe@gmail.com",
-    "first_name": "John",
-    "is_partner": false,
-    "last_name": "Doe",
-    "next_bill_date": "2014-03-01T12:21:59.3456Z",
-    "payment_address": "123 Main Street",
-    "payment_address2": "Apt 1",
-    "payment_city": "Anytown",
-    "payment_country": "Anycountry",
-    "payment_email": "johndoe@gmail.com",
-    "payment_first_name": "John",
-    "payment_gateway": "gateway",
-    "payment_last_name": "Doe",
-    "payment_nonce": "abc123",
-    "payment_state": "state",
-    "payment_zipcode": "12345",
-    "primary_email": "johndoe@gmail.com",
-    "state": "AnyState",
-    "tax_id_type": "type",
-    "telephone": "1234567899",
-    "use_legacy": false,
-    "validation_code": "1111",
-    "vat": "GB123456789",
-    "zipcode": "12345"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+ProfileGetResponse object {id, account\_type, address, 35 more }
 
-### Profile Get Response
+</summary>
 
-- `ProfileGetResponse object { id, account_type, address, 36 more }`
+id: optional string
 
-  - `id: optional string`
+Billing item identifier tag.
 
-    Billing item identifier tag.
+maxLength32
 
-  - `account_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `address: optional string`
+account\_type: optional string
 
-  - `address2: optional string`
+<a href="#">Link to this property</a>
 
-  - `balance: optional string`
+address: optional string
 
-  - `card_expiry_month: optional number`
+<a href="#">Link to this property</a>
 
-  - `card_expiry_year: optional number`
+address2: optional string
 
-  - `card_number: optional string`
+<a href="#">Link to this property</a>
 
-  - `city: optional string`
+balance: optional string
 
-  - `company: optional string`
+<a href="#">Link to this property</a>
 
-  - `country: optional string`
+card\_expiry\_month: optional number
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_data: optional string`
+card\_expiry\_year: optional number
 
-  - `edited_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `enterprise_billing_email: optional string`
+card\_number: optional string
 
-  - `enterprise_primary_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `first_name: optional string`
+city: optional string
 
-  - `is_partner: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_name: optional string`
+company: optional string
 
-  - `next_bill_date: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_address: optional string`
+country: optional string
 
-  - `payment_address2: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_city: optional string`
+created\_on: optional string
 
-  - `payment_country: optional string`
+formatdate-time
 
-  - `payment_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_first_name: optional string`
+device\_data: optional string
 
-  - `payment_gateway: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_last_name: optional string`
+edited\_on: optional string
 
-  - `payment_nonce: optional string`
+formatdate-time
 
-  - `payment_state: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_zipcode: optional string`
+enterprise\_billing\_email: optional string
 
-  - `primary_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `state: optional string`
+enterprise\_primary\_email: optional string
 
-  - `tax_id_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `telephone: optional string`
+first\_name: optional string
 
-  - `use_legacy: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `validation_code: optional string`
+is\_partner: optional boolean
 
-  - `vat: optional string`
+<a href="#">Link to this property</a>
 
-  - `zipcode: optional string`
+last\_name: optional string
 
-# Usage
+<a href="#">Link to this property</a>
 
-## Get PayGo Account Billable Usage (Version 1, Alpha)
+next\_bill\_date: optional string
 
-**get** `/accounts/{account_id}/paygo-usage`
+formatdate-time
 
-Returns billable usage data for PayGo (self-serve) accounts.
-When no query parameters are provided, returns usage for the current
-billing period.
-This endpoint is currently in alpha and access is restricted to select
-accounts. While in alpha, the endpoint may get breaking changes.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+payment\_address: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Represents a Cloudflare resource identifier tag.
+payment\_address2: optional string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `from: optional string`
+payment\_city: optional string
 
-  Start date for the usage query (ISO 8601).
+<a href="#">Link to this property</a>
 
-- `to: optional string`
+payment\_country: optional string
 
-  End date for the usage query (ISO 8601).
+<a href="#">Link to this property</a>
 
-### Returns
+payment\_email: optional string
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  Contains error details if the request failed.
+payment\_first\_name: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Describes the error or notice.
+payment\_gateway: optional string
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-    Identifies the error or notice type.
+payment\_last\_name: optional string
 
-- `messages: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  Contains informational notices about the response.
+payment\_nonce: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Describes the error or notice.
+payment\_state: optional string
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-    Identifies the error or notice type.
+payment\_zipcode: optional string
 
-- `result: array of object { BillingCurrency, BillingPeriodStart, ChargePeriodEnd, 12 more }`
+<a href="#">Link to this property</a>
 
-  Contains the array of billable usage records.
+primary\_email: optional string
 
-  - `BillingCurrency: string`
+<a href="#">Link to this property</a>
 
-    Specifies the billing currency code (ISO 4217).
+state: optional string
 
-  - `BillingPeriodStart: string`
+<a href="#">Link to this property</a>
 
-    Indicates the start of the billing period.
+tax\_id\_type: optional string
 
-  - `ChargePeriodEnd: string`
+<a href="#">Link to this property</a>
 
-    Indicates the end of the charge period.
+telephone: optional string
 
-  - `ChargePeriodStart: string`
+<a href="#">Link to this property</a>
 
-    Indicates the start of the charge period.
+validation\_code: optional string
 
-  - `ConsumedQuantity: number`
+<a href="#">Link to this property</a>
 
-    Specifies the quantity consumed during this charge period.
+vat: optional string
 
-  - `ConsumedUnit: string`
+<a href="#">Link to this property</a>
 
-    A display name for the unit of measurement used for the product (for example, "GB-months", "GB-seconds"). May be empty when the unit is implicit in the service name.
+zipcode: optional string
 
-  - `ContractedCost: number`
+<a href="#">Link to this property</a>
 
-    Specifies the cost for this charge period in the billing currency.
+</details>
 
-  - `CumulatedContractedCost: number`
+[Link to this property](#)%20billing.profiles%20%3E%20(model)%20profile_get_response%20%3E%20(schema)>)
 
-    Specifies the cumulated cost for the billing period in the billing currency.
+<details>
 
-  - `CumulatedPricingQuantity: number`
+<summary>
 
-    Specifies the cumulated pricing quantity for the billing period.
+ProfileCreateResponse object {id, account\_type, address, 35 more }
 
-  - `PricingQuantity: number`
+</summary>
 
-    Specifies the pricing quantity for this charge period.
+id: optional string
 
-  - `ServiceName: string`
+Billing item identifier tag.
 
-    Identifies the Cloudflare service.
+maxLength32
 
-  - `ServiceFamilyName: optional string`
+<a href="#">Link to this property</a>
 
-    Identifies the product family for the Cloudflare service.
+account\_type: optional string
 
-  - `SubscriptionId: optional string`
+<a href="#">Link to this property</a>
 
-    The identifier for the Cloudflare subscription.
+address: optional string
 
-  - `ZoneId: optional string`
+<a href="#">Link to this property</a>
 
-    The identifier for the Cloudflare zone (zone tag).
+address2: optional string
 
-  - `ZoneName: optional string`
+<a href="#">Link to this property</a>
 
-    The display name of the Cloudflare zone.
+balance: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+card\_expiry\_month: optional number
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+card\_expiry\_year: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/paygo-usage \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+card\_number: optional string
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 0
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 0
-    }
-  ],
-  "result": [
-    {
-      "BillingCurrency": "USD",
-      "BillingPeriodStart": "2025-02-01T00:00:00Z",
-      "ChargePeriodEnd": "2025-02-02T00:00:00Z",
-      "ChargePeriodStart": "2025-02-01T00:00:00Z",
-      "ConsumedQuantity": 150000,
-      "ConsumedUnit": "GB-months",
-      "ContractedCost": 0.75,
-      "CumulatedContractedCost": 2.25,
-      "CumulatedPricingQuantity": 4500000,
-      "PricingQuantity": 150000,
-      "ServiceName": "Workers Standard",
-      "ServiceFamilyName": "Workers",
-      "SubscriptionId": "3F3CD4CQ6N7FXO7IK6NVFJBOYA",
-      "ZoneId": "023e105f4ecef8ad9ca31a8372d0c353",
-      "ZoneName": "example.com"
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get Account Usage (Version 2, Alpha, Restricted)
+city: optional string
 
-**get** `/accounts/{account_id}/billable/usage`
+<a href="#">Link to this property</a>
 
-Returns cost and usage data for a single Cloudflare account, aligned
-with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/)
-Cost and Usage dataset specification.
+company: optional string
 
-Each record represents one billable metric for one account on one day.
-This includes all metered usage, including usage that falls within
-free-tier allowances and may result in zero cost.
+<a href="#">Link to this property</a>
 
-**Note:** Cost and pricing fields are not yet populated and
-will be absent from responses until billing integration is complete.
+country: optional string
 
-When `from` and `to` are omitted, defaults to the start of the current
-month through today. The maximum date range is 31 days.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+created\_on: optional string
 
-- `account_id: string`
+formatdate-time
 
-  Represents a Cloudflare resource identifier tag.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+device\_data: optional string
 
-- `from: optional string`
+<a href="#">Link to this property</a>
 
-  Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.
+edited\_on: optional string
 
-- `metric: optional string`
+formatdate-time
 
-  Filter results by billable metric id (e.g., workers_standard_requests).
+<a href="#">Link to this property</a>
 
-- `to: optional string`
+enterprise\_billing\_email: optional string
 
-  End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.
+<a href="#">Link to this property</a>
 
-### Returns
+enterprise\_primary\_email: optional string
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  Contains error details if the request failed.
+first\_name: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Describes the error or notice.
+is\_partner: optional boolean
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-    Identifies the error or notice type.
+last\_name: optional string
 
-- `messages: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  Contains informational notices about the response.
+next\_bill\_date: optional string
 
-  - `message: string`
+formatdate-time
 
-    Describes the error or notice.
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+payment\_address: optional string
 
-    Identifies the error or notice type.
+<a href="#">Link to this property</a>
 
-- `result: array of object { BillingAccountId, BillingAccountName, ChargeCategory, 30 more }`
+payment\_address2: optional string
 
-  Contains the array of cost and usage records.
+<a href="#">Link to this property</a>
 
-  - `BillingAccountId: string`
+payment\_city: optional string
 
-    Public identifier of the Cloudflare account (account tag).
+<a href="#">Link to this property</a>
 
-  - `BillingAccountName: string`
+payment\_country: optional string
 
-    Display name of the Cloudflare account.
+<a href="#">Link to this property</a>
 
-  - `ChargeCategory: "Usage"`
+payment\_email: optional string
 
-    Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported.
+<a href="#">Link to this property</a>
 
-    - `"Usage"`
+payment\_first\_name: optional string
 
-  - `ChargeDescription: string`
+<a href="#">Link to this property</a>
 
-    Self-contained summary of the charge's purpose and price.
+payment\_gateway: optional string
 
-  - `ChargeFrequency: "Usage-Based"`
+<a href="#">Link to this property</a>
 
-    Indicates how often a charge occurs. Currently only "Usage-Based" is supported.
+payment\_last\_name: optional string
 
-    - `"Usage-Based"`
+<a href="#">Link to this property</a>
 
-  - `ChargePeriodEnd: string`
+payment\_nonce: optional string
 
-    Exclusive end of the time interval during which the usage was consumed.
+<a href="#">Link to this property</a>
 
-  - `ChargePeriodStart: string`
+payment\_state: optional string
 
-    Inclusive start of the time interval during which the usage was consumed.
+<a href="#">Link to this property</a>
 
-  - `ConsumedQuantity: number`
+payment\_zipcode: optional string
 
-    Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations.
+<a href="#">Link to this property</a>
 
-  - `ConsumedUnit: string`
+primary\_email: optional string
 
-    Unit of measure for the consumed quantity (e.g., "GB", "Requests", "vCPU-Hours").
+<a href="#">Link to this property</a>
 
-  - `HostProviderName: string`
+state: optional string
 
-    Name of the entity providing the underlying infrastructure or platform.
+<a href="#">Link to this property</a>
 
-  - `InvoiceIssuerName: string`
+tax\_id\_type: optional string
 
-    Name of the entity responsible for invoicing for the services consumed.
+<a href="#">Link to this property</a>
 
-  - `ServiceProviderName: string`
+telephone: optional string
 
-    Name of the entity that made the services available for purchase.
+<a href="#">Link to this property</a>
 
-  - `x_BillableMetricName: string`
+validation\_code: optional string
 
-    The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.
+<a href="#">Link to this property</a>
 
-  - `BilledCost: optional number`
+vat: optional string
 
-    A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring).
+<a href="#">Link to this property</a>
 
-  - `BillingCurrency: optional string`
+zipcode: optional string
 
-    Currency that a charge was billed in (ISO 4217).
+<a href="#">Link to this property</a>
 
-  - `BillingPeriodEnd: optional string`
+</details>
 
-    Exclusive end of the billing cycle that contains this usage record.
+[Link to this property](#)%20billing.profiles%20%3E%20(model)%20profile_create_response%20%3E%20(schema)>)
 
-  - `BillingPeriodStart: optional string`
+<details>
 
-    Inclusive start of the billing cycle that contains this usage record.
+<summary>
 
-  - `ChargeClass: optional "Correction"`
+ProfileUpdateResponse object {id, account\_type, address, 35 more }
 
-    Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period.
+</summary>
 
-    - `"Correction"`
+id: optional string
 
-  - `ContractedCost: optional number`
+Billing item identifier tag.
 
-    Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity.
+maxLength32
 
-  - `ContractedUnitPrice: optional number`
+<a href="#">Link to this property</a>
 
-    The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts.
+account\_type: optional string
 
-  - `EffectiveCost: optional number`
+<a href="#">Link to this property</a>
 
-    The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge.
+address: optional string
 
-  - `ListCost: optional number`
+<a href="#">Link to this property</a>
 
-    Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity.
+address2: optional string
 
-  - `ListUnitPrice: optional number`
+<a href="#">Link to this property</a>
 
-    Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts.
+balance: optional string
 
-  - `PricingQuantity: optional number`
+<a href="#">Link to this property</a>
 
-    Volume of a given service used or purchased, based on the PricingUnit.
+card\_expiry\_month: optional number
 
-  - `PricingUnit: optional string`
+<a href="#">Link to this property</a>
 
-    Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing.
+card\_expiry\_year: optional number
 
-  - `RegionId: optional string`
+<a href="#">Link to this property</a>
 
-    Provider-assigned identifier for an isolated geographic area where a service is provided.
+card\_number: optional string
 
-  - `RegionName: optional string`
+<a href="#">Link to this property</a>
 
-    Name of an isolated geographic area where a service is provided.
+city: optional string
 
-  - `SubAccountId: optional string`
+<a href="#">Link to this property</a>
 
-    Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID.
+company: optional string
 
-  - `SubAccountName: optional string`
+<a href="#">Link to this property</a>
 
-    Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name.
+country: optional string
 
-  - `x_BillableMetricId: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.
+created\_on: optional string
 
-  - `x_ProductFamilyName: optional string`
+formatdate-time
 
-    The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName.
+<a href="#">Link to this property</a>
 
-  - `x_ZoneId: optional string`
+device\_data: optional string
 
-    The identifier for the Cloudflare zone (zone tag). Cloudflare extension.
+<a href="#">Link to this property</a>
 
-  - `x_ZoneName: optional string`
+edited\_on: optional string
 
-    The display name of the Cloudflare zone. Cloudflare extension.
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+enterprise\_billing\_email: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+enterprise\_primary\_email: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/billable/usage \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+first\_name: optional string
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 0
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 0
-    }
-  ],
-  "result": [
-    {
-      "BillingAccountId": "023e105f4ecef8ad9ca31a8372d0c353",
-      "BillingAccountName": "My Account",
-      "ChargeCategory": "Usage",
-      "ChargeDescription": "Workers Standard Requests — daily usage",
-      "ChargeFrequency": "Usage-Based",
-      "ChargePeriodEnd": "2025-05-02T00:00:00Z",
-      "ChargePeriodStart": "2025-05-01T00:00:00Z",
-      "ConsumedQuantity": 150000,
-      "ConsumedUnit": "Requests",
-      "HostProviderName": "Cloudflare",
-      "InvoiceIssuerName": "Cloudflare",
-      "ServiceProviderName": "Cloudflare",
-      "x_BillableMetricName": "Workers Standard Requests",
-      "BilledCost": 0,
-      "BillingCurrency": "USD",
-      "BillingPeriodEnd": "2025-06-01T00:00:00Z",
-      "BillingPeriodStart": "2025-05-01T00:00:00Z",
-      "ChargeClass": "Correction",
-      "ContractedCost": 0.75,
-      "ContractedUnitPrice": 0.000005,
-      "EffectiveCost": 0,
-      "ListCost": 0.75,
-      "ListUnitPrice": 0.000005,
-      "PricingQuantity": 150000,
-      "PricingUnit": "Requests",
-      "RegionId": "EEUR",
-      "RegionName": "Eastern Europe",
-      "SubAccountId": "c9bd752d-9ca8-411d-b804-be44a758057f",
-      "SubAccountName": "My Subscription",
-      "x_BillableMetricId": "workers_standard_requests",
-      "x_ProductFamilyName": "Workers",
-      "x_ZoneId": "023e105f4ecef8ad9ca31a8372d0c353",
-      "x_ZoneName": "example.com"
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+is\_partner: optional boolean
 
-### Usage Paygo Response
+<a href="#">Link to this property</a>
 
-- `UsagePaygoResponse = array of object { BillingCurrency, BillingPeriodStart, ChargePeriodEnd, 12 more }`
+last\_name: optional string
 
-  Contains the array of billable usage records.
+<a href="#">Link to this property</a>
 
-  - `BillingCurrency: string`
+next\_bill\_date: optional string
 
-    Specifies the billing currency code (ISO 4217).
+formatdate-time
 
-  - `BillingPeriodStart: string`
+<a href="#">Link to this property</a>
 
-    Indicates the start of the billing period.
+payment\_address: optional string
 
-  - `ChargePeriodEnd: string`
+<a href="#">Link to this property</a>
 
-    Indicates the end of the charge period.
+payment\_address2: optional string
 
-  - `ChargePeriodStart: string`
+<a href="#">Link to this property</a>
 
-    Indicates the start of the charge period.
+payment\_city: optional string
 
-  - `ConsumedQuantity: number`
+<a href="#">Link to this property</a>
 
-    Specifies the quantity consumed during this charge period.
+payment\_country: optional string
 
-  - `ConsumedUnit: string`
+<a href="#">Link to this property</a>
 
-    A display name for the unit of measurement used for the product (for example, "GB-months", "GB-seconds"). May be empty when the unit is implicit in the service name.
+payment\_email: optional string
 
-  - `ContractedCost: number`
+<a href="#">Link to this property</a>
 
-    Specifies the cost for this charge period in the billing currency.
+payment\_first\_name: optional string
 
-  - `CumulatedContractedCost: number`
+<a href="#">Link to this property</a>
 
-    Specifies the cumulated cost for the billing period in the billing currency.
+payment\_gateway: optional string
 
-  - `CumulatedPricingQuantity: number`
+<a href="#">Link to this property</a>
 
-    Specifies the cumulated pricing quantity for the billing period.
+payment\_last\_name: optional string
 
-  - `PricingQuantity: number`
+<a href="#">Link to this property</a>
 
-    Specifies the pricing quantity for this charge period.
+payment\_nonce: optional string
 
-  - `ServiceName: string`
+<a href="#">Link to this property</a>
 
-    Identifies the Cloudflare service.
+payment\_state: optional string
 
-  - `ServiceFamilyName: optional string`
+<a href="#">Link to this property</a>
 
-    Identifies the product family for the Cloudflare service.
+payment\_zipcode: optional string
 
-  - `SubscriptionId: optional string`
+<a href="#">Link to this property</a>
 
-    The identifier for the Cloudflare subscription.
+primary\_email: optional string
 
-  - `ZoneId: optional string`
+<a href="#">Link to this property</a>
 
-    The identifier for the Cloudflare zone (zone tag).
+state: optional string
 
-  - `ZoneName: optional string`
+<a href="#">Link to this property</a>
 
-    The display name of the Cloudflare zone.
+tax\_id\_type: optional string
 
-### Usage Get Response
+<a href="#">Link to this property</a>
 
-- `UsageGetResponse = array of object { BillingAccountId, BillingAccountName, ChargeCategory, 30 more }`
+telephone: optional string
 
-  Contains the array of cost and usage records.
+<a href="#">Link to this property</a>
 
-  - `BillingAccountId: string`
+validation\_code: optional string
 
-    Public identifier of the Cloudflare account (account tag).
+<a href="#">Link to this property</a>
 
-  - `BillingAccountName: string`
+vat: optional string
 
-    Display name of the Cloudflare account.
+<a href="#">Link to this property</a>
 
-  - `ChargeCategory: "Usage"`
+zipcode: optional string
 
-    Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported.
+<a href="#">Link to this property</a>
 
-    - `"Usage"`
+</details>
 
-  - `ChargeDescription: string`
+[Link to this property](#)%20billing.profiles%20%3E%20(model)%20profile_update_response%20%3E%20(schema)>)
 
-    Self-contained summary of the charge's purpose and price.
+<details>
 
-  - `ChargeFrequency: "Usage-Based"`
+<summary>
 
-    Indicates how often a charge occurs. Currently only "Usage-Based" is supported.
+ProfileUpdateBillingEmailResponse object {id, account\_type, address, 35 more }
 
-    - `"Usage-Based"`
+</summary>
 
-  - `ChargePeriodEnd: string`
+id: optional string
 
-    Exclusive end of the time interval during which the usage was consumed.
+Billing item identifier tag.
 
-  - `ChargePeriodStart: string`
+maxLength32
 
-    Inclusive start of the time interval during which the usage was consumed.
+<a href="#">Link to this property</a>
 
-  - `ConsumedQuantity: number`
+account\_type: optional string
 
-    Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations.
+<a href="#">Link to this property</a>
 
-  - `ConsumedUnit: string`
+address: optional string
 
-    Unit of measure for the consumed quantity (e.g., "GB", "Requests", "vCPU-Hours").
+<a href="#">Link to this property</a>
 
-  - `HostProviderName: string`
+address2: optional string
 
-    Name of the entity providing the underlying infrastructure or platform.
+<a href="#">Link to this property</a>
 
-  - `InvoiceIssuerName: string`
+balance: optional string
 
-    Name of the entity responsible for invoicing for the services consumed.
+<a href="#">Link to this property</a>
 
-  - `ServiceProviderName: string`
+card\_expiry\_month: optional number
 
-    Name of the entity that made the services available for purchase.
+<a href="#">Link to this property</a>
 
-  - `x_BillableMetricName: string`
+card\_expiry\_year: optional number
 
-    The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.
+<a href="#">Link to this property</a>
 
-  - `BilledCost: optional number`
+card\_number: optional string
 
-    A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring).
+<a href="#">Link to this property</a>
 
-  - `BillingCurrency: optional string`
+city: optional string
 
-    Currency that a charge was billed in (ISO 4217).
+<a href="#">Link to this property</a>
 
-  - `BillingPeriodEnd: optional string`
+company: optional string
 
-    Exclusive end of the billing cycle that contains this usage record.
+<a href="#">Link to this property</a>
 
-  - `BillingPeriodStart: optional string`
+country: optional string
 
-    Inclusive start of the billing cycle that contains this usage record.
+<a href="#">Link to this property</a>
 
-  - `ChargeClass: optional "Correction"`
+created\_on: optional string
 
-    Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period.
+formatdate-time
 
-    - `"Correction"`
+<a href="#">Link to this property</a>
 
-  - `ContractedCost: optional number`
+device\_data: optional string
 
-    Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity.
+<a href="#">Link to this property</a>
 
-  - `ContractedUnitPrice: optional number`
+edited\_on: optional string
 
-    The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts.
+formatdate-time
 
-  - `EffectiveCost: optional number`
+<a href="#">Link to this property</a>
 
-    The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge.
+enterprise\_billing\_email: optional string
 
-  - `ListCost: optional number`
+<a href="#">Link to this property</a>
 
-    Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity.
+enterprise\_primary\_email: optional string
 
-  - `ListUnitPrice: optional number`
+<a href="#">Link to this property</a>
 
-    Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts.
+first\_name: optional string
 
-  - `PricingQuantity: optional number`
+<a href="#">Link to this property</a>
 
-    Volume of a given service used or purchased, based on the PricingUnit.
+is\_partner: optional boolean
 
-  - `PricingUnit: optional string`
+<a href="#">Link to this property</a>
 
-    Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing.
+last\_name: optional string
 
-  - `RegionId: optional string`
+<a href="#">Link to this property</a>
 
-    Provider-assigned identifier for an isolated geographic area where a service is provided.
+next\_bill\_date: optional string
 
-  - `RegionName: optional string`
+formatdate-time
 
-    Name of an isolated geographic area where a service is provided.
+<a href="#">Link to this property</a>
 
-  - `SubAccountId: optional string`
+payment\_address: optional string
 
-    Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID.
+<a href="#">Link to this property</a>
 
-  - `SubAccountName: optional string`
+payment\_address2: optional string
 
-    Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name.
+<a href="#">Link to this property</a>
 
-  - `x_BillableMetricId: optional string`
+payment\_city: optional string
 
-    The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.
+<a href="#">Link to this property</a>
 
-  - `x_ProductFamilyName: optional string`
+payment\_country: optional string
 
-    The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName.
+<a href="#">Link to this property</a>
 
-  - `x_ZoneId: optional string`
+payment\_email: optional string
 
-    The identifier for the Cloudflare zone (zone tag). Cloudflare extension.
+<a href="#">Link to this property</a>
 
-  - `x_ZoneName: optional string`
+payment\_first\_name: optional string
 
-    The display name of the Cloudflare zone. Cloudflare extension.
+<a href="#">Link to this property</a>
+
+payment\_gateway: optional string
+
+<a href="#">Link to this property</a>
+
+payment\_last\_name: optional string
+
+<a href="#">Link to this property</a>
+
+payment\_nonce: optional string
+
+<a href="#">Link to this property</a>
+
+payment\_state: optional string
+
+<a href="#">Link to this property</a>
+
+payment\_zipcode: optional string
+
+<a href="#">Link to this property</a>
+
+primary\_email: optional string
+
+<a href="#">Link to this property</a>
+
+state: optional string
+
+<a href="#">Link to this property</a>
+
+tax\_id\_type: optional string
+
+<a href="#">Link to this property</a>
+
+telephone: optional string
+
+<a href="#">Link to this property</a>
+
+validation\_code: optional string
+
+<a href="#">Link to this property</a>
+
+vat: optional string
+
+<a href="#">Link to this property</a>
+
+zipcode: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.profiles%20%3E%20(model)%20profile_update_billing_email_response%20%3E%20(schema)>)
+
+#### BillingProfilesPayment Method
+
+##### [Create Payment Intent for Billing Profile](https://developers.cloudflare.com/api/resources/billing/subresources/profiles/subresources/payment_method/methods/create)
+
+POST/accounts/{account\_id}/billing/profile/payment-method
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+PaymentMethodCreateResponse object {client\_secret, intent\_type }
+
+</summary>
+
+client\_secret: optional string
+
+The Stripe client secret for frontend payment method collection.
+
+<a href="#">Link to this property</a>
+
+intent\_type: optional string
+
+The type of Stripe intent created.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.profiles.payment_method%20%3E%20(model)%20payment_method_create_response%20%3E%20(schema)>)
+
+#### BillingUsage
+
+##### [Get Account Billable Usage Info (Version 1, Alpha)](https://developers.cloudflare.com/api/resources/billing/subresources/usage/methods/paygo_info)
+
+Deprecated
+
+GET/accounts/{account\_id}/billable-usage/info
+
+##### [Get Account Billable Usage (Version 1, Alpha)](https://developers.cloudflare.com/api/resources/billing/subresources/usage/methods/paygo)
+
+Deprecated
+
+GET/accounts/{account\_id}/billable-usage
+
+##### [Get Account Usage (Version 2, Alpha, Restricted)](https://developers.cloudflare.com/api/resources/billing/subresources/usage/methods/get)
+
+Deprecated
+
+GET/accounts/{account\_id}/billable/usage
+
+##### [Get Account Billable Usage Info (Version 1, Alpha)](https://developers.cloudflare.com/api/resources/billing/subresources/usage/methods/get_account_usage_info_v1)
+
+GET/accounts/{account\_id}/billable-usage/info
+
+##### [Get Account Billable Usage (Version 1, Alpha)](https://developers.cloudflare.com/api/resources/billing/subresources/usage/methods/get_account_usage_v1)
+
+GET/accounts/{account\_id}/billable-usage
+
+##### [Get Account Usage (Version 2, Alpha, Restricted)](https://developers.cloudflare.com/api/resources/billing/subresources/usage/methods/get_account_usage_v2)
+
+GET/accounts/{account\_id}/billable/usage
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+UsagePaygoInfoResponse object {covered, subscriptions }
+
+Contains the usage info.
+
+</summary>
+
+covered: boolean
+
+Indicates whether the account is covered.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+subscriptions: array of object {id, billing\_cycle\_anchor\_timestamp, start\_timestamp, end\_timestamp }
+
+List of subscriptions for the account.
+
+</summary>
+
+id: string
+
+The identifier for the Cloudflare subscription.
+
+<a href="#">Link to this property</a>
+
+billing\_cycle\_anchor\_timestamp: string
+
+The subscription billing cycle anchor timestamp.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+start\_timestamp: string
+
+The subscription start timestamp.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+end\_timestamp: optional string
+
+The subscription end timestamp. Omitted for active subscriptions; present only when the subscription has been cancelled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.usage%20%3E%20(model)%20usage_paygo_info_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+UsagePaygoResponse = array of object {BilledCost, BillingAccountId, BillingAccountName, 24 more }
+
+Contains the array of billable usage records.
+
+</summary>
+
+BilledCost: number
+
+The amount invoiced for this charge. PayGo is billed directly by Cloudflare, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+BillingAccountId: string
+
+The identifier of the account the charge is billed to (account tag).
+
+<a href="#">Link to this property</a>
+
+BillingAccountName: string
+
+The display name of the billing account. Null when the name could not be resolved.
+
+<a href="#">Link to this property</a>
+
+BillingCurrency: string
+
+Specifies the billing currency code (ISO 4217).
+
+<a href="#">Link to this property</a>
+
+BillingPeriodStart: string
+
+Indicates the start of the billing period. There is no <code>BillingPeriodEnd</code> counterpart; see the known gaps described on this schema.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargeCategory: "Usage"
+
+Describes the nature of the charge. Always “Usage” for this endpoint, which only returns metered usage.
+
+<a href="#">Link to this property</a>
+
+ChargeClass: string
+
+Indicates whether the row corrects a previously invoiced billing period. Always null for this endpoint, which does not return corrections.
+
+<a href="#">Link to this property</a>
+
+ChargeDescription: string
+
+A human-readable summary of the charge.
+
+<a href="#">Link to this property</a>
+
+ChargePeriodEnd: string
+
+Indicates the end of the charge period.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargePeriodStart: string
+
+Indicates the start of the charge period.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ConsumedQuantity: number
+
+Specifies the quantity consumed during this charge period.
+
+<a href="#">Link to this property</a>
+
+ConsumedUnit: string
+
+A display name for the unit of measurement used for the product (for example, “GB-months”, “GB-seconds”). May be empty when the unit is implicit in the service name.
+
+<a href="#">Link to this property</a>
+
+ContractedCost: number
+
+Specifies the cost for this charge period in the billing currency.
+
+<a href="#">Link to this property</a>
+
+CumulatedContractedCost: number
+
+Specifies the cumulated cost for the billing period in the billing currency.
+
+<a href="#">Link to this property</a>
+
+CumulatedPricingQuantity: number
+
+Specifies the portion of usage that is actually subject to a unit price.
+
+<a href="#">Link to this property</a>
+
+EffectiveCost: number
+
+The amortized cost of the charge. PayGo has no upfront commitments, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+HostProviderName: string
+
+The provider that hosts the infrastructure or platform the service runs on.
+
+<a href="#">Link to this property</a>
+
+InvoiceIssuerName: string
+
+The entity that issues the invoice for this charge.
+
+<a href="#">Link to this property</a>
+
+ListCost: number
+
+The cost at published list prices, before any discount. PayGo has no commitment discounts, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+PricingQuantity: number
+
+Specifies the pricing quantity for this charge period.
+
+<a href="#">Link to this property</a>
+
+PricingUnit: string
+
+The unit that PricingQuantity is expressed in. Unlike ConsumedUnit this is never empty; it falls back to “Count” when the service has no explicit unit.
+
+<a href="#">Link to this property</a>
+
+ServiceName: string
+
+Identifies the Cloudflare service.
+
+<a href="#">Link to this property</a>
+
+ServiceProviderName: string
+
+The provider of the purchased service.
+
+<a href="#">Link to this property</a>
+
+ServiceFamilyName: optional string
+
+Identifies the product family for the Cloudflare service.
+
+<a href="#">Link to this property</a>
+
+SubscriptionId: optional string
+
+The identifier for the Cloudflare subscription.
+
+<a href="#">Link to this property</a>
+
+ZoneId: optional string
+
+The identifier for the Cloudflare zone (zone tag).
+
+<a href="#">Link to this property</a>
+
+ZoneName: optional string
+
+The display name of the Cloudflare zone.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.usage%20%3E%20(model)%20usage_paygo_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+UsageGetResponse = array of object {BillingAccountId, BillingAccountName, ChargeCategory, 33 more }
+
+Contains the array of cost and usage records.
+
+</summary>
+
+BillingAccountId: string
+
+Public identifier of the Cloudflare account (account tag).
+
+<a href="#">Link to this property</a>
+
+BillingAccountName: string
+
+Display name of the Cloudflare account.
+
+<a href="#">Link to this property</a>
+
+ChargeCategory: "Usage"
+
+Highest-level classification of a charge based on the nature of how it gets billed. Currently only “Usage” is supported.
+
+<a href="#">Link to this property</a>
+
+ChargeDescription: string
+
+Self-contained summary of the charge’s purpose and price.
+
+<a href="#">Link to this property</a>
+
+ChargeFrequency: "Usage-Based"
+
+Indicates how often a charge occurs. Currently only “Usage-Based” is supported.
+
+<a href="#">Link to this property</a>
+
+ChargePeriodEnd: string
+
+Exclusive end of the time interval during which the usage was consumed.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargePeriodStart: string
+
+Inclusive start of the time interval during which the usage was consumed.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ConsumedQuantity: number
+
+Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations.
+
+<a href="#">Link to this property</a>
+
+ConsumedUnit: string
+
+Unit of measure for the consumed quantity (e.g., “GB”, “Requests”, “vCPU-Hours”).
+
+<a href="#">Link to this property</a>
+
+HostProviderName: string
+
+Name of the entity providing the underlying infrastructure or platform.
+
+<a href="#">Link to this property</a>
+
+InvoiceIssuerName: string
+
+Name of the entity responsible for invoicing for the services consumed.
+
+<a href="#">Link to this property</a>
+
+ServiceProviderName: string
+
+Name of the entity that made the services available for purchase.
+
+<a href="#">Link to this property</a>
+
+x\_BillableMetricId: string
+
+The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.
+
+<a href="#">Link to this property</a>
+
+x\_BillableMetricName: string
+
+The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.
+
+<a href="#">Link to this property</a>
+
+BilledCost: optional number
+
+A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring).
+
+<a href="#">Link to this property</a>
+
+BillingCurrency: optional string
+
+Currency that a charge was billed in (ISO 4217).
+
+<a href="#">Link to this property</a>
+
+BillingPeriodEnd: optional string
+
+Exclusive end of the billing cycle that contains this usage record.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+BillingPeriodStart: optional string
+
+Inclusive start of the billing cycle that contains this usage record.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargeClass: optional "Correction"
+
+Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period.
+
+<a href="#">Link to this property</a>
+
+ContractedCost: optional number
+
+Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity.
+
+<a href="#">Link to this property</a>
+
+ContractedUnitPrice: optional number
+
+The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts.
+
+<a href="#">Link to this property</a>
+
+EffectiveCost: optional number
+
+The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge.
+
+<a href="#">Link to this property</a>
+
+ListCost: optional number
+
+Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity.
+
+<a href="#">Link to this property</a>
+
+ListUnitPrice: optional number
+
+Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts.
+
+<a href="#">Link to this property</a>
+
+PricingQuantity: optional number
+
+Volume of a given service used or purchased, based on the PricingUnit.
+
+<a href="#">Link to this property</a>
+
+PricingUnit: optional string
+
+Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing.
+
+<a href="#">Link to this property</a>
+
+RegionId: optional string
+
+Provider-assigned identifier for an isolated geographic area where a service is provided.
+
+<a href="#">Link to this property</a>
+
+RegionName: optional string
+
+Name of an isolated geographic area where a service is provided.
+
+<a href="#">Link to this property</a>
+
+SubAccountId: optional string
+
+Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID.
+
+<a href="#">Link to this property</a>
+
+SubAccountName: optional string
+
+Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Tags: optional map\[stringor true]
+
+Tag values for the requested <code>GroupBy</code> keys. Omitted when <code>GroupBy</code> is not provided. Missing keys are omitted, and key-only tags are returned as boolean <code>true</code>. All other tag values are strings.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+true
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+x\_ProductCategoryName: optional string
+
+The product category the charge belongs to (e.g., “Developer”, “Cloudflare One”). Cloudflare extension; replaces FOCUS ServiceCategory.
+
+<a href="#">Link to this property</a>
+
+x\_ProductFamilyId: optional string
+
+The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId.
+
+<a href="#">Link to this property</a>
+
+x\_ProductFamilyName: optional string
+
+The product family the charge belongs to (e.g., “R2”, “Workers”). Cloudflare extension; replaces FOCUS ServiceName.
+
+<a href="#">Link to this property</a>
+
+x\_ZoneId: optional string
+
+The identifier for the Cloudflare zone (zone tag). Cloudflare extension.
+
+<a href="#">Link to this property</a>
+
+x\_ZoneName: optional string
+
+The display name of the Cloudflare zone. Cloudflare extension.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.usage%20%3E%20(model)%20usage_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+UsageGetAccountUsageInfoV1Response object {covered, subscriptions }
+
+Contains the usage info.
+
+</summary>
+
+covered: boolean
+
+Indicates whether the account is covered.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+subscriptions: array of object {id, billing\_cycle\_anchor\_timestamp, start\_timestamp, end\_timestamp }
+
+List of subscriptions for the account.
+
+</summary>
+
+id: string
+
+The identifier for the Cloudflare subscription.
+
+<a href="#">Link to this property</a>
+
+billing\_cycle\_anchor\_timestamp: string
+
+The subscription billing cycle anchor timestamp.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+start\_timestamp: string
+
+The subscription start timestamp.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+end\_timestamp: optional string
+
+The subscription end timestamp. Omitted for active subscriptions; present only when the subscription has been cancelled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.usage%20%3E%20(model)%20usage_get_account_usage_info_v1_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+UsageGetAccountUsageV1Response = array of object {BilledCost, BillingAccountId, BillingAccountName, 24 more }
+
+Contains the array of billable usage records.
+
+</summary>
+
+BilledCost: number
+
+The amount invoiced for this charge. PayGo is billed directly by Cloudflare, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+BillingAccountId: string
+
+The identifier of the account the charge is billed to (account tag).
+
+<a href="#">Link to this property</a>
+
+BillingAccountName: string
+
+The display name of the billing account. Null when the name could not be resolved.
+
+<a href="#">Link to this property</a>
+
+BillingCurrency: string
+
+Specifies the billing currency code (ISO 4217).
+
+<a href="#">Link to this property</a>
+
+BillingPeriodStart: string
+
+Indicates the start of the billing period. There is no <code>BillingPeriodEnd</code> counterpart; see the known gaps described on this schema.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargeCategory: "Usage"
+
+Describes the nature of the charge. Always “Usage” for this endpoint, which only returns metered usage.
+
+<a href="#">Link to this property</a>
+
+ChargeClass: string
+
+Indicates whether the row corrects a previously invoiced billing period. Always null for this endpoint, which does not return corrections.
+
+<a href="#">Link to this property</a>
+
+ChargeDescription: string
+
+A human-readable summary of the charge.
+
+<a href="#">Link to this property</a>
+
+ChargePeriodEnd: string
+
+Indicates the end of the charge period.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargePeriodStart: string
+
+Indicates the start of the charge period.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ConsumedQuantity: number
+
+Specifies the quantity consumed during this charge period.
+
+<a href="#">Link to this property</a>
+
+ConsumedUnit: string
+
+A display name for the unit of measurement used for the product (for example, “GB-months”, “GB-seconds”). May be empty when the unit is implicit in the service name.
+
+<a href="#">Link to this property</a>
+
+ContractedCost: number
+
+Specifies the cost for this charge period in the billing currency.
+
+<a href="#">Link to this property</a>
+
+CumulatedContractedCost: number
+
+Specifies the cumulated cost for the billing period in the billing currency.
+
+<a href="#">Link to this property</a>
+
+CumulatedPricingQuantity: number
+
+Specifies the portion of usage that is actually subject to a unit price.
+
+<a href="#">Link to this property</a>
+
+EffectiveCost: number
+
+The amortized cost of the charge. PayGo has no upfront commitments, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+HostProviderName: string
+
+The provider that hosts the infrastructure or platform the service runs on.
+
+<a href="#">Link to this property</a>
+
+InvoiceIssuerName: string
+
+The entity that issues the invoice for this charge.
+
+<a href="#">Link to this property</a>
+
+ListCost: number
+
+The cost at published list prices, before any discount. PayGo has no commitment discounts, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+PricingQuantity: number
+
+Specifies the pricing quantity for this charge period.
+
+<a href="#">Link to this property</a>
+
+PricingUnit: string
+
+The unit that PricingQuantity is expressed in. Unlike ConsumedUnit this is never empty; it falls back to “Count” when the service has no explicit unit.
+
+<a href="#">Link to this property</a>
+
+ServiceName: string
+
+Identifies the Cloudflare service.
+
+<a href="#">Link to this property</a>
+
+ServiceProviderName: string
+
+The provider of the purchased service.
+
+<a href="#">Link to this property</a>
+
+ServiceFamilyName: optional string
+
+Identifies the product family for the Cloudflare service.
+
+<a href="#">Link to this property</a>
+
+SubscriptionId: optional string
+
+The identifier for the Cloudflare subscription.
+
+<a href="#">Link to this property</a>
+
+ZoneId: optional string
+
+The identifier for the Cloudflare zone (zone tag).
+
+<a href="#">Link to this property</a>
+
+ZoneName: optional string
+
+The display name of the Cloudflare zone.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.usage%20%3E%20(model)%20usage_get_account_usage_v1_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+UsageGetAccountUsageV2Response = array of object {BillingAccountId, BillingAccountName, ChargeCategory, 33 more }
+
+Contains the array of cost and usage records.
+
+</summary>
+
+BillingAccountId: string
+
+Public identifier of the Cloudflare account (account tag).
+
+<a href="#">Link to this property</a>
+
+BillingAccountName: string
+
+Display name of the Cloudflare account.
+
+<a href="#">Link to this property</a>
+
+ChargeCategory: "Usage"
+
+Highest-level classification of a charge based on the nature of how it gets billed. Currently only “Usage” is supported.
+
+<a href="#">Link to this property</a>
+
+ChargeDescription: string
+
+Self-contained summary of the charge’s purpose and price.
+
+<a href="#">Link to this property</a>
+
+ChargeFrequency: "Usage-Based"
+
+Indicates how often a charge occurs. Currently only “Usage-Based” is supported.
+
+<a href="#">Link to this property</a>
+
+ChargePeriodEnd: string
+
+Exclusive end of the time interval during which the usage was consumed.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargePeriodStart: string
+
+Inclusive start of the time interval during which the usage was consumed.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ConsumedQuantity: number
+
+Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations.
+
+<a href="#">Link to this property</a>
+
+ConsumedUnit: string
+
+Unit of measure for the consumed quantity (e.g., “GB”, “Requests”, “vCPU-Hours”).
+
+<a href="#">Link to this property</a>
+
+HostProviderName: string
+
+Name of the entity providing the underlying infrastructure or platform.
+
+<a href="#">Link to this property</a>
+
+InvoiceIssuerName: string
+
+Name of the entity responsible for invoicing for the services consumed.
+
+<a href="#">Link to this property</a>
+
+ServiceProviderName: string
+
+Name of the entity that made the services available for purchase.
+
+<a href="#">Link to this property</a>
+
+x\_BillableMetricId: string
+
+The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.
+
+<a href="#">Link to this property</a>
+
+x\_BillableMetricName: string
+
+The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.
+
+<a href="#">Link to this property</a>
+
+BilledCost: optional number
+
+A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring).
+
+<a href="#">Link to this property</a>
+
+BillingCurrency: optional string
+
+Currency that a charge was billed in (ISO 4217).
+
+<a href="#">Link to this property</a>
+
+BillingPeriodEnd: optional string
+
+Exclusive end of the billing cycle that contains this usage record.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+BillingPeriodStart: optional string
+
+Inclusive start of the billing cycle that contains this usage record.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargeClass: optional "Correction"
+
+Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period.
+
+<a href="#">Link to this property</a>
+
+ContractedCost: optional number
+
+Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity.
+
+<a href="#">Link to this property</a>
+
+ContractedUnitPrice: optional number
+
+The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts.
+
+<a href="#">Link to this property</a>
+
+EffectiveCost: optional number
+
+The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge.
+
+<a href="#">Link to this property</a>
+
+ListCost: optional number
+
+Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity.
+
+<a href="#">Link to this property</a>
+
+ListUnitPrice: optional number
+
+Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts.
+
+<a href="#">Link to this property</a>
+
+PricingQuantity: optional number
+
+Volume of a given service used or purchased, based on the PricingUnit.
+
+<a href="#">Link to this property</a>
+
+PricingUnit: optional string
+
+Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing.
+
+<a href="#">Link to this property</a>
+
+RegionId: optional string
+
+Provider-assigned identifier for an isolated geographic area where a service is provided.
+
+<a href="#">Link to this property</a>
+
+RegionName: optional string
+
+Name of an isolated geographic area where a service is provided.
+
+<a href="#">Link to this property</a>
+
+SubAccountId: optional string
+
+Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID.
+
+<a href="#">Link to this property</a>
+
+SubAccountName: optional string
+
+Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Tags: optional map\[stringor true]
+
+Tag values for the requested <code>GroupBy</code> keys. Omitted when <code>GroupBy</code> is not provided. Missing keys are omitted, and key-only tags are returned as boolean <code>true</code>. All other tag values are strings.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+true
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+x\_ProductCategoryName: optional string
+
+The product category the charge belongs to (e.g., “Developer”, “Cloudflare One”). Cloudflare extension; replaces FOCUS ServiceCategory.
+
+<a href="#">Link to this property</a>
+
+x\_ProductFamilyId: optional string
+
+The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId.
+
+<a href="#">Link to this property</a>
+
+x\_ProductFamilyName: optional string
+
+The product family the charge belongs to (e.g., “R2”, “Workers”). Cloudflare extension; replaces FOCUS ServiceName.
+
+<a href="#">Link to this property</a>
+
+x\_ZoneId: optional string
+
+The identifier for the Cloudflare zone (zone tag). Cloudflare extension.
+
+<a href="#">Link to this property</a>
+
+x\_ZoneName: optional string
+
+The display name of the Cloudflare zone. Cloudflare extension.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.usage%20%3E%20(model)%20usage_get_account_usage_v2_response%20%3E%20(schema)>)
+
+#### BillingCredits
+
+##### [Get Account Credits](https://developers.cloudflare.com/api/resources/billing/subresources/credits/methods/get)
+
+GET/accounts/{account\_id}/billing/credits
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+CreditGetResponse object {confirmed\_balance\_cents, currency, days\_remaining, 7 more }
+
+</summary>
+
+confirmed\_balance\_cents: optional number
+
+The confirmed credit balance in cents.
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+Currency of the credit balance.
+
+<a href="#">Link to this property</a>
+
+days\_remaining: optional number
+
+Days remaining until the credits expire.
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+eligible: optional boolean
+
+Whether the account is eligible to receive credits.
+
+<a href="#">Link to this property</a>
+
+has\_record: optional boolean
+
+Whether a credit record exists for the account.
+
+<a href="#">Link to this property</a>
+
+original\_amount\_cents: optional number
+
+The original credit amount in cents.
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+percent\_consumed: optional number
+
+Percentage of the original credit amount consumed.
+
+formatdouble
+
+<a href="#">Link to this property</a>
+
+projected\_depletion\_date: optional string
+
+Projected date when the credits will be depleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+valid\_from: optional string
+
+When the credits become valid.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+valid\_to: optional string
+
+When the credits expire.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.credits%20%3E%20(model)%20credit_get_response%20%3E%20(schema)>)
+
+#### BillingHistory
+
+##### [Get Account Billing History](https://developers.cloudflare.com/api/resources/billing/subresources/history/methods/list)
+
+GET/accounts/{account\_id}/billing/history
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+HistoryListResponse object {id, action, amount, 12 more }
+
+</summary>
+
+id: optional string
+
+Billing history item identifier.
+
+<a href="#">Link to this property</a>
+
+action: optional string
+
+The billing item action.
+
+<a href="#">Link to this property</a>
+
+amount: optional number
+
+The amount associated with this billing item.
+
+<a href="#">Link to this property</a>
+
+amount\_to\_pay: optional number
+
+The amount remaining to pay.
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The currency of the billing item.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The billing item description.
+
+<a href="#">Link to this property</a>
+
+external\_invoice\_id: optional string
+
+The external invoice identifier.
+
+<a href="#">Link to this property</a>
+
+hosted\_invoice\_url: optional string
+
+URL to the hosted invoice.
+
+<a href="#">Link to this property</a>
+
+invoice\_id: optional string
+
+The associated invoice identifier.
+
+<a href="#">Link to this property</a>
+
+occurred\_at: optional string
+
+When the billing event occurred.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+receipt\_id: optional string
+
+The associated receipt identifier.
+
+<a href="#">Link to this property</a>
+
+source: optional string
+
+The source of the billing item.
+
+<a href="#">Link to this property</a>
+
+source\_invoice\_id: optional string
+
+The source invoice identifier.
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+The status of the billing item.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+The billing item type.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.history%20%3E%20(model)%20history_list_response%20%3E%20(schema)>)
+
+#### BillingBad Debt
+
+##### [Get Account Bad Debt](https://developers.cloudflare.com/api/resources/billing/subresources/bad_debt/methods/get)
+
+GET/accounts/{account\_id}/billing/bad-debt
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+BadDebtGetResponse object {already\_paid, bad\_debt\_status, invoices, total\_debt\_amount }
+
+</summary>
+
+already\_paid: optional number
+
+Amount already paid towards the debt.
+
+<a href="#">Link to this property</a>
+
+bad\_debt\_status: optional string
+
+The current bad debt status of the account.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+invoices: optional array of object {id, action, amount, 12 more }
+
+List of outstanding invoices contributing to bad debt.
+
+</summary>
+
+id: optional string
+
+Billing history item identifier.
+
+<a href="#">Link to this property</a>
+
+action: optional string
+
+The billing item action.
+
+<a href="#">Link to this property</a>
+
+amount: optional number
+
+The amount associated with this billing item.
+
+<a href="#">Link to this property</a>
+
+amount\_to\_pay: optional number
+
+The amount remaining to pay.
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The currency of the billing item.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The billing item description.
+
+<a href="#">Link to this property</a>
+
+external\_invoice\_id: optional string
+
+The external invoice identifier.
+
+<a href="#">Link to this property</a>
+
+hosted\_invoice\_url: optional string
+
+URL to the hosted invoice.
+
+<a href="#">Link to this property</a>
+
+invoice\_id: optional string
+
+The associated invoice identifier.
+
+<a href="#">Link to this property</a>
+
+occurred\_at: optional string
+
+When the billing event occurred.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+receipt\_id: optional string
+
+The associated receipt identifier.
+
+<a href="#">Link to this property</a>
+
+source: optional string
+
+The source of the billing item.
+
+<a href="#">Link to this property</a>
+
+source\_invoice\_id: optional string
+
+The source invoice identifier.
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+The status of the billing item.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+The billing item type.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+total\_debt\_amount: optional number
+
+Total outstanding debt amount.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.bad_debt%20%3E%20(model)%20bad_debt_get_response%20%3E%20(schema)>)
+
+#### BillingUnpaid Invoice
+
+##### [Get Unpaid Invoices](https://developers.cloudflare.com/api/resources/billing/subresources/unpaid_invoice/methods/get)
+
+GET/accounts/{account\_id}/billing/unpaid-invoice
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+UnpaidInvoiceGetResponse object {invoices }
+
+</summary>
+
+<details>
+
+<summary>
+
+invoices: optional array of object {id, action, amount, 12 more }
+
+List of unpaid invoices.
+
+</summary>
+
+id: optional string
+
+Billing history item identifier.
+
+<a href="#">Link to this property</a>
+
+action: optional string
+
+The billing item action.
+
+<a href="#">Link to this property</a>
+
+amount: optional number
+
+The amount associated with this billing item.
+
+<a href="#">Link to this property</a>
+
+amount\_to\_pay: optional number
+
+The amount remaining to pay.
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The currency of the billing item.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The billing item description.
+
+<a href="#">Link to this property</a>
+
+external\_invoice\_id: optional string
+
+The external invoice identifier.
+
+<a href="#">Link to this property</a>
+
+hosted\_invoice\_url: optional string
+
+URL to the hosted invoice.
+
+<a href="#">Link to this property</a>
+
+invoice\_id: optional string
+
+The associated invoice identifier.
+
+<a href="#">Link to this property</a>
+
+occurred\_at: optional string
+
+When the billing event occurred.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+receipt\_id: optional string
+
+The associated receipt identifier.
+
+<a href="#">Link to this property</a>
+
+source: optional string
+
+The source of the billing item.
+
+<a href="#">Link to this property</a>
+
+source\_invoice\_id: optional string
+
+The source invoice identifier.
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+The status of the billing item.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+The billing item type.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.unpaid_invoice%20%3E%20(model)%20unpaid_invoice_get_response%20%3E%20(schema)>)
+
+#### BillingRate Plans
+
+##### [Get Rate Plan by Public Key](https://developers.cloudflare.com/api/resources/billing/subresources/rate_plans/methods/get)
+
+GET/billing/rate\_plans/{public\_key}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+RatePlanGetResponse object {id, components, currency, public\_name }
+
+</summary>
+
+id: optional string
+
+The uppercase rate plan public key.
+
+<a href="#">Link to this property</a>
+
+components: optional array of map\[unknown]
+
+Pricing components that make up this rate plan.
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+Currency of the rate plan pricing.
+
+<a href="#">Link to this property</a>
+
+public\_name: optional string
+
+Human-readable description of the rate plan.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.rate_plans%20%3E%20(model)%20rate_plan_get_response%20%3E%20(schema)>)

@@ -123,10 +123,22 @@
         }
       }
     },
-    "com.cloudflare.organizations#CreateResponseMetaFlags": {
+    "com.cloudflare.organizations#CreateResponseMetaHierarchyTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.organizations#CreateResponseMetaTenantFlags": {
       "type": "structure",
       "members": {
         "account_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "account_creation_applies_tenant_defaults": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -150,6 +162,18 @@
             "smithy.api#required": {}
           }
         },
+        "enterprise_capability": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "member_management": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "sub_org_creation": {
           "target": "smithy.api#String",
           "traits": {
@@ -158,29 +182,23 @@
         }
       }
     },
-    "com.cloudflare.organizations#CreateResponseMetaHierarchyTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
     "com.cloudflare.organizations#CreateResponseMeta": {
       "type": "structure",
       "members": {
-        "flags": {
-          "target": "com.cloudflare.organizations#CreateResponseMetaFlags",
-          "traits": {
-            "smithy.api#documentation": "Enable features for Organizations."
-          }
-        },
         "hierarchy_tags": {
           "target": "com.cloudflare.organizations#CreateResponseMetaHierarchyTagsList",
           "traits": {
-            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to"
+            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy."
           }
         },
         "managed_by": {
           "target": "smithy.api#String"
+        },
+        "tenant_flags": {
+          "target": "com.cloudflare.organizations#CreateResponseMetaTenantFlags",
+          "traits": {
+            "smithy.api#documentation": "Enable features for Organizations."
+          }
         }
       }
     },
@@ -236,10 +254,22 @@
         }
       }
     },
-    "com.cloudflare.organizations#GetResponseMetaFlags": {
+    "com.cloudflare.organizations#GetResponseMetaHierarchyTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.organizations#GetResponseMetaTenantFlags": {
       "type": "structure",
       "members": {
         "account_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "account_creation_applies_tenant_defaults": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -263,6 +293,18 @@
             "smithy.api#required": {}
           }
         },
+        "enterprise_capability": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "member_management": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "sub_org_creation": {
           "target": "smithy.api#String",
           "traits": {
@@ -271,29 +313,23 @@
         }
       }
     },
-    "com.cloudflare.organizations#GetResponseMetaHierarchyTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
     "com.cloudflare.organizations#GetResponseMeta": {
       "type": "structure",
       "members": {
-        "flags": {
-          "target": "com.cloudflare.organizations#GetResponseMetaFlags",
-          "traits": {
-            "smithy.api#documentation": "Enable features for Organizations."
-          }
-        },
         "hierarchy_tags": {
           "target": "com.cloudflare.organizations#GetResponseMetaHierarchyTagsList",
           "traits": {
-            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to"
+            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy."
           }
         },
         "managed_by": {
           "target": "smithy.api#String"
+        },
+        "tenant_flags": {
+          "target": "com.cloudflare.organizations#GetResponseMetaTenantFlags",
+          "traits": {
+            "smithy.api#documentation": "Enable features for Organizations."
+          }
         }
       }
     },
@@ -361,19 +397,19 @@
         "account": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter the list of organizations to the ones that contain this particular"
+            "smithy.api#documentation": "Filter the list of organizations to the ones that contain this particular account."
           }
         },
         "organization": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter the list of organizations to the ones that contain this particular"
+            "smithy.api#documentation": "Filter the list of organizations to the ones that contain this particular organization."
           }
         },
         "user": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter the list of organizations to the ones that contain this particular"
+            "smithy.api#documentation": "Filter the list of organizations to the ones that contain this particular user."
           }
         }
       }
@@ -384,19 +420,19 @@
         "contains": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of organizations to where the name contains a particular"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of organizations to where the name contains a particular string."
           }
         },
         "endsWith": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of organizations to where the name ends with a particular"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of organizations to where the name ends with a particular string."
           }
         },
         "startsWith": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of organizations to where the name starts with a"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of organizations to where the name starts with a particular string."
           }
         }
       }
@@ -407,15 +443,27 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter the list of organizations to the ones that are a sub-organization"
+            "smithy.api#documentation": "Filter the list of organizations to the ones that are a sub-organization of the specified organization."
           }
         }
       }
     },
-    "com.cloudflare.organizations#ListResultItemMetaFlags": {
+    "com.cloudflare.organizations#ListResultItemMetaHierarchyTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.organizations#ListResultItemMetaTenantFlags": {
       "type": "structure",
       "members": {
         "account_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "account_creation_applies_tenant_defaults": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -439,6 +487,18 @@
             "smithy.api#required": {}
           }
         },
+        "enterprise_capability": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "member_management": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "sub_org_creation": {
           "target": "smithy.api#String",
           "traits": {
@@ -447,29 +507,23 @@
         }
       }
     },
-    "com.cloudflare.organizations#ListResultItemMetaHierarchyTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
     "com.cloudflare.organizations#ListResultItemMeta": {
       "type": "structure",
       "members": {
-        "flags": {
-          "target": "com.cloudflare.organizations#ListResultItemMetaFlags",
-          "traits": {
-            "smithy.api#documentation": "Enable features for Organizations."
-          }
-        },
         "hierarchy_tags": {
           "target": "com.cloudflare.organizations#ListResultItemMetaHierarchyTagsList",
           "traits": {
-            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to"
+            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy."
           }
         },
         "managed_by": {
           "target": "smithy.api#String"
+        },
+        "tenant_flags": {
+          "target": "com.cloudflare.organizations#ListResultItemMetaTenantFlags",
+          "traits": {
+            "smithy.api#documentation": "Enable features for Organizations."
+          }
         }
       }
     },
@@ -616,10 +670,22 @@
         }
       }
     },
-    "com.cloudflare.organizations#UpdateResponseMetaFlags": {
+    "com.cloudflare.organizations#UpdateResponseMetaHierarchyTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.organizations#UpdateResponseMetaTenantFlags": {
       "type": "structure",
       "members": {
         "account_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "account_creation_applies_tenant_defaults": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -643,6 +709,18 @@
             "smithy.api#required": {}
           }
         },
+        "enterprise_capability": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "member_management": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "sub_org_creation": {
           "target": "smithy.api#String",
           "traits": {
@@ -651,29 +729,23 @@
         }
       }
     },
-    "com.cloudflare.organizations#UpdateResponseMetaHierarchyTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
     "com.cloudflare.organizations#UpdateResponseMeta": {
       "type": "structure",
       "members": {
-        "flags": {
-          "target": "com.cloudflare.organizations#UpdateResponseMetaFlags",
-          "traits": {
-            "smithy.api#documentation": "Enable features for Organizations."
-          }
-        },
         "hierarchy_tags": {
           "target": "com.cloudflare.organizations#UpdateResponseMetaHierarchyTagsList",
           "traits": {
-            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to"
+            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy."
           }
         },
         "managed_by": {
           "target": "smithy.api#String"
+        },
+        "tenant_flags": {
+          "target": "com.cloudflare.organizations#UpdateResponseMetaTenantFlags",
+          "traits": {
+            "smithy.api#documentation": "Enable features for Organizations."
+          }
         }
       }
     },
@@ -762,6 +834,17 @@
         }
       }
     },
+    "com.cloudflare.organizations#BillingUsageGetResultItemTags": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
     "com.cloudflare.organizations#BillingUsageGetResultItem": {
       "type": "structure",
       "members": {
@@ -846,6 +929,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Name of the entity that made the services available for purchase.",
+            "smithy.api#required": {}
+          }
+        },
+        "x_BillableMetricId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.",
             "smithy.api#required": {}
           }
         },
@@ -952,10 +1042,22 @@
             "smithy.api#documentation": "Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name."
           }
         },
-        "x_BillableMetricId": {
+        "Tags": {
+          "target": "com.cloudflare.organizations#BillingUsageGetResultItemTags",
+          "traits": {
+            "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
+          }
+        },
+        "x_ProductCategoryName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId."
+            "smithy.api#documentation": "The product category the charge belongs to (e.g., \"Developer\", \"Cloudflare One\"). Cloudflare extension; replaces FOCUS ServiceCategory."
+          }
+        },
+        "x_ProductFamilyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId."
           }
         },
         "x_ProductFamilyName": {
@@ -982,6 +1084,393 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.organizations#BillingUsageGetResultItem"
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryRequestDirection": {
+      "type": "enum",
+      "members": {
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        },
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique ID that identifies the organization.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the audit log to fetch resource history for.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "action_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RFC3339 timestamp of the source audit log entry's action time. Used to narrow the source-entry lookup window. Provide the `action.time` value from the audit log identified by `id`.",
+            "smithy.api#httpQuery": "action_time",
+            "smithy.api#required": {}
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Limits the returned results to logs older than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339.",
+            "smithy.api#httpQuery": "before",
+            "smithy.api#required": {}
+          }
+        },
+        "since": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339.",
+            "smithy.api#httpQuery": "since",
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response.",
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "direction": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryRequestDirection",
+          "traits": {
+            "smithy.api#documentation": "Sets sorting order.",
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit.",
+            "smithy.api#httpQuery": "limit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultItemAction": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short description of the action performed."
+          }
+        },
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The result of the action, indicating success or failure."
+          }
+        },
+        "time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A timestamp indicating when the action was logged."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short string that describes the action that was performed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultItemActorContext": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key"
+          }
+        },
+        "API_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_token"
+          }
+        },
+        "DASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dash"
+          }
+        },
+        "OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth"
+          }
+        },
+        "ORIGIN_CA_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "origin_ca_key"
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultItemActorType": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE_ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare_admin"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultItemActor": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the actor who performed the action. If a user performed the action, this will be their User ID."
+          }
+        },
+        "context": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryResultItemActorContext",
+          "traits": {
+            "smithy.api#documentation": "The context in which the action was initiated."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the actor who performed the action."
+          }
+        },
+        "ip_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP address of the request that performed the action."
+          }
+        },
+        "token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API token ID when the actor context is an api_token or oauth."
+          }
+        },
+        "token_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API token name when the actor context is an api_token or oauth."
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryResultItemActorType",
+          "traits": {
+            "smithy.api#documentation": "The type of actor."
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultItemOrganization": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique identifier for the organization."
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultItemRaw": {
+      "type": "structure",
+      "members": {
+        "cf_ray_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Cloudflare Ray ID for the request."
+          }
+        },
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTP method of the request."
+          }
+        },
+        "status_code": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The HTTP response status code returned by the API."
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI of the request."
+          }
+        },
+        "user_agent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client's user agent string sent with the request."
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultItemResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the affected resource."
+          }
+        },
+        "product": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Cloudflare product associated with the resource."
+          }
+        },
+        "request": {
+          "target": "smithy.api#Document"
+        },
+        "response": {
+          "target": "smithy.api#Document"
+        },
+        "scope": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The scope of the resource."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource."
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique identifier for the audit log entry."
+          }
+        },
+        "action": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryResultItemAction",
+          "traits": {
+            "smithy.api#documentation": "Provides information about the action performed."
+          }
+        },
+        "actor": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryResultItemActor",
+          "traits": {
+            "smithy.api#documentation": "Provides details about the actor who performed the action."
+          }
+        },
+        "organization": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryResultItemOrganization",
+          "traits": {
+            "smithy.api#documentation": "Contains organization related information."
+          }
+        },
+        "raw": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryResultItemRaw",
+          "traits": {
+            "smithy.api#documentation": "Provides raw information about the request and response."
+          }
+        },
+        "resource": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryResultItemResource",
+          "traits": {
+            "smithy.api#documentation": "Provides details about the affected resource."
+          }
+        }
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.organizations#LogsAuditHistoryResultItem"
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistoryResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.organizations#LogsAuditHistoryResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.organizations#LogsAuditHistory": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.organizations#LogsAuditHistoryRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.organizations#LogsAuditHistoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organization_id}/logs/audit/{id}/history",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns the chronological change history for the resource identified by the given organization-scoped audit log entry. The endpoint first locates the source audit log entry by `id` (using `action_time` to narrow the lookup window), derives identifying filters from that entry, and then returns matching audit logs within the `since`/`before` window. The `result_info.history_status` field indicates the quality of the resource identification used: - `exact`: Resource was identified by the resource URI. - `approximate`: Resource was identified without the resource URI. - `unavailable`: The source audit log entry did not contain enough information to identify the resource; an empty result is returned.",
+        "smithy.api#readonly": {}
       }
     },
     "com.cloudflare.organizations#LogsAuditListRequestIdNotList": {
@@ -1084,6 +1573,12 @@
     "com.cloudflare.organizations#LogsAuditListRequestActorContextNotItem": {
       "type": "enum",
       "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
         "API_KEY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1454,6 +1949,12 @@
     "com.cloudflare.organizations#LogsAuditListResultItemActorContext": {
       "type": "enum",
       "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
         "API_KEY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1519,7 +2020,10 @@
           }
         },
         "context": {
-          "target": "com.cloudflare.organizations#LogsAuditListResultItemActorContext"
+          "target": "com.cloudflare.organizations#LogsAuditListResultItemActorContext",
+          "traits": {
+            "smithy.api#documentation": "The context in which the action was initiated."
+          }
         },
         "email": {
           "target": "smithy.api#String",
@@ -1762,6 +2266,18 @@
             "smithy.api#enumValue": "active"
           }
         },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
         "CANCELED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1944,6 +2460,18 @@
             "smithy.api#enumValue": "active"
           }
         },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
         "CANCELED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2054,6 +2582,18 @@
             "smithy.api#enumValue": "active"
           }
         },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
         "CANCELED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2099,7 +2639,7 @@
         "page_token": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "An opaque token returned from the last list response that when",
+            "smithy.api#documentation": "An opaque token returned from the last list response that when provided will retrieve the next page.",
             "smithy.api#httpQuery": "page_token"
           }
         },
@@ -2137,6 +2677,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
           }
         },
         "CANCELED": {
@@ -2263,19 +2815,19 @@
         "contains": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the account_pubname contains"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the account_pubname contains a particular string."
           }
         },
         "endsWith": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the account_pubname ends with"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the account_pubname ends with a particular string."
           }
         },
         "startsWith": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the account_pubname starts with"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the account_pubname starts with a particular string."
           }
         }
       }
@@ -2303,19 +2855,19 @@
         "contains": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the name contains a particular"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the name contains a particular string."
           }
         },
         "endsWith": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the name ends with a particular"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the name ends with a particular string."
           }
         },
         "startsWith": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the name starts with a"
+            "smithy.api#documentation": "(case-insensitive) Filter the list of accounts to where the name starts with a particular string."
           }
         }
       }
@@ -2350,8 +2902,22 @@
         "direction": {
           "target": "com.cloudflare.organizations#GetOrganizationAccountRequestDirection",
           "traits": {
-            "smithy.api#documentation": "Sort direction for the order_by field. Valid values: `asc`, `desc`.",
+            "smithy.api#documentation": "Sort direction for the order_by field. Valid values: `asc`, `desc`. Defaults to `asc` when order_by is specified.",
             "smithy.api#httpQuery": "direction"
+          }
+        },
+        "include_tags": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Include Account tags from the resource tag mirror. Omit this parameter to preserve the existing Account response shape.",
+            "smithy.api#httpQuery": "include_tags"
+          }
+        },
+        "include_total": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to calculate and return the exact result_info.total_size for cursor pagination. Defaults to true. When false, total_size is omitted. page_size and include_total may change between pages; next_page_token remains the authoritative continuation signal. Legacy page/per_page requests always calculate total_count.",
+            "smithy.api#httpQuery": "include_total"
           }
         },
         "name": {
@@ -2363,7 +2929,7 @@
         "order_by": {
           "target": "com.cloudflare.organizations#GetOrganizationAccountRequestOrderBy",
           "traits": {
-            "smithy.api#documentation": "Field to order results by. Currently supported values: `account_name`.",
+            "smithy.api#documentation": "Field to order results by. Currently supported values: `account_name`. When not specified, results are ordered by internal account ID.",
             "smithy.api#httpQuery": "order_by"
           }
         },
@@ -2377,7 +2943,7 @@
         "page_token": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "An opaque token returned from the last list response that when",
+            "smithy.api#documentation": "An opaque token returned from the last list response that when provided will retrieve the next page.",
             "smithy.api#httpQuery": "page_token"
           }
         }
@@ -2446,6 +3012,15 @@
         }
       }
     },
+    "com.cloudflare.organizations#GetOrganizationAccountResultItemTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.organizations#GetOrganizationAccountResultItem": {
       "type": "structure",
       "members": {
@@ -2477,6 +3052,12 @@
           "target": "com.cloudflare.organizations#GetOrganizationAccountResultItemType",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.organizations#GetOrganizationAccountResultItemTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Account tags, present only when `include_tags=true` is requested."
           }
         }
       }
@@ -2524,6 +3105,9 @@
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.organizations#LogsAuditHistory"
+        },
         {
           "target": "com.cloudflare.organizations#CreateMember"
         },
@@ -2782,13 +3366,6 @@
           "traits": {
             "smithy.api#documentation": "Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.",
             "smithy.api#httpQuery": "from"
-          }
-        },
-        "metric": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filter results by billable metric id (e.g., workers_standard_requests).",
-            "smithy.api#httpQuery": "metric"
           }
         },
         "to": {
@@ -3211,7 +3788,7 @@
         "id": {
           "target": "com.cloudflare.organizations#ListRequestIdList",
           "traits": {
-            "smithy.api#documentation": "Only return organizations with the specified IDs (ex. id=foo&id=bar). Send multiple elements",
+            "smithy.api#documentation": "Only return organizations with the specified IDs (ex. id=foo&id=bar). Send multiple elements by repeating the query value.",
             "smithy.api#httpQuery": "id"
           }
         },
@@ -3237,7 +3814,7 @@
         "page_token": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "An opaque token returned from the last list response that when",
+            "smithy.api#documentation": "An opaque token returned from the last list response that when provided will retrieve the next page.",
             "smithy.api#httpQuery": "page_token"
           }
         },
