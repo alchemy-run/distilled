@@ -203,6 +203,9 @@
           "target": "com.prisma.postgres#Forbidden"
         },
         {
+          "target": "com.prisma.postgres#NotFound"
+        },
+        {
           "target": "com.prisma.postgres#UnprocessableEntity"
         }
       ],
@@ -6277,6 +6280,9 @@
           "target": "com.prisma.postgres#NotFound"
         },
         {
+          "target": "com.prisma.postgres#Conflict"
+        },
+        {
           "target": "com.prisma.postgres#UnprocessableEntity"
         }
       ],
@@ -8089,6 +8095,9 @@
           "target": "com.prisma.postgres#NotFound"
         },
         {
+          "target": "com.prisma.postgres#Conflict"
+        },
+        {
           "target": "com.prisma.postgres#UnprocessableEntity"
         }
       ],
@@ -9797,7 +9806,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Type of backup"
+      }
     },
     "com.prisma.postgres#GetDatabaseBackupsResponseDataItemStatus": {
       "type": "enum",
@@ -9827,7 +9838,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Status of backup instance"
+      }
     },
     "com.prisma.postgres#GetDatabaseBackupsResponseDataItem": {
       "type": "structure",
@@ -9835,27 +9848,34 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The unique identifier for this backup",
             "smithy.api#required": {}
           }
         },
         "backupType": {
           "target": "com.prisma.postgres#GetDatabaseBackupsResponseDataItemBackupType",
           "traits": {
+            "smithy.api#documentation": "Type of backup",
             "smithy.api#required": {}
           }
         },
         "createdAt": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Timestamp when the backup was created",
             "smithy.api#required": {}
           }
         },
         "size": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total file size (in MiB) of gzipped backup files"
+          }
         },
         "status": {
           "target": "com.prisma.postgres#GetDatabaseBackupsResponseDataItemStatus",
           "traits": {
+            "smithy.api#documentation": "Status of backup instance",
             "smithy.api#required": {}
           }
         },
@@ -11943,6 +11963,9 @@
       },
       "errors": [
         {
+          "target": "com.prisma.postgres#Conflict"
+        },
+        {
           "target": "com.prisma.postgres#UnprocessableEntity"
         }
       ],
@@ -12271,6 +12294,9 @@
         },
         {
           "target": "com.prisma.postgres#NotFound"
+        },
+        {
+          "target": "com.prisma.postgres#Conflict"
         },
         {
           "target": "com.prisma.postgres#UnprocessableEntity"
@@ -14922,7 +14948,10 @@
           }
         },
         "backupId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for this backup"
+          }
         }
       },
       "traits": {
@@ -15742,6 +15771,9 @@
           "target": "com.prisma.postgres#NotFound"
         },
         {
+          "target": "com.prisma.postgres#Conflict"
+        },
+        {
           "target": "com.prisma.postgres#UnprocessableEntity"
         }
       ],
@@ -15964,6 +15996,9 @@
         "target": "com.prisma.postgres#GetEnvironmentVariablesResponse"
       },
       "errors": [
+        {
+          "target": "com.prisma.postgres#NotFound"
+        },
         {
           "target": "com.prisma.postgres#UnprocessableEntity"
         }
@@ -19291,19 +19326,6 @@
         ]
       }
     },
-    "com.prisma.postgres#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
     "com.prisma.postgres#NotFound": {
       "type": "structure",
       "members": {},
@@ -19313,6 +19335,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 404
+          }
+        ]
+      }
+    },
+    "com.prisma.postgres#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
           }
         ]
       }

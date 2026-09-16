@@ -1926,6 +1926,7 @@ export const CreateProjectDatabaseRequestRegion = S.String;
 /** Deprecated: use `source` instead. */
 export interface CreateProjectDatabaseRequestFromDatabase {
   id: string;
+  /** The unique identifier for this backup */
   backupId?: string;
 }
 export const CreateProjectDatabaseRequestFromDatabase = /*@__PURE__*/ S.suspend(
@@ -4006,12 +4007,14 @@ export const GetDatabaseBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDatabaseBackupsRequest",
 }) as any as S.Schema<GetDatabaseBackupsRequest>;
 
+/** Type of backup */
 export type GetDatabaseBackupsResponseDataItemBackupType =
   | "full"
   | "incremental"
   | "differential";
 export const GetDatabaseBackupsResponseDataItemBackupType = S.String;
 
+/** Status of backup instance */
 export type GetDatabaseBackupsResponseDataItemStatus =
   | "running"
   | "completed"
@@ -4020,10 +4023,15 @@ export type GetDatabaseBackupsResponseDataItemStatus =
 export const GetDatabaseBackupsResponseDataItemStatus = S.String;
 
 export interface GetDatabaseBackupsResponseDataItem {
+  /** The unique identifier for this backup */
   id: string;
+  /** Type of backup */
   backupType: GetDatabaseBackupsResponseDataItemBackupType;
+  /** Timestamp when the backup was created */
   createdAt: string;
+  /** Total file size (in MiB) of gzipped backup files */
   size?: number;
+  /** Status of backup instance */
   status: GetDatabaseBackupsResponseDataItemStatus;
   type?: string;
 }
@@ -7932,6 +7940,7 @@ export const createBuild: API.OperationMethod<
 
 export type CreateConnectionError =
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | PrismaPostgresOpError;
 /** Create connection Creates a new connection for the specified database. */
@@ -7943,7 +7952,7 @@ export const createConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateConnectionRequest,
   output: CreateConnectionResponse,
-  errors: [NotFound, UnprocessableEntity, UnknownPrismaPostgresError],
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaPostgresError],
   protocol: PrismaPostgresProtocol,
   retry: Retry.Retry,
 }));
@@ -7967,6 +7976,7 @@ export type CreateDatabaseError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | PrismaPostgresOpError;
 /** Create database Creates a new database in the specified project. */
@@ -7982,6 +7992,7 @@ export const createDatabase: API.OperationMethod<
     BadRequest,
     Forbidden,
     NotFound,
+    Conflict,
     UnprocessableEntity,
     UnknownPrismaPostgresError,
   ],
@@ -8102,7 +8113,10 @@ export const createEnvironmentVariable: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateProjectError = UnprocessableEntity | PrismaPostgresOpError;
+export type CreateProjectError =
+  | Conflict
+  | UnprocessableEntity
+  | PrismaPostgresOpError;
 /** Create project with a postgres database Creates a new project with a postgres database. */
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
@@ -8112,7 +8126,7 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
   output: CreateProjectResponse,
-  errors: [UnprocessableEntity, UnknownPrismaPostgresError],
+  errors: [Conflict, UnprocessableEntity, UnknownPrismaPostgresError],
   protocol: PrismaPostgresProtocol,
   retry: Retry.Retry,
 }));
@@ -8158,6 +8172,7 @@ export type CreateProjectDatabaseError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | PrismaPostgresOpError;
 /** Create database Creates a new database for the given project. */
@@ -8173,6 +8188,7 @@ export const createProjectDatabase: API.OperationMethod<
     BadRequest,
     Forbidden,
     NotFound,
+    Conflict,
     UnprocessableEntity,
     UnknownPrismaPostgresError,
   ],
@@ -8561,6 +8577,7 @@ export const deleteIntegration: API.OperationMethod<
 export type DeleteProjectError =
   | BadRequest
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | PrismaPostgresOpError;
 /** Delete project Deletes the project with the given ID. */
@@ -8575,6 +8592,7 @@ export const deleteProject: API.OperationMethod<
   errors: [
     BadRequest,
     NotFound,
+    Conflict,
     UnprocessableEntity,
     UnknownPrismaPostgresError,
   ],
@@ -9005,6 +9023,7 @@ export const getEnvironmentVariable: API.OperationMethod<
 }));
 
 export type GetEnvironmentVariablesError =
+  | NotFound
   | UnprocessableEntity
   | PrismaPostgresOpError;
 /** List environment variables ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Returns a paginated list of environment variables. All filters are optional; combine `projectId`, `class`, and `key` to look up a specific variable by name. */
@@ -9016,7 +9035,7 @@ export const getEnvironmentVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnvironmentVariablesRequest,
   output: GetEnvironmentVariablesResponse,
-  errors: [UnprocessableEntity, UnknownPrismaPostgresError],
+  errors: [NotFound, UnprocessableEntity, UnknownPrismaPostgresError],
   protocol: PrismaPostgresProtocol,
   retry: Retry.Retry,
 }));
@@ -9409,6 +9428,7 @@ export const getServiceDomains: API.OperationMethod<
 
 export type GetServicesError =
   | Forbidden
+  | NotFound
   | UnprocessableEntity
   | PrismaPostgresOpError;
 /** List services ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Returns all services the token has access to, ordered by creation time (oldest first). Optionally filter by project ID. Supports cursor-based pagination. */
@@ -9420,7 +9440,12 @@ export const getServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetServicesRequest,
   output: GetServicesResponse,
-  errors: [Forbidden, UnprocessableEntity, UnknownPrismaPostgresError],
+  errors: [
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    UnknownPrismaPostgresError,
+  ],
   protocol: PrismaPostgresProtocol,
   retry: Retry.Retry,
 }));
