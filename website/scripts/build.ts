@@ -646,49 +646,30 @@ const runtimeSection = (r: RuntimeBench | null): string => {
  * the patch files: number, unit line, one-sentence reading. Restricted to
  * packages Alchemy uses so every figure is backed by real use.
  */
+/**
+ * Three plain statements for the problem section, computed from the patch
+ * files. Rates come from the services Alchemy uses, so they reflect real use.
+ */
 const factsHtml = (ranked: Ranked[]): string => {
   const used = ranked.filter((s) => alchemyUsed.has(s.dir));
   const fixes = ranked.reduce((n, s) => n + s.fixes, 0);
   const patchedAll = ranked.filter((s) => s.fixes > 0).length;
-  const patchedUsed = used.filter((s) => s.fixes > 0).length;
   const byRate = [...used].sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0));
-  const worst = byRate[0];
-  const best = byRate[byRate.length - 1];
   const mid = byRate[Math.floor(byRate.length / 2)];
-  const fact = (n: string, unit: string, read: string, mod = "") =>
-    `<li class="fact${mod}"><span class="fact__n">${n}</span><span class="fact__u">${unit}</span><span class="fact__r">${read}</span></li>`;
+  const opsPerFix =
+    mid && mid.fixes > 0 ? Math.round(mid.operations / mid.fixes) : 0;
+  const fact = (n: string, line: string) =>
+    `<li class="fact"><span class="fact__n">${n}</span><span class="fact__l">${line}</span></li>`;
   return [
-    fact(
-      fmt.format(fixes),
-      "spec fixes",
-      `carried across all ${ranked.length} services with operations, each one a place the description and the API disagreed.`,
-    ),
+    fact(fmt.format(fixes), "spec fixes, and counting"),
     fact(
       `${patchedAll} of ${ranked.length}`,
-      "services patched",
-      `so far — the rest are untested, not clean. Of the ${used.length} Alchemy builds on, ${patchedUsed === used.length ? "all " + used.length : patchedUsed} needed correcting.`,
+      `services have needed at least one — including all ${used.length} that Alchemy runs on`,
     ),
     fact(
-      fmt1.format(mid?.per100 ?? 0),
-      "fixes per 100 operations",
-      `for the median Alchemy-used service — one correction for every three calls it exposes.`,
+      `1 in ${opsPerFix}`,
+      `operations needed a fix on a typical service. <a href="/shame">The full tally →</a>`,
     ),
-    best
-      ? fact(
-          fmt1.format(best.per100 ?? 0),
-          `per 100 · best`,
-          `<a href="${npmUrl(best.name)}" rel="noopener">${escapeHtml(best.short)}</a>: ${fmt.format(best.fixes)} ${best.fixes === 1 ? "fix" : "fixes"} across ${fmt.format(best.operations)} operations.`,
-          " fact--best",
-        )
-      : "",
-    worst
-      ? fact(
-          fmt1.format(worst.per100 ?? 0),
-          `per 100 · worst`,
-          `<a href="${npmUrl(worst.name)}" rel="noopener">${escapeHtml(worst.short)}</a>: more patches than operations. <a href="/shame">See the tally →</a>`,
-          " fact--worst",
-        )
-      : "",
   ].join("");
 };
 
