@@ -694,7 +694,7 @@ program.<span class="f">pipe</span>(
         </div>
 
         <div class="loop" data-reveal>
-          <svg class="loop__svg" viewBox="0 0 1000 520" aria-hidden="true">
+          <svg class="loop__svg" viewBox="0 0 1000 400" aria-hidden="true">
             <defs>
               <!-- Calligraphic arrowhead: a swept brush tip, oriented along the path's tangent. -->
               <marker
@@ -818,38 +818,26 @@ program.<span class="f">pipe</span>(
           >
             <li class="node node--alchemy">
               <h3>Alchemy</h3>
-              <p class="node__role">Infrastructure as code, in TypeScript.</p>
+              <p class="node__role">Infrastructure as code.</p>
               <ul class="node__list">
                 <li>
                   Resources: <code>Bucket</code>, <code>Table</code>,
                   <code>Machine</code>
                 </li>
-                <li>Providers: reconcile, update, delete</li>
                 <li>Tests against the actual API</li>
-                <li>Bindings: <code>S3.GetObject</code> from a Worker</li>
               </ul>
             </li>
             <li class="node node--distilled">
               <h3>Distilled</h3>
-              <p class="node__role">Effect-native SDKs, generated.</p>
+              <p class="node__role">Effect-native SDKs.</p>
               <ul class="node__list">
-                <li>One package per provider</li>
                 <li>Schemas, operations, typed errors</li>
                 <li>Retry, pagination, streaming</li>
-                <li>
-                  <code>aws</code> <code>cloudflare</code> <code>fly-io</code> …
-                </li>
               </ul>
             </li>
             <li class="node node--spec">
               <h3>Spec</h3>
               <p class="node__role">The provider's own API description.</p>
-              <ul class="node__list node__list--chips">
-                <li>OpenAPI</li>
-                <li>Smithy</li>
-                <li>GraphQL</li>
-                <li>Discovery</li>
-              </ul>
             </li>
           </ol>
         </div>
