@@ -2,66 +2,30 @@
  * Shared XML utilities for AWS protocols (aws-query, ec2-query, rest-xml)
  */
 
+import {
+  parseXml as parseCoreXml,
+  type XmlParseOptions,
+} from "@distilled.cloud/core/xml";
+import * as Effect from "effect/Effect";
 import type * as AST from "effect/SchemaAST";
-import { XMLParser } from "fast-xml-parser";
+import { ParseError } from "../errors.ts";
 import { isBooleanAST, isNumberAST } from "./ast.ts";
 
-// =============================================================================
-// XML Parser
-// =============================================================================
+export {
+  escapeXml,
+  wrapTag,
+  parseXmlSync,
+  XmlParseError,
+  type XmlObject,
+  type XmlValue,
+  type XmlParseOptions,
+} from "@distilled.cloud/core/xml";
 
-/**
- * Shared XML parser configured for AWS protocol responses.
- * - Preserves attributes with @_ prefix
- * - Keeps values as strings (schema handles type conversion)
- * - Preserves namespace prefixes
- */
-export const xmlParser = new XMLParser({
-  ignoreAttributes: false,
-  attributeNamePrefix: "@_",
-  textNodeName: "#text",
-  trimValues: true,
-  parseTagValue: false, // Keep values as strings, let schema handle conversion
-  parseAttributeValue: false,
-  removeNSPrefix: false,
-});
-
-/**
- * Parse an XML string into a JavaScript object.
- * Returns empty object for empty/whitespace-only input.
- */
-export function parseXml(xml: string): Record<string, unknown> {
-  if (!xml?.trim()) return {};
-  return xmlParser.parse(xml) as Record<string, unknown>;
-}
-
-// =============================================================================
-// XML Escaping
-// =============================================================================
-
-const xmlEscapes: Record<string, string> = {
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;",
-  '"': "&quot;",
-  "'": "&apos;",
-};
-
-/**
- * Escape special XML characters in a string.
- */
-export const escapeXml = (s: string): string =>
-  s.replace(/[&<>"']/g, (c) => xmlEscapes[c]);
-
-// =============================================================================
-// XML Tag Helpers
-// =============================================================================
-
-/**
- * Wrap content in an XML tag with optional xmlns attribute.
- */
-export const wrapTag = (tag: string, content: string, xmlns?: string): string =>
-  `<${tag}${xmlns ? ` xmlns="${escapeXml(xmlns)}"` : ""}>${content}</${tag}>`;
+/** Adapt shared XML failures to the AWS protocol error type. */
+export const parseXml = (xml: string, options?: XmlParseOptions) =>
+  parseCoreXml(xml, options).pipe(
+    Effect.mapError((error) => new ParseError({ message: error.message })),
+  );
 
 // =============================================================================
 // XML Response Helpers
@@ -69,14 +33,12 @@ export const wrapTag = (tag: string, content: string, xmlns?: string): string =>
 
 /**
  * Extract the root element content from parsed XML.
- * Filters out processing instructions (keys starting with "?").
  * Used by aws-query and ec2-query protocols.
  */
 export function extractXmlRoot(
   parsed: Record<string, unknown>,
 ): Record<string, unknown> {
-  const rootKeys = Object.keys(parsed).filter((k) => !k.startsWith("?"));
-  const responseKey = rootKeys[0];
+  const responseKey = Object.keys(parsed)[0];
   return responseKey
     ? (parsed[responseKey] as Record<string, unknown>)
     : (parsed as Record<string, unknown>);
@@ -93,7 +55,7 @@ export function extractXmlRoot(
  */
 export function deserializePrimitive(ast: AST.AST, value: string): unknown {
   if (isNumberAST(ast)) return Number(value);
-  if (isBooleanAST(ast)) return value === "true";
+  if (isBooleanAST(ast)) return value.trim() === "true";
   // Dates stay as strings - S.Date (DateFromString) handles the conversion
   return value;
 }

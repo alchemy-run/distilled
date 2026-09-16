@@ -353,8 +353,7 @@
     "@distilled.cloud/core": "workspace:*",
     "@smithy/shared-ini-file-loader": "catalog:",
     "@smithy/types": "catalog:",
-    "@smithy/util-base64": "catalog:",
-    "fast-xml-parser": "catalog:"
+    "@smithy/util-base64": "catalog:"
   },
   "devDependencies": {
     "@effect/platform-bun": "catalog:",
