@@ -20,26 +20,28 @@ export {
 export type Scalars = {
   AccessGroupSource: "MANUAL";
   ActiveFeatureFlag:
+    | "ACTIVITY_FEED_HISTORY"
+    | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
     | "AGENT_CONNECTORS"
-    | "AGENT_USAGE_WARNINGS"
+    | "BOT_CLOUD_AGENTS"
     | "CHAT_SANDBOX"
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_CHAT"
+    | "CS_MCP_EXPRESS"
     | "DEBUG_SMART_DIAGNOSIS"
     | "EMAIL_FORWARDING"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MYSQL_PITR"
     | "PRIORITY_BOARDING"
-    | "PROJECT_FAVORITES"
-    | "PROJECT_SANDBOXES"
+    | "RAILWAY_AGENT_DASHBOARD"
     | "TEMPLATE_CHAT"
+    | "TRACING"
     | "USAGE_INSIGHTS"
     | "VM_STORAGE_TRACES";
   ActivePlatformFlag:
     | "AGENT_USAGE_CH_INGEST"
-    | "AGENT_USAGE_WARNINGS"
     | "ALERT_SUS_USERS_CRON_KILLSWITCH"
     | "BUILD_DEPLOY_QUEUE_V2"
     | "CAC_T0_KILLSWITCH"
@@ -47,6 +49,7 @@ export type Scalars = {
     | "CHAT_SANDBOX"
     | "CLICKHOUSE_WORKSPACE_LIMIT_ENFORCE"
     | "CS_MCP"
+    | "CS_MCP_EXPRESS"
     | "CTRD_IMAGE_STORE_ROLLOUT"
     | "DEFAULT_USAGE_ALERTS"
     | "DEMO_PERCENTAGE_ROLLOUT"
@@ -59,20 +62,28 @@ export type Scalars = {
     | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
+    | "NEW_PROJECT_PAGE"
     | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
+    | "NUDGES"
+    | "NUDGE_BACKUP_SCHEDULE_MISSING"
+    | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
+    | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
+    | "NUDGE_UPGRADE_TO_PRO"
     | "OAUTH_DCR_KILLSWITCH"
     | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
-    | "PROJECT_FAVORITES"
     | "PROJECT_HISTORY_DUAL_WRITE"
     | "PROJECT_HISTORY_READ_FROM_CH"
     | "REMOVE_DEPLOYMENT_COMPACT"
-    | "RESTRICTION_APPEALS"
     | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
     | "SPLIT_USAGE_QUERIES"
+    | "SSH_ANON_PROVISIONING"
+    | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
     | "STRIPE_METERS_NEW_ACCOUNTS"
     | "STRIPE_METERS_SHADOW_ENABLED"
-    | "UNIFIED_TOKENS_AUTHORIZATION_SHADOW"
+    | "STRIPE_WEBHOOK_DISPUTE_CANCELLATION"
     | "UPDATED_VM_QUERIES"
+    | "USAGE_CH_READS"
+    | "VM_COUPON_MIGRATION"
     | "VM_USAGE_CH_INGEST"
     | "WORKSPACE_MCP_KILLSWITCH";
   ActiveProjectFeatureFlag: "PLACEHOLDER";
@@ -299,7 +310,6 @@ export type Scalars = {
   Plan: "FREE" | "HOBBY" | "PRO";
   PlatformFeatureFlag:
     | "AGENT_USAGE_CH_INGEST"
-    | "AGENT_USAGE_WARNINGS"
     | "ALERT_SUS_USERS_CRON_KILLSWITCH"
     | "BUILD_DEPLOY_QUEUE_V2"
     | "CAC_T0_KILLSWITCH"
@@ -307,6 +317,7 @@ export type Scalars = {
     | "CHAT_SANDBOX"
     | "CLICKHOUSE_WORKSPACE_LIMIT_ENFORCE"
     | "CS_MCP"
+    | "CS_MCP_EXPRESS"
     | "CTRD_IMAGE_STORE_ROLLOUT"
     | "DEFAULT_USAGE_ALERTS"
     | "DEMO_PERCENTAGE_ROLLOUT"
@@ -319,20 +330,28 @@ export type Scalars = {
     | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
+    | "NEW_PROJECT_PAGE"
     | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
+    | "NUDGES"
+    | "NUDGE_BACKUP_SCHEDULE_MISSING"
+    | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
+    | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
+    | "NUDGE_UPGRADE_TO_PRO"
     | "OAUTH_DCR_KILLSWITCH"
     | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
-    | "PROJECT_FAVORITES"
     | "PROJECT_HISTORY_DUAL_WRITE"
     | "PROJECT_HISTORY_READ_FROM_CH"
     | "REMOVE_DEPLOYMENT_COMPACT"
-    | "RESTRICTION_APPEALS"
     | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
     | "SPLIT_USAGE_QUERIES"
+    | "SSH_ANON_PROVISIONING"
+    | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
     | "STRIPE_METERS_NEW_ACCOUNTS"
     | "STRIPE_METERS_SHADOW_ENABLED"
-    | "UNIFIED_TOKENS_AUTHORIZATION_SHADOW"
+    | "STRIPE_WEBHOOK_DISPUTE_CANCELLATION"
     | "UPDATED_VM_QUERIES"
+    | "USAGE_CH_READS"
+    | "VM_COUPON_MIGRATION"
     | "VM_USAGE_CH_INGEST"
     | "WORKSPACE_MCP_KILLSWITCH";
   PlatformFeatureFlagType: "BOOLEAN" | "PERCENTAGE";
@@ -563,14 +582,37 @@ export type Inputs = {
     success: Scalars["Boolean"];
     workspaceId?: Scalars["String"] | null;
   };
+  /** Opt-in public code endpoint, provisioned only when creating a cloud agent. */
+
+  CloudAgentCodeEndpointInput: { port?: Scalars["Int"] | null };
 
   CloudAgentCreateInput: {
     cloudAgentCheckpointId?: Scalars["String"] | null;
+    codeEndpoint?: Inputs["CloudAgentCodeEndpointInput"] | null;
     environmentId: Scalars["String"];
     name?: Scalars["String"] | null;
     region?: Scalars["String"] | null;
     source?: Inputs["CloudAgentSourceInput"] | null;
     variables?: Scalars["JSON"] | null;
+  };
+
+  CloudAgentFeedbackInput: {
+    activeTools: ReadonlyArray<Scalars["String"]>;
+    agentVersion: Scalars["String"];
+    cloudAgentId: Scalars["String"];
+    description: Scalars["String"];
+    elapsedMs?: Scalars["Float"] | null;
+    lastProgressAgeMs?: Scalars["Float"] | null;
+    model: Scalars["String"];
+    reportId: Scalars["String"];
+    reportedAtMs: Scalars["Float"];
+    runId?: Scalars["String"] | null;
+    runStartedAtMs?: Scalars["Float"] | null;
+    sessionId: Scalars["String"];
+    sessionName?: Scalars["String"] | null;
+    state: Scalars["String"];
+    steps: Scalars["Int"];
+    tuiVersion: Scalars["String"];
   };
 
   CloudAgentSnapshotInput: {
@@ -953,6 +995,8 @@ export type Inputs = {
     isPublic?: Scalars["Boolean"] | null;
     name?: Scalars["String"] | null;
     prDeploys?: Scalars["Boolean"] | null;
+    tracingEnabled?: Scalars["Boolean"] | null;
+    tracingSampleRate?: Scalars["Float"] | null;
   };
 
   PurgeServiceCacheInput: {
@@ -1056,6 +1100,7 @@ export type Inputs = {
     networkIsolation?: Scalars["SandboxNetworkIsolation"] | null;
     publicDomains?: ReadonlyArray<Inputs["SandboxDomainInput"]> | null;
     region?: Scalars["String"] | null;
+    resources?: Inputs["SandboxResourcesInput"] | null;
     sourceSandboxId?: Scalars["String"] | null;
     template?: Inputs["SandboxTemplateInput"] | null;
     variables?: Scalars["EnvironmentVariables"] | null;
@@ -1064,6 +1109,11 @@ export type Inputs = {
   SandboxDomainInput: {
     port: Scalars["Int"];
     prefix?: Scalars["String"] | null;
+  };
+
+  SandboxResourcesInput: {
+    cpu?: Scalars["Float"] | null;
+    memoryGB?: Scalars["Float"] | null;
   };
 
   SandboxTemplateInput: {
@@ -1160,6 +1210,7 @@ export type Inputs = {
   ServiceUpdateInput: {
     icon?: Scalars["String"] | null;
     name?: Scalars["String"] | null;
+    tracingEnabled?: Scalars["Boolean"] | null;
   };
 
   SetServiceUnderAttackModeInput: {
@@ -1550,6 +1601,24 @@ export class RailwayRequestProcessingError extends S.TaggedError<RailwayRequestP
   "RailwayRequestProcessingError",
   G.errorFields,
 ).pipe(Category.withServerError) {}
+/** The sandbox to execute in, checkpoint, or fork does not exist. Observed exact message: Sandbox not found. */
+
+export class RailwaySandboxNotFound extends S.TaggedError<RailwaySandboxNotFound>()(
+  "RailwaySandboxNotFound",
+  G.errorFields,
+).pipe(Category.withNotFoundError) {}
+/** The named checkpoint to rename or boot does not exist. Both exact messages were observed live. */
+
+export class RailwaySandboxCheckpointNotFound extends S.TaggedError<RailwaySandboxCheckpointNotFound>()(
+  "RailwaySandboxCheckpointNotFound",
+  G.errorFields,
+).pipe(Category.withNotFoundError) {}
+/** Invalid sandbox creation options. Live CPU and memory errors ended in 'at most 24 vCPU' and 'at most 24 GB'; the idle timeout range was 1 to 120 minutes. Match stable prefixes for workspace-dependent limits. The source-conflict message mentions checkpointName, but introspection exposes checkpoint restore only through template.name. */
+
+export class RailwaySandboxValidationError extends S.TaggedError<RailwaySandboxValidationError>()(
+  "RailwaySandboxValidationError",
+  G.errorFields,
+).pipe(Category.withBadRequestError) {}
 export type Errors = {
   RailwayUnauthenticated: RailwayUnauthenticated;
   RailwayForbidden: RailwayForbidden;
@@ -1564,6 +1633,9 @@ export type Errors = {
   RailwayCustomDomainCreateFailed: RailwayCustomDomainCreateFailed;
   RailwayBucketCredentialsNotReady: RailwayBucketCredentialsNotReady;
   RailwayRequestProcessingError: RailwayRequestProcessingError;
+  RailwaySandboxNotFound: RailwaySandboxNotFound;
+  RailwaySandboxCheckpointNotFound: RailwaySandboxCheckpointNotFound;
+  RailwaySandboxValidationError: RailwaySandboxValidationError;
 };
 export type Types = {
   AccessGroup: {
@@ -1928,6 +2000,8 @@ export type Types = {
 
     id: G.Field<{}, "String!", never>;
 
+    operationId: G.Field<{}, "String", never>;
+
     stagedPatchId: G.Field<{}, "String", never>;
 
     status: G.Field<{}, "String!", never>;
@@ -1943,7 +2017,7 @@ export type Types = {
   /** A persistent cloud agent for running coding harnesses. */
 
   CloudAgent: {
-    /** WebSocket endpoint of the in-VM harness gate, for the dashboard chat. Survives sleep: the domain is stable across sleep and wake, and the observation keeps it. Null only on agents created before the gate existed, or before their first observation lands. */
+    /** WebSocket endpoint of the in-VM harness gate, for the dashboard chat. Survives sleep: the domain is stable across sleep and wake. Prefers the machine observation; when that carries no gate domain it falls back to the domain network-cp actively serves, so an agent whose observation lagged still offers chat. Null on agents created before the gate existed, or asleep/absent machines. */
 
     agentWsUrl: G.Field<{}, "String", never>;
     /** Target ID for console or command execution. Null while unavailable. */
@@ -1951,7 +2025,7 @@ export type Types = {
     consoleTargetId: G.Field<{}, "String", never>;
 
     createdAt: G.Field<{}, "DateTime!", never>;
-    /** The first of the agent machine's public domains. Stable across sleep and wake; returns no endpoints while the machine sleeps. */
+    /** The agent machine's public HTTP domain (port 8080) — the live preview. Prefers the observation (falling back to the first declared domain when 8080 was never requested); when the observation carries no domains it falls back to the domain network-cp actively serves on 8080, so a preview shows even when the observation lagged. Returns null while the machine sleeps. */
 
     domain: G.Field<{}, "String", never>;
     /** Every public domain on the agent's machine, one per port, in the order the machine declared them. */
@@ -1963,6 +2037,8 @@ export type Types = {
     id: G.Field<{}, "ID!", never>;
 
     name: G.Field<{}, "String!", never>;
+
+    project: G.Field<{}, "Project!", never>;
 
     projectId: G.Field<{}, "String!", never>;
     /** Region the agent's machine runs in. Null briefly after creation, before the machine has been placed. */
@@ -2033,6 +2109,9 @@ export type Types = {
     taskId: G.Field<{}, "String", never>;
 
     terminal: G.Field<{}, "Boolean!", never>;
+    /** Generated display title for the session, display-only. Null until generated; fall back to latestPrompt, then prompt. */
+
+    title: G.Field<{}, "String", never>;
 
     updatedAt: G.Field<{}, "String!", never>;
   };
@@ -2629,6 +2708,8 @@ export type Types = {
 
     purgeEpochByKind: G.Field<{}, "JSON!", never>;
 
+    tracing: G.Field<{}, "EdgeTracingConfig", never>;
+
     underAttackModeUntil: G.Field<{}, "Int", never>;
   };
 
@@ -2638,6 +2719,12 @@ export type Types = {
     message: G.Field<{}, "String!", never>;
 
     path: G.Field<{}, "String!", never>;
+  };
+
+  EdgeTracingConfig: {
+    enabled: G.Field<{}, "Boolean!", never>;
+
+    sampleRate: G.Field<{}, "Float", never>;
   };
 
   EgressGateway: {
@@ -3556,6 +3643,13 @@ export type Types = {
     /** Delete a cloud agent. */
 
     cloudAgentDelete: G.Field<{ id: Scalars["ID"] }, "Boolean!", never>;
+    /** Send lightweight agent feedback to Railway. Returns the report ID after delivery. */
+
+    cloudAgentFeedbackCreate: G.Field<
+      { input: Inputs["CloudAgentFeedbackInput"] },
+      "String!",
+      never
+    >;
     /** Duplicate a running cloud agent. */
 
     cloudAgentFork: G.Field<
@@ -3706,6 +3800,16 @@ export type Types = {
     deploymentTriggerUpdate: G.Field<
       { id: Scalars["String"]; input: Inputs["DeploymentTriggerUpdateInput"] },
       "DeploymentTrigger!",
+      never
+    >;
+    /** Forget the box `ssh dev.new` lands you in; the next connection creates a new one. */
+
+    devNewLandingTargetClear: G.Field<{}, "Boolean!", never>;
+    /** Make this cloud agent the box `ssh dev.new` lands you in. Replaces any previous choice. */
+
+    devNewLandingTargetSet: G.Field<
+      { cloudAgentId: Scalars["ID"] },
+      "CloudAgent!",
       never
     >;
     /** Disables point-in-time recovery on an HA database cluster with the same rolling rollout as enable. The backup bucket is left intact, so existing backup history is preserved. */
@@ -4113,21 +4217,21 @@ export type Types = {
       "Preferences!",
       never
     >;
-    /** Create or get a private network. */
+    /** Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead. */
 
     privateNetworkCreateOrGet: G.Field<
       { input: Inputs["PrivateNetworkCreateOrGetInput"] },
       "PrivateNetwork!",
       "RailwayNotFound"
     >;
-    /** Create or get a private network endpoint. */
+    /** Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead. */
 
     privateNetworkEndpointCreateOrGet: G.Field<
       { input: Inputs["PrivateNetworkEndpointCreateOrGetInput"] },
       "PrivateNetworkEndpoint!",
       "RailwayNotFound"
     >;
-    /** Delete a private network endpoint. */
+    /** Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead. */
 
     privateNetworkEndpointDelete: G.Field<
       { id: Scalars["String"] },
@@ -4145,7 +4249,7 @@ export type Types = {
       "Boolean!",
       "RailwayNotFound"
     >;
-    /** Delete all private networks for an environment. */
+    /** Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead. */
 
     privateNetworksForEnvironmentDelete: G.Field<
       { environmentId: Scalars["String"] },
@@ -4429,7 +4533,7 @@ export type Types = {
         sandboxId: Scalars["String"];
       },
       "SandboxCheckpoint!",
-      never
+      "RailwaySandboxNotFound"
     >;
     /** Delete a sandbox checkpoint. */
 
@@ -4447,14 +4551,16 @@ export type Types = {
         name: Scalars["String"];
       },
       "SandboxCheckpoint!",
-      never
+      "RailwaySandboxCheckpointNotFound"
     >;
     /** Create a sandbox in an environment. */
 
     sandboxCreate: G.Field<
       { input: Inputs["SandboxCreateInput"] },
       "Sandbox!",
-      never
+      | "RailwaySandboxNotFound"
+      | "RailwaySandboxCheckpointNotFound"
+      | "RailwaySandboxValidationError"
     >;
     /** Destroy a sandbox. */
 
@@ -4473,7 +4579,7 @@ export type Types = {
         timeoutSec?: Scalars["Int"] | null;
       },
       "SandboxExecResult!",
-      never
+      "RailwaySandboxNotFound"
     >;
     /** Extend a sandbox's lifetime. */
 
@@ -4755,9 +4861,13 @@ export type Types = {
     /** Deletes an SSH public key. */
 
     sshPublicKeyDelete: G.Field<{ id: Scalars["String"] }, "Boolean!", never>;
-    /** Approve an SSH signup: register the offered SSH key on the authenticated account so the agent is recognized. */
+    /** Approve an SSH signup: register the offered SSH key on the authenticated account so the agent is recognized. When the key owns an anonymous trial box, claims that trial into workspaceId and re-owns the key. */
 
-    sshSignupApprove: G.Field<{ code: Scalars["String"] }, "Boolean!", never>;
+    sshSignupApprove: G.Field<
+      { code: Scalars["String"]; workspaceId?: Scalars["String"] | null },
+      "Boolean!",
+      never
+    >;
     /** Creates a new TCP proxy for a service instance. */
 
     tcpProxyCreate: G.Field<
@@ -5886,6 +5996,12 @@ export type Types = {
     team: G.Field<{}, "Team", never>;
 
     teamId: G.Field<{}, "String", never>;
+    /** Whether the project's services are traced by default. A service can override it with its own tracingEnabled. */
+
+    tracingEnabled: G.Field<{}, "Boolean!", never>;
+    /** Fraction of client-facing requests the edge traces, 0..1. Null uses Railway's default. */
+
+    tracingSampleRate: G.Field<{}, "Float", never>;
 
     updatedAt: G.Field<{}, "DateTime!", never>;
     /** Highest project-scoped role the current user holds on this project, through a direct project permission or an access group. Does not include the workspace role. */
@@ -6019,6 +6135,8 @@ export type Types = {
     parentRef: G.Field<{}, "String", never>;
 
     payload: G.Field<{}, "JSON", never>;
+
+    serviceIds: G.Field<{}, "[String!]!", never>;
 
     severity: G.Field<{}, "EventSeverity!", never>;
 
@@ -6540,6 +6658,9 @@ export type Types = {
       "QueryDeploymentTriggersConnection!",
       never
     >;
+    /** The cloud agent `ssh dev.new` lands you in, or null when the next connection will create one. */
+
+    devNewLandingTarget: G.Field<{}, "CloudAgent", never>;
     /** Fetch individual DNS query logs for an environment */
 
     dnsQueryLogs: G.Field<
@@ -7404,7 +7525,7 @@ export type Types = {
       "QuerySshPublicKeysConnection!",
       never
     >;
-    /** Details for an SSH signup confirm page: the SSH key fingerprint to verify before binding it to the account. */
+    /** Details for an SSH signup confirm page: the SSH key fingerprint to verify before binding it to the account, and the trial box it owns if any. */
 
     sshSignupInfo: G.Field<
       { code: Scalars["String"] },
@@ -8385,6 +8506,9 @@ export type Types = {
     templateServiceId: G.Field<{}, "String", never>;
 
     templateThreadSlug: G.Field<{}, "String", never>;
+    /** The service's tracing override: true or false pins it, null follows the project's tracingEnabled. */
+
+    tracingEnabled: G.Field<{}, "Boolean", never>;
 
     updatedAt: G.Field<{}, "DateTime!", never>;
   };
@@ -8688,8 +8812,29 @@ export type Types = {
     workspaceId: G.Field<{}, "String", never>;
   };
 
+  SSHSignupClaimableWorkspace: {
+    id: G.Field<{}, "String!", never>;
+
+    name: G.Field<{}, "String!", never>;
+  };
+
   SSHSignupInfo: {
+    claimableWorkspaces: G.Field<{}, "[SSHSignupClaimableWorkspace!]!", never>;
+
     fingerprint: G.Field<{}, "String!", never>;
+
+    trial: G.Field<{}, "SSHSignupTrial", never>;
+  };
+  /** The anonymous trial box the offered SSH key currently owns; approving the signup claims it. */
+
+  SSHSignupTrial: {
+    buildExpiresAt: G.Field<{}, "DateTime", never>;
+
+    cloudAgentId: G.Field<{}, "String", never>;
+
+    projectId: G.Field<{}, "String!", never>;
+
+    projectName: G.Field<{}, "String!", never>;
   };
 
   StaleWhileRevalidateConfig: {
@@ -9001,6 +9146,9 @@ export type Types = {
     name: G.Field<{}, "String!", never>;
 
     projects: G.Field<{}, "Int!", never>;
+    /** The active restriction stopping this workspace publishing templates, so a restricted author can be sent to the page that explains it and takes the appeal. Null when publishing is not restricted, and for anyone but the template's owner: the `template` query is public, and whether a workspace is under an abuse restriction is not. */
+
+    publishingRestrictionId: G.Field<{}, "String", never>;
 
     readme: G.Field<{}, "String", never>;
 
@@ -9573,6 +9721,13 @@ export type Types = {
   };
 
   WorkflowId: {
+    /** Why MySQL archive continuity could not be verified. The restore remains allowed and its image performs the authoritative replay check. */
+
+    archiveContinuityUnverifiedReason: G.Field<{}, "String", never>;
+    /** For MySQL PITR restores, whether archive continuity was verified before the workflow started. */
+
+    archiveContinuityVerified: G.Field<{}, "Boolean", never>;
+
     workflowId: G.Field<{}, "String", never>;
   };
 
@@ -10070,21 +10225,24 @@ export const schema: G.GraphQLModel = {
     ActiveFeatureFlag: {
       kind: "ENUM",
       enumValues: [
+        "ACTIVITY_FEED_HISTORY",
+        "AGENT_BOOTSTRAPS",
         "AGENT_BYOK",
         "AGENT_CONNECTORS",
-        "AGENT_USAGE_WARNINGS",
+        "BOT_CLOUD_AGENTS",
         "CHAT_SANDBOX",
         "CLOUD_AGENTS",
         "CLOUD_AGENT_CHAT",
+        "CS_MCP_EXPRESS",
         "DEBUG_SMART_DIAGNOSIS",
         "EMAIL_FORWARDING",
         "IN_DASHBOARD_SUPPORT",
         "MAGIC_CONFIG",
         "MYSQL_PITR",
         "PRIORITY_BOARDING",
-        "PROJECT_FAVORITES",
-        "PROJECT_SANDBOXES",
+        "RAILWAY_AGENT_DASHBOARD",
         "TEMPLATE_CHAT",
+        "TRACING",
         "USAGE_INSIGHTS",
         "VM_STORAGE_TRACES",
       ],
@@ -10093,7 +10251,6 @@ export const schema: G.GraphQLModel = {
       kind: "ENUM",
       enumValues: [
         "AGENT_USAGE_CH_INGEST",
-        "AGENT_USAGE_WARNINGS",
         "ALERT_SUS_USERS_CRON_KILLSWITCH",
         "BUILD_DEPLOY_QUEUE_V2",
         "CAC_T0_KILLSWITCH",
@@ -10101,6 +10258,7 @@ export const schema: G.GraphQLModel = {
         "CHAT_SANDBOX",
         "CLICKHOUSE_WORKSPACE_LIMIT_ENFORCE",
         "CS_MCP",
+        "CS_MCP_EXPRESS",
         "CTRD_IMAGE_STORE_ROLLOUT",
         "DEFAULT_USAGE_ALERTS",
         "DEMO_PERCENTAGE_ROLLOUT",
@@ -10113,20 +10271,28 @@ export const schema: G.GraphQLModel = {
         "IN_DASHBOARD_SUPPORT",
         "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES",
         "LOGS_LONG_WINDOW_CHUNKING",
+        "NEW_PROJECT_PAGE",
         "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT",
+        "NUDGES",
+        "NUDGE_BACKUP_SCHEDULE_MISSING",
+        "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT",
+        "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE",
+        "NUDGE_UPGRADE_TO_PRO",
         "OAUTH_DCR_KILLSWITCH",
         "PRE_DEPLOY_TIMEOUT_KILLSWITCH",
-        "PROJECT_FAVORITES",
         "PROJECT_HISTORY_DUAL_WRITE",
         "PROJECT_HISTORY_READ_FROM_CH",
         "REMOVE_DEPLOYMENT_COMPACT",
-        "RESTRICTION_APPEALS",
         "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL",
         "SPLIT_USAGE_QUERIES",
+        "SSH_ANON_PROVISIONING",
+        "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION",
         "STRIPE_METERS_NEW_ACCOUNTS",
         "STRIPE_METERS_SHADOW_ENABLED",
-        "UNIFIED_TOKENS_AUTHORIZATION_SHADOW",
+        "STRIPE_WEBHOOK_DISPUTE_CANCELLATION",
         "UPDATED_VM_QUERIES",
+        "USAGE_CH_READS",
+        "VM_COUPON_MIGRATION",
         "VM_USAGE_CH_INGEST",
         "WORKSPACE_MCP_KILLSWITCH",
       ],
@@ -10540,6 +10706,7 @@ export const schema: G.GraphQLModel = {
         deploymentId: { type: "String", args: {}, errors: [] },
         diagnostics: { type: "JSON!", args: {}, errors: [] },
         id: { type: "String!", args: {}, errors: [] },
+        operationId: { type: "String", args: {}, errors: [] },
         stagedPatchId: { type: "String", args: {}, errors: [] },
         status: { type: "String!", args: {}, errors: [] },
       },
@@ -10604,7 +10771,7 @@ export const schema: G.GraphQLModel = {
           args: {},
           errors: [],
           description:
-            "WebSocket endpoint of the in-VM harness gate, for the dashboard chat. Survives sleep: the domain is stable across sleep and wake, and the observation keeps it. Null only on agents created before the gate existed, or before their first observation lands.",
+            "WebSocket endpoint of the in-VM harness gate, for the dashboard chat. Survives sleep: the domain is stable across sleep and wake. Prefers the machine observation; when that carries no gate domain it falls back to the domain network-cp actively serves, so an agent whose observation lagged still offers chat. Null on agents created before the gate existed, or asleep/absent machines.",
         },
         consoleTargetId: {
           type: "String",
@@ -10619,7 +10786,7 @@ export const schema: G.GraphQLModel = {
           args: {},
           errors: [],
           description:
-            "The first of the agent machine's public domains. Stable across sleep and wake; returns no endpoints while the machine sleeps.",
+            "The agent machine's public HTTP domain (port 8080) — the live preview. Prefers the observation (falling back to the first declared domain when 8080 was never requested); when the observation carries no domains it falls back to the domain network-cp actively serves on 8080, so a preview shows even when the observation lagged. Returns null while the machine sleeps.",
         },
         domains: {
           type: "[CloudAgentDomain!]!",
@@ -10631,6 +10798,7 @@ export const schema: G.GraphQLModel = {
         environmentId: { type: "String!", args: {}, errors: [] },
         id: { type: "ID!", args: {}, errors: [] },
         name: { type: "String!", args: {}, errors: [] },
+        project: { type: "Project!", args: {}, errors: [] },
         projectId: { type: "String!", args: {}, errors: [] },
         region: {
           type: "String",
@@ -10686,12 +10854,29 @@ export const schema: G.GraphQLModel = {
       description: "Capture progress of a cloud agent checkpoint.",
       enumValues: ["FAILED", "IN_PROGRESS", "SUCCEEDED"],
     },
+    CloudAgentCodeEndpointInput: {
+      kind: "INPUT_OBJECT",
+      description:
+        "Opt-in public code endpoint, provisioned only when creating a cloud agent.",
+      inputFields: {
+        port: {
+          type: "Int",
+          description:
+            "Target port. Defaults to 4096; must be 1024-65535, excluding 8080 and 8790.",
+        },
+      },
+    },
     CloudAgentCreateInput: {
       kind: "INPUT_OBJECT",
       inputFields: {
         cloudAgentCheckpointId: {
           type: "String",
           description: "Create the cloud agent from an existing checkpoint.",
+        },
+        codeEndpoint: {
+          type: "CloudAgentCodeEndpointInput",
+          description:
+            "Provision a code-* domain. Omit to disable, including when restoring a checkpoint or bootstrap.",
         },
         environmentId: { type: "String!" },
         name: { type: "String" },
@@ -10729,6 +10914,27 @@ export const schema: G.GraphQLModel = {
       },
       interfaces: [],
     },
+    CloudAgentFeedbackInput: {
+      kind: "INPUT_OBJECT",
+      inputFields: {
+        activeTools: { type: "[String!]!" },
+        agentVersion: { type: "String!" },
+        cloudAgentId: { type: "String!" },
+        description: { type: "String!" },
+        elapsedMs: { type: "Float" },
+        lastProgressAgeMs: { type: "Float" },
+        model: { type: "String!" },
+        reportId: { type: "String!" },
+        reportedAtMs: { type: "Float!" },
+        runId: { type: "String" },
+        runStartedAtMs: { type: "Float" },
+        sessionId: { type: "String!" },
+        sessionName: { type: "String" },
+        state: { type: "String!" },
+        steps: { type: "Int!" },
+        tuiVersion: { type: "String!" },
+      },
+    },
     CloudAgentSnapshot: {
       kind: "OBJECT",
       description: "The state of one coding agent session in a cloud agent.",
@@ -10765,6 +10971,13 @@ export const schema: G.GraphQLModel = {
         },
         taskId: { type: "String", args: {}, errors: [] },
         terminal: { type: "Boolean!", args: {}, errors: [] },
+        title: {
+          type: "String",
+          args: {},
+          errors: [],
+          description:
+            "Generated display title for the session, display-only. Null until generated; fall back to latestPrompt, then prompt.",
+        },
         updatedAt: { type: "String!", args: {}, errors: [] },
       },
       interfaces: [],
@@ -10830,7 +11043,7 @@ export const schema: G.GraphQLModel = {
         repo: { type: "String", description: "GitHub repo as owner/repo." },
         serviceId: {
           type: "String",
-          description: "Resolve the repo from this service's connected source.",
+          description: "Resolve the repo from this service's source.",
         },
       },
     },
@@ -11693,6 +11906,7 @@ export const schema: G.GraphQLModel = {
         overrides: { type: "JSON!", args: {}, errors: [] },
         purgeEpoch: { type: "Int!", args: {}, errors: [] },
         purgeEpochByKind: { type: "JSON!", args: {}, errors: [] },
+        tracing: { type: "EdgeTracingConfig", args: {}, errors: [] },
         underAttackModeUntil: { type: "Int", args: {}, errors: [] },
       },
       interfaces: [],
@@ -11707,6 +11921,14 @@ export const schema: G.GraphQLModel = {
         code: { type: "String!", args: {}, errors: [] },
         message: { type: "String!", args: {}, errors: [] },
         path: { type: "String!", args: {}, errors: [] },
+      },
+      interfaces: [],
+    },
+    EdgeTracingConfig: {
+      kind: "OBJECT",
+      fields: {
+        enabled: { type: "Boolean!", args: {}, errors: [] },
+        sampleRate: { type: "Float", args: {}, errors: [] },
       },
       interfaces: [],
     },
@@ -13169,6 +13391,13 @@ export const schema: G.GraphQLModel = {
           errors: [],
           description: "Delete a cloud agent.",
         },
+        cloudAgentFeedbackCreate: {
+          type: "String!",
+          args: { input: { type: "CloudAgentFeedbackInput!" } },
+          errors: [],
+          description:
+            "Send lightweight agent feedback to Railway. Returns the report ID after delivery.",
+        },
         cloudAgentFork: {
           type: "CloudAgent!",
           args: {
@@ -13320,6 +13549,20 @@ export const schema: G.GraphQLModel = {
           },
           errors: [],
           description: "Updates a deployment trigger.",
+        },
+        devNewLandingTargetClear: {
+          type: "Boolean!",
+          args: {},
+          errors: [],
+          description:
+            "Forget the box `ssh dev.new` lands you in; the next connection creates a new one.",
+        },
+        devNewLandingTargetSet: {
+          type: "CloudAgent!",
+          args: { cloudAgentId: { type: "ID!" } },
+          errors: [],
+          description:
+            "Make this cloud agent the box `ssh dev.new` lands you in. Replaces any previous choice.",
         },
         disablePitrForHaCluster: {
           type: "TemplateDeployPayload!",
@@ -13769,19 +14012,28 @@ export const schema: G.GraphQLModel = {
           type: "PrivateNetwork!",
           args: { input: { type: "PrivateNetworkCreateOrGetInput!" } },
           errors: ["RailwayNotFound"],
-          description: "Create or get a private network.",
+          description:
+            "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
+          deprecated:
+            "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
         },
         privateNetworkEndpointCreateOrGet: {
           type: "PrivateNetworkEndpoint!",
           args: { input: { type: "PrivateNetworkEndpointCreateOrGetInput!" } },
           errors: ["RailwayNotFound"],
-          description: "Create or get a private network endpoint.",
+          description:
+            "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
+          deprecated:
+            "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
         },
         privateNetworkEndpointDelete: {
           type: "Boolean!",
           args: { id: { type: "String!" } },
           errors: ["RailwayNotFound"],
-          description: "Delete a private network endpoint.",
+          description:
+            "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
+          deprecated:
+            "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
         },
         privateNetworkEndpointRename: {
           type: "Boolean!",
@@ -13797,7 +14049,10 @@ export const schema: G.GraphQLModel = {
           type: "Boolean!",
           args: { environmentId: { type: "String!" } },
           errors: ["RailwayNotFound"],
-          description: "Delete all private networks for an environment.",
+          description:
+            "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
+          deprecated:
+            "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
         },
         projectClaim: {
           type: "Project!",
@@ -14081,7 +14336,7 @@ export const schema: G.GraphQLModel = {
             name: { type: "String!" },
             sandboxId: { type: "String!" },
           },
-          errors: [],
+          errors: ["RailwaySandboxNotFound"],
           description:
             "Capture a running sandbox's current disk into a reusable, named checkpoint. Synchronous: the checkpoint is ready when this returns.",
         },
@@ -14098,13 +14353,17 @@ export const schema: G.GraphQLModel = {
             id: { type: "ID!" },
             name: { type: "String!" },
           },
-          errors: [],
+          errors: ["RailwaySandboxCheckpointNotFound"],
           description: "Rename a sandbox checkpoint.",
         },
         sandboxCreate: {
           type: "Sandbox!",
           args: { input: { type: "SandboxCreateInput!" } },
-          errors: [],
+          errors: [
+            "RailwaySandboxNotFound",
+            "RailwaySandboxCheckpointNotFound",
+            "RailwaySandboxValidationError",
+          ],
           description: "Create a sandbox in an environment.",
         },
         sandboxDestroy: {
@@ -14121,7 +14380,7 @@ export const schema: G.GraphQLModel = {
             id: { type: "String!" },
             timeoutSec: { type: "Int" },
           },
-          errors: [],
+          errors: ["RailwaySandboxNotFound"],
           description: "Execute a command inside a running sandbox.",
         },
         sandboxHeartbeat: {
@@ -14160,7 +14419,7 @@ export const schema: G.GraphQLModel = {
             environmentId: {
               type: "String",
               description:
-                "[Experimental] Environment ID. If the environment is a forked environment, the service will only be deleted in the specified environment, otherwise it will deleted in all environments that are not forks of other environments",
+                "Environment ID. When set, the service is deleted only in that environment; the service itself is deleted once no instances remain in any environment. When omitted, the service is deleted in every environment that is not a fork of another environment.",
             },
             id: { type: "String!" },
           },
@@ -14439,10 +14698,10 @@ export const schema: G.GraphQLModel = {
         },
         sshSignupApprove: {
           type: "Boolean!",
-          args: { code: { type: "String!" } },
+          args: { code: { type: "String!" }, workspaceId: { type: "String" } },
           errors: [],
           description:
-            "Approve an SSH signup: register the offered SSH key on the authenticated account so the agent is recognized.",
+            "Approve an SSH signup: register the offered SSH key on the authenticated account so the agent is recognized. When the key owns an anonymous trial box, claims that trial into workspaceId and re-owns the key.",
         },
         tcpProxyCreate: {
           type: "TCPProxy!",
@@ -15634,7 +15893,6 @@ export const schema: G.GraphQLModel = {
       kind: "ENUM",
       enumValues: [
         "AGENT_USAGE_CH_INGEST",
-        "AGENT_USAGE_WARNINGS",
         "ALERT_SUS_USERS_CRON_KILLSWITCH",
         "BUILD_DEPLOY_QUEUE_V2",
         "CAC_T0_KILLSWITCH",
@@ -15642,6 +15900,7 @@ export const schema: G.GraphQLModel = {
         "CHAT_SANDBOX",
         "CLICKHOUSE_WORKSPACE_LIMIT_ENFORCE",
         "CS_MCP",
+        "CS_MCP_EXPRESS",
         "CTRD_IMAGE_STORE_ROLLOUT",
         "DEFAULT_USAGE_ALERTS",
         "DEMO_PERCENTAGE_ROLLOUT",
@@ -15654,20 +15913,28 @@ export const schema: G.GraphQLModel = {
         "IN_DASHBOARD_SUPPORT",
         "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES",
         "LOGS_LONG_WINDOW_CHUNKING",
+        "NEW_PROJECT_PAGE",
         "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT",
+        "NUDGES",
+        "NUDGE_BACKUP_SCHEDULE_MISSING",
+        "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT",
+        "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE",
+        "NUDGE_UPGRADE_TO_PRO",
         "OAUTH_DCR_KILLSWITCH",
         "PRE_DEPLOY_TIMEOUT_KILLSWITCH",
-        "PROJECT_FAVORITES",
         "PROJECT_HISTORY_DUAL_WRITE",
         "PROJECT_HISTORY_READ_FROM_CH",
         "REMOVE_DEPLOYMENT_COMPACT",
-        "RESTRICTION_APPEALS",
         "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL",
         "SPLIT_USAGE_QUERIES",
+        "SSH_ANON_PROVISIONING",
+        "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION",
         "STRIPE_METERS_NEW_ACCOUNTS",
         "STRIPE_METERS_SHADOW_ENABLED",
-        "UNIFIED_TOKENS_AUTHORIZATION_SHADOW",
+        "STRIPE_WEBHOOK_DISPUTE_CANCELLATION",
         "UPDATED_VM_QUERIES",
+        "USAGE_CH_READS",
+        "VM_COUPON_MIGRATION",
         "VM_USAGE_CH_INGEST",
         "WORKSPACE_MCP_KILLSWITCH",
       ],
@@ -16029,6 +16296,20 @@ export const schema: G.GraphQLModel = {
           errors: [],
           deprecated: "Use workspaceId",
         },
+        tracingEnabled: {
+          type: "Boolean!",
+          args: {},
+          errors: [],
+          description:
+            "Whether the project's services are traced by default. A service can override it with its own tracingEnabled.",
+        },
+        tracingSampleRate: {
+          type: "Float",
+          args: {},
+          errors: [],
+          description:
+            "Fraction of client-facing requests the edge traces, 0..1. Null uses Railway's default.",
+        },
         updatedAt: { type: "DateTime!", args: {}, errors: [] },
         viewerRole: {
           type: "ProjectRole",
@@ -16254,6 +16535,7 @@ export const schema: G.GraphQLModel = {
         },
         parentRef: { type: "String", args: {}, errors: [] },
         payload: { type: "JSON", args: {}, errors: [] },
+        serviceIds: { type: "[String!]!", args: {}, errors: [] },
         severity: { type: "EventSeverity!", args: {}, errors: [] },
         source: { type: "String!", args: {}, errors: [] },
         workflowId: { type: "String", args: {}, errors: [] },
@@ -16572,6 +16854,16 @@ export const schema: G.GraphQLModel = {
         isPublic: { type: "Boolean" },
         name: { type: "String" },
         prDeploys: { type: "Boolean" },
+        tracingEnabled: {
+          type: "Boolean",
+          description:
+            "Trace the project's services by default: the edge records a span for each sampled request to their domains, and the next deploy configures each app's OpenTelemetry SDK to export to Railway. A service's own tracingEnabled overrides this.",
+        },
+        tracingSampleRate: {
+          type: "Float",
+          description:
+            "Fraction of client-facing requests the edge traces, 0..1, for every traced service in the project. Null resets to Railway's default.",
+        },
       },
     },
     ProjectUsageProperty: {
@@ -16972,6 +17264,13 @@ export const schema: G.GraphQLModel = {
           },
           errors: [],
           description: "All deployment triggers.",
+        },
+        devNewLandingTarget: {
+          type: "CloudAgent",
+          args: {},
+          errors: [],
+          description:
+            "The cloud agent `ssh dev.new` lands you in, or null when the next connection will create one.",
         },
         dnsQueryLogs: {
           type: "[DnsQueryLog!]!",
@@ -18088,7 +18387,7 @@ export const schema: G.GraphQLModel = {
           args: { code: { type: "String!" } },
           errors: [],
           description:
-            "Details for an SSH signup confirm page: the SSH key fingerprint to verify before binding it to the account.",
+            "Details for an SSH signup confirm page: the SSH key fingerprint to verify before binding it to the account, and the trial box it owns if any.",
         },
         tcpProxies: {
           type: "[TCPProxy!]!",
@@ -19493,6 +19792,11 @@ export const schema: G.GraphQLModel = {
           description:
             "Region to place the sandbox in (e.g. us-west2, us-east4-eqdc4a). Defaults to the platform default region when omitted.",
         },
+        resources: {
+          type: "SandboxResourcesInput",
+          description:
+            "Creation-time CPU and memory, including for forks and checkpoint restores. Each omitted or null field uses the workspace's sandbox default; explicit values must not exceed its independent VM maximum.",
+        },
         sourceSandboxId: {
           type: "String",
           description:
@@ -19561,6 +19865,21 @@ export const schema: G.GraphQLModel = {
       description:
         "Controls a sandbox's access to the environment's private network.",
       enumValues: ["ISOLATED", "PRIVATE"],
+    },
+    SandboxResourcesInput: {
+      kind: "INPUT_OBJECT",
+      inputFields: {
+        cpu: {
+          type: "Float",
+          description:
+            "Positive vCPU for the new sandbox; fractional values are supported. Omitted or null uses the workspace's sandbox default. Must not exceed its VM maximum.",
+        },
+        memoryGB: {
+          type: "Float",
+          description:
+            "Memory in decimal GB (1 GB = 1,000,000,000 bytes), rounded to whole bytes. Must be at least 1 byte and at most the workspace's VM maximum. Omitted or null uses its sandbox default.",
+        },
+      },
     },
     SandboxSession: {
       kind: "OBJECT",
@@ -19752,6 +20071,13 @@ export const schema: G.GraphQLModel = {
         templateId: { type: "String", args: {}, errors: [] },
         templateServiceId: { type: "String", args: {}, errors: [] },
         templateThreadSlug: { type: "String", args: {}, errors: [] },
+        tracingEnabled: {
+          type: "Boolean",
+          args: {},
+          errors: [],
+          description:
+            "The service's tracing override: true or false pins it, null follows the project's tracingEnabled.",
+        },
         updatedAt: { type: "DateTime!", args: {}, errors: [] },
       },
       interfaces: ["Node"],
@@ -20091,7 +20417,15 @@ export const schema: G.GraphQLModel = {
     },
     ServiceUpdateInput: {
       kind: "INPUT_OBJECT",
-      inputFields: { icon: { type: "String" }, name: { type: "String" } },
+      inputFields: {
+        icon: { type: "String" },
+        name: { type: "String" },
+        tracingEnabled: {
+          type: "Boolean",
+          description:
+            "Tracing override for the service: true or false pins it, null follows the project default. Takes effect at the edge within seconds and in the app on the next deploy.",
+        },
+      },
     },
     Session: {
       kind: "OBJECT",
@@ -20323,9 +20657,37 @@ export const schema: G.GraphQLModel = {
         workspaceId: { type: "String" },
       },
     },
+    SSHSignupClaimableWorkspace: {
+      kind: "OBJECT",
+      fields: {
+        id: { type: "String!", args: {}, errors: [] },
+        name: { type: "String!", args: {}, errors: [] },
+      },
+      interfaces: [],
+    },
     SSHSignupInfo: {
       kind: "OBJECT",
-      fields: { fingerprint: { type: "String!", args: {}, errors: [] } },
+      fields: {
+        claimableWorkspaces: {
+          type: "[SSHSignupClaimableWorkspace!]!",
+          args: {},
+          errors: [],
+        },
+        fingerprint: { type: "String!", args: {}, errors: [] },
+        trial: { type: "SSHSignupTrial", args: {}, errors: [] },
+      },
+      interfaces: [],
+    },
+    SSHSignupTrial: {
+      kind: "OBJECT",
+      description:
+        "The anonymous trial box the offered SSH key currently owns; approving the signup claims it.",
+      fields: {
+        buildExpiresAt: { type: "DateTime", args: {}, errors: [] },
+        cloudAgentId: { type: "String", args: {}, errors: [] },
+        projectId: { type: "String!", args: {}, errors: [] },
+        projectName: { type: "String!", args: {}, errors: [] },
+      },
       interfaces: [],
     },
     StaleWhileRevalidateConfig: {
@@ -20847,6 +21209,13 @@ export const schema: G.GraphQLModel = {
         },
         name: { type: "String!", args: {}, errors: [] },
         projects: { type: "Int!", args: {}, errors: [] },
+        publishingRestrictionId: {
+          type: "String",
+          args: {},
+          errors: [],
+          description:
+            "The active restriction stopping this workspace publishing templates, so a restricted author can be sent to the page that explains it and takes the appeal. Null when publishing is not restricted, and for anyone but the template's owner: the `template` query is public, and whether a workspace is under an abuse restriction is not.",
+        },
         readme: { type: "String", args: {}, errors: [] },
         recentProjects: { type: "Int!", args: {}, errors: [] },
         serializedConfig: {
@@ -20965,7 +21334,7 @@ export const schema: G.GraphQLModel = {
         existingRootServiceId: {
           type: "String",
           description:
-            "Use an existing service as the cluster root instead of creating a new one. Used for HA cluster conversion where an existing postgres becomes the primary.",
+            "Use an existing service as the cluster root instead of creating a new one. A live cluster edge is resolved to the root it fronts. Used for HA cluster conversion where an existing postgres becomes the primary.",
         },
         projectId: { type: "String" },
         serializedConfig: { type: "SerializedTemplateConfig!" },
@@ -21784,7 +22153,23 @@ export const schema: G.GraphQLModel = {
     },
     WorkflowId: {
       kind: "OBJECT",
-      fields: { workflowId: { type: "String", args: {}, errors: [] } },
+      fields: {
+        archiveContinuityUnverifiedReason: {
+          type: "String",
+          args: {},
+          errors: [],
+          description:
+            "Why MySQL archive continuity could not be verified. The restore remains allowed and its image performs the authoritative replay check.",
+        },
+        archiveContinuityVerified: {
+          type: "Boolean",
+          args: {},
+          errors: [],
+          description:
+            "For MySQL PITR restores, whether archive continuity was verified before the workflow started.",
+        },
+        workflowId: { type: "String", args: {}, errors: [] },
+      },
       interfaces: [],
     },
     WorkflowResult: {
@@ -22343,6 +22728,88 @@ export const schema: G.GraphQLModel = {
       retryable: false,
       matchers: [{ message: "Problem processing request" }],
     },
+    RailwaySandboxNotFound: {
+      description:
+        "The sandbox to execute in, checkpoint, or fork does not exist. Observed exact message: Sandbox not found.",
+      category: "notFound",
+      retryable: false,
+      matchers: [
+        { code: "INTERNAL_SERVER_ERROR", message: "Sandbox not found" },
+      ],
+    },
+    RailwaySandboxCheckpointNotFound: {
+      description:
+        "The named checkpoint to rename or boot does not exist. Both exact messages were observed live.",
+      category: "notFound",
+      retryable: false,
+      matchers: [
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Sandbox checkpoint not found",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message:
+            "Sandbox checkpoint not found. Build or capture it before creating a sandbox from it.",
+        },
+      ],
+    },
+    RailwaySandboxValidationError: {
+      description:
+        "Invalid sandbox creation options. Live CPU and memory errors ended in 'at most 24 vCPU' and 'at most 24 GB'; the idle timeout range was 1 to 120 minutes. Match stable prefixes for workspace-dependent limits. The source-conflict message mentions checkpointName, but introspection exposes checkpoint restore only through template.name.",
+      category: "badRequest",
+      retryable: false,
+      matchers: [
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message:
+            "Provide at most one of checkpointName, template, or sourceSandboxId",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message:
+            "Provide either template.name or template.instructions, not both",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          messageIncludes: "cpu must be greater than 0 and at most ",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          messageIncludes:
+            "memoryGB must be at least 0.000000001 GB (1 byte) and at most ",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          messageIncludes: "idleTimeoutMinutes must be between 1 and ",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Public domains require PRIVATE network isolation",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message: "publicDomains ports must be between 1 and 65535",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message:
+            "publicDomains prefixes must be lowercase DNS label fragments of at most 46 characters",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message: "publicDomains ports must be unique",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message: "publicDomains prefixes must be unique",
+        },
+        {
+          code: "INTERNAL_SERVER_ERROR",
+          message: "publicDomains supports at most 10 domains",
+        },
+      ],
+    },
   },
   globalErrors: [
     "RailwayUnauthenticated",
@@ -22368,6 +22835,9 @@ export const errorClasses = {
   RailwayCustomDomainCreateFailed: RailwayCustomDomainCreateFailed,
   RailwayBucketCredentialsNotReady: RailwayBucketCredentialsNotReady,
   RailwayRequestProcessingError: RailwayRequestProcessingError,
+  RailwaySandboxNotFound: RailwaySandboxNotFound,
+  RailwaySandboxCheckpointNotFound: RailwaySandboxCheckpointNotFound,
+  RailwaySandboxValidationError: RailwaySandboxValidationError,
 };
 export const client = G.makeClient<Schema, GraphQLRequirements>(
   schema,
@@ -22450,6 +22920,10 @@ export const deploymentSnapshot = client.operation(
 export const deploymentTriggers = client.operation(
   "query",
   "deploymentTriggers",
+);
+export const devNewLandingTarget = client.operation(
+  "query",
+  "devNewLandingTarget",
 );
 export const dnsQueryLogs = client.operation("query", "dnsQueryLogs");
 export const domains = client.operation("query", "domains");
@@ -22815,6 +23289,10 @@ export const cloudAgentDelete = client.operation(
   "mutation",
   "cloudAgentDelete",
 );
+export const cloudAgentFeedbackCreate = client.operation(
+  "mutation",
+  "cloudAgentFeedbackCreate",
+);
 export const cloudAgentFork = client.operation("mutation", "cloudAgentFork");
 export const cloudAgentHarnessToken = client.operation(
   "mutation",
@@ -22890,6 +23368,14 @@ export const deploymentTriggerDelete = client.operation(
 export const deploymentTriggerUpdate = client.operation(
   "mutation",
   "deploymentTriggerUpdate",
+);
+export const devNewLandingTargetClear = client.operation(
+  "mutation",
+  "devNewLandingTargetClear",
+);
+export const devNewLandingTargetSet = client.operation(
+  "mutation",
+  "devNewLandingTargetSet",
 );
 export const disablePitrForHaCluster = client.operation(
   "mutation",
@@ -23591,6 +24077,7 @@ export const createCloudAgentCheckpoint = cloudAgentCheckpointCreate;
 export const deleteCloudAgentCheckpoint = cloudAgentCheckpointDelete;
 export const createCloudAgent = cloudAgentCreate;
 export const deleteCloudAgent = cloudAgentDelete;
+export const createCloudAgentFeedback = cloudAgentFeedbackCreate;
 export const forkCloudAgent = cloudAgentFork;
 export const createCustomDomain = customDomainCreate;
 export const deleteCustomDomain = customDomainDelete;
@@ -23603,6 +24090,8 @@ export const redeployDeployment = deploymentRedeploy;
 export const removeDeployment = deploymentRemove;
 export const restartDeployment = deploymentRestart;
 export const stopDeployment = deploymentStop;
+export const clearDevNewLandingTarget = devNewLandingTargetClear;
+export const setDevNewLandingTarget = devNewLandingTargetSet;
 export const importDockerCompose = dockerComposeImport;
 export const createEgressGatewayAssociation = egressGatewayAssociationCreate;
 export const clearEgressGatewayAssociation = egressGatewayAssociationsClear;

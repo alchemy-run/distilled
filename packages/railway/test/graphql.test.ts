@@ -1,6 +1,7 @@
 /** Credential-free regressions for verified Railway GraphQL response shapes. */
 import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Result from "effect/Result";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
@@ -42,6 +43,376 @@ const failure = async <A, E>(effect: Effect.Effect<A, E>) => {
   return result.failure;
 };
 
+describe("Railway sandbox contracts", () => {
+  const environmentId = "environment-fixture";
+  const sandboxSelection = {
+    id: true,
+    environmentId: true,
+    status: true,
+    networkIsolation: true,
+    region: true,
+    idleTimeoutMinutes: true,
+    domains: { prefix: true, port: true, domain: true },
+  } as const;
+  const checkpointSelection = {
+    id: true,
+    key: true,
+    environmentId: true,
+    createdAt: true,
+  } as const;
+  const checkpoint = {
+    id: "after-deps",
+    key: "after-deps",
+    environmentId,
+    createdAt: "2026-09-16T00:00:00.000Z",
+  };
+  const sandboxError = (field: string, message: string) => ({
+    data: null,
+    errors: [
+      {
+        message,
+        path: [field],
+        extensions: { code: "INTERNAL_SERVER_ERROR" },
+        traceId: "sanitized-sandbox-trace",
+      },
+    ],
+  });
+
+  test("create preserves domains, fractional resources, variables and each source input", async () => {
+    const sources: ReadonlyArray<
+      Partial<Railway.Inputs["SandboxCreateInput"]>
+    > = [
+      {},
+      { sourceSandboxId: "source-fixture" },
+      { template: { name: "after-deps" } },
+      {
+        template: {
+          instructions: ["npm install"],
+          region: "us-west2",
+          variables: { CI: "true" },
+        },
+      },
+    ];
+    for (const source of sources) {
+      const input = {
+        environmentId,
+        networkIsolation: "PRIVATE",
+        publicDomains: [{ port: 8080 }, { port: 3000, prefix: "api" }],
+        resources: { cpu: 0.5, memoryGB: 1.25 },
+        idleTimeoutMinutes: 0,
+        variables: { NODE_ENV: "production" },
+        ...source,
+      } satisfies Railway.Inputs["SandboxCreateInput"];
+      const sandbox = {
+        id: "sandbox-fixture",
+        environmentId,
+        status: "RUNNING",
+        networkIsolation: "PRIVATE",
+        region: "us-west2",
+        idleTimeoutMinutes: 0,
+        domains: [
+          { prefix: "api", port: 3000, domain: "api-fixture.up.railway.app" },
+        ],
+      };
+      const { client, requests } = harness({
+        data: { sandboxCreate: sandbox },
+      });
+      const result = await Effect.runPromise(
+        client.mutation({
+          sandboxCreate: { where: { input }, select: sandboxSelection },
+        }),
+      );
+      expect(result.sandboxCreate).toEqual(sandbox);
+      expect(Object.values(requests[0]!.variables)).toEqual([input]);
+      expect(requests[0]!.query).toContain("SandboxCreateInput!");
+      expect(requests[0]!.query).toContain("domains");
+      expect(requests[0]!.query).not.toContain("source-fixture");
+      expect(requests).toHaveLength(1);
+    }
+  });
+
+  test("resource defaults preserve omitted and null Float values", async () => {
+    const resources: ReadonlyArray<
+      Railway.Inputs["SandboxCreateInput"]["resources"]
+    > = [undefined, null, {}, { cpu: null, memoryGB: null }, { cpu: 0.25 }];
+    for (const value of resources) {
+      const input = {
+        environmentId,
+        ...(value !== undefined && { resources: value }),
+      };
+      const { client, requests } = harness({
+        data: { sandboxCreate: { id: "sandbox-fixture", domains: [] } },
+      });
+      const result = await Effect.runPromise(
+        client.mutation({
+          sandboxCreate: {
+            where: { input },
+            select: { id: true, domains: { domain: true } },
+          },
+        }),
+      );
+      expect(result.sandboxCreate.domains).toEqual([]);
+      expect(Object.values(requests[0]!.variables)).toEqual([input]);
+    }
+    expect(
+      Railway.schema.types.SandboxResourcesInput!.inputFields,
+    ).toMatchObject({
+      cpu: { type: "Float" },
+      memoryGB: { type: "Float" },
+    });
+    expect(
+      Railway.schema.types.SandboxCreateInput!.inputFields,
+    ).not.toHaveProperty("checkpointName");
+    expect(
+      Railway.schema.types.SandboxCreateInput!.inputFields,
+    ).not.toHaveProperty("snapshotId");
+  });
+
+  test("checkpoint list, capture, rename and deletion retain their exact contracts", async () => {
+    const listed = harness({ data: { sandboxCheckpoints: [checkpoint] } });
+    expect(
+      await Effect.runPromise(
+        listed.client.query({
+          sandboxCheckpoints: {
+            where: { environmentId },
+            select: checkpointSelection,
+          },
+        }),
+      ),
+    ).toEqual({ sandboxCheckpoints: [checkpoint] });
+
+    const captured = harness({ data: { sandboxCheckpointCreate: checkpoint } });
+    expect(
+      await Effect.runPromise(
+        captured.client.mutation({
+          sandboxCheckpointCreate: {
+            where: {
+              environmentId,
+              sandboxId: "sandbox-fixture",
+              name: "after-deps",
+            },
+            select: checkpointSelection,
+          },
+        }),
+      ),
+    ).toEqual({ sandboxCheckpointCreate: checkpoint });
+    expect(Object.values(captured.requests[0]!.variables)).toEqual([
+      environmentId,
+      "after-deps",
+      "sandbox-fixture",
+    ]);
+
+    const renamedCheckpoint = {
+      ...checkpoint,
+      id: "node-base",
+      key: "node-base",
+    };
+    const renamed = harness({
+      data: { sandboxCheckpointRename: renamedCheckpoint },
+    });
+    expect(
+      await Effect.runPromise(
+        renamed.client.mutation({
+          sandboxCheckpointRename: {
+            where: { environmentId, id: checkpoint.key, name: "node-base" },
+            select: checkpointSelection,
+          },
+        }),
+      ),
+    ).toEqual({ sandboxCheckpointRename: renamedCheckpoint });
+    expect(renamed.requests[0]!.query).toContain("ID!");
+
+    const deleted = harness({ data: { sandboxCheckpointDelete: false } });
+    expect(
+      await Effect.runPromise(
+        deleted.client.mutation({
+          sandboxCheckpointDelete: {
+            where: { environmentId, id: checkpoint.key },
+          },
+        }),
+      ),
+    ).toEqual({ sandboxCheckpointDelete: false });
+  });
+
+  test("missing sandbox lookup, destroy and heartbeat return null without invented errors", async () => {
+    const where = { environmentId, id: missingProjectId };
+    const read = harness({ data: { sandbox: null } });
+    expect(
+      await Effect.runPromise(
+        read.client.query({
+          sandbox: { where, select: { id: true } },
+        }),
+      ),
+    ).toEqual({ sandbox: null });
+    const mutations = harness({
+      data: { sandboxDestroy: null, sandboxHeartbeat: null },
+    });
+    expect(
+      await Effect.runPromise(
+        mutations.client.mutation({
+          sandboxDestroy: { where, select: { id: true } },
+          sandboxHeartbeat: { where, select: { id: true } },
+        }),
+      ),
+    ).toEqual({ sandboxDestroy: null, sandboxHeartbeat: null });
+  });
+
+  test.each([
+    ["Sandbox not found", "RailwaySandboxNotFound"],
+    [
+      "Sandbox checkpoint not found. Build or capture it before creating a sandbox from it.",
+      "RailwaySandboxCheckpointNotFound",
+    ],
+    [
+      "Provide at most one of checkpointName, template, or sourceSandboxId",
+      "RailwaySandboxValidationError",
+    ],
+    [
+      "Provide either template.name or template.instructions, not both",
+      "RailwaySandboxValidationError",
+    ],
+    [
+      "cpu must be greater than 0 and at most 24 vCPU",
+      "RailwaySandboxValidationError",
+    ],
+    [
+      "memoryGB must be at least 0.000000001 GB (1 byte) and at most 24 GB",
+      "RailwaySandboxValidationError",
+    ],
+    [
+      "idleTimeoutMinutes must be between 1 and 120 minutes",
+      "RailwaySandboxValidationError",
+    ],
+    [
+      "Public domains require PRIVATE network isolation",
+      "RailwaySandboxValidationError",
+    ],
+    [
+      "publicDomains ports must be between 1 and 65535",
+      "RailwaySandboxValidationError",
+    ],
+    [
+      "publicDomains prefixes must be lowercase DNS label fragments of at most 46 characters",
+      "RailwaySandboxValidationError",
+    ],
+    ["publicDomains ports must be unique", "RailwaySandboxValidationError"],
+    ["publicDomains prefixes must be unique", "RailwaySandboxValidationError"],
+    [
+      "publicDomains supports at most 10 domains",
+      "RailwaySandboxValidationError",
+    ],
+  ] as const)(
+    "classifies live create error without retry: %s",
+    async (message, tag) => {
+      const { client, requests } = harness(
+        sandboxError("sandboxCreate", message),
+      );
+      const result = await Effect.runPromise(
+        client.report.mutation({
+          sandboxCreate: {
+            where: { input: { environmentId } },
+            select: { id: true },
+          },
+        }),
+      );
+      const inferredTag: G.Errors<
+        Railway.Schema,
+        "Mutation",
+        {
+          sandboxCreate: { select: { id: true } };
+        }
+      >["_tag"] = tag;
+      expect(result.errors[0]).toMatchObject({
+        _tag: inferredTag,
+        message,
+        path: ["sandboxCreate"],
+        code: "INTERNAL_SERVER_ERROR",
+        traceId: "sanitized-sandbox-trace",
+      });
+      expect(requests).toHaveLength(1);
+      expect(Railway.schema.errors[tag]!.retryable).toBe(false);
+    },
+  );
+
+  test("missing sandbox errors apply to exec and checkpoint capture", async () => {
+    const exec = harness(sandboxError("sandboxExec", "Sandbox not found"));
+    const executed = await Effect.runPromise(
+      exec.client.report.mutation({
+        sandboxExec: {
+          where: { environmentId, id: missingProjectId, command: "true" },
+          select: { exitCode: true },
+        },
+      }),
+    );
+    expect(executed.errors[0]).toBeInstanceOf(Railway.RailwaySandboxNotFound);
+    const capture = harness(
+      sandboxError("sandboxCheckpointCreate", "Sandbox not found"),
+    );
+    const captured = await Effect.runPromise(
+      capture.client.report.mutation({
+        sandboxCheckpointCreate: {
+          where: {
+            environmentId,
+            sandboxId: missingProjectId,
+            name: "after-deps",
+          },
+          select: { id: true },
+        },
+      }),
+    );
+    expect(captured.errors[0]).toBeInstanceOf(Railway.RailwaySandboxNotFound);
+    expect(exec.requests).toHaveLength(1);
+    expect(capture.requests).toHaveLength(1);
+  });
+
+  test("checkpoint rename exposes its observed not-found tag in strict failures", async () => {
+    const { client } = harness(
+      sandboxError("sandboxCheckpointRename", "Sandbox checkpoint not found"),
+    );
+    const result = await failure(
+      client.mutation({
+        sandboxCheckpointRename: {
+          where: { environmentId, id: "missing-checkpoint", name: "node-base" },
+          select: { id: true },
+        },
+      }),
+    );
+    expect(result).toBeInstanceOf(G.GraphQLFailure);
+    if (!(result instanceof G.GraphQLFailure))
+      throw new Error("Expected GraphQLFailure");
+    expect(result.errors[0]).toBeInstanceOf(
+      Railway.RailwaySandboxCheckpointNotFound,
+    );
+  });
+
+  test("sandbox error contracts never classify unrelated fields or unknown messages", async () => {
+    const unrelated = harness(
+      sandboxError("sandboxDestroy", "Sandbox not found"),
+    );
+    const destroyed = await Effect.runPromise(
+      unrelated.client.report.mutation({
+        sandboxDestroy: {
+          where: { environmentId, id: missingProjectId },
+          select: { id: true },
+        },
+      }),
+    );
+    expect(destroyed.errors[0]).toBeInstanceOf(Railway.RailwayInternalError);
+    const unexpected = harness(
+      sandboxError("sandboxCreate", "Unexpected sandbox provisioning failure"),
+    );
+    const created = await Effect.runPromise(
+      unexpected.client.report.mutation({
+        sandboxCreate: {
+          where: { input: { environmentId } },
+          select: { id: true },
+        },
+      }),
+    );
+    expect(created.errors[0]).toBeInstanceOf(Railway.RailwayInternalError);
+  });
+});
+
 describe("Railway native GraphQL verified responses", () => {
   test("package root executes selective operations with its credential layer", async () => {
     for (const tokenKind of ["account", "project"] as const) {
@@ -72,9 +443,14 @@ describe("Railway native GraphQL verified responses", () => {
       const project = await Effect.runPromise(
         Railway.project({ id: "project-fixture" }, { id: true }).pipe(
           Effect.provide(
-            Railway.CredentialsFromToken({ token: "fixture-token", tokenKind }),
+            Layer.mergeAll(
+              Railway.CredentialsFromToken({
+                token: "fixture-token",
+                tokenKind,
+              }),
+              Layer.succeed(HttpClient.HttpClient, http),
+            ),
           ),
-          Effect.provideService(HttpClient.HttpClient, http),
         ),
       );
       expect(project).toEqual({ id: "project-fixture" });
