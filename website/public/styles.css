@@ -1183,7 +1183,7 @@ pre.code code {
 /* ───────────── How it works ───────────── */
 
 .how {
-  padding: clamp(3rem, 7vw, 5.5rem) 0;
+  padding: clamp(3rem, 7vw, 5.5rem) 0 clamp(2rem, 4vw, 3rem);
 }
 
 /* ───────────── The loop ─────────────
@@ -1346,7 +1346,7 @@ pre.code code {
 /* Wide: absolute layout matching the SVG's 1000×520 box. */
 @media (min-width: 64rem) {
   .loop {
-    aspect-ratio: 1000 / 400;
+    aspect-ratio: 1000 / 360;
     max-width: 66rem;
     margin: 1.5rem auto 0;
   }
@@ -1364,17 +1364,17 @@ pre.code code {
   }
   .node--alchemy {
     left: 6%;
-    top: calc(200 / 400 * 100%);
+    top: calc(200 / 360 * 100%);
     width: 32%;
   }
   .node--distilled {
     left: 55%;
-    top: calc(200 / 400 * 100%);
+    top: calc(200 / 360 * 100%);
     width: 30%;
   }
   .node--spec {
     left: 92%;
-    top: calc(120 / 400 * 100%);
+    top: calc(120 / 360 * 100%);
     width: 15%;
     transform: translate(-50%, -50%);
     padding: 0.9rem 1rem 0.95rem;

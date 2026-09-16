@@ -694,7 +694,7 @@ program.<span class="f">pipe</span>(
         </div>
 
         <div class="loop" data-reveal>
-          <svg class="loop__svg" viewBox="0 0 1000 400" aria-hidden="true">
+          <svg class="loop__svg" viewBox="0 0 1000 360" aria-hidden="true">
             <defs>
               <!-- Calligraphic arrowhead: a swept brush tip, oriented along the path's tangent. -->
               <marker
@@ -795,19 +795,36 @@ program.<span class="f">pipe</span>(
               tagged errors · schema bugs · missing operations
             </text>
 
-            <circle class="loop__drop loop__drop--a" r="5">
+            <!-- Drops fade in over the first 15% of each lap and out over the
+                 last 15%, so they never pop at either end of the path. -->
+            <circle class="loop__drop loop__drop--a" r="5" opacity="0">
               <animateMotion
                 dur="3.2s"
                 repeatCount="indefinite"
                 path="M 532 322 C 500 352, 440 352, 408 322"
               />
+              <animate
+                attributeName="opacity"
+                dur="3.2s"
+                repeatCount="indefinite"
+                keyTimes="0;0.15;0.85;1"
+                values="0;1;1;0"
+              />
             </circle>
-            <circle class="loop__drop loop__drop--b" r="5">
+            <circle class="loop__drop loop__drop--b" r="5" opacity="0">
               <animateMotion
                 dur="4.8s"
                 begin="1.4s"
                 repeatCount="indefinite"
                 path="M 290 178 C 330 66, 640 66, 688 172"
+              />
+              <animate
+                attributeName="opacity"
+                dur="4.8s"
+                begin="1.4s"
+                repeatCount="indefinite"
+                keyTimes="0;0.15;0.85;1"
+                values="0;1;1;0"
               />
             </circle>
           </svg>
