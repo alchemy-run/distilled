@@ -256,6 +256,9 @@
         },
         {
           "target": "com.cloudflare.snippets#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.snippets#SnippetZoneNotFound"
         }
       ]
     },
@@ -745,6 +748,26 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.snippets#SnippetZoneNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": "requested zone not found"
+          }
+        ]
       }
     }
   }

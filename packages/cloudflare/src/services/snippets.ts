@@ -70,6 +70,15 @@ export class SnippetRulesNotFound
     [{ status: 404 }],
   ) {}
 
+export class SnippetZoneNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SnippetZoneNotFound>()("SnippetZoneNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: "requested zone not found" }],
+  ) {}
+
 export interface DeleteRuleRequest {
   /** Use this field to specify the unique ID of the zone. */
   zoneId: string;
@@ -390,6 +399,7 @@ export const PutSnippetResponse = /*@__PURE__*/ S.suspend(() =>
 export type DeleteRuleError =
   | SnippetRulesNotFound
   | Forbidden
+  | SnippetZoneNotFound
   | CloudflareOpError;
 /** Deletes all snippet rules belonging to the zone. */
 export const deleteRule: API.OperationMethod<
@@ -403,6 +413,7 @@ export const deleteRule: API.OperationMethod<
   errors: [
     SnippetRulesNotFound,
     Forbidden,
+    SnippetZoneNotFound,
     CloudflareRateLimited,
     CloudflareError,
   ],

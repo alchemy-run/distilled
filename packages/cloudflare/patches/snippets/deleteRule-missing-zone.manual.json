@@ -1,0 +1,36 @@
+{
+  "description": "DELETE snippet rules returns HTTP 400 requested zone not found for an empty or absent zone; keep this distinct from the generic BadRequest fallback.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.snippets#SnippetZoneNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": "requested zone not found"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.snippets#DeleteRule/errors/-",
+      "value": {
+        "target": "com.cloudflare.snippets#SnippetZoneNotFound"
+      }
+    }
+  ]
+}
