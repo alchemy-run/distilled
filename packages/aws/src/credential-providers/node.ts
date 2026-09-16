@@ -4,15 +4,11 @@
  * `credential_process`, web identity token files, and the default chain
  * that strings them together with the browser-safe sources.
  *
- * Profiles are read through `@smithy/shared-ini-file-loader`, the same
- * loader `auth.ts` uses, so both agree on which files and which profile
- * name apply. STS calls go through the generated `sts` service, loaded on
+ * Profiles are read through `util/shared-config.ts`, the same loader
+ * `auth.ts` uses, so both agree on which files and which profile name
+ * apply. STS calls go through the generated `sts` service, loaded on
  * first use so an application that never assumes a role never pays for it.
  */
-import {
-  loadSharedConfigFiles,
-  parseKnownFiles,
-} from "@smithy/shared-ini-file-loader";
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -28,6 +24,10 @@ import {
   fromAwsCredentialIdentity,
 } from "../credentials.browser.ts";
 import * as Region from "../region.ts";
+import {
+  loadSharedConfigFiles,
+  parseKnownFiles,
+} from "../util/shared-config.ts";
 import {
   type CredentialSource,
   CredentialSourceError,
@@ -57,11 +57,9 @@ const DEFAULT_PROFILE = "default";
 export const getProfileName = (profile?: string): string =>
   profile || env(ENV_PROFILE) || DEFAULT_PROFILE;
 
-const loadProfiles = (
-  profile?: string,
-): Effect.Effect<Profiles, CredentialSourceError> =>
+const loadProfiles = (): Effect.Effect<Profiles, CredentialSourceError> =>
   Effect.tryPromise({
-    try: () => parseKnownFiles({ profile }) as Promise<Profiles>,
+    try: () => parseKnownFiles() as Promise<Profiles>,
     catch: (cause) =>
       new CredentialSourceError({
         message: `Could not read the shared config and credentials files: ${String(cause)}`,
@@ -371,7 +369,7 @@ const resolveProcessCredentials = (
 export const fromProcess = (
   options: { profile?: string } = {},
 ): CredentialSource =>
-  Effect.flatMap(loadProfiles(options.profile), (profiles) =>
+  Effect.flatMap(loadProfiles(), (profiles) =>
     resolveProcessCredentials(getProfileName(options.profile), profiles),
   );
 
@@ -675,7 +673,7 @@ const resolveAssumeRoleCredentials = (
  * STS), `web_identity_token_file`, `credential_process`, and SSO profiles.
  */
 export const fromIni = (options: FromIniOptions = {}): CredentialSource =>
-  Effect.flatMap(loadProfiles(options.profile), (profiles) =>
+  Effect.flatMap(loadProfiles(), (profiles) =>
     resolveProfileData(
       getProfileName(options.profile),
       profiles,

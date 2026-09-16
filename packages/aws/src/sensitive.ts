@@ -8,7 +8,7 @@
 import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as SchemaTransformation from "effect/SchemaTransformation";
-import { toBase64 } from "@smithy/util-base64";
+import { toBase64 } from "./util/base64.ts";
 
 /**
  * smithy.api#sensitive - Marks data as sensitive, wrapping in Effect's Redacted type.
