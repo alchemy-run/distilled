@@ -1346,7 +1346,7 @@ pre.code code {
 /* Wide: absolute layout matching the SVG's 1000×520 box. */
 @media (min-width: 64rem) {
   .loop {
-    aspect-ratio: 1000 / 520;
+    aspect-ratio: 1000 / 400;
     max-width: 66rem;
     margin: 1.5rem auto 0;
   }
@@ -1364,17 +1364,17 @@ pre.code code {
   }
   .node--alchemy {
     left: 6%;
-    top: calc(200 / 520 * 100%);
+    top: calc(200 / 400 * 100%);
     width: 32%;
   }
   .node--distilled {
-    left: 56%;
-    top: calc(200 / 520 * 100%);
-    width: 26%;
+    left: 55%;
+    top: calc(200 / 400 * 100%);
+    width: 30%;
   }
   .node--spec {
     left: 92%;
-    top: calc(120 / 520 * 100%);
+    top: calc(120 / 400 * 100%);
     width: 15%;
     transform: translate(-50%, -50%);
     padding: 0.9rem 1rem 0.95rem;
